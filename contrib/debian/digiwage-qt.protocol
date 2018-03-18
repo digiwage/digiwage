@@ -1,0 +1,11 @@
+[Protocol]
+exec=digiwage-qt '%u'
+protocol=digiwage
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

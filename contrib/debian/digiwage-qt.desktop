@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Digiwage
+Comment=Digiwage P2P Cryptocurrency
+Comment[fr]=Digiwage, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Digiwage, eşten eşe kriptografik sanal para birimi
+Exec=digiwage-qt %u
+Terminal=false
+Type=Application
+Icon=digiwage128
+MimeType=x-scheme-handler/digiwage;
+Categories=Office;Finance;
