@@ -52,14 +52,17 @@ static void convertSeed6(std::vector<CAddress>& vSeedsOut, const SeedSpec6* data
 //    timestamp before)
 // + Contains no strange transactions
 static Checkpoints::MapCheckpoints mapCheckpoints =
-    boost::assign::map_list_of(0, uint256("0x00000062981c43bf45a700fcbe76d0900623f9ac55042ad70e4fd8580a602d23"));
+    boost::assign::map_list_of
+    (0, uint256("0x00000062981c43bf45a700fcbe76d0900623f9ac55042ad70e4fd8580a602d23"))
+    (5, uint256("0x00000767069bbee56e3e985c7341b6ea62e82961166a4b4e97a7b7ace5ab29fc"))
+    (100, uint256("0x0000002a92b7309cc6239cef5fc388137069eda6492e9e088bee2c4bb843bea4"));
 
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    0, // * UNIX timestamp of last checkpoint block
-    0,          // * total number of transactions between genesis and last checkpoint
+    1521483173, // * UNIX timestamp of last checkpoint block
+    101,          // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
-    0        // * estimated number of transactions per day after checkpoint
+    1000        // * estimated number of transactions per day after checkpoint
 };
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
@@ -156,7 +159,7 @@ public:
 
         nPoolMaxTransactions = 3;
         strSporkKey = "045fdc1d5796a4cc3ec7b93de854747f91ac8c44b150a37a45fe7b115e19463f902639ac385a7262423d5ac2e5fcea81a403525b25e56c6ff6d6020ff97b9bff57";
-        strObfuscationPoolDummyAddress = "DCYiHjGJJ6xGHsivmdZrnyRnhaYf6AJ2Mp";
+        strObfuscationPoolDummyAddress = "DU7eTFJKv2q4njW5G32MCwc6ZBeXvRmt2Z";
         nStartMasternodePayments = 1403728576; //Wed, 25 Jun 2014 20:36:16 GMT
         nBudget_Fee_Confirmations = 6; // Number of confirmations for the finalization fee
     }
@@ -228,7 +231,7 @@ public:
 
         nPoolMaxTransactions = 2;
         strSporkKey = "04659d53bd8f7ad9d34a17281febedac754e5a6eb136142d3a9c6c0ea21b6ed7498ceb3d872eed00ae755f7aeadaeb1d9ab5e1a8f1e7efcd0ddcb39d4623c12790";
-        strObfuscationPoolDummyAddress = "PCYiHgGJJ6xGHqivmdZrYjRnhaYf6AJ2Mp";
+        strObfuscationPoolDummyAddress = "DU7eTFJKv2q4njW5G32MCwc6ZBeXvRmt2Z";
         nStartMasternodePayments = 1505224800; //Fri, 09 Jan 2015 21:05:58 GMT
         nBudget_Fee_Confirmations = 3; // Number of confirmations for the finalization fee
     }
