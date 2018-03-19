@@ -129,8 +129,10 @@ public:
         assert(hashGenesisBlock == uint256("0x00000062981c43bf45a700fcbe76d0900623f9ac55042ad70e4fd8580a602d23"));
         assert(genesis.hashMerkleRoot == uint256("0x92aeaef6c82884d7afebeccd7151630e2e1cd659393b280f082c999dddc001a9"));
 
-        vFixedSeeds.clear();
-        vSeeds.clear();
+        vSeeds.push_back(CDNSSeedData("207.246.103.145", "207.246.103.145"));
+        vSeeds.push_back(CDNSSeedData("45.32.80.64", "45.32.80.64"));
+        vSeeds.push_back(CDNSSeedData("45.32.65.59", "45.32.65.59"));
+        vSeeds.push_back(CDNSSeedData("104.238.140.145", "104.238.140.145"));
         
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 30);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 90);
