@@ -304,7 +304,6 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-alertnotify=<cmd>", _("Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)"));
     strUsage += HelpMessageOpt("-alerts", strprintf(_("Receive and display P2P network alerts (default: %u)"), DEFAULT_ALERTS));
     strUsage += HelpMessageOpt("-blocknotify=<cmd>", _("Execute command when the best block changes (%s in cmd is replaced by block hash)"));
-    strUsage += HelpMessageOpt("-mempoolnotify=<cmd>", _("Execute command when a new transaction is accepted to the mempool (%s in cmd is replaced by transaction hash)"));
     strUsage += HelpMessageOpt("-checkblocks=<n>", strprintf(_("How many blocks to check at startup (default: %u, 0 = all)"), 500));
     strUsage += HelpMessageOpt("-checklevel=<n>", strprintf(_("How thorough the block verification of -checkblocks is (0-4, default: %u)"), 3));
     strUsage += HelpMessageOpt("-conf=<file>", strprintf(_("Specify configuration file (default: %s)"), "digiwage.conf"));
@@ -326,7 +325,6 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-sysperms", _("Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)"));
 #endif
     strUsage += HelpMessageOpt("-txindex", strprintf(_("Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)"), 0));
-    strUsage += HelpMessageOpt("-addrindex", strprintf(_("Maintain a full address index, used by the searchrawtransactions rpc call (default: %u)"), 0));
     strUsage += HelpMessageOpt("-forcestart", _("Attempt to force blockchain corruption recovery") + " " + _("on startup"));
 
     strUsage += HelpMessageGroup(_("Connection options:"));
@@ -529,14 +527,6 @@ static void BlockNotifyCallback(const uint256& hashNewTip)
 
     boost::replace_all(strCmd, "%s", hashNewTip.GetHex());
     boost::thread t(runCommand, strCmd); // thread runs free
-}
-
-static void MempoolNotifyCallback(const uint256& hashTransaction)
-{
-    std::string strCmd = GetArg("-mempoolnotify", "");
-
-    boost::replace_all(strCmd, "%s", hashTransaction.GetHex());
-    boost::thread t(runCommand, strCmd);
 }
 
 struct CImportingNow {
@@ -1218,7 +1208,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     else if (nTotalCache > (nMaxDbCache << 20))
         nTotalCache = (nMaxDbCache << 20); // total cache cannot be greater than nMaxDbCache
     size_t nBlockTreeDBCache = nTotalCache / 8;
-    if (nBlockTreeDBCache > (1 << 21) && !GetBoolArg("-txindex", true) && !GetBoolArg("-addrindex", true))
+    if (nBlockTreeDBCache > (1 << 21) && !GetBoolArg("-txindex", true))
         nBlockTreeDBCache = (1 << 21); // block tree db cache shouldn't be larger than 2 MiB
     nTotalCache -= nBlockTreeDBCache;
     size_t nCoinDBCache = nTotalCache / 2; // use half of the remaining cache for coindb cache
@@ -1268,11 +1258,6 @@ bool AppInit2(boost::thread_group& threadGroup)
                 // Check for changed -txindex state
                 if (fTxIndex != GetBoolArg("-txindex", true)) {
                     strLoadError = _("You need to rebuild the database using -reindex to change -txindex");
-                    break;
-                }
-
-                if (fAddrIndex != GetBoolArg("-addrindex", true)) {
-                    strLoadError = _("You need to rebuild the database using -reindex to change -addrindex");
                     break;
                 }
 
@@ -1453,9 +1438,6 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     if (mapArgs.count("-blocknotify"))
         uiInterface.NotifyBlockTip.connect(BlockNotifyCallback);
-
-    if (mapArgs.count("-mempoolnotify"))
-        uiInterface.NotifyTransaction.connect(MempoolNotifyCallback);
 
     // scan for better chains in the block chain database, that are not yet connected in the active best chain
     CValidationState state;
