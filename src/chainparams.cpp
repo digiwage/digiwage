@@ -108,7 +108,7 @@ public:
         nMinerThreads = 0;
         nTargetTimespan = 1 * 60; // Digiwage: 1 minute
         nTargetSpacing = 1 * 60;  // Digiwage: 1 minute
-        nLastPOWBlock = 5000;
+        nLastPOWBlock = 1000;
         nMaturity = 100;
         nMasternodeCountDrift = 20;
         nModifierUpdateBlock = 999999999;
