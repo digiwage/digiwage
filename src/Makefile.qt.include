@@ -13,7 +13,6 @@ QT_TS = \
   qt/locale/digiwage_es.ts \
   qt/locale/digiwage_fi.ts \
   qt/locale/digiwage_fr_FR.ts \
-  qt/locale/digiwage_hr.ts \
   qt/locale/digiwage_it.ts \
   qt/locale/digiwage_ja.ts \
   qt/locale/digiwage_ko_KR.ts \
@@ -25,7 +24,6 @@ QT_TS = \
   qt/locale/digiwage_ru.ts \
   qt/locale/digiwage_sk.ts \
   qt/locale/digiwage_sv.ts \
-  qt/locale/digiwage_tr.ts \
   qt/locale/digiwage_uk.ts \
   qt/locale/digiwage_zh_CN.ts \
   qt/locale/digiwage_zh_TW.ts

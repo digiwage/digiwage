@@ -1,28 +1,13 @@
-Digiwage Core version 3.0.4 is now available from:
+Digiwage Core version 2.3.1 is now available from:
 
   <https://github.com/digiwage/digiwage/releases>
 
-This is a new minor-revision version release, including various bug fixes and
+This is a new minor version release, including various bug fixes and
 performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at github:
 
   <https://github.com/digiwage/digiwage/issues>
-
-
-Mandatory Update
-==============
-
-Digiwage Core v3.0.4 is a mandatory update for all users. This release contains various updates/fixes pertaining to the zWAGE protocol, supply tracking, block transmission and relaying, as well as usability and quality-of-life updates to the GUI.
-
-Users will have a grace period to update their clients before versions prior to this release are no longer allowed to connect to this (and future) version(s).
-
-
-How to Upgrade
-==============
-
-If you are running an older version, shut it down. Wait until it has completely shut down (which might take a few minutes for older versions), then run the installer (on Windows) or just copy over /Applications/Digiwage-Qt (on Mac) or digiwaged/digiwage-qt (on Linux).
-
 
 Compatibility
 ==============
@@ -38,34 +23,162 @@ Please do not report issues about Windows XP to the issue tracker.
 Digiwage Core should also work on most other Unix-like systems but is not
 frequently tested on them.
 
-### :exclamation::exclamation::exclamation: MacOS 10.13 High Sierra :exclamation::exclamation::exclamation:
-
-**Currently there are issues with the 3.0.x gitian releases on MacOS version 10.13 (High Sierra), no reports of issues on older versions of MacOS.**
-
-
 Notable Changes
 ===============
 
-Refactoring of zWage Spend Validation Code
----------------------
-zWage spend validation was too rigid and did not give enough slack for reorganizations. Many staking wallets were unable to reorganize back to the correct blockchain when they had an orphan stake which contained a zWage spend. zWage double spending validation has been refactored to properly account for reorganization.
+RPC changes
+--------------
 
-Money Supply Calculation Fix
----------------------
-Coin supply incorrectly was counting spent zWage as newly minted coins that are added to the coin supply, thus resulting in innacurate coin supply data.
+#### Update of RPC commands to comply with the forthcoming RPC Standards PIP ####
 
-The coin supply is now correctly calculated and if a new wallet client is synced from scratch or if `-reindex=1` is used then the correct money supply will be calculated. If neither of these two options are used, the wallet client will automatically reindex the money supply calculations upon the first time opening the software after updating to v3.0.4. The reindex takes approximately 10-60 minutes depending on the hardware used. If the reindex is exited mid-process, it will continue where it left off upon restart.
+| Old Command | New Command | Notes |
+| --- | --- | --- |
+| `masternode count` | `getmasternodecount` | |
+| `masternode list` | `listmasternodes` | |
+| `masternodelist` | `listmasternodes` | renamed |
+| `masternode connect` | `masternodeconnect` | |
+| `masternode current` | `getcurrentmasternode` | |
+| `masternode debug` | `masternodedebug` | |
+| `masternode enforce` |  | removed |
+| `masternode outputs` | `getmasternodeoutputs` | |
+| `masternode status` | `getmasternodestatus` | |
+| `masternode list-conf` | `listmasternodeconf` | added optional filter |
+| `masternode genkey` | `createmasternodekey` | |
+| `masternode winners` | `listmasternodewinners` | |
+| `masternode start` | `startmasternode` | see notes below |
+| `masternode start-alias` | `startmasternode` | see notes below |
+| `masternode start-<mode>` | `startmasternode` | see notes below |
+| `masternode create` | | removed - not implemented |
+| `masternode calcscore` | `listmasternodescores` | |
+| --- | --- | --- |
+| `mnbudget prepare` | `preparebudget` | see notes below |
+| `mnbudget submit` | `submitbudget` | see notes below |
+| `mnbudget vote-many` | `mnbudgetvote` | see notes below |
+| `mnbudget vote-alias` | `mnbudgetvote` | see notes below |
+| `mnbudget vote` | `mnbudgetvote` | see notes below |
+| `mnbudget getvotes` | `getbudgetvotes` | |
+| `mnbudget getinfo` | `getbudgetinfo` | see notes below |
+| `mnbudget show` | `getbudgetinfo` | see notes below |
+| `mnbudget projection` | `getbudgetprojection` | |
+| `mnbudget check` | `checkbudgets` | |
+| `mnbudget nextblock` | `getnextsuperblock` | |
 
-Better Filtering of Transactions in Stake Miner
----------------------
-The stake miner code now filters out zWage double spends that were rarely being slipped into blocks (and being rejected by peers when sent broadcast).
+##### `startmasternode` Command #####
+This command now handles all cases for starting a masternode instead of having multiple commands based on the context. Command arguments have changed slightly to allow the user to decide wither or not to re-lock the wallet after the command is run. Below is the help documentation:
 
-More Responsive Shutdown Requests
----------------------
-When computationally expensive accumulator calculations are being performed and the user requests to close the application, the wallet will exit much sooner than before.
+```
+startmasternode "local|all|many|missing|disabled|alias" lockwallet ( "alias" )
+
+ Attempts to start one or more masternode(s)
+
+Arguments:
+1. set         (string, required) Specify which set of masternode(s) to start.
+2. lockWallet  (boolean, required) Lock wallet after completion.
+3. alias       (string) Masternode alias. Required if using 'alias' as the set.
+
+Result: (for 'local' set):
+"status"     (string) Masternode status message
+
+Result: (for other sets):
+{
+  "overall": "xxxx",     (string) Overall status message
+  "detail": [
+    {
+      "node": "xxxx",    (string) Node name or alias
+      "result": "xxxx",  (string) 'success' or 'failed'
+      "error": "xxxx"    (string) Error message, if failed
+    }
+    ,...
+  ]
+}
+
+Examples:
+> digiwage-cli masternodestart "alias" "my_mn"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "masternodestart", "params": ["alias" "my_mn"] }' -H 'content-type: text/plain;' http://127.0.0.1:46002/
+```
+
+##### `preparebudget` & `submitbudget` Commands #####
+Due to the requirement of maintaining backwards compatibility with the legacy command, these two new commands are created to handle the preparation/submission of budget proposals. Future intention is to roll these two commands back into a single command to reduce code-duplication. Paramater arguments currently remain unchanged from the legacy command equivilent.
+
+##### `mnbudgetvote` Command #####
+This command now handles all cases for submitting MN votes on a budget proposal. Backwards compatibility with the legacy command(s) has been retained, with the exception of the `vote-alias` case due to a conflict in paramater type casting. A user running `mnbudget vote-alias` will be instructed to instead use the new `mnvote` command. Below is the full help documentation for this new command:
+
+```
+mnvote "local|many|alias" "votehash" "yes|no" ( "alias" )
+
+Vote on a budget proposal
+
+Arguments:
+1. "mode"      (string, required) The voting mode. 'local' for voting directly from a masternode, 'many' for voting with a MN controller and casting the same vote for each MN, 'alias' for voting with a MN controller and casting a vote for a single MN
+2. "votehash"  (string, required) The vote hash for the proposal
+3. "votecast"  (string, required) Your vote. 'yes' to vote for the proposal, 'no' to vote against
+4. "alias"     (string, required for 'alias' mode) The MN alias to cast a vote for.
+
+Result:
+{
+  "overall": "xxxx",      (string) The overall status message for the vote cast
+  "detail": [
+    {
+      "node": "xxxx",      (string) 'local' or the MN alias
+      "result": "xxxx",    (string) Either 'Success' or 'Failed'
+      "error": "xxxx",     (string) Error message, if vote failed
+    }
+    ,...
+  ]
+}
+
+Examples:
+> digiwage-cli mnvote "local" "ed2f83cedee59a91406f5f47ec4d60bf5a7f9ee6293913c82976bd2d3a658041" "yes"
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "mnvote", "params": ["local" "ed2f83cedee59a91406f5f47ec4d60bf5a7f9ee6293913c82976bd2d3a658041" "yes"] }' -H 'content-type: text/plain;' http://127.0.0.1:46002/
+```
+
+##### `getbudgetinfo` Command #####
+This command now combines the old `mnbudget show` and `mnbudget getinfo` commands to reduce code duplication while still maintaining backwards compatibility with the legacy commands. Given no parameters, it returns the full list of budget proposals (`mnbudget show`). A single optional parameter allows to return information on just that proposal (`mnbudget getinfo`). Below is the full help documentation:
+
+```
+getbudgetinfo ( "proposal" )
+
+Show current masternode budgets
+
+Arguments:
+1. "proposal"    (string, optional) Proposal name
+
+Result:
+[
+  {
+    "Name": "xxxx",               (string) Proposal Name
+    "URL": "xxxx",                (string) Proposal URL
+    "Hash": "xxxx",               (string) Proposal vote hash
+    "FeeHash": "xxxx",            (string) Proposal fee hash
+    "BlockStart": n,              (numeric) Proposal starting block
+    "BlockEnd": n,                (numeric) Proposal ending block
+    "TotalPaymentCount": n,       (numeric) Number of payments
+    "RemainingPaymentCount": n,   (numeric) Number of remaining payments
+    "PaymentAddress": "xxxx",     (string) Digiwage address of payment
+    "Ratio": x.xxx,               (numeric) Ratio of yeas vs nays
+    "Yeas": n,                    (numeric) Number of yea votes
+    "Nays": n,                    (numeric) Number of nay votes
+    "Abstains": n,                (numeric) Number of abstains
+    "TotalPayment": xxx.xxx,      (numeric) Total payment amount
+    "MonthlyPayment": xxx.xxx,    (numeric) Monthly payment amount
+    "IsEstablished": true|false,  (boolean) Established (true) or (false)
+    "IsValid": true|false,        (boolean) Valid (true) or Invalid (false)
+    "IsValidReason": "xxxx",      (string) Error message, if any
+    "fValid": true|false,         (boolean) Valid (true) or Invalid (false)
+  }
+  ,...
+]
+
+Examples:
+> digiwage-cli getbudgetprojection
+> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbudgetprojection", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:46002/
+```
+
+#### Masternode network protocol layer reporting ####
+The results from the `listmasternodes` and `getmasternodecount` commands now includes details about which network protocol layer is being used (IPv4, IPV6, or Tor).
 
 
-3.0.4 Change log
+2.3.1 Change log
 =================
 
 Detailed release notes follow. This overview includes changes that affect
@@ -73,48 +186,23 @@ behavior, not code moves, refactors and string updates. For convenience in locat
 the code changes and accompanying discussion, both the pull request and
 git merge commit are mentioned.
 
+### RPC and other APIs
+- #239 `e8b92f4` [RPC] Make 'masternode status' more verbose (Mrs-X)
+- #244 `eac60dd` [RPC] Standardize RPC Commands (Fuzzbawls)
+
 ### P2P Protocol and Network Code
-- #294 `27c0943` Add additional checks for txid for zwage spend. (presstab)
-- #301 `b8392cd` Refactor zWage tx counting code. Add a final check in ConnectBlock() (presstab)
-- #306 `77dd55c` [Core] Don't send not-validated blocks (Mrs-X)
-- #312 `5d79bea` [Main] Update last checkpoint data (Fuzzbawls)
-- #325 `7d98ebe` Reindex zWage blocks and correct stats. (presstab)
-- #327 `aa1235a` [Main] Don't limit zWAGE spends from getting into the mempool (Fuzzbawls)
-- #329 `19b38b2` Update checkpoints. (presstab)
-- #331 `b1fb710` [Consensus] Bump protocol. Activate via Spork 15. (rejectedpromise)
-
-### Wallet
-- #308 `bd8a982` [Minting] Clear mempool after invalid block from miner (presstab)
-- #316 `ed192cf` [Minting] Better filtering of zWage serials in miner. (presstab)
-
-### GUI
-- #309 `f560ffc` [UI] Better error message when too much inputs are used for spending zWAGE (Mrs-X)
-- #317 `b27cb72` [UI] Wallet repair option to resync from scratch (Mrs-X)
-- #323 `2b648be` [UI] Balance fix + bubble-help + usability improvements (Mrs-X)
-- #324 `8cdbb5d` disable negative confirmation numbers. (Mrs-X)
-
-### Build System
-- #322 `a91feb3` [Build] Add compile/link summary to configure (Fuzzbawls)
+- #248 `0d44ca2` [core] fix payment disagreements, reduce log-verbosity (Mrs-X)
 
 ### Miscellaneous
-- #298 `3580394` Reorg help to stop travis errors (Jon Spock)
-- #302 `efb648b` [Cleanup] Remove unused variables (rejectedpromise)
-- #307 `dbd801d` Remove hard-coded GIT_ARCHIVE define (Jon Spock)
-- #314 `f1c830a` Fix issue causing crash when digiwaged --help was invoked (Jon Spock)
-- #326 `8b6a13e` Combine 2 LogPrintf statement to reduce debug.log clutter (Jon Spock)
-- #328 `a6c18c8` [Main] Digiwage not responding on user quitting app (Aaron Langford)
-
+- #240 `1957445` [Debug Log] Increase verbosity of error-message (Mrs-X)
+- #241 #249 `b60118b` `7405e31` Nullpointer reference fixed (Mrs-X)
 
 Credits
 =======
 
 Thanks to everyone who directly contributed to this release:
 - Fuzzbawls
-- Jon Spock
 - Mrs-X
-- furszy
-- presstab
-- rejectedpromise
-- aaronlangford31
+- amirabrams
 
 As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/digiwage-translations/).

@@ -45,7 +45,7 @@ QT_TRANSLATE_NOOP("digiwage-core", ""
 "Delete all wallet transactions and only recover those parts of the "
 "blockchain through -rescan on startup"),
 QT_TRANSLATE_NOOP("digiwage-core", ""
-"Disable all Digiwage specific functionality (Masternodes, Obfuscation, SwiftX, "
+"Disable all Digiwage specific functionality (Masternodes, Obfuscation, SwiftTX, "
 "Budgeting) (0-1, default: %u)"),
 QT_TRANSLATE_NOOP("digiwage-core", ""
 "Distributed under the MIT software license, see the accompanying file "
@@ -53,7 +53,7 @@ QT_TRANSLATE_NOOP("digiwage-core", ""
 QT_TRANSLATE_NOOP("digiwage-core", ""
 "Enable spork administration functionality with the appropriate private key."),
 QT_TRANSLATE_NOOP("digiwage-core", ""
-"Enable SwiftX, show confirmations for locked transactions (bool, default: "
+"Enable swifttx, show confirmations for locked transactions (bool, default: "
 "%s)"),
 QT_TRANSLATE_NOOP("digiwage-core", ""
 "Enable use of automated obfuscation for funds stored in this wallet (0-1, "
@@ -143,7 +143,7 @@ QT_TRANSLATE_NOOP("digiwage-core", ""
 QT_TRANSLATE_NOOP("digiwage-core", ""
 "Support filtering of blocks and transaction with bloom filters (default: %u)"),
 QT_TRANSLATE_NOOP("digiwage-core", ""
-"SwiftX requires inputs with at least 6 confirmations, you might need to "
+"SwiftTX requires inputs with at least 6 confirmations, you might need to "
 "wait a few minutes and try again."),
 QT_TRANSLATE_NOOP("digiwage-core", ""
 "This is a pre-release test build - use at your own risk - do not use for "
@@ -254,10 +254,10 @@ QT_TRANSLATE_NOOP("digiwage-core", "Do not load the wallet and disable wallet RP
 QT_TRANSLATE_NOOP("digiwage-core", "Do you want to rebuild the block database now?"),
 QT_TRANSLATE_NOOP("digiwage-core", "Done loading"),
 QT_TRANSLATE_NOOP("digiwage-core", "Enable publish hash block in <address>"),
-QT_TRANSLATE_NOOP("digiwage-core", "Enable publish hash transaction (locked via SwiftX) in <address>"),
+QT_TRANSLATE_NOOP("digiwage-core", "Enable publish hash transaction (locked via SwiftTX) in <address>"),
 QT_TRANSLATE_NOOP("digiwage-core", "Enable publish hash transaction in <address>"),
 QT_TRANSLATE_NOOP("digiwage-core", "Enable publish raw block in <address>"),
-QT_TRANSLATE_NOOP("digiwage-core", "Enable publish raw transaction (locked via SwiftX) in <address>"),
+QT_TRANSLATE_NOOP("digiwage-core", "Enable publish raw transaction (locked via SwiftTX) in <address>"),
 QT_TRANSLATE_NOOP("digiwage-core", "Enable publish raw transaction in <address>"),
 QT_TRANSLATE_NOOP("digiwage-core", "Enable staking functionality (0-1, default: %u)"),
 QT_TRANSLATE_NOOP("digiwage-core", "Enable the client to act as a masternode (0-1, default: %u)"),
@@ -312,7 +312,7 @@ QT_TRANSLATE_NOOP("digiwage-core", "Invalid netmask specified in -whitelist: '%s
 QT_TRANSLATE_NOOP("digiwage-core", "Invalid port detected in masternode.conf"),
 QT_TRANSLATE_NOOP("digiwage-core", "Invalid private key."),
 QT_TRANSLATE_NOOP("digiwage-core", "Invalid script detected."),
-QT_TRANSLATE_NOOP("pivx-core", "Keep N WAGE anonymized (default: %u)"),
+QT_TRANSLATE_NOOP("digiwage-core", "Keep N WAGE anonymized (default: %u)"),
 QT_TRANSLATE_NOOP("digiwage-core", "Keep at most <n> unconnectable transactions in memory (default: %u)"),
 QT_TRANSLATE_NOOP("digiwage-core", "Last Obfuscation was too recent."),
 QT_TRANSLATE_NOOP("digiwage-core", "Last successful Obfuscation action was too recent."),
@@ -325,7 +325,6 @@ QT_TRANSLATE_NOOP("digiwage-core", "Loading block index..."),
 QT_TRANSLATE_NOOP("digiwage-core", "Loading budget cache..."),
 QT_TRANSLATE_NOOP("digiwage-core", "Loading masternode cache..."),
 QT_TRANSLATE_NOOP("digiwage-core", "Loading masternode payment cache..."),
-QT_TRANSLATE_NOOP("digiwage-core", "Loading sporks..."),
 QT_TRANSLATE_NOOP("digiwage-core", "Loading wallet... (%3.2f %%)"),
 QT_TRANSLATE_NOOP("digiwage-core", "Loading wallet..."),
 QT_TRANSLATE_NOOP("digiwage-core", "Lock is already in place."),
@@ -350,9 +349,9 @@ QT_TRANSLATE_NOOP("digiwage-core", "Not enough file descriptors available."),
 QT_TRANSLATE_NOOP("digiwage-core", "Not in the Masternode list."),
 QT_TRANSLATE_NOOP("digiwage-core", "Number of automatic wallet backups (default: 10)"),
 QT_TRANSLATE_NOOP("digiwage-core", "Obfuscation is idle."),
+QT_TRANSLATE_NOOP("digiwage-core", "Obfuscation options:"),
 QT_TRANSLATE_NOOP("digiwage-core", "Obfuscation request complete:"),
 QT_TRANSLATE_NOOP("digiwage-core", "Obfuscation request incomplete:"),
-QT_TRANSLATE_NOOP("digiwage-core", "Obfuscation options:"),
 QT_TRANSLATE_NOOP("digiwage-core", "Only accept block chain matching built-in checkpoints (default: %u)"),
 QT_TRANSLATE_NOOP("digiwage-core", "Only connect to nodes in network <net> (ipv4, ipv6 or onion)"),
 QT_TRANSLATE_NOOP("digiwage-core", "Options:"),
@@ -403,7 +402,7 @@ QT_TRANSLATE_NOOP("digiwage-core", "Stop running after importing blocks from dis
 QT_TRANSLATE_NOOP("digiwage-core", "Submitted following entries to masternode: %u / %d"),
 QT_TRANSLATE_NOOP("digiwage-core", "Submitted to masternode, waiting for more entries ( %u / %d ) %s"),
 QT_TRANSLATE_NOOP("digiwage-core", "Submitted to masternode, waiting in queue %s"),
-QT_TRANSLATE_NOOP("digiwage-core", "SwiftX options:"),
+QT_TRANSLATE_NOOP("digiwage-core", "SwiftTX options:"),
 QT_TRANSLATE_NOOP("digiwage-core", "Synchronization failed"),
 QT_TRANSLATE_NOOP("digiwage-core", "Synchronization finished"),
 QT_TRANSLATE_NOOP("digiwage-core", "Synchronization pending..."),

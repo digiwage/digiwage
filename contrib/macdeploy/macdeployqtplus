@@ -352,7 +352,7 @@ def deployFrameworks(frameworks, bundlePath, binaryPath, strip, verbose, deploym
         # install_name_tool it a new id.
         changeIdentification(framework.deployedInstallName, deployedBinaryPath, verbose)
         # Check for framework dependencies
-        dependencies = getFrameworks(framework.sourceFilePath, verbose)
+        dependencies = getFrameworks(deployedBinaryPath, verbose)
 
         for dependency in dependencies:
             changeInstallName(dependency.installName, dependency.deployedInstallName, deployedBinaryPath, verbose)

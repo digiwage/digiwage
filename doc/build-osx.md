@@ -5,7 +5,7 @@ This guide will show you how to build digiwaged (headless client) for OSX.
 Notes
 -----
 
-* Tested on OS X 10.7 through 10.10 on 64-bit Intel processors only. Please read carefully if you are building on High Sierra (10.13), there are special instructions.
+* Tested on OS X 10.7 through 10.10 on 64-bit Intel processors only.
 
 * All of the commands should be executed in a Terminal application. The
 built-in one is located in `/Applications/Utilities`.
@@ -38,9 +38,7 @@ Instructions: Homebrew
 
 #### Install dependencies using Homebrew
 
-        brew install autoconf automake berkeley-db4 libtool boost miniupnpc openssl pkg-config protobuf qt5 libzmq
-        
-        Note: On High Sierra (or when libzmq cannot be found), libzmq should be replaced with zeromq
+        brew install autoconf automake berkeley-db4 libtool boost miniupnpc openssl pkg-config protobuf qt5
 
 ### Building `digiwaged`
 
@@ -50,13 +48,10 @@ Instructions: Homebrew
         cd Digiwage
 
 2.  Build digiwaged:
-        
-        chmod +x share/genbuild.sh autogen.sh 
-        ./autogen.sh
-        ./configure --with-gui=qt5 
-        make
-(note: if configure fails with libprotobuf not found see [Troubleshooting](#trouble) at the bottom)
 
+        ./autogen.sh
+        ./configure --with-gui=qt5
+        make
 
 3.  It is also a good idea to build and run the unit tests:
 
@@ -124,91 +119,3 @@ Other commands:
     ./digiwaged -daemon # to start the digiwage daemon.
     ./digiwage-cli --help  # for a list of command-line options.
     ./digiwage-cli help    # When the daemon is running, to get a list of RPC commands
-    
-Troubleshooting:<a name="trouble"></a>
----------
-* brew install not working? Try replacing libzmq with zeromq in the brew install command
-                
-* libprotobuf not found during ./configure? Make sure you have installed protobuf with `brew install protobuf` and then run `export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig` and try again
-                
-* Database errors have been seen in builds on High Sierra. One solution is to build Berkeley DB from source.
-        
-        cd ~
-        wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
-        tar -xzvf db-4.8.30.NC.tar.gz
-        cd db-4.8.30.NC/build_unix/
-        ../dist/configure --enable-cxx
-        make
-        sudo make install
-
-        Then configure Digiwage with this build of BerkeleyDB,
-        ./configure --with-gui=qt5  LDFLAGS="-L/usr/local/BerkeleyDB.4.8/lib/" CPPFLAGS="-I/usr/local/BerkeleyDB.4.8/include/"
-                
-        
-* In the case you see: `configure: error: OpenSSL ec header missing`, run the following commands:
-
-        export LDFLAGS=-L/usr/local/opt/openssl/lib
-        export CPPFLAGS=-I/usr/local/opt/openssl/include
-
-### Building Qt wallet for OSX High Sierra
-
-Currently the gitian build is not supported for Mac OSX High Sierra, but a Qt wallet can be built natively on a OSX High Sierra machine. These instructions provide the steps to perform that build from source code.
-
-If you do not have XCode instlled, go to the Mac App Store and install it.
-
-If you already had homebrew installed, you likely have a newer version that we need of boost, which will cause problems. Uninstall boost first. We need version 1.57 to compile the wallet.
-
-Otherwise, open Terminal and type in the command to install homebrew:
-
-```/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
-
-The use homebrew to install a number of unix programs and libraries needed to build the Digiwage wallet:
-
-```brew install autoconf automake berkeley-db@4 boost@1.57 git libevent libtool miniupnpc openssl pkg-config protobuf qt zeromq```
-
-To have the build process use the proper version of boost, link that version as follows:
-
-```brew link boost@1.57 --force```
-
-Next, switch into your Downloads folder:
-
-```cd ~/Downloads```
-
-The next step is to download the current version of the wallet from Github and go into that directory:
-
-```git clone https://github.com/digiwage/digiwage.git```
-```cd Digiwage```
-
-Now set some configuration flags:
-
-export LDFLAGS=-L/usr/local/opt/openssl/lib;export CPPFLAGS=-I/usr/local/opt/openssl/include
-
-Then we begin the build process:
-
-```./autogen.sh```
-```./configure```
-```make```
-
-You have the choice to build the GUI Digiwage wallet as a Mac OSX app, described in “How to build the Digiwage-Qt App”. If, for whatever reason, you prefer to use the command line tools, continue with “Command line tools”.
-
-### How to build the Digiwage-Qt App:
-
-After make is finished, you can create an App bundle inside a disk image with:
-
-```make deploy```
-
-Once this is done, you’ll find Digiwage-Qt.dmg inside your Digiwage folder. Open and install the wallet like any typical Mac app.
-
-### Command line tools
-
-Once the build is complete, switch into the src/qt subdirectory:
-
-```cd src/qt```
-
-And there you have your wallet – you can start it by running:
-
-```./digiwage-qt```
-
-You can move the wallet app to another more permanent location. If you have not moved it and want to start your wallet in the future, open Terminal and run this command:
-
-~/Downloads/Digiwage/src/qt/digiwage-qt

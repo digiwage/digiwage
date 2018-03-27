@@ -43,7 +43,7 @@
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Виберіть адресу надсилання монет</translation>
+        <translation>Виберіть адресу для надсилання монет</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
@@ -63,7 +63,7 @@
     </message>
     <message>
         <source>These are your Digiwage addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Це ваші Digiwage-адреси для надсилання платежів. Завжди перевіряйте суму та адресу одержувача перед відправленням монет.</translation>
+        <translation>Це ваша Digiwage-адреса для надсилання платежів. Завжди перевіряйте суму та адресу одержувача перед відправленням монет.</translation>
     </message>
     <message>
         <source>These are your Digiwage addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
@@ -256,9 +256,6 @@
     <name>PeerTableModel</name>
     </context>
 <context>
-    <name>PrivacyDialog</name>
-    </context>
-<context>
     <name>QObject</name>
     </context>
 <context>
@@ -365,9 +362,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Експортуйтувати дані поточної вкладки у файл</translation>
     </message>
-    </context>
-<context>
-    <name>ZWageControlDialog</name>
     </context>
 <context>
     <name>digiwage-core</name>

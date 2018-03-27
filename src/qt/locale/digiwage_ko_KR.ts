@@ -157,7 +157,7 @@
     </message>
     <message>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>이 작업은 지갑 암호화 해제를 하셔야 가능합니다.</translation>
+        <translation>이 작업은 지갑 암호화 해제를 위해 지갑 암호가 필요합니다.</translation>
     </message>
     <message>
         <source>Decrypt wallet</source>
@@ -213,7 +213,7 @@
     </message>
     <message>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
-        <translation>입력한 지갑 암호가 올바르지 않습니다.</translation>
+        <translation>지갑 암호화 해제를 위해 입력한 지갑 암호가 올바르지 않습니다.</translation>
     </message>
     <message>
         <source>Wallet decryption failed</source>
@@ -232,7 +232,7 @@
     <name>Bip38ToolDialog</name>
     <message>
         <source>BIP 38 Tool</source>
-        <translation>BIP 38 도구</translation>
+        <translation>BIP 38 Tool</translation>
     </message>
     <message>
         <source>&amp;BIP 38 Encrypt</source>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <source>Show Automatic &amp;Backups</source>
-        <translation>자동 &amp;백업 폴더 열기</translation>
+        <translation>자동 &amp;백업 표시</translation>
     </message>
     <message>
         <source>Show automatically created wallet backups</source>
@@ -575,7 +575,7 @@
     </message>
     <message numerus="yes">
         <source>Processed %n blocks of transaction history.</source>
-        <translation><numerusform>트랜잭션 기록의 %n 블록을 처리함</numerusform></translation>
+        <translation><numerusform>%n 블록의 거래내역을 처리함</numerusform></translation>
     </message>
     <message>
         <source>Synchronizing additional data: %p%</source>
@@ -612,14 +612,6 @@
     <message>
         <source>Request payments (generates QR codes and digiwage: URIs)</source>
         <translation>결제 요청 (QR 코드 및 digiwage: URI 생성)</translation>
-    </message>
-    <message>
-        <source>&amp;Privacy</source>
-        <translation>&amp;프라이버시</translation>
-    </message>
-    <message>
-        <source>Privacy Action for zWAGE and Obfuscation</source>
-        <translation>zWAGE와 난독화를 위한 프라이버스 작업</translation>
     </message>
     <message>
         <source>&amp;Masternodes</source>
@@ -699,7 +691,7 @@
     </message>
     <message numerus="yes">
         <source>%n active connection(s) to Digiwage network</source>
-        <translation><numerusform>%n 개 Digiwage 네트웍에 연결</numerusform></translation>
+        <translation><numerusform>Digiwage 네트워크에  %n 연결됨</numerusform></translation>
     </message>
     <message>
         <source>Synchronizing with network...</source>
@@ -747,7 +739,7 @@
     </message>
     <message>
         <source>Catching up...</source>
-        <translation>동기화 중...</translation>
+        <translation>동기화중...</translation>
     </message>
     <message>
         <source>Last received block was generated %1 ago.</source>
@@ -771,7 +763,7 @@
     </message>
     <message>
         <source>Sent transaction</source>
-        <translation>보낸 트랜잭션</translation>
+        <translation>트랜잭션 전송</translation>
     </message>
     <message>
         <source>Incoming transaction</source>
@@ -815,7 +807,7 @@ Address: %4
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>현재 지갑은 &lt;b&gt;암호화되어 &lt;b&gt;잠금해제되었습니다.</translation>
+        <translation>지갑은 &lt;b&gt;암호화&lt;/ b&gt;되어 있으며 현재 &lt;b&gt;잠금해제&lt;/ b&gt;되었습니다.</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt; for anonimization and staking only</source>
@@ -831,14 +823,6 @@ Address: %4
     <message>
         <source>Blockchain Explorer</source>
         <translation>블록체인 탐색기</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation>뒤로</translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation>앞으로</translation>
     </message>
     <message>
         <source>Address / Block / Transaction</source>
@@ -860,8 +844,8 @@ Address: %4
 <context>
     <name>ClientModel</name>
     <message>
-        <source>Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unknown: %5)</source>
-        <translation>Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unknown: %5)</translation>
+        <source>Total: %1 (OBF compatible: %2 / Enabled: %3)</source>
+        <translation>총: %1 (OBF 호환: %2 / 사용됨: %3)</translation>
     </message>
     <message>
         <source>Network Alert</source>
@@ -904,7 +888,7 @@ Address: %4
     </message>
     <message>
         <source>Change:</source>
-        <translation>잔돈:</translation>
+        <translation>변경:</translation>
     </message>
     <message>
         <source>(un)select all</source>
@@ -937,6 +921,10 @@ Address: %4
     <message>
         <source>Received with address</source>
         <translation>수신 된 주소</translation>
+    </message>
+    <message>
+        <source>DS Rounds</source>
+        <translation>DS 라운드</translation>
     </message>
     <message>
         <source>Date</source>
@@ -992,7 +980,7 @@ Address: %4
     </message>
     <message>
         <source>Copy bytes</source>
-        <translation>Bytes 복사</translation>
+        <translation>bytes 복사</translation>
     </message>
     <message>
         <source>Copy priority</source>
@@ -1009,6 +997,10 @@ Address: %4
     <message>
         <source>Please switch to "List mode" to use this function.</source>
         <translation>이 기능을 사용하려면 "목록 모드"로 전환하십시오.</translation>
+    </message>
+    <message>
+        <source>Non-anonymized input selected. &lt;b&gt;Obfuscation will be disabled.&lt;/b&gt;&lt;br&gt;&lt;br&gt;If you still want to use Obfuscation, please deselect all non-nonymized inputs first and then check Obfuscation checkbox again.</source>
+        <translation>익명화되지 않은 입력이 선택되었습니다. &lt;b&gt;난독화가 비활성화 되었습니다.&lt;b&gt;&lt;br&gt;&lt;br&gt;난독화를 계속 사용하려면 먼저 익명화 되지 않은 모든 입력을 먼저 선택 취소한 뒤 다시 선택해주세요.</translation>
     </message>
     <message>
         <source>highest</source>
@@ -1029,6 +1021,10 @@ Address: %4
     <message>
         <source>Can vary +/- %1 duff(s) per input.</source>
         <translation>입력당 +/- %1 금액(s)을 변경할 수 있습니다.</translation>
+    </message>
+    <message>
+        <source>n/a</source>
+        <translation>n/a</translation>
     </message>
     <message>
         <source>medium</source>
@@ -1100,7 +1096,7 @@ Address: %4
     </message>
     <message>
         <source>(change)</source>
-        <translation>(잔돈)</translation>
+        <translation>(변경)</translation>
     </message>
 </context>
 <context>
@@ -1123,7 +1119,7 @@ Address: %4
     </message>
     <message>
         <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
-        <translation>이 주소 목록과 관련된 주소입니다. 주소를 보낼 때만 수정할 수 있습니다.</translation>
+        <translation>이 주소 목록과 관련된 주소입니다. 주소를 보낼때만 수정할 수 있습니다.</translation>
     </message>
     <message>
         <source>New receiving address</source>
@@ -1244,7 +1240,7 @@ Address: %4
     </message>
     <message>
         <source>Welcome to Digiwage Core.</source>
-        <translation>Digiwage Core에 오신 것을 환영합니다.</translation>
+        <translation>Digiwage Core 환영합니다.</translation>
     </message>
     <message>
         <source>As this is the first time the program is launched, you can choose where Digiwage Core will store its data.</source>
@@ -1678,6 +1674,22 @@ Please check the address and try again.</source>
         <translation>&amp;시스템 로그인시 Digiwage 시작</translation>
     </message>
     <message>
+        <source>This setting determines the amount of individual masternodes that an input will be anonymized through.&lt;br/&gt;More rounds of anonymization gives a higher degree of privacy, but also costs more in fees.</source>
+        <translation>이 설정은 익명화 할 입력 값의 개별 마스터노드의 수량을 결정합니다.&lt;br/&gt;더 많은 익명화할 액수는 높은 수준의 익명성을 제공하지만 수수료가 많이 듭니다.</translation>
+    </message>
+    <message>
+        <source>Obfuscation rounds to use</source>
+        <translation>난독화를 사용할 영역</translation>
+    </message>
+    <message>
+        <source>This amount acts as a threshold to turn off Obfuscation once it's reached.</source>
+        <translation>이 금액에 도달하면 난독화를 끌 수 있는 임계 값 역할을 합니다.</translation>
+    </message>
+    <message>
+        <source>Amount of Digiwage to keep anonymized</source>
+        <translation>익명화할 Digiwage 수량</translation>
+    </message>
+    <message>
         <source>Whether to show coin control features or not.</source>
         <translation>동전 제어 기능을 표시할지 여부를 나타냅니다.</translation>
     </message>
@@ -1707,29 +1719,13 @@ Please check the address and try again.</source>
     </message>
     <message>
         <source>Language missing or translation incomplete? Help contributing translations here:
-https://www.transifex.com/digiwage-project/digiwage-project-translations</source>
-        <translation>지원 언어가 없거나 번역이 불완전한가요? 번역을 도와주세요 :
-https://www.transifex.com/digiwage-project/digiwage-project-translations</translation>
+https://www.transifex.com/digiwage/digiwage-translations</source>
+        <translation>지원 언어가 없거나 번역이 불완전한가요? 번역 기여 도움말:
+https://www.transifex.com/digiwage/digiwage-translations</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>&amp;UPnp를 사용하여 포트 매핑</translation>
-    </message>
-    <message>
-        <source>Percentage of incoming WAGE which get automatically converted to zWAGE via Zerocoin Protocol (min: 10%)</source>
-        <translation>WAGE수신시 자동변환 zWAGE 퍼센트 (최소값:10%)</translation>
-    </message>
-    <message>
-        <source>Percentage of autominted zWAGE</source>
-        <translation>자동 변환되는 zWAGE 퍼센트</translation>
-    </message>
-    <message>
-        <source>Wait with automatic conversion to Zerocoin until enough WAGE for this denomination is available</source>
-        <translation>이 디노미네이션의 WAGE가 충분해질 때까지 Zerocoin으로 자동전환은 보류됩니다.</translation>
-    </message>
-    <message>
-        <source>Preferred Automint zWAGE Denomination</source>
-        <translation>선호하는 자동생성 zWAGE 디노미네이션 </translation>
     </message>
     <message>
         <source>Connect to the Digiwage network through a SOCKS5 proxy.</source>
@@ -1824,10 +1820,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>&amp;취소</translation>
     </message>
     <message>
-        <source>I don't care</source>
-        <translation>없음</translation>
-    </message>
-    <message>
         <source>default</source>
         <translation>기본값</translation>
     </message>
@@ -1863,10 +1855,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Form</translation>
     </message>
     <message>
-        <source>WAGE Balances</source>
-        <translation>WAGE 잔액</translation>
-    </message>
-    <message>
         <source>Available:</source>
         <translation>사용가능:</translation>
     </message>
@@ -1889,6 +1877,10 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     <message>
         <source>Staked or masternode rewards that has not yet matured</source>
         <translation>아직 완료되지 않은 스테이크 및 마스터노드 보상</translation>
+    </message>
+    <message>
+        <source>Balances</source>
+        <translation>잔액</translation>
     </message>
     <message>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Digiwage network after a connection is established, but this process has not completed yet.</source>
@@ -1927,32 +1919,154 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>출금 가능 액수:</translation>
     </message>
     <message>
-        <source>Combined Balances (including immature coins)</source>
-        <translation>전체 잔액 (대기중 코인 포함)</translation>
+        <source>Status:</source>
+        <translation>상태:</translation>
     </message>
     <message>
-        <source>WAGE:</source>
-        <translation>WAGE:</translation>
+        <source>Obfuscation Balance:</source>
+        <translation>난독화 된 잔액:</translation>
     </message>
     <message>
-        <source>zWAGE:</source>
-        <translation>zWAGE:</translation>
+        <source>0 WAGE / 0 Rounds</source>
+        <translation>0 WAGE / 0 수량</translation>
     </message>
     <message>
-        <source>0 %</source>
-        <translation>0 %</translation>
+        <source>Enabled/Disabled</source>
+        <translation>활성화/비활성화</translation>
     </message>
     <message>
-        <source>Zerocoin Balance</source>
-        <translation>제로코인 잔액</translation>
+        <source>Try to manually submit a Obfuscation request.</source>
+        <translation>난독화 요청을 수동으로 제출해주세요.</translation>
+    </message>
+    <message>
+        <source>Reset the current status of Obfuscation (can interrupt Obfuscation if it's in the process of Mixing, which can cost you money!)</source>
+        <translation>현재 난독화 상태를 초기화 합니다. (난독화가 믹스 중일 경우에 간섭으로 비용이 발생할 수 있습니다!)</translation>
+    </message>
+    <message>
+        <source>Obfuscation</source>
+        <translation>난독화</translation>
+    </message>
+    <message>
+        <source>Completion:</source>
+        <translation>완료:</translation>
+    </message>
+    <message>
+        <source>Amount and Rounds:</source>
+        <translation>금액 및 수량:</translation>
+    </message>
+    <message>
+        <source>Submitted Denom:</source>
+        <translation>제출된 단위:</translation>
+    </message>
+    <message>
+        <source>n/a</source>
+        <translation>n/a</translation>
     </message>
     <message>
         <source>Recent transactions</source>
         <translation>최근 트랜잭션</translation>
     </message>
     <message>
+        <source>Start/Stop Mixing</source>
+        <translation>믹싱 시작/종료</translation>
+    </message>
+    <message>
+        <source>The denominations you submitted to the Masternode.&lt;br&gt;To mix, other users must submit the exact same denominations.</source>
+        <translation>당신이 마스터노드에 제출한 단위.&lt;br&gt;믹스하려면 다른 유저들은 반드시 정확한 단위를 제출해야 합니다.</translation>
+    </message>
+    <message>
+        <source>(Last Message)</source>
+        <translation>(최근 메시지)</translation>
+    </message>
+    <message>
+        <source>Try Mix</source>
+        <translation>믹스 시도</translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation>초기화</translation>
+    </message>
+    <message>
         <source>out of sync</source>
         <translation>동기화되지 않음</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>비활성됨</translation>
+    </message>
+    <message>
+        <source>No inputs detected</source>
+        <translation>값이 입력되지 않음</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n Rounds</source>
+        <translation><numerusform>%n 라운드</numerusform></translation>
+    </message>
+    <message>
+        <source>Not enough compatible inputs to anonymize &lt;span style='color:red;'&gt;%1&lt;/span&gt;,&lt;br&gt;will anonymize &lt;span style='color:red;'&gt;%2&lt;/span&gt; instead</source>
+        <translation>익명화를 위한 값이 충분하지 않아 &lt;span style='color:red;'&gt;%1/span&gt;,&lt;br&gt;대신 &lt;span style='color:red;'&gt;%2&lt;/span&gt;가 익명화 됩니다.</translation>
+    </message>
+    <message>
+        <source>Overall progress</source>
+        <translation>전체 내역</translation>
+    </message>
+    <message>
+        <source>Denominated</source>
+        <translation>표기된</translation>
+    </message>
+    <message>
+        <source>Anonymized</source>
+        <translation>익명화된</translation>
+    </message>
+    <message numerus="yes">
+        <source>Denominated inputs have %5 of %n rounds on average</source>
+        <translation><numerusform>지정된 입력값은  평균 %n 라운드중 %5입니다.</numerusform></translation>
+    </message>
+    <message>
+        <source>Last Obfuscation message:
+</source>
+        <translation>최근 Obfuscate한 메시지:
+</translation>
+    </message>
+    <message>
+        <source>Obfuscation was successfully reset.</source>
+        <translation>난독화가 성공적으로 초기화 되었습니다.</translation>
+    </message>
+    <message>
+        <source>If you don't want to see internal Obfuscation fees/transactions select "Most Common" as Type on the "Transactions" tab.</source>
+        <translation>내부 난독화 수수료/트랜잭션를 보고 싶지 않으면 "트랜잭션" 탭에서 '기본적인'을 선택하십시오.</translation>
+    </message>
+    <message>
+        <source>Obfuscation requires at least %1 to use.</source>
+        <translation>난독화를 사용하기 위해선 적어도 %1이 필요합니다.</translation>
+    </message>
+    <message>
+        <source>Wallet is locked and user declined to unlock. Disabling Obfuscation.</source>
+        <translation>지갑이 잠겼으며 사용자가 잠금 해제를 거부했습니다. 난독화 중단.</translation>
+    </message>
+    <message>
+        <source>Found enough compatible inputs to anonymize %1</source>
+        <translation>%1 익명화를 진행하기 위해서는 충분한 값이 필요합니다</translation>
+    </message>
+    <message>
+        <source>Start Obfuscation</source>
+        <translation>난독화 시작</translation>
+    </message>
+    <message>
+        <source>Stop Obfuscation</source>
+        <translation>난독화 중지</translation>
+    </message>
+    <message>
+        <source>Mixed</source>
+        <translation>믹스됨</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>활성화됨</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>N/A</translation>
     </message>
 </context>
 <context>
@@ -2027,7 +2141,7 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     </message>
     <message>
         <source>Error communicating with %1: %2</source>
-        <translation>%1: %2 통신하는 중 오류 발생: </translation>
+        <translation>%1 과 통신하는 중 오류 발생: %2</translation>
     </message>
     <message>
         <source>Payment request cannot be parsed!</source>
@@ -2059,463 +2173,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     <message>
         <source>Ping Time</source>
         <translation>응답 시간</translation>
-    </message>
-</context>
-<context>
-    <name>PrivacyDialog</name>
-    <message>
-        <source>WAGE which were anonymized via Zerocin Protocol</source>
-        <translation>제로코인 프로토콜을 통해 익명화된 WAGE</translation>
-    </message>
-    <message>
-        <source>Zerocoin WAGE (zWAGE)</source>
-        <translation>제로코인 WAGE (zWAGE)</translation>
-    </message>
-    <message>
-        <source>Zerocoin Actions:</source>
-        <translation>제로코인 관리:</translation>
-    </message>
-    <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Digiwage network after a connection is established, but this process has not completed yet.</source>
-        <translation>표시된 정보가 오래되었을 수 있습니다. 연결이 완료되면 지갑이 Digiwage 네트워크와 자동으로 동기화될 예정이지만, 아직 해당 프로세스가 완료되지 않았습니다.</translation>
-    </message>
-    <message>
-        <source>Enter an amount of Wage to convert to zWage</source>
-        <translation>zWAGE로 변환할 WAGE 수량을 입력하세요.</translation>
-    </message>
-    <message>
-        <source>Mint Zerocoin</source>
-        <translation>제로코인 생성</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation>0</translation>
-    </message>
-    <message>
-        <source>zWAGE</source>
-        <translation>zWAGE</translation>
-    </message>
-    <message>
-        <source>Available for Minting:</source>
-        <translation>생성 가능한 수량 :</translation>
-    </message>
-    <message>
-        <source>0.000 000 00 WAGE</source>
-        <translation>0.000 000 00 WAGE</translation>
-    </message>
-    <message>
-        <source>Reset Zerocoin Wallet DB. Deletes transactions that did not make it into the blockchain.</source>
-        <translation>제로코인 지갑 DB 재설정. 블록 체인에 포함시키지 않은 트랜잭션을 삭제합니다.</translation>
-    </message>
-    <message>
-        <source>Reset</source>
-        <translation>초기화</translation>
-    </message>
-    <message>
-        <source>Coin Control...</source>
-        <translation>코인 컨트롤...</translation>
-    </message>
-    <message>
-        <source>Quantity:</source>
-        <translation>수량:</translation>
-    </message>
-    <message>
-        <source>Amount:</source>
-        <translation>금액:</translation>
-    </message>
-    <message>
-        <source>Rescan the complete blockchain for  Zerocoin mints and their meta-data.</source>
-        <translation>제로코인 생성과 메타데이타를 위해 블록체인을 다시 스캔합니다.</translation>
-    </message>
-    <message>
-        <source>ReScan</source>
-        <translation>다시 스캔</translation>
-    </message>
-    <message>
-        <source>Status and/or Mesages from the last Mint Action.</source>
-        <translation>마지막 발행 이후 상태나 메세지</translation>
-    </message>
-    <message>
-        <source>zWage Control</source>
-        <translation>zWAGE 설정</translation>
-    </message>
-    <message>
-        <source>zWage Selected:</source>
-        <translation>선택한 zWAGE : </translation>
-    </message>
-    <message>
-        <source>Quantity Selected:</source>
-        <translation>선택된 수량 :</translation>
-    </message>
-    <message>
-        <source>Spend Zerocoin. Without 'Pay To:' address creates payments to yourself.</source>
-        <translation>제로코인 전송 'Pay To :' 주소가 없으면 자신에게 지불합니다.</translation>
-    </message>
-    <message>
-        <source>Spend Zerocoin</source>
-        <translation>제로코인 보내기</translation>
-    </message>
-    <message>
-        <source>Available Balance:</source>
-        <translation>가능한 잔액:</translation>
-    </message>
-    <message>
-        <source>0 zWAGE</source>
-        <translation>0 zWAGE</translation>
-    </message>
-    <message>
-        <source>Security Level for Zerocoin Transactions. More is better, but needs more time and resources.</source>
-        <translation>제로코인 전송 시큐리티 레벨.  높을수록 좋지만, 시간과 많은 자원이 필요합니다.</translation>
-    </message>
-    <message>
-        <source>Security Level:</source>
-        <translation>시큐리티 레벨:</translation>
-    </message>
-    <message>
-        <source>Security Level 1 - 100 (default: 42)</source>
-        <translation>시큐리티 레벨 1 - 100 (기본값: 42)</translation>
-    </message>
-    <message>
-        <source>Pay &amp;To:</source>
-        <translation>지불 &amp;대상:</translation>
-    </message>
-    <message>
-        <source>The Digiwage address to send the payment to. Creates local payment to yourself when empty.</source>
-        <translation>WAGE를 전송할 Digiwage 주소입니다. 비어있을 때 자신에게 지불할 주소를 생성합니다.</translation>
-    </message>
-    <message>
-        <source>Choose previously used address</source>
-        <translation>이전에 사용한 주소 선택</translation>
-    </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
-    </message>
-    <message>
-        <source>Paste address from clipboard</source>
-        <translation>클립보드에서 주소 붙여 넣기</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
-    </message>
-    <message>
-        <source>&amp;Label:</source>
-        <translation>&amp;라벨:</translation>
-    </message>
-    <message>
-        <source>Enter a label for this address to add it to the list of used addresses</source>
-        <translation>이 주소의 라벨을 입력하여 사용된 주소 목록에 추가하십시오</translation>
-    </message>
-    <message>
-        <source>A&amp;mount:</source>
-        <translation>금&amp;액:</translation>
-    </message>
-    <message>
-        <source>Convert Change to Zerocoin (might cost additional fees)</source>
-        <translation>잔돈을 제로코인으로 변환 (추가 요금이 부과될 수 있음)</translation>
-    </message>
-    <message>
-        <source>If checked, the wallet tries to minimize the returning change instead of minimizing the number of spent denominations.</source>
-        <translation>이 옵션을 선택하면, 사용한 디노미네이션의 수를 최소화하는 대신 남는 잔돈을 최소화합니다.</translation>
-    </message>
-    <message>
-        <source>Minimize Change</source>
-        <translation>잔돈 최소화하기</translation>
-    </message>
-    <message>
-        <source>Information about the available Zerocoin funds.</source>
-        <translation>사용가능한 제로코인 정보</translation>
-    </message>
-    <message>
-        <source>Zerocoin Stats:</source>
-        <translation>제로코인 상태 :</translation>
-    </message>
-    <message>
-        <source>Available Funds</source>
-        <translation>사용가는한 펀드</translation>
-    </message>
-    <message>
-        <source>Available Zerocoin  Balance:</source>
-        <translation>사용가능한 제로코인 잔액:</translation>
-    </message>
-    <message>
-        <source>Denominations with value 1:</source>
-        <translation>디노미네이션 값 1:</translation>
-    </message>
-    <message>
-        <source>Denom. with value 1:</source>
-        <translation>Denom. 값 1:</translation>
-    </message>
-    <message>
-        <source>0 x</source>
-        <translation>0 x</translation>
-    </message>
-    <message>
-        <source>Denominations with value 5:</source>
-        <translation>디노미네이션 값 5:</translation>
-    </message>
-    <message>
-        <source>Denom. with value 5:</source>
-        <translation>Denom. 값 5:</translation>
-    </message>
-    <message>
-        <source>Denominations with value 10:</source>
-        <translation>디노미네이션  값 10:</translation>
-    </message>
-    <message>
-        <source>Denom. with value 10:</source>
-        <translation>Denom. 값 10:</translation>
-    </message>
-    <message>
-        <source>Denominations with value 50:</source>
-        <translation>디노미네이션 값 50:</translation>
-    </message>
-    <message>
-        <source>Denom. with value 50:</source>
-        <translation>Denom. 값 50:</translation>
-    </message>
-    <message>
-        <source>Denominations with value 100:</source>
-        <translation>디노미네이션 값 100:</translation>
-    </message>
-    <message>
-        <source>Denom. with value 100:</source>
-        <translation>Denom. 값 100:</translation>
-    </message>
-    <message>
-        <source>Denominations with value 500:</source>
-        <translation>디노미네이션 값 500:</translation>
-    </message>
-    <message>
-        <source>Denom. with value 500:</source>
-        <translation>Denom. 값 500:</translation>
-    </message>
-    <message>
-        <source>Denominations with value 1000:</source>
-        <translation>디노미네이션 값 1000:</translation>
-    </message>
-    <message>
-        <source>Denom. with value 1000:</source>
-        <translation>Denom. 값 1000:</translation>
-    </message>
-    <message>
-        <source>Denominations with value 5000:</source>
-        <translation>디노미네이션 값 5000:</translation>
-    </message>
-    <message>
-        <source>Denom. with value 5000:</source>
-        <translation>Denom. 값 5000:</translation>
-    </message>
-    <message>
-        <source>Note: This hidden objects are used for communication between the 'Coin Control' dialog and its parent objects. We don't want to change/reimplement the existing Coin Control, so this objects must be here, even when we don't use them. No, we don't like this approach, either.</source>
-        <translation>Note: This hidden objects are used for communication between the 'Coin Control' dialog and its parent objects. We don't want to change/reimplement the existing Coin Control, so this objects must be here, even when we don't use them. No, we don't like this approach, either.</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>우선 순위:</translation>
-    </message>
-    <message>
-        <source>Fee:</source>
-        <translation>수수료:</translation>
-    </message>
-    <message>
-        <source>Dust:</source>
-        <translation>현금:</translation>
-    </message>
-    <message>
-        <source>no</source>
-        <translation>아니오</translation>
-    </message>
-    <message>
-        <source>Bytes:</source>
-        <translation>Bytes:</translation>
-    </message>
-    <message>
-        <source>Insufficient funds!</source>
-        <translation>자금이 충분하지 않습니다!</translation>
-    </message>
-    <message>
-        <source>Coins automatically selected</source>
-        <translation>코인 자동으로 선택됨</translation>
-    </message>
-    <message>
-        <source>medium</source>
-        <translation>중간</translation>
-    </message>
-    <message>
-        <source>Coin Control Features</source>
-        <translation>코인 제어 기능</translation>
-    </message>
-    <message>
-        <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
-        <translation>이 옵션이 활성화되었지만, 변경 주소가 비어있거나 유효하지 않은 경우 변경사항은 새로 생성된 주소로 전송됩니다.</translation>
-    </message>
-    <message>
-        <source>Custom change address</source>
-        <translation>커스텀 주소 변경</translation>
-    </message>
-    <message>
-        <source>Amount After Fee:</source>
-        <translation>수수료 차감 금액:</translation>
-    </message>
-    <message>
-        <source>Change:</source>
-        <translation>변경:</translation>
-    </message>
-    <message>
-        <source>out of sync</source>
-        <translation>동기화되지 않음</translation>
-    </message>
-    <message>
-        <source>Mint Status: Okay</source>
-        <translation>생성 상태 : Okay</translation>
-    </message>
-    <message>
-        <source>Copy quantity</source>
-        <translation>수량 복사</translation>
-    </message>
-    <message>
-        <source>Copy amount</source>
-        <translation>금액 복사</translation>
-    </message>
-    <message>
-        <source>Zerocoin functionality is not enabled on the Digiwage network yet.</source>
-        <translation>제로 코인 기능 상태가 Digiwage 네트워크 상에서 이루어지지 않습니다.</translation>
-    </message>
-    <message>
-        <source>Error: Your wallet is locked. Please enter the wallet passphrase first.</source>
-        <translation>Error : 지갑이 잠겨있습니다. 먼저 지갑을 열어주세요.</translation>
-    </message>
-    <message>
-        <source>Message: Enter an amount &gt; 0.</source>
-        <translation>Message: 0 이상의 수량을 입력하세요.</translation>
-    </message>
-    <message>
-        <source>Minting </source>
-        <translation>생성중입니다.</translation>
-    </message>
-    <message>
-        <source>Successfully minted </source>
-        <translation>성공적으로 발행됨</translation>
-    </message>
-    <message>
-        <source> zWAGE in </source>
-        <translation> zWAGE in </translation>
-    </message>
-    <message>
-        <source> sec. Used denominations:
-</source>
-        <translation> 초. 사용된 디노미네이션:
-</translation>
-    </message>
-    <message>
-        <source>Starting ResetMintZerocoin: rescanning complete blockchain, this will need up to 30 minutes depending on your hardware. 
-Please be patient...</source>
-        <translation>제로코인 생성 초기화 진행중... : 전체 블록체인을 다시 검색합니다. 하드웨어에 따라 최대 30분이 걸릴수 있습니다.
-기다려주세요...</translation>
-    </message>
-    <message>
-        <source>Duration: </source>
-        <translation>경과시간:</translation>
-    </message>
-    <message>
-        <source> sec.
-</source>
-        <translation>초.
-</translation>
-    </message>
-    <message>
-        <source>Starting ResetSpentZerocoin: </source>
-        <translation>전송된 제로코인 리셋 시작중...</translation>
-    </message>
-    <message>
-        <source>No 'Pay To' address provided, creating local payment</source>
-        <translation>주소를 입력하지 않아, 신규 주소를 생성합니다.</translation>
-    </message>
-    <message>
-        <source>Invalid Digiwage Address</source>
-        <translation>잘못된 Digiwage 주소</translation>
-    </message>
-    <message>
-        <source>Invalid Send Amount</source>
-        <translation>잘못된 전송 수량</translation>
-    </message>
-    <message>
-        <source>Confirm additional Fees</source>
-        <translation>추가 수수료 확인</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to send?&lt;br /&gt;&lt;br /&gt;</source>
-        <translation>정말로 보내시겠습니까?&lt;br /&gt;&lt;br /&gt;</translation>
-    </message>
-    <message>
-        <source> to address </source>
-        <translation>주소로</translation>
-    </message>
-    <message>
-        <source> to a newly generated (unused and therefor anonymous) local address &lt;br /&gt;</source>
-        <translation>새로 생성된 개인 지갑 주소(미사용된 익명의) &lt;br /&gt; 로</translation>
-    </message>
-    <message>
-        <source>with Security Level </source>
-        <translation>시큐리티 레벨</translation>
-    </message>
-    <message>
-        <source>Confirm send coins</source>
-        <translation>코인 전송 확인</translation>
-    </message>
-    <message>
-        <source>Spending Zerocoin.
-Computationally expensive, might need several minutes depending on the selected Security Level and your hardware. 
-Please be patient...</source>
-        <translation>제로코인 전송중입니다.
-시큐리티 레벨과 여러분의 하드웨어에 따라 수 분이 걸립니다.
-조금만 기다려주세요...</translation>
-    </message>
-    <message>
-        <source>Spend Zerocoin failed with status = </source>
-        <translation>제로코인 송금 실패 상태 =</translation>
-    </message>
-    <message>
-        <source>zWage Spend #: </source>
-        <translation>zWage 송금 #: </translation>
-    </message>
-    <message>
-        <source>denomination: </source>
-        <translation>디노미네이션: </translation>
-    </message>
-    <message>
-        <source>serial: </source>
-        <translation>시리얼:</translation>
-    </message>
-    <message>
-        <source>Spend is 1 of : </source>
-        <translation>Spend is 1 of : </translation>
-    </message>
-    <message>
-        <source>value out: </source>
-        <translation>출력 값:</translation>
-    </message>
-    <message>
-        <source>address: </source>
-        <translation>주소:</translation>
-    </message>
-    <message>
-        <source>zWage Mint</source>
-        <translation>zWAGE 생성</translation>
-    </message>
-    <message>
-        <source>Sending successful, return code: </source>
-        <translation>성공 완료, 리턴 코드 :</translation>
-    </message>
-    <message>
-        <source>txid: </source>
-        <translation>txid:</translation>
-    </message>
-    <message>
-        <source>fee: </source>
-        <translation>수수료:</translation>
     </message>
 </context>
 <context>
@@ -3068,6 +2725,14 @@ Please be patient...</source>
         <translation>코인 제어 기능</translation>
     </message>
     <message>
+        <source>Inputs...</source>
+        <translation>입력...</translation>
+    </message>
+    <message>
+        <source>automatically selected</source>
+        <translation>자동 선택됨</translation>
+    </message>
+    <message>
         <source>Insufficient funds!</source>
         <translation>자금이 충분하지 않습니다!</translation>
     </message>
@@ -3152,6 +2817,10 @@ Please be patient...</source>
         <translation>최소화</translation>
     </message>
     <message>
+        <source>Obfuscation</source>
+        <translation>난독화</translation>
+    </message>
+    <message>
         <source>per kilobyte</source>
         <translation>킬로바이트당</translation>
     </message>
@@ -3174,14 +2843,6 @@ Please be patient...</source>
     <message>
         <source>Confirmation time:</source>
         <translation>승인 시간:</translation>
-    </message>
-    <message>
-        <source>Open Coin Control...</source>
-        <translation>코인 설정 열기...</translation>
-    </message>
-    <message>
-        <source>Coins automatically selected</source>
-        <translation>코인 자동으로 선택됨</translation>
     </message>
     <message>
         <source>If the custom fee is set to 1000 uWAGEs and the transaction is only 250 bytes, then "per kilobyte" only pays 250 uWAGEs in fee,&lt;br /&gt;while "at least" pays 1000 uWAGEs. For transactions bigger than a kilobyte both pay by kilobyte.</source>
@@ -3238,10 +2899,6 @@ Please be patient...</source>
     <message>
         <source>Add &amp;Recipient</source>
         <translation>&amp;받는 사람 추가</translation>
-    </message>
-    <message>
-        <source>Anonymized WAGE</source>
-        <translation>익명화 WAGE</translation>
     </message>
     <message>
         <source>SwiftTX</source>
@@ -3337,11 +2994,15 @@ Please be patient...</source>
     </message>
     <message numerus="yes">
         <source>Estimated to begin confirmation within %n block(s).</source>
-        <translation><numerusform>%n 블록이내에서 컨펌이 시작될것 같습니다.</numerusform></translation>
+        <translation><numerusform>%n 블록내에서 확인 시작될 예정</numerusform></translation>
     </message>
     <message>
         <source>The recipient address is not valid, please recheck.</source>
         <translation>수신자 주소가 유효하지 않습니다. 다시 확인해주세요.</translation>
+    </message>
+    <message>
+        <source>(obfuscation requires this amount to be rounded up to the nearest %1).</source>
+        <translation>(난독화로 이 금액을 가장 가까운 %1로 반올림 해야됩니다)</translation>
     </message>
     <message>
         <source> split into %1 outputs using the UTXO splitter.</source>
@@ -3377,7 +3038,7 @@ Please be patient...</source>
     </message>
     <message>
         <source>Error: The wallet was unlocked only to anonymize coins.</source>
-        <translation>오류: 현재 지갑이 익명 처리를 위해 잠금해제 되어 있습니다. 익명화 및 스테이킹 전용을 해제하시고 다시 시도하세요.</translation>
+        <translation>오류: 지갑이 코인 익명 처리를 위해 잠금해제 되었습니다.</translation>
     </message>
     <message>
         <source>Error: The wallet was unlocked only to anonymize coins. Unlock canceled.</source>
@@ -3659,7 +3320,7 @@ Please be patient...</source>
     <name>TransactionDesc</name>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>%n 이상의 블록 열기</numerusform></translation>
+        <translation><numerusform>%n 개의 다른 블록 열기</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -3724,7 +3385,7 @@ Please be patient...</source>
     </message>
     <message numerus="yes">
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, %n 개 노드를 통해 브로드캐스트됩니다.</numerusform></translation>
+        <translation><numerusform>, %n 노드를 통해 브로드캐스트</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -3768,7 +3429,7 @@ Please be patient...</source>
     </message>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>%n 개 이상의 블록에서 생성됩니다.</numerusform></translation>
+        <translation><numerusform>%n 블록안에 완료</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -3870,7 +3531,7 @@ Please be patient...</source>
     </message>
     <message numerus="yes">
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>%n 이상의 블록 열기</numerusform></translation>
+        <translation><numerusform>%n 개의 다른 블록 열기</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -3914,7 +3575,7 @@ Please be patient...</source>
     </message>
     <message>
         <source>Received from</source>
-        <translation>수신됨</translation>
+        <translation>발신원</translation>
     </message>
     <message>
         <source>Received via Obfuscation</source>
@@ -3961,32 +3622,8 @@ Please be patient...</source>
         <translation>난독화</translation>
     </message>
     <message>
-        <source>Converted Wage to zWage</source>
-        <translation>zWAGE로 변환된 WAGE</translation>
-    </message>
-    <message>
-        <source>Spent zWage</source>
-        <translation>전송된 zWAGE</translation>
-    </message>
-    <message>
-        <source>Received Wage from zWage</source>
-        <translation>zWAGE로 전송받은 WAGE</translation>
-    </message>
-    <message>
-        <source>Minted Change as zWage from zWage Spend</source>
-        <translation>zWAGE 전송후 남은 잔돈 zWAGE 생성됨</translation>
-    </message>
-    <message>
-        <source>Converted zWage to Wage</source>
-        <translation>zWage에서 Wage로 변환됨</translation>
-    </message>
-    <message>
         <source>watch-only</source>
         <translation>읽기 전용</translation>
-    </message>
-    <message>
-        <source>zWage Accumulator</source>
-        <translation>zWage 누산기</translation>
     </message>
     <message>
         <source>(n/a)</source>
@@ -4094,26 +3731,6 @@ Please be patient...</source>
     <message>
         <source>Masternode Reward</source>
         <translation>마스터노드 보상 </translation>
-    </message>
-    <message>
-        <source>Received Wage from zWage</source>
-        <translation>zWAGE로 전송받은 WAGE</translation>
-    </message>
-    <message>
-        <source>Zerocoin Mint</source>
-        <translation>제로코인 생성</translation>
-    </message>
-    <message>
-        <source>Zerocoin Spend</source>
-        <translation>제로코인 전송</translation>
-    </message>
-    <message>
-        <source>Zerocoin Spend, Change in zWage</source>
-        <translation>제로코인 전송, 잔돈은 zWAGE</translation>
-    </message>
-    <message>
-        <source>Zerocoin Spend to Self</source>
-        <translation>자신에게 제로코인 전송</translation>
     </message>
     <message>
         <source>Other</source>
@@ -4277,33 +3894,6 @@ Please be patient...</source>
     </message>
 </context>
 <context>
-    <name>ZWageControlDialog</name>
-    <message>
-        <source>Select zWage to Spend</source>
-        <translation>전송할 zWAGE 선택</translation>
-    </message>
-    <message>
-        <source>Quantity</source>
-        <translation>수량</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation>0</translation>
-    </message>
-    <message>
-        <source>zWage</source>
-        <translation>zWage</translation>
-    </message>
-    <message>
-        <source>Select/Deselect All</source>
-        <translation>전체 선택 / 해제</translation>
-    </message>
-    <message>
-        <source>Is Spendable</source>
-        <translation>전송가능합니다.</translation>
-    </message>
-</context>
-<context>
     <name>digiwage-core</name>
     <message>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
@@ -4328,10 +3918,6 @@ Please be patient...</source>
     <message>
         <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
         <translation>JSON-RPC연결 수신을 위해 주어진 주소를 지정합니다. [host]: IPv6 포트 표기법 사용. 이 옵션은 여러번 지정할 수 있습니다. (기본값 : 모든 인터페이스에 지정)</translation>
-    </message>
-    <message>
-        <source>Calculated accumulator checkpoint is not what is recorded by block index</source>
-        <translation>계산된 누산기 체크포인트는 블록 인덱스에 의해 기록되는 것이 아닙니다.</translation>
     </message>
     <message>
         <source>Cannot obtain a lock on data directory %s. Digiwage Core is probably already running.</source>
@@ -4368,6 +3954,10 @@ Please be patient...</source>
     <message>
         <source>Enable swifttx, show confirmations for locked transactions (bool, default: %s)</source>
         <translation>swiftTX 활성화, 잠긴 트랜잭션들에 대한 확인 표시 (bool, 기본값: %s)</translation>
+    </message>
+    <message>
+        <source>Enable use of automated obfuscation for funds stored in this wallet (0-1, default: %u)</source>
+        <translation>이 지갑에 저장된 금액에 대해 자동 난독화 사용을 활성화 합니다 (0-1, 기본값: %u)</translation>
     </message>
     <message>
         <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</source>
@@ -4408,6 +3998,10 @@ Please be patient...</source>
     <message>
         <source>Found unconfirmed denominated outputs, will wait till they confirm to continue.</source>
         <translation>미확인 표시된 출력들을 찾고 계속하기 위한 확인을 받기 전까지 기다립니다.</translation>
+    </message>
+    <message>
+        <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
+        <translation>-checkblocks의 블록 검증이 얼마나 철저한 정도 (0-4, 기본값: %u)</translation>
     </message>
     <message>
         <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
@@ -4452,6 +4046,10 @@ Please be patient...</source>
     <message>
         <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
         <translation>디버깅 정보 출력 (기본값: %u, &lt;category&gt; 공급은 선택입니다)</translation>
+    </message>
+    <message>
+        <source>Provide liquidity to Obfuscation by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</source>
+        <translation>자주 사용하지 않는 코인을 믹싱하여 난독화에 유동성을 제공합니다 (0-100, 기본값: %u, 1=매우 잦음, 높은 수수료, 100=매운 드문, 낮은 수수료)</translation>
     </message>
     <message>
         <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
@@ -4630,16 +4228,8 @@ rpcpassword=%s
         <translation>손상된 wallet.dat으로 부터 개인 키 복구를 시도합니다.</translation>
     </message>
     <message>
-        <source>Automatically create Tor hidden service (default: %d)</source>
-        <translation>자동 Tor 히든 서버스 생성 (기본값: %d)</translation>
-    </message>
-    <message>
         <source>Block creation options:</source>
         <translation>블록 생성 옵션:</translation>
-    </message>
-    <message>
-        <source>Calculating missing accumulators...</source>
-        <translation>누락된 누산기 계산중...</translation>
     </message>
     <message>
         <source>Can't denominate: no compatible inputs left.</source>
@@ -4722,10 +4312,6 @@ rpcpassword=%s
         <translation>디버깅/테스팅 옵션:</translation>
     </message>
     <message>
-        <source>Disable OS notifications for incoming transactions (default: %u)</source>
-        <translation>거래시 수신 알림창 해제  (기본값: %u)</translation>
-    </message>
-    <message>
         <source>Disable safemode, override a real safe mode event (default: %u)</source>
         <translation>안전모드 비활성화, 실시간 안전모드 이벤트 중단 (기본값: %u)</translation>
     </message>
@@ -4744,10 +4330,6 @@ rpcpassword=%s
     <message>
         <source>Done loading</source>
         <translation>로딩 완료</translation>
-    </message>
-    <message>
-        <source>Enable automatic Zerocoin minting (0-1, default: %u)</source>
-        <translation>자동 제로코인 생성 (0-1, 기본값: %u)</translation>
     </message>
     <message>
         <source>Enable the client to act as a masternode (0-1, default: %u)</source>
@@ -4902,20 +4484,16 @@ rpcpassword=%s
         <translation>입력이 올바르지 않습니다.</translation>
     </message>
     <message>
-        <source>Insufficient funds</source>
-        <translation>잔액이 충분하지 않음</translation>
-    </message>
-    <message>
         <source>Insufficient funds.</source>
         <translation>충분하지 않은 금액.</translation>
     </message>
     <message>
-        <source>Invalid -onion address or hostname: '%s'</source>
-        <translation>잘못된 -onion 주소거나 호스트네임 : '%s'</translation>
+        <source>Invalid -onion address: '%s'</source>
+        <translation>유효하지 않은 -onion 주소: '%s'</translation>
     </message>
     <message>
-        <source>Invalid -proxy address or hostname: '%s'</source>
-        <translation>잘못된 -proxy 주소거나 호스트네입 : '%s'</translation>
+        <source>Invalid -proxy address: '%s'</source>
+        <translation>유효하지 않은 -proxy 주소: '%s'</translation>
     </message>
     <message>
         <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s'</source>
@@ -4942,10 +4520,6 @@ rpcpassword=%s
         <translation>-reservebalance=&lt;amount&gt;에 대한 금액이 유효하지 않은 값</translation>
     </message>
     <message>
-        <source>Invalid amount</source>
-        <translation>잘못된 수량</translation>
-    </message>
-    <message>
         <source>Invalid masternodeprivkey. Please see documenation.</source>
         <translation>마스터노드 개인 키가 잘못되었습니다. 설명서를 참조하십시오.</translation>
     </message>
@@ -4968,38 +4542,6 @@ rpcpassword=%s
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for staking or merchant applications!</source>
         <translation>이것은 사전 릴리스 테스트 빌드입니다 - 사용상 책임은 귀하에게 있습니다. - staking이나 상업적인 용도로는 절대 사용하지 마십시오!</translation>
-    </message>
-    <message>
-        <source> mints deleted
-</source>
-        <translation>생성 삭제
-</translation>
-    </message>
-    <message>
-        <source> mints updated, </source>
-        <translation>생성 업데이드</translation>
-    </message>
-    <message>
-        <source> unconfirmed transactions removed
-</source>
-        <translation>미확인된 거래 삭제됨
-</translation>
-    </message>
-    <message>
-        <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>에러 : 거래가 거부되었습니다. 예를 들어 다른 사본 wallet.dat에서 코인을 사용했다면 2중 사용으로 인식될수 있습니다. 혹은, 일부가 이미 소비 된 경우에 이런 일이 발생할 수 있습니다.</translation>
-    </message>
-    <message>
-        <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation>에러 :이 거래에는 전송량, 복잡성 또는 최근에 받은 자금의 사용등으로 인해 적어도 %s의 거래 수수료가 필요합니다!</translation>
-    </message>
-    <message>
-        <source>Error: Unsupported argument -checklevel found. Checklevel must be level 4.</source>
-        <translation>에러 : 지원하지않는 argument -checklevel 발견된.  Checklevel는 레벨 4이어야 합니다.</translation>
-    </message>
-    <message>
-        <source>Preferred Denomination for automatically minted Zerocoin  (1/5/10/50/100/500/1000/5000), 0 for no preference. default: %u)</source>
-        <translation>자동생성 제로코인 선호 디노미네이션 (1/5/10/50/100/500/1000/5000) 0사용안됨, 기본값 : %u)</translation>
     </message>
     <message>
         <source>&lt;category&gt; can be:</source>
@@ -5046,6 +4588,10 @@ rpcpassword=%s
         <translation>스테이킹 기능 사용 (0-1, 기본값: %u)</translation>
     </message>
     <message>
+        <source>Keep N WAGE anonymized (default: %u)</source>
+        <translation>N WAGE 익명으로 유지 (기본값: %u)</translation>
+    </message>
+    <message>
         <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>
         <translation>메모리에서 연결 불가능한 트랜잭션을 &lt;n&gt;개까지 유지하십시오. (기본값: %u)</translation>
     </message>
@@ -5056,10 +4602,6 @@ rpcpassword=%s
     <message>
         <source>Last successful Obfuscation action was too recent.</source>
         <translation>최근에 마지막으로 성공한 난독화 작업이 있습니다.</translation>
-    </message>
-    <message>
-        <source>Less than 3 mints added, unable to create spend</source>
-        <translation>3 미만 추가, 송금 불가능함</translation>
     </message>
     <message>
         <source>Limit size of signature cache to &lt;n&gt; entries (default: %u)</source>
@@ -5096,10 +4638,6 @@ rpcpassword=%s
     <message>
         <source>Loading masternode payment cache...</source>
         <translation>마스터노드 결제 캐시를 불러오는 중...</translation>
-    </message>
-    <message>
-        <source>Loading sporks...</source>
-        <translation>sporks 로딩중...</translation>
     </message>
     <message>
         <source>Loading wallet... (%3.2f %%)</source>
@@ -5198,6 +4736,10 @@ rpcpassword=%s
         <translation>난독화는 유휴상태입니다.</translation>
     </message>
     <message>
+        <source>Obfuscation options:</source>
+        <translation>난독화 옵션:</translation>
+    </message>
+    <message>
         <source>Obfuscation request complete:</source>
         <translation>난독화 요청 완료:</translation>
     </message>
@@ -5220,10 +4762,6 @@ rpcpassword=%s
     <message>
         <source>Password for JSON-RPC connections</source>
         <translation>JSON-RPC 연결 비밀번호</translation>
-    </message>
-    <message>
-        <source>Percentage of automatically minted Zerocoin  (10-100, default: %u)</source>
-        <translation>자동 생성 제로코인 퍼센트 (10-100, 기본값: %u)</translation>
     </message>
     <message>
         <source>Prepend debug output with timestamp (default: %u)</source>
@@ -5276,14 +4814,6 @@ rpcpassword=%s
     <message>
         <source>Rescanning...</source>
         <translation>다시 스캔하는 중...</translation>
-    </message>
-    <message>
-        <source>ResetMintZerocoin finished: </source>
-        <translation>생성된 제로코인 초기화 완료:</translation>
-    </message>
-    <message>
-        <source>ResetSpentZerocoin finished: </source>
-        <translation>사용된 제로코인 초기화 완료:</translation>
     </message>
     <message>
         <source>Run a thread to flush wallet periodically (default: %u)</source>
@@ -5470,14 +5000,6 @@ rpcpassword=%s
         <translation>제대로 동작하지 않는 피어와 연결을 끊을 임계값 (기본값: %u)</translation>
     </message>
     <message>
-        <source>Tor control port password (default: empty)</source>
-        <translation>Tor 컨트롤 포트 암호 (기본값: 공백)</translation>
-    </message>
-    <message>
-        <source>Tor control port to use if onion listening enabled (default: %s)</source>
-        <translation>onion 활성화되었을 경우 사용할 Tor 코트롤 포트 (기본값: %s)</translation>
-    </message>
-    <message>
         <source>Transaction amount too small</source>
         <translation>트랜잭션 금액이 너무 적습니다</translation>
     </message>
@@ -5528,6 +5050,10 @@ rpcpassword=%s
     <message>
         <source>Upgrade wallet to latest format</source>
         <translation>지갑을 최신 포맷으로 업그레이드합니다</translation>
+    </message>
+    <message>
+        <source>Use N separate masternodes to anonymize funds  (2-8, default: %u)</source>
+        <translation>N개의 각각의 마스터노드를 이용하여 자금 익명화 (2-8, 기본값: %u)</translation>
     </message>
     <message>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
@@ -5620,14 +5146,6 @@ rpcpassword=%s
     <message>
         <source>ZeroMQ notification options:</source>
         <translation>ZeroMQ 알림 옵션:</translation>
-    </message>
-    <message>
-        <source>Zerocoin options:</source>
-        <translation>제로코인 옵션:</translation>
-    </message>
-    <message>
-        <source>failed to validate zerocoin</source>
-        <translation>제로코인 검증을 못했습니다.</translation>
     </message>
     <message>
         <source>on startup</source>

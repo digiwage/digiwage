@@ -239,7 +239,6 @@ public:
             nStakeTime = 0;
         }
     }
-    
 
     CDiskBlockPos GetBlockPos() const
     {

@@ -119,8 +119,8 @@ public:
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 120 * COIN;
-        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04682170b57e85aeae3ee34f858112040a933f6c48402620be4db4796e26f7d11d481f6ad9f05c471f8414c7ad7e1a90562906cff8b8c8b159666fbc4ff5af6904") << OP_CHECKSIG;
+        txNew.vout[0].nValue = 250 * COIN;
+        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04c10e83b2703ccf322f7dbd62dd5855ac7c10bd055814ce121ba32607d573b8810c02c0582aed05b4deb9c4b77b26d92428c61256cd42774babea0a073b2ed0c9") << OP_CHECKSIG;
         genesis.vtx.push_back(txNew);
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
@@ -137,7 +137,7 @@ public:
         vSeeds.push_back(CDNSSeedData("45.32.80.64", "45.32.80.64"));
         vSeeds.push_back(CDNSSeedData("45.32.65.59", "45.32.65.59"));
         vSeeds.push_back(CDNSSeedData("104.238.140.145", "104.238.140.145"));
-        
+
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 30);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 90);
         base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 89);
@@ -162,7 +162,6 @@ public:
         strSporkKey = "045fdc1d5796a4cc3ec7b93de854747f91ac8c44b150a37a45fe7b115e19463f902639ac385a7262423d5ac2e5fcea81a403525b25e56c6ff6d6020ff97b9bff57";
         strObfuscationPoolDummyAddress = "DU7eTFJKv2q4njW5G32MCwc6ZBeXvRmt2Z";
         nStartMasternodePayments = 1403728576; //Wed, 25 Jun 2014 20:36:16 GMT
-        nBudget_Fee_Confirmations = 6; // Number of confirmations for the finalization fee
     }
 
     const Checkpoints::CCheckpointData& Checkpoints() const
@@ -234,7 +233,6 @@ public:
         strSporkKey = "04659d53bd8f7ad9d34a17281febedac754e5a6eb136142d3a9c6c0ea21b6ed7498ceb3d872eed00ae755f7aeadaeb1d9ab5e1a8f1e7efcd0ddcb39d4623c12790";
         strObfuscationPoolDummyAddress = "DU7eTFJKv2q4njW5G32MCwc6ZBeXvRmt2Z";
         nStartMasternodePayments = 1505224800; //Fri, 09 Jan 2015 21:05:58 GMT
-        nBudget_Fee_Confirmations = 3; // Number of confirmations for the finalization fee
     }
     const Checkpoints::CCheckpointData& Checkpoints() const
     {
@@ -270,7 +268,7 @@ public:
         genesis.nNonce = 12349;
 
         hashGenesisBlock = genesis.GetHash();
-        nDefaultPort = 46005;
+        nDefaultPort = 46007;
         assert(hashGenesisBlock == uint256("0x73fa4c13e8e1831fd75fc2caaf14e5ff631a9b4c0a1e06480d3d40cfd40a45de"));
 
         vFixedSeeds.clear(); //! Testnet mode doesn't have any fixed seeds.

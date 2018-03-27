@@ -31,6 +31,9 @@ class CTxBudgetPayment;
 #define VOTE_YES 1
 #define VOTE_NO 2
 
+static const CAmount PROPOSAL_FEE_TX = (50 * COIN);
+static const CAmount BUDGET_FEE_TX = (50 * COIN);
+static const int64_t BUDGET_FEE_CONFIRMATIONS = 6;
 static const int64_t BUDGET_VOTE_UPDATE_MIN = 60 * 60;
 
 extern std::vector<CBudgetProposalBroadcast> vecImmatureBudgetProposals;
@@ -44,9 +47,6 @@ int GetBudgetPaymentCycleBlocks();
 
 //Check the collateral transaction for the budget proposal/finalized budget
 bool IsBudgetCollateralValid(uint256 nTxCollateralHash, uint256 nExpectedHash, std::string& strError, int64_t& nTime, int& nConf);
-
-// Get the budget collateral amount for a block height
-CAmount GetBudgetSystemCollateralAmount(int nHeight);
 
 //
 // CBudgetVote - Allow a masternode node to vote and broadcast throughout the network
@@ -230,6 +230,7 @@ public:
     bool AddProposal(CBudgetProposal& budgetProposal);
     bool AddFinalizedBudget(CFinalizedBudget& finalizedBudget);
     void SubmitFinalBudget();
+    bool HasNextFinalizedBudget();
 
     bool UpdateProposal(CBudgetVote& vote, CNode* pfrom, std::string& strError);
     bool UpdateFinalizedBudget(CFinalizedBudgetVote& vote, CNode* pfrom, std::string& strError);
@@ -489,10 +490,10 @@ public:
 
     bool IsEstablished()
     {
-        // Proposals must be at least a day old to make it into a budget
+        //Proposals must be at least a day old to make it into a budget
         if (Params().NetworkID() == CBaseChainParams::MAIN) return (nTime < GetTime() - (60 * 60 * 24));
 
-        // For testing purposes - 5 minutes
+        //for testing purposes - 4 hours
         return (nTime < GetTime() - (60 * 5));
     }
 

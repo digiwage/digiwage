@@ -36,7 +36,6 @@ bool CheckBlock(int nHeight, const uint256& hash)
     const MapCheckpoints& checkpoints = *Params().Checkpoints().mapCheckpoints;
 
     MapCheckpoints::const_iterator i = checkpoints.find(nHeight);
-    // If looking for an exact match, then return false
     if (i == checkpoints.end()) return true;
     return hash == i->second;
 }

@@ -477,7 +477,7 @@ Value startmasternode (const Array& params, bool fHelp)
             "  ]\n"
             "}\n"
             "\nExamples:\n" +
-            HelpExampleCli("startmasternode", "\"alias\" \"0\" \"my_mn\"") + HelpExampleRpc("startmasternode", "\"alias\" \"0\" \"my_mn\""));
+            HelpExampleCli("masternodestart", "\"alias\" \"my_mn\"") + HelpExampleRpc("masternodestart", "\"alias\" \"my_mn\""));
 
     bool fLock = (params[1].get_str() == "true" ? true : false);
 

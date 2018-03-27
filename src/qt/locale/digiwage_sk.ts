@@ -820,6 +820,10 @@ MultiSend: %1</translation>
 <context>
     <name>ClientModel</name>
     <message>
+        <source>Total: %1 (OBF compatible: %2 / Enabled: %3)</source>
+        <translation>Sumár: %1 (OBF kompatibilné: %2 / Zapnuté: %3)</translation>
+    </message>
+    <message>
         <source>Network Alert</source>
         <translation>Upozornenie siete </translation>
     </message>
@@ -958,53 +962,6 @@ MultiSend: %1</translation>
     </context>
 <context>
     <name>PeerTableModel</name>
-    </context>
-<context>
-    <name>PrivacyDialog</name>
-    <message>
-        <source>Quantity:</source>
-        <translation>Množstvo:</translation>
-    </message>
-    <message>
-        <source>Amount:</source>
-        <translation>Suma:</translation>
-    </message>
-    <message>
-        <source>Choose previously used address</source>
-        <translation>Vyberte predtým použitú adresu</translation>
-    </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
-    </message>
-    <message>
-        <source>Paste address from clipboard</source>
-        <translation>Vložte adresu zo schránky</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Priorita:</translation>
-    </message>
-    <message>
-        <source>Fee:</source>
-        <translation>Poplatok:</translation>
-    </message>
-    <message>
-        <source>Bytes:</source>
-        <translation>Bytov:</translation>
-    </message>
-    <message>
-        <source>Change:</source>
-        <translation>Zmena:</translation>
-    </message>
-    <message>
-        <source>Copy amount</source>
-        <translation>Skopírovať sumu</translation>
-    </message>
     </context>
 <context>
     <name>QObject</name>
@@ -1301,9 +1258,6 @@ MultiSend: %1</translation>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať údaje na aktuálnej karte do súboru</translation>
     </message>
-    </context>
-<context>
-    <name>ZWageControlDialog</name>
     </context>
 <context>
     <name>digiwage-core</name>

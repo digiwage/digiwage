@@ -127,7 +127,7 @@
 <context>
     <name>AddressTableModel</name>
     <message>
-        <location filename="../addresstablemodel.cpp" line="+198"/>
+        <location filename="../addresstablemodel.cpp" line="+157"/>
         <source>Label</source>
         <translation>Label</translation>
     </message>
@@ -505,7 +505,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+124"/>
+        <location filename="../bitcoingui.cpp" line="+123"/>
         <source>Wallet</source>
         <translation>Wallet</translation>
     </message>
@@ -515,7 +515,7 @@
         <translation>Node</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+157"/>
         <source>&amp;Overview</source>
         <translation>&amp;Overview</translation>
     </message>
@@ -545,12 +545,7 @@
         <translation>Browse transaction history</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Privacy Actions for zWAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+42"/>
+        <location line="+40"/>
         <source>E&amp;xit</source>
         <translation>E&amp;xit</translation>
     </message>
@@ -736,7 +731,7 @@
         <translation>&amp;Command-line options</translation>
     </message>
     <message numerus="yes">
-        <location line="+438"/>
+        <location line="+428"/>
         <source>Processed %n blocks of transaction history.</source>
         <translation>
             <numerusform>Processed %n block of transaction history.</numerusform>
@@ -749,7 +744,7 @@
         <translation>Synchronizing additional data: %p%</translation>
     </message>
     <message>
-        <location line="-431"/>
+        <location line="-421"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
@@ -774,13 +769,13 @@
         <translation>Tabs toolbar</translation>
     </message>
     <message>
-        <location line="-413"/>
-        <location line="+858"/>
+        <location line="-396"/>
+        <location line="+831"/>
         <source>Digiwage Core</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-675"/>
+        <location line="-652"/>
         <source>Send coins to a Digiwage address</source>
         <translation type="unfinished"></translation>
     </message>
@@ -790,12 +785,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+21"/>
-        <source>&amp;Privacy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location line="+25"/>
         <source>&amp;Masternodes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -805,7 +795,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+29"/>
         <source>&amp;About Digiwage Core</source>
         <translation type="unfinished"></translation>
     </message>
@@ -885,12 +875,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+204"/>
+        <location line="+201"/>
         <source>Digiwage Core client</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location line="+197"/>
+        <location line="+190"/>
         <source>%n active connection(s) to Digiwage network</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -996,7 +986,7 @@
         <translation>Information</translation>
     </message>
     <message>
-        <location line="+69"/>
+        <location line="+67"/>
         <source>Sent transaction</source>
         <translation>Sent transaction</translation>
     </message>
@@ -1024,7 +1014,7 @@ Address: %4
 </translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+50"/>
         <source>Staking is active
  MultiSend: %1</source>
         <translation type="unfinished"></translation>
@@ -1071,17 +1061,7 @@ Address: %4
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>Back</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Forward</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+29"/>
+        <location line="+55"/>
         <source>Address / Block / Transaction</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1096,7 +1076,7 @@ Address: %4
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../blockexplorer.cpp" line="+476"/>
+        <location filename="../blockexplorer.cpp" line="+473"/>
         <source>Not all transactions will be shown. To view all transactions you need to set txindex=1 in the configuration file (digiwage.conf).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1104,9 +1084,9 @@ Address: %4
 <context>
     <name>ClientModel</name>
     <message>
-        <location filename="../clientmodel.cpp" line="+77"/>
-        <source>Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unknown: %5)</source>
-        <translation type="unfinished"></translation>
+        <location filename="../clientmodel.cpp" line="+73"/>
+        <source>Total: %1 (OBF compatible: %2 / Enabled: %3)</source>
+        <translation>Total: %1 (OBF compatible: %2 / Enabled: %3)</translation>
     </message>
     <message>
         <location line="+101"/>
@@ -1203,6 +1183,11 @@ Address: %4
     </message>
     <message>
         <location line="+5"/>
+        <source>DS Rounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Date</source>
         <translation>Date</translation>
     </message>
@@ -1288,12 +1273,17 @@ Address: %4
         <translation>Copy change</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+157"/>
         <source>Please switch to &quot;List mode&quot; to use this function.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+218"/>
+        <location line="+196"/>
+        <source>Non-anonymized input selected. &lt;b&gt;Obfuscation will be disabled.&lt;/b&gt;&lt;br&gt;&lt;br&gt;If you still want to use Obfuscation, please deselect all non-nonymized inputs first and then check Obfuscation checkbox again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+31"/>
         <source>highest</source>
         <translation>highest</translation>
     </message>
@@ -1313,13 +1303,18 @@ Address: %4
         <translation>medium-high</translation>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+207"/>
         <source>Can vary +/- %1 duff(s) per input.</source>
         <translation>Can vary +/- %1 duff(s) per input.</translation>
     </message>
     <message>
-        <location filename="../forms/coincontroldialog.ui" line="-329"/>
-        <location filename="../coincontroldialog.cpp" line="-200"/>
+        <location line="+130"/>
+        <source>n/a</source>
+        <translation>n/a</translation>
+    </message>
+    <message>
+        <location filename="../forms/coincontroldialog.ui" line="-334"/>
+        <location filename="../coincontroldialog.cpp" line="-335"/>
         <source>medium</source>
         <translation>medium</translation>
     </message>
@@ -1354,7 +1349,7 @@ Address: %4
         <translation>none</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+131"/>
         <source>yes</source>
         <translation>yes</translation>
     </message>
@@ -1723,7 +1718,7 @@ Address: %4
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+190"/>
         <source>Confirm masternode start</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2070,7 +2065,7 @@ Please check the address and try again.</source>
         <translation>(0 = auto, &lt;0 = leave that many cores free)</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+105"/>
         <source>W&amp;allet</source>
         <translation>W&amp;allet</translation>
     </message>
@@ -2105,7 +2100,7 @@ Please check the address and try again.</source>
         <translation>Expert</translation>
     </message>
     <message>
-        <location line="-176"/>
+        <location line="-179"/>
         <source>Automatically start Digiwage after logging in to the system.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2115,7 +2110,27 @@ Please check the address and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+102"/>
+        <source>This setting determines the amount of individual masternodes that an input will be anonymized through.&lt;br/&gt;More rounds of anonymization gives a higher degree of privacy, but also costs more in fees.</source>
+        <translation>This setting determines the amount of individual masternodes that an input will be anonymized through.&lt;br/&gt;More rounds of anonymization gives a higher degree of privacy, but also costs more in fees.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Obfuscation rounds to use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>This amount acts as a threshold to turn off Obfuscation once it&apos;s reached.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Amount of Digiwage to keep anonymized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+38"/>
         <source>Whether to show coin control features or not.</source>
         <translation>Whether to show coin control features or not.</translation>
     </message>
@@ -2152,7 +2167,7 @@ Please check the address and try again.</source>
     <message>
         <location line="+21"/>
         <source>Language missing or translation incomplete? Help contributing translations here:
-https://www.transifex.com/digiwage-project/digiwage-project-translations</source>
+https://www.transifex.com/digiwage/digiwage-translations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2161,28 +2176,7 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</source
         <translation>Map port using &amp;UPnP</translation>
     </message>
     <message>
-        <location line="-133"/>
-        <source>Percentage of incoming WAGE which get automatically converted to zWAGE via Zerocoin Protocol (min: 10%)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Percentage of autominted zWAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <location line="+16"/>
-        <source>Wait with automatic conversion to Zerocoin until enough WAGE for this denomination is available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-13"/>
-        <source>Preferred Automint zWAGE Denomination</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+114"/>
+        <location line="+17"/>
         <source>Connect to the Digiwage network through a SOCKS5 proxy.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2298,12 +2292,7 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</source
         <translation>&amp;Cancel</translation>
     </message>
     <message>
-        <location filename="../optionsdialog.cpp" line="+87"/>
-        <source>I don&apos;t care</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+23"/>
+        <location filename="../optionsdialog.cpp" line="+99"/>
         <source>default</source>
         <translation>default</translation>
     </message>
@@ -2313,7 +2302,7 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</source
         <translation>none</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+87"/>
         <source>Confirm options reset</source>
         <translation>Confirm options reset</translation>
     </message>
@@ -2347,51 +2336,49 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</source
         <translation>Form</translation>
     </message>
     <message>
-        <location line="+43"/>
-        <source>WAGE Balances</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+259"/>
+        <location line="+302"/>
         <source>Available:</source>
         <translation>Available:</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location line="+702"/>
         <source>Your current spendable balance</source>
         <translation>Your current spendable balance</translation>
     </message>
     <message>
-        <location line="-661"/>
+        <location line="+41"/>
         <source>Pending:</source>
         <translation>Pending:</translation>
     </message>
     <message>
         <location line="-236"/>
-        <location line="+820"/>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
         <translation>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</translation>
     </message>
     <message>
-        <location line="-708"/>
-        <location line="+1118"/>
+        <location line="+112"/>
         <source>Immature:</source>
         <translation>Immature:</translation>
     </message>
     <message>
-        <location line="-1147"/>
+        <location line="-29"/>
         <source>Staked or masternode rewards that has not yet matured</source>
         <translation>Staked or masternode rewards that has not yet matured</translation>
     </message>
     <message>
-        <location line="-153"/>
-        <location line="+1393"/>
+        <location line="-163"/>
+        <source>Balances</source>
+        <translation>Balances</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <location line="+1015"/>
+        <location line="+93"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Digiwage network after a connection is established, but this process has not completed yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-1348"/>
+        <location line="-1063"/>
         <source>Unconfirmed transactions to watch-only addresses</source>
         <translation>Unconfirmed transactions to watch-only addresses</translation>
     </message>
@@ -2402,13 +2389,11 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</source
     </message>
     <message>
         <location line="+42"/>
-        <location line="+807"/>
-        <location line="+255"/>
         <source>Total:</source>
         <translation>Total:</translation>
     </message>
     <message>
-        <location line="-1001"/>
+        <location line="+61"/>
         <source>Your current total balance</source>
         <translation>Your current total balance</translation>
     </message>
@@ -2433,143 +2418,211 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</source
         <translation>Spendable:</translation>
     </message>
     <message>
-        <location line="+525"/>
-        <source>Combined Balances (including unconfirmed and immature coins)</source>
+        <location line="+51"/>
+        <source>Status:</source>
+        <translation>Status:</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Obfuscation Balance:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combined Balances&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location line="+27"/>
+        <source>0 WAGE / 0 Rounds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+74"/>
-        <source>Total Balance, including unconfirmed and immature coins.</source>
+        <location line="+24"/>
+        <source>Enabled/Disabled</source>
+        <translation>Enabled/Disabled</translation>
+    </message>
+    <message>
+        <location line="+516"/>
+        <source>Try to manually submit a Obfuscation request.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+36"/>
-        <source>WAGE:</source>
+        <location line="+22"/>
+        <source>Reset the current status of Obfuscation (can interrupt Obfuscation if it&apos;s in the process of Mixing, which can cost you money!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+35"/>
-        <source>zWAGE:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Current percentage of zWAGE.
-If AutoMint is enabled this percentage will settle around the configured AutoMint percentage (default = 10%)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <location line="+66"/>
-        <source>0 %</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-46"/>
-        <location line="+13"/>
-        <source>Locked WAGE or Masternode collaterals. These are excluded from zWAGE minting.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-10"/>
-        <location line="+33"/>
-        <location line="+189"/>
-        <location line="+31"/>
-        <location line="+44"/>
-        <source>0.000 000 00 WAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-284"/>
-        <source>Locked:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
+        <location line="+28"/>
+        <location filename="../overviewpage.cpp" line="+478"/>
+        <location line="+11"/>
         <location line="+10"/>
-        <source>Unlocked WAGEs. These can be used for zWAGE minting.</source>
+        <location line="+12"/>
+        <source>Obfuscation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-7"/>
-        <source>Unlocked:</source>
-        <translation type="unfinished"></translation>
+        <location line="-637"/>
+        <source>Completion:</source>
+        <translation>Completion:</translation>
     </message>
     <message>
-        <location line="+77"/>
-        <source>Zerocoin Balance</source>
-        <translation type="unfinished"></translation>
+        <location line="+40"/>
+        <source>Amount and Rounds:</source>
+        <translation>Amount and Rounds:</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location line="+104"/>
-        <source>Mature: more than 20 confirmation and more than 3 mints of the same denomination after it was minted.
-These zWAGE are spendable.</source>
-        <translation type="unfinished"></translation>
+        <source>Submitted Denom:</source>
+        <translation>Submitted Denom:</translation>
     </message>
     <message>
-        <location line="-100"/>
-        <source>Mature:</source>
-        <translation type="unfinished"></translation>
+        <location line="+10"/>
+        <source>n/a</source>
+        <translation>n/a</translation>
     </message>
     <message>
-        <location line="+23"/>
-        <location line="+35"/>
-        <source>All available zWAGE, unconfirmed and immature zWAGE included.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+56"/>
-        <location line="+17"/>
-        <location line="+27"/>
-        <location line="+17"/>
-        <source>Unconfirmed: less than 20 confirmations
-Immature: confirmed, but less than 3 mints of the same denomination after it was minted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-57"/>
-        <source>Unconfirmed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+127"/>
+        <location line="+663"/>
         <source>Recent transactions</source>
         <translation>Recent transactions</translation>
     </message>
     <message>
-        <location filename="../overviewpage.cpp" line="+135"/>
+        <location line="-197"/>
+        <source>Start/Stop Mixing</source>
+        <translation>Start/Stop Mixing</translation>
+    </message>
+    <message>
+        <location line="-469"/>
+        <source>The denominations you submitted to the Masternode.&lt;br&gt;To mix, other users must submit the exact same denominations.</source>
+        <translation>The denominations you submitted to the Masternode.&lt;br&gt;To mix, other users must submit the exact same denominations.</translation>
+    </message>
+    <message>
+        <location line="+501"/>
+        <source>(Last Message)</source>
+        <translation>(Last Message)</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Try Mix</source>
+        <translation>Try Mix</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Reset</source>
+        <translation>Reset</translation>
+    </message>
+    <message>
+        <location filename="../overviewpage.cpp" line="-381"/>
+        <location line="+1"/>
         <location line="+1"/>
         <source>out of sync</source>
         <translation>out of sync</translation>
     </message>
     <message>
-        <location line="+93"/>
-        <source>Current percentage of zWAGE.
-If AutoMint is enabled this percentage will settle around the configured AutoMint percentage (default = 10%).
+        <location line="+6"/>
+        <location line="+1"/>
+        <location line="+1"/>
+        <location line="+293"/>
+        <source>Disabled</source>
+        <translation>Disabled</translation>
+    </message>
+    <message>
+        <location line="-117"/>
+        <location line="+6"/>
+        <source>No inputs detected</source>
+        <translation>No inputs detected</translation>
+    </message>
+    <message numerus="yes">
+        <location line="-2"/>
+        <location line="+35"/>
+        <location line="+10"/>
+        <source>%n Rounds</source>
+        <translation>
+            <numerusform>%n Round</numerusform>
+            <numerusform>%n Rounds</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="-7"/>
+        <source>Not enough compatible inputs to anonymize &lt;span style=&apos;color:red;&apos;&gt;%1&lt;/span&gt;,&lt;br&gt;will anonymize &lt;span style=&apos;color:red;&apos;&gt;%2&lt;/span&gt; instead</source>
+        <translation>Not enough compatible inputs to anonymize &lt;span style=&apos;color:red;&apos;&gt;%1&lt;/span&gt;,&lt;br&gt;will anonymize &lt;span style=&apos;color:red;&apos;&gt;%2&lt;/span&gt; instead</translation>
+    </message>
+    <message>
+        <location line="+46"/>
+        <source>Overall progress</source>
+        <translation>Overall progress</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Denominated</source>
+        <translation>Denominated</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Anonymized</source>
+        <translation>Anonymized</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>Denominated inputs have %5 of %n rounds on average</source>
+        <translation>
+            <numerusform>Denominated inputs have %5 of %n rounds on average</numerusform>
+            <numerusform>Denominated inputs have %5 of %n rounds on average</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Last Obfuscation message:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>AutoMint is currently enabled and set to </source>
+        <location line="+27"/>
+        <source>Obfuscation was successfully reset.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>To disable AutoMint add &apos;enablezeromint=0&apos; in digiwage.conf.</source>
+        <location line="+11"/>
+        <source>If you don&apos;t want to see internal Obfuscation fees/transactions select &quot;Most Common&quot; as Type on the &quot;Transactions&quot; tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>AutoMint is currently disabled.
-To enable AutoMint change &apos;enablezeromint=0&apos; to &apos;enablezeromint=1&apos; in digiwage.conf</source>
+        <location line="+10"/>
+        <source>Obfuscation requires at least %1 to use.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Wallet is locked and user declined to unlock. Disabling Obfuscation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-160"/>
+        <source>Found enough compatible inputs to anonymize %1</source>
+        <translation>Found enough compatible inputs to anonymize %1</translation>
+    </message>
+    <message>
+        <location line="-208"/>
+        <location line="+291"/>
+        <location line="+89"/>
+        <source>Start Obfuscation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-378"/>
+        <location line="+381"/>
+        <source>Stop Obfuscation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-121"/>
+        <source>Mixed</source>
+        <translation>Mixed</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Enabled</source>
+        <translation>Enabled</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>N/A</source>
+        <translation>N/A</translation>
     </message>
 </context>
 <context>
@@ -2713,647 +2766,6 @@ To enable AutoMint change &apos;enablezeromint=0&apos; to &apos;enablezeromint=1
     </message>
 </context>
 <context>
-    <name>PrivacyDialog</name>
-    <message>
-        <location filename="../forms/privacydialog.ui" line="+55"/>
-        <source>WAGE which were anonymized via Zerocin Protocol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Zerocoin WAGE (zWAGE)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+25"/>
-        <source>Zerocoin Actions:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Digiwage network after a connection is established, but this process has not completed yet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+52"/>
-        <location line="+46"/>
-        <source>Enter an amount of Wage to convert to zWage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-43"/>
-        <location filename="../privacydialog.cpp" line="+140"/>
-        <source>Mint Zerocoin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <location line="+329"/>
-        <location line="+30"/>
-        <source>0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-349"/>
-        <location line="+629"/>
-        <source>zWAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-622"/>
-        <source>Available for minting are coins which are confirmed and not locked or Masternode collaterals.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Available for Minting:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>0.000 000 00 WAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+29"/>
-        <source>Reset Zerocoin Wallet DB. Deletes transactions that did not make it into the blockchain.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Reset</source>
-        <translation type="unfinished">Reset</translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <source>Coin Control...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <source>Quantity:</source>
-        <translation type="unfinished">Quantity:</translation>
-    </message>
-    <message>
-        <location line="+22"/>
-        <source>Amount:</source>
-        <translation type="unfinished">Amount:</translation>
-    </message>
-    <message>
-        <location line="+91"/>
-        <source>Rescan the complete blockchain for  Zerocoin mints and their meta-data.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>ReScan</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+27"/>
-        <source>Status and/or Mesages from the last Mint Action.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+45"/>
-        <source>zWage Control</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>zWage Selected:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Quantity Selected:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+37"/>
-        <source>Spend Zerocoin. Without &apos;Pay To:&apos; address creates payments to yourself.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location filename="../privacydialog.cpp" line="+111"/>
-        <location line="+45"/>
-        <location line="+4"/>
-        <location line="+12"/>
-        <location line="+100"/>
-        <location line="+4"/>
-        <source>Spend Zerocoin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Available (mature and spendable) zWAGE for spending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Available Balance:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Available (mature and spendable) zWAGE for spending
-
-zWAGE are mature when they have more than 20 confirmations AND more than 3 mints of the same denomination after them were minted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <location line="+417"/>
-        <source>0 zWAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-394"/>
-        <source>Security Level for Zerocoin Transactions. More is better, but needs more time and resources.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Security Level:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Security Level 1 - 100 (default: 42)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+37"/>
-        <source>Pay &amp;To:</source>
-        <translation type="unfinished">Pay &amp;To:</translation>
-    </message>
-    <message>
-        <location line="+27"/>
-        <source>The Digiwage address to send the payment to. Creates local payment to yourself when empty.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Choose previously used address</source>
-        <translation type="unfinished">Choose previously used address</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Alt+A</source>
-        <translation type="unfinished">Alt+A</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Paste address from clipboard</source>
-        <translation type="unfinished">Paste address from clipboard</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Alt+P</source>
-        <translation type="unfinished">Alt+P</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>&amp;Label:</source>
-        <translation type="unfinished">&amp;Label:</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Enter a label for this address to add it to the list of used addresses</source>
-        <translation type="unfinished">Enter a label for this address to add it to the list of used addresses</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>A&amp;mount:</source>
-        <translation type="unfinished">A&amp;mount:</translation>
-    </message>
-    <message>
-        <location line="+55"/>
-        <source>Convert Change to Zerocoin (might cost additional fees)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>If checked, the wallet tries to minimize the returning change instead of minimizing the number of spent denominations.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Minimize Change</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+52"/>
-        <source>Information about the available Zerocoin funds.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Zerocoin Stats:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+62"/>
-        <location line="+38"/>
-        <source>Total Balance including unconfirmed and immature zWAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-35"/>
-        <source>Total Zerocoin  Balance:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+52"/>
-        <source>Denominations with value 1:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Denom. with value 1:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+29"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <source>Unconfirmed: less than 20 confirmations
-Immature: confirmed, but less than 3 mints of the same denomination after it was minted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-367"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <location line="+53"/>
-        <source>0 x</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-354"/>
-        <source>Denominations with value 5:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Denom. with value 5:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>Denominations with value 10:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Denom. with value 10:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>Denominations with value 50:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Denom. with value 50:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>Denominations with value 100:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Denom. with value 100:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>Denominations with value 500:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Denom. with value 500:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>Denominations with value 1000:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Denom. with value 1000:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>Denominations with value 5000:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Denom. with value 5000:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+106"/>
-        <source>Note: This hidden objects are used for communication between the &apos;Coin Control&apos; dialog and its parent objects. We don&apos;t want to change/reimplement the existing Coin Control, so this objects must be here, even when we don&apos;t use them. No, we don&apos;t like this approach, either.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+100"/>
-        <source>Priority:</source>
-        <translation type="unfinished">Priority:</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <source>Fee:</source>
-        <translation type="unfinished">Fee:</translation>
-    </message>
-    <message>
-        <location line="+38"/>
-        <source>Dust:</source>
-        <translation type="unfinished">Dust:</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>no</source>
-        <translation type="unfinished">no</translation>
-    </message>
-    <message>
-        <location line="+21"/>
-        <source>Bytes:</source>
-        <translation type="unfinished">Bytes:</translation>
-    </message>
-    <message>
-        <location line="+54"/>
-        <source>Insufficient funds!</source>
-        <translation type="unfinished">Insufficient funds!</translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <location filename="../privacydialog.cpp" line="-379"/>
-        <location line="+1"/>
-        <location line="+469"/>
-        <location line="+1"/>
-        <source>Coins automatically selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+56"/>
-        <source>medium</source>
-        <translation type="unfinished">medium</translation>
-    </message>
-    <message>
-        <location line="+80"/>
-        <source>Coin Control Features</source>
-        <translation type="unfinished">Coin Control Features</translation>
-    </message>
-    <message>
-        <location line="+72"/>
-        <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
-        <translation type="unfinished">If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Custom change address</source>
-        <translation type="unfinished">Custom change address</translation>
-    </message>
-    <message>
-        <location line="+83"/>
-        <source>Amount After Fee:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+40"/>
-        <source>Change:</source>
-        <translation type="unfinished">Change:</translation>
-    </message>
-    <message>
-        <location filename="../privacydialog.cpp" line="-469"/>
-        <source>out of sync</source>
-        <translation type="unfinished">out of sync</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <location line="+100"/>
-        <source>Mint Status: Okay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-94"/>
-        <source>Copy quantity</source>
-        <translation type="unfinished">Copy quantity</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copy amount</source>
-        <translation type="unfinished">Copy amount</translation>
-    </message>
-    <message>
-        <location line="+88"/>
-        <location line="+111"/>
-        <source>Zerocoin functionality is not enabled on the Digiwage network yet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-98"/>
-        <source>Error: Your wallet is locked. Please enter the wallet passphrase first.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Message: Enter an amount &gt; 0.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Minting </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>Successfully minted </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source> zWAGE in </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source> sec. Used denominations:
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+30"/>
-        <source>Starting ResetMintZerocoin: rescanning complete blockchain, this will need up to 30 minutes depending on your hardware. 
-Please be patient...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <location line="+16"/>
-        <location line="+215"/>
-        <source>Duration: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-231"/>
-        <location line="+16"/>
-        <location line="+215"/>
-        <source> sec.
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-220"/>
-        <source>Starting ResetSpentZerocoin: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+63"/>
-        <source>No &apos;Pay To&apos; address provided, creating local payment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Invalid Digiwage Address</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Invalid Send Amount</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+22"/>
-        <source>Confirm additional Fees</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+25"/>
-        <source>Are you sure you want to send?&lt;br /&gt;&lt;br /&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source> to address </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source> to a newly generated (unused and therefore anonymous) local address &lt;br /&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>with Security Level </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Confirm send coins</source>
-        <translation type="unfinished">Confirm send coins</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Spending Zerocoin.
-Computationally expensive, might need several minutes depending on the selected Security Level and your hardware. 
-Please be patient...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+27"/>
-        <source>Too much inputs (</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>) needed. 
-Maximum allowed: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>
-Either mint higher denominations (so fewer inputs are needed) or reduce the amount to spend.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <location line="+4"/>
-        <source>Spend Zerocoin failed with status = </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>zWage Spend #: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>denomination: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>serial: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Spend is 1 of : </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>value out: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>address: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>zWage Mint</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Sending successful, return code: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>txid: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>fee: </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>QObject</name>
     <message>
         <location filename="../bitcoinunits.cpp" line="+252"/>
@@ -3366,7 +2778,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+776"/>
+        <location line="+762"/>
         <source>%1 d</source>
         <translation>%1 d</translation>
     </message>
@@ -3475,8 +2887,8 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <location line="+23"/>
         <location line="+36"/>
         <location line="+23"/>
-        <location line="+23"/>
-        <location line="+36"/>
+        <location line="+20"/>
+        <location line="+30"/>
         <location line="+23"/>
         <location line="+454"/>
         <location line="+23"/>
@@ -3491,22 +2903,22 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <location line="+23"/>
         <location line="+23"/>
         <location line="+23"/>
-        <location line="+91"/>
+        <location line="+78"/>
         <source>N/A</source>
         <translation>N/A</translation>
     </message>
     <message>
-        <location line="-913"/>
+        <location line="-891"/>
         <source>Number of connections</source>
         <translation>Number of connections</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+125"/>
         <source>&amp;Open</source>
         <translation>&amp;Open</translation>
     </message>
     <message>
-        <location line="-193"/>
+        <location line="-184"/>
         <source>Startup time</source>
         <translation>Startup time</translation>
     </message>
@@ -3516,7 +2928,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Network</translation>
     </message>
     <message>
-        <location line="+112"/>
+        <location line="+103"/>
         <source>Last block time</source>
         <translation>Last block time</translation>
     </message>
@@ -3526,7 +2938,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Debug log file</translation>
     </message>
     <message>
-        <location line="-258"/>
+        <location line="-249"/>
         <source>Using OpenSSL version</source>
         <translation>Using OpenSSL version</translation>
     </message>
@@ -3536,12 +2948,12 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Build date</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+132"/>
         <source>Current number of blocks</source>
         <translation>Current number of blocks</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-207"/>
         <source>Client version</source>
         <translation>Client version</translation>
     </message>
@@ -3551,7 +2963,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Using BerkeleyDB version</translation>
     </message>
     <message>
-        <location line="+160"/>
+        <location line="+151"/>
         <source>Block chain</source>
         <translation>Block chain</translation>
     </message>
@@ -3561,12 +2973,12 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-108"/>
+        <location line="-99"/>
         <source>Number of Masternodes</source>
         <translation>Number of Masternodes</translation>
     </message>
     <message>
-        <location line="+122"/>
+        <location line="+113"/>
         <source>&amp;Console</source>
         <translation>&amp;Console</translation>
     </message>
@@ -3607,8 +3019,8 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
     </message>
     <message>
         <location line="+41"/>
-        <location filename="../rpcconsole.cpp" line="+263"/>
-        <location line="+481"/>
+        <location filename="../rpcconsole.cpp" line="+261"/>
+        <location line="+460"/>
         <source>Select a peer to view detailed information.</source>
         <translation>Select a peer to view detailed information.</translation>
     </message>
@@ -3683,12 +3095,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>&amp;Wallet Repair</translation>
     </message>
     <message>
-        <location line="+15"/>
-        <source>Delete local Blockchain Folders</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+36"/>
+        <location line="+38"/>
         <source>Wallet In Use:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3743,17 +3150,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+23"/>
-        <source>-resync:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Deletes all local blockchain folders so the wallet synchronizes from scratch.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-246"/>
+        <location line="-216"/>
         <source>The buttons below will restart the wallet with command-line options to repair the wallet, fix issues with corrupt blockhain files or missing/obsolete transactions.</source>
         <translation>The buttons below will restart the wallet with command-line options to repair the wallet, fix issues with corrupt blockhain files or missing/obsolete transactions.</translation>
     </message>
@@ -3788,32 +3185,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-66"/>
-        <source>This will delete your local blockchain folders and the wallet will synchronize the complete Blockchain from scratch.&lt;br /&gt;&lt;br /&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location line="+1"/>
-        <source>This needs quite some time and downloads a lot of data.&lt;br /&gt;&lt;br /&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Your transactions and funds will be visible again after the download has completed.&lt;br /&gt;&lt;br /&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Do you want to continue?.&lt;br /&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Confirm resync Blockchain</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+63"/>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
         <translation>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</translation>
     </message>
@@ -4095,9 +3467,9 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+231"/>
+        <location filename="../sendcoinsdialog.cpp" line="+234"/>
         <location line="+25"/>
-        <location line="+397"/>
+        <location line="+413"/>
         <source>Send Coins</source>
         <translation>Send Coins</translation>
     </message>
@@ -4107,7 +3479,17 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Coin Control Features</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+20"/>
+        <source>Inputs...</source>
+        <translation>Inputs...</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>automatically selected</source>
+        <translation>automatically selected</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Insufficient funds!</source>
         <translation>Insufficient funds!</translation>
     </message>
@@ -4212,7 +3594,12 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Minimize</translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+582"/>
+        <source>Obfuscation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-501"/>
         <source>per kilobyte</source>
         <translation>per kilobyte</translation>
     </message>
@@ -4242,17 +3629,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Confirmation time:</translation>
     </message>
     <message>
-        <location line="-947"/>
-        <source>Open Coin Control...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Coins automatically selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+772"/>
+        <location line="-165"/>
         <source>If the custom fee is set to 1000 uWAGEs and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 uWAGEs in fee,&lt;br /&gt;while &quot;at least&quot; pays 1000 uWAGEs. For transactions bigger than a kilobyte both pay by kilobyte.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4323,12 +3700,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Add &amp;Recipient</translation>
     </message>
     <message>
-        <location line="+35"/>
-        <source>Anonymized WAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+57"/>
         <source>SwiftTX</source>
         <translation>SwiftTX</translation>
     </message>
@@ -4338,7 +3710,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Balance:</translation>
     </message>
     <message>
-        <location filename="../sendcoinsdialog.cpp" line="-571"/>
+        <location filename="../sendcoinsdialog.cpp" line="-584"/>
         <source>Copy quantity</source>
         <translation>Copy quantity</translation>
     </message>
@@ -4378,7 +3750,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Copy change</translation>
     </message>
     <message>
-        <location line="+143"/>
+        <location line="+140"/>
         <source>The split block tool does not work when sending to outside addresses. Try again.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4389,27 +3761,29 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
     </message>
     <message>
         <location line="+8"/>
-        <location line="+3"/>
+        <location line="+6"/>
+        <location line="+9"/>
         <source>using</source>
         <translation>using</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-15"/>
+        <location line="+6"/>
         <source>anonymous funds</source>
         <translation>anonymous funds</translation>
     </message>
     <message>
-        <location line="+622"/>
+        <location line="+632"/>
         <source>Warning: Invalid Digiwage address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-619"/>
+        <location line="-623"/>
         <source>any available funds (not recommended)</source>
         <translation>any available funds (not recommended)</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>and SwiftTX</source>
         <translation>and SwiftTX</translation>
     </message>
@@ -4442,7 +3816,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Confirm send coins</translation>
     </message>
     <message>
-        <location line="+230"/>
+        <location line="+233"/>
         <source>A fee %1 times higher than %2 per kB is considered an insanely high fee.</source>
         <translation>A fee %1 times higher than %2 per kB is considered an insanely high fee.</translation>
     </message>
@@ -4460,7 +3834,12 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>The recipient address is not valid, please recheck.</translation>
     </message>
     <message>
-        <location line="-291"/>
+        <location line="-343"/>
+        <source>(obfuscation requires this amount to be rounded up to the nearest %1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+49"/>
         <source> split into %1 outputs using the UTXO splitter.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4470,7 +3849,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>&lt;b&gt;(%1 of %2 entries displayed)&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+205"/>
+        <location line="+208"/>
         <source>The amount to pay must be larger than 0.</source>
         <translation>The amount to pay must be larger than 0.</translation>
     </message>
@@ -5269,42 +4648,12 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Obfuscated</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Converted Wage to zWage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Spent zWage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Received Wage from zWage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Minted Change as zWage from zWage Spend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Converted zWage to Wage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+33"/>
+        <location line="+31"/>
         <source>watch-only</source>
         <translation>watch-only</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>zWage Accumulator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+19"/>
         <source>(n/a)</source>
         <translation>(n/a)</translation>
     </message>
@@ -5439,31 +4788,6 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
     </message>
     <message>
         <location line="+1"/>
-        <source>Received Wage from zWage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Zerocoin Mint</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Zerocoin Spend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Zerocoin Spend, Change in zWage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Zerocoin Spend to Self</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Other</source>
         <translation>Other</translation>
     </message>
@@ -5508,7 +4832,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Show transaction details</translation>
     </message>
     <message>
-        <location line="+195"/>
+        <location line="+193"/>
         <source>Export Transaction History</source>
         <translation>Export Transaction History</translation>
     </message>
@@ -5518,7 +4842,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Comma separated file (*.csv)</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+9"/>
         <source>Confirmed</source>
         <translation>Confirmed</translation>
     </message>
@@ -5553,7 +4877,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>ID</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+3"/>
         <source>Exporting Failed</source>
         <translation>Exporting Failed</translation>
     </message>
@@ -5563,7 +4887,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>There was an error trying to save the transaction history to %1.</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location line="+3"/>
         <source>Exporting Successful</source>
         <translation>Exporting Successful</translation>
     </message>
@@ -5573,7 +4897,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>The transaction history was successfully saved to %1.</translation>
     </message>
     <message>
-        <location line="+121"/>
+        <location line="+117"/>
         <source>Range:</source>
         <translation>Range:</translation>
     </message>
@@ -5602,7 +4926,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+310"/>
+        <location filename="../walletmodel.cpp" line="+274"/>
         <location line="+9"/>
         <location line="+9"/>
         <source>Send Coins</source>
@@ -5618,7 +4942,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
 <context>
     <name>WalletView</name>
     <message>
-        <location filename="../walletview.cpp" line="+50"/>
+        <location filename="../walletview.cpp" line="+49"/>
         <source>&amp;Export</source>
         <translation>&amp;Export</translation>
     </message>
@@ -5633,7 +4957,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation>Selected amount:</translation>
     </message>
     <message>
-        <location line="+249"/>
+        <location line="+236"/>
         <source>Backup Wallet</source>
         <translation>Backup Wallet</translation>
     </message>
@@ -5664,43 +4988,9 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
     </message>
 </context>
 <context>
-    <name>ZWageControlDialog</name>
-    <message>
-        <location filename="../forms/zwagecontroldialog.ui" line="+20"/>
-        <source>Select zWage to Spend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>Quantity</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <location line="+14"/>
-        <source>0</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="-7"/>
-        <source>zWage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Select/Deselect All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+50"/>
-        <source>Is Spendable</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>digiwage-core</name>
     <message>
-        <location filename="../digiwagestrings.cpp" line="+15"/>
+        <location filename="../digiwagestrings.cpp" line="+12"/>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
         <translation type="unfinished">(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</translation>
     </message>
@@ -5731,11 +5021,6 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
     </message>
     <message>
         <location line="+4"/>
-        <source>Calculated accumulator checkpoint is not what is recorded by block index</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Cannot obtain a lock on data directory %s. Digiwage Core is probably already running.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5770,7 +5055,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation type="unfinished">Distributed under the MIT software license, see the accompanying file COPYING or &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
         <source>Enable spork administration functionality with the appropriate private key.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5778,6 +5063,11 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <location line="+2"/>
         <source>Enable swifttx, show confirmations for locked transactions (bool, default: %s)</source>
         <translation type="unfinished">Enable swifttx, show confirmations for locked transactions (bool, default: %s)</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Enable use of automated obfuscation for funds stored in this wallet (0-1, default: %u)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
@@ -5790,7 +5080,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation type="unfinished">Error: Listening for incoming connections failed (listen returned error %s)</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+2"/>
         <source>Error: Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</source>
         <translation type="unfinished">Error: Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</translation>
     </message>
@@ -5831,6 +5121,11 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
     </message>
     <message>
         <location line="+3"/>
+        <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
+        <translation type="unfinished">How thorough the block verification of -checkblocks is (0-4, default: %u)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
         <translation type="unfinished">If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</translation>
     </message>
@@ -5840,7 +5135,7 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation type="unfinished">In this mode -genproclimit controls how many blocks are generated immediately.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
         <source>Invalid amount for -maxtxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
         <translation type="unfinished">Invalid amount for -maxtxfee=&lt;amount&gt;: &apos;%s&apos; (must be at least the minrelay fee of %s to prevent stuck transactions)</translation>
     </message>
@@ -5885,14 +5180,14 @@ Either mint higher denominations (so fewer inputs are needed) or reduce the amou
         <translation type="unfinished">Output debugging information (default: %u, supplying &lt;category&gt; is optional)</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
-        <translation type="unfinished">Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</translation>
+        <location line="+2"/>
+        <source>Provide liquidity to Obfuscation by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</source>
-        <translation type="unfinished"></translation>
+        <location line="+4"/>
+        <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
+        <translation type="unfinished">Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -6096,18 +5391,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>Automatically create Tor hidden service (default: %d)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Block creation options:</source>
         <translation type="unfinished">Block creation options:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Calculating missing accumulators...</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6210,11 +5495,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <translation type="unfinished">Debugging/Testing options:</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Disable OS notifications for incoming transactions (default: %u)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location line="+1"/>
         <source>Disable safemode, override a real safe mode event (default: %u)</source>
         <translation type="unfinished">Disable safemode, override a real safe mode event (default: %u)</translation>
@@ -6238,11 +5518,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <location line="+1"/>
         <source>Done loading</source>
         <translation type="unfinished">Done loading</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enable automatic Zerocoin minting (0-1, default: %u)</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
@@ -6345,12 +5620,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <translation type="unfinished">Failed to listen on any port. Use -listen=0 if you want this.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
         <source>Failed to read block</source>
         <translation type="unfinished">Failed to read block</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
         <source>Fee (in WAGE/kB) to add to transactions you send (default: %s)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6436,23 +5711,18 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>Insufficient funds</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Insufficient funds.</source>
         <translation type="unfinished">Insufficient funds.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Invalid -onion address or hostname: &apos;%s&apos;</source>
-        <translation type="unfinished"></translation>
+        <source>Invalid -onion address: &apos;%s&apos;</source>
+        <translation type="unfinished">Invalid -onion address: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Invalid -proxy address or hostname: &apos;%s&apos;</source>
-        <translation type="unfinished"></translation>
+        <source>Invalid -proxy address: &apos;%s&apos;</source>
+        <translation type="unfinished">Invalid -proxy address: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6486,11 +5756,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>Invalid amount</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Invalid masternodeprivkey. Please see documenation.</source>
         <translation type="unfinished">Invalid masternodeprivkey. Please see documenation.</translation>
     </message>
@@ -6515,59 +5780,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <translation type="unfinished">Invalid script detected.</translation>
     </message>
     <message>
-        <location line="-174"/>
+        <location line="-165"/>
         <source>This is a pre-release test build - use at your own risk - do not use for staking or merchant applications!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-153"/>
-        <source> mints deleted
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source> mints updated, </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source> unconfirmed transactions removed
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+44"/>
-        <source>Enable automatic wallet backups triggered after each zWage minting (0-1, default: %u)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Error: Unsupported argument -checklevel found. Checklevel must be level 4.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+32"/>
-        <source>Insufficient or insufficient confirmed funds, you might need to wait a few minutes and try again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+26"/>
-        <source>Preferred Denomination for automatically minted Zerocoin  (1/5/10/50/100/500/1000/5000), 0 for no preference. default: %u)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+97"/>
+        <location line="+68"/>
         <source>&lt;category&gt; can be:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6578,11 +5796,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     </message>
     <message>
         <location line="+25"/>
-        <source>Delete blockchain folders and resync from scratch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Display the stake modifier calculations in the debug.log file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6592,7 +5805,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
         <source>Enable publish hash block in &lt;address&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6627,17 +5840,12 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+21"/>
-        <source>Failed to read block index</source>
+        <location line="+53"/>
+        <source>Keep N WAGE anonymized (default: %u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Failed to write block index</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+34"/>
+        <location line="+1"/>
         <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>
         <translation type="unfinished">Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</translation>
     </message>
@@ -6649,11 +5857,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>Last successful Obfuscation action was too recent.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Less than 3 mints added, unable to create spend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6700,11 +5903,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <location line="+1"/>
         <source>Loading masternode payment cache...</source>
         <translation type="unfinished">Loading masternode payment cache...</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Loading sporks...</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6828,6 +6026,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
+        <source>Obfuscation options:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Obfuscation request complete:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6855,16 +6058,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <location line="+1"/>
         <source>Password for JSON-RPC connections</source>
         <translation type="unfinished">Password for JSON-RPC connections</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Percentage of automatically minted Zerocoin  (10-100, default: %u)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Preparing for resync...</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -6908,16 +6101,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>Recalculating coin supply may take 30-60 minutes...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Recalculating supply statistics may take 30-60 minutes...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Receive and display P2P network alerts (default: %u)</source>
         <translation type="unfinished">Receive and display P2P network alerts (default: %u)</translation>
     </message>
@@ -6940,16 +6123,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <location line="+1"/>
         <source>Rescanning...</source>
         <translation type="unfinished">Rescanning...</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>ResetMintZerocoin finished: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>ResetSpentZerocoin finished: </source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7010,11 +6183,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <location line="+1"/>
         <source>Set minimum block size in bytes (default: %u)</source>
         <translation type="unfinished">Set minimum block size in bytes (default: %u)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Set the Maximum reorg depth (default: %u)</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7188,16 +6356,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
-        <source>Tor control port password (default: empty)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Tor control port to use if onion listening enabled (default: %s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Transaction amount too small</source>
         <translation type="unfinished">Transaction amount too small</translation>
     </message>
@@ -7263,6 +6421,11 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     </message>
     <message>
         <location line="+1"/>
+        <source>Use N separate masternodes to anonymize funds  (2-8, default: %u)</source>
+        <translation type="unfinished">Use N separate masternodes to anonymize funds  (2-8, default: %u)</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
         <translation type="unfinished">Use OpenSSL (https) for JSON-RPC connections</translation>
     </message>
@@ -7275,11 +6438,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
         <location line="+1"/>
         <source>Use UPnP to map the listening port (default: 1 when listening)</source>
         <translation type="unfinished">Use UPnP to map the listening port (default: 1 when listening)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Use a custom max chain reorganization depth (default: %u)</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -7379,16 +6537,6 @@ for example: alertnotify=echo %%s | mail -s &quot;Digiwage Alert&quot; admin@foo
     <message>
         <location line="+1"/>
         <source>ZeroMQ notification options:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Zerocoin options:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>failed to validate zerocoin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

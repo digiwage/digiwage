@@ -28,11 +28,13 @@ void ComputePassfactor(std::string ownersalt, uint256 prefactor, uint256& passfa
 
 bool ComputePasspoint(uint256 passfactor, CPubKey& passpoint);
 
+
 void ComputeSeedBPass(CPubKey passpoint, std::string strAddressHash, std::string strOwnerSalt, uint512& seedBPass);
+
 
 void ComputeFactorB(uint256 seedB, uint256& factorB);
 
-std::string BIP38_Encrypt(std::string strAddress, std::string strPassphrase, uint256 privKey, bool fCompressed);
+std::string BIP38_Encrypt(std::string strAddress, std::string strPassphrase, uint256 privKey);
 bool BIP38_Decrypt(std::string strPassphrase, std::string strEncryptedKey, uint256& privKey, bool& fCompressed);
 
 std::string AddressToBip38Hash(std::string address);

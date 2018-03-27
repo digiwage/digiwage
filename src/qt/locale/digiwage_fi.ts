@@ -1217,6 +1217,10 @@ Please check the address and try again.</source>
         <translation>&amp;Aloita Digiwage järjestelmän kirjautumisessa</translation>
     </message>
     <message>
+        <source>Amount of Digiwage to keep anonymized</source>
+        <translation>Digiwage määrä joka pidetään anonymisoituna</translation>
+    </message>
+    <message>
         <source>Enable coin &amp;control features</source>
         <translation>Ota käyttöön coin &amp;kontrolli palvelut</translation>
     </message>
@@ -1372,6 +1376,10 @@ Please check the address and try again.</source>
         <translation>Panostus tai masternodem palkiinnot jotka eivät ole vielä kypsyneet.</translation>
     </message>
     <message>
+        <source>Balances</source>
+        <translation>Saldot</translation>
+    </message>
+    <message>
         <source>Total:</source>
         <translation>Määrä:</translation>
     </message>
@@ -1382,6 +1390,14 @@ Please check the address and try again.</source>
     <message>
         <source>Spendable:</source>
         <translation>Käytettävää:</translation>
+    </message>
+    <message>
+        <source>Status:</source>
+        <translation>Tila:</translation>
+    </message>
+    <message>
+        <source>Enabled/Disabled</source>
+        <translation>Päällä/Pois päältä</translation>
     </message>
     </context>
 <context>
@@ -1398,89 +1414,6 @@ Please check the address and try again.</source>
         <translation>Ping aika</translation>
     </message>
 </context>
-<context>
-    <name>PrivacyDialog</name>
-    <message>
-        <source>0</source>
-        <translation>0</translation>
-    </message>
-    <message>
-        <source>Quantity:</source>
-        <translation>Määrä:</translation>
-    </message>
-    <message>
-        <source>Amount:</source>
-        <translation>Määrä:</translation>
-    </message>
-    <message>
-        <source>Choose previously used address</source>
-        <translation>Valitse aikaisemmin käytetty osoite</translation>
-    </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
-    </message>
-    <message>
-        <source>Paste address from clipboard</source>
-        <translation>Liitä osoite leikepöydältä</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
-    </message>
-    <message>
-        <source>&amp;Label:</source>
-        <translation>&amp;Nimike:</translation>
-    </message>
-    <message>
-        <source>Enter a label for this address to add it to the list of used addresses</source>
-        <translation>Syötä nimike tälle osoittelle lisätäksesi se käytettävien osoitteiden listaan</translation>
-    </message>
-    <message>
-        <source>A&amp;mount:</source>
-        <translation>M&amp;äärä:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Tärkeys:</translation>
-    </message>
-    <message>
-        <source>Fee:</source>
-        <translation>Taksa:</translation>
-    </message>
-    <message>
-        <source>no</source>
-        <translation>ei</translation>
-    </message>
-    <message>
-        <source>Bytes:</source>
-        <translation>Tavut:</translation>
-    </message>
-    <message>
-        <source>Insufficient funds!</source>
-        <translation>Puutteelliset varat!</translation>
-    </message>
-    <message>
-        <source>medium</source>
-        <translation>kohtalainen</translation>
-    </message>
-    <message>
-        <source>Change:</source>
-        <translation>Muutos:</translation>
-    </message>
-    <message>
-        <source>Copy quantity</source>
-        <translation>Kopioi määrä</translation>
-    </message>
-    <message>
-        <source>Copy amount</source>
-        <translation>Kopioi määrä</translation>
-    </message>
-    <message>
-        <source>Confirm send coins</source>
-        <translation>Vahvista kolikoiden lähetys</translation>
-    </message>
-    </context>
 <context>
     <name>QObject</name>
     <message>
@@ -1856,6 +1789,10 @@ Please check the address and try again.</source>
     <message>
         <source>Send Coins</source>
         <translation>Lähetä Kolikot</translation>
+    </message>
+    <message>
+        <source>automatically selected</source>
+        <translation>automaattisesti valittu</translation>
     </message>
     <message>
         <source>Insufficient funds!</source>
@@ -2531,13 +2468,6 @@ Please check the address and try again.</source>
     <message>
         <source>Backup Successful</source>
         <translation>Varmuuskopiointi onnistui</translation>
-    </message>
-    </context>
-<context>
-    <name>ZWageControlDialog</name>
-    <message>
-        <source>0</source>
-        <translation>0</translation>
     </message>
     </context>
 <context>

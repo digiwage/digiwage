@@ -44,7 +44,7 @@ Options:
 -b|--build	Do a gitian build
 -s|--sign	Make signed binaries for Windows and Mac OSX
 -B|--buildsign	Build both signed and unsigned binaries
--o|--os		Specify which Operating Systems the build is for. Default is lwx. l for linux, w for windows, x for osx, a for aarch64
+-o|--os		Specify which Operating Systems the build is for. Default is lwx. l for linux, w for windows, x for osx
 -j		Number of processes to use. Default 2
 -m		Memory to allocate in MiB. Default 2000
 --kvm           Use KVM instead of LXC
@@ -92,7 +92,6 @@ while :; do
 		linux=false
 		windows=false
 		osx=false
-		aarch64=false
 		if [[ "$2" = *"l"* ]]
 		then
 		    linux=true
@@ -105,13 +104,9 @@ while :; do
 		then
 		    osx=true
 		fi
-		if [[ "$2" = *"a"* ]]
-		then
-		    aarch64=true
-		fi
 		shift
 	    else
-		echo 'Error: "--os" requires an argument containing an l (for linux), w (for windows), x (for Mac OSX), or a (for aarch64)\n'
+		echo 'Error: "--os" requires an argument containing an l (for linux), w (for windows), or x (for Mac OSX)\n'
 		exit 1
 	    fi
 	    ;;
@@ -305,15 +300,6 @@ then
 	    mv build/out/digiwage-*-osx-unsigned.tar.gz inputs/digiwage-osx-unsigned.tar.gz
 	    mv build/out/digiwage-*.tar.gz build/out/digiwage-*.dmg ../digiwage-binaries/${VERSION}
 	fi
-	# AArch64
-	if [[ $aarch64 = true ]]
-	then
-	    echo ""
-	    echo "Compiling ${VERSION} AArch64"
-	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit digiwage=${COMMIT} --url digiwage=${url} ../digiwage/contrib/gitian-descriptors/gitian-aarch64.yml
-	    ./bin/gsign -p $signProg --signer $SIGNER --release ${VERSION}-aarch64 --destination ../gitian.sigs/ ../digiwage/contrib/gitian-descriptors/gitian-aarch64.yml
-	    mv build/out/digiwage-*.tar.gz build/out/src/digiwage-*.tar.gz ../digiwage-binaries/${VERSION}
 	popd
 
         if [[ $commitFiles = true ]]
@@ -324,7 +310,6 @@ then
             echo ""
             pushd gitian.sigs
             git add ${VERSION}-linux/${SIGNER}
-            git add ${VERSION}-aarch64/${SIGNER}
             git add ${VERSION}-win-unsigned/${SIGNER}
             git add ${VERSION}-osx-unsigned/${SIGNER}
             git commit -a -m "Add ${VERSION} unsigned sigs for ${SIGNER}"
@@ -351,11 +336,6 @@ then
 	echo "Verifying v${VERSION} Mac OSX"
 	echo ""
 	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-osx-unsigned ../digiwage/contrib/gitian-descriptors/gitian-osx.yml
-	# AArch64
-	echo ""
-	echo "Verifying v${VERSION} AArch64"
-	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION}-aarch64 ../digiwage/contrib/gitian-descriptors/gitian-aarch64.yml
 	# Signed Windows
 	echo ""
 	echo "Verifying v${VERSION} Signed Windows"
