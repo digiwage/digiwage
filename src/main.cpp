@@ -1616,10 +1616,8 @@ int64_t GetBlockValue(int nHeight)
     int64_t nSubsidy = 0;
 
     if (nHeight == 0) {
-        nSubsidy = 26883520 * COIN; //Total No. of coins out till block 120850(last block before gnenesis creation), to be swapped 1:1 for PHILS
-    } else if (nHeight > 0 && nHeight < 1000) {
-        nSubsidy = 0 * COIN;
-    } else if (nHeight >= 1000 && nHeight < 86400) {
+        nSubsidy = 27179800 * COIN; //Total No. of coins out till block 123316(last block before gnenesis creation), to be swapped 1:1 for PHILS
+    } else if (nHeight > 0 && nHeight < 86400) {
         nSubsidy = 120 * COIN;
     } else if (nHeight >= 86400 && nHeight < 259200) {
         nSubsidy = 60 * COIN;
