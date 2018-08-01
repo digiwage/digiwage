@@ -84,6 +84,9 @@ void OptionsModel::Init()
     if (!settings.contains("fShowMasternodesTab"))
         settings.setValue("fShowMasternodesTab", masternodeConfig.getCount());
 
+    if (!settings.contains("fShowDigiwagePlatformTab"))
+        settings.setValue("fShowDigiwagePlatformTab", false);
+
     // These are shared with the core or have a command-line parameter
     // and we want command-line parameters to overwrite the GUI settings.
     //
@@ -208,6 +211,8 @@ QVariant OptionsModel::data(const QModelIndex& index, int role) const
             return settings.value("bSpendZeroConfChange");
         case ShowMasternodesTab:
             return settings.value("fShowMasternodesTab");
+        case ShowDigiwagePlatformTab:
+            return settings.value("fShowDigiwagePlatformTab");
 #endif
         case DisplayUnit:
             return nDisplayUnit;
@@ -300,6 +305,12 @@ bool OptionsModel::setData(const QModelIndex& index, const QVariant& value, int 
         case ShowMasternodesTab:
             if (settings.value("fShowMasternodesTab") != value) {
                 settings.setValue("fShowMasternodesTab", value);
+                setRestartRequired(true);
+            }
+            break;
+        case ShowDigiwagePlatformTab:
+            if (settings.value("fShowDigiwagePlatformTab") != value) {
+                settings.setValue("fShowDigiwagePlatformTab", value);
                 setRestartRequired(true);
             }
             break;

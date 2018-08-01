@@ -175,6 +175,7 @@ void OptionsDialog::setModel(OptionsModel* model)
     connect(ui->lang, SIGNAL(valueChanged()), this, SLOT(showRestartWarning()));
     connect(ui->thirdPartyTxUrls, SIGNAL(textChanged(const QString&)), this, SLOT(showRestartWarning()));
     connect(ui->showMasternodesTab, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
+    connect(ui->showDigiwagePlatformTab, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
 }
 
 void OptionsDialog::setMapper()
@@ -215,6 +216,7 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->obfuscationRounds, OptionsModel::ObfuscationRounds);
     mapper->addMapping(ui->anonymizeDigiwage, OptionsModel::AnonymizeDigiwageAmount);
     mapper->addMapping(ui->showMasternodesTab, OptionsModel::ShowMasternodesTab);
+    mapper->addMapping(ui->showDigiwagePlatformTab, OptionsModel::ShowDigiwagePlatformTab);
 }
 
 void OptionsDialog::enableOkButton()
@@ -311,3 +313,4 @@ bool OptionsDialog::eventFilter(QObject* object, QEvent* event)
     }
     return QDialog::eventFilter(object, event);
 }
+

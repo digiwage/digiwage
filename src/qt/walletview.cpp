@@ -212,6 +212,14 @@ void WalletView::gotoMasternodePage()
     }
 }
 
+void WalletView::gotoDigiwagePlatformPage()
+{
+    QSettings settings;
+    if (settings.value("fDigiwagePlatformTab").toBool()) {
+        setCurrentWidget(masternodeListPage);
+    }
+}
+
 void WalletView::gotoReceiveCoinsPage()
 {
     setCurrentWidget(receiveCoinsPage);

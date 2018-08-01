@@ -80,6 +80,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle* networkStyle, QWidget* parent) : QMai
                                                                             overviewAction(0),
                                                                             historyAction(0),
                                                                             masternodeAction(0),
+                                                                            digiwageplatformAction(0),
                                                                             quitAction(0),
                                                                             sendCoinsAction(0),
                                                                             usedSendingAddressesAction(0),
@@ -341,6 +342,21 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
         connect(masternodeAction, SIGNAL(triggered()), this, SLOT(gotoMasternodePage()));
     }
 
+    if (settings.value("fShowDigiwagePlatformTab").toBool()) {
+        digiwageplatformAction = new QAction(QIcon(":/icons/trade"), tr("&Platform"), this);
+        digiwageplatformAction->setStatusTip(tr("Digiwage Platform Management"));
+        digiwageplatformAction->setToolTip(digiwageplatformAction->statusTip());
+        digiwageplatformAction->setCheckable(true);
+#ifdef Q_OS_MAC
+        digiwageplatformAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+#else
+        digiwageplatformAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+#endif
+        tabGroup->addAction(digiwageplatformAction);
+        connect(digiwageplatformAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+        connect(digiwageplatformAction, SIGNAL(triggered()), this, SLOT(gotoDigiwagePlatformPage()));
+    }
+
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
     // can be triggered from the tray menu, and need to show the GUI to be useful.
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -518,6 +534,9 @@ void BitcoinGUI::createToolBars()
         if (settings.value("fShowMasternodesTab").toBool()) {
             toolbar->addAction(masternodeAction);
         }
+        if (settings.value("fDigiwagePlatformTab").toBool()) {
+            toolbar->addAction(digiwageplatformAction);
+        }
         toolbar->setMovable(false); // remove unused icon in upper left corner
         overviewAction->setChecked(true);
 
@@ -607,6 +626,9 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeAction->setEnabled(enabled);
+    }
+    if (settings.value("fDigiwagePlatformTab").toBool()) {
+        digiwageplatformAction->setEnabled(enabled);
     }
     encryptWalletAction->setEnabled(enabled);
     backupWalletAction->setEnabled(enabled);
@@ -742,6 +764,15 @@ void BitcoinGUI::gotoMasternodePage()
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeAction->setChecked(true);
         if (walletFrame) walletFrame->gotoMasternodePage();
+    }
+}
+
+void BitcoinGUI::gotoDigiwagePlatformPage()
+{
+    QSettings settings;
+    if (settings.value("fDigiwagePlatformTab").toBool()) {
+        digiwageplatformAction->setChecked(true);
+        if (walletFrame) walletFrame->gotoDigiwagePlatformPage();
     }
 }
 
