@@ -31,6 +31,7 @@
 
 #include "init.h"
 #include "masternodelist.h"
+#include "digiwageplatform.h"
 #include "ui_interface.h"
 #include "util.h"
 
@@ -343,7 +344,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     }
 
     if (settings.value("fShowDigiwagePlatformTab").toBool()) {
-        digiwageplatformAction = new QAction(QIcon(":/icons/trade"), tr("&Platform"), this);
+        digiwageplatformAction = new QAction(QIcon(":/icons/eye_plus"), tr("&Platform"), this);
         digiwageplatformAction->setStatusTip(tr("Digiwage Platform Management"));
         digiwageplatformAction->setToolTip(digiwageplatformAction->statusTip());
         digiwageplatformAction->setCheckable(true);
@@ -534,7 +535,7 @@ void BitcoinGUI::createToolBars()
         if (settings.value("fShowMasternodesTab").toBool()) {
             toolbar->addAction(masternodeAction);
         }
-        if (settings.value("fDigiwagePlatformTab").toBool()) {
+        if (settings.value("fShowDigiwagePlatformTab").toBool()) {
             toolbar->addAction(digiwageplatformAction);
         }
         toolbar->setMovable(false); // remove unused icon in upper left corner
@@ -627,7 +628,7 @@ void BitcoinGUI::setWalletActionsEnabled(bool enabled)
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeAction->setEnabled(enabled);
     }
-    if (settings.value("fDigiwagePlatformTab").toBool()) {
+    if (settings.value("fShowDigiwagePlatformTab").toBool()) {
         digiwageplatformAction->setEnabled(enabled);
     }
     encryptWalletAction->setEnabled(enabled);
@@ -770,7 +771,7 @@ void BitcoinGUI::gotoMasternodePage()
 void BitcoinGUI::gotoDigiwagePlatformPage()
 {
     QSettings settings;
-    if (settings.value("fDigiwagePlatformTab").toBool()) {
+    if (settings.value("fShowDigiwagePlatformTab").toBool()) {
         digiwageplatformAction->setChecked(true);
         if (walletFrame) walletFrame->gotoDigiwagePlatformPage();
     }

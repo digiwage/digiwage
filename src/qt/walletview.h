@@ -7,6 +7,7 @@
 
 #include "amount.h"
 #include "masternodelist.h"
+#include "digiwageplatform.h"
 
 #include <QStackedWidget>
 
@@ -65,6 +66,7 @@ private:
     SendCoinsDialog* sendCoinsPage;
     BlockExplorer* explorerWindow;
     MasternodeList* masternodeListPage;
+    DigiwagePlatform* digiwagePlatformPage;
 
     TransactionView* transactionView;
 
