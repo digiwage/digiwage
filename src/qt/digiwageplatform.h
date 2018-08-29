@@ -1,6 +1,7 @@
 #ifndef DIGIWAGEPLATFORM_H
 #define DIGIWAGEPLATFORM_H
 
+#include <QMenu>
 #include <QWidget>
 
 namespace Ui {
@@ -27,11 +28,17 @@ public:
 
     void Connect_updatePubAddress( QString UserName, QString Address, QString PubKey );
 
+public Q_SLOTS:
+    void updateEscrowList();
+    void showContextMenu(const QModelIndex&);
+
 private slots:
     void on_addressBookButton_clicked();
     void on_userButton_clicked();
+    void on_SendEscrowAction_clicked();
 
 private:
+    QMenu* contextMenu;
     Ui::DigiwagePlatform *ui;
     ClientModel* clientModel;
     WalletModel* walletModel;
