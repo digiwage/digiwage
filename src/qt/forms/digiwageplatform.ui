@@ -58,7 +58,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="usernameEdit"/>
+      <widget class="QLineEdit" name="usernameEdit">
+       <property name="placeholderText">
+        <string>Enter User Name Registered in Platform</string>
+       </property>
+      </widget>
      </item>
      <item row="1" column="2">
       <widget class="QPushButton" name="addressBookButton">
@@ -89,7 +93,7 @@
      <item row="1" column="3">
       <widget class="QPushButton" name="userButton">
        <property name="text">
-        <string>Login</string>
+        <string>Refresh</string>
        </property>
       </widget>
      </item>
@@ -147,7 +151,7 @@
        </column>
        <column>
         <property name="text">
-         <string>Amount</string>
+         <string>Amount (WAGE)</string>
         </property>
        </column>
        <column>
@@ -205,7 +209,12 @@
        </column>
        <column>
         <property name="text">
-         <string>Amount</string>
+         <string>Amount (WAGE)</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Refund (%)</string>
         </property>
        </column>
        <column>
@@ -216,6 +225,26 @@
        <column>
         <property name="text">
          <string>Status</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Job type</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>EscrowTxId</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>RedeemScript</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Signature1</string>
         </property>
        </column>
       </widget>

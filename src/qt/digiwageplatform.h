@@ -21,6 +21,12 @@ class DigiwagePlatform : public QWidget
 {
     Q_OBJECT
 
+    enum PendingType {
+        Buyer = 0,
+        Seller = 1,
+        Mediated = 2
+    };
+
 public:
     explicit DigiwagePlatform(QWidget *parent = 0);
     ~DigiwagePlatform();
@@ -34,17 +40,22 @@ public:
 
 public Q_SLOTS:
     void updateEscrowList();
-    void showContextMenu(const QModelIndex&);
+    void updatePendingDealsList();
+    void showEscrowContextMenu(const QModelIndex&);
+    void showSignatureContextMenu(const QModelIndex&);
     void ProcessSendReturn( const WalletModel::SendCoinsReturn& sendCoinsReturn, QString& msgArg);
     void SetEscrowTxId( QString TxId );
+    void SetPaymentSignature1( QString PaymentSignature1 );
 
 private slots:
     void on_addressBookButton_clicked();
     void on_userButton_clicked();
     void on_SendEscrowAction_clicked();
+    void on_SignOffAction_clicked();
 
 private:
-    QMenu* contextMenu;
+    QMenu* EscrowContextMenu;
+    QMenu* SignatureContextMenu;
     Ui::DigiwagePlatform *ui;
     ClientModel* clientModel;
     WalletModel* walletModel;
@@ -54,6 +65,9 @@ private:
     QString getPubKey( QString address );
     static const QString ENDPOINT;
 
+    void insertPendingSignatureRows( QJsonArray jArr, PendingType OpType );
+    void ProcessPendingResult( PendingType OpType );
+    QJsonDocument callPending( QString api );
 
 };
 

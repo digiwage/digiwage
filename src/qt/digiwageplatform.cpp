@@ -32,6 +32,7 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Escrow table
     int columnDealIdWidth = 200;
     int columnAddressWidth = 0;
     int columnAmountWidth = 80;
@@ -44,15 +45,39 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     ui->escrowTable->setColumnWidth(2, columnDescriptionWidth);
     ui->escrowTable->setColumnWidth(3, columnReceiverWidth);
     ui->escrowTable->setColumnWidth(4, columnAddressWidth);
+    ui->escrowTable->setColumnHidden(4, true);
     ui->escrowTable->setColumnWidth(5, columnJobtypeWidth);
 
     QAction* SendEscrowAction = new QAction(tr("Send Escrow"), this);
-    contextMenu = new QMenu();
-    contextMenu->addAction(SendEscrowAction);
-    connect(ui->escrowTable, SIGNAL(pressed(const QModelIndex&)), this, SLOT(showContextMenu(const QModelIndex&)));
+    EscrowContextMenu = new QMenu();
+    EscrowContextMenu->addAction(SendEscrowAction);
+    connect(ui->escrowTable, SIGNAL(pressed(const QModelIndex&)), this, SLOT(showEscrowContextMenu(const QModelIndex&)));
     connect(SendEscrowAction, SIGNAL(triggered()), this, SLOT(on_SendEscrowAction_clicked()));
 
+    // Pending signatures table
+    int columnRefundWidth = 80;
+    int columnStatusWidth = 140;
 
+    ui->signatureTable->setColumnWidth(0, columnDealIdWidth);
+    ui->signatureTable->setColumnWidth(1, columnAmountWidth);
+    ui->signatureTable->setColumnWidth(2, columnRefundWidth);
+    ui->signatureTable->setColumnWidth(3, columnDescriptionWidth);
+    ui->signatureTable->setColumnWidth(4, columnStatusWidth);
+    ui->signatureTable->setColumnWidth(5, columnJobtypeWidth);
+    ui->signatureTable->setColumnWidth(6, 0);       // hidden EscrowTxId
+    ui->escrowTable->setColumnHidden(6, true);
+    ui->signatureTable->setColumnWidth(7, 0);       // hidden RedeemScript
+    ui->escrowTable->setColumnHidden(7, true);
+    ui->signatureTable->setColumnWidth(8, 0);       // hidden Signature1
+    ui->escrowTable->setColumnHidden(8, true);
+
+    QAction* SignOffAction = new QAction(tr("Sign off deal"), this);
+    SignatureContextMenu = new QMenu();
+    SignatureContextMenu->addAction(SignOffAction);
+    connect(ui->signatureTable, SIGNAL(pressed(const QModelIndex&)), this, SLOT(showSignatureContextMenu(const QModelIndex&)));
+    connect(SignOffAction, SIGNAL(triggered()), this, SLOT(on_SignOffAction_clicked()));
+
+    // managers and settings
     ConnectionManager = new QNetworkAccessManager(this);
 
     QSettings settings;
@@ -64,7 +89,7 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
 
     if (!username.isEmpty() && !useraddress.isEmpty())
     {
-        on_userButton_clicked();        //autologin
+        on_userButton_clicked();        //autorefresh
     }
 }
 
@@ -83,9 +108,14 @@ void DigiwagePlatform::setClientModel(ClientModel* model)
     }
 }
 
-void DigiwagePlatform::showContextMenu(const QModelIndex &index)
+void DigiwagePlatform::showEscrowContextMenu(const QModelIndex &index)
 {
-    contextMenu->exec(QCursor::pos());
+    EscrowContextMenu->exec(QCursor::pos());
+}
+
+void DigiwagePlatform::showSignatureContextMenu(const QModelIndex &index)
+{
+    SignatureContextMenu->exec(QCursor::pos());
 }
 
 void DigiwagePlatform::setWalletModel(WalletModel* model)
@@ -104,16 +134,13 @@ void DigiwagePlatform::setAddress(const QString& address, QLineEdit* addrEdit)
     addrEdit->setFocus();
 }
 
-void DigiwagePlatform::updateEscrowList()
+QJsonDocument DigiwagePlatform::callPending( QString api )
 {
-    // clean
-    ui->escrowTable->setRowCount(0);
-
     QString Address = ui->addressEdit->text();
     QString PubKey = getPubKey(ui->addressEdit->text());
     QString UserName = ui->usernameEdit->text();
 
-    QUrl url( DigiwagePlatform::ENDPOINT + "getPendingEscrows" );
+    QUrl url( DigiwagePlatform::ENDPOINT + api );
     QUrlQuery urlQuery( url );
     urlQuery.addQueryItem("username", UserName);
     urlQuery.addQueryItem("publicKey", PubKey);
@@ -130,6 +157,16 @@ void DigiwagePlatform::updateEscrowList()
 
     QByteArray data = reply->readAll();
     QJsonDocument json = QJsonDocument::fromJson(data);
+
+    return json;
+}
+
+void DigiwagePlatform::updateEscrowList()
+{
+    // clean
+    ui->escrowTable->setRowCount(0);
+
+    QJsonDocument json = callPending( QString::fromStdString("getPendingEscrows") );
 
     if (json.isObject() && json.object().contains("result") && json.object()["result"].isBool())
     {
@@ -150,7 +187,7 @@ void DigiwagePlatform::updateEscrowList()
 
                 QTableWidgetItem* DealIdItem = new QTableWidgetItem(strDealId);
                 QTableWidgetItem* AmountItem = new QTableWidgetItem(strAmount);
-                AmountItem->setTextAlignment(Qt::AlignLeft);
+                AmountItem->setTextAlignment(Qt::AlignRight);
                 QTableWidgetItem* DescriptionItem = new QTableWidgetItem(strDescription);
                 QTableWidgetItem* ReceiverItem = new QTableWidgetItem(strReceiver);
                 QTableWidgetItem* AddressItem = new QTableWidgetItem(strAddress);
@@ -180,8 +217,7 @@ void DigiwagePlatform::updateEscrowList()
     else {
         ui->userstatusLabel2->setText( "no result" );
     }
-    QString str(data);
-
+    return;
 }
 
 void DigiwagePlatform::on_SendEscrowAction_clicked()
@@ -366,6 +402,7 @@ void DigiwagePlatform::SetEscrowTxId( QString TxId )
             ui->userstatusLabel2->setText( "ERROR: " + errMsg );
         }
     }
+    updateEscrowList();
     return;
 }
 
@@ -402,6 +439,134 @@ void DigiwagePlatform::ProcessSendReturn( const WalletModel::SendCoinsReturn& se
 
 }
 
+void DigiwagePlatform::updatePendingDealsList()
+{
+    // clean
+    ui->signatureTable->setRowCount(0);
+
+    ProcessPendingResult( PendingType::Buyer );
+    ProcessPendingResult( PendingType::Seller );
+    ProcessPendingResult( PendingType::Mediated );
+
+    return;
+}
+
+void DigiwagePlatform::on_SignOffAction_clicked()
+{
+    // Find transaction info
+    QItemSelectionModel* selectionModel = ui->signatureTable->selectionModel();
+    QModelIndexList selected = selectionModel->selectedRows();
+
+    if (selected.count() == 0) return;
+
+    QModelIndex index = selected.at(0);
+    int nSelectedRow = index.row();
+    QString strEscrowTxId = ui->signatureTable->item(nSelectedRow, 6)->text();
+    QString strRedeemScript = ui->signatureTable->item(nSelectedRow, 7)->text();
+    QString strSignature1 = ui->signatureTable->item(nSelectedRow, 8)->text();;
+
+    ui->userstatusLabel2->setText( QString::fromStdString( "clicked " ) + strEscrowTxId + QString::fromStdString(" ") + strRedeemScript );
+
+    // TODO pending transaction signature stuff
+}
+
+void DigiwagePlatform::ProcessPendingResult( PendingType OpType )
+{
+    QString strAPI;
+
+    switch ( OpType ) {
+        case PendingType::Buyer:
+            strAPI = "getPendingBuyerSignature";
+            break;
+
+        case PendingType::Seller:
+            strAPI = "getPendingSellerSignature";
+            break;
+
+        case PendingType::Mediated:
+            strAPI = "getPendingMediatedDeals";
+            break;
+    }
+
+    QJsonDocument json = callPending( strAPI );
+
+    if (json.isObject() && json.object().contains("result") && json.object()["result"].isBool())
+    {
+        if (json.object()["result"].toBool() && json.object().contains("data") && json.object()["data"].isArray())
+        {
+            QJsonArray jArr = json.object()["data"].toArray();
+            insertPendingSignatureRows( jArr, OpType);
+        }
+        else
+        {
+            QString errMsg;
+            if (json.object().contains("message") && json.object()["message"].isString())
+            {
+                errMsg = json.object()["message"].toString();
+            }
+            else {
+                errMsg = "No data received";
+            }
+            ui->userstatusLabel2->setText( strAPI + QString::fromStdString(" ERROR: ") + errMsg );
+        }
+    }
+    else {
+        ui->userstatusLabel2->setText( QString::fromStdString("ERROR: no result in ") + strAPI );
+    }
+}
+
+void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType OpType )
+{
+    foreach (const QJsonValue & value, jArr) {
+        QJsonObject obj = value.toObject();
+        QString strDealId = obj["DealId"].toString();
+        QString strAmount = QString::number(obj["Amount"].toDouble(), 'g', 8);
+        QString strRefund = obj["Refund"].toString();
+        QString strDescription = obj["JobTitle"].toString();
+        QString strStatus;
+        QString strJobtype = obj["type"].toString();
+
+        switch ( OpType ) {
+            case PendingType::Buyer:
+                strStatus = tr("Pending Buyer");
+                strRefund = tr("N/A");
+                break;
+
+            case PendingType::Seller:
+                strStatus = tr("Pending Seller");
+                strRefund = tr("N/A");
+                break;
+
+            case PendingType::Mediated:
+                strStatus = tr("Mediated deal");
+                break;
+        }
+
+        ui->signatureTable->insertRow(0);
+
+        QTableWidgetItem* DealIdItem = new QTableWidgetItem(strDealId);
+        QTableWidgetItem* AmountItem = new QTableWidgetItem(strAmount);
+        AmountItem->setTextAlignment(Qt::AlignRight);
+        QTableWidgetItem* RefundItem = new QTableWidgetItem(strRefund);
+        AmountItem->setTextAlignment(Qt::AlignRight);
+        QTableWidgetItem* DescriptionItem = new QTableWidgetItem(strDescription);
+        QTableWidgetItem* StatusItem = new QTableWidgetItem(strStatus);
+        QTableWidgetItem* JobtypeItem = new QTableWidgetItem(strJobtype);
+
+        ui->signatureTable->setItem(0, 0, DealIdItem);
+        ui->signatureTable->setItem(0, 1, AmountItem);
+        ui->signatureTable->setItem(0, 2, RefundItem);
+        ui->signatureTable->setItem(0, 3, DescriptionItem);
+        ui->signatureTable->setItem(0, 4, StatusItem);
+        ui->signatureTable->setItem(0, 5, JobtypeItem);
+    }
+}
+
+void DigiwagePlatform::SetPaymentSignature1( QString PaymentSignature1 )
+{
+    return;
+}
+
 void DigiwagePlatform::on_addressBookButton_clicked()
 {
     if (walletModel && walletModel->getAddressTableModel()) {
@@ -426,6 +591,7 @@ void DigiwagePlatform::on_userButton_clicked()
     }
 
     updateEscrowList();
+    updatePendingDealsList();
     //Connect_updatePubAddress();
 }
 
