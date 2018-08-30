@@ -5,6 +5,9 @@
 #include "wallet_ismine.h"
 #include "base58.h"
 #include "addressbookpage.h"
+#include "askpassphrasedialog.h"
+#include "bitcoinunits.h"
+#include "optionsmodel.h"
 
 #include <QLineEdit>
 #include <QMessageBox>
@@ -29,12 +32,12 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    int columnDealIdWidth = 100;
+    int columnDealIdWidth = 200;
     int columnAddressWidth = 0;
-    int columnAmountWidth = 60;
-    int columnDescriptionWidth = 120;
-    int columnReceiverWidth = 80;
-    int columnJobtypeWidth = 80;
+    int columnAmountWidth = 80;
+    int columnDescriptionWidth = 240;
+    int columnReceiverWidth = 120;
+    int columnJobtypeWidth = 100;
 
     ui->escrowTable->setColumnWidth(0, columnDealIdWidth);
     ui->escrowTable->setColumnWidth(1, columnAmountWidth);
@@ -82,8 +85,6 @@ void DigiwagePlatform::setClientModel(ClientModel* model)
 
 void DigiwagePlatform::showContextMenu(const QModelIndex &index)
 {
-    int row = index.row();
-    int column = index.column();
     contextMenu->exec(QCursor::pos());
 }
 
@@ -105,6 +106,9 @@ void DigiwagePlatform::setAddress(const QString& address, QLineEdit* addrEdit)
 
 void DigiwagePlatform::updateEscrowList()
 {
+    // clean
+    ui->escrowTable->setRowCount(0);
+
     QString Address = ui->addressEdit->text();
     QString PubKey = getPubKey(ui->addressEdit->text());
     QString UserName = ui->usernameEdit->text();
@@ -146,6 +150,7 @@ void DigiwagePlatform::updateEscrowList()
 
                 QTableWidgetItem* DealIdItem = new QTableWidgetItem(strDealId);
                 QTableWidgetItem* AmountItem = new QTableWidgetItem(strAmount);
+                AmountItem->setTextAlignment(Qt::AlignLeft);
                 QTableWidgetItem* DescriptionItem = new QTableWidgetItem(strDescription);
                 QTableWidgetItem* ReceiverItem = new QTableWidgetItem(strReceiver);
                 QTableWidgetItem* AddressItem = new QTableWidgetItem(strAddress);
@@ -181,39 +186,220 @@ void DigiwagePlatform::updateEscrowList()
 
 void DigiwagePlatform::on_SendEscrowAction_clicked()
 {
-    // Find selected node alias
-    ui->userstatusLabel2->setText( "clicked" );
-    /*
-    QItemSelectionModel* selectionModel = ui->tableWidgetMyMasternodes->selectionModel();
+    // Find escrow transaction info
+    QItemSelectionModel* selectionModel = ui->escrowTable->selectionModel();
     QModelIndexList selected = selectionModel->selectedRows();
 
     if (selected.count() == 0) return;
 
     QModelIndex index = selected.at(0);
     int nSelectedRow = index.row();
-    std::string strAlias = ui->tableWidgetMyMasternodes->item(nSelectedRow, 0)->text().toStdString();
+    QString strAddress = ui->escrowTable->item(nSelectedRow, 4)->text();
+    QString strAmount = ui->escrowTable->item(nSelectedRow, 1)->text();
+    QString strLabel("");
+    QString strMessage("");
+    CAmount nAmount(0);
 
-    // Display message box
-    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm masternode start"),
-        tr("Are you sure you want to start masternode %1?").arg(QString::fromStdString(strAlias)),
-        QMessageBox::Yes | QMessageBox::Cancel,
-        QMessageBox::Cancel);
+    BitcoinUnits::parse(walletModel->getOptionsModel()->getDisplayUnit(), strAmount, &nAmount);
 
-    if (retval != QMessageBox::Yes) return;
+    ui->userstatusLabel2->setText( QString::fromStdString( "clicked " ) + strAddress + QString::fromStdString(" ") + strAmount );
 
+    // Send escrow payment
+    if (!walletModel || !walletModel->getOptionsModel())
+        return;
+
+    QList<SendCoinsRecipient> recipients;
+    bool valid = true;
+
+    SendCoinsRecipient recipient( strAddress, strLabel, nAmount, strMessage);
+
+    recipients.append(recipient);
+
+    // this way we let users unlock by walletpassphrase or by menu
+    // and make many transactions while unlocking through this dialog
+    // will call relock
     WalletModel::EncryptionStatus encStatus = walletModel->getEncryptionStatus();
-
     if (encStatus == walletModel->Locked || encStatus == walletModel->UnlockedForAnonymizationOnly) {
-        WalletModel::UnlockContext ctx(walletModel->requestUnlock());
+        WalletModel::UnlockContext ctx(walletModel->requestUnlock(true));
+        if (!ctx.isValid()) {
+            // Unlock wallet was cancelled
+            return;
+        }
+        send(recipients);
+        return;
+    }
+    // already unlocked or not encrypted at all
+    send(recipients);
 
-        if (!ctx.isValid()) return; // Unlock wallet was cancelled
+}
 
-        StartAlias(strAlias);
+void DigiwagePlatform::send(QList<SendCoinsRecipient> recipients)
+{
+    WalletModel *model = walletModel;
+    QString msgError;
+
+//ui->userstatusLabel2->setText( "send" );
+    // prepare transaction for getting txFee earlier
+    WalletModelTransaction currentTransaction(recipients);
+    WalletModel::SendCoinsReturn prepareStatus;
+
+    prepareStatus = model->prepareTransaction(currentTransaction);
+
+    // process prepareStatus and on error generate message shown to user
+    ProcessSendReturn(prepareStatus, msgError);
+
+    if (prepareStatus.status != WalletModel::OK) {
+        ui->userstatusLabel2->setText( QString::fromStdString("ERROR preparing transaction: ") + msgError );
         return;
     }
 
-    StartAlias(strAlias);
-    */
+    CAmount txFee = currentTransaction.getTransactionFee();
+    QString questionString = tr("Are you sure you want to send?");
+    questionString.append("<br /><br />%1");
+
+    if (txFee > 0) {
+        // append fee string if a fee is required
+        questionString.append("<hr /><span style='color:#aa0000;'>");
+        questionString.append(BitcoinUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), txFee));
+        questionString.append("</span> ");
+        questionString.append(tr("are added as transaction fee"));
+        questionString.append(" ");
+        //questionString.append(strFee);
+
+        // append transaction size
+        questionString.append(" (" + QString::number((double)currentTransaction.getTransactionSize() / 1000) + " kB)");
+    }
+
+    // add total amount in all subdivision units
+    questionString.append("<hr />");
+    CAmount totalAmount = currentTransaction.getTotalTransactionAmount() + txFee;
+    QStringList alternativeUnits;
+    foreach (BitcoinUnits::Unit u, BitcoinUnits::availableUnits()) {
+        if (u != model->getOptionsModel()->getDisplayUnit())
+            alternativeUnits.append(BitcoinUnits::formatHtmlWithUnit(u, totalAmount));
+    }
+
+    // Show total amount + all alternative units
+    questionString.append(tr("Total Amount = <b>%1</b><br />= %2")
+                              .arg(BitcoinUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), totalAmount))
+                              .arg(alternativeUnits.join("<br />= ")));
+
+
+    // Display message box
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm send coins"),
+        questionString.arg(""),
+        QMessageBox::Yes | QMessageBox::Cancel,
+        QMessageBox::Cancel);
+
+    if (retval != QMessageBox::Yes) {
+        return;
+    }
+
+    // now send the prepared transaction
+    WalletModel::SendCoinsReturn sendStatus = model->sendCoins(currentTransaction);
+    // process sendStatus and on error generate message shown to user
+    ProcessSendReturn(sendStatus, msgError);
+
+    if (sendStatus.status == WalletModel::OK) {
+        CWalletTx *tx = currentTransaction.getTransaction();
+        uint256 txhash = tx->GetHash();
+        SetEscrowTxId( QString::fromStdString(txhash.GetHex()) );
+    }
+    else {
+        ui->userstatusLabel2->setText( QString::fromStdString("ERROR sending: ") + msgError );
+        return;
+    }
+}
+
+void DigiwagePlatform::SetEscrowTxId( QString TxId )
+{
+    QString Address = ui->addressEdit->text();
+    QString PubKey = getPubKey(ui->addressEdit->text());
+    QString UserName = ui->usernameEdit->text();
+
+    // Find escrow transaction info
+    QItemSelectionModel* selectionModel = ui->escrowTable->selectionModel();
+    QModelIndexList selected = selectionModel->selectedRows();
+
+    if (selected.count() == 0) return;
+
+    QModelIndex index = selected.at(0);
+    int nSelectedRow = index.row();
+    QString type = ui->escrowTable->item(nSelectedRow, 5)->text();
+    QString DealId = ui->escrowTable->item(nSelectedRow, 0)->text();
+
+    QUrl url( DigiwagePlatform::ENDPOINT + "setEscrowTxId" );
+    QUrlQuery urlQuery( url );
+    urlQuery.addQueryItem("username", UserName);
+    urlQuery.addQueryItem("publicKey", PubKey);
+    urlQuery.addQueryItem("address", Address);
+    urlQuery.addQueryItem("type", type);
+    urlQuery.addQueryItem("DealId", DealId);
+    urlQuery.addQueryItem("EscrowTxId", TxId);
+
+    url.setQuery( urlQuery );
+
+    QNetworkRequest request( url );
+    QByteArray param;
+    QNetworkReply *reply = ConnectionManager->post(request, param);
+    QEventLoop loop;
+
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    QByteArray data = reply->readAll();
+    QJsonDocument json = QJsonDocument::fromJson(data);
+
+    if (json.isObject() && json.object().contains("result") && json.object()["result"].isBool())
+    {
+        if (json.object()["result"].toBool())
+        {
+            ui->userstatusLabel2->setText( "SUCCESS" );
+        }
+        else
+        {
+            QString errMsg;
+            if (json.object().contains("message") && json.object()["message"].isString())
+            {
+                errMsg = json.object()["message"].toString();
+            }
+            ui->userstatusLabel2->setText( "ERROR: " + errMsg );
+        }
+    }
+    return;
+}
+
+void DigiwagePlatform::ProcessSendReturn( const WalletModel::SendCoinsReturn& sendCoinsReturn, QString& msgArg)
+{
+    switch (sendCoinsReturn.status) {
+    case WalletModel::InvalidAddress:
+        msgArg = tr("The recipient address is not valid, please recheck.");
+        break;
+    case WalletModel::InvalidAmount:
+        msgArg = tr("The amount to pay must be larger than 0.");
+        break;
+    case WalletModel::AmountExceedsBalance:
+        msgArg = tr("The amount exceeds your balance.");
+        break;
+    case WalletModel::AmountWithFeeExceedsBalance:
+        msgArg = tr("The total exceeds your balance when the transaction fee is included.");
+        break;
+    case WalletModel::DuplicateAddress:
+        msgArg = tr("Duplicate address found, can only send to each address once per send operation.");
+        break;
+    case WalletModel::TransactionCreationFailed:
+        msgArg = tr("Transaction creation failed!");
+        break;
+    case WalletModel::TransactionCommitFailed:
+        msgArg = tr("The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
+        break;
+
+    // included to prevent a compiler warning.
+    case WalletModel::OK:
+    default:
+        return;
+    }
+
 }
 
 void DigiwagePlatform::on_addressBookButton_clicked()

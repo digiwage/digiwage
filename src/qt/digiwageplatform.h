@@ -1,6 +1,8 @@
 #ifndef DIGIWAGEPLATFORM_H
 #define DIGIWAGEPLATFORM_H
 
+#include "walletmodel.h"
+
 #include <QMenu>
 #include <QWidget>
 
@@ -13,6 +15,7 @@ class WalletModel;
 class QLineEdit;
 class QNetworkReply;
 class QNetworkAccessManager;
+class SendCoinsRecipient;
 
 class DigiwagePlatform : public QWidget
 {
@@ -25,12 +28,15 @@ public:
     void setWalletModel(WalletModel* walletModel);
     void setAddress(const QString& address);
     void setAddress(const QString& address, QLineEdit* addrEdit);
+    void send(QList<SendCoinsRecipient> recipients);
 
     void Connect_updatePubAddress( QString UserName, QString Address, QString PubKey );
 
 public Q_SLOTS:
     void updateEscrowList();
     void showContextMenu(const QModelIndex&);
+    void ProcessSendReturn( const WalletModel::SendCoinsReturn& sendCoinsReturn, QString& msgArg);
+    void SetEscrowTxId( QString TxId );
 
 private slots:
     void on_addressBookButton_clicked();
