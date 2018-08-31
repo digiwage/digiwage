@@ -64,6 +64,7 @@ private:
 
     QString getPubKey( QString address );
     static const QString ENDPOINT;
+    static const CAmount FEE;
 
     void insertPendingSignatureRows( QJsonArray jArr, PendingType OpType );
     void ProcessPendingResult( PendingType OpType );

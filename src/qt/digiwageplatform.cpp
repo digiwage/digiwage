@@ -8,6 +8,8 @@
 #include "askpassphrasedialog.h"
 #include "bitcoinunits.h"
 #include "optionsmodel.h"
+#include "rpcserver.h"
+#include "rpcclient.h"
 
 #include <QLineEdit>
 #include <QMessageBox>
@@ -22,7 +24,18 @@
 #include "clientmodel.h"
 #include "walletmodel.h"
 
+#include <boost/algorithm/string.hpp>
+using namespace std;
+using namespace json_spirit;
+
+// json_spirit helpers
+Value CallRPC(std::string args);
+json_spirit::mValue read_document(std::string& is);
+const json_spirit::mValue& get_object_item(const json_spirit::mValue& element, const std::string& name);
+const json_spirit::mValue& get_array_item(const json_spirit::mValue& element, size_t index);
+
 const QString DigiwagePlatform::ENDPOINT = "http://dev.digiwage.org/api/wallet/";
+const CAmount DigiwagePlatform::FEE = 3000;
 
 DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     QWidget(parent),
@@ -35,7 +48,7 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     // Escrow table
     int columnDealIdWidth = 200;
     int columnAddressWidth = 0;
-    int columnAmountWidth = 80;
+    int columnAmountWidth = 100;
     int columnDescriptionWidth = 240;
     int columnReceiverWidth = 120;
     int columnJobtypeWidth = 100;
@@ -65,11 +78,15 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     ui->signatureTable->setColumnWidth(4, columnStatusWidth);
     ui->signatureTable->setColumnWidth(5, columnJobtypeWidth);
     ui->signatureTable->setColumnWidth(6, 0);       // hidden EscrowTxId
-    ui->escrowTable->setColumnHidden(6, true);
+    //ui->escrowTable->setColumnHidden(6, true);
     ui->signatureTable->setColumnWidth(7, 0);       // hidden RedeemScript
-    ui->escrowTable->setColumnHidden(7, true);
+    //ui->escrowTable->setColumnHidden(7, true);
     ui->signatureTable->setColumnWidth(8, 0);       // hidden Signature1
-    ui->escrowTable->setColumnHidden(8, true);
+    //ui->escrowTable->setColumnHidden(8, true);
+    ui->signatureTable->setColumnWidth(9, 0);       // hidden sellerPubAddress
+    //ui->escrowTable->setColumnHidden(9, true);
+    ui->signatureTable->setColumnWidth(10, 0);       // hidden status code
+    //ui->escrowTable->setColumnHidden(10, true);
 
     QAction* SignOffAction = new QAction(tr("Sign off deal"), this);
     SignatureContextMenu = new QMenu();
@@ -187,7 +204,7 @@ void DigiwagePlatform::updateEscrowList()
 
                 QTableWidgetItem* DealIdItem = new QTableWidgetItem(strDealId);
                 QTableWidgetItem* AmountItem = new QTableWidgetItem(strAmount);
-                AmountItem->setTextAlignment(Qt::AlignRight);
+                AmountItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
                 QTableWidgetItem* DescriptionItem = new QTableWidgetItem(strDescription);
                 QTableWidgetItem* ReceiverItem = new QTableWidgetItem(strReceiver);
                 QTableWidgetItem* AddressItem = new QTableWidgetItem(strAddress);
@@ -461,13 +478,144 @@ void DigiwagePlatform::on_SignOffAction_clicked()
 
     QModelIndex index = selected.at(0);
     int nSelectedRow = index.row();
+
     QString strEscrowTxId = ui->signatureTable->item(nSelectedRow, 6)->text();
     QString strRedeemScript = ui->signatureTable->item(nSelectedRow, 7)->text();
-    QString strSignature1 = ui->signatureTable->item(nSelectedRow, 8)->text();;
+    QString strSignature1 = ui->signatureTable->item(nSelectedRow, 8)->text();
+    QString strSellerAddress = ui->signatureTable->item(nSelectedRow, 9)->text();
+    PendingType StatusCode = (PendingType)ui->signatureTable->item(nSelectedRow, 10)->text().toInt();
+    QString strAmount = ui->signatureTable->item(nSelectedRow, 1)->text();
+    CAmount nAmount(0);
+    QString strMyAddress = ui->addressEdit->text();
 
-    ui->userstatusLabel2->setText( QString::fromStdString( "clicked " ) + strEscrowTxId + QString::fromStdString(" ") + strRedeemScript );
+    BitcoinUnits::parse(walletModel->getOptionsModel()->getDisplayUnit(), strAmount, &nAmount);
+    nAmount -= DigiwagePlatform::FEE;
+    strAmount = BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), nAmount);
 
-    // TODO pending transaction signature stuff
+    //ui->userstatusLabel2->setText( QString::number(walletModel->getOptionsModel()->getDisplayUnit()) + QString::fromStdString( " / clicked " ) + strEscrowTxId
+    //                    //+ QString::fromStdString(" ") + strRedeemScript
+    //                    + QString::fromStdString(" ") + strSellerAddress);
+
+    // pending transaction signature
+    QString hex, hex2;
+    Value hexValue, hexValue2;
+    std::ostringstream cmd;
+
+    switch ( StatusCode ) {
+        case PendingType::Buyer:
+            cmd << "createrawtransaction [{\"txid\":\"" << strEscrowTxId.toUtf8().constData() << "\",\"vout\":0}] {\"" << strSellerAddress.toUtf8().constData() << "\":" << strAmount.toUtf8().constData() << "}" ;
+            hexValue = CallRPC( cmd.str() );
+            hex = QString::fromStdString(hexValue.get_str());
+            break;
+
+        case PendingType::Seller:
+            hex = strSignature1;
+            break;
+
+        case PendingType::Mediated:
+            hex = strSignature1;
+            break;
+    }
+
+    // obtain scriptPukKey
+    Value scriptPubKey;
+    try {
+        cmd.str("");
+        cmd << "getrawtransaction " << strEscrowTxId.toUtf8().constData() << " 1";
+        Value jsonVal = CallRPC( cmd.str() );
+        if ( jsonVal.type() == Value_type::str_type )       // some error happened, cannot continue
+        {
+            ui->userstatusLabel2->setText(QString::fromStdString(jsonVal.get_str()));
+            return;
+        }
+        else if ( jsonVal.type() == Value_type::obj_type ){
+            Value vout = find_value(jsonVal.get_obj(), "vout");
+            Value vout0 = vout.get_array().at(0);
+            Value scriptPubKeyObj = find_value(vout0.get_obj(),"scriptPubKey");
+            scriptPubKey = find_value(scriptPubKeyObj.get_obj(),"hex");
+            //ui->userstatusLabel2->setText(QString::fromStdString(scriptPubKey.get_str()));
+        }
+        else {
+            ui->userstatusLabel2->setText(QString::fromStdString( "ERROR getrawtransaction: unknown response") );
+            return;
+        }
+    }
+    catch (Object& objError)
+    {
+        ui->userstatusLabel2->setText( QString::fromStdString(find_value(objError, "message").get_str()) );
+        //return QString::fromStdString("ERROR");
+    }
+    catch ( std::runtime_error e)
+    {
+        ui->userstatusLabel2->setText( QString::fromStdString( "ERROR getrawtransaction" ) + QString::fromStdString( e.what() ));
+        return;
+    }
+
+    // this way we let users unlock by walletpassphrase or by menu
+    // and make many transactions while unlocking through this dialog
+    // will call relock
+    WalletModel::EncryptionStatus encStatus = walletModel->getEncryptionStatus();
+    if (encStatus == walletModel->Locked || encStatus == walletModel->UnlockedForAnonymizationOnly) {
+        WalletModel::UnlockContext ctx(walletModel->requestUnlock(true));
+        if (!ctx.isValid()) {
+            // Unlock wallet was cancelled
+            return;
+        }
+    }
+    // already unlocked or not encrypted at all
+
+    cmd.str("");
+    cmd << "dumpprivkey " << strMyAddress.toUtf8().constData();
+    Value privKeyVal = CallRPC( cmd.str() );
+    if (privKeyVal.get_str().compare("Invalid Digiwage address") == 0)
+    {
+        ui->userstatusLabel2->setText( QString::fromStdString( "ERROR dumpprivkey, invalid user address" ));
+        return;
+    }
+
+    cmd.str("");
+    cmd << "signrawtransaction " << hex.toUtf8().constData() << " [{\"txid\":\"" << strEscrowTxId.toUtf8().constData() << "\",\"vout\":0,\"scriptPubKey\":\"" << scriptPubKey.get_str() << "\",\"redeemScript\":\"" << strRedeemScript.toUtf8().constData() << "\"}] [\"" << privKeyVal.get_str() << "\"]";
+    Value signTxResult;
+    bool complete;
+
+    try {
+        signTxResult = CallRPC( cmd.str() );
+        if ( signTxResult.type() == Value_type::str_type )       // some error happened, cannot continue
+        {
+            ui->userstatusLabel2->setText(QString::fromStdString(signTxResult.get_str()));
+            return;
+        }
+        else if ( signTxResult.type() == Value_type::obj_type ){
+            hexValue2 = find_value(signTxResult.get_obj(), "hex");
+            Value completeValue = find_value(signTxResult.get_obj(), "complete");
+            complete = completeValue.get_bool();
+            //ui->userstatusLabel2->setText(QString::fromStdString(hexValue2.get_str()));
+        }
+        else {
+            ui->userstatusLabel2->setText(QString::fromStdString( "ERROR signrawtransaction: unknown response") );
+            return;
+        }
+    }
+    catch (Object& objError)
+    {
+        ui->userstatusLabel2->setText( QString::fromStdString(find_value(objError, "message").get_str()) );
+        return;
+    }
+    catch ( std::runtime_error e)
+    {
+        ui->userstatusLabel2->setText( QString::fromStdString( "ERROR signrawtransaction " ) + QString::fromStdString( e.what() ));
+        return;
+    }
+
+    if ( complete )     // broadcast tx
+    {
+        ui->userstatusLabel2->setText( QString::fromStdString( "TODO sendtransaction" ) );
+//ui->usernameEdit->setText( QString::fromStdString ( cmd.str() ));
+    }
+    else {              // send partially signed tx to platform
+        SetPaymentSignature1( QString::fromStdString(hexValue2.get_str()) );
+    }
+
 }
 
 void DigiwagePlatform::ProcessPendingResult( PendingType OpType )
@@ -520,11 +668,15 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
     foreach (const QJsonValue & value, jArr) {
         QJsonObject obj = value.toObject();
         QString strDealId = obj["DealId"].toString();
-        QString strAmount = QString::number(obj["Amount"].toDouble(), 'g', 8);
+        QString strAmount = QString::number(obj["EscrowAmount"].toDouble(), 'g', 8);
         QString strRefund = obj["Refund"].toString();
         QString strDescription = obj["JobTitle"].toString();
-        QString strStatus;
+        QString strStatus, strStatusCode = QString::number((int)OpType);
         QString strJobtype = obj["type"].toString();
+        QString strEscrowTxId = obj["EscrowTxId"].toString();
+        QString strRedeemScript = obj["RedeemScript"].toString();
+        QString strSignature1 = obj["Signature1"].toString();
+        QString strSellerAddress = obj["sellerPubAddress"].toString();
 
         switch ( OpType ) {
             case PendingType::Buyer:
@@ -546,12 +698,17 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
 
         QTableWidgetItem* DealIdItem = new QTableWidgetItem(strDealId);
         QTableWidgetItem* AmountItem = new QTableWidgetItem(strAmount);
-        AmountItem->setTextAlignment(Qt::AlignRight);
+        AmountItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         QTableWidgetItem* RefundItem = new QTableWidgetItem(strRefund);
-        AmountItem->setTextAlignment(Qt::AlignRight);
+        AmountItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         QTableWidgetItem* DescriptionItem = new QTableWidgetItem(strDescription);
         QTableWidgetItem* StatusItem = new QTableWidgetItem(strStatus);
         QTableWidgetItem* JobtypeItem = new QTableWidgetItem(strJobtype);
+        QTableWidgetItem* EscrowTxIdItem = new QTableWidgetItem(strEscrowTxId);
+        QTableWidgetItem* RedeemScriptItem = new QTableWidgetItem(strRedeemScript);
+        QTableWidgetItem* Signature1Item = new QTableWidgetItem(strSignature1);
+        QTableWidgetItem* SellerAddressItem = new QTableWidgetItem(strSellerAddress);
+        QTableWidgetItem* StatusCodeItem = new QTableWidgetItem(strStatusCode);
 
         ui->signatureTable->setItem(0, 0, DealIdItem);
         ui->signatureTable->setItem(0, 1, AmountItem);
@@ -559,11 +716,69 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
         ui->signatureTable->setItem(0, 3, DescriptionItem);
         ui->signatureTable->setItem(0, 4, StatusItem);
         ui->signatureTable->setItem(0, 5, JobtypeItem);
+        ui->signatureTable->setItem(0, 6, EscrowTxIdItem);
+        ui->signatureTable->setItem(0, 7, RedeemScriptItem);
+        ui->signatureTable->setItem(0, 8, Signature1Item);
+        ui->signatureTable->setItem(0, 9, SellerAddressItem);
+        ui->signatureTable->setItem(0, 10, StatusCodeItem);
     }
 }
 
 void DigiwagePlatform::SetPaymentSignature1( QString PaymentSignature1 )
 {
+    QString Address = ui->addressEdit->text();
+    QString PubKey = getPubKey(ui->addressEdit->text());
+    QString UserName = ui->usernameEdit->text();
+
+    // Find escrow transaction info
+    QItemSelectionModel* selectionModel = ui->signatureTable->selectionModel();
+    QModelIndexList selected = selectionModel->selectedRows();
+
+    if (selected.count() == 0) return;
+
+    QModelIndex index = selected.at(0);
+    int nSelectedRow = index.row();
+    QString type = ui->signatureTable->item(nSelectedRow, 5)->text();
+    QString DealId = ui->signatureTable->item(nSelectedRow, 0)->text();
+
+    QUrl url( DigiwagePlatform::ENDPOINT + "setPaymentSignature1" );
+    QUrlQuery urlQuery( url );
+    urlQuery.addQueryItem("username", UserName);
+    urlQuery.addQueryItem("publicKey", PubKey);
+    urlQuery.addQueryItem("address", Address);
+    urlQuery.addQueryItem("type", type);
+    urlQuery.addQueryItem("DealId", DealId);
+    urlQuery.addQueryItem("PaymentSignature1", PaymentSignature1);
+    url.setQuery( urlQuery );
+
+    QNetworkRequest request( url );
+    QByteArray param;
+    QNetworkReply *reply = ConnectionManager->post(request, param);
+    QEventLoop loop;
+
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    QByteArray data = reply->readAll();
+    QJsonDocument json = QJsonDocument::fromJson(data);
+
+    if (json.isObject() && json.object().contains("result") && json.object()["result"].isBool())
+    {
+        if (json.object()["result"].toBool())
+        {
+            ui->userstatusLabel2->setText( "SUCCESS: deal signed " + json.object()["message"].toString() );
+        }
+        else
+        {
+            QString errMsg;
+            if (json.object().contains("message") && json.object()["message"].isString())
+            {
+                errMsg = json.object()["message"].toString();
+            }
+            ui->userstatusLabel2->setText( "ERROR: " + errMsg );
+        }
+    }
+    updatePendingDealsList();
     return;
 }
 
@@ -664,4 +879,46 @@ QString DigiwagePlatform::getPubKey( QString addressString )
     }
 
     return ret;
+}
+
+// RPC helper
+Value CallRPC(string args)
+{
+    try {
+        vector<string> vArgs;
+        boost::split(vArgs, args, boost::is_any_of(" \t"));
+        string strMethod = vArgs[0];
+        vArgs.erase(vArgs.begin());
+        Array params = RPCConvertValues(strMethod, vArgs);
+
+        rpcfn_type method = tableRPC[strMethod]->actor;
+
+        Value result = (*method)(params, false);
+        return result;
+        //return QString::fromStdString("nothing");
+    }
+    catch (Object& objError)
+    {
+        return find_value(objError, "message");
+    }
+}
+
+// json_spirit helpers
+json_spirit::mValue read_document(std::string& str) {
+    json_spirit::mValue result;
+    auto ok = json_spirit::read_string(str, result);
+    if (!ok) {
+        throw std::runtime_error { "invalid json" };
+    }
+    return result;
+}
+
+const json_spirit::mValue& get_object_item(const json_spirit::mValue& element, const std::string& name)
+{
+    return element.get_obj().at(name);
+}
+
+const json_spirit::mValue& get_array_item(const json_spirit::mValue& element, size_t index)
+{
+    return element.get_array().at(index);
 }

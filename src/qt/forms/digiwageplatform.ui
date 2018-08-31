@@ -247,6 +247,16 @@
          <string>Signature1</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>Seller Address</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Status Code</string>
+        </property>
+       </column>
       </widget>
      </item>
     </layout>
