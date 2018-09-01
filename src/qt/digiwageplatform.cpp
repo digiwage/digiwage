@@ -30,9 +30,6 @@ using namespace json_spirit;
 
 // json_spirit helpers
 Value CallRPC(std::string args);
-json_spirit::mValue read_document(std::string& is);
-const json_spirit::mValue& get_object_item(const json_spirit::mValue& element, const std::string& name);
-const json_spirit::mValue& get_array_item(const json_spirit::mValue& element, size_t index);
 
 const QString DigiwagePlatform::ENDPOINT = "http://dev.digiwage.org/api/wallet/";
 const CAmount DigiwagePlatform::FEE = 3000;
@@ -366,59 +363,7 @@ void DigiwagePlatform::send(QList<SendCoinsRecipient> recipients)
 
 void DigiwagePlatform::SetEscrowTxId( QString TxId )
 {
-    QString Address = ui->addressEdit->text();
-    QString PubKey = getPubKey(ui->addressEdit->text());
-    QString UserName = ui->usernameEdit->text();
-
-    // Find escrow transaction info
-    QItemSelectionModel* selectionModel = ui->escrowTable->selectionModel();
-    QModelIndexList selected = selectionModel->selectedRows();
-
-    if (selected.count() == 0) return;
-
-    QModelIndex index = selected.at(0);
-    int nSelectedRow = index.row();
-    QString type = ui->escrowTable->item(nSelectedRow, 5)->text();
-    QString DealId = ui->escrowTable->item(nSelectedRow, 0)->text();
-
-    QUrl url( DigiwagePlatform::ENDPOINT + "setEscrowTxId" );
-    QUrlQuery urlQuery( url );
-    urlQuery.addQueryItem("username", UserName);
-    urlQuery.addQueryItem("publicKey", PubKey);
-    urlQuery.addQueryItem("address", Address);
-    urlQuery.addQueryItem("type", type);
-    urlQuery.addQueryItem("DealId", DealId);
-    urlQuery.addQueryItem("EscrowTxId", TxId);
-
-    url.setQuery( urlQuery );
-
-    QNetworkRequest request( url );
-    QByteArray param;
-    QNetworkReply *reply = ConnectionManager->post(request, param);
-    QEventLoop loop;
-
-    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
-    loop.exec();
-
-    QByteArray data = reply->readAll();
-    QJsonDocument json = QJsonDocument::fromJson(data);
-
-    if (json.isObject() && json.object().contains("result") && json.object()["result"].isBool())
-    {
-        if (json.object()["result"].toBool())
-        {
-            ui->userstatusLabel2->setText( "SUCCESS" );
-        }
-        else
-        {
-            QString errMsg;
-            if (json.object().contains("message") && json.object()["message"].isString())
-            {
-                errMsg = json.object()["message"].toString();
-            }
-            ui->userstatusLabel2->setText( "ERROR: " + errMsg );
-        }
-    }
+    CallAPISet( "setEscrowTxId", ui->escrowTable, "EscrowTxId", TxId );
     updateEscrowList();
     return;
 }
@@ -589,7 +534,7 @@ void DigiwagePlatform::on_SignOffAction_clicked()
             hexValue2 = find_value(signTxResult.get_obj(), "hex");
             Value completeValue = find_value(signTxResult.get_obj(), "complete");
             complete = completeValue.get_bool();
-            //ui->userstatusLabel2->setText(QString::fromStdString(hexValue2.get_str()));
+            ui->userstatusLabel2->setText(QString::fromStdString(hexValue2.get_str()));
         }
         else {
             ui->userstatusLabel2->setText(QString::fromStdString( "ERROR signrawtransaction: unknown response") );
@@ -609,13 +554,34 @@ void DigiwagePlatform::on_SignOffAction_clicked()
 
     if ( complete )     // broadcast tx
     {
-        ui->userstatusLabel2->setText( QString::fromStdString( "TODO sendtransaction" ) );
-//ui->usernameEdit->setText( QString::fromStdString ( cmd.str() ));
+        cmd.str("");
+        cmd << "sendrawtransaction " << hexValue2.get_str();
+        Value TxIdValue = CallRPC( cmd.str() );
+        if (TxIdValue.get_str().find("code") != std::string::npos)
+        {
+            ui->userstatusLabel2->setText( QString::fromStdString( "ERROR in sendrawtransaction " + TxIdValue.get_str() ));
+            return;
+        }
+        SetPaymentTxId( QString::fromStdString( TxIdValue.get_str()) );
     }
     else {              // send partially signed tx to platform
         SetPaymentSignature1( QString::fromStdString(hexValue2.get_str()) );
     }
 
+}
+
+void DigiwagePlatform::SetPaymentSignature1( QString PaymentSignature1 )
+{
+    CallAPISet( "setPaymentSignature1", ui->signatureTable, "PaymentSignature1", PaymentSignature1 );
+    updatePendingDealsList();
+    return;
+}
+
+void DigiwagePlatform::SetPaymentTxId( QString TxId )
+{
+    CallAPISet( "setPaymentTxId", ui->signatureTable, "PaymentTxId", TxId );
+    updatePendingDealsList();
+    return;
 }
 
 void DigiwagePlatform::ProcessPendingResult( PendingType OpType )
@@ -675,7 +641,7 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
         QString strJobtype = obj["type"].toString();
         QString strEscrowTxId = obj["EscrowTxId"].toString();
         QString strRedeemScript = obj["RedeemScript"].toString();
-        QString strSignature1 = obj["Signature1"].toString();
+        QString strSignature1 = obj["PaymentSignature1"].toString();
         QString strSellerAddress = obj["sellerPubAddress"].toString();
 
         switch ( OpType ) {
@@ -724,64 +690,6 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
     }
 }
 
-void DigiwagePlatform::SetPaymentSignature1( QString PaymentSignature1 )
-{
-    QString Address = ui->addressEdit->text();
-    QString PubKey = getPubKey(ui->addressEdit->text());
-    QString UserName = ui->usernameEdit->text();
-
-    // Find escrow transaction info
-    QItemSelectionModel* selectionModel = ui->signatureTable->selectionModel();
-    QModelIndexList selected = selectionModel->selectedRows();
-
-    if (selected.count() == 0) return;
-
-    QModelIndex index = selected.at(0);
-    int nSelectedRow = index.row();
-    QString type = ui->signatureTable->item(nSelectedRow, 5)->text();
-    QString DealId = ui->signatureTable->item(nSelectedRow, 0)->text();
-
-    QUrl url( DigiwagePlatform::ENDPOINT + "setPaymentSignature1" );
-    QUrlQuery urlQuery( url );
-    urlQuery.addQueryItem("username", UserName);
-    urlQuery.addQueryItem("publicKey", PubKey);
-    urlQuery.addQueryItem("address", Address);
-    urlQuery.addQueryItem("type", type);
-    urlQuery.addQueryItem("DealId", DealId);
-    urlQuery.addQueryItem("PaymentSignature1", PaymentSignature1);
-    url.setQuery( urlQuery );
-
-    QNetworkRequest request( url );
-    QByteArray param;
-    QNetworkReply *reply = ConnectionManager->post(request, param);
-    QEventLoop loop;
-
-    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
-    loop.exec();
-
-    QByteArray data = reply->readAll();
-    QJsonDocument json = QJsonDocument::fromJson(data);
-
-    if (json.isObject() && json.object().contains("result") && json.object()["result"].isBool())
-    {
-        if (json.object()["result"].toBool())
-        {
-            ui->userstatusLabel2->setText( "SUCCESS: deal signed " + json.object()["message"].toString() );
-        }
-        else
-        {
-            QString errMsg;
-            if (json.object().contains("message") && json.object()["message"].isString())
-            {
-                errMsg = json.object()["message"].toString();
-            }
-            ui->userstatusLabel2->setText( "ERROR: " + errMsg );
-        }
-    }
-    updatePendingDealsList();
-    return;
-}
-
 void DigiwagePlatform::on_addressBookButton_clicked()
 {
     if (walletModel && walletModel->getAddressTableModel()) {
@@ -803,15 +711,17 @@ void DigiwagePlatform::on_userButton_clicked()
     else
     {
         ui->userstatusLabel2->setText("ERROR: Address must belong to this wallet and be spendable");
+        return;
     }
 
     updateEscrowList();
     updatePendingDealsList();
-    //Connect_updatePubAddress();
 }
 
-void DigiwagePlatform::Connect_updatePubAddress( QString UserName, QString Address, QString PubKey )
+bool DigiwagePlatform::Connect_updatePubAddress( QString UserName, QString Address, QString PubKey )
 {
+    bool bRet = false;
+
     QUrl url( DigiwagePlatform::ENDPOINT + "updatePubAddress" );
     QUrlQuery urlQuery( url );
     urlQuery.addQueryItem("username", UserName);
@@ -839,6 +749,7 @@ void DigiwagePlatform::Connect_updatePubAddress( QString UserName, QString Addre
             QSettings settings;
             settings.setValue("platformUsername", ui->usernameEdit->text());
             settings.setValue("platformUseraddress", ui->addressEdit->text());
+            bRet=true;
         }
         else
         {
@@ -850,10 +761,7 @@ void DigiwagePlatform::Connect_updatePubAddress( QString UserName, QString Addre
             ui->userstatusLabel2->setText( "ERROR: " + errMsg );
         }
     }
-    QString str(data);
-
-    //ui->userstatusLabel2->setText( str );
-    return;
+    return bRet;
 }
 
 QString DigiwagePlatform::getPubKey( QString addressString )
@@ -881,6 +789,63 @@ QString DigiwagePlatform::getPubKey( QString addressString )
     return ret;
 }
 
+void DigiwagePlatform::CallAPISet( string API, QTableWidget *QTW, const char *VarName, QString VarValue )
+{
+    QString Address = ui->addressEdit->text();
+    QString PubKey = getPubKey(ui->addressEdit->text());
+    QString UserName = ui->usernameEdit->text();
+
+    // Find escrow transaction info
+    QItemSelectionModel* selectionModel = QTW->selectionModel();
+    QModelIndexList selected = selectionModel->selectedRows();
+
+    if (selected.count() == 0) return;
+
+    QModelIndex index = selected.at(0);
+    int nSelectedRow = index.row();
+    QString type = QTW->item(nSelectedRow, 5)->text();
+    QString DealId = QTW->item(nSelectedRow, 0)->text();
+
+    QUrl url( DigiwagePlatform::ENDPOINT + QString::fromStdString(API) );
+    QUrlQuery urlQuery( url );
+    urlQuery.addQueryItem("username", UserName);
+    urlQuery.addQueryItem("publicKey", PubKey);
+    urlQuery.addQueryItem("address", Address);
+    urlQuery.addQueryItem("type", type);
+    urlQuery.addQueryItem("DealId", DealId);
+    urlQuery.addQueryItem(VarName, VarValue);
+    url.setQuery( urlQuery );
+
+    QNetworkRequest request( url );
+    QByteArray param;
+    QNetworkReply *reply = ConnectionManager->post(request, param);
+    QEventLoop loop;
+
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    QByteArray data = reply->readAll();
+    QJsonDocument json = QJsonDocument::fromJson(data);
+
+    if (json.isObject() && json.object().contains("result") && json.object()["result"].isBool())
+    {
+        if (json.object()["result"].toBool())
+        {
+            ui->userstatusLabel2->setText( "SUCCESS: " + json.object()["message"].toString() );
+        }
+        else
+        {
+            QString errMsg;
+            if (json.object().contains("message") && json.object()["message"].isString())
+            {
+                errMsg = json.object()["message"].toString();
+            }
+            ui->userstatusLabel2->setText( "ERROR: " + errMsg );
+        }
+    }
+    return;
+}
+
 // RPC helper
 Value CallRPC(string args)
 {
@@ -903,22 +868,3 @@ Value CallRPC(string args)
     }
 }
 
-// json_spirit helpers
-json_spirit::mValue read_document(std::string& str) {
-    json_spirit::mValue result;
-    auto ok = json_spirit::read_string(str, result);
-    if (!ok) {
-        throw std::runtime_error { "invalid json" };
-    }
-    return result;
-}
-
-const json_spirit::mValue& get_object_item(const json_spirit::mValue& element, const std::string& name)
-{
-    return element.get_obj().at(name);
-}
-
-const json_spirit::mValue& get_array_item(const json_spirit::mValue& element, size_t index)
-{
-    return element.get_array().at(index);
-}

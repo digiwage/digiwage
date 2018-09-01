@@ -13,6 +13,7 @@ class DigiwagePlatform;
 class ClientModel;
 class WalletModel;
 class QLineEdit;
+class QTableWidget;
 class QNetworkReply;
 class QNetworkAccessManager;
 class SendCoinsRecipient;
@@ -36,7 +37,7 @@ public:
     void setAddress(const QString& address, QLineEdit* addrEdit);
     void send(QList<SendCoinsRecipient> recipients);
 
-    void Connect_updatePubAddress( QString UserName, QString Address, QString PubKey );
+    bool Connect_updatePubAddress( QString UserName, QString Address, QString PubKey );
 
 public Q_SLOTS:
     void updateEscrowList();
@@ -46,6 +47,7 @@ public Q_SLOTS:
     void ProcessSendReturn( const WalletModel::SendCoinsReturn& sendCoinsReturn, QString& msgArg);
     void SetEscrowTxId( QString TxId );
     void SetPaymentSignature1( QString PaymentSignature1 );
+    void SetPaymentTxId( QString TxId );
 
 private slots:
     void on_addressBookButton_clicked();
@@ -68,6 +70,7 @@ private:
 
     void insertPendingSignatureRows( QJsonArray jArr, PendingType OpType );
     void ProcessPendingResult( PendingType OpType );
+    void CallAPISet( std::string API, QTableWidget *QTW, const char *VarName, QString VarValue );
     QJsonDocument callPending( QString api );
 
 };
