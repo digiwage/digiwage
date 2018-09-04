@@ -54,6 +54,9 @@ private slots:
     void on_userButton_clicked();
     void on_SendEscrowAction_clicked();
     void on_SignOffAction_clicked();
+    void on_CopyDealIdEscrowAction_clicked();
+    void on_CopyDealIdPendingAction_clicked();
+
 
 private:
     QMenu* EscrowContextMenu;
@@ -65,12 +68,13 @@ private:
     QNetworkAccessManager *ConnectionManager;
 
     QString getPubKey( QString address );
-    static const QString ENDPOINT;
-    static const CAmount FEE;
+    QString ENDPOINT;
+    CAmount FEE;
 
     void insertPendingSignatureRows( QJsonArray jArr, PendingType OpType );
     void ProcessPendingResult( PendingType OpType );
     void CallAPISet( std::string API, QTableWidget *QTW, const char *VarName, QString VarValue );
+    void CopyDealId( QTableWidget *QTW );
     QJsonDocument callPending( QString api );
 
 };

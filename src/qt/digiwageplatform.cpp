@@ -10,6 +10,7 @@
 #include "optionsmodel.h"
 #include "rpcserver.h"
 #include "rpcclient.h"
+#include "guiutil.h"
 
 #include <QLineEdit>
 #include <QMessageBox>
@@ -31,9 +32,6 @@ using namespace json_spirit;
 // json_spirit helpers
 Value CallRPC(std::string args);
 
-const QString DigiwagePlatform::ENDPOINT = "http://dev.digiwage.org/api/wallet/";
-const CAmount DigiwagePlatform::FEE = 3000;
-
 DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DigiwagePlatform),
@@ -41,6 +39,9 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     walletModel(0)
 {
     ui->setupUi(this);
+
+    ENDPOINT = QString::fromStdString(GetArg("-platformurl", "http://dev.digiwage.org/api/wallet/"));
+    FEE = GetArg("-platformfee", 9999);
 
     // Escrow table
     int columnDealIdWidth = 200;
@@ -59,10 +60,13 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     ui->escrowTable->setColumnWidth(5, columnJobtypeWidth);
 
     QAction* SendEscrowAction = new QAction(tr("Send Escrow"), this);
+    QAction* CopyDealIdEscrowAction = new QAction(tr("&Copy Deal ID"), this);
     EscrowContextMenu = new QMenu();
     EscrowContextMenu->addAction(SendEscrowAction);
+    EscrowContextMenu->addAction(CopyDealIdEscrowAction);
     connect(ui->escrowTable, SIGNAL(pressed(const QModelIndex&)), this, SLOT(showEscrowContextMenu(const QModelIndex&)));
     connect(SendEscrowAction, SIGNAL(triggered()), this, SLOT(on_SendEscrowAction_clicked()));
+    connect(CopyDealIdEscrowAction, SIGNAL(triggered()), this, SLOT(on_CopyDealIdEscrowAction_clicked()));
 
     // Pending signatures table
     int columnRefundWidth = 80;
@@ -75,21 +79,26 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     ui->signatureTable->setColumnWidth(4, columnStatusWidth);
     ui->signatureTable->setColumnWidth(5, columnJobtypeWidth);
     ui->signatureTable->setColumnWidth(6, 0);       // hidden EscrowTxId
-    //ui->escrowTable->setColumnHidden(6, true);
+    ui->signatureTable->setColumnHidden(6, true);
     ui->signatureTable->setColumnWidth(7, 0);       // hidden RedeemScript
-    //ui->escrowTable->setColumnHidden(7, true);
+    ui->signatureTable->setColumnHidden(7, true);
     ui->signatureTable->setColumnWidth(8, 0);       // hidden Signature1
-    //ui->escrowTable->setColumnHidden(8, true);
+    ui->signatureTable->setColumnHidden(8, true);
     ui->signatureTable->setColumnWidth(9, 0);       // hidden sellerPubAddress
-    //ui->escrowTable->setColumnHidden(9, true);
+    ui->signatureTable->setColumnHidden(9, true);
     ui->signatureTable->setColumnWidth(10, 0);       // hidden status code
-    //ui->escrowTable->setColumnHidden(10, true);
+    ui->signatureTable->setColumnHidden(10, true);
+    ui->signatureTable->setColumnWidth(11, 0);       // hidden escrow address
+    ui->signatureTable->setColumnHidden(11, true);
 
     QAction* SignOffAction = new QAction(tr("Sign off deal"), this);
+    QAction* CopyDealIdPendingAction = new QAction(tr("&Copy Deal ID"), this);
     SignatureContextMenu = new QMenu();
     SignatureContextMenu->addAction(SignOffAction);
+    SignatureContextMenu->addAction(CopyDealIdPendingAction);
     connect(ui->signatureTable, SIGNAL(pressed(const QModelIndex&)), this, SLOT(showSignatureContextMenu(const QModelIndex&)));
     connect(SignOffAction, SIGNAL(triggered()), this, SLOT(on_SignOffAction_clicked()));
+    connect(CopyDealIdPendingAction, SIGNAL(triggered()), this, SLOT(on_CopyDealIdPendingAction_clicked()));
 
     // managers and settings
     ConnectionManager = new QNetworkAccessManager(this);
@@ -100,6 +109,7 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     QString useraddress = settings.value("platformUseraddress").toString();
     ui->usernameEdit->setText(username);
     ui->addressEdit->setText(useraddress);
+
 
     if (!username.isEmpty() && !useraddress.isEmpty())
     {
@@ -252,15 +262,11 @@ void DigiwagePlatform::on_SendEscrowAction_clicked()
 
     BitcoinUnits::parse(walletModel->getOptionsModel()->getDisplayUnit(), strAmount, &nAmount);
 
-    ui->userstatusLabel2->setText( QString::fromStdString( "clicked " ) + strAddress + QString::fromStdString(" ") + strAmount );
-
     // Send escrow payment
     if (!walletModel || !walletModel->getOptionsModel())
         return;
 
     QList<SendCoinsRecipient> recipients;
-    bool valid = true;
-
     SendCoinsRecipient recipient( strAddress, strLabel, nAmount, strMessage);
 
     recipients.append(recipient);
@@ -281,6 +287,31 @@ void DigiwagePlatform::on_SendEscrowAction_clicked()
     // already unlocked or not encrypted at all
     send(recipients);
 
+}
+
+void DigiwagePlatform::on_CopyDealIdEscrowAction_clicked()
+{
+    CopyDealId( ui->escrowTable );
+}
+
+void DigiwagePlatform::on_CopyDealIdPendingAction_clicked()
+{
+    CopyDealId( ui->signatureTable );
+}
+
+void DigiwagePlatform::CopyDealId( QTableWidget *QTW )
+{
+    // Find deal id info
+    QItemSelectionModel* selectionModel = QTW->selectionModel();
+    QModelIndexList selected = selectionModel->selectedRows();
+
+    if (selected.count() == 0) return;
+
+    QModelIndex index = selected.at(0);
+    int nSelectedRow = index.row();
+    QString strDealId = QTW->item(nSelectedRow, 0)->text();
+
+    GUIUtil::setClipboard( strDealId );
 }
 
 void DigiwagePlatform::send(QList<SendCoinsRecipient> recipients)
@@ -428,6 +459,7 @@ void DigiwagePlatform::on_SignOffAction_clicked()
     QString strRedeemScript = ui->signatureTable->item(nSelectedRow, 7)->text();
     QString strSignature1 = ui->signatureTable->item(nSelectedRow, 8)->text();
     QString strSellerAddress = ui->signatureTable->item(nSelectedRow, 9)->text();
+    QString strEscrowAddress = "dM2aenniHM7uoUFPNjUFPLEuCvs62sqwTV"; //ui->signatureTable->item(nSelectedRow, 11)->text();
     PendingType StatusCode = (PendingType)ui->signatureTable->item(nSelectedRow, 10)->text().toInt();
     QString strAmount = ui->signatureTable->item(nSelectedRow, 1)->text();
     CAmount nAmount(0);
@@ -446,24 +478,10 @@ void DigiwagePlatform::on_SignOffAction_clicked()
     Value hexValue, hexValue2;
     std::ostringstream cmd;
 
-    switch ( StatusCode ) {
-        case PendingType::Buyer:
-            cmd << "createrawtransaction [{\"txid\":\"" << strEscrowTxId.toUtf8().constData() << "\",\"vout\":0}] {\"" << strSellerAddress.toUtf8().constData() << "\":" << strAmount.toUtf8().constData() << "}" ;
-            hexValue = CallRPC( cmd.str() );
-            hex = QString::fromStdString(hexValue.get_str());
-            break;
-
-        case PendingType::Seller:
-            hex = strSignature1;
-            break;
-
-        case PendingType::Mediated:
-            hex = strSignature1;
-            break;
-    }
-
-    // obtain scriptPukKey
+    // obtain txIndex and scriptPukKey
+    int txIndex = 0;
     Value scriptPubKey;
+
     try {
         cmd.str("");
         cmd << "getrawtransaction " << strEscrowTxId.toUtf8().constData() << " 1";
@@ -475,10 +493,22 @@ void DigiwagePlatform::on_SignOffAction_clicked()
         }
         else if ( jsonVal.type() == Value_type::obj_type ){
             Value vout = find_value(jsonVal.get_obj(), "vout");
-            Value vout0 = vout.get_array().at(0);
-            Value scriptPubKeyObj = find_value(vout0.get_obj(),"scriptPubKey");
-            scriptPubKey = find_value(scriptPubKeyObj.get_obj(),"hex");
-            //ui->userstatusLabel2->setText(QString::fromStdString(scriptPubKey.get_str()));
+            const Array& vout_array = vout.get_array();
+            Object voutN, scriptPubKeyObj;
+            for( unsigned int i = 0; i < vout_array.size(); ++i )
+            {
+                voutN = vout_array[i].get_obj();
+                scriptPubKeyObj = find_value(voutN,"scriptPubKey").get_obj();
+                const Array& addresses_array = find_value(scriptPubKeyObj,"addresses").get_array();
+                if ( addresses_array[0].get_str().compare(strEscrowAddress.toUtf8().constData()) == 0 )
+                {
+                   txIndex = i;
+                   scriptPubKey = find_value(scriptPubKeyObj,"hex");
+                   break;
+                }
+            }
+//ui->userstatusLabel2->setText(QString::fromStdString(scriptPubKey.get_str()));
+//return;
         }
         else {
             ui->userstatusLabel2->setText(QString::fromStdString( "ERROR getrawtransaction: unknown response") );
@@ -495,6 +525,24 @@ void DigiwagePlatform::on_SignOffAction_clicked()
         ui->userstatusLabel2->setText( QString::fromStdString( "ERROR getrawtransaction" ) + QString::fromStdString( e.what() ));
         return;
     }
+    switch ( StatusCode ) {
+        case PendingType::Buyer:
+            cmd << "createrawtransaction [{\"txid\":\"" << strEscrowTxId.toUtf8().constData() << "\",\"vout\":" << txIndex << "}] {\"" << strSellerAddress.toUtf8().constData() << "\":" << strAmount.toUtf8().constData() << "}" ;
+            hexValue = CallRPC( cmd.str() );
+            hex = QString::fromStdString(hexValue.get_str());
+//            ui->userstatusLabel2->setText(QString::fromStdString( cmd.str() ));
+            break;
+
+        case PendingType::Seller:
+            hex = strSignature1;
+            break;
+
+        case PendingType::Mediated:
+            hex = strSignature1;
+            break;
+    }
+
+
 
     // this way we let users unlock by walletpassphrase or by menu
     // and make many transactions while unlocking through this dialog
@@ -534,7 +582,7 @@ void DigiwagePlatform::on_SignOffAction_clicked()
             hexValue2 = find_value(signTxResult.get_obj(), "hex");
             Value completeValue = find_value(signTxResult.get_obj(), "complete");
             complete = completeValue.get_bool();
-            ui->userstatusLabel2->setText(QString::fromStdString(hexValue2.get_str()));
+            //ui->userstatusLabel2->setText(QString::fromStdString(hexValue2.get_str()));
         }
         else {
             ui->userstatusLabel2->setText(QString::fromStdString( "ERROR signrawtransaction: unknown response") );
@@ -621,11 +669,11 @@ void DigiwagePlatform::ProcessPendingResult( PendingType OpType )
             else {
                 errMsg = "No data received";
             }
-            ui->userstatusLabel2->setText( strAPI + QString::fromStdString(" ERROR: ") + errMsg );
+            //ui->userstatusLabel2->setText( strAPI + QString::fromStdString(" ERROR: ") + errMsg );
         }
     }
     else {
-        ui->userstatusLabel2->setText( QString::fromStdString("ERROR: no result in ") + strAPI );
+        ui->userstatusLabel2->setText( QString::fromStdString("ERROR: result false in ") + strAPI );
     }
 }
 
@@ -635,7 +683,7 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
         QJsonObject obj = value.toObject();
         QString strDealId = obj["DealId"].toString();
         QString strAmount = QString::number(obj["EscrowAmount"].toDouble(), 'g', 8);
-        QString strRefund = obj["Refund"].toString();
+        QString strRefund = QString::number(obj["mediatedPercentage"].toInt()) + "%";
         QString strDescription = obj["JobTitle"].toString();
         QString strStatus, strStatusCode = QString::number((int)OpType);
         QString strJobtype = obj["type"].toString();

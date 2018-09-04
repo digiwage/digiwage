@@ -100,7 +100,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="userstatusLabel">
        <property name="text">
-        <string>User status</string>
+        <string>Status</string>
        </property>
       </widget>
      </item>
@@ -255,6 +255,11 @@
        <column>
         <property name="text">
          <string>Status Code</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>EscrowAddress</string>
         </property>
        </column>
       </widget>
