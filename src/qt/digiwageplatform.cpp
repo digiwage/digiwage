@@ -89,7 +89,7 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
     ui->signatureTable->setColumnWidth(10, 0);       // hidden status code
     ui->signatureTable->setColumnHidden(10, true);
     ui->signatureTable->setColumnWidth(11, 0);       // hidden escrow address
-    ui->signatureTable->setColumnHidden(11, true);
+    ui->signatureTable->setColumnHidden(11, false);
 
     QAction* SignOffAction = new QAction(tr("Sign off deal"), this);
     QAction* CopyDealIdPendingAction = new QAction(tr("&Copy Deal ID"), this);
@@ -459,11 +459,17 @@ void DigiwagePlatform::on_SignOffAction_clicked()
     QString strRedeemScript = ui->signatureTable->item(nSelectedRow, 7)->text();
     QString strSignature1 = ui->signatureTable->item(nSelectedRow, 8)->text();
     QString strSellerAddress = ui->signatureTable->item(nSelectedRow, 9)->text();
-    QString strEscrowAddress = "dM2aenniHM7uoUFPNjUFPLEuCvs62sqwTV"; //ui->signatureTable->item(nSelectedRow, 11)->text();
+    QString strEscrowAddress = ui->signatureTable->item(nSelectedRow, 11)->text();
     PendingType StatusCode = (PendingType)ui->signatureTable->item(nSelectedRow, 10)->text().toInt();
     QString strAmount = ui->signatureTable->item(nSelectedRow, 1)->text();
     CAmount nAmount(0);
     QString strMyAddress = ui->addressEdit->text();
+
+    if ( strEscrowAddress.isEmpty() )
+    {
+        ui->userstatusLabel2->setText(QString::fromStdString( "ERROR: empty EscrowAddress") );
+        return;
+    }
 
     BitcoinUnits::parse(walletModel->getOptionsModel()->getDisplayUnit(), strAmount, &nAmount);
     nAmount -= DigiwagePlatform::FEE;
@@ -507,7 +513,9 @@ void DigiwagePlatform::on_SignOffAction_clicked()
                    break;
                 }
             }
-//ui->userstatusLabel2->setText(QString::fromStdString(scriptPubKey.get_str()));
+//ui->userstatusLabel2->setText(QString::fromStdString(scriptPubKey.get_str()) + QString::fromStdString(" / ")
+//                              + QString::number(txIndex) + QString::fromStdString(" / ") + strEscrowAddress
+//                              + QString::fromStdString(" / ") + strEscrowTxId);
 //return;
         }
         else {
@@ -527,10 +535,13 @@ void DigiwagePlatform::on_SignOffAction_clicked()
     }
     switch ( StatusCode ) {
         case PendingType::Buyer:
+            cmd.str("");
             cmd << "createrawtransaction [{\"txid\":\"" << strEscrowTxId.toUtf8().constData() << "\",\"vout\":" << txIndex << "}] {\"" << strSellerAddress.toUtf8().constData() << "\":" << strAmount.toUtf8().constData() << "}" ;
+            //ui->userstatusLabel2->setText(QString::fromStdString( cmd.str() ));
+            //return;
+
             hexValue = CallRPC( cmd.str() );
             hex = QString::fromStdString(hexValue.get_str());
-//            ui->userstatusLabel2->setText(QString::fromStdString( cmd.str() ));
             break;
 
         case PendingType::Seller:
@@ -567,7 +578,10 @@ void DigiwagePlatform::on_SignOffAction_clicked()
     }
 
     cmd.str("");
-    cmd << "signrawtransaction " << hex.toUtf8().constData() << " [{\"txid\":\"" << strEscrowTxId.toUtf8().constData() << "\",\"vout\":0,\"scriptPubKey\":\"" << scriptPubKey.get_str() << "\",\"redeemScript\":\"" << strRedeemScript.toUtf8().constData() << "\"}] [\"" << privKeyVal.get_str() << "\"]";
+    cmd << "signrawtransaction " << hex.toUtf8().constData() << " [{\"txid\":\"" << strEscrowTxId.toUtf8().constData() << "\",\"vout\":" << txIndex << ",\"scriptPubKey\":\"" << scriptPubKey.get_str() << "\",\"redeemScript\":\"" << strRedeemScript.toUtf8().constData() << "\"}] [\"" << privKeyVal.get_str() << "\"]";
+    //ui->userstatusLabel2->setText(QString::fromStdString( cmd.str() ));
+    //return;
+
     Value signTxResult;
     bool complete;
 
@@ -688,6 +702,7 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
         QString strStatus, strStatusCode = QString::number((int)OpType);
         QString strJobtype = obj["type"].toString();
         QString strEscrowTxId = obj["EscrowTxId"].toString();
+        QString strEscrowAddress = obj["EscrowAddress"].toString();
         QString strRedeemScript = obj["RedeemScript"].toString();
         QString strSignature1 = obj["PaymentSignature1"].toString();
         QString strSellerAddress = obj["sellerPubAddress"].toString();
@@ -723,6 +738,7 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
         QTableWidgetItem* Signature1Item = new QTableWidgetItem(strSignature1);
         QTableWidgetItem* SellerAddressItem = new QTableWidgetItem(strSellerAddress);
         QTableWidgetItem* StatusCodeItem = new QTableWidgetItem(strStatusCode);
+        QTableWidgetItem* EscrowAddressItem = new QTableWidgetItem(strEscrowAddress);
 
         ui->signatureTable->setItem(0, 0, DealIdItem);
         ui->signatureTable->setItem(0, 1, AmountItem);
@@ -735,6 +751,7 @@ void DigiwagePlatform::insertPendingSignatureRows( QJsonArray jArr, PendingType 
         ui->signatureTable->setItem(0, 8, Signature1Item);
         ui->signatureTable->setItem(0, 9, SellerAddressItem);
         ui->signatureTable->setItem(0, 10, StatusCodeItem);
+        ui->signatureTable->setItem(0, 11, EscrowAddressItem);
     }
 }
 
