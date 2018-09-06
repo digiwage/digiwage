@@ -46,6 +46,7 @@ public:
         ObfuscationRounds,   // int
         AnonymizeDigiwageAmount, //int
         ShowMasternodesTab,  // bool
+        ShowDigiwagePlatformTab,  // bool
         Listen,              // bool
         OptionIDRowCount,
     };

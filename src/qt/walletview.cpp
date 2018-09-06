@@ -84,6 +84,11 @@ WalletView::WalletView(QWidget* parent) : QStackedWidget(parent),
         addWidget(masternodeListPage);
     }
 
+    if (settings.value("fShowDigiwagePlatformTab").toBool()) {
+        digiwagePlatformPage = new DigiwagePlatform();
+        addWidget(digiwagePlatformPage);
+    }
+
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
 
@@ -134,6 +139,9 @@ void WalletView::setClientModel(ClientModel* clientModel)
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeListPage->setClientModel(clientModel);
     }
+    if (settings.value("fShowDigiwagePlatformTab").toBool()) {
+        digiwagePlatformPage->setClientModel(clientModel);
+    }
 }
 
 void WalletView::setWalletModel(WalletModel* walletModel)
@@ -146,6 +154,9 @@ void WalletView::setWalletModel(WalletModel* walletModel)
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
         masternodeListPage->setWalletModel(walletModel);
+    }
+    if (settings.value("fShowDigiwagePlatformTab").toBool()) {
+        digiwagePlatformPage->setWalletModel(walletModel);
     }
     receiveCoinsPage->setModel(walletModel);
     sendCoinsPage->setModel(walletModel);
@@ -209,6 +220,14 @@ void WalletView::gotoMasternodePage()
     QSettings settings;
     if (settings.value("fShowMasternodesTab").toBool()) {
         setCurrentWidget(masternodeListPage);
+    }
+}
+
+void WalletView::gotoDigiwagePlatformPage()
+{
+    QSettings settings;
+    if (settings.value("fShowDigiwagePlatformTab").toBool()) {
+        setCurrentWidget(digiwagePlatformPage);
     }
 }
 

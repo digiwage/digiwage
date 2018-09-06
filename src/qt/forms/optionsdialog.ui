@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -233,6 +233,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="showDigiwagePlatformTab">
+            <property name="toolTip">
+             <string>Shows Digiwage Platform management tab</string>
+            </property>
+            <property name="text">
+             <string>Show Digiwage Platform Management Tab</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="spendZeroConfChange">
             <property name="toolTip">
              <string>If you disable the spending of unconfirmed change, the change from a transaction&lt;br/&gt;cannot be used until that transaction has at least one confirmation.&lt;br/&gt;This also affects how your balance is computed.</string>
@@ -253,7 +263,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>40</height>
+           <height>35</height>
           </size>
          </property>
         </spacer>
