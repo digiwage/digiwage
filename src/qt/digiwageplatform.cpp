@@ -40,7 +40,7 @@ DigiwagePlatform::DigiwagePlatform(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ENDPOINT = QString::fromStdString(GetArg("-platformurl", "http://dev.digiwage.org/api/wallet/"));
+    ENDPOINT = QString::fromStdString(GetArg("-platformurl", "https://digiwage.org/api/wallet/"));
     FEE = GetArg("-platformfee", 9999);
 
     // Escrow table
