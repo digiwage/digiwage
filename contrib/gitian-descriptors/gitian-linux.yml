@@ -1,5 +1,5 @@
 ---
-name: "digiwage-linux-1.1"
+name: "digiwage-linux-1.2"
 enable_cache: true
 suites:
 - "trusty"

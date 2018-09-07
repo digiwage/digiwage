@@ -1,5 +1,5 @@
 ---
-name: "digiwage-rpi2-1.1"
+name: "digiwage-rpi2-1.2"
 enable_cache: true
 suites:
 - "trusty"
