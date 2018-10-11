@@ -268,7 +268,7 @@ void DigiwagePlatform::on_SendEscrowAction_clicked()
 
     QList<SendCoinsRecipient> recipients;
     SendCoinsRecipient recipient( strAddress, strLabel, nAmount, strMessage);
-
+    recipient.useSwiftTX = false;
     recipients.append(recipient);
 
     // this way we let users unlock by walletpassphrase or by menu
