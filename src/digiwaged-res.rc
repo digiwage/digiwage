@@ -16,8 +16,8 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Digiwage"
-            VALUE "FileDescription",    "digiwaged (OSS daemon/client for Digiwage)"
+            VALUE "CompanyName",        "DIGIWAGE"
+            VALUE "FileDescription",    "digiwaged (OSS daemon/client for DIGIWAGE)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
             VALUE "InternalName",       "digiwaged"
             VALUE "LegalCopyright",     COPYRIGHT_STR

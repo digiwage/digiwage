@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
+// Copyright (c) 2017-2019 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -27,7 +28,7 @@ struct CCheckpointData {
 };
 
 //! Returns true if block passes checkpoint checks
-bool CheckBlock(int nHeight, const uint256& hash);
+bool CheckBlock(int nHeight, const uint256& hash, bool fMatchesCheckpoint = false);
 
 //! Return conservative estimate of total number of blocks, 0 if unknown
 int GetTotalBlocksEstimate();
@@ -35,7 +36,7 @@ int GetTotalBlocksEstimate();
 //! Returns last CBlockIndex* in mapBlockIndex that is a checkpoint
 CBlockIndex* GetLastCheckpoint();
 
-double GuessVerificationProgress(CBlockIndex* pindex, bool fSigchecks = true);
+double GuessVerificationProgress(const CBlockIndex* pindex, bool fSigchecks = true);
 
 extern bool fEnabled;
 

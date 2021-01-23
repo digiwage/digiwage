@@ -1,208 +1,179 @@
-Digiwage Core version 2.3.1 is now available from:
+(note: this is a temporary file, to be added-to by anybody, and moved to release-notes at release time)
 
-  <https://github.com/digiwage/digiwage/releases>
+DIGIWAGE Core version *version* is now available from:  <https://github.com/digiwage-project/digiwage/releases>
 
-This is a new minor version release, including various bug fixes and
-performance improvements, as well as updated translations.
+This is a new major version release, including various bug fixes and performance improvements, as well as updated translations.
 
-Please report bugs using the issue tracker at github:
+Please report bugs using the issue tracker at github: <https://github.com/digiwage-project/digiwage/issues>
 
-  <https://github.com/digiwage/digiwage/issues>
+
+Mandatory Update
+==============
+
+
+How to Upgrade
+==============
+
+If you are running an older version, shut it down. Wait until it has completely shut down (which might take a few minutes for older versions), then run the installer (on Windows) or just copy over /Applications/DIGIWAGE-Qt (on Mac) or digiwaged/digiwage-qt (on Linux).
+
 
 Compatibility
 ==============
 
-Digiwage Core is extensively tested on multiple operating systems using
-the Linux kernel, macOS 10.8+, and Windows Vista and later.
+DIGIWAGE Core is extensively tested on multiple operating systems using the Linux kernel, macOS 10.10+, and Windows 7 and later.
 
-Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
-No attempt is made to prevent installing or running the software on Windows XP, you
-can still do so at your own risk but be aware that there are known instabilities and issues.
-Please do not report issues about Windows XP to the issue tracker.
+Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support), No attempt is made to prevent installing or running the software on Windows XP, you can still do so at your own risk but be aware that there are known instabilities and issues. Please do not report issues about Windows XP to the issue tracker.
 
-Digiwage Core should also work on most other Unix-like systems but is not
-frequently tested on them.
+Apple released it's last Mountain Lion update August 13, 2015, and officially ended support on [December 14, 2015](http://news.fnal.gov/2015/10/mac-os-x-mountain-lion-10-8-end-of-life-december-14/). DIGIWAGE Core software starting with v3.2.0 will no longer run on MacOS versions prior to Yosemite (10.10). Please do not report issues about MacOS versions prior to Yosemite to the issue tracker.
+
+DIGIWAGE Core should also work on most other Unix-like systems but is not frequently tested on them.
+
 
 Notable Changes
-===============
+==============
 
-RPC changes
+(Developers: add your notes here as part of your pull requests whenever possible)
+
+### Hierarchical Deterministic Wallet (HD Wallet)
+
+Wallets under a tree derivation structure in which keypairs are generated deterministically from a single seed, which can be shared partially or entirely with different systems, each with or without the ability to spend coins, [BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki).
+
+Enabling major improvements over the keystore management, the DIGIWAGE wallet doesn't require regular backups as before, keys are following a deterministic creation path that can be verified at any time (before HD Wallet, every keypair was randomly created and added to the keypool, forcing the user to backup the wallet every certain amount of time or could end up loosing coins forever if the latest `wallet.dat` was not being used).
+As well as new possibilities like the account extended public key that enables deterministic public keys creation without the private keys requisite inside the wallet (A good use case could be online stores generating fresh addresses).
+
+This work includes a customization/extension to the [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) standard. We have included an unique staking keys derivation path which introduced the deterministic generation/recovery of staking addresses.
+
+An extended description of this large work can be found in the PR [here](https://github.com/digiwage/digiwage/pull/1327).
+
+#### HD Wallet FAQ
+
+ - How do i upgrade to HD Wallet?
+
+    GUI:
+    1) A dialog will appear on every wallet startup notifying you that you are running a pre-HD wallet and letting you upgrade it from there.
+    2) If you haven't upgraded your wallet, the topbar (bar with icons that appears at the top of your wallet) will have an "HD" icon. Click it and the upgrade dialog will be launched.
+
+    RPC:
+    1) If your wallet is unlocked, use the `-upgradewallet` flag at startup and will automatically upgrade your wallet.
+    2) If your wallet is encrypted, use the `upgradewallet` rpc command. It will upgrade your wallet to the latest wallet version.
+
+ - How do i know if i'm already running an HD Wallet?
+
+    1) GUI: Go to settings, press on the Debug option, then Information.
+    2) RPC: call `getwalletinfo`, the `walletversion` field must be `169900` (HD Wallet Feature).
+
+
+### Functional Changes
+
+Automatic zPIV backup has been disabled. Thus, the following configuration options have been removed  (either as entries in the digiwage.conf file or as startup flags):
+- `autozpivbackup`
+- `backupzpiv`
+- `zpivbackuppath`
+
+### Stake-Split threshold
+The stake split threshold is no longer required to be integer. It can be a fractional amount. A threshold value of 0 disables the stake-split functionality.
+The default value for the stake-split threshold has been lowered from 2000 PIV, down  to 500 PIV.
+
+
+Dependencies
+------------
+
+The minimum required version of QT has been increased from 5.0 to 5.5.1 (the [depends system](https://github.com/digiwage-project/digiwage/blob/master/depends/README.md) provides 5.9.7)
+
+
+RPC Changes
 --------------
 
-#### Update of RPC commands to comply with the forthcoming RPC Standards PIP ####
+### Modified input/output for existing commands
 
-| Old Command | New Command | Notes |
-| --- | --- | --- |
-| `masternode count` | `getmasternodecount` | |
-| `masternode list` | `listmasternodes` | |
-| `masternodelist` | `listmasternodes` | renamed |
-| `masternode connect` | `masternodeconnect` | |
-| `masternode current` | `getcurrentmasternode` | |
-| `masternode debug` | `masternodedebug` | |
-| `masternode enforce` |  | removed |
-| `masternode outputs` | `getmasternodeoutputs` | |
-| `masternode status` | `getmasternodestatus` | |
-| `masternode list-conf` | `listmasternodeconf` | added optional filter |
-| `masternode genkey` | `createmasternodekey` | |
-| `masternode winners` | `listmasternodewinners` | |
-| `masternode start` | `startmasternode` | see notes below |
-| `masternode start-alias` | `startmasternode` | see notes below |
-| `masternode start-<mode>` | `startmasternode` | see notes below |
-| `masternode create` | | removed - not implemented |
-| `masternode calcscore` | `listmasternodescores` | |
-| --- | --- | --- |
-| `mnbudget prepare` | `preparebudget` | see notes below |
-| `mnbudget submit` | `submitbudget` | see notes below |
-| `mnbudget vote-many` | `mnbudgetvote` | see notes below |
-| `mnbudget vote-alias` | `mnbudgetvote` | see notes below |
-| `mnbudget vote` | `mnbudgetvote` | see notes below |
-| `mnbudget getvotes` | `getbudgetvotes` | |
-| `mnbudget getinfo` | `getbudgetinfo` | see notes below |
-| `mnbudget show` | `getbudgetinfo` | see notes below |
-| `mnbudget projection` | `getbudgetprojection` | |
-| `mnbudget check` | `checkbudgets` | |
-| `mnbudget nextblock` | `getnextsuperblock` | |
+- "CoinStake" JSON object in `getblock` output is removed, and replaced with the strings "stakeModifier" and "hashProofOfStake"
 
-##### `startmasternode` Command #####
-This command now handles all cases for starting a masternode instead of having multiple commands based on the context. Command arguments have changed slightly to allow the user to decide wither or not to re-lock the wallet after the command is run. Below is the help documentation:
 
-```
-startmasternode "local|all|many|missing|disabled|alias" lockwallet ( "alias" )
+- "isPublicSpend" boolean (optional) input parameter is removed from the following commands:
+ - `createrawzerocoinspend`
+ - `spendzerocoin`
+ - `spendzerocoinmints`
+ - `spendrawzerocoin`
 
- Attempts to start one or more masternode(s)
+ These commands are now able to create only *public* spends (private spends were already enabled only on regtest).
 
-Arguments:
-1. set         (string, required) Specify which set of masternode(s) to start.
-2. lockWallet  (boolean, required) Lock wallet after completion.
-3. alias       (string) Masternode alias. Required if using 'alias' as the set.
 
-Result: (for 'local' set):
-"status"     (string) Masternode status message
+- "mintchange" and "minimizechange" boolean input parameters are removed from the following commands:
+ - `spendzerocoin`
 
-Result: (for other sets):
-{
-  "overall": "xxxx",     (string) Overall status message
-  "detail": [
-    {
-      "node": "xxxx",    (string) Node name or alias
-      "result": "xxxx",  (string) 'success' or 'failed'
-      "error": "xxxx"    (string) Error message, if failed
-    }
-    ,...
-  ]
-}
+ Mints are disabled, therefore it is no longer possible to mint the change of a zerocoin spend. The change is minimized by default.
 
-Examples:
-> digiwage-cli masternodestart "alias" "my_mn"
-> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "masternodestart", "params": ["alias" "my_mn"] }' -H 'content-type: text/plain;' http://127.0.0.1:46002/
-```
 
-##### `preparebudget` & `submitbudget` Commands #####
-Due to the requirement of maintaining backwards compatibility with the legacy command, these two new commands are created to handle the preparation/submission of budget proposals. Future intention is to roll these two commands back into a single command to reduce code-duplication. Paramater arguments currently remain unchanged from the legacy command equivilent.
+- `setstakesplitthreshold` now accepts decimal amounts. If the provided value is `0`, split staking gets disabled. `getstakesplitthreshold` returns a double.
 
-##### `mnbudgetvote` Command #####
-This command now handles all cases for submitting MN votes on a budget proposal. Backwards compatibility with the legacy command(s) has been retained, with the exception of the `vote-alias` case due to a conflict in paramater type casting. A user running `mnbudget vote-alias` will be instructed to instead use the new `mnvote` command. Below is the full help documentation for this new command:
+- `dumpwallet` no longer allows overwriting files. This is a security measure
+   as well as prevents dangerous user mistakes.
 
-```
-mnvote "local|many|alias" "votehash" "yes|no" ( "alias" )
-
-Vote on a budget proposal
-
-Arguments:
-1. "mode"      (string, required) The voting mode. 'local' for voting directly from a masternode, 'many' for voting with a MN controller and casting the same vote for each MN, 'alias' for voting with a MN controller and casting a vote for a single MN
-2. "votehash"  (string, required) The vote hash for the proposal
-3. "votecast"  (string, required) Your vote. 'yes' to vote for the proposal, 'no' to vote against
-4. "alias"     (string, required for 'alias' mode) The MN alias to cast a vote for.
-
-Result:
-{
-  "overall": "xxxx",      (string) The overall status message for the vote cast
-  "detail": [
-    {
-      "node": "xxxx",      (string) 'local' or the MN alias
-      "result": "xxxx",    (string) Either 'Success' or 'Failed'
-      "error": "xxxx",     (string) Error message, if vote failed
-    }
-    ,...
-  ]
-}
-
-Examples:
-> digiwage-cli mnvote "local" "ed2f83cedee59a91406f5f47ec4d60bf5a7f9ee6293913c82976bd2d3a658041" "yes"
-> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "mnvote", "params": ["local" "ed2f83cedee59a91406f5f47ec4d60bf5a7f9ee6293913c82976bd2d3a658041" "yes"] }' -H 'content-type: text/plain;' http://127.0.0.1:46002/
-```
-
-##### `getbudgetinfo` Command #####
-This command now combines the old `mnbudget show` and `mnbudget getinfo` commands to reduce code duplication while still maintaining backwards compatibility with the legacy commands. Given no parameters, it returns the full list of budget proposals (`mnbudget show`). A single optional parameter allows to return information on just that proposal (`mnbudget getinfo`). Below is the full help documentation:
-
-```
-getbudgetinfo ( "proposal" )
-
-Show current masternode budgets
-
-Arguments:
-1. "proposal"    (string, optional) Proposal name
-
-Result:
-[
+- The output of `getstakingstatus` was reworked. It now shows the following information:
+  ```
   {
-    "Name": "xxxx",               (string) Proposal Name
-    "URL": "xxxx",                (string) Proposal URL
-    "Hash": "xxxx",               (string) Proposal vote hash
-    "FeeHash": "xxxx",            (string) Proposal fee hash
-    "BlockStart": n,              (numeric) Proposal starting block
-    "BlockEnd": n,                (numeric) Proposal ending block
-    "TotalPaymentCount": n,       (numeric) Number of payments
-    "RemainingPaymentCount": n,   (numeric) Number of remaining payments
-    "PaymentAddress": "xxxx",     (string) Digiwage address of payment
-    "Ratio": x.xxx,               (numeric) Ratio of yeas vs nays
-    "Yeas": n,                    (numeric) Number of yea votes
-    "Nays": n,                    (numeric) Number of nay votes
-    "Abstains": n,                (numeric) Number of abstains
-    "TotalPayment": xxx.xxx,      (numeric) Total payment amount
-    "MonthlyPayment": xxx.xxx,    (numeric) Monthly payment amount
-    "IsEstablished": true|false,  (boolean) Established (true) or (false)
-    "IsValid": true|false,        (boolean) Valid (true) or Invalid (false)
-    "IsValidReason": "xxxx",      (string) Error message, if any
-    "fValid": true|false,         (boolean) Valid (true) or Invalid (false)
-  }
-  ,...
-]
-
-Examples:
-> digiwage-cli getbudgetprojection
-> curl --user myusername --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "getbudgetprojection", "params": [] }' -H 'content-type: text/plain;' http://127.0.0.1:46002/
-```
-
-#### Masternode network protocol layer reporting ####
-The results from the `listmasternodes` and `getmasternodecount` commands now includes details about which network protocol layer is being used (IPv4, IPV6, or Tor).
+     "staking_status": true|false,       (boolean) whether the wallet is staking or not
+     "staking_enabled": true|false,      (boolean) whether staking is enabled/disabled in digiwage.conf
+     "coldstaking_enabled": true|false,  (boolean) whether cold-staking is enabled/disabled in digiwage.conf
+     "haveconnections": true|false,      (boolean) whether network connections are present
+     "mnsync": true|false,               (boolean) whether masternode data is synced
+     "walletunlocked": true|false,       (boolean) whether the wallet is unlocked
+     "stakeablecoins": n,                (numeric) number of stakeable UTXOs
+     "stakingbalance": d,                (numeric) PIV value of the stakeable coins (minus reserve balance, if any)
+     "stakesplitthreshold": d,           (numeric) value of the current threshold for stake split
+     "lastattempt_age": n,               (numeric) seconds since last stake attempt
+     "lastattempt_depth": n,             (numeric) depth of the block on top of which the last stake attempt was made
+     "lastattempt_hash": xxx,            (hex string) hash of the block on top of which the last stake attempt was made
+     "lastattempt_coins": n,             (numeric) number of stakeable coins available during last stake attempt
+     "lastattempt_tries": n,             (numeric) number of stakeable coins checked during last stake attempt
+   }
+   ```
 
 
-2.3.1 Change log
-=================
+### Removed commands
 
-Detailed release notes follow. This overview includes changes that affect
-behavior, not code moves, refactors and string updates. For convenience in locating
-the code changes and accompanying discussion, both the pull request and
-git merge commit are mentioned.
+The following commands have been removed from the RPC interface:
+- `createrawzerocoinstake`
+- `getmintsinblocks`
+- `reservebalance`
 
-### RPC and other APIs
-- #239 `e8b92f4` [RPC] Make 'masternode status' more verbose (Mrs-X)
-- #244 `eac60dd` [RPC] Standardize RPC Commands (Fuzzbawls)
+
+### Newly introduced commands
+
+The following new commands have been added to the RPC interface:
+- `...`
+
+Details about each new command can be found below.
+
+
+*version* Change log
+==============
+
+Detailed release notes follow. This overview includes changes that affect behavior, not code moves, refactors and string updates. For convenience in locating the code changes and accompanying discussion, both the pull request and git merge commit are mentioned.
+
+### Core Features
+
+### Build System
 
 ### P2P Protocol and Network Code
-- #248 `0d44ca2` [core] fix payment disagreements, reduce log-verbosity (Mrs-X)
+
+The p2p alert system has been removed in [#1372](https://github.com/digiwage/digiwage/pull/1372) and the 'alert' message is no longer supported.
+
+### GUI
+
+Keyboard navigation: dialogs can now be accepted with the `ENTER` (`RETURN`) key, and dismissed with the `ESC` key ([#1392](https://github.com/digiwage/digiwage/pull/1392)).
+
+### RPC/REST
+
+### Wallet
+
+The `-reservebalance` configuration/startup option has been removed ([PR #1373](https://github.com/digiwage/digiwage/pull/1373)).
 
 ### Miscellaneous
-- #240 `1957445` [Debug Log] Increase verbosity of error-message (Mrs-X)
-- #241 #249 `b60118b` `7405e31` Nullpointer reference fixed (Mrs-X)
 
-Credits
-=======
+## Credits
 
 Thanks to everyone who directly contributed to this release:
-- Fuzzbawls
-- Mrs-X
-- amirabrams
 
-As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/digiwage-translations/).
+
+As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/digiwage-project-translations/), the QA team during Testing and the Node hosts supporting our Testnet.

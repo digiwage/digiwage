@@ -1,5 +1,69 @@
 <TS language="ca" version="2.1">
 <context>
+    <name>AddNewAddressDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
+    </message>
+    <message>
+        <source>My Address</source>
+        <translation>La meva adreça</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adreça</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+</context>
+<context>
+    <name>AddNewContactDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+    <message>
+        <source>Edit Contact</source>
+        <translation>Editar Contacte</translation>
+    </message>
+    <message>
+        <source>Set a label for the selected address</source>
+        <translation>Definir etiqueta a les adreces seleccionades</translation>
+    </message>
+    <message>
+        <source>Enter a name for the address (e.g Exchange)</source>
+        <translation>Introdueix un nom per l'adreça (per exemple Exchange)</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
+    </message>
+    <message>
+        <source>Edit label for the selected address:
+%1</source>
+        <translation>Edita l'etiqueta per l'adreça seleccionada:
+%1</translation>
+    </message>
+</context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
@@ -62,6 +126,14 @@
         <translation>Adreces de recepció</translation>
     </message>
     <message>
+        <source>These are your DIGIWAGE addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Aquestes són les teves adreces DIGIWAGE per fer enviar pagaments. Sempre comprova l'import i l'adreça de recepció abans d'enviar les monedes.</translation>
+    </message>
+    <message>
+        <source>These are your DIGIWAGE addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Aquestes són les teves adreces DIGIWAGE per rebre pagaments. Es recomana utilitzar noves adreces de recepció per cada transacció.</translation>
+    </message>
+    <message>
         <source>&amp;Copy Address</source>
         <translation>&amp;Copia adreça</translation>
     </message>
@@ -91,6 +163,13 @@
     </message>
 </context>
 <context>
+    <name>AddressLabelRow</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    </context>
+<context>
     <name>AddressTableModel</name>
     <message>
         <source>Label</source>
@@ -101,8 +180,123 @@
         <translation>Adreça</translation>
     </message>
     <message>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(sense etiqueta)</translation>
+    </message>
+</context>
+<context>
+    <name>AddressesWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Envia</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>No active Master Node yet</source>
+        <translation>Encara no es actiu el node Mestre</translation>
+    </message>
+    <message>
+        <source>Contact name</source>
+        <translation>Nom del contacte</translation>
+    </message>
+    <message>
+        <source>Enter address</source>
+        <translation>Introdueix adreça</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+    <message>
+        <source>Contacts</source>
+        <translation>Contactes</translation>
+    </message>
+    <message>
+        <source>You can add a new one in the options menu to the side.</source>
+        <translation>Pots afegir una opció nova al menú d'opcions del costat</translation>
+    </message>
+    <message>
+        <source>No contacts yet</source>
+        <translation>No hi han contactes</translation>
+    </message>
+    <message>
+        <source>e.g. John Doe</source>
+        <translation>Per exemple: John Doe</translation>
+    </message>
+    <message>
+        <source>Enter a DIGIWAGE address</source>
+        <translation>Introdueix l'adreça DIGIWAGE</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
+    </message>
+    <message>
+        <source>Invalid Contact Address</source>
+        <translation>Adreça de contacte invalida.</translation>
+    </message>
+    <message>
+        <source>Cannot store your own address as contact</source>
+        <translation>No pots guardar la teva adreça com a contacte</translation>
+    </message>
+    <message>
+        <source>Address already stored, label: %1</source>
+        <translation>Adreça ja existeix, etiqueta: %1</translation>
+    </message>
+    <message>
+        <source>New Contact Stored</source>
+        <translation>Nou contacte guardat</translation>
+    </message>
+    <message>
+        <source>Error Storing Contact</source>
+        <translation>Error al guardar contacte</translation>
+    </message>
+    <message>
+        <source>Contact edited</source>
+        <translation>Contacte editat</translation>
+    </message>
+    <message>
+        <source>Contact edit failed</source>
+        <translation>Ha fallat l'edició del contacte</translation>
+    </message>
+    <message>
+        <source>Delete Contact</source>
+        <translation>Esborrar contacte</translation>
+    </message>
+    <message>
+        <source>You are just about to remove the contact:
+
+%1
+
+Are you sure?</source>
+        <translation>Ets a punt d'esborrar el contacte:
+
+%1
+
+Estàs segur?</translation>
+    </message>
+    <message>
+        <source>Contact Deleted</source>
+        <translation>Contacte esborrat</translation>
+    </message>
+    <message>
+        <source>Error deleting a contact</source>
+        <translation>Error esborrant contacte</translation>
+    </message>
+    <message>
+        <source>Address copied</source>
+        <translation>Adreça copiada</translation>
     </message>
 </context>
 <context>
@@ -112,16 +306,8 @@
         <translation>Diàleg de contrasenya</translation>
     </message>
     <message>
-        <source>Enter passphrase</source>
-        <translation>Introduïu una contrasenya</translation>
-    </message>
-    <message>
-        <source>New passphrase</source>
-        <translation>Nova contrasenya</translation>
-    </message>
-    <message>
-        <source>Repeat new passphrase</source>
-        <translation>Repetiu la nova contrasenya</translation>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
     </message>
     <message>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
@@ -134,6 +320,12 @@
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
         <translation>Aquesta operació requereix la contrasenya del moneder per a desbloquejar-lo.</translation>
+    </message>
+    <message>
+        <source>Unlock wallet
+for staking</source>
+        <translation>Desbloquejar moneder
+‏per recompensa</translation>
     </message>
     <message>
         <source>Unlock wallet</source>
@@ -160,6 +352,18 @@
         <translation>Confirma l'encriptació del moneder</translation>
     </message>
     <message>
+        <source>ENCRYPT</source>
+        <translation>ENCRIPTAR</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your WAGEs from being stolen by malware infecting your computer.</source>
+        <translation>DIGIWAGE es tancarà per finalitzar el procés d'encriptació. Recorda que encriptant el teu moneder no protegeix els teus WAGE de ser robats si el teu ordinador està infectat amb programari maliciós.</translation>
+    </message>
+    <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Estàs segur que vols encriptar el moneder?</translation>
     </message>
@@ -172,8 +376,24 @@
         <translation>Moneder encriptat</translation>
     </message>
     <message>
+        <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
+        <translation>IMPORTANT: Qualsevol copia previa que hagis fet del moneder, hauria de ser reemplaçada pel nou moneder encriptat que acabes de generar. Per motius de seguretat, les copies previes del moneder sense encriptar, no seran vàlides tant bon punt comencis a fer servir el nou moneder encriptat.</translation>
+    </message>
+    <message>
         <source>Wallet encryption failed</source>
         <translation>L'encriptació del moneder ha fallat</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Ha fallat l'encriptació per error intern. El teu moneder no està encriptat.</translation>
+    </message>
+    <message>
+        <source>The supplied passphrases do not match.</source>
+        <translation>Les contrasenyes introduïdes no coincideixen.</translation>
     </message>
     <message>
         <source>Wallet unlock failed</source>
@@ -183,239 +403,71 @@
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
         <translation>La contrasenya introduïda per a desencriptar el moneder és incorrecta.</translation>
     </message>
-    </context>
+    <message>
+        <source>Wallet decryption failed</source>
+        <translation>La desencriptació del moneder ha fallat.</translation>
+    </message>
+    <message>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>La contrasenya del moneder ha estat canviada amb èxit.</translation>
+    </message>
+    <message>
+        <source>Warning: The Caps Lock key is on!</source>
+        <translation>Atenció: La tecla de bloqueig de majúscules està activada!</translation>
+    </message>
+</context>
 <context>
-    <name>Bip38ToolDialog</name>
+    <name>BanTableModel</name>
     <message>
-        <source>BIP 38 Tool</source>
-        <translation>Eina BIP 38</translation>
+        <source>IP/Netmask</source>
+        <translation>IP/Màscara de xarxa</translation>
     </message>
     <message>
-        <source>Address:</source>
-        <translation>Adreça:</translation>
+        <source>Banned Until</source>
+        <translation>Bloquejat fins</translation>
     </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
-    </message>
-    <message>
-        <source>Import Address</source>
-        <translation>Importa adreça</translation>
-    </message>
-    <message>
-        <source>Allowed: 0-9,a-z,A-Z,</source>
-        <translation>Permès: 0-9,a-z,A-Z,</translation>
-    </message>
-    <message>
-        <source>The entered address is invalid.</source>
-        <translation>L'adreça introduïda no és vàlida</translation>
-    </message>
-    <message>
-        <source>Wallet unlock was cancelled.</source>
-        <translation>El desbloqueig del moneder ha estat cancel·lat</translation>
-    </message>
-    <message>
-        <source>Data Not Valid.</source>
-        <translation>Dades no vàlides.</translation>
-    </message>
-    </context>
-<context>
-    <name>BitcoinGUI</name>
-    <message>
-        <source>Wallet</source>
-        <translation>Moneder</translation>
-    </message>
-    <message>
-        <source>Node</source>
-        <translation>Node</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Envia</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Rep</translation>
-    </message>
-    <message>
-        <source>&amp;Transactions</source>
-        <translation>&amp;Transaccions</translation>
-    </message>
-    <message>
-        <source>Browse transaction history</source>
-        <translation>Mostra històric de transaccions</translation>
-    </message>
-    <message>
-        <source>E&amp;xit</source>
-        <translation>&amp;Surt</translation>
-    </message>
-    <message>
-        <source>Quit application</source>
-        <translation>Surt de l'aplicació</translation>
-    </message>
-    <message>
-        <source>About &amp;Qt</source>
-        <translation>Sobre &amp;Qt</translation>
-    </message>
-    <message>
-        <source>Show information about Qt</source>
-        <translation>Mostra informació sobre el Qt</translation>
-    </message>
-    <message>
-        <source>&amp;Options...</source>
-        <translation>&amp;Opcions...</translation>
-    </message>
-    <message>
-        <source>Show or hide the main Window</source>
-        <translation>Mostra o oculta la Finestra principal</translation>
-    </message>
-    <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Encripta el moneder...</translation>
-    </message>
-    <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>Realitza una &amp;còpia de seguretat del moneder...</translation>
-    </message>
-    <message>
-        <source>&amp;Unlock Wallet...</source>
-        <translation>&amp;Desbloqueja el moneder...</translation>
-    </message>
-    <message>
-        <source>Unlock wallet</source>
-        <translation>Desbloqueja el moneder</translation>
-    </message>
-    <message>
-        <source>&amp;Lock Wallet</source>
-        <translation>B&amp;loqueja el moneder</translation>
-    </message>
-    <message>
-        <source>Sign &amp;message...</source>
-        <translation>Signar &amp;missatge...</translation>
-    </message>
-    <message>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Verifica el missatge...</translation>
-    </message>
-    <message>
-        <source>&amp;Information</source>
-        <translation>&amp;Informació</translation>
-    </message>
-    <message>
-        <source>&amp;Debug console</source>
-        <translation>Consola de &amp;Depuració</translation>
-    </message>
-    <message>
-        <source>&amp;Network Monitor</source>
-        <translation>Monitor de &amp;Xarxa</translation>
-    </message>
-    <message>
-        <source>Show network monitor</source>
-        <translation>Mostra el monitor de xarxa</translation>
-    </message>
-    <message>
-        <source>Wallet &amp;Repair</source>
-        <translation>&amp;Repara el moneder</translation>
-    </message>
-    <message>
-        <source>Open configuration file</source>
-        <translation>Obre el fitxer de configuració</translation>
-    </message>
-    <message>
-        <source>&amp;Sending addresses...</source>
-        <translation>Adreces d'&amp;enviament...</translation>
-    </message>
-    <message>
-        <source>&amp;Receiving addresses...</source>
-        <translation>Adreces de &amp;recepció...</translation>
-    </message>
-    <message>
-        <source>Open &amp;URI...</source>
-        <translation>Obre l'&amp;URI...</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Fitxer</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>&amp;Configuració</translation>
-    </message>
-    <message>
-        <source>&amp;Tools</source>
-        <translation>&amp;Eines</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>A&amp;juda</translation>
-    </message>
-    <message>
-        <source>Digiwage Core</source>
-        <translation>Digiwage Core</translation>
-    </message>
-    <message>
-        <source>&amp;About Digiwage Core</source>
-        <translation>&amp;Sobre Digiwage Core</translation>
-    </message>
-    <message>
-        <source>&amp;BIP38 tool</source>
-        <translation>Eina &amp;BIP38</translation>
-    </message>
-    <message>
-        <source>Open Wallet &amp;Configuration File</source>
-        <translation>Obre el fitxer de &amp;configuració del moneder</translation>
-    </message>
-    <message>
-        <source>Open &amp;Masternode Configuration File</source>
-        <translation>Obre el fitxer de &amp;configuració del Node Mestre</translation>
-    </message>
-    <message>
-        <source>Open Masternode configuration file</source>
-        <translation>Obre el fitxer de configuració del Node Mestre</translation>
-    </message>
-    <message>
-        <source>Synchronizing with network...</source>
-        <translation>Sinconitzant amb la xarxa...</translation>
-    </message>
-    <message>
-        <source>Up to date</source>
-        <translation>Actualitzat</translation>
-    </message>
-    <message>
-        <source>%1 and %2</source>
-        <translation>%1 i %2</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Error</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Atenció</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Informació</translation>
-    </message>
-    <message>
-        <source>Active</source>
-        <translation>Actiu</translation>
-    </message>
-    </context>
+</context>
 <context>
     <name>BlockExplorer</name>
+    <message>
+        <source>Blockchain Explorer</source>
+        <translation>Explorador del Blockchain</translation>
+    </message>
+    <message>
+        <source>Back</source>
+        <translation>Enrere</translation>
+    </message>
+    <message>
+        <source>Forward</source>
+        <translation>Endavant</translation>
+    </message>
     <message>
         <source>Address / Block / Transaction</source>
         <translation>Adreça / Bloc / Transacció</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation>Cerca</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    </context>
+<context>
+    <name>CSRow</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
     </context>
 <context>
     <name>ClientModel</name>
-    </context>
+    <message>
+        <source>Network Alert</source>
+        <translation>Alerta de xarxa</translation>
+    </message>
+</context>
 <context>
     <name>CoinControlDialog</name>
     <message>
@@ -427,12 +479,12 @@
         <translation>Bytes:</translation>
     </message>
     <message>
-        <source>Amount:</source>
-        <translation>Import:</translation>
+        <source>Fee:</source>
+        <translation>Comissió:</translation>
     </message>
     <message>
-        <source>Priority:</source>
-        <translation>Prioritat:</translation>
+        <source>Coin Selection</source>
+        <translation>Selecció de monedes</translation>
     </message>
     <message>
         <source>Change:</source>
@@ -447,8 +499,28 @@
         <translation>Mode de llista</translation>
     </message>
     <message>
+        <source>(1 locked)</source>
+        <translation>(1 bloquejat)</translation>
+    </message>
+    <message>
         <source>Amount</source>
         <translation>Import</translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation>0</translation>
+    </message>
+    <message>
+        <source>Received with label</source>
+        <translation>Rebut amb l'etiqueta</translation>
+    </message>
+    <message>
+        <source>Received with address</source>
+        <translation>Rebut amb l'adreça</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
     </message>
     <message>
         <source>Date</source>
@@ -461,10 +533,6 @@
     <message>
         <source>Confirmed</source>
         <translation>Confirmat</translation>
-    </message>
-    <message>
-        <source>Priority</source>
-        <translation>Prioritat</translation>
     </message>
     <message>
         <source>Copy address</source>
@@ -487,12 +555,72 @@
         <translation>Copia la quantitat</translation>
     </message>
     <message>
+        <source>Copy fee</source>
+        <translation>Copia comissió</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Copia amb comissió</translation>
+    </message>
+    <message>
         <source>Copy bytes</source>
         <translation>Copia els bytes</translation>
     </message>
     <message>
         <source>Copy priority</source>
         <translation>Copia la prioritat</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Copia canvi</translation>
+    </message>
+    <message>
+        <source>Please switch to "List mode" to use this function.</source>
+        <translation>Si us plau canvia a "Mode llista" per utilitzar aquesta funció.</translation>
+    </message>
+    <message>
+        <source>highest</source>
+        <translation>màxima</translation>
+    </message>
+    <message>
+        <source>higher</source>
+        <translation>molt alta</translation>
+    </message>
+    <message>
+        <source>high</source>
+        <translation>alta</translation>
+    </message>
+    <message>
+        <source>medium-high</source>
+        <translation>mitjana-alta</translation>
+    </message>
+    <message>
+        <source>medium</source>
+        <translation>mitjana</translation>
+    </message>
+    <message>
+        <source>low-medium</source>
+        <translation>baixa-mitjana</translation>
+    </message>
+    <message>
+        <source>low</source>
+        <translation>baixa</translation>
+    </message>
+    <message>
+        <source>lower</source>
+        <translation>molt baixa</translation>
+    </message>
+    <message>
+        <source>lowest</source>
+        <translation>mínima</translation>
+    </message>
+    <message>
+        <source>(%1 locked)</source>
+        <translation>(%1 bloquejat)</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>cap</translation>
     </message>
     <message>
         <source>yes</source>
@@ -503,12 +631,182 @@
         <translation>no</translation>
     </message>
     <message>
+        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
+        <translation>Aquesta etiqueta es posa vermella si la mida de la transacció és major que 1000 bytes.</translation>
+    </message>
+    <message>
+        <source>This means a fee of at least %1 per kB is required.</source>
+        <translation>Això significa que és requereix una comissió d'almenys %1 per kB.</translation>
+    </message>
+    <message>
+        <source>Can vary +/- 1 byte per input.</source>
+        <translation>Pot variar +/- 1 byte per entrada.</translation>
+    </message>
+    <message>
+        <source>Transactions with higher priority are more likely to get included into a block.</source>
+        <translation>Les transaccions amb prioritat més alta són més probables de ser incloses en el bloc.</translation>
+    </message>
+    <message>
+        <source>This label turns red, if the priority is smaller than "medium".</source>
+        <translation>Aquesta etiqueta es posa vermella si la prioritat és més petita que "mitjana"</translation>
+    </message>
+    <message>
+        <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
+        <translation>Aquesta etiqueta es posa vermella si algun destinatari rep un import inferior a l' %1.</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(sense etiqueta)</translation>
     </message>
     <message>
+        <source>change from %1 (%2)</source>
+        <translation>canvi des de %1 (%2)</translation>
+    </message>
+    <message>
         <source>(change)</source>
         <translation>(canvi)</translation>
+    </message>
+</context>
+<context>
+    <name>CoinControlPivWidget</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
+    </message>
+    <message>
+        <source>WAGE:</source>
+        <translation>WAGE:</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Quantitat:</translation>
+    </message>
+    <message>
+        <source>Fee:</source>
+        <translation>Comissió:</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Import</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etiqueta</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adreça</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipus</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <source>Confirmations</source>
+        <translation>Confirmacions</translation>
+    </message>
+    <message>
+        <source>Bytes:</source>
+        <translation>Bytes:</translation>
+    </message>
+    <message>
+        <source>Change:</source>
+        <translation>Canvi:</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+</context>
+<context>
+    <name>ColdStakingWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>Address copied</source>
+        <translation>Adreça copiada</translation>
+    </message>
+    </context>
+<context>
+    <name>ContactDropdownRow</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    </context>
+<context>
+    <name>DashboardWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Atenció</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>zWAGE</source>
+        <translation>zWAGE</translation>
+    </message>
+    <message>
+        <source>Received</source>
+        <translation>Rebut</translation>
+    </message>
+    <message>
+        <source>Sent</source>
+        <translation>Enviat</translation>
+    </message>
+    </context>
+<context>
+    <name>DefaultDialog</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
+    </message>
+</context>
+<context>
+    <name>DenomGenerationDialog</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
     </message>
 </context>
 <context>
@@ -518,8 +816,16 @@
         <translation>Edita l'adreça</translation>
     </message>
     <message>
+        <source>The label associated with this address list entry</source>
+        <translation>L'etiqueta associada amb aquesta entrada de la llibreta d'adreces</translation>
+    </message>
+    <message>
         <source>&amp;Address</source>
         <translation>&amp;Adreça</translation>
+    </message>
+    <message>
+        <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
+        <translation>L'adreça associada amb aquesta entrada de la llibreta d'adreces. Aquesta només pot ser modificada en les adreces d'enviament.</translation>
     </message>
     <message>
         <source>New receiving address</source>
@@ -537,12 +843,62 @@
         <source>Edit sending address</source>
         <translation>Edita l'adreça d'enviament</translation>
     </message>
-    </context>
+    <message>
+        <source>The entered address "%1" is not a valid DIGIWAGE address.</source>
+        <translation>L'adreça introduïda "%1" no és una adreça DIGIWAGE vàlida.</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>L'adreça introduïda "%1" ja és a la llibreta d'adreces.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>No s'ha pogut desbloquejar el moneder.</translation>
+    </message>
+    <message>
+        <source>New key generation failed.</source>
+        <translation>La generació de la nova clau ha fallat.</translation>
+    </message>
+</context>
+<context>
+    <name>ExpandableButton</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+</context>
 <context>
     <name>FreespaceChecker</name>
     <message>
+        <source>A new data directory will be created.</source>
+        <translation>Es crearà una nova carpeta de dades.</translation>
+    </message>
+    <message>
         <source>name</source>
         <translation>nom</translation>
+    </message>
+    <message>
+        <source>Directory already exists. Add %1 if you intend to create a new directory here.</source>
+        <translation>La carpeta ja existeix. Afegeix %1 si la teva intenció és crear una nova carpeta.</translation>
+    </message>
+    <message>
+        <source>Path already exists, and is not a directory.</source>
+        <translation>La ruta ja existeix i no és una carpeta.</translation>
+    </message>
+    <message>
+        <source>Cannot create data directory here.</source>
+        <translation>No és possible crear una carpeta de dades aquí.</translation>
+    </message>
+</context>
+<context>
+    <name>GovernancePage</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation>0</translation>
     </message>
     </context>
 <context>
@@ -552,22 +908,58 @@
         <translation>versió</translation>
     </message>
     <message>
-        <source>Digiwage Core</source>
-        <translation>Digiwage Core</translation>
+        <source>DIGIWAGE Core</source>
+        <translation>DIGIWAGE Core</translation>
     </message>
     <message>
-        <source>About Digiwage Core</source>
-        <translation>Sobre Digiwage Core</translation>
+        <source>(%1-bit)</source>
+        <translation>(%1-bit)</translation>
+    </message>
+    <message>
+        <source>About DIGIWAGE Core</source>
+        <translation>Sobre DIGIWAGE Core</translation>
+    </message>
+    <message>
+        <source>Command-line options</source>
+        <translation>Opcions de línia de comandes</translation>
     </message>
     <message>
         <source>Usage:</source>
         <translation>Ús:</translation>
     </message>
     <message>
+        <source>command-line options</source>
+        <translation>opcions de línia de comandes</translation>
+    </message>
+    <message>
+        <source>UI Options:</source>
+        <translation>Opcions d'interfície d'usuari:</translation>
+    </message>
+    <message>
+        <source>Choose data directory on startup (default: %u)</source>
+        <translation>Escull la carpeta de dades a l'iniciar (per defecte: %u)</translation>
+    </message>
+    <message>
+        <source>Show splash screen on startup (default: %u)</source>
+        <translation>Mostra la pantalla de benvinguda a l'iniciar (per defecte: %u)</translation>
+    </message>
+    <message>
+        <source>Set language, for example "de_DE" (default: system locale)</source>
+        <translation>Selecciona l'idioma, per exemple "ca" (per defecte: idioma del sistema)</translation>
+    </message>
+    <message>
         <source>Start minimized</source>
         <translation>Inicia minimitzat</translation>
     </message>
-    </context>
+    <message>
+        <source>Set SSL root certificates for payment request (default: -system-)</source>
+        <translation>Estableix el certificats SSL arrel per a la sol·licitud de pagament (per defecte: -sistema-)</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+</context>
 <context>
     <name>Intro</name>
     <message>
@@ -575,93 +967,136 @@
         <translation>Benvingut</translation>
     </message>
     <message>
-        <source>Welcome to Digiwage Core.</source>
-        <translation>Benvingut a Digiwage Core.</translation>
+        <source>Welcome to DIGIWAGE Core.</source>
+        <translation>Benvingut a DIGIWAGE Core.</translation>
     </message>
     <message>
-        <source>Digiwage Core</source>
-        <translation>Digiwage Core</translation>
+        <source>As this is the first time the program is launched, you can choose where DIGIWAGE Core will store its data.</source>
+        <translation>Al ser el primer cop que s'inicia el programa, pots escollir on es desaran les dades del DIGIWAGE Core.</translation>
+    </message>
+    <message>
+        <source>Use the default data directory</source>
+        <translation>Usar la carpeta de dades per defecte</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE Core</source>
+        <translation>DIGIWAGE Core</translation>
+    </message>
+    <message>
+        <source>Error: Specified data directory "%1" cannot be created.</source>
+        <translation>Error: La carpeta de dades introduïda "%1" no pot ser creada.</translation>
     </message>
     <message>
         <source>Error</source>
         <translation>Error</translation>
     </message>
-    </context>
-<context>
-    <name>MasternodeList</name>
     <message>
-        <source>My Masternodes</source>
-        <translation>Els meus Nodes Mestre</translation>
+        <source>%1 GB of free space available</source>
+        <translation>%1 GB d'espai lliure disponible</translation>
     </message>
     <message>
-        <source>Alias</source>
-        <translation>Àlies</translation>
+        <source>(of %1 GB needed)</source>
+        <translation>(of %1 GB necessari)</translation>
+    </message>
+</context>
+<context>
+    <name>LoadingDialog</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    </context>
+<context>
+    <name>LockUnlock</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    </context>
+<context>
+    <name>MNRow</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    </context>
+<context>
+    <name>MasterNodeWizardDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>Address</source>
         <translation>Adreça</translation>
     </message>
     <message>
-        <source>Protocol</source>
-        <translation>Protocol</translation>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
     </message>
     <message>
-        <source>Status</source>
-        <translation>Estat</translation>
-    </message>
-    <message>
-        <source>Active</source>
-        <translation>Actiu</translation>
+        <source>OK</source>
+        <translation>D'acord</translation>
     </message>
     </context>
 <context>
-    <name>MultiSendDialog</name>
+    <name>MasterNodesWidget</name>
     <message>
-        <source>Add</source>
-        <translation>Afegir</translation>
+        <source>Form</source>
+        <translation>Formulari</translation>
     </message>
     <message>
-        <source>Deactivate</source>
-        <translation>Desactiva</translation>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
     </message>
     <message>
-        <source>Choose an address from the address book</source>
-        <translation>Tria una adreça de la llibreta d'adreces</translation>
-    </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
-    </message>
-    <message>
-        <source>Percentage:</source>
-        <translation>Percentatge:</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation>Adreça:</translation>
+        <source>No active Master Node yet</source>
+        <translation>Encara no es actiu el node Mestre</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
+    </context>
+<context>
+    <name>MnInfoDialog</name>
     <message>
-        <source>Activate</source>
-        <translation>Activa</translation>
+        <source>Form</source>
+        <translation>Formulari</translation>
     </message>
     <message>
-        <source>Removed </source>
-        <translation>Eliminat</translation>
+        <source>Status:</source>
+        <translation>Estat:</translation>
     </message>
     </context>
 <context>
-    <name>ObfuscationConfig</name>
+    <name>MyAddressRow</name>
     <message>
-        <source>Configure Obfuscation</source>
-        <translation>Configura ofuscació</translation>
+        <source>Form</source>
+        <translation>Formulari</translation>
     </message>
+    </context>
+<context>
+    <name>NavMenuWidget</name>
     <message>
-        <source>Obfuscation Configuration</source>
-        <translation>Configuració de l'ofuscació</translation>
+        <source>Form</source>
+        <translation>Formulari</translation>
     </message>
     </context>
 <context>
@@ -671,10 +1106,33 @@
         <translation>Obre l'URI</translation>
     </message>
     <message>
-        <source>URI:</source>
-        <translation>URI:</translation>
+        <source>Open payment request from URI or file</source>
+        <translation>Obre sol·licitud de pagament des d'URI o fitxer.</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL·LAR</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'ACORD</translation>
     </message>
     </context>
+<context>
+    <name>OptionButton</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+</context>
 <context>
     <name>OptionsDialog</name>
     <message>
@@ -690,8 +1148,28 @@
         <translation>Permet connexions entrants</translation>
     </message>
     <message>
+        <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
+        <translation>&amp;Connecta a través d'un proxy SOCKS5 (proxy per defecte):</translation>
+    </message>
+    <message>
         <source>Expert</source>
         <translation>Expert</translation>
+    </message>
+    <message>
+        <source>Automatically start DIGIWAGE after logging in to the system.</source>
+        <translation>Inicia DIGIWAGE automàticament després d'identificar-te en el sistema.</translation>
+    </message>
+    <message>
+        <source>Whether to show coin control features or not.</source>
+        <translation>Mostra o no les funcionalitats de control de monedes.</translation>
+    </message>
+    <message>
+        <source>Enable coin &amp;control features</source>
+        <translation>Activa la funcionalitat de &amp;control de monedes</translation>
+    </message>
+    <message>
+        <source>Show Masternodes Tab</source>
+        <translation>Mostra la pestanya de Masternodes</translation>
     </message>
     <message>
         <source>&amp;Port:</source>
@@ -706,60 +1184,63 @@
         <translation>&amp;Restableix les opcions</translation>
     </message>
     <message>
+        <source>&amp;OK</source>
+        <translation>D'ac&amp;ord</translation>
+    </message>
+    <message>
         <source>&amp;Cancel</source>
         <translation>&amp;Cancel·la</translation>
     </message>
+    <message>
+        <source>none</source>
+        <translation>cap</translation>
+    </message>
     </context>
 <context>
-    <name>OverviewPage</name>
+    <name>DIGIWAGEGUI</name>
     <message>
-        <source>Available:</source>
-        <translation>Disponible:</translation>
+        <source>DIGIWAGE Core</source>
+        <translation>DIGIWAGE Core</translation>
     </message>
     <message>
-        <source>Pending:</source>
-        <translation>Pendent:</translation>
+        <source>Wallet</source>
+        <translation>Moneder</translation>
     </message>
     <message>
-        <source>Immature:</source>
-        <translation>Immadur:</translation>
+        <source>Node</source>
+        <translation>Node</translation>
     </message>
     <message>
-        <source>Total:</source>
-        <translation>Total:</translation>
+        <source>Show or hide the main Window</source>
+        <translation>Mostra o oculta la Finestra principal</translation>
     </message>
     <message>
-        <source>Status:</source>
-        <translation>Estat:</translation>
+        <source>E&amp;xit</source>
+        <translation>&amp;Surt</translation>
     </message>
     <message>
-        <source>Obfuscation</source>
-        <translation>Ofuscació</translation>
+        <source>Quit application</source>
+        <translation>Surt de l'aplicació</translation>
     </message>
     <message>
-        <source>Recent transactions</source>
-        <translation>Transaccions recents</translation>
+        <source>DIGIWAGE Core client</source>
+        <translation>Client DIGIWAGE core</translation>
     </message>
     <message>
-        <source>Reset</source>
-        <translation>Restableix</translation>
+        <source>Error</source>
+        <translation>Error</translation>
     </message>
     <message>
-        <source>Disabled</source>
-        <translation>Desactivat</translation>
+        <source>Warning</source>
+        <translation>Atenció</translation>
     </message>
     <message>
-        <source>Start Obfuscation</source>
-        <translation>Inicia ofuscació</translation>
+        <source>Information</source>
+        <translation>Informació</translation>
     </message>
-    <message>
-        <source>Stop Obfuscation</source>
-        <translation>Atura ofuscació</translation>
-    </message>
-    <message>
-        <source>Enabled</source>
-        <translation>Activat</translation>
-    </message>
+    </context>
+<context>
+    <name>PWidget</name>
     </context>
 <context>
     <name>PaymentServer</name>
@@ -775,6 +1256,24 @@
         <translation>Temps de Ping</translation>
     </message>
 </context>
+<context>
+    <name>PrivacyWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>No active Master Node yet</source>
+        <translation>Encara no es actiu el node Mestre</translation>
+    </message>
+    </context>
+<context>
+    <name>ProposalFrame</name>
+    </context>
 <context>
     <name>QObject</name>
     <message>
@@ -805,12 +1304,9 @@
         <source>%1 ms</source>
         <translation>%1 ms</translation>
     </message>
-</context>
-<context>
-    <name>QRImageWidget</name>
     <message>
-        <source>&amp;Copy Image</source>
-        <translation>&amp;Copia la imatge</translation>
+        <source>DIGIWAGE Core</source>
+        <translation>DIGIWAGE Core</translation>
     </message>
     </context>
 <context>
@@ -892,6 +1388,10 @@
         <translation>Reconstrueix l'index</translation>
     </message>
     <message>
+        <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
+        <translation>Escriu &lt;b&gt;help&lt;/b&gt; per obtenir un llistat de les comandes disponibles.</translation>
+    </message>
+    <message>
         <source>%1 B</source>
         <translation>%1 B</translation>
     </message>
@@ -913,57 +1413,33 @@
     </message>
     </context>
 <context>
-    <name>ReceiveCoinsDialog</name>
+    <name>ReceiveDialog</name>
     <message>
-        <source>&amp;Message:</source>
-        <translation>&amp;Missatge:</translation>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Elimina</translation>
+        <source>CANCEL</source>
+        <translation>CANCEL·LAR</translation>
     </message>
     <message>
-        <source>Copy label</source>
-        <translation>Copia l'etiqueta</translation>
-    </message>
-    <message>
-        <source>Copy message</source>
-        <translation>Copia el missatge</translation>
-    </message>
-    <message>
-        <source>Copy amount</source>
-        <translation>Copia l'import</translation>
+        <source>OK</source>
+        <translation>D'ACORD</translation>
     </message>
 </context>
 <context>
-    <name>ReceiveRequestDialog</name>
+    <name>ReceiveWidget</name>
     <message>
-        <source>QR Code</source>
-        <translation>Codi QR</translation>
+        <source>Form</source>
+        <translation>Formulari</translation>
     </message>
     <message>
-        <source>Copy &amp;Address</source>
-        <translation>Copia l'&amp;adreça</translation>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
     </message>
     <message>
-        <source>URI</source>
-        <translation>URI</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation>Adreça</translation>
-    </message>
-    <message>
-        <source>Amount</source>
-        <translation>Import</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation>Etiqueta</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation>Missatge</translation>
+        <source>Address copied</source>
+        <translation>Adreça copiada</translation>
     </message>
     </context>
 <context>
@@ -981,6 +1457,10 @@
         <translation>Missatge</translation>
     </message>
     <message>
+        <source>Address</source>
+        <translation>Adreça</translation>
+    </message>
+    <message>
         <source>Amount</source>
         <translation>Import</translation>
     </message>
@@ -990,127 +1470,288 @@
     </message>
     </context>
 <context>
-    <name>SendCoinsDialog</name>
+    <name>RequestDialog</name>
     <message>
-        <source>Quantity:</source>
-        <translation>Quantitat:</translation>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
     </message>
     <message>
-        <source>Bytes:</source>
-        <translation>Bytes:</translation>
+        <source>Amount</source>
+        <translation>Import</translation>
     </message>
     <message>
-        <source>Amount:</source>
-        <translation>Import:</translation>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
     </message>
     <message>
-        <source>Priority:</source>
-        <translation>Prioritat:</translation>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
     </message>
     <message>
-        <source>no</source>
-        <translation>no</translation>
+        <source>Label</source>
+        <translation>Etiqueta</translation>
     </message>
     <message>
-        <source>Change:</source>
-        <translation>Canvi:</translation>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+    </context>
+<context>
+    <name>SendChangeAddressDialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
     </message>
     <message>
-        <source>Minimize</source>
-        <translation>Minimitzar</translation>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
     </message>
     <message>
-        <source>Obfuscation</source>
-        <translation>Ofuscació</translation>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+    </context>
+<context>
+    <name>SendCustomFeeDialog</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
     </message>
     <message>
-        <source>Confirmation time:</source>
-        <translation>Temps de Confirmació:</translation>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
     </message>
     <message>
-        <source>normal</source>
-        <translation>normal</translation>
+        <source>OK</source>
+        <translation>D'acord</translation>
     </message>
     <message>
-        <source>fast</source>
-        <translation>ràpid</translation>
-    </message>
-    <message>
-        <source>Recommended</source>
-        <translation>Recomanat</translation>
-    </message>
-    <message>
-        <source>Copy quantity</source>
-        <translation>Copia la quantitat</translation>
-    </message>
-    <message>
-        <source>Copy amount</source>
-        <translation>Copia l'import</translation>
-    </message>
-    <message>
-        <source>Copy bytes</source>
-        <translation>Copia els bytes</translation>
-    </message>
-    <message>
-        <source>Copy priority</source>
-        <translation>Copia la prioritat</translation>
-    </message>
-    <message>
-        <source>(no label)</source>
-        <translation>(sense etiqueta)</translation>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
     </message>
 </context>
 <context>
-    <name>SendCoinsEntry</name>
+    <name>SendMultiRow</name>
     <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
+        <source>Form</source>
+        <translation>Formulari</translation>
     </message>
     <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
-    </message>
-    <message>
-        <source>Message:</source>
-        <translation>Missatge:</translation>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
     </message>
     </context>
 <context>
-    <name>ShutdownWindow</name>
+    <name>SendWidget</name>
+    <message>
+        <source>Send</source>
+        <translation>Envia</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Import</translation>
+    </message>
+    <message>
+        <source>Cannot store your own address as contact</source>
+        <translation>No pots guardar la teva adreça com a contacte</translation>
+    </message>
+    <message>
+        <source>New Contact Stored</source>
+        <translation>Nou contacte guardat</translation>
+    </message>
+    <message>
+        <source>Error Storing Contact</source>
+        <translation>Error al guardar contacte</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsBackupWallet</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
     </context>
 <context>
-    <name>SignVerifyMessageDialog</name>
+    <name>SettingsBitToolWidget</name>
     <message>
-        <source>Signatures - Sign / Verify a Message</source>
-        <translation>Signatures - Signa / Verifica un Missatge</translation>
+        <source>Form</source>
+        <translation>Formulari</translation>
     </message>
     <message>
-        <source>&amp;Sign Message</source>
-        <translation>&amp;Signa el missatge</translation>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
     </message>
     <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
+        <source>Import Address</source>
+        <translation>Importa adreça</translation>
     </message>
     <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
+        <source>Enter a DIGIWAGE address</source>
+        <translation>Introdueix l'adreça DIGIWAGE</translation>
+    </message>
+    <message>
+        <source>ENCRYPT</source>
+        <translation>ENCRIPTAR</translation>
+    </message>
+    <message>
+        <source>The entered passphrase is invalid. </source>
+        <translation>La contrasenya introduïda és incorrecta.</translation>
+    </message>
+    <message>
+        <source>Allowed: 0-9,a-z,A-Z,</source>
+        <translation>Permès: 0-9,a-z,A-Z,</translation>
+    </message>
+    <message>
+        <source>The entered address is invalid.</source>
+        <translation>L'adreça introduïda no és vàlida</translation>
+    </message>
+    <message>
+        <source>Wallet unlock was cancelled.</source>
+        <translation>El desbloqueig del moneder ha estat cancel·lat</translation>
+    </message>
+    <message>
+        <source>Data Not Valid.</source>
+        <translation>Dades no vàlides.</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsConsoleWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
+        <translation>Escriu &lt;b&gt;help&lt;/b&gt; per obtenir un llistat de les comandes disponibles.</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsDisplayOptionsWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsFaqWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsInformationWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informació</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Xarxa</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsMainOptionsWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsMultisendDialog</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsMultisendWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>No active Master Node yet</source>
+        <translation>Encara no es actiu el node Mestre</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Actiu</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsSignMessageWidgets</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Missatge</translation>
     </message>
     <message>
         <source>Signature</source>
         <translation>Signatura</translation>
-    </message>
-    <message>
-        <source>Sign &amp;Message</source>
-        <translation>Signa el &amp;missatge</translation>
-    </message>
-    <message>
-        <source>&amp;Verify Message</source>
-        <translation>&amp;Verifica el missatge</translation>
-    </message>
-    <message>
-        <source>Verify &amp;Message</source>
-        <translation>Verifica el &amp;missatge</translation>
     </message>
     <message>
         <source>The entered address is invalid.</source>
@@ -1125,19 +1766,139 @@
         <translation>Missatge signat.</translation>
     </message>
     <message>
+        <source>Message verification failed.</source>
+        <translation>La verificació del missatge ha fallat.</translation>
+    </message>
+    <message>
         <source>Message verified.</source>
         <translation>Missatge verificat.</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsWalletOptionsWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Moneder</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Xarxa</translation>
+    </message>
+    <message>
+        <source>Allow incoming connections</source>
+        <translation>Permet connexions entrants</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>Gravar</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsWalletRepairWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>Rebuild index</source>
+        <translation>Reconstrueix l'index</translation>
+    </message>
+    </context>
+<context>
+    <name>SettingsWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Moneder</translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation>Opcions</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informació</translation>
+    </message>
+    </context>
+<context>
+    <name>ShutdownWindow</name>
+    <message>
+        <source>DIGIWAGE Core is shutting down...</source>
+        <translation>DIGIWAGE Core s'està tancant...</translation>
+    </message>
+    <message>
+        <source>Do not shut down the computer until this window disappears.</source>
+        <translation>No apagueu l'ordinador fins que aquesta finestra desaparegui.</translation>
+    </message>
+</context>
+<context>
+    <name>SnackBar</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    </context>
+<context>
+    <name>Splash</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE Core</source>
+        <translation>DIGIWAGE Core</translation>
     </message>
 </context>
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>Digiwage Core</source>
-        <translation>Digiwage Core</translation>
+        <source>DIGIWAGE Core</source>
+        <translation>DIGIWAGE Core</translation>
     </message>
     <message>
         <source>Version %1</source>
         <translation>Versió %1</translation>
+    </message>
+    </context>
+<context>
+    <name>TooltipMenu</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Elimina</translation>
+    </message>
+    </context>
+<context>
+    <name>TopBar</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>%1 and %2</source>
+        <translation>%1 i %2</translation>
     </message>
     </context>
 <context>
@@ -1146,12 +1907,20 @@
 <context>
     <name>TransactionDesc</name>
     <message>
+        <source>%1 confirmations</source>
+        <translation>%1 confirmacions</translation>
+    </message>
+    <message>
         <source>Status</source>
         <translation>Estat</translation>
     </message>
     <message>
         <source>Date</source>
         <translation>Data</translation>
+    </message>
+    <message>
+        <source>label</source>
+        <translation>etiqueta</translation>
     </message>
     <message>
         <source>Message</source>
@@ -1175,9 +1944,6 @@
     </message>
 </context>
 <context>
-    <name>TransactionDescDialog</name>
-    </context>
-<context>
     <name>TransactionTableModel</name>
     <message>
         <source>Date</source>
@@ -1195,104 +1961,103 @@
         <source>Obfuscated</source>
         <translation>Ofuscat</translation>
     </message>
-    </context>
-<context>
-    <name>TransactionView</name>
     <message>
-        <source>Today</source>
-        <translation>Avui</translation>
+        <source>(n/a)</source>
+        <translation>(n/a)</translation>
     </message>
     <message>
-        <source>This week</source>
-        <translation>Aquesta setmana</translation>
-    </message>
-    <message>
-        <source>This month</source>
-        <translation>Aquest mes</translation>
-    </message>
-    <message>
-        <source>Last month</source>
-        <translation>El mes passat</translation>
-    </message>
-    <message>
-        <source>This year</source>
-        <translation>Aquest any</translation>
-    </message>
-    <message>
-        <source>Obfuscated</source>
-        <translation>Ofuscat</translation>
-    </message>
-    <message>
-        <source>Copy address</source>
-        <translation>Copia l'adreça</translation>
-    </message>
-    <message>
-        <source>Copy label</source>
-        <translation>Copia l'etiqueta</translation>
-    </message>
-    <message>
-        <source>Copy amount</source>
-        <translation>Copia l'import</translation>
-    </message>
-    <message>
-        <source>Copy transaction ID</source>
-        <translation>Copia l'ID de transacció</translation>
-    </message>
-    <message>
-        <source>Edit label</source>
-        <translation>Edita l'etiqueta</translation>
-    </message>
-    <message>
-        <source>Comma separated file (*.csv)</source>
-        <translation>Fitxer separat per comes (*.csv)</translation>
-    </message>
-    <message>
-        <source>Confirmed</source>
-        <translation>Confirmat</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Data</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Tipus</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation>Etiqueta</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation>Adreça</translation>
-    </message>
-    <message>
-        <source>Exporting Failed</source>
-        <translation>L'exportació ha fallat</translation>
+        <source>Type of transaction.</source>
+        <translation>Tipus de transacció.</translation>
     </message>
     </context>
 <context>
-    <name>UnitDisplayStatusBarControl</name>
+    <name>TxDetailDialog</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>Fee:</source>
+        <translation>Comissió:</translation>
+    </message>
+    <message>
+        <source>Status:</source>
+        <translation>Estat:</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
     </context>
 <context>
-    <name>WalletFrame</name>
+    <name>TxRow</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
     </context>
 <context>
     <name>WalletModel</name>
     </context>
 <context>
-    <name>WalletView</name>
+    <name>WalletPasswordDialog</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
     </message>
     <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>Cancel·lar</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
+    </message>
+</context>
+<context>
+    <name>WelcomeContentWidget</name>
+    <message>
+        <source>Dialog</source>
+        <translation>Diàleg</translation>
+    </message>
+    <message>
+        <source>Welcome</source>
+        <translation>Benvingut</translation>
+    </message>
+    </context>
+<context>
+    <name>ZPivControlDialog</name>
+    <message>
+        <source>zPiv</source>
+        <translation>zPiv</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Quantitat:</translation>
+    </message>
+    <message>
+        <source>0</source>
+        <translation>0</translation>
     </message>
     </context>
 <context>
     <name>digiwage-core</name>
+    <message>
+        <source>Connection options:</source>
+        <translation>Opcions de connexió:</translation>
+    </message>
     <message>
         <source>Error</source>
         <translation>Error</translation>
@@ -1302,12 +2067,32 @@
         <translation>Informació</translation>
     </message>
     <message>
-        <source>Obfuscation options:</source>
-        <translation>Opcions d'ofuscació:</translation>
+        <source>Loading block index...</source>
+        <translation>S'està carregant l'índex de blocs...</translation>
+    </message>
+    <message>
+        <source>Loading wallet... (%3.2f %%)</source>
+        <translation>S'està carregant el moneder... (%3.2f %%)</translation>
+    </message>
+    <message>
+        <source>Loading wallet...</source>
+        <translation>S'està carregant el moneder...</translation>
     </message>
     <message>
         <source>Options:</source>
         <translation>Opcions:</translation>
+    </message>
+    <message>
+        <source>RPC server options:</source>
+        <translation>Opcions del servidor RPC:</translation>
+    </message>
+    <message>
+        <source>Rescanning...</source>
+        <translation>S'està reescanejant...</translation>
+    </message>
+    <message>
+        <source>Synchronization failed</source>
+        <translation>La sincronització ha fallat</translation>
     </message>
     <message>
         <source>Synchronization finished</source>
@@ -1324,6 +2109,21 @@
     <message>
         <source>Warning</source>
         <translation>Atenció</translation>
+    </message>
+    </context>
+<context>
+    <name>send</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulari</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Envia</translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation>EtiquetaDeText</translation>
     </message>
     </context>
 </TS>

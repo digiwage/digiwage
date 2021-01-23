@@ -1,4 +1,5 @@
 // Copyright (c) 2014 The Bitcoin developers
+// Copyright (c) 2017-2019 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,7 +11,7 @@
 
 /**
  * CBaseChainParams defines the base parameters (shared between digiwage-cli and digiwaged)
- * of a given instance of the Digiwage system.
+ * of a given instance of the DIGIWAGE system.
  */
 class CBaseChainParams
 {
@@ -19,7 +20,6 @@ public:
         MAIN,
         TESTNET,
         REGTEST,
-        UNITTEST,
 
         MAX_NETWORK_TYPES
     };

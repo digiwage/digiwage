@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2014 The Bitcoin Core developers
+// Copyright (c) 2017-2019 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,23 +7,22 @@
 
 #include "clientversion.h"
 #include "primitives/transaction.h"
-#include "random.h"
 #include "sync.h"
 #include "utilstrencodings.h"
 #include "utilmoneystr.h"
+#include "test/test_digiwage.h"
 
 #include <stdint.h>
 #include <vector>
 
 #include <boost/test/unit_test.hpp>
 
-using namespace std;
 
-BOOST_AUTO_TEST_SUITE(util_tests)
+BOOST_FIXTURE_TEST_SUITE(util_tests, BasicTestingSetup)
 
 BOOST_AUTO_TEST_CASE(util_criticalsection)
 {
-    CCriticalSection cs;
+    RecursiveMutex cs;
 
     do {
         LOCK(cs);
@@ -243,7 +243,7 @@ BOOST_AUTO_TEST_CASE(util_seed_insecure_rand)
     int i;
     int count=0;
 
-    seed_insecure_rand(true);
+    SeedInsecureRand(true);
 
     for (int mod=2;mod<11;mod++)
     {
@@ -259,7 +259,7 @@ BOOST_AUTO_TEST_CASE(util_seed_insecure_rand)
         {
             uint32_t rval;
             do{
-                rval=insecure_rand()&mask;
+                rval=InsecureRand32()&mask;
             }while(rval>=(uint32_t)mod);
             count += rval==0;
         }

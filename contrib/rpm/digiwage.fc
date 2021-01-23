@@ -1,0 +1,8 @@
+/usr/bin/digiwage-cli		--	gen_context(system_u:object_r:digiwage_exec_t,s0)
+/usr/sbin/digiwaged		--	gen_context(system_u:object_r:digiwage_exec_t,s0)
+/usr/lib(64)?/digiwage/digiwaged		--	gen_context(system_u:object_r:digiwage_exec_t,s0)
+
+/etc/digiwage(/.*)?		gen_context(system_u:object_r:digiwage_conf_t,s0)
+/var/lib/digiwage(/.*)?		gen_context(system_u:object_r:digiwage_var_lib_t,s0)
+
+(/var)?/run/digiwaged(/.*)?   gen_context(system_u:object_r:digiwage_var_run_t,s0)

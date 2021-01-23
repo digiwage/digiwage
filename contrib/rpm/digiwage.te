@@ -1,0 +1,81 @@
+policy_module(digiwage, 1.100.1)
+
+########################################
+#
+# Declarations
+#
+
+type digiwage_t;
+type digiwage_exec_t;
+init_daemon_domain(digiwage_t, digiwage_exec_t)
+
+permissive digiwage_t;
+
+type digiwage_initrc_exec_t;
+init_script_file(digiwage_initrc_exec_t)
+
+type digiwage_conf_t;
+files_type(digiwage_conf_t)
+
+type digiwage_var_lib_t;
+files_type(digiwage_var_lib_t)
+
+type digiwage_var_run_t;
+files_type(digiwage_var_run_t)
+
+type digiwage_port_t;
+corenet_port(digiwage_port_t)
+
+########################################
+#
+# digiwage local policy
+#
+allow digiwage_t self:process { fork };
+
+allow digiwage_t self:fifo_file rw_fifo_file_perms;
+allow digiwage_t self:unix_stream_socket create_stream_socket_perms;
+
+manage_dirs_pattern(digiwage_t, digiwage_conf_t, digiwage_conf_t)
+manage_files_pattern(digiwage_t, digiwage_conf_t, digiwage_conf_t)
+
+manage_dirs_pattern(digiwage_t, digiwage_var_lib_t, digiwage_var_lib_t)
+manage_files_pattern(digiwage_t, digiwage_var_lib_t, digiwage_var_lib_t)
+files_var_lib_filetrans(digiwage_t, digiwage_var_lib_t, { dir file })
+
+manage_dirs_pattern(digiwage_t, digiwage_var_run_t, digiwage_var_run_t)
+manage_files_pattern(digiwage_t, digiwage_var_run_t, digiwage_var_run_t)
+
+sysnet_dns_name_resolve(digiwage_t)
+corenet_all_recvfrom_unlabeled(digiwage_t)
+
+allow digiwage_t self:tcp_socket create_stream_socket_perms;
+corenet_tcp_sendrecv_generic_if(digiwage_t)
+corenet_tcp_sendrecv_generic_node(digiwage_t)
+corenet_tcp_sendrecv_all_ports(digiwage_t)
+corenet_tcp_bind_generic_node(digiwage_t)
+
+gen_require(`
+    type digiwage_port_t;
+')
+allow digiwage_t digiwage_port_t:tcp_socket name_bind;
+
+gen_require(`
+    type digiwage_port_t;
+')
+allow digiwage_t digiwage_port_t:tcp_socket name_connect;
+
+domain_use_interactive_fds(digiwage_t)
+
+files_read_etc_files(digiwage_t)
+
+miscfiles_read_localization(digiwage_t)
+
+sysnet_dns_name_resolve(digiwage_t)
+
+allow digiwage_t digiwage_exec_t:file execute_no_trans;
+allow digiwage_t self:process setsched;
+corecmd_exec_ls(digiwage_t)
+corenet_tcp_connect_http_port(digiwage_t)
+dev_read_urand(digiwage_t)
+fs_getattr_xattr_fs(digiwage_t)
+kernel_read_system_state(digiwage_t)

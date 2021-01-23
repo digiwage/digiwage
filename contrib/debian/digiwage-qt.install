@@ -1,6 +1,6 @@
 usr/local/bin/digiwage-qt usr/bin
-share/pixmaps/bitcoin32.xpm usr/share/pixmaps
-share/pixmaps/bitcoin16.xpm usr/share/pixmaps
-share/pixmaps/bitcoin128.png usr/share/pixmaps
+share/pixmaps/digiwage32.xpm usr/share/pixmaps
+share/pixmaps/digiwage16.xpm usr/share/pixmaps
+share/pixmaps/digiwage128.png usr/share/pixmaps
 debian/digiwage-qt.desktop usr/share/applications
 debian/digiwage-qt.protocol usr/share/kde4/services/

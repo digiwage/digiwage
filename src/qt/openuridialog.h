@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2013 The Bitcoin developers
+// Copyright (c) 2019 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,6 +6,7 @@
 #define BITCOIN_QT_OPENURIDIALOG_H
 
 #include <QDialog>
+#include "qt/digiwage/snackbar.h"
 
 namespace Ui
 {
@@ -21,15 +22,18 @@ public:
     ~OpenURIDialog();
 
     QString getURI();
+    void showEvent(QShowEvent *event) override;
 
-protected slots:
-    void accept();
+protected Q_SLOTS:
+    void accept() override;
 
-private slots:
+private Q_SLOTS:
     void on_selectFileButton_clicked();
 
 private:
     Ui::OpenURIDialog* ui;
+    SnackBar *snackBar = nullptr;
+    void inform(const QString& str);
 };
 
 #endif // BITCOIN_QT_OPENURIDIALOG_H
