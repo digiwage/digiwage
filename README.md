@@ -5,7 +5,7 @@ A Decentralized Freelance Workplace https://digiwage.org
 
 Whitepaper https://coin.digiwage.org/Digiwage_White_Paper_2.0.pdf
 
-![Why choose Digiwage?](https://imgur.com/mZcffMz)
+![Why choose Digiwage?](https://imgur.com/mZcffMz.png)
 
 ### Rewards Breakdown
 
