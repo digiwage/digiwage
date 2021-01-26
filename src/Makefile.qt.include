@@ -331,6 +331,8 @@ RES_ICONS = \
   qt/digiwage/res/img/ic-check-peers.svg \
   qt/digiwage/res/img/ic-nav-master-active.svg \
   qt/digiwage/res/img/ic-watch-password-white.svg \
+  qt/digiwage/res/img/bg-welcome.jpeg \
+  qt/digiwage/res/img/nav.png \
   qt/digiwage/res/img/bg-welcome-container.jpg \
   qt/digiwage/res/img/bg-welcome-container.png \
   qt/digiwage/res/img/bg-welcome-container.svg \
@@ -349,6 +351,7 @@ RES_ICONS = \
   qt/digiwage/res/img/ic-check-staking.svg \
   qt/digiwage/res/img/ic-nav-master.svg \
   qt/digiwage/res/img/bg-dashboard.png \
+  qt/digiwage/res/img/bg-copy.png \
   qt/digiwage/res/img/btn-radio-active.svg \
   qt/digiwage/res/img/ic-check-sync-off.svg \
   qt/digiwage/res/img/img-empty-contacts.svg \
