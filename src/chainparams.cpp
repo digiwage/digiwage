@@ -167,7 +167,7 @@ public:
         consensus.height_last_ZC_AccumCheckpoint = consensus.height_RHF;
         consensus.height_start_BIP65 = consensus.height_RHF;             // 82629b7a9978f5c7ea3f70a12db92633a7d2e436711500db28b97efd48b1e527
         consensus.height_start_MessSignaturesV2 = consensus.height_RHF;  // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_StakeModifierNewSelection = consensus.height_RHF;
+        consensus.height_start_StakeModifierNewSelection = 1516200; //initial stakemodifier will start few blocks before the stakemodifier v2
         consensus.height_start_StakeModifierV2 = consensus.height_RHF;
         consensus.height_start_TimeProtoV2 = consensus.height_RHF;       // TimeProtocolV2, Blocks V7 and newMessageSignatures
         consensus.height_start_ZC = consensus.height_RHF;
@@ -196,8 +196,6 @@ public:
         nDefaultPort = 46003;
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        vSeeds.push_back(CDNSSeedData("144.202.108.130", "144.202.108.130"));
-        vSeeds.push_back(CDNSSeedData("144.202.96.178", "144.202.96.178"));
         vSeeds.push_back(CDNSSeedData("144.202.111.9", "144.202.111.9"));
         vSeeds.push_back(CDNSSeedData("144.202.110.14", "144.202.110.14"));
 
