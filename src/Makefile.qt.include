@@ -320,8 +320,9 @@ RES_ICONS = \
   qt/digiwage/res/img/ic-nav-cold-staking-active.svg \
   qt/digiwage/res/img/ic-nav-dashboard-active.svg \
   qt/digiwage/res/img/ic-wallet-status-locked.svg \
-  qt/digiwage/res/img/bg-splash.svg \
-  qt/digiwage/res/img/bg-splash.png \
+  qt/digiwage/res/img/bg-welcome.jpeg \
+  qt/digiwage/res/img/nav.png \
+  qt/digiwage/res/img/new-white-logo.png \
   qt/digiwage/res/img/ic-check-mint.svg \
   qt/digiwage/res/img/ic-nav-dashboard-hover.svg \
   qt/digiwage/res/img/ic-wallet-status-staking.svg \
@@ -331,8 +332,6 @@ RES_ICONS = \
   qt/digiwage/res/img/ic-check-peers.svg \
   qt/digiwage/res/img/ic-nav-master-active.svg \
   qt/digiwage/res/img/ic-watch-password-white.svg \
-  qt/digiwage/res/img/bg-welcome.jpeg \
-  qt/digiwage/res/img/nav.png \
   qt/digiwage/res/img/bg-welcome-container.jpg \
   qt/digiwage/res/img/bg-welcome-container.png \
   qt/digiwage/res/img/bg-welcome-container.svg \
@@ -407,10 +406,8 @@ RES_ICONS = \
   qt/digiwage/res/img/img-empty-staking-off.svg \
   qt/digiwage/res/img/ic-arrow-drop-down.svg \
   qt/digiwage/res/img/ic-receive-off.svg \
-  qt/digiwage/res/img/img-empty-staking-on.svg \
   qt/digiwage/res/img/ic-arrow-drop-up-white.svg \
   qt/digiwage/res/img/ic-receive-on.svg \
-  qt/digiwage/res/img/img-empty-transactions.svg \
   qt/digiwage/res/img/ic-arrow-drop-up.svg \
   qt/digiwage/res/img/ic-received.svg \
   qt/digiwage/res/img/ic-arrow-drop-white-down.svg \
