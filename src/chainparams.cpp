@@ -170,7 +170,7 @@ public:
         consensus.height_start_StakeModifierNewSelection = 1516200; //initial stakemodifier will start few blocks before the stakemodifier v2
         consensus.height_start_StakeModifierV2 = consensus.height_RHF;
         consensus.height_start_TimeProtoV2 = consensus.height_RHF;       // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_ZC = consensus.height_RHF;
+        consensus.height_start_ZC = 9999999999999; // never start zerocoin protocol so no block version 4
         consensus.height_start_ZC_PublicSpends = consensus.height_RHF;
         consensus.height_start_ZC_SerialRangeCheck = consensus.height_RHF;
         consensus.height_start_ZC_SerialsV2 = consensus.height_RHF;
