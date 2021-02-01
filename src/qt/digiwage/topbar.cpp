@@ -36,7 +36,7 @@ TopBar::TopBar(DIGIWAGEGUI* _mainWindow, QWidget *parent) :
     /* Containers */
     ui->containerTop->setContentsMargins(10, 4, 10, 10);
 #ifdef Q_OS_MAC
-    ui->containerTop->load("://bg-dashboard");
+    ui->containerTop->load("://bg-dashboard-banner");
     setCssProperty(ui->containerTop,"container-topbar-no-image");
 #else
     ui->containerTop->setProperty("cssClass", "container-top");
