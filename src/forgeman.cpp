@@ -1,3 +1,4 @@
+// Copyright (c) 2018-2020 The ZENZO developers
 // Copyright (c) 2018-2020 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
