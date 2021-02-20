@@ -230,9 +230,10 @@ public:
         networkID = CBaseChainParams::TESTNET;
         strNetworkID = "test";
 
-        genesis = CreateGenesisBlock(1538323043, 1050765, 0x1e0ffff0, 1, 0 * COIN);
+        genesis = CreateGenesisBlock(1522130562, 3706113, 0x1e0ffff0, 1, 120 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        //assert(consensus.hashGenesisBlock == uint256("0000024c78d7d2fb56363f7777bab06de80307ac751b02e843ca7ae62d2310d2"));
+        assert(consensus.hashGenesisBlock == uint256("0x000009f854e700ab62642c7d3e94be65a1d8c112384f5edfb4b2b3fa3fecaef6"));
+        assert(genesis.hashMerkleRoot == uint256("0xdda70dbacbeeb39750532e69dad0a0025c16e9bcc7ca412cf12a988d0020309d"));
 
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.powLimit   = ~UINT256_ZERO >> 20;   // DIGIWAGE starting difficulty is 1 / 2^12
@@ -249,27 +250,27 @@ public:
         consensus.nProposalEstablishmentTime = 60 * 5;  // at least 5 min old to make it into a budget
         consensus.nStakeMinAge = 60 * 60;
         consensus.nStakeMinDepth = 100;
-        consensus.nTargetTimespan = 40 * 60;
-        consensus.nTargetTimespanV2 = 30 * 60;
+        consensus.nTargetTimespan = 1 * 60;
+        consensus.nTargetTimespanV2 = 1 * 60;
         consensus.nTargetSpacing = 1 * 60;
         consensus.nTimeSlotLength = 15;
         consensus.strObfuscationPoolDummyAddress = "y57cqfGRkekRyDRNeJiLtYVEbvhXrNbmox";
 
         // spork keys
-        consensus.strSporkPubKey = "041a3041a1018f6495fc808c044481f0d446be6560e593277a34b258537f77922661f983952cb71a9d1b8948b6e1611fcd28507989d23833f0ba3b5d60c7f289cf";
+        consensus.strSporkPubKey = "045fdc1d5796a4cc3ec7b93de854747f91ac8c44b150a37a45fe7b115e19463f902639ac385a7262423d5ac2e5fcea81a403525b25e56c6ff6d6020ff97b9bff57";
 
         // height based activations
         consensus.height_last_PoW = 200;
-        consensus.height_last_ZC_AccumCheckpoint = 1106090;
-        consensus.height_start_BIP65 = 851019;
-        consensus.height_start_MessSignaturesV2 = 1347000;      // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_StakeModifierNewSelection = 51197;
-        consensus.height_start_StakeModifierV2 = 1214000;
-        consensus.height_start_TimeProtoV2 = 1347000;           // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_ZC = 201576;
-        consensus.height_start_ZC_PublicSpends = 1106100;
-        consensus.height_start_ZC_SerialRangeCheck = 1;
-        consensus.height_start_ZC_SerialsV2 = 444020;
+        consensus.height_last_ZC_AccumCheckpoint = 500;
+        consensus.height_start_BIP65 = 500;
+        consensus.height_start_MessSignaturesV2 = 500;      // TimeProtocolV2, Blocks V7 and newMessageSignatures
+        consensus.height_start_StakeModifierNewSelection = 210;
+        consensus.height_start_StakeModifierV2 = 500;
+        consensus.height_start_TimeProtoV2 = 500;           // TimeProtocolV2, Blocks V7 and newMessageSignatures
+        consensus.height_start_ZC = 250;
+        consensus.height_start_ZC_PublicSpends = 500;
+        consensus.height_start_ZC_SerialRangeCheck = 500;
+        consensus.height_start_ZC_SerialsV2 = 500;
 
         // Zerocoin-related params
         consensus.ZC_Modulus = "25195908475657893494027183240048398571429282126204032027777137836043662020707595556264018525880784"
@@ -299,9 +300,8 @@ public:
         vFixedSeeds.clear();
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
-        vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "digiwage-testnet.seed.fuzzbawls.pw", true));
-        vSeeds.push_back(CDNSSeedData("fuzzbawls.pw", "digiwage-testnet.seed2.fuzzbawls.pw", true));
-        vSeeds.push_back(CDNSSeedData("warrows.dev", "testnet.dnsseed.digiwage.warrows.dev"));
+       vSeeds.push_back(CDNSSeedData("144.202.111.9", "144.202.111.9"));
+    vSeeds.push_back(CDNSSeedData("144.202.110.14", "144.202.110.14"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 139); // Testnet DIGIWAGE addresses start with 'x' or 'y'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 19);  // Testnet DIGIWAGE script addresses start with '8' or '9'
