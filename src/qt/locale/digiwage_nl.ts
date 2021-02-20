@@ -1621,8 +1621,8 @@ Het zal automatisch starten zodra de portemonnee voldoende bevestigingen heeft o
         <translation>user_masternode</translation>
     </message>
     <message>
-        <source>Address: 88.26.164.88:51474</source>
-        <translation>Adres: 88.26.164.88:51474</translation>
+        <source>Address: 88.26.164.88:46005</source>
+        <translation>Adres: 88.26.164.88:46005</translation>
     </message>
     <message>
         <source>Jan. 19, 2019</source>

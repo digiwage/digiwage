@@ -1620,8 +1620,8 @@ It will start automatically as soon as the wallet has enough confirmations on an
         <translation>usuario_masternode</translation>
     </message>
     <message>
-        <source>Address: 88.26.164.88:51474</source>
-        <translation>Dirección: 88.26.164.88:51474</translation>
+        <source>Address: 88.26.164.88:46005</source>
+        <translation>Dirección: 88.26.164.88:46005</translation>
     </message>
     <message>
         <source>Jan. 19, 2019</source>

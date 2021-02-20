@@ -1622,8 +1622,8 @@ Si avvierà automaticamente non appena il portafoglio avrà sufficienti conferme
         <translation>user_masternode</translation>
     </message>
     <message>
-        <source>Address: 88.26.164.88:51474</source>
-        <translation>Address: 88.26.164.88:51474</translation>
+        <source>Address: 88.26.164.88:46005</source>
+        <translation>Address: 88.26.164.88:46005</translation>
     </message>
     <message>
         <source>Jan. 19, 2019</source>

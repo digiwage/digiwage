@@ -2022,7 +2022,7 @@ It will start automatically as soon as the wallet has enough confirmations on an
     </message>
     <message>
         <location line="+7"/>
-        <source>Address: 88.26.164.88:51474</source>
+        <source>Address: 88.26.164.88:46005</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

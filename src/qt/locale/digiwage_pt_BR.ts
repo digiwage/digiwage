@@ -1373,8 +1373,8 @@ Ele será iniciado automaticamente assim que a carteira tiver confirmações suf
         <translation>usuario_masternod</translation>
     </message>
     <message>
-        <source>Address: 88.26.164.88:51474</source>
-        <translation>Endereço: 88.26.164.88:51474</translation>
+        <source>Address: 88.26.164.88:46005</source>
+        <translation>Endereço: 88.26.164.88:46005</translation>
     </message>
     <message>
         <source>Jan. 19, 2019</source>
