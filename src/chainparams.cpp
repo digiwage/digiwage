@@ -161,16 +161,16 @@ public:
         // spork keys
         consensus.strSporkPubKey = "045fdc1d5796a4cc3ec7b93de854747f91ac8c44b150a37a45fe7b115e19463f902639ac385a7262423d5ac2e5fcea81a403525b25e56c6ff6d6020ff97b9bff57";
 	
-	// height-based activations - // Actual figures noted after chain was fixed and moving.
+	/// height-based activations - // Actual figures noted after chain was fixed and moving.
         consensus.height_last_PoW = 1000;
-        consensus.height_RHF = 1550050; // 3367b6142ecf62e6526c4b01abd19a3783a9144c20b72311c3e97708b86791b0
+        consensus.height_RHF = 1552000; //82e98476d3865d29dec0a9f75988413248856e774a3434a714a7f1e3b558ef81
         consensus.height_last_ZC_AccumCheckpoint = INT_MAX;
         consensus.height_start_BIP65 = consensus.height_RHF;  // 3367b6142ecf62e6526c4b01abd19a3783a9144c20b72311c3e97708b86791b0 - block v5 (default)
         consensus.height_start_MessSignaturesV2 = consensus.height_RHF;  // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_StakeModifierNewSelection = consensus.height_RHF; //initial stakemodifier will start few blocks before the stakemodifierv2. We jump straight from v3 to default (block v5 - default).
-        consensus.height_start_StakeModifierV2 = consensus.height_RHF; //block v5 default
-        consensus.height_start_TimeProtoV2 = consensus.height_RHF;       // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_ZC = 1550052; // block v4 - block version upgrade is designed to be incremental, but since we are jumping from v3 to above v4 we still synthesize an incremental upgrade. This necessarily means we hop from v3 to v5 then quickly back down to v4. We eventually settle again on v5 at block 1550150 - 1ac22c22d430ac897501b8b78ecfe4b47013c911ea9d7864e4a5d79ed1dc7f41. v4 stops at block 1550149 - bd6b03b3f759d624e0386a22a578935e88da2829209c605ff24b20834347523a
+        consensus.height_start_StakeModifierNewSelection = 1551935; //initial stakemodifier will start few blocks before the stakemodifierv2 14425f092cec36beee5e163aa54995f520e00544f579af24281e13994c208edb
+        consensus.height_start_StakeModifierV2 = 1551945; //block f131368ce97278f1ea56654703fd559ba0cfbf2a3ae5bcab09b4ad584ef0f07b
+        consensus.height_start_TimeProtoV2 = consensus.height_RHF;;       // TimeProtocolV2, Blocks V7 and newMessageSignatures
+        consensus.height_start_ZC = 1551955; // block v4 376b848ad5d83b15f04690520e1d6bf33cb7129e41a3d822b583a6818a6237b5
         consensus.height_start_ZC_PublicSpends = INT_MAX;
         consensus.height_start_ZC_SerialRangeCheck = INT_MAX;
         consensus.height_start_ZC_SerialsV2 = INT_MAX;
