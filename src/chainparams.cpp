@@ -160,21 +160,20 @@ public:
 
         // spork keys
         consensus.strSporkPubKey = "045fdc1d5796a4cc3ec7b93de854747f91ac8c44b150a37a45fe7b115e19463f902639ac385a7262423d5ac2e5fcea81a403525b25e56c6ff6d6020ff97b9bff57";
-
-        // height-based activations
+	
+	// height-based activations - // Actual figures noted after chain was fixed and moving.
         consensus.height_last_PoW = 1000;
-        consensus.height_RHF = 1550150; // actual hardfork was at 1550050 since it was necessary to take an intermediary step to get block version 4 registered. Therefore subtrac 100 blocks from each of the magic values below - StakeModifierNewSelection - 100, StakeModifierV2 - 100, TimeProtoV2 - 100, start_ZC - 100  
+        consensus.height_RHF = 1550050; // 3367b6142ecf62e6526c4b01abd19a3783a9144c20b72311c3e97708b86791b0
         consensus.height_last_ZC_AccumCheckpoint = INT_MAX;
-        consensus.height_start_BIP65 = consensus.height_RHF;
+        consensus.height_start_BIP65 = consensus.height_RHF;  // 3367b6142ecf62e6526c4b01abd19a3783a9144c20b72311c3e97708b86791b0 - block v5 (default)
         consensus.height_start_MessSignaturesV2 = consensus.height_RHF;  // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_StakeModifierNewSelection = 1545120; //initial stakemodifier will start few blocks before the stakemodifier v2
-        consensus.height_start_StakeModifierV2 = 1545125; ;
-        consensus.height_start_TimeProtoV2 = 1545115;       // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_ZC = 1545120;// start zerocoin protocol a few blocks before RHF block
-        consensus.height_start_ZC_PublicSpends = consensus.height_RHF;
-        consensus.height_start_ZC_SerialRangeCheck = consensus.height_RHF;
-        consensus.height_start_ZC_SerialsV2 = consensus.height_RHF;
-
+        consensus.height_start_StakeModifierNewSelection = consensus.height_RHF; //initial stakemodifier will start few blocks before the stakemodifierv2. We jump straight from v3 to default (block v5 - default).
+        consensus.height_start_StakeModifierV2 = consensus.height_RHF; //block v5 default
+        consensus.height_start_TimeProtoV2 = consensus.height_RHF;       // TimeProtocolV2, Blocks V7 and newMessageSignatures
+        consensus.height_start_ZC = 1550052; // block v4 - block version upgrade is designed to be incremental, but since we are jumping from v3 to above v4 we still synthesize an incremental upgrade. This necessarily means we hop from v3 to v5 then quickly back down to v4. We eventually settle again on v5 at block 1550150 - 1ac22c22d430ac897501b8b78ecfe4b47013c911ea9d7864e4a5d79ed1dc7f41. v4 stops at block 1550149 - bd6b03b3f759d624e0386a22a578935e88da2829209c605ff24b20834347523a
+        consensus.height_start_ZC_PublicSpends = INT_MAX;
+        consensus.height_start_ZC_SerialRangeCheck = INT_MAX;
+        consensus.height_start_ZC_SerialsV2 = INT_MAX;
 	
         // Zerocoin-related params
         consensus.ZC_Modulus = "d59f1d99dae2770f40fb82066b6f69bb0b3783113505ecf4d958a6021d7204a8612d7c824741ac69cbf426ba4056a0598f2683c54a72c9162821864da23add323b9af365c63d1c60af802a15c3961c4a23a0a4b8f8d0cd681faf9ff5f308a9d8348993a7f5e2560bdc4274aaa670878562ad8774c7fa15ec449385a7e3f2621b152e1f9978890cf02058d3f00d7ed1fc2fba76fe2b8358205dec3f0bd0b648b995f84b74e34ae77a2c134033075cf966b4339f028e039ce8200e279bd0169cf5994a4b135699280fa7be8f0328cfcaa1f7dc7cabe18ba0ec6f42e00792b3f128ec64fee8eb9306b871f6514946649d3fa2247c62ecd5050914570bb35b035fa80ef0995006790eb5ef2e383e7919b7e1aea89f59917c1a7adfdb1a73239c09e191cdde217c53ba0bf96ac9c265054aef811da8b51b1b3ea31d96f5d1ab9acf87363be80f42acf7353b3c4a5297eb3f5676f04b987a3144c5b04d1f6f3fdec243bab3fa2f463a1c50be50b49c156c421befad74c9b6f4367149163d3796355331";
