@@ -98,12 +98,14 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
     (235000, uint256("0x25961563bc9afae2b7ed3bc8dc61da40185bbe86096d687f746c632a885a1e01"))
     (435000, uint256("0x6133435a7be2ca1c81172b19febd7ccd7825a3c6f5fdf41cdb673d77a54437c3"))
     (1474750, uint256("2ef62243cc7ed03a111142ef0bb88cb34a92e9c4a42eec872def42461ad3be49"));
+    (1722471, uint256("ffc8f35b3e7580c9ccd618c3028304751dcad0acb967d7e170a175b1f4415e51"));
+
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1611297740, // * UNIX timestamp of last checkpoint block
-    3099505,          // * total number of transactions between genesis and last checkpoint
+    1636969530, // * UNIX timestamp of last checkpoint block
+    3599666,          // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
-    2000        // * estimated number of transactions per day after checkpoint
+    4000        // * estimated number of transactions per day after checkpoint
 };
 
 
@@ -153,7 +155,7 @@ public:
         consensus.nStakeMinAge = 60 * 60;
         consensus.nStakeMinDepth = 600;
         consensus.nTargetTimespan = 1 * 60;
-        consensus.nTargetTimespanV2 = 1 * 60;
+        consensus.nTargetTimespanV2 = 30 * 60;
         consensus.nTargetSpacing = 1 * 60;
         consensus.nTimeSlotLength = 15;
         consensus.strObfuscationPoolDummyAddress = "DUHvTudiNB9wjZPJrUTJr4drQobwQk5xqV";
