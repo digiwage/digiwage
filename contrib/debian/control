@@ -29,8 +29,8 @@ Build-Depends: debhelper,
  dh-systemd
 Standards-Version: 3.9.2
 Homepage: http://www.digiwage.org
-Vcs-Git: git://github.com/gdiscord/DIGIWAGE.git
-Vcs-Browser: http://github.com/gdiscord/DIGIWAGE
+Vcs-Git: git://github.com/digiwage/DIGIWAGE.git
+Vcs-Browser: http://github.com/digiwage/DIGIWAGE
 
 Package: digiwaged
 Architecture: any

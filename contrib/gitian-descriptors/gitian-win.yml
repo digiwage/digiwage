@@ -23,7 +23,7 @@ packages:
 - "ca-certificates"
 - "python3"
 remotes:
-- "url": "https://github.com/gdiscord/digiwage.git"
+- "url": "https://github.com/digiwage/digiwage.git"
   "dir": "digiwage"
 files: []
 script: |
