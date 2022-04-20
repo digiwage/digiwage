@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,6 +6,7 @@
 #define SNACKBAR_H
 
 #include <QDialog>
+#include <QResizeEvent>
 
 class DIGIWAGEGUI;
 
@@ -23,9 +24,10 @@ public:
 
     virtual void showEvent(QShowEvent *event) override;
     void setText(const QString& text);
+
 private Q_SLOTS:
     void hideAnim();
-    void windowResizeEvent(QResizeEvent *event);
+    void windowResizeEvent(QResizeEvent* event);
 private:
     Ui::SnackBar *ui;
     DIGIWAGEGUI* window = nullptr;

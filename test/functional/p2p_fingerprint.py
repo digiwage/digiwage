@@ -11,22 +11,20 @@ the node should pretend that it does not have it to avoid fingerprinting.
 import time
 
 from test_framework.blocktools import (create_block, create_coinbase)
+from test_framework.messages import CInv
 from test_framework.mininode import (
-    CInv,
     P2PInterface,
     msg_headers,
     msg_block,
     msg_getdata,
     msg_getheaders,
-    network_thread_start,
     wait_until,
 )
-from test_framework.test_framework import DigiwageTestFramework
-from test_framework.util import (
-    assert_equal,
-)
+from test_framework.test_framework import PivxTestFramework
+from test_framework.util import assert_equal
 
-class P2PFingerprintTest(DigiwageTestFramework):
+
+class P2PFingerprintTest(PivxTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
@@ -76,8 +74,6 @@ class P2PFingerprintTest(DigiwageTestFramework):
     # last month but that have over a month's worth of work are also withheld.
     def run_test(self):
         node0 = self.nodes[0].add_p2p_connection(P2PInterface())
-
-        network_thread_start()
         node0.wait_for_verack()
 
         # Set node time to 60 days ago

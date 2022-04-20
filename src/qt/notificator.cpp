@@ -7,7 +7,6 @@
 
 #include <QApplication>
 #include <QByteArray>
-#include <QIcon>
 #include <QImageWriter>
 #include <QMessageBox>
 #include <QMetaType>
@@ -84,11 +83,11 @@ public:
     static QVariant toVariant(const QImage& img);
 
 private:
-    int width, height, stride;
-    bool hasAlpha;
-    int channels;
-    int bitsPerSample;
-    QByteArray image;
+    int width{0}, height{0}, stride{0};
+    bool hasAlpha{false};
+    int channels{0};
+    int bitsPerSample{0};
+    QByteArray image{};
 
     friend QDBusArgument& operator<<(QDBusArgument& a, const FreedesktopImage& i);
     friend const QDBusArgument& operator>>(const QDBusArgument& a, FreedesktopImage& i);

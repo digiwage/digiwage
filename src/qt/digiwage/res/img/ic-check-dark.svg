@@ -1,9 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="ic_check" width="16" height="16" viewBox="0 0 16 16" shape-rendering="geometricPrecision">
-    <defs>
-        <style type="text/css">
-            .cls-1{fill:none}.cls-2{fill:#1d1c1a}
-        </style>
-    </defs>
-    <path id="Rectangle_3779" d="M0 0h16v16H0z" class="cls-1" data-name="Rectangle 3779"/>
-    <path id="Path_18587" d="M13.92 4.125a.655.655 0 0 0-.835 0L5.723 10.8 2.914 8.2a.655.655 0 0 0-.835 0l-.379.33 3.643 3.337a.624.624 0 0 0 .38.133.624.624 0 0 0 .38-.133l8.2-7.341z" class="cls-2" data-name="Path 18587"/>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="ic_check" shape-rendering="geometricPrecision"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 16 16"
+	 style="enable-background:new 0 0 16 16;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;}
+	.st1{fill:#009CE1;}
+</style>
+<path id="Rectangle_3779" class="st0" d="M0,0h16v16H0V0z"/>
+<path class="st1" d="M14,3.8c-0.2-0.2-0.6-0.2-0.8,0l-7.3,7.3L2.5,7.8c-0.2-0.2-0.6-0.2-0.8,0s-0.2,0.6,0,0.8l3.7,3.7l0,0
+	c0.1,0.1,0.3,0.2,0.4,0.2s0.3-0.1,0.4-0.2L14,4.6C14.2,4.4,14.2,4,14,3.8z"/>
 </svg>

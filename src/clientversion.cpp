@@ -13,13 +13,14 @@
  * for both digiwaged and digiwage-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("DIGIWAGE Core");
+const std::string CLIENT_NAME(PACKAGE_NAME);
 
 /**
  * The Codename of the current release, often appended to CLIENT_NAME.
  * E.g: Delta (The first code-named DIGIWAGE Core release, for v2.0.0)
  */
-const std::string CLIENT_CODENAME = "Delta";
+const std::string CLIENT_CODENAME = "DeltaX";
+
 
 /**
  * Client version number
@@ -51,8 +52,8 @@ const std::string CLIENT_CODENAME = "Delta";
 //! git will put "#define GIT_ARCHIVE 1" on the next line inside archives. 
 #define GIT_ARCHIVE 1
 #ifdef GIT_ARCHIVE
-#define GIT_COMMIT_ID "684a5d71033fd72e1fcd15f124d8eea8170e8b80"
-#define GIT_COMMIT_DATE "Mon, 26 Oct 2020 23:17:48 +0000"
+#define GIT_COMMIT_ID "eadae7310fdd7fcb6d7777481b6f8353eada6e6e"
+#define GIT_COMMIT_DATE "Mon, 4 Apr 2022 21:43:54 +0100"
 #endif
 
 #define BUILD_DESC_WITH_SUFFIX(maj, min, rev, build, suffix) \

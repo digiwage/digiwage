@@ -11,7 +11,7 @@ packages:
 - "libtool"
 - "pkg-config"
 remotes:
-- "url": "https://github.com/digiwage/digiwage-detached-sigs.git"
+- "url": "https://github.com/digiwage-project/digiwage-detached-sigs.git"
   "dir": "signature"
 files:
 - "osslsigncode-2.0.tar.gz"
@@ -19,12 +19,12 @@ files:
 script: |
   set -e -o pipefail
 
-  BUILD_DIR=`pwd`
+  BUILD_DIR="$PWD"
   SIGDIR=${BUILD_DIR}/signature/win
   UNSIGNED_DIR=${BUILD_DIR}/unsigned
 
   echo "5a60e0a4b3e0b4d655317b2f12a810211c50242138322b16e7e01c6fbb89d92f  osslsigncode-2.0.tar.gz" | sha256sum -c
-  
+
   mkdir -p ${UNSIGNED_DIR}
   tar -C ${UNSIGNED_DIR} -xf digiwage-win-unsigned.tar.gz
 
@@ -35,7 +35,7 @@ script: |
   ./configure --without-gsf --without-curl --disable-dependency-tracking
   make
   find ${UNSIGNED_DIR} -name "*-unsigned.exe" | while read i; do
-    INFILE="`basename "${i}"`"
-    OUTFILE="`echo "${INFILE}" | sed s/-unsigned//`"
+    INFILE="$(basename "${i}")"
+    OUTFILE="${INFILE/%-unsigned}"
     ./osslsigncode attach-signature -in "${i}" -out "${OUTDIR}/${OUTFILE}" -sigin "${SIGDIR}/${INFILE}.pem"
   done

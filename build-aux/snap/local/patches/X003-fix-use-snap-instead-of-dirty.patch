@@ -1,0 +1,25 @@
+From 1110d61bd21b505fcea41bc3869c4dad1450b27e Mon Sep 17 00:00:00 2001
+From: Fuzzbawls <fuzzbawls@gmail.com>
+Date: Fri, 10 Sep 2021 01:46:16 -0700
+Subject: [Patch] Fix genbuild.sh for nightly snap builds
+
+Use "snap" suffix instead of "dirty"
+---
+ share/genbuild.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/share/genbuild.sh b/share/genbuild.sh
+index 38c9ba176c..4088168c0b 100755
+--- a/share/genbuild.sh
++++ b/share/genbuild.sh
+@@ -36,7 +36,7 @@ if [ "${BITCOIN_GENBUILD_NO_GIT}" != "1" -a -e "$(which git 2>/dev/null)" -a "$(
+
+     # otherwise generate suffix from git, i.e. string like "59887e8-dirty"
+     SUFFIX=$(git rev-parse --short HEAD)
+-    git diff-index --quiet HEAD -- || SUFFIX="$SUFFIX-dirty"
++    git diff-index --quiet HEAD -- || SUFFIX="$SUFFIX-snap"
+ fi
+
+ if [ -n "$DESC" ]; then
+--
+2.17.1

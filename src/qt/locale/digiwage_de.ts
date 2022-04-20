@@ -2,47 +2,27 @@
 <context>
     <name>AddNewAddressDialog</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
-        <source>My Address</source>
-        <translation>Meine Adresse</translation>
+        <source>New Address</source>
+        <translation>Neue Adresse</translation>
     </message>
     <message>
         <source>Address</source>
         <translation>Adresse</translation>
     </message>
     <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
+        <translation>ABBRECHEN</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>OK</translation>
+        <source>SAVE</source>
+        <translation>SPEICHERN</translation>
     </message>
 </context>
 <context>
     <name>AddNewContactDialog</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
+        <translation>ABBRECHEN</translation>
     </message>
     <message>
         <source>Edit Contact</source>
@@ -50,20 +30,20 @@
     </message>
     <message>
         <source>Set a label for the selected address</source>
-        <translation>Der ausgewählten Adresse ein Label zuweisen</translation>
+        <translation>Der ausgewählten Adresse eine Bezeichnung zuweisen</translation>
     </message>
     <message>
-        <source>Enter a name for the address (e.g Exchange)</source>
-        <translation>Einen Namen für diese Adresse eingeben (z.B. Exchange)</translation>
+        <source>Enter a label for the address (e.g. Exchange)</source>
+        <translation>Gib eine Bezeichnung für die Adresse ein (z.B. Börse)</translation>
     </message>
     <message>
         <source>SAVE</source>
-        <translation>SICHERN</translation>
+        <translation>SPEICHERN</translation>
     </message>
     <message>
         <source>Edit label for the selected address:
 %1</source>
-        <translation>Beschreibung bearbeiten für ausgewählte Adresse:
+        <translation>Beschreibung für ausgewählte Adresse bearbeiten:
 %1</translation>
     </message>
 </context>
@@ -71,7 +51,7 @@
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
-        <translation>Rechtsklick um Adresse oder Bezeichnung zu bearbeiten</translation>
+        <translation>Rechtsklick, um Adresse oder Bezeichnung zu bearbeiten</translation>
     </message>
     <message>
         <source>Create a new address</source>
@@ -99,7 +79,7 @@
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
-        <translation>Daten aus der aktuellen Ansicht in eine Datei exportieren</translation>
+        <translation>Daten aus dem aktuellen Tab in eine Datei exportieren</translation>
     </message>
     <message>
         <source>&amp;Export</source>
@@ -111,11 +91,11 @@
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation>Wählen Sie die Adresse aus, an die Sie WAGE überweisen möchten</translation>
+        <translation>Wählen Sie die Adresse aus, an die Sie Münzen senden wollen</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
-        <translation>Wählen Sie die Adresse aus, über die Sie WAGE empfangen wollen</translation>
+        <translation>Wählen Sie die Adresse aus, mit der Sie Münzen empfangen wollen</translation>
     </message>
     <message>
         <source>C&amp;hoose</source>
@@ -131,11 +111,11 @@
     </message>
     <message>
         <source>These are your DIGIWAGE addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Dies sind ihre DIGIWAGE-Adressen zum Tätigen von Überweisungen. Bitte prüfen Sie den Betrag und die Empfangsadresse, bevor Sie WAGE überweisen.</translation>
+        <translation>Dies sind ihre DIGIWAGE-Adressen zum Senden von Zahlungen. Bitte prüfen Sie den Betrag und die Empfangsadresse, bevor Sie WAGE überweisen.</translation>
     </message>
     <message>
         <source>These are your DIGIWAGE addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Dies sind ihre DIGIWAGE-Adressen zum Empfangen von Zahlungen. Es wird empfohlen für jede Transaktion eine neue Empfangsadresse zu verwenden.</translation>
+        <translation>Das sind Ihre DIGIWAGE-Adressen zum Empfangen von Zahlungen. Es wird empfohlen, für jede Transaktion eine neue Empfangsadresse zu verwenden.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -147,7 +127,7 @@
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation>&amp;Editieren</translation>
+        <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
         <source>Export Address List</source>
@@ -167,21 +147,6 @@
     </message>
 </context>
 <context>
-    <name>AddressLabelRow</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>Bob Allen</source>
-        <translation>Bob Allen</translation>
-    </message>
-    <message>
-        <source>DN6i46dytMPVhV1JMGZFuQBh7BZZ6nNLox</source>
-        <translation>DN6i46dytMPVhV1JMGZFuQBh7BZZ6nNLox</translation>
-    </message>
-</context>
-<context>
     <name>AddressTableModel</name>
     <message>
         <source>Label</source>
@@ -196,28 +161,16 @@
         <translation>Datum</translation>
     </message>
     <message>
+        <source>Type</source>
+        <translation>Art</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(keine Bezeichnung)</translation>
     </message>
 </context>
 <context>
     <name>AddressesWidget</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>Send</source>
-        <translation>Schicken</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>No active Master Node yet</source>
-        <translation>Keine aktiven Masternodes bis jetzt</translation>
-    </message>
     <message>
         <source>Contact name</source>
         <translation>Kontaktname</translation>
@@ -227,32 +180,28 @@
         <translation>Adresse einfügen</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
         <source>Contacts</source>
         <translation>Kontakte</translation>
     </message>
     <message>
         <source>You can add a new one in the options menu to the side.</source>
-        <translation>Unter Menü "Optionen" auf der Seite können sie einen Neuen erfassen.</translation>
+        <translation>Unter Menü "Optionen" auf der Seite können Sie einen Neuen erfassen.</translation>
     </message>
     <message>
         <source>No contacts yet</source>
         <translation>Noch keine Kontakte</translation>
     </message>
     <message>
-        <source>e.g. John Doe</source>
-        <translation>z.B. John Doe</translation>
-    </message>
-    <message>
-        <source>Enter a DIGIWAGE address</source>
-        <translation>DIGIWAGE Adresse einfügen</translation>
-    </message>
-    <message>
         <source>SAVE</source>
-        <translation>SICHERN</translation>
+        <translation>SPEICHERN</translation>
+    </message>
+    <message>
+        <source>Add new contact</source>
+        <translation>Neuen Kontakt hinzufügen</translation>
+    </message>
+    <message>
+        <source>Generate a new address to receive tokens.</source>
+        <translation>Erzeuge eine neue Adresse, um Token zu empfangen</translation>
     </message>
     <message>
         <source>Invalid Contact Address</source>
@@ -264,7 +213,7 @@
     </message>
     <message>
         <source>Address already stored, label: %1</source>
-        <translation>Adresse schon gespeichert, label: %1</translation>
+        <translation>Adresse schon gespeichert, Bezeichnung: %1</translation>
     </message>
     <message>
         <source>New Contact Stored</source>
@@ -318,16 +267,8 @@ Sind Sie sicher?</translation>
         <translation>Passphrase Dialog</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>Geben Sie die neue Passphrase für die Wallet ein.&lt;br&gt;Bitte verwenden Sie eine Passphrase bestehend aus &lt;b&gt;10 oder mehr zufälligen Zeichen&lt;/b&gt; oder &lt;b&gt;8 oder mehr Wörtern&lt;/b&gt;.</translation>
+        <translation>Geben Sie die neue Passphrase für die Wallet ein.&lt;br/&gt;Bitte verwenden Sie eine Passphrase bestehend aus &lt;b&gt;10 oder mehr zufälligen Zeichen&lt;/b&gt; oder &lt;b&gt;8 oder mehr Wörtern&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>Encrypt wallet</source>
@@ -367,6 +308,14 @@ for staking</source>
         <translation>Verschlüsselung der Wallet bestätigen</translation>
     </message>
     <message>
+        <source>WARNING</source>
+        <translation>WARNUNG</translation>
+    </message>
+    <message>
+        <source>If you encrypt your wallet and lose your passphrase, you will</source>
+        <translation>Wenn Sie ihr Wallet verschlüsseln und Ihre Passphrase verlieren, werden Sie</translation>
+    </message>
+    <message>
         <source>ENCRYPT</source>
         <translation>VERSCHLÜSSELN</translation>
     </message>
@@ -375,24 +324,32 @@ for staking</source>
         <translation>ABBRECHEN</translation>
     </message>
     <message>
-        <source>DIGIWAGE will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your WAGEs from being stolen by malware infecting your computer.</source>
-        <translation>Die Anwendung wird nun geschlossen um die Verschlüsselung abzuschließen. Bitte bedenken Sie, dass auch die Verschlüsselung nicht sicher vor Diebstahl ihrer WAGEs durch Schadsoftware schützt, die ihren Computer befällt.</translation>
-    </message>
-    <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Sind Sie sich sicher, dass Sie Ihre Wallet verschlüsseln möchten?</translation>
-    </message>
-    <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR WAGE&lt;/b&gt;!</source>
-        <translation>Warnung: Wenn Sie Ihre Wallet verschlüsseln und Ihre Passphrase verlieren, &lt;b&gt;verlieren Sie alle ihre WAGEs&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Wallet encrypted</source>
         <translation>Wallet verschlüsselt</translation>
     </message>
     <message>
+        <source>WARNING:</source>
+        <translation>Warnung:</translation>
+    </message>
+    <message>
+        <source>The caps lock key is on!</source>
+        <translation>Die Feststelltaste (Caps lock) ist eingeschaltet!</translation>
+    </message>
+    <message>
+        <source>Passphrases do not match!</source>
+        <translation>Die Passphrasen stimmen nicht überein!</translation>
+    </message>
+    <message>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your WAGEs from being stolen by malware infecting your computer.</source>
+        <translation>%1wird nun geschlossen, um den Verschlüsselungsvorgang abzuschließen. Denken Sie daran, dass die Verschlüsselung Ihrer Wallet Ihre WAGEs nicht vollständig vor dem Diebstahl durch Malware schützen kann, die Ihren Computer infiziert.</translation>
+    </message>
+    <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation>WICHTIG: Alle vorherigen Sicherungen sollten durch die neu erzeugte, verschlüsselte Wallet-Datei ersetzt werden. Aus Sicherheitsgründen werden vorherige Sicherungen der unverschlüsselten Wallet nutzlos, sobald Sie die neue, verschlüsselte Wallet verwenden.</translation>
+        <translation>WICHTIG: Alle vorherigen Sicherungen sollten durch die neu erzeugte, verschlüsselte Wallet-Datei ersetzt werden. Aus Sicherheitsgründen werden ältere Sicherungen der unverschlüsselten Wallet nutzlos, sobald Sie die neue, verschlüsselte Wallet verwenden.</translation>
     </message>
     <message>
         <source>Wallet encryption failed</source>
@@ -408,7 +365,11 @@ for staking</source>
     </message>
     <message>
         <source>The supplied passphrases do not match.</source>
-        <translation>Die eingegebenen Passphrases stimmen nicht überein.</translation>
+        <translation>Die eingegebenen Passphrasen stimmen nicht überein.</translation>
+    </message>
+    <message>
+        <source>LOSE ALL OF YOUR COINS</source>
+        <translation>VERLUST ALL IHRER MÜNZEN</translation>
     </message>
     <message>
         <source>Wallet unlock failed</source>
@@ -426,9 +387,16 @@ for staking</source>
         <source>Wallet passphrase was successfully changed.</source>
         <translation>Die Passphrase der Wallet wurde erfolgreich geändert.</translation>
     </message>
+</context>
+<context>
+    <name>BalanceBubble</name>
     <message>
-        <source>Warning: The Caps Lock key is on!</source>
-        <translation>Warnung: Die Feststelltaste ist aktiviert!</translation>
+        <source>Transparent</source>
+        <translation>Durchsichtig</translation>
+    </message>
+    <message>
+        <source>Shielded</source>
+        <translation>Abgeschirmt</translation>
     </message>
 </context>
 <context>
@@ -443,52 +411,29 @@ for staking</source>
     </message>
 </context>
 <context>
-    <name>BlockExplorer</name>
-    <message>
-        <source>Blockchain Explorer</source>
-        <translation>Blockchain Explorer</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation>Zurück</translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation>Vor</translation>
-    </message>
-    <message>
-        <source>Address / Block / Transaction</source>
-        <translation>Addrese / Block / Tansaktion</translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation>Suche</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>Not all transactions will be shown. To view all transactions you need to set txindex=1 in the configuration file (digiwage.conf).</source>
-        <translation>Nicht alle Transaktionen können anzezeigt werden. Um alle Transaktionen zu sehen, müssen sie die Option  "txindex=1" in der "digiwage.conf" Konfigurationsdatei hinzufügen.</translation>
-    </message>
-</context>
-<context>
     <name>CSRow</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Savings</source>
+        <translation>Erspartes</translation>
     </message>
-    </context>
+    <message>
+        <source>address</source>
+        <translation>Adresse</translation>
+    </message>
+    <message>
+        <source>Not Staking</source>
+        <translation>Nicht stakend</translation>
+    </message>
+    <message>
+        <source>Own delegation</source>
+        <translation>Eigene Zuweisung</translation>
+    </message>
+</context>
 <context>
     <name>ClientModel</name>
     <message>
         <source>Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unknown: %5)</source>
         <translation>Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unbekannt: %5)</translation>
-    </message>
-    <message>
-        <source>Network Alert</source>
-        <translation>Netzwerkalarm</translation>
     </message>
 </context>
 <context>
@@ -499,7 +444,7 @@ for staking</source>
     </message>
     <message>
         <source>Bytes:</source>
-        <translation>Byte:</translation>
+        <translation>Bytes:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -507,7 +452,11 @@ for staking</source>
     </message>
     <message>
         <source>Coin Selection</source>
-        <translation>Münzenauswahl </translation>
+        <translation>Münzauswahl </translation>
+    </message>
+    <message>
+        <source>Select WAGE Outputs to Spend</source>
+        <translation>WAGE Outputs zum Ausgeben wählen</translation>
     </message>
     <message>
         <source>Dust:</source>
@@ -534,28 +483,20 @@ for staking</source>
         <translation>Betrag</translation>
     </message>
     <message>
-        <source>Transaction Details</source>
-        <translation>Transaktionsdetails</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
         <source>0.00 WAGE</source>
         <translation>0.00 WAGE</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation>0</translation>
     </message>
     <message>
         <source>Select all</source>
         <translation>Alle anwählen</translation>
     </message>
     <message>
+        <source>Toggle lock state</source>
+        <translation>Verriegelungsstatus umschalten</translation>
+    </message>
+    <message>
         <source>Received with label</source>
-        <translation>Empfange mit Bezeichnung</translation>
+        <translation>Empfangen mit Bezeichnung</translation>
     </message>
     <message>
         <source>Received with address</source>
@@ -575,7 +516,7 @@ for staking</source>
     </message>
     <message>
         <source>Confirmations</source>
-        <translation>Betätigungen</translation>
+        <translation>Bestätigungen</translation>
     </message>
     <message>
         <source>Confirmed</source>
@@ -606,34 +547,6 @@ for staking</source>
         <translation>Entsperre Verwendung</translation>
     </message>
     <message>
-        <source>Copy quantity</source>
-        <translation>Anzahl kopieren</translation>
-    </message>
-    <message>
-        <source>Copy fee</source>
-        <translation>Gebühr kopieren</translation>
-    </message>
-    <message>
-        <source>Copy after fee</source>
-        <translation>Kopiere nach Gebühr</translation>
-    </message>
-    <message>
-        <source>Copy bytes</source>
-        <translation>Kopiere Bytes</translation>
-    </message>
-    <message>
-        <source>Copy priority</source>
-        <translation>Kopiere Priorität</translation>
-    </message>
-    <message>
-        <source>Copy dust</source>
-        <translation>Kopiere Abzug</translation>
-    </message>
-    <message>
-        <source>Copy change</source>
-        <translation>Kopiere Wechselgeld</translation>
-    </message>
-    <message>
         <source>Unselect all</source>
         <translation>Alle abwählen</translation>
     </message>
@@ -642,92 +555,72 @@ for staking</source>
         <translation>Bitte wechsle zur "Listenansicht" um diese Funktion zu verwenden.</translation>
     </message>
     <message>
-        <source>highest</source>
-        <translation>höchste</translation>
+        <source>Quantity Copied</source>
+        <translation>Menge kopiert</translation>
     </message>
     <message>
-        <source>higher</source>
-        <translation>höher</translation>
+        <source>Amount Copied</source>
+        <translation>Menge kopiert</translation>
     </message>
     <message>
-        <source>high</source>
-        <translation>hoch</translation>
+        <source>Fee Copied</source>
+        <translation>Gebühr kopiert</translation>
     </message>
     <message>
-        <source>medium-high</source>
-        <translation>mittel-hoch</translation>
+        <source>After Fee Copied</source>
+        <translation>Nach Gebühr kopiert</translation>
     </message>
     <message>
-        <source>medium</source>
-        <translation>mittel</translation>
+        <source>Bytes Copied</source>
+        <translation>Bytes kopiert</translation>
     </message>
     <message>
-        <source>low-medium</source>
-        <translation>niedrig-mittel</translation>
+        <source>Dust Copied</source>
+        <translation>Staub kopiert</translation>
     </message>
     <message>
-        <source>low</source>
-        <translation>niedrig</translation>
-    </message>
-    <message>
-        <source>lower</source>
-        <translation>niedriger</translation>
-    </message>
-    <message>
-        <source>lowest</source>
-        <translation>am niedrigsten</translation>
+        <source>Change Copied</source>
+        <translation>Wechselbetrag kopiert</translation>
     </message>
     <message>
         <source>(%1 locked)</source>
         <translation>(%1 gesperrt)</translation>
     </message>
     <message>
-        <source>none</source>
-        <translation>keine</translation>
-    </message>
-    <message>
         <source>yes</source>
         <translation>ja</translation>
+    </message>
+    <message>
+        <source>This label turns red, if recipient receives an amount smaller than %1 (transparent) / %2 (shield).</source>
+        <translation>Dieses Label wird rot, wenn der Empfänger einen Betrag erhält, der kleiner ist als %1 (transparent) / %2 (abgeschirmt).</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 u%2 per input.</source>
+        <translation>Kann +/- %1u%2 pro Eingabe variieren.</translation>
+    </message>
+    <message>
+        <source>change in %1</source>
+        <translation>Änderung in %1</translation>
+    </message>
+    <message>
+        <source>delegated to %1 for cold staking</source>
+        <translation>%1 für Cold Staking zugewiesen</translation>
+    </message>
+    <message>
+        <source>Delegated to %1</source>
+        <translation>Delegieren zu %1</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Alle anwählen</translation>
     </message>
     <message>
         <source>no</source>
         <translation>nein</translation>
     </message>
     <message>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>Diese Bezeichnung wird rot, wenn die Transaktion größer als 1000 Bytes ist.</translation>
-    </message>
-    <message>
-        <source>This means a fee of at least %1 per kB is required.</source>
-        <translation>Das heißt, eine Gebühr von mindestens %1 pro kB ist notwendig.</translation>
-    </message>
-    <message>
-        <source>Can vary +/- 1 byte per input.</source>
-        <translation>Kann um +/-1 Byte pro Eingang variieren.</translation>
-    </message>
-    <message>
-        <source>Transactions with higher priority are more likely to get included into a block.</source>
-        <translation>Transaktionen mit höherer Priorität werden eher in einen Block aufgenommen.</translation>
-    </message>
-    <message>
-        <source>This label turns red, if the priority is smaller than "medium".</source>
-        <translation>Diese Bezeichnung wird rot, wenn die Priorität kleiner als "mittel" ist.</translation>
-    </message>
-    <message>
-        <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation>Diese Bezeichnung wird rot, wenn ein Empfänger einen Betrag erhält, der kleiner ist als %1.</translation>
-    </message>
-    <message>
-        <source>Can vary +/- %1 upiv per input.</source>
-        <translation>Kann um +/- %1 upiv pro Eingang variieren.</translation>
-    </message>
-    <message>
         <source>(no label)</source>
         <translation>(keine Bezeichnung)</translation>
-    </message>
-    <message>
-        <source>change from %1 (%2)</source>
-        <translation>Wechselgeld von %1 (%2)</translation>
     </message>
     <message>
         <source>(change)</source>
@@ -735,113 +628,168 @@ for staking</source>
     </message>
 </context>
 <context>
-    <name>CoinControlPivWidget</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
-        <source>Transaction Details</source>
-        <translation>Transaktionsdetails</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
-        <source>WAGE:</source>
-        <translation>WAGE:</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>Quantity:</source>
-        <translation>Anzahl:</translation>
-    </message>
-    <message>
-        <source>Fee:</source>
-        <translation>Gebühr:</translation>
-    </message>
-    <message>
-        <source>Amount</source>
-        <translation>Betrag</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation>Bezeichnung</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation>Adresse</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Art</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Datum</translation>
-    </message>
-    <message>
-        <source>Confirmations</source>
-        <translation>Betätigungen</translation>
-    </message>
-    <message>
-        <source>CheckBox</source>
-        <translation>Checkbox</translation>
-    </message>
-    <message>
-        <source>Bytes:</source>
-        <translation>Byte:</translation>
-    </message>
-    <message>
-        <source>Dust:</source>
-        <translation>Abzug:</translation>
-    </message>
-    <message>
-        <source>Change:</source>
-        <translation>Wechselgeld:</translation>
-    </message>
-    <message>
-        <source>After Fee: </source>
-        <translation>Nach Gebühren:</translation>
-    </message>
-    <message>
-        <source>CANCEL</source>
-        <translation>ABBRECHEN</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-</context>
-<context>
     <name>ColdStakingWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Owner address (optional, if empty a new address will be created)</source>
+        <translation>Adresse des Besitzers (Optional, wenn leer, wird eine neue Adresse erzeugt)</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation>Titel</translation>
+        <source>Total Staking:</source>
+        <translation>Gesamtmenge Staking</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Cold Staking</source>
+        <translation>Cold Staking</translation>
     </message>
     <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
+        <source>Staker</source>
+        <translation>Staker</translation>
+    </message>
+    <message>
+        <source>Delegation</source>
+        <translation>Zuweisung</translation>
+    </message>
+    <message>
+        <source>Delegate</source>
+        <translation>Delegierter</translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>Clear All</source>
+        <translation>Alles löschen</translation>
+    </message>
+    <message>
+        <source>Delegated balance history</source>
+        <translation>Verlauf zugewiesener Bilanzen</translation>
+    </message>
+    <message>
+        <source>No delegations yet</source>
+        <translation>Bisher keine Zuweisungen</translation>
+    </message>
+    <message>
+        <source>Total Staking: %1</source>
+        <translation>Insgesamt %1 staking</translation>
+    </message>
+    <message>
+        <source>Error loading delegations: %1</source>
+        <translation>Fehler beim Laden der Zuweisungen: %1</translation>
+    </message>
+    <message>
+        <source>You can delegate your WAGEs, letting a hot node (24/7 online node)
+stake on your behalf, while you keep the keys securely offline.</source>
+        <translation>Sie können Ihre WAGEs zuweisen und einen Node (24/7) für Sie staken lassen, während Sie Ihre Schlüssel sicher offline verwahren. </translation>
+    </message>
+    <message>
+        <source>Enter owner address</source>
+        <translation>Adresse des Besitzers eingeben</translation>
+    </message>
+    <message>
+        <source>Accept WAGE delegation / Delegate WAGE</source>
+        <translation>WAGE Zusweisung annehmen / WAGE zuweisen</translation>
+    </message>
+    <message>
+        <source>Cold Staking address</source>
+        <translation>Adresse für Cold Staking</translation>
+    </message>
+    <message>
+        <source>No receive addresses available, you can go to the receive screen and create some there!</source>
+        <translation>Keine Empfangsadresse verfügbar. Sie können zum Empfangsfenster gehen und dort eine erzeugen.</translation>
+    </message>
+    <message>
+        <source>No contacts available, you can go to the contacts screen and add some there!</source>
+        <translation>Keine Kontakte verfügbar. Sie können zum Kontaktfenster wechseln und dort welche hinzufügen.</translation>
+    </message>
+    <message>
+        <source>Cannot send delegation, wallet locked</source>
+        <translation>Zuweisung konnte nicht gesendet werden. Ihr Wallet ist verschlossen.</translation>
+    </message>
+    <message>
+        <source>Cold staking is networkely disabled</source>
+        <translation>Cold staking ist ausgeschaltet</translation>
+    </message>
+    <message>
+        <source>Coin Control</source>
+        <translation>Coinverwaltung</translation>
+    </message>
+    <message>
+        <source>Select %1 outputs to delegate.</source>
+        <translation>Wählen Sie %1 Outputs für die Zuweisung</translation>
+    </message>
+    <message>
+        <source>Create Cold Staking Address</source>
+        <translation>Erzeuge Cold Staking Adresse</translation>
+    </message>
+    <message>
+        <source>Creates an address to receive delegated coins
+and stake them on their owner's behalf.</source>
+        <translation>Erzeugte eine Adresse für den Empfang von zugewiesenen Münzen
+und stakt diese für den Besitzer.</translation>
+    </message>
+    <message>
+        <source>My Cold Staking Addresses</source>
+        <translation>Meine Cold Staking Adresse</translation>
+    </message>
+    <message>
+        <source>List your own cold staking addresses.</source>
+        <translation>Listen Sie Ihre eigenen Cold Staking Adressen auf.</translation>
     </message>
     <message>
         <source>Invalid entry</source>
-        <translation>Ungültige Eingabe</translation>
+        <translation>Ungültiger Eintrag</translation>
+    </message>
+    <message>
+        <source>Invalid entry, minimum delegable amount is </source>
+        <translation>Ungültiger Eintrag, die Mindestmenge für Zuweisungen ist</translation>
+    </message>
+    <message>
+        <source>Owner address invalid</source>
+        <translation>Adresse des Besitzers ist ungültig</translation>
+    </message>
+    <message>
+        <source>ALERT!</source>
+        <translation>ALARM!</translation>
+    </message>
+    <message>
+        <source>Delegating to an external owner address!
+
+The delegated coins will NOT be spendable by this wallet.
+Spending these coins will need to be done from the wallet or
+device containing the owner address.
+
+Do you wish to proceed?</source>
+        <translation>Weise einer externen Adresse zu!
+
+Die zugewiesenen Coins können von diesem Wallet nicht mehr ausgegeben werden.
+Das Ausgeben dieser Münzen ist nur von dem Wallet oder Gerät möglich, das im Besitz der Adresse ist.
+
+Möchten Sie fortfahren?</translation>
+    </message>
+    <message>
+        <source>Staking address corresponds to this wallet, change it to an external node</source>
+        <translation>Die Staking Adresse entspricht diesem Wallet, ändern Sie dies zu einem externen Node.</translation>
     </message>
     <message>
         <source>Cannot create transaction.</source>
         <translation>Die Transaktion kann nicht erzeugt werden.</translation>
+    </message>
+    <message>
+        <source>Coins delegated</source>
+        <translation>Coins zugewiesen</translation>
+    </message>
+    <message>
+        <source>You don't have any %1 to select.</source>
+        <translation>Sie haben keine %1 für die Auswahl.</translation>
+    </message>
+    <message>
+        <source>Cannot perform operation, wallet locked</source>
+        <translation>Aufgabe kann nicht durchgeführt werden, Ihr Wallet ist verschlossen</translation>
+    </message>
+    <message>
+        <source>URI copied to clipboard</source>
+        <translation>URI in die Zwischenablage kopiert</translation>
     </message>
     <message>
         <source>Address copied to clipboard</source>
@@ -852,8 +800,57 @@ for staking</source>
         <translation>Kopieren</translation>
     </message>
     <message>
+        <source>Edit</source>
+        <translation>Bearbeiten</translation>
+    </message>
+    <message>
+        <source>Stake</source>
+        <translation>Stake</translation>
+    </message>
+    <message>
+        <source>Blacklist</source>
+        <translation>Blacklist</translation>
+    </message>
+    <message>
+        <source>Edit Label</source>
+        <translation>Adressname bearbeiten</translation>
+    </message>
+    <message>
+        <source>Copy owner
+address</source>
+        <translation>Besitzeradresse kopieren</translation>
+    </message>
+    <message>
         <source>Address copied</source>
         <translation>Adresse kopiert</translation>
+    </message>
+    <message>
+        <source>Edit Cold Address Label</source>
+        <translation>Bezeichnung der Cold Adresse bearbeiten</translation>
+    </message>
+    <message>
+        <source>Whitelist failed, please check the logs</source>
+        <translation>Whitelist gescheitert. Bitte überprüfen Sie die Logs.</translation>
+    </message>
+    <message>
+        <source> staking!</source>
+        <translation>Staking!</translation>
+    </message>
+    <message>
+        <source>Blacklist failed, please check the logs</source>
+        <translation>Blacklist gescheitert. Bitte überprüfen Sie die Logs.</translation>
+    </message>
+    <message>
+        <source> blacklisted from staking</source>
+        <translation>Vom Staking geblacklisted</translation>
+    </message>
+    <message>
+        <source>Owner address copied</source>
+        <translation>Besitzeradresse kopiert</translation>
+    </message>
+    <message>
+        <source>Edit Owner Address Label</source>
+        <translation>Besitzeradresse bearbeiten</translation>
     </message>
     <message>
         <source>Address label saved</source>
@@ -865,65 +862,129 @@ for staking</source>
     </message>
 </context>
 <context>
-    <name>ContactDropdownRow</name>
+    <name>CreateProposalDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
     <message>
-        <source>Bob Allen</source>
-        <translation>Bob Allen</translation>
+        <source>Receiver</source>
+        <translation>Empfänger</translation>
     </message>
     <message>
-        <source>DN6i46dytMPVhV1JMGZFuQBh7BZZ6nNLox</source>
-        <translation>DN6i46dytMPVhV1JMGZFuQBh7BZZ6nNLox</translation>
+        <source>Summary</source>
+        <translation>Übersicht</translation>
+    </message>
+    <message>
+        <source>Create New Proposal</source>
+        <translation>Neuen Vorschlag erzeugen</translation>
+    </message>
+    <message>
+        <source>Make sure you have 50 WAGE for the proposal fee</source>
+        <translation>Stellen Sie sicher, dass Sie 50 WAGE für die Vorschlagsgebühr haben</translation>
+    </message>
+    <message>
+        <source>Proposal Name</source>
+        <translation>Name des Vorschlags</translation>
+    </message>
+    <message>
+        <source>Proposal URL</source>
+        <translation>URL des Vorschlages</translation>
+    </message>
+    <message>
+        <source>Proposal Payee</source>
+        <translation>Vorschlag Empfänger</translation>
+    </message>
+    <message>
+        <source>Add the requested number of payments, the amount per payment, and the payee address.</source>
+        <translation>Fügen Sie die gewünschte Anzahl von Zahlungen, den Betrag pro Zahlung und die Adresse des Zahlungsempfängers hinzu.</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresse</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Betrag</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Monate</translation>
+    </message>
+    <message>
+        <source>Proposal Summary</source>
+        <translation>Vorschlags Zusammenfassung</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>ABBRECHEN</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>NEXT</source>
+        <translation>NEXT</translation>
+    </message>
+    <message>
+        <source>BACK</source>
+        <translation>ZURÜCK</translation>
+    </message>
+    <message>
+        <source>Proposal name cannot be empty</source>
+        <translation>Der Name des Vorschlags darf nicht leer sein</translation>
+    </message>
+    <message>
+        <source>Proposal name cannot contain non UTF-8 characters</source>
+        <translation>Der Vorschlagsname darf keine Zeichen enthalten, die nicht UTF-8 sind</translation>
+    </message>
+    <message>
+        <source>Invalid amount</source>
+        <translation>Ungültiger Betrag</translation>
+    </message>
+    <message>
+        <source>Invalid payment address</source>
+        <translation>Ungültige Zahlungsadresse</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Senden</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Weiter</translation>
+    </message>
+    <message>
+        <source>No contacts available, you can go to the contacts screen and add some there!</source>
+        <translation>Keine Kontakte verfügbar. Sie können zum Kontaktfenster wechseln und dort welche hinzufügen.</translation>
     </message>
 </context>
 <context>
     <name>DashboardWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
         <source>Transactions</source>
         <translation>Transaktion</translation>
     </message>
     <message>
-        <source>You can see here the history of your account</source>
-        <translation>Hier können sie die Geschichte des Accounts anschauen</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Warnung</translation>
-    </message>
-    <message>
-        <source>No transactions</source>
-        <translation>Keine Transaktionen</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
         <source>Staking Rewards</source>
-        <translation>Staking Entschädigung</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <translation>Staking Einnahmen</translation>
     </message>
     <message>
         <source>Staking statistics</source>
         <translation>Staking Statistiken</translation>
     </message>
     <message>
-        <source>WAGE</source>
-        <translation>WAGE</translation>
+        <source>View your account's history</source>
+        <translation>Verlauf des Accounts ansehen</translation>
     </message>
     <message>
-        <source>zWAGE</source>
-        <translation>zWAGE</translation>
+        <source>How to get WAGE</source>
+        <translation>Wie erhalte ich WAGE</translation>
+    </message>
+    <message>
+        <source>Amount of staking rewards received.</source>
+        <translation>Menge der erhaltenen Staking Rewards.</translation>
     </message>
     <message>
         <source>Sort by</source>
@@ -946,58 +1007,18 @@ for staking</source>
         <translation>Filtern nach</translation>
     </message>
     <message>
-        <source>You can view your account's history</source>
-        <translation>Der Link zum Verlauf des Accounts</translation>
-    </message>
-    <message>
-        <source>Amount of WAGE and zWAGE staked.</source>
-        <translation>Wieviele WAGE und z WAGE am staken sind.</translation>
-    </message>
-    <message>
-        <source>All</source>
-        <translation>Alle</translation>
-    </message>
-    <message>
-        <source>Received</source>
-        <translation>Empfangen</translation>
-    </message>
-    <message>
-        <source>Sent</source>
-        <translation>Gesendet</translation>
-    </message>
-    <message>
-        <source>Mined</source>
-        <translation>Erarbeitet</translation>
-    </message>
-    <message>
-        <source>Minted</source>
-        <translation>Erzeugt</translation>
-    </message>
-    <message>
-        <source>MN reward</source>
-        <translation>MN Vergütung</translation>
-    </message>
-    <message>
-        <source>To yourself</source>
-        <translation>Eigenüberweisung</translation>
-    </message>
-    <message>
         <source>Please wait until the wallet is fully synced to see your correct balance</source>
         <translation>Bitte warten bis die Wallet voll synchronisiert ist, um den korrekten Kontostand zu sehen</translation>
     </message>
     <message>
         <source>No transactions yet</source>
-        <translation>Keine Transaktionen</translation>
-    </message>
-    <message>
-        <source>How to get WAGE or zWAGE</source>
-        <translation>Wie bekommt man WAGE oder zWAGE</translation>
+        <translation>Bisher keine Transaktionen</translation>
     </message>
     <message>
         <source>You can verify the staking activity in the status bar at the top right of the wallet.
 It will start automatically as soon as the wallet has enough confirmations on any unspent balances, and the wallet has synced.</source>
-        <translation>In der Statusbar der Wallet oben rechts kannst du sehen, ob staking aktiviert wurde.
-Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend Konfirmationen für alle nicht ausgegeben Guthaben hat und zudem die Wallet synchronisiert ist.</translation>
+        <translation>In der Statusbar der Wallet oben rechts können Sie sehen, ob Staking aktiviert wurde.
+Das Staking wird automatisch gestartet, sobald die Wallet genügend Bestätigungen für alle nicht ausgegebenen Guthaben hat und die Wallet synchronisiert ist.</translation>
     </message>
     <message>
         <source>You have no staking rewards</source>
@@ -1005,7 +1026,7 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
     </message>
     <message>
         <source>No charts library</source>
-        <translation>Keine Grafik Bibliothek</translation>
+        <translation>Keine Chart Bibliothek</translation>
     </message>
     <message>
         <source>Loading chart..</source>
@@ -1016,6 +1037,10 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
         <translation>Fehler beim Laden der Tabelle, ungültige Anzeigeoption</translation>
     </message>
     <message>
+        <source>Error loading chart, invalid data</source>
+        <translation>Fehler beim Laden des Charts. Daten sind ungültig.</translation>
+    </message>
+    <message>
         <source>Error loading chart: %1</source>
         <translation>Fehler beim Laden der Tabelle: %1</translation>
     </message>
@@ -1023,87 +1048,12 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
 <context>
     <name>DefaultDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>Transaction Details</source>
-        <translation>Transaktionsdetails</translation>
-    </message>
-    <message>
-        <source>Text Label</source>
-        <translation>Text Bezeichnung</translation>
-    </message>
-    <message>
-        <source>CANCEL</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>SAVE</source>
-        <translation>SICHERN</translation>
-    </message>
-</context>
-<context>
-    <name>DenomGenerationDialog</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>Transaction Details</source>
-        <translation>Transaktionsdetails</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
-        <source>This will unlock your wallet fully, so that anyone with access to it can spend until the wallet is closed or locked again.</source>
-        <translation>Diese Option schaltet ihre Wallet ganz frei. Jeder der Zugriff hat, kann WAGE ausgeben bis die Wallet wieder geschlossen oder gesperrt wird.</translation>
-    </message>
-    <message>
-        <source>5000</source>
-        <translation>5000</translation>
-    </message>
-    <message>
-        <source>100</source>
-        <translation>100</translation>
-    </message>
-    <message>
-        <source>10</source>
-        <translation>10</translation>
-    </message>
-    <message>
-        <source>1000</source>
-        <translation>1000</translation>
-    </message>
-    <message>
-        <source>50</source>
-        <translation>50</translation>
-    </message>
-    <message>
-        <source>500</source>
-        <translation>500</translation>
-    </message>
-    <message>
-        <source>5</source>
-        <translation>5</translation>
-    </message>
-    <message>
-        <source>1</source>
-        <translation>1</translation>
-    </message>
-    <message>
-        <source>Select All</source>
-        <translation>Alle anwählen</translation>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>CANCEL</source>
         <translation>ABBRECHEN</translation>
-    </message>
-    <message>
-        <source>SAVE</source>
-        <translation>SICHERN</translation>
     </message>
 </context>
 <context>
@@ -1162,13 +1112,6 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
     </message>
 </context>
 <context>
-    <name>ExpandableButton</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-</context>
-<context>
     <name>FreespaceChecker</name>
     <message>
         <source>A new data directory will be created.</source>
@@ -1180,7 +1123,7 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
     </message>
     <message>
         <source>Directory already exists. Add %1 if you intend to create a new directory here.</source>
-        <translation>Verzeichnis existiert bereits. Fügen Sie %1 an, wenn Sie beabsichtigen hier ein neues Verzeichnis anzulegen.</translation>
+        <translation>Verzeichnis existiert bereits. Fügen Sie %1 hinzu, wenn Sie beabsichtigen, hier ein neues Verzeichnis anzulegen.</translation>
     </message>
     <message>
         <source>Path already exists, and is not a directory.</source>
@@ -1192,42 +1135,132 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
     </message>
 </context>
 <context>
-    <name>GovernancePage</name>
+    <name>GovernanceWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Governance</source>
+        <translation>Verwaltung</translation>
     </message>
     <message>
-        <source>GOVERNANCE</source>
-        <translation>KONTROLLE</translation>
+        <source>View, follow, vote and submit network budget proposals.
+Be part of the DAO.</source>
+        <translation>Sehen Sie sich die Budgetvorschläge des Netzes an, verfolgen Sie sie, stimmen Sie ab und reichen Sie sie ein.
+Werden Sie Teil der DAO.</translation>
     </message>
     <message>
-        <source>Update Proposals</source>
-        <translation>Vorschläge aktualisieren</translation>
+        <source>Date</source>
+        <translation>Datum</translation>
     </message>
     <message>
-        <source>Next super block:</source>
-        <translation>Nächster Superblock:</translation>
+        <source>Amount</source>
+        <translation>Betrag</translation>
     </message>
     <message>
-        <source>0</source>
-        <translation>0</translation>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
     <message>
-        <source>Blocks to next super block:</source>
-        <translation>Blöcke zum nächsten Superblock:</translation>
+        <source>Sort by</source>
+        <translation>Sortieren nach</translation>
     </message>
     <message>
-        <source>Days to budget payout (estimate):</source>
-        <translation>Tage zur nächsten Auszahlung ( Schätzung):</translation>
+        <source>All</source>
+        <translation>Alle</translation>
     </message>
     <message>
-        <source>Budget left:</source>
-        <translation>Restliches Budget:</translation>
+        <source>Passing</source>
+        <translation>Erfolgreich</translation>
     </message>
     <message>
-        <source>Masternodes count:</source>
-        <translation>Anzahl Masternodes:</translation>
+        <source>Not Passing</source>
+        <translation>Nicht erfolgreich</translation>
+    </message>
+    <message>
+        <source>Waiting</source>
+        <translation>Warten</translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>Please wait until the node is fully synced to see the correct information</source>
+        <translation>Bitte warten Sie, bis der Node vollständig synchronisiert ist, um die richtigen Informationen zu sehen</translation>
+    </message>
+    <message>
+        <source>Prepare and submit a new proposal.</source>
+        <translation>Einen neuen Vorschlag erstellen und einreichen.</translation>
+    </message>
+    <message>
+        <source>Please wait until the node is fully synced</source>
+        <translation>Bitte warten Sie bis der Node vollständig synchronisiert ist</translation>
+    </message>
+    <message>
+        <source>Cannot vote for the proposal yet, wait until it's confirmed by the network</source>
+        <translation>Sie können noch nicht für den Vorschlag stimmen, sondern müssen warten, bis er vom Netz bestätigt wird.</translation>
+    </message>
+    <message>
+        <source>Vote emitted successfully!</source>
+        <translation>Votum erfolgreich abgegeben!</translation>
+    </message>
+    <message>
+        <source>Cannot create proposal, wallet locked</source>
+        <translation>Vorschlag kann nicht erstellt werden, Wallet gesperrt</translation>
+    </message>
+    <message>
+        <source>Cannot create proposal, need to have at least %1 to pay for the proposal fee</source>
+        <translation>Kann keinen Vorschlag erstellen, muss mindestens %1 haben, um die Vorschlagsgebühr zu bezahlen</translation>
+    </message>
+    <message>
+        <source>Proposal transaction fee broadcasted!</source>
+        <translation>Vorschlags-Transaktionsgebühr übertragen!</translation>
+    </message>
+    <message>
+        <source>Copy Url</source>
+        <translation>Kopiere URL</translation>
+    </message>
+    <message>
+        <source>Open Url</source>
+        <translation>Öffne URL</translation>
+    </message>
+    <message>
+        <source>More Info</source>
+        <translation>Mehr Info</translation>
+    </message>
+    <message>
+        <source>Proposal URL copied to clipboard</source>
+        <translation>Vorschlags-URL in die Zwischenablage kopiert</translation>
+    </message>
+    <message>
+        <source>Open Proposal URL</source>
+        <translation>Öffne Vorschlags-URL</translation>
+    </message>
+    <message>
+        <source>The following URL will be opened in the default browser</source>
+        <translation>Die folgende URL wird im Standardbrowser geöffnet</translation>
+    </message>
+    <message>
+        <source>Are you sure?
+(Always verify the URL validity before opening it)
+</source>
+        <translation>Are you sure?
+(Always verify the URL validity before opening it)
+</translation>
+    </message>
+    <message>
+        <source>Failed to open proposal URL</source>
+        <translation>URL des Vorschlags konnte nicht geöffnet werden</translation>
+    </message>
+    <message>
+        <source>Next superblock today!
+%2 blocks to go.</source>
+        <translation>Nächster Superblock heute!
+Noch %2 Blöcke.</translation>
+    </message>
+    <message>
+        <source>Next superblock in %1 days.
+%2 blocks to go.</source>
+        <translation>Next superblock in %1 days.
+%2 blocks to go.</translation>
     </message>
 </context>
 <context>
@@ -1237,52 +1270,16 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
         <translation>Version</translation>
     </message>
     <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
+        <source>About %1</source>
+        <translation>Über %1</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
         <translation>(%1-Bit)</translation>
     </message>
     <message>
-        <source>About DIGIWAGE Core</source>
-        <translation>Über DIGIWAGE Core</translation>
-    </message>
-    <message>
         <source>Command-line options</source>
         <translation>Kommandozeilenoptionen</translation>
-    </message>
-    <message>
-        <source>Usage:</source>
-        <translation>Benutzung:</translation>
-    </message>
-    <message>
-        <source>command-line options</source>
-        <translation>Kommandozeilenoptionen</translation>
-    </message>
-    <message>
-        <source>UI Options:</source>
-        <translation>UI Optionen:</translation>
-    </message>
-    <message>
-        <source>Choose data directory on startup (default: %u)</source>
-        <translation>Wähle Datenverzeichnis beim Start (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Show splash screen on startup (default: %u)</source>
-        <translation>Zeige Startbildschirm beim Start (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Set language, for example "de_DE" (default: system locale)</source>
-        <translation>Sprache festlegen, z.B. "de_DE" (Standard: Systemstandard)</translation>
-    </message>
-    <message>
-        <source>Start minimized</source>
-        <translation>Minimiert starten</translation>
-    </message>
-    <message>
-        <source>Set SSL root certificates for payment request (default: -system-)</source>
-        <translation>SSL-Wurzelzertifikate für Zahlungsanforderungen festlegen (Standard: Systemstandard)</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1296,32 +1293,32 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
         <translation>Willkommen</translation>
     </message>
     <message>
-        <source>Welcome to DIGIWAGE Core.</source>
-        <translation>Willkommen zu DIGIWAGE Core.</translation>
+        <source>Welcome to %1.</source>
+        <translation>Willkommen zu %1</translation>
     </message>
     <message>
-        <source>As this is the first time the program is launched, you can choose where DIGIWAGE Core will store its data.</source>
-        <translation>Da dies das erste Mal ist, dass Sie DIGIWAGE Core starten, legen Sie jetzt bitte fest, an welchem Ort die Daten gespeichert werden sollen.</translation>
+        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
+        <translation>Da das Programm zum ersten Mal gestartet wird, können Sie wählen, wo %1 seine Daten speichern soll.</translation>
     </message>
     <message>
-        <source>DIGIWAGE Core will download and store a copy of the DIGIWAGE block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>DIGIWAGE Core wird die Blockchain laden und lokal speichern. Dafür sind mindestens %1GB freier Speicherplatz erforderlich. Der Speicherbedarf wird mit der Zeit anwachsen. Die Wallet wird ebenfalls in diesem Verzeichnis gespeichert.</translation>
+        <source>%1 will download and store a copy of the DIGIWAGE block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>%1 wird eine Kopie der DIGIWAGE-Blockchain heruntergeladen und gespeichert. In diesem Verzeichnis werden mindestens %2 GB an Daten gespeichert, die mit der Zeit wachsen. Das Wallet wird ebenfalls in diesem Verzeichnis gespeichert.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
         <translation>Standard-Datenverzeichnis verwenden</translation>
     </message>
     <message>
+        <source>Use a custom data directory</source>
+        <translation>Wähle ein beliebiges Verzeichnis</translation>
+    </message>
+    <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
+        <translation>ABBRECHEN</translation>
     </message>
     <message>
         <source>OK</source>
         <translation>OK</translation>
-    </message>
-    <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
     </message>
     <message>
         <source>Error: Specified data directory "%1" cannot be created.</source>
@@ -1343,28 +1340,12 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
 <context>
     <name>LoadingDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
         <source>Loading</source>
         <translation>Lädt</translation>
-    </message>
-    <message>
-        <source>.</source>
-        <translation>.</translation>
     </message>
 </context>
 <context>
     <name>LockUnlock</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
     <message>
         <source>Unlock Wallet</source>
         <translation>Wallet entsperren</translation>
@@ -1381,28 +1362,16 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
 <context>
     <name>MNRow</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Collateral tx not found</source>
+        <translation>Kollateraltransaktion nicht gefunden</translation>
     </message>
     <message>
-        <source>user_masternode</source>
-        <translation>Benutzer_masternode</translation>
-    </message>
-    <message>
-        <source>Address: 88.26.164.88:46005</source>
-        <translation>Address: 88.26.164.88:46005</translation>
-    </message>
-    <message>
-        <source>Jan. 19, 2019</source>
-        <translation>Jan. 19, 2019</translation>
+        <source>Status: %1</source>
+        <translation>Status: %1</translation>
     </message>
 </context>
 <context>
     <name>MasterNodeWizardDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
     <message>
         <source>1</source>
         <translation>1</translation>
@@ -1428,52 +1397,32 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
         <translation>Adresse</translation>
     </message>
     <message>
-        <source>Create New Master Node Controller</source>
-        <translation>Erstelle einen neuen Master Node Controller</translation>
+        <source>Create New Masternode Controller</source>
+        <translation>Erzeuge neuen Masternode Controller</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To create a DIGIWAGE Masternode you must dedicate 10.000 WAGE (the unit of DIGIWAGE) to the network (however, these coins are still yours and will never leave your possession). &lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;You can deactivate the node and unlock the coins at any time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Um einen DIGIWAGE Masternode zu erstellen benötigen Sie 10'000 WAGE (die Einheit von DIGIWAGE), welche sie dem Netzwerk zur Verfügung stellen (Diese Münzen gehören Ihnen und werden Ihren Besitz nie verlassen). &lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Sie können den Node zu jeder Zeit deaktivieren und somit die Münzen freischalten.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>Set Masternode Name</source>
+        <translation>Namen des Masternodes eingeben</translation>
+    </message>
+    <message>
+        <source>Set Masternode IP and Port</source>
+        <translation>Masternode IP und Port eingeben</translation>
+    </message>
+    <message>
+        <source>Enter port</source>
+        <translation>Port eingeben</translation>
     </message>
     <message>
         <source>Make sure you have this amount of coins.</source>
         <translation>Stellen Sie sicher, dass Sie die Anzahl Coins besitzen.</translation>
     </message>
     <message>
-        <source>Set Master Node’s Name</source>
-        <translation>Geben Sie dem Master Node einen Namen</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A transaction of 15,000 WAGE will be made&lt;/p&gt;&lt;p&gt;to a new empty address in your wallet.&lt;/p&gt;&lt;p&gt;The Address is labeled under the master node's name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eine Transaktion von 10'000 WAGE wird gemacht&lt;/p&gt;&lt;p&gt;auf eine leere Adresse in Ihrer Wallet.&lt;/p&gt;&lt;p&gt;Die Adresse wird beschriftet mit dem Namen des Masternodes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>Set Master Node’s IP and port</source>
-        <translation>Setzen Sie die IP und den Port des Masternodes.</translation>
-    </message>
-    <message>
         <source>Address of the node that must always be online running the actual master node.</source>
-        <translation>Adresse des Nodes, welche immer online sein muss um den Master Node darüber laufen zu lassen.</translation>
+        <translation>Adresse des Nodes, welche immer online sein muss, um den Master Node darüber laufen zu lassen.</translation>
     </message>
     <message>
         <source>Enter IP address</source>
         <translation>IP-Adresse eingeben</translation>
-    </message>
-    <message>
-        <source>Enter Port</source>
-        <translation>Port angeben</translation>
-    </message>
-    <message>
-        <source>CANCEL</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>e.g user_masternode</source>
-        <translation>z.B Benutzer_masternode</translation>
     </message>
     <message>
         <source>NEXT</source>
@@ -1489,90 +1438,97 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
     </message>
     <message>
         <source>IP or port cannot be empty</source>
-        <translation>IP und port dürfen nicht leer sein</translation>
+        <translation>IP und Port dürfen nicht leer sein</translation>
     </message>
     <message>
-        <source>Invalid port number</source>
-        <translation>Ungültige Portnummer</translation>
+        <source>Invalid IP address</source>
+        <translation>Ungültige IP Adresse</translation>
     </message>
     <message>
-        <source>Prepare master node failed..</source>
-        <translation>Vorbereitungen für den Masternode sind fehlgeschlagen..</translation>
+        <source>Unknown error</source>
+        <translation>Unbekannter Fehler</translation>
+    </message>
+    <message>
+        <source>Prepare master node failed.
+
+%1
+</source>
+        <translation>Vorbereitung des Masternode ist gescheitert.
+
+%1
+</translation>
+    </message>
+    <message>
+        <source>Invalid collateral output index</source>
+        <translation>Ungültiger Index der Kollateralausgabe </translation>
+    </message>
+    <message>
+        <source>Master node created! Wait %1 confirmations before starting it.</source>
+        <translation>Masternode erstellt. Warten Sie auf %1 Bestätigungen, bevor Sie ihn starten</translation>
+    </message>
+    <message>
+        <source>Cannot send collateral transaction.
+
+%1</source>
+        <translation>Kollateral konnte nicht gesendet werden
+
+%1</translation>
+    </message>
+    <message>
+        <source>To create a DIGIWAGE Masternode you must dedicate %1 (the unit of DIGIWAGE) to the network (however, these coins are still yours and will never leave your possession).</source>
+        <translation>Um einen DIGIWAGE Masternode zu erstellen, müssen Sie %1 (die DIGIWAGE-Einheit) dem Netzwerk bereitstellen (diese Münzen gehören jedoch immer noch Ihnen und werden nie Ihren Besitz verlassen).</translation>
+    </message>
+    <message>
+        <source>You can deactivate the node and unlock the coins at any time.</source>
+        <translation>Sie können den Node jederzeit deaktivieren und die Münzen freischalten.</translation>
+    </message>
+    <message>
+        <source>A transaction of %1 will be made</source>
+        <translation>Es wird eine Transaktion von %1 durchgeführt</translation>
+    </message>
+    <message>
+        <source>to a new empty address in your wallet.</source>
+        <translation>an eine neue leere Adresse in Ihrer Wallet.</translation>
+    </message>
+    <message>
+        <source>The Address is labeled under the master node's name.</source>
+        <translation>Die Adresse ist unter dem Namen des Masternode's beschriftet.</translation>
+    </message>
+    <message>
+        <source>walletModel not set</source>
+        <translation>Wallet Modell nicht gesetzt</translation>
     </message>
     <message>
         <source>Invalid masternode.conf file</source>
-        <translation>Ungültiges masternode.conf file</translation>
+        <translation>Ungültige masternode.conf Datei</translation>
     </message>
     <message>
-        <source>Master node created!</source>
-        <translation>Masternode erstellt!</translation>
+        <source>Error parsing masternode.conf file</source>
+        <translation>Fehler beim Parsen der masternode.conf Datei </translation>
     </message>
     <message>
         <source>masternode.conf file doesn't exists</source>
-        <translation>masternode.conf File existiert nicht</translation>
-    </message>
-    <message>
-        <source>The recipient address is not valid, please recheck.</source>
-        <translation>Die Adresse des Empfängers ist nicht gültig, bitte erneut prüfen.</translation>
-    </message>
-    <message>
-        <source>The amount to pay must be larger than 0.</source>
-        <translation>Der zu zahlende Betrag muss größer als 0 sein.</translation>
-    </message>
-    <message>
-        <source>The amount exceeds your balance.</source>
-        <translation>Der Betrag übersteigt ihr Guthaben.</translation>
-    </message>
-    <message>
-        <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>Die Gesamtsumme überschreitet Ihr Guthaben, sobald die Transaktionsgebühr von %1 enthalten ist.</translation>
-    </message>
-    <message>
-        <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>Doppelte Adresse gefunden. Es kann nur einmal pro Sendeoperation an jede Adresse gesendet werden.</translation>
-    </message>
-    <message>
-        <source>Transaction creation failed!</source>
-        <translation>Transaktionserstellung fehlgeschlagen!</translation>
-    </message>
-    <message>
-        <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Die Transaktion wurde abgelehnt! Dies könnte passieren, wenn einige der Coins in deiner Wallet schon ausgegeben wurden. Zum Beispiel wenn du eine Kopie der wallet.dat benutzt hättest und Coins in der Kopie verbracht wurden.  Hier aber noch nicht als verbraucht markiert wurden.</translation>
-    </message>
-    <message>
-        <source>Error: The wallet was unlocked only to anonymize coins.</source>
-        <translation>Fehler: Die Wallet wurde nur zum Anonymisieren von Coins freigeschaltet.</translation>
-    </message>
-    <message>
-        <source>A fee %1 times higher than %2 per kB is considered an insanely high fee.</source>
-        <translation>Eine Gebühr %1 mal höher als %2 pro kB gilt als wahnsinnig hohe Gebühr.</translation>
-    </message>
-    <message>
-        <source>Error: The wallet was unlocked only to anonymize coins. Unlock canceled.</source>
-        <translation>Fehler: Die Wallet wurde nur zum Anonymisieren von Coins freigeschaltet. Freischaltung aufgehoben.</translation>
+        <translation>masternode.conf Datei existiert nicht</translation>
     </message>
 </context>
 <context>
     <name>MasterNodesWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Start All</source>
+        <translation>Alle ausführen</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>No active Master Node yet</source>
-        <translation>Keine aktiven Masternodes bis jetzt</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
+        <source>Start Inactive/s</source>
+        <translation>Starte Inaktive</translation>
     </message>
     <message>
         <source>Masternodes</source>
         <translation>Masternodes</translation>
+    </message>
+    <message>
+        <source>Full nodes that incentivize node operators to perform the core consensus functions
+and vote on the treasury system receiving a periodic reward.</source>
+        <translation>Full Nodes, die Node-Betreibern einen Anreiz bieten, die Konsensfunktionen zu betreiben und in dem Treasury-System mit abstimmen, erhalten periodisch eine Belohnung.</translation>
     </message>
     <message>
         <source>Create Masternode Controller</source>
@@ -1580,7 +1536,7 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
     </message>
     <message>
         <source>No active Masternode yet</source>
-        <translation>Keine aktiven Masternodes bis jetzt</translation>
+        <translation>Bisher keine aktiven Masternodes</translation>
     </message>
     <message>
         <source>Start</source>
@@ -1595,6 +1551,10 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
         <translation>Info</translation>
     </message>
     <message>
+        <source>Please wait until the node is fully synced</source>
+        <translation>Bitte warten Sie bis der Node vollständig synchronisiert ist</translation>
+    </message>
+    <message>
         <source>Start Masternode</source>
         <translation>Starte Masternode</translation>
     </message>
@@ -1605,10 +1565,65 @@ Die staking Aktivität wird automatisch gestartet, sobald die Wallet genügend K
 </translation>
     </message>
     <message>
-        <source>Cannot start masternode, the collateral transaction has not been accepted by the network.
-Please wait few more minutes.</source>
-        <translation>Masternode kann nicht gestartet werden, die Sicherungstransaktion wurde vom Netzwerk noch nicht akzeptiert.
-Bitte warte einige Minuten.</translation>
+        <source>Cannot edit masternode, wallet locked</source>
+        <translation>Masternode kann nicht bearbeitet werden, das Wallet ist verschlossen</translation>
+    </message>
+    <message>
+        <source>Cannot start masternode, the collateral transaction has not been confirmed by the network yet.
+Please wait few more minutes (masternode collaterals require %1 confirmations).</source>
+        <translation>Masternode kann nicht gestartet werden, das Kollateral wurde noch nicht durch das Netzwerk bestätigt. Bitte warten Sie einige Minuten (Es werden %1 Bestätigungen benötigt)</translation>
+    </message>
+    <message>
+        <source>Background task is being executed, please wait</source>
+        <translation>Hintergrundprozess wird ausgeführt. Bitte warten Sie</translation>
+    </message>
+    <message>
+        <source>Start ALL masternodes failed</source>
+        <translation>Starten ALLER Masternodes gescheitert</translation>
+    </message>
+    <message>
+        <source>Wallet unlock cancelled</source>
+        <translation>Entriegelung des Wallets abgebrochen</translation>
+    </message>
+    <message>
+        <source>Cannot perform Masternodes start</source>
+        <translation>Start des Masternodes kann nicht durchgeführt werden</translation>
+    </message>
+    <message>
+        <source>%1 Masternodes failed to start, %2 started</source>
+        <translation>%1 Masternodes konnten nicht gestartet werden, %2 wurden gestartet</translation>
+    </message>
+    <message>
+        <source>All Masternodes started!</source>
+        <translation>Alle Masternodes gestartet</translation>
+    </message>
+    <message>
+        <source>Cannot show Masternode information, wallet locked</source>
+        <translation>Informationen des Masternodes konnten nicht angezeigt werden, das Wallet ist verriegelt.</translation>
+    </message>
+    <message>
+        <source>Masternode data copied to the clipboard.</source>
+        <translation>Masternode Daten in die Zwischenablage kopiert</translation>
+    </message>
+    <message>
+        <source>Remote Masternode Data</source>
+        <translation>Remote Masternode Daten</translation>
+    </message>
+    <message>
+        <source>What is a Masternode?</source>
+        <translation>Was ist ein Masternode?</translation>
+    </message>
+    <message>
+        <source>FAQ explaining what Masternodes are</source>
+        <translation>FAQ erklärt, was Masternodes sind</translation>
+    </message>
+    <message>
+        <source>What is a Controller?</source>
+        <translation>Was ist ein Controller?</translation>
+    </message>
+    <message>
+        <source>FAQ explaining what is a Masternode Controller</source>
+        <translation>FAQ erklärt, was ein Masternode Controller ist</translation>
     </message>
     <message>
         <source>You are just about to export the required data to run a Masternode
@@ -1619,19 +1634,14 @@ You will only have to paste the data in the digiwage.conf file
 of your remote server and start it, then start the Masternode using
 this controller wallet (select the Masternode in the list and press "start").
 </source>
-        <translation>Sie sind dabei die erforderlichen Daten,
-um einen Masternode auf einem externen Server laufen zu lassen,
+        <translation>Sie sind dabei die erforderlichen Daten, um einen Masternode auf einem externen Server laufen zu lassen,
 in die Zwischenablage zu kopieren.
 
 
-SIe müssen lediglich die Daten in das digiwage.conf-File ihres externen Servers einfügen,
-die Digiwage-wallet starten, um dann von der Kontrollwallet aus
-ihren Masternode zu starten.
+SIe müssen lediglich die Daten in die digiwage.conf Datei Ihres externen Servers einfügen,
+die Pivx-wallet starten, um dann von der Kontrollwallet aus
+ihren Masternode zu starten (Wählen Sie den Masternode in der Liste aus und drücken SIe "Start").
 </translation>
-    </message>
-    <message>
-        <source>Masternode exported!, check your clipboard</source>
-        <translation>Masternode exportiert!, Befindet sich in der Zwischenablage</translation>
     </message>
     <message>
         <source>Delete Masternode</source>
@@ -1649,15 +1659,23 @@ Sind sie sicher?</translation>
     </message>
     <message>
         <source>Invalid masternode.conf file</source>
-        <translation>Ungültiges masternode.conf file</translation>
+        <translation>Ungültige masternode.conf Datei</translation>
+    </message>
+    <message>
+        <source>Error parsing masternode.conf file</source>
+        <translation>Fehler beim Parsen der masternode.conf Datei </translation>
     </message>
     <message>
         <source>masternode.conf file doesn't exists</source>
-        <translation>masternode.conf File existiert nicht</translation>
+        <translation>masternode.conf Datei existiert nicht</translation>
     </message>
     <message>
-        <source>Not enough balance to create a masternode, 15,000 WAGE required.</source>
-        <translation>Nicht genügend Guthaben um einen Masternode zu erstellen, 10'000 WAGE werden benötigt.</translation>
+        <source>Cannot create Masternode controller, wallet locked</source>
+        <translation>Konnte keinen Masternode Controller erzeugen, das Wallet ist verriegelt</translation>
+    </message>
+    <message>
+        <source>Not enough balance to create a masternode, %1 required.</source>
+        <translation>Nicht genug Guthaben, um einen Masternode zu erstellen, %1 erforderlich.</translation>
     </message>
     <message>
         <source>Error creating masternode</source>
@@ -1667,56 +1685,162 @@ Sind sie sicher?</translation>
 <context>
     <name>MnInfoDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>Master Node Information</source>
-        <translation>Masternode Inormationen</translation>
+        <source>Masternode Information</source>
+        <translation>Masternode Information</translation>
     </message>
     <message>
         <source>Public Key:</source>
         <translation>Öffentlicher Schlüssel:</translation>
     </message>
     <message>
-        <source>492526e7fa3c810b35016...40a5df85ee227ab00b1156994</source>
-        <translation>492526e7fa3c810b35016...40a5df85ee227ab00b1156994</translation>
-    </message>
-    <message>
         <source>Address: </source>
         <translation>IP-Adresse:</translation>
     </message>
     <message>
-        <source>127.0.0.2:43223</source>
-        <translation>127.0.0.2:43223</translation>
+        <source>Collaterall tx id:</source>
+        <translation>ID der Kollateral-Transaktion:</translation>
+    </message>
+    <message>
+        <source>Output index:</source>
+        <translation>Output Index:</translation>
+    </message>
+    <message>
+        <source>1 Inputs</source>
+        <translation>1 Input</translation>
     </message>
     <message>
         <source>Status:</source>
         <translation>Status:</translation>
     </message>
-    </context>
+    <message>
+        <source>Export data to run the Masternode on a remote server</source>
+        <translation>Exportieren der Daten, um Masternode auf externem Server auszuführen</translation>
+    </message>
+    <message>
+        <source>Masternode public key copied</source>
+        <translation>Public Key des Masternodes kopiert</translation>
+    </message>
+    <message>
+        <source>Collateral tx id copied</source>
+        <translation>Transaktions-ID des Kollaterals kopiert</translation>
+    </message>
+</context>
 <context>
-    <name>MyAddressRow</name>
+    <name>MnSelectionDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Select Masternodes</source>
+        <translation>Masternodes auswählen</translation>
     </message>
     <message>
-        <source>Jan. 19, 2019</source>
-        <translation>Jan. 19, 2019</translation>
+        <source>Each Masternode refers to a single vote, you can select which one will vote for the proposal</source>
+        <translation>Jeder Masternode bezieht sich auf eine einzelne Stimme, Sie können auswählen, welcher Masternode für den Vorschlag stimmen soll</translation>
     </message>
     <message>
-        <source>DN6i46dytMPVhV1JMGZFuQBh7BZZ6nNLox</source>
-        <translation>DN6i46dytMPVhV1JMGZFuQBh7BZZ6nNLox</translation>
+        <source>Amount of votes:</source>
+        <translation>Anzahl der Stimmen:</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Alle anwählen</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Vote</source>
+        <translation>Abstimmung</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>ABBRECHEN</translation>
+    </message>
+    <message>
+        <source>SELECT VOTES</source>
+        <translation>Wähle Abstimmungen</translation>
+    </message>
+    <message>
+        <source>Unselect All</source>
+        <translation>Alles abwählen</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
+    </message>
+    <message>
+        <source>The direction of the already broadcasted vote</source>
+        <translation>Die Richtung der bereits übertragenen Abstimmung</translation>
+    </message>
+    <message>
+        <source>No vote has been emitted from this Masternode</source>
+        <translation>Von diesem Masternode wurde keine Stimme ausgesendet</translation>
+    </message>
+    <message>
+        <source>Time between votes is too soon, have to wait %1 minutes to change your vote</source>
+        <translation>Zeit zwischen den Abstimmungen ist zu kurz, man muss %1 Minuten warten, um seine Stimme zu ändern</translation>
     </message>
 </context>
 <context>
     <name>NavMenuWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>HOME
+</source>
+        <translation>HAUPT
+</translation>
     </message>
-    </context>
+    <message>
+        <source>SEND
+</source>
+        <translation>SENDEN
+</translation>
+    </message>
+    <message>
+        <source>RECEIVE
+</source>
+        <translation>EMPFANGEN
+</translation>
+    </message>
+    <message>
+        <source>CONTACTS
+</source>
+        <translation>KONTAKTE
+</translation>
+    </message>
+    <message>
+        <source>DAO</source>
+        <translation>DAO</translation>
+    </message>
+    <message>
+        <source>MASTER
+NODES</source>
+        <translation>MASTER
+NODES</translation>
+    </message>
+    <message>
+        <source>COLD
+STAKING</source>
+        <translation>COLD
+STAKING</translation>
+    </message>
+    <message>
+        <source>SETTINGS
+</source>
+        <translation>EINSTELLUNGEN
+</translation>
+    </message>
+    <message>
+        <source>v%1</source>
+        <translation>v%1</translation>
+    </message>
+</context>
 <context>
     <name>OpenURIDialog</name>
     <message>
@@ -1724,320 +1848,20 @@ Sind sie sicher?</translation>
         <translation>URI öffnen</translation>
     </message>
     <message>
-        <source>Open payment request from URI or file</source>
-        <translation>Zahlungsanfrage von URI oder Datei öffnen</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Open DIGIWAGE URI</source>
+        <translation>DIGIWAGE URI öffnen</translation>
     </message>
     <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
+        <translation>ABBRECHEN</translation>
     </message>
     <message>
         <source>OK</source>
         <translation>OK</translation>
     </message>
-    <message>
-        <source>Select payment request file</source>
-        <translation>Datei für Zahlungsanfrage auswählen</translation>
-    </message>
-    <message>
-        <source>Select payment request file to open</source>
-        <translation>Datei für Zahlungsanfrage öffnen</translation>
-    </message>
-    </context>
-<context>
-    <name>OptionButton</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-</context>
-<context>
-    <name>OptionsDialog</name>
-    <message>
-        <source>Options</source>
-        <translation>Optionen</translation>
-    </message>
-    <message>
-        <source>&amp;Main</source>
-        <translation>&amp;Main</translation>
-    </message>
-    <message>
-        <source>Size of &amp;database cache</source>
-        <translation>Größe &amp;Datenbank Cache</translation>
-    </message>
-    <message>
-        <source>MB</source>
-        <translation>MB</translation>
-    </message>
-    <message>
-        <source>Number of script &amp;verification threads</source>
-        <translation>Anzahl der Skript &amp;Verifikation Threads</translation>
-    </message>
-    <message>
-        <source>(0 = auto, &lt;0 = leave that many cores free)</source>
-        <translation>(0 = auto, &lt;0 = leave that many cores free)</translation>
-    </message>
-    <message>
-        <source>W&amp;allet</source>
-        <translation>W&amp;allet</translation>
-    </message>
-    <message>
-        <source>If you disable the spending of unconfirmed change, the change from a transaction&lt;br/&gt;cannot be used until that transaction has at least one confirmation.&lt;br/&gt;This also affects how your balance is computed.</source>
-        <translation>Wenn Sie das Ausgeben von unbestätigten Wechselgeld deaktivieren, so kann das Wechselgeld von einer Transaktion &lt;br/&gt;nicht verwendet werden, bis mindestens eine Bestätigung vorliegt.&lt;br/&gt;Dies hat auch Auswirkungen auf ihre Bilanzberechnung.</translation>
-    </message>
-    <message>
-        <source>Automatically open the DIGIWAGE client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatisches öffnen des DIGIWAGE-Client-Port im Router. Dies funktioniert nur, wenn ihr Router UPnP unterstützt und es eingeschaltet ist.</translation>
-    </message>
-    <message>
-        <source>Accept connections from outside</source>
-        <translation>Verbindungen von Aussen zulassen</translation>
-    </message>
-    <message>
-        <source>Allow incoming connections</source>
-        <translation>Eingehende Verbindungen erlauben</translation>
-    </message>
-    <message>
-        <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
-        <translation>&amp;Verbindung durch SOCKS5 proxy (default proxy):</translation>
-    </message>
-    <message>
-        <source>Expert</source>
-        <translation>Experte</translation>
-    </message>
-    <message>
-        <source>Automatically start DIGIWAGE after logging in to the system.</source>
-        <translation>DIGIWAGE automatisch nach dem Login starten.</translation>
-    </message>
-    <message>
-        <source>&amp;Start DIGIWAGE on system login</source>
-        <translation>DIGIWAGE automatisch beim System Login &amp;starten.</translation>
-    </message>
-    <message>
-        <source>Whether to show coin control features or not.</source>
-        <translation>Coin &amp;control Funktionen anzeigen oder nicht</translation>
-    </message>
-    <message>
-        <source>Enable coin &amp;control features</source>
-        <translation>Coin &amp;control Funktionen aktivieren</translation>
-    </message>
-    <message>
-        <source>Show additional tab listing all your masternodes in first sub-tab&lt;br/&gt;and all masternodes on the network in second sub-tab.</source>
-        <translation>Zeige zusätzlichen Tab, der alle ihre Masternodes anzeigt, im ersten Untertab&lt;br/&gt;und alle Masternodes im Netzwerk im zweiten Untertab.</translation>
-    </message>
-    <message>
-        <source>Show Masternodes Tab</source>
-        <translation>Masternodes Tab anzeigen</translation>
-    </message>
-    <message>
-        <source>&amp;Spend unconfirmed change</source>
-        <translation>&amp;Sende unbestätigtes Wechselgeld</translation>
-    </message>
-    <message>
-        <source>&amp;Network</source>
-        <translation>&amp;Netzwerk</translation>
-    </message>
-    <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting DIGIWAGE.</source>
-        <translation>Die Sprache der Benutzeroberfläche kann hier festgelegt werden. Diese Einstellung wird nach einem Neustart realisiert.</translation>
-    </message>
-    <message>
-        <source>Language missing or translation incomplete? Help contributing translations here:
-https://www.transifex.com/digiwage-project/digiwage-project-translations</source>
-        <translation>Sprache fehlt oder ist unvollständig? Helfe mit und trage zur Übersetzung bei unter:
-https://www.transifex.com/digiwage-project/digiwage-project-translations</translation>
-    </message>
-    <message>
-        <source>Map port using &amp;UPnP</source>
-        <translation>Port mit &amp;UPnP mappen</translation>
-    </message>
-    <message>
-        <source>Enable automatic minting of WAGE units to zWAGE</source>
-        <translation>Aktivieren Sie die automatische Prägung von WAGE-Einheiten zu zWAGE</translation>
-    </message>
-    <message>
-        <source>Enable zWAGE Automint</source>
-        <translation>Aktivieren Sie zWAGE Automint</translation>
-    </message>
-    <message>
-        <source>Enable automatic zWAGE minting from specific addresses</source>
-        <translation>Automatisches zWAGE Minting von spezifischen Adressen erlauben</translation>
-    </message>
-    <message>
-        <source>Enable Automint Addresses</source>
-        <translation>Automint Adressen aktivieren</translation>
-    </message>
-    <message>
-        <source>Percentage of incoming WAGE which get automatically converted to zWAGE via Zerocoin Protocol (min: 10%)</source>
-        <translation>Anteil des eingehenden WAGE, welcher automatisch zu zWAGE via Zerocoin Protokoll konvertiert wird (min: 10%)</translation>
-    </message>
-    <message>
-        <source>Percentage of autominted zWAGE</source>
-        <translation>Prozentsatz der automatisierten zWAGE</translation>
-    </message>
-    <message>
-        <source>Wait with automatic conversion to Zerocoin until enough WAGE for this denomination is available</source>
-        <translation>Warte mit automatischer Konvertierung zu Zerocoin, bis genügend WAGE für diese Stückelung verfügbar ist</translation>
-    </message>
-    <message>
-        <source>Preferred Automint zWAGE Denomination</source>
-        <translation>Bevorzugte automatisierte zWAGE Stückelung </translation>
-    </message>
-    <message>
-        <source>Stake split threshold:</source>
-        <translation>Staff Split-Schwelle:</translation>
-    </message>
-    <message>
-        <source>Connect to the DIGIWAGE network through a SOCKS5 proxy.</source>
-        <translation>Durch einen SOCKS5 Proxy mit dem DIGIWAGE Netzwerk verbinden.</translation>
-    </message>
-    <message>
-        <source>Proxy &amp;IP:</source>
-        <translation>Proxy &amp;IP:</translation>
-    </message>
-    <message>
-        <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
-        <translation>IP Adresse des PROXY (z.B. IPv4: 127.0.0.1 / IPv6: ::1)</translation>
-    </message>
-    <message>
-        <source>&amp;Port:</source>
-        <translation>&amp;Port:</translation>
-    </message>
-    <message>
-        <source>Port of the proxy (e.g. 9050)</source>
-        <translation>Port des Proxies (z.B. 9050)</translation>
-    </message>
-    <message>
-        <source>&amp;Window</source>
-        <translation>&amp;Fenster</translation>
-    </message>
-    <message>
-        <source>Show only a tray icon after minimizing the window.</source>
-        <translation>Zeige nur ein Symbolkachel nach der Fensterminimierung.</translation>
-    </message>
-    <message>
-        <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>&amp;Minimierung zur Kachel anstelle auf der Taskbar</translation>
-    </message>
-    <message>
-        <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Minimierung anstelle vom Schließen der Anwendung, wenn das Fenster geschlossen wird. Wenn diese Option aktiviert ist, wird die Anwendung nur geschlossen, wenn im Menü Beenden gewählt wird.</translation>
-    </message>
-    <message>
-        <source>M&amp;inimize on close</source>
-        <translation>Beim Schließen m&amp;inimieren</translation>
-    </message>
-    <message>
-        <source>&amp;Display</source>
-        <translation>&amp;Display</translation>
-    </message>
-    <message>
-        <source>User Interface &amp;language:</source>
-        <translation>Benutzeroberfläche &amp;Sprache</translation>
-    </message>
-    <message>
-        <source>User Interface Theme:</source>
-        <translation>Benutzeroberfläche Motiv:</translation>
-    </message>
-    <message>
-        <source>Unit to show amounts in:</source>
-        <translation>Einheit des Betrags anzeigen in:</translation>
-    </message>
-    <message>
-        <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Wähle die Standardunterteilungseinheit, um sie auf der Oberfläche anzuzeigen und wenn Coins gesendet werden.</translation>
-    </message>
-    <message>
-        <source>Decimal digits</source>
-        <translation>Dezimalstellen</translation>
-    </message>
-    <message>
-        <source>Hide empty balances</source>
-        <translation>Leere Salden ausblenden</translation>
-    </message>
-    <message>
-        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>Drittpartei URLs (z.B. Blockexplorer) die auf der Registerkarte Transaktionen als Kontextmenü erscheinen. %s in der URL wird durch den Transaktionshash ersetzt. Mehrere URLs sind durch vertikale Balken | getrennt.</translation>
-    </message>
-    <message>
-        <source>Third party transaction URLs</source>
-        <translation>Drittanbieter Transaktions URLs</translation>
-    </message>
-    <message>
-        <source>Active command-line options that override above options:</source>
-        <translation>Aktive Befehlszeilenoptionen, die über Optionen hinausgehen:</translation>
-    </message>
-    <message>
-        <source>Reset all client options to default.</source>
-        <translation>Alle Client Optionen auf den Standard zurücksetzen</translation>
-    </message>
-    <message>
-        <source>&amp;Reset Options</source>
-        <translation>Optionen Zu&amp;rücksetzen</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation>&amp;Abbrechen</translation>
-    </message>
-    <message>
-        <source>Any</source>
-        <translation>Irgendein</translation>
-    </message>
-    <message>
-        <source>default</source>
-        <translation>standard</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation>keine</translation>
-    </message>
-    <message>
-        <source>Confirm options reset</source>
-        <translation>Zurücksetzen der Optionen bestätigen</translation>
-    </message>
-    <message>
-        <source>Client restart required to activate changes.</source>
-        <translation>Client Neustart erforderlich, um Änderungen zu aktivieren.</translation>
-    </message>
-    <message>
-        <source>Client will be shutdown, do you want to proceed?</source>
-        <translation>Der Client wird heruntergefahren, wollen Sie fortfahren?</translation>
-    </message>
-    <message>
-        <source>This change would require a client restart.</source>
-        <translation>Diese Änderung würde einen Neustart des Clients erfordern.</translation>
-    </message>
-    <message>
-        <source>The supplied proxy address is invalid.</source>
-        <translation>Die eingegeben PROXY-Adresse ist ungültig.</translation>
-    </message>
-    <message>
-        <source>The supplied proxy port is invalid.</source>
-        <translation>Der angegebene Proxy-Port ist ungültig.</translation>
-    </message>
-    <message>
-        <source>The supplied proxy settings are invalid.</source>
-        <translation>Die angegebenen Proxyeinstellungen sind ungültig.</translation>
-    </message>
 </context>
 <context>
     <name>DIGIWAGEGUI</name>
-    <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
-    </message>
     <message>
         <source>Wallet</source>
         <translation>Wallet</translation>
@@ -2048,11 +1872,11 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     </message>
     <message>
         <source>&amp;Show / Hide</source>
-        <translation>&amp;Anzeigen / Verstecken</translation>
+        <translation>&amp;Anzeigen / Verbergen</translation>
     </message>
     <message>
         <source>Show or hide the main Window</source>
-        <translation>Das Hauptfenster anzeigen oder verstecken</translation>
+        <translation>Das Hauptfenster anzeigen oder verbergen</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -2063,8 +1887,12 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Anwendung beenden</translation>
     </message>
     <message>
-        <source>DIGIWAGE Core client</source>
-        <translation>DIGIWAGE Core Client</translation>
+        <source>%1 client</source>
+        <translation>%1 Klient</translation>
+    </message>
+    <message>
+        <source>Alert!</source>
+        <translation>Warnung!</translation>
     </message>
     <message>
         <source>Error</source>
@@ -2079,8 +1907,8 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Hinweis</translation>
     </message>
     <message>
-        <source>Sent MultiSend transaction</source>
-        <translation>Versende MultiSend Transaktion</translation>
+        <source>System Message</source>
+        <translation>Systembenachrichtigung</translation>
     </message>
     <message>
         <source>Sent transaction</source>
@@ -2099,12 +1927,10 @@ Address: %4
         <translation>Datum: %1
 Betrag: %2
 Typ: %3
-Adresse: %4</translation>
+Adresse: %4
+</translation>
     </message>
-    </context>
-<context>
-    <name>PWidget</name>
-    </context>
+</context>
 <context>
     <name>PaymentServer</name>
     <message>
@@ -2114,14 +1940,6 @@ Adresse: %4</translation>
     <message>
         <source>URI handling</source>
         <translation>URI Behandlung</translation>
-    </message>
-    <message>
-        <source>Payment request fetch URL is invalid: %1</source>
-        <translation>Zahlungsauftragsabruf URL ist ungültig: %1</translation>
-    </message>
-    <message>
-        <source>Payment request file handling</source>
-        <translation>Zahlungsauftragsdatei Behandlung</translation>
     </message>
     <message>
         <source>Invalid payment address %1</source>
@@ -2134,66 +1952,6 @@ Adresse: %4</translation>
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid DIGIWAGE address or malformed URI parameters.</source>
         <translation>URI kann nicht analysiert werden! Dies kann durch eine ungültige DIGIWAGE-Adresse oder fehlerhafte URI-Parameter verursacht worden sein.</translation>
-    </message>
-    <message>
-        <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
-        <translation>Zahlungsauftragsdatei kann nicht gelesen werden! Dies kann durch eine ungültige Zahlungsauftragsdatei verursacht werden.</translation>
-    </message>
-    <message>
-        <source>Payment request rejected</source>
-        <translation>Zahlungsauftrag abgelehnt</translation>
-    </message>
-    <message>
-        <source>Payment request network doesn't match client network.</source>
-        <translation>Das Zahlungsauftragsnetzwerk stimmt nicht mit dem Clientnetzwerk überein.</translation>
-    </message>
-    <message>
-        <source>Payment request has expired.</source>
-        <translation>Zahlungsauftrag ist abgelaufen.</translation>
-    </message>
-    <message>
-        <source>Payment request is not initialized.</source>
-        <translation>Zahlungsauftrag ist nicht initialisiert.</translation>
-    </message>
-    <message>
-        <source>Unverified payment requests to custom payment scripts are unsupported.</source>
-        <translation>Nicht verifizierte Zahlungsaufträge an benutzerdefinierte Zahlungsskripts werden nicht unterstützt.</translation>
-    </message>
-    <message>
-        <source>Requested payment amount of %1 is too small (considered dust).</source>
-        <translation>Der angeforderte Zahlungsbetrag von %1 ist zu klein (betrachtet als Staub).</translation>
-    </message>
-    <message>
-        <source>Refund from %1</source>
-        <translation>Rückerstattung von %1</translation>
-    </message>
-    <message>
-        <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
-        <translation>Zahlungsauftrag %1 ist zu groß (%2 Bytes, erlaubt %3 Bytes).</translation>
-    </message>
-    <message>
-        <source>Payment request DoS protection</source>
-        <translation>Zahlungsauftrag DoS Schutz</translation>
-    </message>
-    <message>
-        <source>Error communicating with %1: %2</source>
-        <translation>Fehler beim Kommunizieren mit %1: %2</translation>
-    </message>
-    <message>
-        <source>Payment request cannot be parsed!</source>
-        <translation>Zahlungsauftrag kann nicht analysiert werden!</translation>
-    </message>
-    <message>
-        <source>Bad response from server %1</source>
-        <translation>Fehlerhafte Antwort vom Server %1</translation>
-    </message>
-    <message>
-        <source>Network request error</source>
-        <translation>Netzwerkanfragefehler</translation>
-    </message>
-    <message>
-        <source>Payment acknowledged</source>
-        <translation>Zahlung anerkannt</translation>
     </message>
 </context>
 <context>
@@ -2210,115 +1968,103 @@ Adresse: %4</translation>
         <source>Ping Time</source>
         <translation>Latenz (Ping)</translation>
     </message>
+    <message>
+        <source>NodeID</source>
+        <translation>NodeID</translation>
+    </message>
 </context>
 <context>
-    <name>PrivacyWidget</name>
+    <name>ProposalCard</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Vote</source>
+        <translation>Abstimmung</translation>
     </message>
     <message>
-        <source>Title</source>
-        <translation>Titel</translation>
+        <source>Inactive proposal</source>
+        <translation>Inaktiver Vorschlag</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Last month in course</source>
+        <translation>Letzter Monat im Kurs</translation>
     </message>
     <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
+        <source>%1 of %2 months left</source>
+        <translation>%1 von %2 verbleibenden Monaten</translation>
     </message>
     <message>
-        <source>No active Master Node yet</source>
-        <translation>Keine aktiven Masternodes bis jetzt</translation>
+        <source>No</source>
+        <translation>Nein</translation>
     </message>
     <message>
-        <source>Privacy</source>
-        <translation>Privatsphäre</translation>
+        <source>Yes</source>
+        <translation>Ja</translation>
     </message>
     <message>
-        <source>Convert</source>
-        <translation>Umwandeln</translation>
+        <source>Waiting</source>
+        <translation>Warten</translation>
     </message>
     <message>
-        <source>Mint</source>
-        <translation>Prägen</translation>
+        <source>Finished</source>
+        <translation>Abgeschlossen</translation>
     </message>
     <message>
-        <source>No transactions yet</source>
-        <translation>Keine Transaktionen</translation>
+        <source>No Votes</source>
+        <translation>Keine Abstimmungen</translation>
     </message>
     <message>
-        <source>Mint zWAGE</source>
-        <translation>zWAGE prägen</translation>
+        <source>Not Passing</source>
+        <translation>Nicht erfolgreich</translation>
     </message>
     <message>
-        <source>Enter amount of WAGE to mint into zWAGE</source>
-        <translation>Gebe eine Anzahl WAGE ein, um sie in zWAGE zu wechseln</translation>
+        <source>Passing</source>
+        <translation>Weitergabe</translation>
     </message>
-    <message>
-        <source>Convert back to WAGE</source>
-        <translation>Konvertiere zWAGE zurück zu WAGE</translation>
-    </message>
-    <message>
-        <source>Zerocoin</source>
-        <translation>Zerocoin</translation>
-    </message>
-    <message>
-        <source>zWAGE is currently undergoing maintenance</source>
-        <translation>zWAGE wird momentan überarbeitet</translation>
-    </message>
-    <message>
-        <source>convert</source>
-        <translation>Umwandeln</translation>
-    </message>
-    <message>
-        <source>mint</source>
-        <translation>Prägen</translation>
-    </message>
-    <message>
-        <source>Invalid value</source>
-        <translation>Ungültiger Wert</translation>
-    </message>
-    </context>
+</context>
 <context>
-    <name>ProposalFrame</name>
+    <name>ProposalInfoDialog</name>
     <message>
-        <source>Open proposal page in browser</source>
-        <translation>Vorschläge-Seite im Browser</translation>
+        <source>Proposal Information</source>
+        <translation>Informationen zum Vorschlag</translation>
     </message>
     <message>
-        <source>Yes:</source>
-        <translation>Ja:</translation>
+        <source>ID</source>
+        <translation>ID</translation>
     </message>
     <message>
-        <source>No:</source>
-        <translation>Nein:</translation>
+        <source>Proposal Name</source>
+        <translation>Name des Vorschlags</translation>
     </message>
     <message>
-        <source>Open link</source>
-        <translation>Öffentlicher Link</translation>
+        <source>Recipient</source>
+        <translation>Empfänger</translation>
     </message>
     <message>
-        <source>Copy link</source>
-        <translation>Link kopieren</translation>
+        <source>Amount</source>
+        <translation>Betrag</translation>
     </message>
     <message>
-        <source>Wallet Locked</source>
-        <translation>Wallet gesperrt</translation>
+        <source>End Block</source>
+        <translation>Endblock</translation>
     </message>
     <message>
-        <source>You must unlock your wallet to vote.</source>
-        <translation>Um wählen zu können, muss dein Wallet entsperrt sein.</translation>
+        <source>Status</source>
+        <translation>Status</translation>
     </message>
     <message>
-        <source>Confirm Vote</source>
-        <translation>Bestätige deine Stimmabgabe</translation>
+        <source>Start Block</source>
+        <translation>Startblock</translation>
     </message>
     <message>
-        <source>Vote Results</source>
-        <translation>Abstimmresultate</translation>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Positive Votes</source>
+        <translation>Positive Abstimmungen</translation>
+    </message>
+    <message>
+        <source>Negative Votes</source>
+        <translation>Negative Abstimmungen</translation>
     </message>
 </context>
 <context>
@@ -2328,8 +2074,8 @@ Adresse: %4</translation>
         <translation>Betrag</translation>
     </message>
     <message>
-        <source>Enter a DIGIWAGE address (e.g. %1)</source>
-        <translation>DIGIWAGE-Adresse eingeben (z.B. %1)</translation>
+        <source>Enter DIGIWAGE address (e.g. %1)</source>
+        <translation>DIGIWAGE Adresse eingeben (z.B. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2372,10 +2118,214 @@ Adresse: %4</translation>
         <translation>%1 Ms</translation>
     </message>
     <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
+        <source>A fatal error occurred. DIGIWAGE can no longer continue safely and will quit.</source>
+        <translation>Ein fataler Fehler ist aufgetreten. DIGIWAGE kann nicht länger sicher fortfahren und wird geschlossen</translation>
     </message>
-    </context>
+    <message>
+        <source>Error: Specified data directory "%1" does not exist.</source>
+        <translation>Fehler: Angegebener Speicherpfad "%1" existiert nicht.</translation>
+    </message>
+    <message>
+        <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
+        <translation>Fehler: Konfigurationsdatei: %1 konnte nicht geparst werden. Bitte nutzen Sie nur Schlüssel=Wert Syntax</translation>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation>Fehler: %1</translation>
+    </message>
+    <message>
+        <source>%1 didn't yet exit safely...</source>
+        <translation>%1 hat sich noch nicht sicher beendet...</translation>
+    </message>
+    <message>
+        <source>Error reading masternode configuration file: %1</source>
+        <translation>Fehler beim Einlesen der Konfigurationsdatei %1 für den Masternode.</translation>
+    </message>
+    <message>
+        <source>Contact</source>
+        <translation>Kontakt</translation>
+    </message>
+    <message>
+        <source>Receiving</source>
+        <translation>Empfangen</translation>
+    </message>
+    <message>
+        <source>Delegator</source>
+        <translation>Delegierter</translation>
+    </message>
+    <message>
+        <source>Delegable</source>
+        <translation>zuweisbar</translation>
+    </message>
+    <message>
+        <source>Cold Staking</source>
+        <translation>Cold Staking</translation>
+    </message>
+    <message>
+        <source>Cold Staking Contact</source>
+        <translation>Cold Staking Kontakt</translation>
+    </message>
+    <message>
+        <source>Receiving Shielded</source>
+        <translation>Empfang abgeschirmt</translation>
+    </message>
+    <message>
+        <source>Contact Shielded</source>
+        <translation>Kontakt Abgeschirmt</translation>
+    </message>
+    <message>
+        <source>Hidden</source>
+        <translation>Verborgen</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unbekannt</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Alle</translation>
+    </message>
+    <message>
+        <source>Contacts</source>
+        <translation>Kontakte</translation>
+    </message>
+    <message>
+        <source>Staking Contacts</source>
+        <translation>Staking Kontakte</translation>
+    </message>
+    <message>
+        <source>Shielded Recv</source>
+        <translation>Abgeschirmte Recv</translation>
+    </message>
+    <message>
+        <source>Shielded Contact</source>
+        <translation>Abgeschirmter Kontakt</translation>
+    </message>
+    <message>
+        <source>Date desc</source>
+        <translation>Datum absteigend</translation>
+    </message>
+    <message>
+        <source>Date asc</source>
+        <translation>Datum aufsteigend</translation>
+    </message>
+    <message>
+        <source>Amount desc</source>
+        <translation>Betrag absteigend</translation>
+    </message>
+    <message>
+        <source>Amount asc</source>
+        <translation>Betrag aufsteigend</translation>
+    </message>
+    <message>
+        <source>Received</source>
+        <translation>Empfangen</translation>
+    </message>
+    <message>
+        <source>Sent</source>
+        <translation>Gesendet</translation>
+    </message>
+    <message>
+        <source>Shield</source>
+        <translation>Abschirmung</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Erarbeitet</translation>
+    </message>
+    <message>
+        <source>Minted</source>
+        <translation>Erzeugt</translation>
+    </message>
+    <message>
+        <source>MN reward</source>
+        <translation>MN Vergütung</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>Eigenüberweisung</translation>
+    </message>
+    <message>
+        <source>Cold stakes</source>
+        <translation>Cold Stakes</translation>
+    </message>
+    <message>
+        <source>Hot stakes</source>
+        <translation>Hot Stakes</translation>
+    </message>
+    <message>
+        <source>Delegated</source>
+        <translation>Zugewiesen</translation>
+    </message>
+    <message>
+        <source>Delegations</source>
+        <translation>Delegationen</translation>
+    </message>
+    <message>
+        <source>by Label</source>
+        <translation>nach Bezeichnung</translation>
+    </message>
+    <message>
+        <source>by Address</source>
+        <translation>nach Adresse</translation>
+    </message>
+    <message>
+        <source>by Date</source>
+        <translation>nach Datum</translation>
+    </message>
+    <message>
+        <source>Jan</source>
+        <translation>Januar</translation>
+    </message>
+    <message>
+        <source>Feb</source>
+        <translation>Februar</translation>
+    </message>
+    <message>
+        <source>Mar</source>
+        <translation>März</translation>
+    </message>
+    <message>
+        <source>Apr</source>
+        <translation>April</translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation>Mai</translation>
+    </message>
+    <message>
+        <source>Jun</source>
+        <translation>Juni</translation>
+    </message>
+    <message>
+        <source>Jul</source>
+        <translation>Juli</translation>
+    </message>
+    <message>
+        <source>Aug</source>
+        <translation>August</translation>
+    </message>
+    <message>
+        <source>Sep</source>
+        <translation>September</translation>
+    </message>
+    <message>
+        <source>Oct</source>
+        <translation>Oktober</translation>
+    </message>
+    <message>
+        <source>Nov</source>
+        <translation>November</translation>
+    </message>
+    <message>
+        <source>Dec</source>
+        <translation>Dezember</translation>
+    </message>
+    <message>
+        <source>Address with no label</source>
+        <translation>Adresse ohne Bezeichnung</translation>
+    </message>
+</context>
 <context>
     <name>RPCConsole</name>
     <message>
@@ -2397,10 +2347,6 @@ Adresse: %4</translation>
     <message>
         <source>Client name</source>
         <translation>Client Name</translation>
-    </message>
-    <message>
-        <source>N/A</source>
-        <translation>k.A.</translation>
     </message>
     <message>
         <source>Number of connections</source>
@@ -2427,10 +2373,6 @@ Adresse: %4</translation>
         <translation>Debug-Protokolldatei</translation>
     </message>
     <message>
-        <source>Build date</source>
-        <translation>Build Datum</translation>
-    </message>
-    <message>
         <source>Current number of blocks</source>
         <translation>Aktuelle Blockanzahl</translation>
     </message>
@@ -2453,6 +2395,14 @@ Adresse: %4</translation>
     <message>
         <source>Number of Masternodes</source>
         <translation>Anzahl der Masternodes</translation>
+    </message>
+    <message>
+        <source>Data Directory</source>
+        <translation>Datenverzeichnis</translation>
+    </message>
+    <message>
+        <source>Last block hash</source>
+        <translation>Letzter Blockhash</translation>
     </message>
     <message>
         <source>&amp;Console</source>
@@ -2579,18 +2529,6 @@ Adresse: %4</translation>
         <translation>Zeitverschiebung</translation>
     </message>
     <message>
-        <source>Custom Backup Path:</source>
-        <translation>Benutzerdefinierter Sicherungspfad:</translation>
-    </message>
-    <message>
-        <source>Custom zWAGE Backup Path:</source>
-        <translation>Benutzerdefinierter zWAGE Sicherungspfad:</translation>
-    </message>
-    <message>
-        <source>Custom Backups Threshold:</source>
-        <translation>Benutzerdefinierter Sicherungs-Schwellwert:</translation>
-    </message>
-    <message>
         <source>Salvage wallet</source>
         <translation>Wallet Rettung</translation>
     </message>
@@ -2629,10 +2567,6 @@ Adresse: %4</translation>
     <message>
         <source>Rebuild block chain index from current blk000??.dat files.</source>
         <translation>Blockchain Index aus der aktuellen blk000??.dat Datei neu aufbauen.</translation>
-    </message>
-    <message>
-        <source>-resync:</source>
-        <translation>-resync:</translation>
     </message>
     <message>
         <source>Deletes all local blockchain folders so the wallet synchronizes from scratch.</source>
@@ -2719,8 +2653,16 @@ Adresse: %4</translation>
         <translation>Verwende die Pfeiltasten um durch den Verlauf zu scrollen und %1 um das Konsolenfester zu löschen.</translation>
     </message>
     <message>
-        <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation>Gebe &lt;b&gt;help&lt;/b&gt; ein, um eine Übersicht der verfügbaren Befehle zu erhalten.</translation>
+        <source>Type %1 for an overview of available commands.</source>
+        <translation>Geben Sie %1 ein, um eine Übersicht der verfügbaren Befehle zu erhalten.</translation>
+    </message>
+    <message>
+        <source>For more information on using this console type %1.</source>
+        <translation>Für weitere Informationen zur Verwendung dieser Konsole geben Sie %1 ein.</translation>
+    </message>
+    <message>
+        <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramifications of a command.</source>
+        <translation>Warnung: Abzocker sind aktiv und erzählen Nutzer hier Befehle einzugeben, um so den Inhalt des Wallets zu stehlen. Nutzen Sie diese Konsole nicht, ohne die Bedeutungen eines Befehls vollständig zu verstehen.</translation>
     </message>
     <message>
         <source>%1 B</source>
@@ -2774,43 +2716,35 @@ Adresse: %4</translation>
 <context>
     <name>ReceiveDialog</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
+        <source>My Address</source>
+        <translation>Meine Adresse</translation>
     </message>
     <message>
-        <source>Transaction Details</source>
-        <translation>Transaktionsdetails</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
-        <source>D7VFR83SQbiezrW72hjcWJtcfip5krte2Z </source>
-        <translation>D7VFR83SQbiezrW72hjcWJtcfip5krte2Z</translation>
+        <source>COPY</source>
+        <translation>KOPIEREN</translation>
     </message>
     <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
+        <translation>ABBRECHEN</translation>
     </message>
 </context>
 <context>
     <name>ReceiveWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Scan the QR code or copy the address to receive WAGE</source>
+        <translation>Scannen Sie den QR Code oder kopieren Sie die Adresse, um WAGE zu erhalten</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Transparent</source>
+        <translation>Durchsichtig</translation>
     </message>
     <message>
-        <source>No address</source>
-        <translation>Keine Adresse</translation>
+        <source>Shielded</source>
+        <translation>Abgeschirmt</translation>
+    </message>
+    <message>
+        <source>Accept transparent or shielded WAGE</source>
+        <translation>Transparente oder abgeschirmte WAGE akzeptieren</translation>
     </message>
     <message>
         <source>Add Label</source>
@@ -2825,28 +2759,42 @@ Adresse: %4</translation>
         <translation>Kopieren</translation>
     </message>
     <message>
+        <source>Filter</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
         <source>Receive</source>
         <translation>Empfangen</translation>
     </message>
     <message>
-        <source>Scan the QR code or copy the address to receive WAGE.</source>
-        <translation>QR-Code scannen oder Adresse kopieren um WAGE zu erhalten.</translation>
+        <source>My Addresses</source>
+        <translation>Meine Adressen</translation>
     </message>
     <message>
-        <source>No address </source>
-        <translation>Keine Adresse</translation>
+        <source>List your own addresses</source>
+        <translation>Eigenen Adressen auflisten</translation>
     </message>
     <message>
-        <source>No available address, try unlocking the wallet</source>
-        <translation>Keine Adresse verfügbar, versuche die Wallet zu entsperren.</translation>
+        <source>Create Request</source>
+        <translation>Zahlungsanweisung erstellen</translation>
+    </message>
+    <message>
+        <source>Request payment with a fixed amount</source>
+        <translation>Zahlungsanweisung mit festem Betrag erstellen</translation>
+    </message>
+    <message>
+        <source>No available address
+try unlocking the wallet</source>
+        <translation>Keine verfügbare Adresse
+versuchen Sie, die Brieftasche zu entsperren</translation>
     </message>
     <message>
         <source>Error generating address</source>
         <translation>Fehler beim Erstellen der Adresse</translation>
     </message>
     <message>
-        <source>Change Label</source>
-        <translation>Bezeichnung ändern</translation>
+        <source>Edit Label</source>
+        <translation>Adressname bearbeiten</translation>
     </message>
     <message>
         <source>Edit Address Label</source>
@@ -2861,12 +2809,24 @@ Adresse: %4</translation>
         <translation>Fehler beim Speichern der Adressbezeichnung</translation>
     </message>
     <message>
+        <source>Cannot create new address, wallet locked</source>
+        <translation>Konnte keine neue Adresse erzeugen. Wallet verriegelt.</translation>
+    </message>
+    <message>
         <source>New address created</source>
         <translation>Neue Adresse erstellen</translation>
     </message>
     <message>
         <source>Address copied</source>
         <translation>Adresse kopiert</translation>
+    </message>
+    <message>
+        <source>Cannot perform operation, wallet locked</source>
+        <translation>Aufgabe kann nicht durchgeführt werden, Ihr Wallet ist verschlossen</translation>
+    </message>
+    <message>
+        <source>URI copied to clipboard</source>
+        <translation>URI in die Zwischenablage kopiert</translation>
     </message>
     <message>
         <source>Address copied to clipboard</source>
@@ -2911,32 +2871,12 @@ Adresse: %4</translation>
 <context>
     <name>RequestDialog</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
-        <source>New Request Payment</source>
-        <translation>Neue Zahlung anfordern</translation>
-    </message>
-    <message>
-        <source>Lorem ipsum dolor sit amet, consectur cling elit, sed do </source>
-        <translation>Lorem ipsum dolor sit amet, consectur cling elit, sed do </translation>
-    </message>
-    <message>
         <source>Amount</source>
         <translation>Betrag</translation>
     </message>
     <message>
-        <source>WAGE</source>
-        <translation>WAGE</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>D7VFR83SQbiezrW72hjcWJtcfip5krte2Z </source>
-        <translation>D7VFR83SQbiezrW72hjcWJtcfip5krte2Z</translation>
+        <source>Instead of sharing only a DIGIWAGE address, you can create a payment request, bundling up more information</source>
+        <translation>Anstatt nur Ihre DIGIWAGE Adresse zu teilen, können Sie eine Zahlungsanweisung erstellen, die mehr Information enthält</translation>
     </message>
     <message>
         <source>COPY ADDRESS</source>
@@ -2948,11 +2888,7 @@ Adresse: %4</translation>
     </message>
     <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>REQUEST</source>
-        <translation>Anfordern</translation>
+        <translation>ABBRECHEN</translation>
     </message>
     <message>
         <source>Label</source>
@@ -2963,8 +2899,16 @@ Adresse: %4</translation>
         <translation>Beschreibung (optional)</translation>
     </message>
     <message>
-        <source>Add description </source>
-        <translation>Beschreibung hinzufügen</translation>
+        <source>New Payment Request</source>
+        <translation>Neue Bezahlung anfordern</translation>
+    </message>
+    <message>
+        <source>Enter a label for the address</source>
+        <translation>Eine Bezeichnung für die Adresse eingeben</translation>
+    </message>
+    <message>
+        <source>Enter description</source>
+        <translation>Beschreibung eingeben</translation>
     </message>
     <message>
         <source>Error</source>
@@ -2974,63 +2918,83 @@ Adresse: %4</translation>
         <source>GENERATE</source>
         <translation>ERSTELLEN</translation>
     </message>
-    </context>
+    <message>
+        <source>Creates an address to receive coin delegations and be able to stake them.</source>
+        <translation>Erstellt eine Adresse um Münzzuweisungen zu empfangen und diese zu staken</translation>
+    </message>
+    <message>
+        <source>New Cold Staking Address</source>
+        <translation>Neue Cold Staking Adresse</translation>
+    </message>
+    <message>
+        <source>Amount (optional)</source>
+        <translation>Betrag (optional)</translation>
+    </message>
+    <message>
+        <source>Address label cannot be empty</source>
+        <translation>Adressbezeichnung kann nicht leer sein</translation>
+    </message>
+    <message>
+        <source>Invalid amount</source>
+        <translation>Ungültiger Betrag</translation>
+    </message>
+    <message>
+        <source>Request for </source>
+        <translation>Zahlungsanweisung für</translation>
+    </message>
+    <message>
+        <source>Cold Staking Address Generated</source>
+        <translation>Cold Staking Adresse erzeugt</translation>
+    </message>
+</context>
 <context>
     <name>SendChangeAddressDialog</name>
     <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
-    <message>
-        <source>Transaction Details</source>
-        <translation>Transaktionsdetails</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
+        <translation>ABBRECHEN</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>OK</translation>
+        <source>Custom Change Address</source>
+        <translation>Benutzerdefinierte Wechseladresse</translation>
     </message>
-    </context>
+    <message>
+        <source>The remainder of the value resultant from the inputs minus the outputs value goes to the "change" DIGIWAGE address</source>
+        <translation>Der verbleibende Betrag der Inputs minus der Outputs geht an die Wechseladresse</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>SPEICHERN</translation>
+    </message>
+    <message>
+        <source>RESET</source>
+        <translation>Zurücksetzen</translation>
+    </message>
+    <message>
+        <source>Invalid address</source>
+        <translation>Ungültige Adresse</translation>
+    </message>
+    <message>
+        <source>Cannot use cold staking addresses for change</source>
+        <translation>Eine Cold Staking Adresse kann nicht für Wechselgelder verwendet werden</translation>
+    </message>
+</context>
 <context>
     <name>SendCustomFeeDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>Transaction Details</source>
-        <translation>Transaktionsdetails</translation>
-    </message>
-    <message>
-        <source>Recomended</source>
+        <source>Recommended</source>
         <translation>Empfohlen</translation>
     </message>
     <message>
-        <source>0.00 KB</source>
-        <translation>0.00 KB</translation>
+        <source>Customize the transaction fee, depending on the fee value your transaction might be included faster in the blockchain</source>
+        <translation>Passen Sie die Transaktionsgebühr an. Abhängig von ihrer Höhe wird Ihre Transaktion schneller in die Blockchain eingefügt</translation>
     </message>
     <message>
         <source>Custom</source>
         <translation>Benutzerdefiniert:</translation>
     </message>
     <message>
-        <source>Per kilobyte</source>
-        <translation>pro Kilobyte</translation>
-    </message>
-    <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
+        <translation>ABBRECHEN</translation>
     </message>
     <message>
         <source>Customize Fee</source>
@@ -3049,78 +3013,92 @@ Adresse: %4</translation>
         <translation>Schnell</translation>
     </message>
     <message>
+        <source>Invalid custom fee amount</source>
+        <translation>Ungültiger Betrag für benutzerdefinierte Gebühren</translation>
+    </message>
+    <message>
         <source>SAVE</source>
-        <translation>SICHERN</translation>
+        <translation>SPEICHERN</translation>
+    </message>
+    <message>
+        <source>Fee too high. Must be below: %1</source>
+        <translation>Gebühr ist zu hoch. Sie muss weniger sein als: %1</translation>
+    </message>
+    <message>
+        <source>Fee too low. Must be at least: %1</source>
+        <translation>Die Gebühr ist zu niedrig. Sie muss größer sein als: %1</translation>
+    </message>
+</context>
+<context>
+    <name>SendMemoDialog</name>
+    <message>
+        <source>Private message only visible for the recipient(s)</source>
+        <translation>Private Nachricht nur für den/die Empfänger sichtbar</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>SPEICHERN</translation>
+    </message>
+    <message>
+        <source>RESET</source>
+        <translation>Zurücksetzen</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>ABBRECHEN</translation>
     </message>
 </context>
 <context>
     <name>SendMultiRow</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Enter address</source>
+        <translation>Adresse einfügen</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Address label (optional)</source>
+        <translation>Adressbezeichnung (Optional)</translation>
     </message>
     <message>
-        <source>Add address</source>
-        <translation>Adresse hinzufügen</translation>
+        <source>Enter label</source>
+        <translation>Bezeichnung eingeben</translation>
     </message>
     <message>
-        <source>Add description</source>
-        <translation>Beschreibung hinzufügen</translation>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less WAGE than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <translation>Die Gebühr wird von dem zu versendenden Betrag abgezogen. Der Empfänger erhält weniger WAGE, als Sie in das Betragsfeld eingeben. Wenn mehrere Empfänger ausgewählt sind, wird die Gebühr zu gleichen Teilen aufgeteilt.</translation>
+    </message>
+    <message>
+        <source>Subtract fee from amount</source>
+        <translation>Gebühr vom Betrag abziehen</translation>
+    </message>
+    <message>
+        <source>Update memo</source>
+        <translation>Memo aktualisieren</translation>
+    </message>
+    <message>
+        <source>Add encrypted memo</source>
+        <translation>Verschlüsseltes Memo hinzufügen</translation>
+    </message>
+    <message>
+        <source>Memo field reset</source>
+        <translation>Memo-Feld zurücksetzen</translation>
     </message>
 </context>
 <context>
     <name>SendWidget</name>
     <message>
-        <source>Send</source>
-        <translation>Schicken</translation>
+        <source>Total remaining from the selected UTXO</source>
+        <translation>Verbleibender Gesamtbetrag von der ausgewählten UTXO</translation>
     </message>
     <message>
-        <source>You can transfer public coins (WAGE) or private coins (zWAGE)</source>
-        <translation>Sie können öffentliche Coins (WAGE) oder private Coins (zWAGE) transferieren</translation>
+        <source>Warning!</source>
+        <translation>Warnung!</translation>
     </message>
     <message>
-        <source>Select coin type to spend</source>
-        <translation>Wähle Coin zum ausgeben</translation>
-    </message>
-    <message>
-        <source>Enter a DIGIWAGE address or contact label</source>
-        <translation>DIGIWAGE Adresse oder Kontaktbezeichnung einfügen</translation>
-    </message>
-    <message>
-        <source>Amount</source>
-        <translation>Betrag</translation>
-    </message>
-    <message>
-        <source>Customize fee</source>
-        <translation>Benutzerdefinierte Gebühr</translation>
-    </message>
-    <message>
-        <source>Clear all</source>
-        <translation>Alles löschen</translation>
-    </message>
-    <message>
-        <source>Add recipient</source>
-        <translation>Füge Empfänger hinzu</translation>
-    </message>
-    <message>
-        <source>Reset to default</source>
-        <translation>Auf Voreinstellungen zurücksetzen</translation>
-    </message>
-    <message>
-        <source>Total to send</source>
-        <translation>Totalbetrag zum Senden</translation>
-    </message>
-    <message>
-        <source>Send WAGE</source>
-        <translation>Sende WAGE</translation>
-    </message>
-    <message>
-        <source>Send zWAGE</source>
-        <translation>Sende zWAGE</translation>
+        <source>The change address doesn't belong to this wallet.
+
+Do you want to continue?</source>
+        <translation>Die Wechseladresse gehört nicht zu diesem Wallet.
+Möchten Sie fortfahren?</translation>
     </message>
     <message>
         <source>Customize Fee</source>
@@ -3131,12 +3109,20 @@ Adresse: %4</translation>
         <translation>Maximale Anzahl an Outputs erreicht</translation>
     </message>
     <message>
+        <source>Parse a DIGIWAGE URI</source>
+        <translation>Analysiere eine DIGIWAGE URI</translation>
+    </message>
+    <message>
         <source>Invalid entry, previous entries must be valid before add a new one</source>
         <translation>Ungültige Eingabe, vorangehende Eingaben müssen gültig sein bevor eine neue angefügt werden kann</translation>
     </message>
     <message>
+        <source>Possibly spend coins delegated for cold-staking (currently available: %1</source>
+        <translation>Möglicherweise für das Cold Staking ausgegebene Münzen (bisher verfügbar: %1</translation>
+    </message>
+    <message>
         <source>Invalid entry</source>
-        <translation>Ungültige Eingabe</translation>
+        <translation>Ungültiger Eintrag</translation>
     </message>
     <message>
         <source>No set recipients</source>
@@ -3147,40 +3133,155 @@ Adresse: %4</translation>
         <translation>Senden nicht möglich, Wallet geschlossen</translation>
     </message>
     <message>
-        <source>Cannot create transaction.</source>
-        <translation>Die Transaktion kann nicht erzeugt werden.</translation>
+        <source>WARNING:
+Transaction spends a cold-stake delegation, voiding it.
+These coins will no longer be cold-staked.</source>
+        <translation>WARNUNG:
+Transaktion gibt eine cold-staking Zuweisung aus und macht diese nichtig. Diese Münzen werden nicht länger cold gestaked.</translation>
     </message>
     <message>
         <source>Transaction sent</source>
         <translation>Transaktion geschickt</translation>
     </message>
     <message>
-        <source>Spend Zerocoin</source>
-        <translation>Überweise Zerocoin</translation>
+        <source>Address label update failed for address: %1</source>
+        <translation>Update fpr Adressbezeichnung der Adresse %1 gescheitert</translation>
     </message>
     <message>
-        <source>zWAGE is currently undergoing maintenance.</source>
-        <translation>zWAGE unterliegt momentan Wartungsarbeiten.</translation>
+        <source>Invalid URI</source>
+        <translation>Ungültige URI</translation>
     </message>
     <message>
-        <source>Version 1 zWAGE require a security level of 100 to successfully spend.</source>
-        <translation>Version 1 zWAGE benötigen eine Sicherheitsstufe von 100 um erfolgreich ausgegeben werden zu können.</translation>
+        <source>Invalid address in URI</source>
+        <translation>Ungültige Adresse in URI</translation>
     </message>
     <message>
-        <source>Too much inputs (</source>
-        <translation>Zu viele Eingaben (</translation>
+        <source>Memo</source>
+        <translation>Memo</translation>
     </message>
     <message>
-        <source>) needed.
-Maximum allowed: </source>
-        <translation>) benötigt.
-Maximal erlaubt:</translation>
+        <source>Custom Fee %1</source>
+        <translation>Benutzerdefinierte Gebühr %1</translation>
     </message>
     <message>
-        <source>
-Either mint higher denominations (so fewer inputs are needed) or reduce the amount to spend.</source>
-        <translation>
-Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn) oder reduziere die aufzuwendende Menge.</translation>
+        <source>Coin Control</source>
+        <translation>Coinverwaltung</translation>
+    </message>
+    <message>
+        <source>Select the source of the coins</source>
+        <translation>Wählen Sie die Quelle der Münzen</translation>
+    </message>
+    <message>
+        <source>Change Address</source>
+        <translation>Wechseladresse</translation>
+    </message>
+    <message>
+        <source>Customize the change address</source>
+        <translation>Wechseladresse anpassen</translation>
+    </message>
+    <message>
+        <source>Open URI</source>
+        <translation>URI öffnen</translation>
+    </message>
+    <message>
+        <source>Shield Coins</source>
+        <translation>Abgeschirmte Coins</translation>
+    </message>
+    <message>
+        <source>Convert all transparent coins into shielded coins</source>
+        <translation>Alle transparenten Coins in abgeschirmte Coins umwandeln</translation>
+    </message>
+    <message>
+        <source>Unlocked remaining</source>
+        <translation>Verbleibende entsperren</translation>
+    </message>
+    <message>
+        <source>Cannot send memo to address
+%1
+
+Encrypted memo messages are available only for shielded recipients.
+
+Do you wish to proceed without memo?
+</source>
+        <translation>Kann keine Notiz an Adresse senden
+%1
+
+Verschlüsselte Memo-Nachrichten sind nur für abgeschirmte Empfänger verfügbar.
+
+Möchten Sie ohne Memo fortfahren?
+</translation>
+    </message>
+    <message>
+        <source>Sapling Protocol temporarily in maintenance. Shielded transactions disabled (SPORK 20)</source>
+        <translation>Sapling-Protokoll vorübergehend in Wartung. Abgeschirmte Transaktionen deaktiviert (SPORK 20)</translation>
+    </message>
+    <message>
+        <source>On going process being executed, please wait until it's finished to create a new transaction</source>
+        <translation>Laufender Prozess wird ausgeführt, bitte warten Sie mit der Erstellung einer neuen Transaktion, bis diese abgeschlossen ist</translation>
+    </message>
+    <message>
+        <source>Preparing transaction</source>
+        <translation>Transaktion vorbereiten</translation>
+    </message>
+    <message>
+        <source>Processing full, refreshing amounts later</source>
+        <translation>Verarbeitung voll, späterer Auffrischung  der Beträge</translation>
+    </message>
+    <message>
+        <source>You don't have any %1 to select.</source>
+        <translation>Sie haben keine %1 für die Auswahl.</translation>
+    </message>
+    <message>
+        <source>You are just about to anonymize all of your balance!
+Available %1
+With fee %2
+
+Meaning that you will be able to perform completely
+anonymous transactions
+
+Do you want to continue?
+</source>
+        <translation>Sie sind gerade dabei, Ihr gesamtes Vermögen zu anonymisieren!
+Verfügbar %1
+Mit Gebühr %2
+
+Das bedeutet, dass Sie in der Lage sein werden, vollständig
+ anonyme Transaktionen durchzuführen.
+
+Möchten Sie fortfahren?
+</translation>
+    </message>
+    <message>
+        <source>Error generating address to shield WAGEs</source>
+        <translation>Fehlererzeugende Adresse zur Abschirmung von WAGEs</translation>
+    </message>
+    <message>
+        <source>You don't have any transparent WAGEs to shield.</source>
+        <translation>Sie haben keine transparenten WAGEs zu schützen.</translation>
+    </message>
+    <message>
+        <source>No contacts available, you can go to the contacts screen and add some there!</source>
+        <translation>Keine Kontakte verfügbar. Sie können zum Kontaktfenster wechseln und dort welche hinzufügen.</translation>
+    </message>
+    <message>
+        <source>Add Memo</source>
+        <translation>Memo hinzufügen</translation>
+    </message>
+    <message>
+        <source>Save contact</source>
+        <translation>Kontakt speichern</translation>
+    </message>
+    <message>
+        <source>Subtract fee</source>
+        <translation>Ziehe Gebühr ab</translation>
+    </message>
+    <message>
+        <source>Address field is empty</source>
+        <translation>Adressfeld ist leer</translation>
+    </message>
+    <message>
+        <source>Invalid address</source>
+        <translation>Ungültige Adresse</translation>
     </message>
     <message>
         <source>Cannot store your own address as contact</source>
@@ -3206,22 +3307,6 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
 <context>
     <name>SettingsBackupWallet</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
-        <source>Backup Wallet </source>
-        <translation>Backup Wallet</translation>
-    </message>
-    <message>
         <source>Change Wallet Passphrase</source>
         <translation>Wallet Passwort ändern</translation>
     </message>
@@ -3230,8 +3315,20 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Wo</translation>
     </message>
     <message>
-        <source>Backup</source>
-        <translation>Backup</translation>
+        <source>Keep your wallet safe by doing regular backups and storing your backup file externally.
+This option creates a wallet.dat file that can be used to recover your whole balance (transactions and addresses) on another device</source>
+        <translation>Halten Sie Ihre Wallet durch regelmäßige Backups sicher und speichern Sie Ihr Backup extern.
+Diese Option erzeugt eine Wallet.dat Datei, die für die WIederherstellung ihrer Bilanz (Transaktionen und Adressen) auf einem anderen Gerät genutzt werden kann </translation>
+    </message>
+    <message>
+        <source>Select folder...</source>
+        <translation>Ordner auswählen</translation>
+    </message>
+    <message>
+        <source>This will decrypt the whole wallet data and encrypt it back with the new passphrase.
+Remember to write it down and store it safely, otherwise you might lose access to your funds</source>
+        <translation>Dies wird alle Daten des Wallets entschlüsseln und mit einer neuen Passphrase verschlüsseln.
+Vergewissern SIe sich, diese aufzuschreiben und sicher zu verwahren, andernfalls können Sie den Zugriff auf Ihre Münzen verlieren.</translation>
     </message>
     <message>
         <source>Change Passphrase</source>
@@ -3253,40 +3350,70 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <source>Backup creation failed</source>
         <translation>Erstellung des Backups fehlgeschlagen</translation>
     </message>
-    </context>
+    <message>
+        <source>Please select a folder to export the backup first.</source>
+        <translation>Bitte wählen Sie zuerst einen Ordner aus, um das Backup zu exportieren.</translation>
+    </message>
+</context>
 <context>
     <name>SettingsBitToolWidget</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
     <message>
         <source>Import Address</source>
         <translation>Adresse importieren</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>Clear</translation>
+        <source>BIP38 Tool</source>
+        <translation>BIP 38 Werkzeug</translation>
     </message>
     <message>
-        <source>Enter a DIGIWAGE address</source>
-        <translation>DIGIWAGE Adresse einfügen</translation>
+        <source>Encrypt your DIGIWAGE addresses (key pair actually) using BIP38 encryption.
+Using this mechanism you can share your keys without middle-man risk, only need to store your passphrase safely</source>
+        <translation>Verschlüsseln Sie Ihre DIGIWAGE Adressen mit der Verschlüsselung nach BIP38 (Schlüsselpaare).
+Damit können Sie ihre Schlüssel sicher ohne Middle-Man Risiko teilen. Sie müssen nur Ihre Passphrase sicher aufbewahren.</translation>
     </message>
     <message>
-        <source>Add address</source>
-        <translation>Adresse hinzufügen</translation>
+        <source>Encrypt</source>
+        <translation>VERSCHLÜSSELN</translation>
     </message>
     <message>
-        <source>Write a message</source>
-        <translation>Nachricht schreiben</translation>
+        <source>Decrypt</source>
+        <translation>ENTSCHLÜSSELN</translation>
+    </message>
+    <message>
+        <source>Encrypted key</source>
+        <translation>Schlüssel zur Verschlüsselung</translation>
+    </message>
+    <message>
+        <source>Enter a encrypted key</source>
+        <translation>Geben Sie einen Schlüssel für die Verschlüsselung ein</translation>
+    </message>
+    <message>
+        <source>Passphrase</source>
+        <translation>Passphrase</translation>
+    </message>
+    <message>
+        <source>Decrypted address result</source>
+        <translation>Ergebnisse entschlüsselter Adressen</translation>
+    </message>
+    <message>
+        <source>Decrypted Address</source>
+        <translation>Entschlüsselte Adresse</translation>
+    </message>
+    <message>
+        <source>DECRYPT KEY</source>
+        <translation>CHIFFRE ZUR ENTSCHLÜSSELUNG</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE address</source>
+        <translation>DIGIWAGE Adresse</translation>
+    </message>
+    <message>
+        <source>Enter address</source>
+        <translation>Adresse einfügen</translation>
+    </message>
+    <message>
+        <source>Enter passphrase</source>
+        <translation>Passphrase eingeben</translation>
     </message>
     <message>
         <source>Encrypted Key</source>
@@ -3294,11 +3421,15 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     </message>
     <message>
         <source>ENCRYPT</source>
-        <translation>Verschlüsseln</translation>
+        <translation>VERSCHLÜSSELN</translation>
     </message>
     <message>
         <source>CLEAR ALL</source>
         <translation>ALLES LÖSCHEN</translation>
+    </message>
+    <message>
+        <source>Enter a passphrase</source>
+        <translation>Geben Sie eine Passphrase ein</translation>
     </message>
     <message>
         <source>CLEAR</source>
@@ -3349,6 +3480,10 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Bitte überprüfen Sie den Schlüssel und die Passphrase und versuchen Sie es erneut.</translation>
     </message>
     <message>
+        <source>Wallet is currently rescanning. Abort existing rescan or wait.</source>
+        <translation>Das Wallet wird gerade neu gescannt. Brechen Sie den bestehenden Rescan ab oder warten Sie.</translation>
+    </message>
+    <message>
         <source>Data Not Valid.</source>
         <translation>Daten ungültig.</translation>
     </message>
@@ -3369,23 +3504,36 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Fehler beim Hinzufügen des Schlüssels zur Wallet</translation>
     </message>
     <message>
-        <source>Successfully added pivate key to the wallet</source>
-        <translation>Privater Schlüssel erfolgreich zur Wallet hinzugefügt</translation>
+        <source>Successfully added private key to the wallet</source>
+        <translation>Private Key erfolgreich zum Wallet hinzugefügt</translation>
     </message>
 </context>
 <context>
     <name>SettingsConsoleWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
         <source>Console</source>
         <translation>Konsole</translation>
+    </message>
+    <message>
+        <source>Console input</source>
+        <translation>Konsoleneingabe</translation>
+    </message>
+    <message>
+        <source>Open Debug File</source>
+        <translation>Öffne Debug-Datei</translation>
+    </message>
+    <message>
+        <source>Command Line Options</source>
+        <translation>Optionen für die Kommandozeile</translation>
+    </message>
+    <message>
+        <source>Clear history</source>
+        <translation>Verlauf löschen</translation>
+    </message>
+    <message>
+        <source>Cannot open debug file.
+Verify that you have installed a predetermined text editor.</source>
+        <translation>Debug Datei konnte nicht geöffnet werden. Stellen Sie sicher, den vorher bestimmten Texteditor installiert zu haben.</translation>
     </message>
     <message>
         <source>Welcome to the DIGIWAGE RPC console.</source>
@@ -3396,23 +3544,23 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Verwende die Pfeiltasten um durch den Verlauf zu scrollen und %1 um das Konsolenfester zu löschen.</translation>
     </message>
     <message>
-        <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation>Gebe &lt;b&gt;help&lt;/b&gt; ein, um eine Übersicht der verfügbaren Befehle zu erhalten.</translation>
+        <source>Type %1 for an overview of available commands.</source>
+        <translation>Geben Sie %1 ein, um eine Übersicht der verfügbaren Befehle zu erhalten.</translation>
     </message>
-    </context>
+    <message>
+        <source>For more information on using this console type %1.</source>
+        <translation>Für weitere Informationen zur Verwendung dieser Konsole geben Sie %1 ein.</translation>
+    </message>
+    <message>
+        <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramifications of a command.</source>
+        <translation>Warnung: Abzocker sind aktiv und erzählen Nutzer hier Befehle einzugeben, um so den Inhalt des Wallets zu stehlen. Nutzen Sie diese Konsole nicht, ohne die Bedeutungen eines Befehls vollständig zu verstehen.</translation>
+    </message>
+</context>
 <context>
     <name>SettingsDisplayOptionsWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
+        <source>Hide stake charts in the dashboard</source>
+        <translation>Verbirge Stake Charts im Dashboard</translation>
     </message>
     <message>
         <source>Reset to default</source>
@@ -3443,32 +3591,115 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Dezimalstellen</translation>
     </message>
     <message>
+        <source>Third party transactions URLs</source>
+        <translation>URLs für Drittpartei-Transaktionen</translation>
+    </message>
+    <message>
         <source>Hide empty balances</source>
         <translation>Leere Salden ausblenden</translation>
     </message>
     <message>
         <source>SAVE</source>
-        <translation>SICHERN</translation>
+        <translation>SPEICHERN</translation>
     </message>
     <message>
         <source>default</source>
         <translation>standard</translation>
     </message>
-    </context>
+    <message>
+        <source>Options reset succeed</source>
+        <translation>Zurücksetzen der Optionen erfolgreich.</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsExportCSV</name>
+    <message>
+        <source>Export Accounting</source>
+        <translation>Exportiere Bilanzen</translation>
+    </message>
+    <message>
+        <source>Export your wallet's accounting data to a csv file.</source>
+        <translation>Wallet Daten als csv Datei exportieren</translation>
+    </message>
+    <message>
+        <source>Export Transaction History</source>
+        <translation>Transaktionsverlauf exportieren</translation>
+    </message>
+    <message>
+        <source>Select folder...</source>
+        <translation>Ordner auswählen</translation>
+    </message>
+    <message>
+        <source>Export Address Book</source>
+        <translation>Adressbuch exportieren</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommagetrennte Datei (*.csv)</translation>
+    </message>
+    <message>
+        <source>Please select a folder to export the csv file first.</source>
+        <translation>Bitte wählen Sie zuerst einen Ordner für den Export der CSV-Datei aus</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Bestätigt</translation>
+    </message>
+    <message>
+        <source>Watch-only</source>
+        <translation>Nur beobachtet</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Art</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Bezeichnung</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresse</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Exporting Successful
+The transaction history was successfully saved to %1.</source>
+        <translation>Export erfolgreich.
+Die Transaktionshistorie wurde erfolgreich unter %1 gespeichert.</translation>
+    </message>
+    <message>
+        <source>Exporting Failed
+There was an error trying to save the transaction history to %1.</source>
+        <translation>Export gescheitert.
+Es gab einen Fehler beim Versuch die Transaktionshistorie unter %1 zu speichern.</translation>
+    </message>
+    <message>
+        <source>No available addresses to export under the selected filter</source>
+        <translation>Für den Export sind bei dem ausgewählten Filter keine Adressen verfügbar.</translation>
+    </message>
+    <message>
+        <source>Exporting Successful
+The address book was successfully saved to %1.</source>
+        <translation>Export erfolgreich!
+Das Adressbuch wurde erfolgreich unter %1 gespeichert.</translation>
+    </message>
+    <message>
+        <source>Exporting Failed
+There was an error trying to save the address list to %1. Please try again.</source>
+        <translation>Export gescheitert.
+Es gab ein Problem bei dem Versuch die Adressen unter %1 zu speichern. Bitte versuchen Sie es erneut.</translation>
+    </message>
+</context>
 <context>
     <name>SettingsFaqWidget</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
     <message>
         <source>1) What is DIGIWAGE?</source>
         <translation>1) Was ist DIGIWAGE?</translation>
@@ -3476,39 +3707,6 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     <message>
         <source>2) Why are my WAGE unspendable?</source>
         <translation>2) Wieso kann ich meine WAGE nicht ausgeben?</translation>
-    </message>
-    <message>
-        <source>3) DIGIWAGE privacy? What is Zerocoin (zWAGE)?</source>
-        <translation>3) DIGIWAGE Privatsphäre? Was ist ein Zercoin (zWAGE)?</translation>
-    </message>
-    <message>
-        <source>4) Why are my zWAGE unspendable?</source>
-        <translation>4) Wieso kann ich meine zWAGE nicht ausgeben?</translation>
-    </message>
-    <message>
-        <source>5) Why did my wallet convert the balance
-    into zWAGE automatically?</source>
-        <translation>5) Wieso hat meine Wallet automatisch das Guthaben in zWAGE gewechselt?</translation>
-    </message>
-    <message>
-        <source>6) How do I receive WAGE/zWAGE?</source>
-        <translation>6) Wie empfange ich WAGE/zWAGE?</translation>
-    </message>
-    <message>
-        <source>7) How do I stake WAGE/zWAGE?</source>
-        <translation>7) Wie stake ich WAGE/zWAGE?</translation>
-    </message>
-    <message>
-        <source>8) Where I should go if I need support?</source>
-        <translation>8) Wo sollte ich hingehen, wenn ich ein Problem habe?</translation>
-    </message>
-    <message>
-        <source>9) What is a Master Node?</source>
-        <translation>9) Was ist ein Masternode?</translation>
-    </message>
-    <message>
-        <source>10) What is a Master Node Controller?</source>
-        <translation>10) Was ist ein Masternode Controller?</translation>
     </message>
     <message>
         <source>1</source>
@@ -3531,72 +3729,176 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>3</translation>
     </message>
     <message>
-        <source>DIGIWAGE privacy? What is Zerocoin (zWAGE)?</source>
-        <translation>DIGIWAGE Privatsphäre? Was ist ein Zercoin (zWAGE)?</translation>
+        <source>How do I stake WAGE?</source>
+        <translation>Wie stake ich WAGE?</translation>
     </message>
     <message>
         <source>4</source>
         <translation>4</translation>
     </message>
     <message>
-        <source>Why are my zWAGE unspendable?</source>
-        <translation>Wieso kann ich meine zWAGE nicht ausgeben?</translation>
-    </message>
-    <message>
         <source>5</source>
         <translation>5</translation>
     </message>
     <message>
-        <source>Why did my wallet convert the balance into zWAGE automatically?</source>
-        <translation>Wieso hat meine Wallet automatisch das Guthaben in zWAGE gewechselt?</translation>
+        <source>6</source>
+        <translation>6</translation>
     </message>
     <message>
-        <source>How do I receive WAGE/zWAGE?</source>
-        <translation>Wie empfange ich WAGE/zWAGE?</translation>
+        <source>Where should I go if I need support?</source>
+        <translation>An wen kann ich mich wenden, wenn ich Hilfe benötige?</translation>
     </message>
     <message>
-        <source>How do I stake WAGE/zWAGE?</source>
-        <translation>Wie stake ich WAGE/zWAGE?</translation>
-    </message>
-    <message>
-        <source>Where I should go if I need support?</source>
-        <translation>Wohin kann ich mich wenden, wenn ein Problem auftaucht?</translation>
-    </message>
-    <message>
-        <source>What is a Master Node?</source>
+        <source>What is a Masternode?</source>
         <translation>Was ist ein Masternode?</translation>
     </message>
     <message>
-        <source>10</source>
-        <translation>10</translation>
-    </message>
-    <message>
-        <source>What is a Master Node Controller?</source>
-        <translation>Was ist ein Masternodecontroller?</translation>
+        <source>What is a Masternode Controller?</source>
+        <translation>Was ist ein Masternode Controller?</translation>
     </message>
     <message>
         <source>Frequently Asked Questions</source>
         <translation>Häufig gestellte Fragen</translation>
     </message>
     <message>
+        <source>Close FAQ</source>
+        <translation>FAQ schließen</translation>
+    </message>
+    <message>
+        <source>3) How do I stake WAGE?</source>
+        <translation>3) Wie stake ich WAGE?</translation>
+    </message>
+    <message>
+        <source>4) Where I should go if I need support?</source>
+        <translation>4) An wen soll ich mich wenden, wenn ich Hilfe benötige?</translation>
+    </message>
+    <message>
+        <source>5) What is a Masternode?</source>
+        <translation>5) Was ist ein Masternode?</translation>
+    </message>
+    <message>
+        <source>6) What is a Masternode Controller?</source>
+        <translation>6) Was ist ein Masternode Controller?</translation>
+    </message>
+    <message>
         <source>You can read more here</source>
         <translation>Hier können Sie mehr lesen</translation>
     </message>
     <message>
-        <source>Exit</source>
-        <translation>Exit</translation>
+        <source>DIGIWAGE is a form of digital online money using blockchain technology that can be easily transferred globally, instantly, and with near zero fees. DIGIWAGE incorporates market leading security &amp; privacy and is also the first PoS (Proof of Stake) Cryptocurrency to implement Sapling(SHIELD), a zk-SNARKs based privacy protocol.</source>
+        <translation>DIGIWAGE ist eine Form von digitalem Online-Geld, das die Blockchain-Technologie nutzt und einfach, weltweit, sofort und fast ohne Gebühren übertragen werden kann. DIGIWAGE bietet marktführende Sicherheit und Datenschutz und ist auch die erste PoS (Proof of Stake) Cryptocurrency, die Sapling(SHIELD), ein zk-SNARKs basiertes Datenschutzprotokoll, implementiert.</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE utilizes a Proof of Stake (PoS) consensus system algorithm, allowing all owners of DIGIWAGE to participate in earning block rewards while securing the network with full node wallets, as well as to run Masternodes to create and vote on proposals.</source>
+        <translation>DIGIWAGE verwendet einen Proof of Stake (PoS)-Konsenssystem-Algorithmus, der es allen DIGIWAGE-Besitzern ermöglicht, an der Erwirtschaftung von Block-Belohnungen teilzunehmen und gleichzeitig das Netzwerk mit vollständigen Node-Wallets zu sichern sowie Masternodes zu betreiben, um Vorschläge zu erstellen und darüber abzustimmen.</translation>
+    </message>
+    <message>
+        <source>Newly received DIGIWAGE requires 6 confirmations on the network to become eligible for spending which can take ~6 minutes.</source>
+        <translation>Ein neu erhaltenes DIGIWAGE erfordert 6 Bestätigungen im Netz, um um diese wieder auszugeben, was ~6 Minuten dauern kann.</translation>
+    </message>
+    <message>
+        <source>Your DIGIWAGE wallet also needs to be completely synchronized to see and spend balances on the network.</source>
+        <translation>Ihre DIGIWAGE-Wallet muss ebenfalls vollständig synchronisiert sein, damit Sie Guthaben im Netzwerk sehen und ausgeben können.</translation>
+    </message>
+    <message>
+        <source>Make sure your wallet is completely synchronized and you are using the latest release.</source>
+        <translation>Vergewissern Sie sich, dass Ihre Brieftasche vollständig synchronisiert ist und Sie die neueste Version verwenden.</translation>
+    </message>
+    <message>
+        <source>You must have a balance of DIGIWAGE with a minimum of 600 confirmations.</source>
+        <translation>Sie müssen über ein DIGIWAGE-Guthaben mit mindestens 600 Bestätigungen verfügen.</translation>
+    </message>
+    <message>
+        <source>Your wallet must stay online and be unlocked for staking purposes.</source>
+        <translation>Ihre Brieftasche muss online bleiben und für Staking-Zwecke freigeschaltet sein.</translation>
+    </message>
+    <message>
+        <source>Once all those steps are followed staking should be enabled.</source>
+        <translation>Wenn alle diese Schritte befolgt wurden, sollte das Staking aktiviert sein.</translation>
+    </message>
+    <message>
+        <source>You can see the status of staking in the wallet by mousing over the package icon in the row on the top left of the wallet interface. The package will be lit up and will state "Staking Enabled" to indicate it is staking. Using the command line interface (%1); the command %2 will confirm that staking is active.</source>
+        <translation>Sie können den Status des Einsatzes in der Wallet sehen, indem Sie mit der Maus über das Paketsymbol in der Reihe oben links auf der Wallet-Oberfläche fahren. Das Paket leuchtet dann auf und zeigt mit "Staking Enabled" an, dass es eingesetzt wird. Wenn Sie die Befehlszeilenschnittstelle (%1) verwenden, bestätigt der Befehl %2, dass das Staken aktiv ist.</translation>
+    </message>
+    <message>
+        <source>We have support channels in most of our official chat groups, for example %1</source>
+        <translation>Wir haben Support-Kanäle in den meisten unserer offiziellen Chat-Gruppen, zum Beispiel %1</translation>
+    </message>
+    <message>
+        <source>#support in our Discord</source>
+        <translation>#Unterstützung in unserem Discord</translation>
+    </message>
+    <message>
+        <source>%1 per single Masternode instance</source>
+        <translation>%1 pro einzelne Masternode-Instanz</translation>
+    </message>
+    <message>
+        <source>A Masternode Controller wallet is where the %1 collateral can reside during a Controller-Remote masternode setup. It is a wallet that can activate the remote masternode wallet(s) and allows you to keep your collateral coins offline while the remote masternode remains online.</source>
+        <translation>Eine Masternode-Controller-Wallet ist der Ort, an dem die %1-Sicherheiten während einer Controller-Remote-Masternode-Einrichtung gespeichert werden können. Es handelt sich um eine Wallet, die die Wallet(s) der Remote-Masternode aktivieren kann und es Ihnen ermöglicht, Ihre Sicherheitsmünzen offline zu halten, während der Remote-Masternode online bleibt.</translation>
+    </message>
+    <message>
+        <source>A decentralized governance (Proposal Voting)</source>
+        <translation>Eine dezentralisierte Verwaltung (Vorschlag für die Abstimmung)</translation>
+    </message>
+    <message>
+        <source>A masternode is a computer running a full node %1 wallet with a requirement of %2 secured collateral to provide extra services to the network and in return, receive a portion of the block reward regularly. These services include:</source>
+        <translation>Ein Masternode ist ein Computer, auf dem eine vollständige %1-Wallet mit einem Bedarf an %2-gesicherten Sicherheitsgeldern läuft, um zusätzliche Dienste für das Netzwerk bereitzustellen und im Gegenzug regelmäßig einen Teil der Blockbelohnung zu erhalten. Diese Dienste umfassen:</translation>
+    </message>
+    <message>
+        <source>A decentralized budgeting system (Treasury)</source>
+        <translation>Ein dezentralisiertes Budgetierungssystem (Treasury)</translation>
+    </message>
+    <message>
+        <source>Validation of transactions within each block</source>
+        <translation>Validierung von Transaktionen innerhalb jedes Blocks</translation>
+    </message>
+    <message>
+        <source>Act as an additional full node in the network</source>
+        <translation>Agiert als zusätzlicher vollständiger Node im Netz</translation>
+    </message>
+    <message>
+        <source>For providing such services, masternodes are also paid a certain portion of reward for each block. This can serve as a passive income to the masternode owners minus their running cost.</source>
+        <translation>Für die Erbringung solcher Dienstleistungen erhalten die Masternodes auch einen bestimmten Anteil der Vergütung für jeden Block. Dies kann den Masternode-Besitzern als passives Einkommen abzüglich ihrer laufenden Kosten dienen.</translation>
+    </message>
+    <message>
+        <source>Masternode Perks:</source>
+        <translation>Masternode Vergünstigungen</translation>
+    </message>
+    <message>
+        <source>Participate in DIGIWAGE Governance</source>
+        <translation>An der DIGIWAGE-Governance teilnehmen</translation>
+    </message>
+    <message>
+        <source>Earn Masternode Rewards</source>
+        <translation>Verdiene Masternode Vergütungen</translation>
+    </message>
+    <message>
+        <source>Commodity option for future sale</source>
+        <translation>Warenoption für zukünftigen Verkauf</translation>
+    </message>
+    <message>
+        <source>Help secure the DIGIWAGE network</source>
+        <translation>Helfe das DIGIWAGE-Netzwerk zu sichern</translation>
+    </message>
+    <message>
+        <source>Requirements:</source>
+        <translation>Anforderungen:</translation>
+    </message>
+    <message>
+        <source>Must be stored in a core wallet</source>
+        <translation>Muss in einem Core Wallet aufbewahrt werden</translation>
+    </message>
+    <message>
+        <source>Need dedicated IP address</source>
+        <translation>Sie benötigen eine eigene IP-Adresse</translation>
+    </message>
+    <message>
+        <source>Masternode wallet to remain online</source>
+        <translation>Masternode-Wallet bleibt online</translation>
     </message>
 </context>
 <context>
     <name>SettingsInformationWidget</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
     <message>
         <source>Network Monitor</source>
         <translation>Netzwerkmonitor</translation>
@@ -3610,16 +3912,88 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Allgemein</translation>
     </message>
     <message>
-        <source>Client Version: </source>
-        <translation>Client Version</translation>
+        <source>Client Version:</source>
+        <translation>Client Version:</translation>
     </message>
     <message>
-        <source>Using BerkeleyDB version:</source>
-        <translation>Verwendete BerkeleyDB Version:</translation>
+        <source>BerkeleyDB version:</source>
+        <translation>BerkeleyDB version:</translation>
+    </message>
+    <message>
+        <source>Datadir:</source>
+        <translation>Speicherpfad:</translation>
+    </message>
+    <message>
+        <source>Startup time:</source>
+        <translation>Startzeit:</translation>
+    </message>
+    <message>
+        <source>Connections:</source>
+        <translation>Verbindungen</translation>
+    </message>
+    <message>
+        <source>Number of Masternodes:</source>
+        <translation>Anzahl der Masternodes:</translation>
+    </message>
+    <message>
+        <source>Current number of blocks:</source>
+        <translation>Aktuelle Nummer von Blöcken:</translation>
+    </message>
+    <message>
+        <source>Last block time:</source>
+        <translation>Letzte Blockzeit:</translation>
+    </message>
+    <message>
+        <source>Last block hash:</source>
+        <translation>Letzter Blockhash:</translation>
+    </message>
+    <message>
+        <source>Current number of transactions:</source>
+        <translation>Aktuelle Anzahl von Transaktionen:</translation>
+    </message>
+    <message>
+        <source>User Agent:</source>
+        <translation>User Agent:</translation>
     </message>
     <message>
         <source>Network</source>
         <translation>Netzwerk</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Name:</translation>
+    </message>
+    <message>
+        <source>Blockchain</source>
+        <translation>Blockchain</translation>
+    </message>
+    <message>
+        <source>Memory Pool</source>
+        <translation>Memory Pool</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation>Main</translation>
+    </message>
+    <message>
+        <source>Wallet Conf</source>
+        <translation>Wallet Konfiguration</translation>
+    </message>
+    <message>
+        <source>Backups</source>
+        <translation>Backups</translation>
+    </message>
+    <message>
+        <source>No information</source>
+        <translation>Keine Information</translation>
+    </message>
+    <message>
+        <source>Unable to open backups folder</source>
+        <translation>Backup-Ordner konnte nicht geöffnet werden</translation>
+    </message>
+    <message>
+        <source>Unable to open digiwage.conf with default application</source>
+        <translation>digiwage.conf konnte mit der Standardanwendung nicht geöffnet werden</translation>
     </message>
     <message>
         <source>In:</source>
@@ -3629,20 +4003,20 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <source>Out:</source>
         <translation>Out:</translation>
     </message>
+    <message>
+        <source>No available data</source>
+        <translation>Keine Daten vorhanden</translation>
+    </message>
 </context>
 <context>
     <name>SettingsMainOptionsWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Window</source>
+        <translation>Fenster</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>CheckBox</source>
-        <translation>Checkbox</translation>
+        <source>Customize the application window options</source>
+        <translation>Optionen des Anwendungsfensters anpassen</translation>
     </message>
     <message>
         <source>Reset to default</source>
@@ -3654,108 +4028,99 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     </message>
     <message>
         <source>SAVE</source>
-        <translation>SICHERN</translation>
-    </message>
-    </context>
-<context>
-    <name>SettingsMultisendDialog</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <translation>SPEICHERN</translation>
     </message>
     <message>
-        <source>Transaction Details</source>
-        <translation>Transaktionsdetails</translation>
+        <source>Main</source>
+        <translation>Main</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Customize the main application options</source>
+        <translation>Die Optionen der Hauptanwendung anpassen</translation>
     </message>
     <message>
-        <source>CANCEL</source>
-        <translation>Abbrechen</translation>
+        <source>Size of database cache</source>
+        <translation>Größe des Datenbankcache</translation>
     </message>
     <message>
-        <source>SAVE</source>
-        <translation>SICHERN</translation>
-    </message>
-    </context>
-<context>
-    <name>SettingsMultisendWidget</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Number of script verification threads</source>
+        <translation>Anzahl der Threads für die Skriptverifizierung</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Minimize to the tray instead of the taskbar</source>
+        <translation>Minimiere in den Tray statt in die Taskbar</translation>
     </message>
     <message>
-        <source>No active Master Node yet</source>
-        <translation>Keine aktiven Masternodes bis jetzt</translation>
+        <source>Minimize on close</source>
+        <translation>Minimiere bei Schließen</translation>
     </message>
     <message>
-        <source>CheckBox</source>
-        <translation>Checkbox</translation>
+        <source>Start %1 on system login</source>
+        <translation>Start %1 bei Systemanmeldung</translation>
     </message>
     <message>
-        <source>Active</source>
-        <translation>Aktiv</translation>
+        <source>Reset Options</source>
+        <translation>Optionen zurücksetzen</translation>
     </message>
     <message>
-        <source>CLEAR ALL</source>
-        <translation>Alles löschen</translation>
+        <source>You are just about to reset the app's options to the default values.
+
+Are you sure?
+</source>
+        <translation>Sind sind dabei die Optionen der Anwendung auf die Standardwerte zurückzusetzen.
+
+Sind Sie sicher?</translation>
     </message>
     <message>
-        <source>MultiSend activated</source>
-        <translation>MultiSend aktiviert</translation>
-    </message>
-    <message>
-        <source>MultiSend deactivated</source>
-        <translation>MultiSend deaktiviert</translation>
+        <source>Options reset succeed</source>
+        <translation>Zurücksetzen der Optionen erfolgreich.</translation>
     </message>
 </context>
 <context>
     <name>SettingsSignMessageWidgets</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Sign/Verify Message</source>
+        <translation>Signiere/Verifiziere Nachricht</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Sign</source>
+        <translation>Signiere</translation>
     </message>
     <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
+        <source>Verify</source>
+        <translation>Verifiziere</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>Clear</translation>
+        <source>Write message here...</source>
+        <translation>Hier eine Nachricht schreiben...</translation>
     </message>
     <message>
-        <source>Enter a DIGIWAGE address or contact label</source>
-        <translation>DIGIWAGE Adresse oder Kontaktbezeichnung einfügen</translation>
-    </message>
-    <message>
-        <source>Add address</source>
-        <translation>Adresse hinzufügen</translation>
+        <source>Select mode</source>
+        <translation>Modus auswählen</translation>
     </message>
     <message>
         <source>Message</source>
         <translation>Nachricht</translation>
     </message>
     <message>
-        <source>Write a message</source>
-        <translation>Nachricht schreiben</translation>
+        <source>DIGIWAGE address or contact label</source>
+        <translation>DIGIWAGE Adresse oder Kontaktbezeichnung</translation>
+    </message>
+    <message>
+        <source>Enter address</source>
+        <translation>Adresse einfügen</translation>
     </message>
     <message>
         <source>Signature</source>
         <translation>Signatur</translation>
     </message>
     <message>
+        <source>SIGN</source>
+        <translation>SIGNIEREN</translation>
+    </message>
+    <message>
         <source>CLEAR ALL</source>
-        <translation>Alles löschen</translation>
+        <translation>ALLES LÖSCHEN</translation>
     </message>
     <message>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
@@ -3764,6 +4129,10 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     <message>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
         <translation>Geben Sie die signierte Adresse, die Nachricht (stellen Sie sicher, dass Zeilenumbrüche, Leerzeichen, Tabs usw. genau kopieren) und Signatur unten ein, um die Nachricht zu überprüfen. Seien Sie vorsichtig, nicht mehr in die Signatur hinein zu interpretieren, als das was in der signierten Nachricht selbst angegeben ist, um zu vermeiden, von einem Mann-in-der-Mitte Angriff getroffen zu werden.</translation>
+    </message>
+    <message>
+        <source>VERIFY</source>
+        <translation>VERIFIZIEREN</translation>
     </message>
     <message>
         <source>The entered address is invalid.</source>
@@ -3802,10 +4171,6 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Bitte überprüfen Sie die Signatur und versuchen Sie es erneut.</translation>
     </message>
     <message>
-        <source>The signature did not match the message digest.</source>
-        <translation>Die Signatur stimmt nicht mit der Nachricht überein.</translation>
-    </message>
-    <message>
         <source>Message verification failed.</source>
         <translation>Nachrichtenüberprüfung fehlgeschlagen.</translation>
     </message>
@@ -3821,18 +4186,6 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
 <context>
     <name>SettingsWalletOptionsWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>CheckBox</source>
-        <translation>Checkbox</translation>
-    </message>
-    <message>
         <source>Reset to default</source>
         <translation>Auf Voreinstellungen zurücksetzen</translation>
     </message>
@@ -3841,20 +4194,60 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Änderungen verwerfen</translation>
     </message>
     <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
         <source>Wallet</source>
         <translation>Wallet</translation>
     </message>
     <message>
-        <source>Stake split threshold:</source>
-        <translation>Staff Split-Schwelle:</translation>
+        <source>Customize the internal wallet options</source>
+        <translation>Interne Optionen des Wallets anpassen</translation>
+    </message>
+    <message>
+        <source>Stake split threshold</source>
+        <translation>Stake split Schwelle</translation>
+    </message>
+    <message>
+        <source>Spend unconfirmed change</source>
+        <translation>Unconfirmed Change ausgeben</translation>
     </message>
     <message>
         <source>Network</source>
         <translation>Netzwerk</translation>
+    </message>
+    <message>
+        <source>Customize the node network options</source>
+        <translation>Optionen des Node-Netzwerks anpassen</translation>
+    </message>
+    <message>
+        <source>Automatically open the DIGIWAGE client port on the router. This only works when your router supports NAT-PMP and it is enabled. The external port could be random.</source>
+        <translation>Automatisches Öffnen des DIGIWAGE-Client-Ports auf dem Router. Dies funktioniert nur, wenn Ihr Router NAT-PMP unterstützt und es aktiviert ist. Der externe Port kann zufällig sein.</translation>
+    </message>
+    <message>
+        <source>Map port using NAT-PMP</source>
+        <translation>Port mit NAT-PMP zuordnen</translation>
+    </message>
+    <message>
+        <source>Connect through SOCKS5 proxy (default proxy)</source>
+        <translation>Über SOCKS5 Proxy verbinden (standard)</translation>
+    </message>
+    <message>
+        <source>Proxy IP</source>
+        <translation>Proxy IP</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Port</translation>
+    </message>
+    <message>
+        <source>Enter port</source>
+        <translation>Port eingeben</translation>
+    </message>
+    <message>
+        <source>Enter proxy IP</source>
+        <translation>Proxy IP eingeben</translation>
+    </message>
+    <message>
+        <source>Map port using UPnP</source>
+        <translation>Port mittels UPnP mappen</translation>
     </message>
     <message>
         <source>Allow incoming connections</source>
@@ -3862,46 +4255,62 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     </message>
     <message>
         <source>SAVE</source>
-        <translation>SICHERN</translation>
+        <translation>SPEICHERN</translation>
     </message>
-    </context>
+    <message>
+        <source>Options reset succeed</source>
+        <translation>Zurücksetzen der Optionen erfolgreich.</translation>
+    </message>
+    <message>
+        <source>Stake Split too low, it shall be either &gt;= %1 or equal to 0 (to disable stake splitting)</source>
+        <translation>Stake split zu klein, es sollte besser &gt;= %1 oder gleich 0 (zum deaktivieren des Stake splittings)</translation>
+    </message>
+</context>
 <context>
     <name>SettingsWalletRepairWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Wallet Repair</source>
+        <translation>Wallet Reparatur</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Upgrade wallet to latest format on startup. (Note: this is NOT an update of the wallet itself)</source>
+        <translation>Upgrade das Wallet zum aktuellen Format bei Start-up. (Bedenke: Dies updated nicht das Wallet selbst)</translation>
     </message>
     <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
-        <source>Attempt to recover private keys from a corrupt wallet.dat.</source>
-        <translation>Versuche, private Schlüssel aus einer beschädigten wallet.dat wiederherzustellen.</translation>
-    </message>
-    <message>
-        <source>Recover transactions from blockchain (drop meta-data).</source>
-        <translation>Wiederherstellung von Transaktionen aus der Blockchain (verwerfe Meta-Daten)</translation>
-    </message>
-    <message>
-        <source>Deletes all local blockchain folders so the wallet synchronizes from scratch.</source>
-        <translation>Löscht alle lokalen Blockchain-Ordner damit das Wallet sich von Grund auf synchronisiert.</translation>
+        <source>The buttons below will restart the wallet with command-line options to repair this wallet, fix issues with corrupt blockchain files or missing/obsolete transactions</source>
+        <translation>Der untere Knopf wird das Wallet mit den Kommandozeilenoptionen für die Reparatur, die Problembehebung beschädigter Blockchaindatein oder das Beheben fehlender/osbsolter Transaktionen neu starten.</translation>
     </message>
     <message>
         <source>Salvage wallet</source>
         <translation>Wallet Rettung</translation>
     </message>
     <message>
+        <source>Attempt to recover private keys from a corrupt wallet.dat</source>
+        <translation>Versuche private Schlüssel aus fehlerhafter wallet.dat wiederherzustellen.</translation>
+    </message>
+    <message>
+        <source>Rescan blockchain file</source>
+        <translation>Blockchain Datei erneut scannen</translation>
+    </message>
+    <message>
+        <source>Rescan the blockchain for missing wallet transactions</source>
+        <translation>Blockchain nochmals scannen um fehlende Transaktionen zu laden</translation>
+    </message>
+    <message>
         <source>Recover transactions 1</source>
         <translation>Wiederherstellung von Transaktionen 1</translation>
     </message>
     <message>
+        <source>Recover transactions from blockchain (keep-meta-data, e.g. account owner)</source>
+        <translation>Wiederherstellung von Transaktionen aus der Blockchain (behalte Meta-Daten, zB. Kontoinhaber)</translation>
+    </message>
+    <message>
         <source>Recover transactions 2</source>
         <translation>Wiederherstellung von Transaktionen 2</translation>
+    </message>
+    <message>
+        <source>Recover transactions from blockchain (drop meta-data)</source>
+        <translation>Wiederherstellung von Transaktionen aus der Blockchain (verwerfe Meta-Daten)</translation>
     </message>
     <message>
         <source>Upgrade wallet format</source>
@@ -3910,6 +4319,18 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     <message>
         <source>Rebuild index</source>
         <translation>Index neu aufbauen</translation>
+    </message>
+    <message>
+        <source>Rebuild blockchain index from current blk000???.dat files</source>
+        <translation>Baue den Blockchain-Index mithilfe der aktuellen blk000??.dat Datei erneut auf</translation>
+    </message>
+    <message>
+        <source>Delete local blockchain</source>
+        <translation>Lokale Blockchain-Daten löschen</translation>
+    </message>
+    <message>
+        <source>Deletes all local blockchain folders so the wallet synchronizes from scratch</source>
+        <translation>Löscht sämtliche Blockchain-Daten, die Wallet wird komplett neu syncronisiert</translation>
     </message>
     <message>
         <source>This will delete your local blockchain folders and the wallet will synchronize the complete Blockchain from scratch.&lt;br /&gt;&lt;br /&gt;</source>
@@ -3935,24 +4356,44 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
 <context>
     <name>SettingsWidget</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Wallet Data</source>
+        <translation>Wallet Daten</translation>
     </message>
     <message>
         <source>Wallet</source>
         <translation>Wallet</translation>
     </message>
     <message>
+        <source>Export Accounting</source>
+        <translation>Exportiere Bilanzen</translation>
+    </message>
+    <message>
+        <source>Tools</source>
+        <translation>Werkzeuge</translation>
+    </message>
+    <message>
+        <source>Sign/Verify Message</source>
+        <translation>Signiere/Verifiziere Nachricht</translation>
+    </message>
+    <message>
+        <source>BIP38 Tool</source>
+        <translation>BIP 38 Werkzeug</translation>
+    </message>
+    <message>
         <source>Options</source>
         <translation>Optionen</translation>
     </message>
     <message>
+        <source>Main</source>
+        <translation>Main</translation>
+    </message>
+    <message>
         <source>Display</source>
         <translation>Display</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation>Debug</translation>
     </message>
     <message>
         <source>Information</source>
@@ -3961,6 +4402,22 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     <message>
         <source>Console</source>
         <translation>Konsole</translation>
+    </message>
+    <message>
+        <source>Wallet Repair</source>
+        <translation>Wallet Reparatur</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Hilfe</translation>
+    </message>
+    <message>
+        <source>FAQ</source>
+        <translation>FAQ</translation>
+    </message>
+    <message>
+        <source>About DIGIWAGE</source>
+        <translation>Über DIGIWAGE</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -3972,18 +4429,60 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     </message>
     <message>
         <source>Client restart required to activate changes.</source>
-        <translation>Client Neustart erforderlich, um Änderungen zu aktivieren.</translation>
+        <translation>Neustart des Clients erforderlich, um Änderungen zu aktivieren.</translation>
     </message>
     <message>
         <source>Client will be shutdown, do you want to proceed?</source>
         <translation>Der Client wird heruntergefahren, wollen Sie fortfahren?</translation>
     </message>
-    </context>
+    <message>
+        <source>Restart required</source>
+        <translation>Neustart erforderlich</translation>
+    </message>
+    <message>
+        <source>Your wallet needs to be restarted to apply the changes
+</source>
+        <translation>Ihr Wallet muss für die Übernahme der Änderungen neu gestartet werden</translation>
+    </message>
+    <message>
+        <source>Restart Now</source>
+        <translation>Jetzt neu starten</translation>
+    </message>
+    <message>
+        <source>Restart Later</source>
+        <translation>Später neu starten</translation>
+    </message>
+    <message>
+        <source>Options will be applied on next wallet restart</source>
+        <translation>Änderungen werden mit dem nächsten Start des Wallets wirksam</translation>
+    </message>
+    <message>
+        <source>Options stored</source>
+        <translation>Optionen gesichert</translation>
+    </message>
+    <message>
+        <source>Options store failed</source>
+        <translation>Speichern der Optionen gescheitert</translation>
+    </message>
+    <message>
+        <source>Discard Unsaved Changes</source>
+        <translation>Entferne nicht gespeicherte Änderungen</translation>
+    </message>
+    <message>
+        <source>You are just about to discard all of your unsaved options.
+
+Are you sure?
+</source>
+        <translation>Sie sind dabei all Ihre ungespeicherten Optionen zu entfernen.
+
+Sind Sie sicher?</translation>
+    </message>
+</context>
 <context>
     <name>ShutdownWindow</name>
     <message>
-        <source>DIGIWAGE Core is shutting down...</source>
-        <translation>DIGIWAGE Core wird beendet...</translation>
+        <source>%1 is shutting down...</source>
+        <translation>%1 wird heruntergefahren...</translation>
     </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
@@ -3991,45 +4490,14 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     </message>
 </context>
 <context>
-    <name>SnackBar</name>
-    <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    </context>
-<context>
     <name>Splash</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
+        <source>Loading…</source>
+        <translation>Lade...</translation>
     </message>
 </context>
 <context>
     <name>SplashScreen</name>
-    <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
-    </message>
-    <message>
-        <source>Version %1</source>
-        <translation>Version %1</translation>
-    </message>
-    <message>
-        <source>The Bitcoin Core developers</source>
-        <translation>Die Bitcoin Core Entwickler</translation>
-    </message>
-    <message>
-        <source>The Dash Core developers</source>
-        <translation>Die Dash Core Entwickler</translation>
-    </message>
-    <message>
-        <source>The DIGIWAGE Core developers</source>
-        <translation>Die DIGIWAGE Core Entwickler</translation>
-    </message>
     <message>
         <source>[testnet]</source>
         <translation>[Testnetzwerk]</translation>
@@ -4038,209 +4506,248 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
 <context>
     <name>TooltipMenu</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
         <source>Copy</source>
         <translation>Kopieren</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
-    </context>
+    <message>
+        <source>Last</source>
+        <translation>Letzte</translation>
+    </message>
+</context>
 <context>
     <name>TopBar</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>transparent</source>
+        <translation>unsichtbar</translation>
+    </message>
+    <message>
+        <source>shielded</source>
+        <translation>geschützt</translation>
+    </message>
+    <message>
+        <source>Available</source>
+        <translation>Verfügbar</translation>
+    </message>
+    <message>
+        <source>Pending</source>
+        <translation>Ausstehend</translation>
+    </message>
+    <message>
+        <source>Immature</source>
+        <translation>Noch nicht fällig</translation>
+    </message>
+    <message>
+        <source>Wallet Unlocked for staking</source>
+        <translation>Wallet für das Staking entriegelt</translation>
     </message>
     <message>
         <source>Error generating address</source>
         <translation>Fehler beim Erstellen der Adresse</translation>
     </message>
     <message>
+        <source>Address Copied</source>
+        <translation>Adresse kopiert</translation>
+    </message>
+    <message>
+        <source>Staking active</source>
+        <translation>Staking aktiv</translation>
+    </message>
+    <message>
+        <source>Staking not active</source>
+        <translation>Staking nicht aktiv</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n active connection(s)</source>
+        <translation><numerusform>%n aktive Verbindung(en)</numerusform><numerusform>%n aktive Verbindung(en)</numerusform></translation>
+    </message>
+    <message>
+        <source>Synchronized - Block: %1</source>
+        <translation>Synchronisierter Block:%1</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n Stunden</numerusform><numerusform>%n Stunden</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation><numerusform>%n Tage</numerusform><numerusform>%n Tage</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation><numerusform>%n Wochen</numerusform><numerusform>%n Wochen</numerusform></translation>
+    </message>
+    <message>
         <source>%1 and %2</source>
         <translation>%1 und %2</translation>
     </message>
-    </context>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation><numerusform>%n Jahre</numerusform><numerusform>%n Jahre</numerusform></translation>
+    </message>
+    <message>
+        <source>Wallet Upgrade</source>
+        <translation>Wallet Upgrade</translation>
+    </message>
+    <message>
+        <source>Upgrading to HD wallet will improve
+the wallet's reliability and security.
+
+
+NOTE: after the upgrade, a new
+backup will be created.
+</source>
+        <translation>Das Upgrade auf ein HD Wallet wird die Verlässlichkeit und Sicherheit des Wallets erhöhen.
+
+
+BEDENKEN SIE: Nach dem Upgrade wird ein neues Backup erstellt.
+</translation>
+    </message>
+    <message>
+        <source>Upgrade Wallet</source>
+        <translation>Upgrade Wallet</translation>
+    </message>
+    <message>
+        <source>Wallet unlock cancelled</source>
+        <translation>Entriegelung des Wallets abgebrochen</translation>
+    </message>
+    <message>
+        <source>Tor Disabled</source>
+        <translation>Tor ausgeschaltet</translation>
+    </message>
+    <message>
+        <source>FAQ</source>
+        <translation>FAQ</translation>
+    </message>
+    <message>
+        <source>Upgrade to HD Wallet</source>
+        <translation>Zum HD-Wallet upgraden</translation>
+    </message>
+    <message>
+        <source>No Connection</source>
+        <translation>Keine Verbindung</translation>
+    </message>
+    <message>
+        <source>Staking Disabled</source>
+        <translation>Staking ausgeschaltet</translation>
+    </message>
+    <message>
+        <source>Cold Staking Disabled</source>
+        <translation>Cold Staking deaktiviert</translation>
+    </message>
+    <message>
+        <source> %54 Synchronizing..</source>
+        <translation>%54 Synchronisiert</translation>
+    </message>
+    <message>
+        <source>Light Theme</source>
+        <translation>Helles Theme</translation>
+    </message>
+    <message>
+        <source>Dark Theme</source>
+        <translation>Dunkles Theme</translation>
+    </message>
+    <message>
+        <source>Wallet Locked </source>
+        <translation>Wallet gesperrt</translation>
+    </message>
+    <message>
+        <source>Wallet Locked</source>
+        <translation>Wallet gesperrt</translation>
+    </message>
+    <message>
+        <source>Wallet Unlocked</source>
+        <translation>Wallet entsperrt</translation>
+    </message>
+    <message>
+        <source>Upgrade to Sapling Wallet</source>
+        <translation>Upgrade auf Sapling Wallet</translation>
+    </message>
+    <message>
+        <source>Upgrading to Sapling wallet will enable
+all of the privacy features!
+
+
+NOTE: after the upgrade, a new
+backup will be created.
+</source>
+        <translation>Ein Upgrade auf die Sapling-Brieftasche ermöglicht
+alle Datenschutzfunktionen!
+
+
+ANMERKUNG: Nach dem Upgrade wird eine neue
+wird ein Backup erstellt.
+</translation>
+    </message>
+    <message>
+        <source>Tor Active</source>
+        <translation>Tor aktiv</translation>
+    </message>
+    <message>
+        <source>Wallet Unencrypted</source>
+        <translation>Wallet unverschlüsselt</translation>
+    </message>
+    <message>
+        <source>Available (Locked included)</source>
+        <translation>Verfügbar (einschl. Verriegelte)</translation>
+    </message>
+    <message>
+        <source>The wallet has been successfully upgraded to HD.</source>
+        <translation>Das Wallet wurde erfolgreich auf HD geupgradet.</translation>
+    </message>
+    <message>
+        <source>It is advised to make a backup.</source>
+        <translation>Es wird empfohlen ein Backup zu machen.</translation>
+    </message>
+    <message>
+        <source>Do you wish to backup now?</source>
+        <translation>Möchten Sie jetzt ein Backup erstellen?</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Wallet sichern</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Wallet-Daten (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup created</source>
+        <translation>Backup erstellt</translation>
+    </message>
+    <message>
+        <source>Backup creation failed</source>
+        <translation>Erstellung des Backups fehlgeschlagen</translation>
+    </message>
+    <message>
+        <source>no file selected</source>
+        <translation>Keine Datei ausgewählt</translation>
+    </message>
+    <message>
+        <source>Wallet upgraded successfully, but no backup created.</source>
+        <translation>Wallet erfolgreich geupgradet, aber es wurde kein Backup erstellt.</translation>
+    </message>
+    <message>
+        <source>WARNING: remember to make a copy of your wallet file!</source>
+        <translation>ACHTUNG: Denke daran eine Kopie der Wallet Datei zu machen!</translation>
+    </message>
+    <message>
+        <source>Upgrade Wallet Error</source>
+        <translation>Fehler beim Upgrade des Wallets</translation>
+    </message>
+</context>
 <context>
     <name>TrafficGraphWidget</name>
     <message>
         <source>KB/s</source>
         <translation>KB/s</translation>
-    </message>
-</context>
-<context>
-    <name>TransactionDesc</name>
-    <message>
-        <source>Open until %1</source>
-        <translation>Offen bis %1</translation>
-    </message>
-    <message>
-        <source>conflicted</source>
-        <translation>in Konflikt stehend</translation>
-    </message>
-    <message>
-        <source>%1/offline</source>
-        <translation>%1/offline</translation>
-    </message>
-    <message>
-        <source>%1/unconfirmed</source>
-        <translation>%1/unbestätigt</translation>
-    </message>
-    <message>
-        <source>%1 confirmations</source>
-        <translation>%1 Bestätigungen</translation>
-    </message>
-    <message>
-        <source>%1/offline (verified via SwiftX)</source>
-        <translation>%1/offline (verifiziert via Swift Transaktion)</translation>
-    </message>
-    <message>
-        <source>%1/confirmed (verified via SwiftX)</source>
-        <translation>%1/bestätigt (verifiziert via Swift Transaktion)</translation>
-    </message>
-    <message>
-        <source>%1 confirmations (verified via SwiftX)</source>
-        <translation>%1 Bestätigungen (verifiziert via Swift Transaktion)</translation>
-    </message>
-    <message>
-        <source>%1/offline (SwiftX verification in progress - %2 of %3 signatures)</source>
-        <translation>%1/offline (Swift Transaktion wird verifiziert - %2 aus %3 Signaturen)</translation>
-    </message>
-    <message>
-        <source>%1/confirmed (SwiftX verification in progress - %2 of %3 signatures )</source>
-        <translation>%1/bestätigt (Swift Transaktion wird verifiziert - %2 von %3 Signaturen)</translation>
-    </message>
-    <message>
-        <source>%1 confirmations (SwiftX verification in progress - %2 of %3 signatures)</source>
-        <translation>%1 Bestätigungen (Swift Transaktion wird verifiziert - %2 von %3 Signaturen)</translation>
-    </message>
-    <message>
-        <source>%1/offline (SwiftX verification failed)</source>
-        <translation>%1/offline (Swift Transaktion konnte nicht verifiziert werden)</translation>
-    </message>
-    <message>
-        <source>%1/confirmed (SwiftX verification failed)</source>
-        <translation>%1/bestätigt (Swift Transaktion konnte nicht verifiziert werden)</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation>Status</translation>
-    </message>
-    <message>
-        <source>, has not been successfully broadcast yet</source>
-        <translation>, wurde noch nicht erfolgreich übertragen</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Datum</translation>
-    </message>
-    <message>
-        <source>Source</source>
-        <translation>Quelle</translation>
-    </message>
-    <message>
-        <source>Generated</source>
-        <translation>Erzeugt</translation>
-    </message>
-    <message>
-        <source>From</source>
-        <translation>Von</translation>
-    </message>
-    <message>
-        <source>unknown</source>
-        <translation>unbekannt</translation>
-    </message>
-    <message>
-        <source>To</source>
-        <translation>An</translation>
-    </message>
-    <message>
-        <source>own address</source>
-        <translation>eigene Adresse</translation>
-    </message>
-    <message>
-        <source>watch-only</source>
-        <translation>nur beobachtet</translation>
-    </message>
-    <message>
-        <source>label</source>
-        <translation>Bezeichnung</translation>
-    </message>
-    <message>
-        <source>Credit</source>
-        <translation>Gutschrift</translation>
-    </message>
-    <message>
-        <source>not accepted</source>
-        <translation>nicht angenommen</translation>
-    </message>
-    <message>
-        <source>Debit</source>
-        <translation>Belastung</translation>
-    </message>
-    <message>
-        <source>Total debit</source>
-        <translation>Gesamtbelastung</translation>
-    </message>
-    <message>
-        <source>Total credit</source>
-        <translation>Gesamtgutschrift</translation>
-    </message>
-    <message>
-        <source>Transaction fee</source>
-        <translation>Transaktionsgebühr</translation>
-    </message>
-    <message>
-        <source>Net amount</source>
-        <translation>Nettobetrag</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation>Nachricht</translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation>Kommentar</translation>
-    </message>
-    <message>
-        <source>Transaction ID</source>
-        <translation>Transaktions-ID</translation>
-    </message>
-    <message>
-        <source>Output index</source>
-        <translation>Output Index</translation>
-    </message>
-    <message>
-        <source>Merchant</source>
-        <translation>Händler</translation>
-    </message>
-    <message>
-        <source>Debug information</source>
-        <translation>Debuginformationen</translation>
-    </message>
-    <message>
-        <source>Transaction</source>
-        <translation>Transaktion</translation>
-    </message>
-    <message>
-        <source>Inputs</source>
-        <translation>Eingänge</translation>
-    </message>
-    <message>
-        <source>Amount</source>
-        <translation>Betrag</translation>
-    </message>
-    <message>
-        <source>true</source>
-        <translation>wahr</translation>
-    </message>
-    <message>
-        <source>false</source>
-        <translation>falsch</translation>
     </message>
 </context>
 <context>
@@ -4257,13 +4764,13 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <source>Address</source>
         <translation>Adresse</translation>
     </message>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Offen für %n weitere Blöcke</numerusform><numerusform>Offen für %n weitere Blöcke</numerusform></translation>
+    </message>
     <message>
         <source>Open until %1</source>
         <translation>Offen bis %1</translation>
-    </message>
-    <message>
-        <source>Offline</source>
-        <translation>Offline</translation>
     </message>
     <message>
         <source>Unconfirmed</source>
@@ -4286,10 +4793,6 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Unreif (%1 Bestätigungen, wird verfügbar sein nach %2)</translation>
     </message>
     <message>
-        <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>Dieser Block wurde von keinem anderen Knoten empfangen und wird wahrscheinlich nicht angenommen werden!</translation>
-    </message>
-    <message>
         <source>Received with</source>
         <translation>Empfangen über</translation>
     </message>
@@ -4302,52 +4805,24 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Empfangen von</translation>
     </message>
     <message>
-        <source>Received via Obfuscation</source>
-        <translation>über/durch Verschleierung empfangen</translation>
+        <source>%1 Stake</source>
+        <translation>%1 Stake</translation>
     </message>
     <message>
-        <source>WAGE Stake</source>
-        <translation>WAGE Stake</translation>
+        <source>z%1 Stake</source>
+        <translation>z%1 Stake</translation>
     </message>
     <message>
-        <source>zWAGE Stake</source>
-        <translation>zWAGE Stake</translation>
+        <source>%1 Cold Stake</source>
+        <translation>%1 Cold Stake</translation>
     </message>
     <message>
-        <source>Obfuscation Denominate</source>
-        <translation>Stückelung der Verschleierung</translation>
+        <source>%1 Stake on behalf of</source>
+        <translation>%1 Stake im Auftrag von</translation>
     </message>
     <message>
-        <source>Obfuscation Collateral Payment</source>
-        <translation>Sicherheitspfandzahlung für Verschleierung</translation>
-    </message>
-    <message>
-        <source>Obfuscation Make Collateral Inputs</source>
-        <translation>Verschleierung Erzeugung des Sicherheitspfand</translation>
-    </message>
-    <message>
-        <source>Obfuscation Create Denominations</source>
-        <translation>Verschleierung Erzeugung der Stückelung</translation>
-    </message>
-    <message>
-        <source>Converted WAGE to zWAGE</source>
-        <translation>Umgewandeltes WAGE zu zWAGE</translation>
-    </message>
-    <message>
-        <source>Spent zWAGE</source>
-        <translation>Ausgegebene zWAGE</translation>
-    </message>
-    <message>
-        <source>Received WAGE from zWAGE</source>
-        <translation>Empfangene WAGE von zWAGE</translation>
-    </message>
-    <message>
-        <source>Minted Change as zWAGE from zWAGE Spend</source>
-        <translation>Geprägtes zWAGE Wechselgeld aus zWAGE Überweisung</translation>
-    </message>
-    <message>
-        <source>Converted zWAGE to WAGE</source>
-        <translation>Umgewandeltes zWAGE zu WAGE</translation>
+        <source>Stake delegation</source>
+        <translation>Stake Zuweisung</translation>
     </message>
     <message>
         <source>Sent to</source>
@@ -4362,16 +4837,68 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Eigenüberweisung</translation>
     </message>
     <message>
+        <source>Shielding coins to yourself</source>
+        <translation>Geschirmte Coins für sich selbst</translation>
+    </message>
+    <message>
+        <source>Unshielding coins to yourself</source>
+        <translation>Ungeschirmte Coins für sich selbst</translation>
+    </message>
+    <message>
+        <source>Shielded change, transfer between own shielded addresses</source>
+        <translation>Abgeschirmte Änderung, Übertragung zwischen eigenen abgeschirmten Adressen</translation>
+    </message>
+    <message>
+        <source>Stake delegation spent by</source>
+        <translation>Stake Zuweisung ausgegeben durch</translation>
+    </message>
+    <message>
         <source>Mined</source>
         <translation>Erarbeitet</translation>
     </message>
     <message>
-        <source>Obfuscated</source>
-        <translation>Verschleiert</translation>
+        <source>Converted %1 to z%1</source>
+        <translation>z%1 zu %1 konvertiert</translation>
+    </message>
+    <message>
+        <source>Spent z%1</source>
+        <translation>Ausgegebene z%1</translation>
+    </message>
+    <message>
+        <source>Received %1 from z%1</source>
+        <translation>%1 empfangen von z%1</translation>
+    </message>
+    <message>
+        <source>Minted Change as z%1 from z%1 Spend</source>
+        <translation>Geprägtes z%1 Wechselgeld aus z%1 Überweisungen</translation>
+    </message>
+    <message>
+        <source>Converted z%1 to %1</source>
+        <translation>Konvertiere z%1 zu %1</translation>
+    </message>
+    <message>
+        <source>Received with shielded</source>
+        <translation>Empfangen mit geschirmten</translation>
+    </message>
+    <message>
+        <source>Shielded send to</source>
+        <translation>Abgeschirmt senden an</translation>
+    </message>
+    <message>
+        <source>Burned WAGEs</source>
+        <translation>Verbrannte WAGEs</translation>
     </message>
     <message>
         <source>watch-only</source>
         <translation>nur beobachtet</translation>
+    </message>
+    <message>
+        <source>Anonymous</source>
+        <translation>Anonym</translation>
+    </message>
+    <message>
+        <source>No information</source>
+        <translation>Keine Information</translation>
     </message>
     <message>
         <source>(n/a)</source>
@@ -4405,44 +4932,104 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
 <context>
     <name>TxDetailDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
         <source>Transaction Details</source>
         <translation>Transaktionsdetails</translation>
     </message>
     <message>
-        <source>492526e7fa3c810b35016...40a5df85ee227ab00b1156994</source>
-        <translation>492526e7fa3c810b35016...40a5df85ee227ab00b1156994</translation>
+        <source>Total amount</source>
+        <translation>Gesamtmenge</translation>
     </message>
     <message>
-        <source>D7VFR83SQbiezrW72hjcWJtcfip5krte2Z </source>
-        <translation>D7VFR83SQbiezrW72hjcWJtcfip5krte2Z</translation>
+        <source>Previous Transaction</source>
+        <translation>Vorherige Transaktion</translation>
     </message>
     <message>
-        <source>Fee:</source>
-        <translation>Gebühr:</translation>
+        <source>Output Index</source>
+        <translation>Output Index</translation>
     </message>
     <message>
-        <source>Status:</source>
-        <translation>Status:</translation>
+        <source>ID</source>
+        <translation>ID</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Sending to</source>
+        <translation>Sende an</translation>
+    </message>
+    <message>
+        <source>Coin inputs</source>
+        <translation>Münzeingaben</translation>
+    </message>
+    <message>
+        <source>Fee</source>
+        <translation>Gebühr</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Größe</translation>
+    </message>
+    <message>
+        <source>Change address</source>
+        <translation>Wechseladresse</translation>
+    </message>
+    <message>
+        <source>Spendable</source>
+        <translation>Verfügbar für die Ausgabe</translation>
+    </message>
+    <message>
+        <source>Confirmations</source>
+        <translation>Bestätigungen</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Memo</source>
+        <translation>Memo</translation>
     </message>
     <message>
         <source>CANCEL</source>
-        <translation>Abbrechen</translation>
+        <translation>ABBRECHEN</translation>
     </message>
     <message>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
+        <source>Confirm Your Transaction</source>
+        <translation>Bestätigen Sie Ihre Transaktion</translation>
+    </message>
+    <message>
         <source>SEND</source>
         <translation>SENDEN</translation>
+    </message>
+    <message>
+        <source>Note From Address</source>
+        <translation>Notiz von Adresse</translation>
+    </message>
+    <message>
+        <source>Index</source>
+        <translation>Index</translation>
+    </message>
+    <message>
+        <source>ID copied</source>
+        <translation>ID kopiert</translation>
+    </message>
+    <message>
+        <source>Memo copied</source>
+        <translation>Memo kopiert</translation>
+    </message>
+    <message>
+        <source>Delegating to</source>
+        <translation>Delegieren zu</translation>
+    </message>
+    <message>
+        <source>Shielding to</source>
+        <translation>Abschirmung nach</translation>
     </message>
     <message>
         <source>Unknown</source>
@@ -4450,12 +5037,66 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     </message>
 </context>
 <context>
-    <name>TxRow</name>
+    <name>VoteDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
+        <source>Vote For Proposal</source>
+        <translation>Für den Vorschlag stimmen</translation>
     </message>
-    </context>
+    <message>
+        <source>Select vote direction and the masternodes that will vote for it</source>
+        <translation>Wählen Sie die Abstimmungsrichtung und die Masternodes, die dafür stimmen werden</translation>
+    </message>
+    <message>
+        <source>Select Voting Masternodes</source>
+        <translation>Abstimmende Masternodes wählen</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>ABBRECHEN</translation>
+    </message>
+    <message>
+        <source>VOTE</source>
+        <translation>ABSTIMMEN</translation>
+    </message>
+    <message>
+        <source>You can change your vote later</source>
+        <translation>Sie können Ihr Votum später ändern</translation>
+    </message>
+    <message>
+        <source>%1 months remaining</source>
+        <translation>%1 Monate verbleibend</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>Select a vote direction</source>
+        <translation>Wählen Sie eine Abstimmungsrichtung</translation>
+    </message>
+    <message>
+        <source>Missing voting masternodes selection</source>
+        <translation>Fehlende Wahl der Masternodes</translation>
+    </message>
+    <message>
+        <source>Time between votes is too soon, have to wait %1 minutes</source>
+        <translation>Zeit zwischen den Abstimmungen ist zu kurz, Sie müssen %1 Minuten warten</translation>
+    </message>
+    <message>
+        <source>You have voted with %1 Masternodes for this proposal
+Change votes</source>
+        <translation>Sie haben mit %1 Masternodes für diesen Vorschlag gestimmt
+Abstimmung ändern</translation>
+    </message>
+    <message>
+        <source>%1 Masternodes selected to vote</source>
+        <translation>%1 Masternodes zur Abstimmung ausgewählt</translation>
+    </message>
+</context>
 <context>
     <name>WalletModel</name>
     <message>
@@ -4463,39 +5104,20 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>WAGEs überweisen</translation>
     </message>
     <message>
-        <source>SwiftX doesn't support sending values that high yet. Transactions are currently limited to %1 WAGE.</source>
-        <translation>Swift Transaktionen unterstützen das senden solch hoher Beträge noch nicht. Transaktionen sind momentan auf %1 WAGE begrenzt.</translation>
-    </message>
-</context>
-<context>
-    <name>WalletPasswordDialog</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
+        <source>Transaction creation failed!
+%1</source>
+        <translation>Transaktionserstellung fehlgeschlagen!
+%1</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
-    </message>
-    <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
-    </message>
-    <message>
-        <source>CANCEL</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
+        <source>The size of the transaction is too big.
+Select fewer inputs with coin control.</source>
+        <translation>Die Transaktionsgröße ist zu groß.
+Wählen Sie weniger Eingänge über coin control aus.</translation>
     </message>
 </context>
 <context>
     <name>WelcomeContentWidget</name>
-    <message>
-        <source>Dialog</source>
-        <translation>Dialog</translation>
-    </message>
     <message>
         <source>1</source>
         <translation>1</translation>
@@ -4529,390 +5151,120 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Masternodes</translation>
     </message>
     <message>
+        <source>Select your language</source>
+        <translation>Wählen Sie Ihre Sprache</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE is the world’s most innovative Proof of Stake blockchain based technology. Developed by a team of highly experienced developers and cryptographers.</source>
+        <translation>DIGIWAGE ist die innovativste, auf Proof of Stake Blockchain basierende Technologie. Es wurde von einem Team hoch erfahrener Entwickler und Kryptographen entwickelt.</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;As our manifesto says: Privacy is a non-negotiable basic human right; it grants users the freedom to share their data whenever and with whomever they want - DIGIWAGE believes in self sovereignty.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>Wie unser Manifestum sagt: Privatsphäre ist ein nicht-verhandelbares Menschenrecht; es garantiert Nuzern die Freiheit ihre Daten wann immer und mit wem auch immer zu teilen - DIGIWAGE galubt an diese Souveränität.</translation>
+    </message>
+    <message>
+        <source>The masternode network is DIGIWAGE's second layer network on top of the blockchain that enables our DAO to provide decentralized governance and a treasury.</source>
+        <translation>Das Masternode Netzwerk ist DIGIWAGE zweite Schicht, die auf der Blockchain aufgesetzt wurde und unserer DAO ermöglicht, dezentrale Steuerung und einen Fiskus ermöglicht.</translation>
+    </message>
+    <message>
+        <source>How DIGIWAGE respects your privacy?</source>
+        <translation>Wie respektiert DIGIWAGE meine Privatsphäre?</translation>
+    </message>
+    <message>
+        <source>Welcome to
+%1 Wallet</source>
+        <translation>Willkommen beim
+%1 Wallet</translation>
+    </message>
+    <message>
+        <source>What is a Masternode?</source>
+        <translation>Was ist ein Masternode?</translation>
+    </message>
+    <message>
         <source>default</source>
         <translation>standard</translation>
     </message>
 </context>
 <context>
-    <name>ZPivControlDialog</name>
+    <name>governancewidget</name>
     <message>
-        <source>Select zWAGE to Spend</source>
-        <translation>Wählen Sie die zWAGE aus, die Sie ausgeben möchten</translation>
+        <source>No active proposals yet</source>
+        <translation>Noch keine aktiven Vorschläge</translation>
     </message>
     <message>
-        <source>Coin Control</source>
-        <translation>Coinverwaltung</translation>
+        <source>Budget Distribution</source>
+        <translation>Budgetverteilung</translation>
     </message>
     <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
+        <source>Funds accessible for the proposals' implementation</source>
+        <translation>Für die Durchführung der Vorschläge zugängliche Mittel</translation>
     </message>
     <message>
-        <source>zPiv</source>
-        <translation>zWAGE</translation>
+        <source>Available</source>
+        <translation>Verfügbar</translation>
     </message>
     <message>
-        <source>Quantity:</source>
-        <translation>Anzahl:</translation>
+        <source>Allocated</source>
+        <translation>Zugewiesen</translation>
     </message>
-    <message>
-        <source>Is Spendable</source>
-        <translation>ist aufwendbar</translation>
-    </message>
-    <message>
-        <source>0</source>
-        <translation>0</translation>
-    </message>
-    <message>
-        <source>Select/Deselect All</source>
-        <translation>Alle Aus-/Abwählen</translation>
-    </message>
-    </context>
+</context>
 <context>
     <name>digiwage-core</name>
     <message>
-        <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
-        <translation>(1 = behalte Tx-Meta-Daten z.B. Betrag, Besitzer und Zahlungsanforderungsinformationen, 2 = verwerfe Tx-Meta-Daten)</translation>
-    </message>
-    <message>
-        <source>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</source>
-        <translation>Erlaubt JSON-RPC Verbindungen von der angegebenen Quelle. Valide für &lt;ip&gt; ist eine einzelne IP (z.B. 1.2.3.4), ein Netzwerk/Netzwerkmaske (z.B. 1.2.3.4/255.255.255.0) oder ein Netzwerk/CIDR (z.B. 1.2.3.4/24). Diese Option kann mehrfach angegeben werden</translation>
-    </message>
-    <message>
-        <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
-        <translation>Binde an die angegebene Adresse und höre immer auf ihr. Benutze [host]:port Notation für IPv6</translation>
-    </message>
-    <message>
-        <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</source>
-        <translation>Binde an die angegebene Adresse und setze Verbindungen zu ihr auf die Whitelist. Benutze [host]:port Notation für IPv6</translation>
-    </message>
-    <message>
-        <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
-        <translation>Binde an die angegebene Adresse und höre auf JSON-RPC verbindungen. Benutze [host]:port Notation für IPv6. Diese Option kann mehrere Male aufgerufen werden (Standard: Binde an alle Schnittstellen)</translation>
-    </message>
-    <message>
-        <source>Calculated accumulator checkpoint is not what is recorded by block index</source>
-        <translation>Der berechnete Akkumulator-Checkpoint stimmt nicht mit dem vom Blockindex aufgezeichneten überein</translation>
-    </message>
-    <message>
-        <source>Cannot obtain a lock on data directory %s. DIGIWAGE Core is probably already running.</source>
-        <translation>Kann keine Sperre für das Datenverzeichnis %s erhalten. DIGIWAGE Core läuft wahrscheinlich bereits.</translation>
-    </message>
-    <message>
-        <source>Change automatic finalized budget voting behavior. mode=auto: Vote for only exact finalized budget match to my generated budget. (string, default: auto)</source>
-        <translation>Ändere das automatische, finale Budget Stimmverhalten. Modus=auto: Stimme nur für exakt finale Budgets, welche meinem generierten Budget entsprechen. (string, Standard:auto)</translation>
-    </message>
-    <message>
-        <source>Continuously rate-limit free transactions to &lt;n&gt;*1000 bytes per minute (default:%u)</source>
-        <translation>Begrenze freie Transaktionen Permanent auf &lt;n&gt;*1000 Bytes pro Minute (Standard:%u)</translation>
-    </message>
-    <message>
-        <source>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</source>
-        <translation>Erstelle neue Dateien mit Systemstandardberechtigungen anstelle von umask 077 (nur wirksam mit deaktivierter Wallet-Funktionalität)</translation>
-    </message>
-    <message>
-        <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
-        <translation>Lösche alle Wallet-Transaktionen und stelle nur diese Teile der Blockchain  beim Start durch -neuscan wieder her</translation>
-    </message>
-    <message>
-        <source>Delete all zerocoin spends and mints that have been recorded to the blockchain database and reindex them (0-1, default: %u)</source>
-        <translation>Lösche alle Zerocoin Überweisungen und Prägungen die in der Blockchain-Datenbank gespeichert wurden und reindiziere diese (0-1, Standard: %u)</translation>
-    </message>
-    <message>
         <source>Distributed under the MIT software license, see the accompanying file COPYING or &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</source>
         <translation>Veröffentlicht unter der MIT-Software-Lizenz, siehe die beigelegte Datei COPYING oder &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</translation>
-    </message>
-    <message>
-        <source>Enable automatic wallet backups triggered after each zWAGE minting (0-1, default: %u)</source>
-        <translation>Aktiviere nach jeder zWAGE-Prägung ausgelöste automatische Wallet-Backups (0-1, Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Enable or disable staking functionality for WAGE inputs (0-1, default: %u)</source>
-        <translation>Aktiviere oder deaktiviere Staking-Funktionalität für WAGE Eingänge (0-1, default: %u)</translation>
-    </message>
-    <message>
-        <source>Enable or disable staking functionality for zWAGE inputs (0-1, default: %u)</source>
-        <translation>Aktiviere oder deaktiviere Staking-Funktionalität für zWAGE Eingänge (0-1, default: %u)</translation>
-    </message>
-    <message>
-        <source>Enable spork administration functionality with the appropriate private key.</source>
-        <translation>Aktiviere die Funktionalität der Spork-Administration mit dem entsprechenden privaten Schlüssel.</translation>
-    </message>
-    <message>
-        <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</source>
-        <translation>Gebe den Regressions-Testmodus ein, der eine spezielle Kette verwendet, in der Blöcke sofort gelöst werden können.</translation>
     </message>
     <message>
         <source>Error: Listening for incoming connections failed (listen returned error %s)</source>
         <translation>Fehler: Überwachung von eingehenden Verbindungen fehlgeschlagen (listen return error %s)</translation>
     </message>
     <message>
-        <source>Error: The transaction is larger than the maximum allowed transaction size!</source>
-        <translation>Fehler: Die Transaktion ist größer als die maximal zulässige Transaktionsgröße!</translation>
-    </message>
-    <message>
-        <source>Error: Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
-        <translation>Fehler: Nicht unterstütztes Argument -socks gefunden. Festlegen der SOCKS Version ist nicht mehr möglich, es werden nur noch SOCKS5-Proxys unterstützt.</translation>
-    </message>
-    <message>
-        <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation>Befehl ausführen, wenn eine relevante Warnung empfangen wird oder wir einen wirklich langen Fork sehen (%s in cmd wird durch Benachrichtigungen ersetzt)</translation>
-    </message>
-    <message>
-        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Befehl ausführen, wenn eine Wallet-Transaktion geändert wird (%s in cmd wird durch TxID ersetzt)</translation>
-    </message>
-    <message>
-        <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation>Befehl ausführen, wenn sich der beste Block ändert (%s in cmd wird durch Blockhash ersetzt)</translation>
-    </message>
-    <message>
-        <source>Fees (in WAGE/Kb) smaller than this are considered zero fee for relaying (default: %s)</source>
-        <translation>Gebühren (in WAGE/kB) kleiner als diese gelten für die Weiterleitung als Null-Gebühr  (default: %s)</translation>
-    </message>
-    <message>
-        <source>Fees (in WAGE/Kb) smaller than this are considered zero fee for transaction creation (default: %s)</source>
-        <translation>Gebühren (in WAGE/kB) kleiner als diese werden als Null-Gebühr für die Transaktionserstellung betrachtet (default: %s)</translation>
-    </message>
-    <message>
-        <source>Flush database activity from memory pool to disk log every &lt;n&gt; megabytes (default: %u)</source>
-        <translation>Flusht die Datenbankaktivität vom Speicherpool auf das Festplattenprotokoll alle &lt;n&gt; Megabytes (default: %u)</translation>
-    </message>
-    <message>
-        <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
-        <translation>Wenn paytxfee nicht gesetzt ist, gebe genügend Gebühr an, sodass die Transaktionsbestätigungen im Durchschnitt innerhalb von n Blöcken beginnen (default: %u)</translation>
-    </message>
-    <message>
-        <source>In this mode -genproclimit controls how many blocks are generated immediately.</source>
-        <translation>In diesem Modus -genproclimit steuern, wie viele Blöcke sofort erzeugt werden.</translation>
-    </message>
-    <message>
-        <source>Insufficient or insufficient confirmed funds, you might need to wait a few minutes and try again.</source>
-        <translation>Unzureichend oder unzureichend bestätigtes Guthaben, warten Sie ein paar Minuten und probieren es dann nochmal.</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
-        <translation>Ungültiger Betrag für -maxtxfee=&lt;amount&gt;: '%s' (muss mindestens die minrelay Gebühr von %s sein, um Transaktionsstau zu vermeiden)</translation>
-    </message>
-    <message>
-        <source>Keep the specified amount available for spending at all times (default: 0)</source>
-        <translation>Behalte jeder Zeit den angegebenen Betrag für die Ausgaben (default: 0)</translation>
-    </message>
-    <message>
-        <source>Log transaction priority and fee per kB when mining blocks (default: %u)</source>
-        <translation>Priorität der Protokolltransaktion und Gebühr pro kB wenn Blöcke geschürft werden (default: %u)</translation>
-    </message>
-    <message>
-        <source>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</source>
-        <translation>Pflege einen vollständigen Transaktionsindex, der von getrawtransaction rpc call verwendet wird. (default: %u)</translation>
-    </message>
-    <message>
-        <source>Maximum size of data in data carrier transactions we relay and mine (default: %u)</source>
-        <translation>Maximale Größe der Daten in Datenträgertransaktionen, die wir weiterleiten und abbilden (default: %u)</translation>
-    </message>
-    <message>
-        <source>Maximum total fees to use in a single wallet transaction, setting too low may abort large transactions (default: %s)</source>
-        <translation>Maximale Gesamtgebühren für die Verwendung in einer einzigen Wallet-Transaktion. Zu niedrige Einstellung kann große Transaktionen abbrechen (default: %s)</translation>
-    </message>
-    <message>
-        <source>Number of seconds to keep misbehaving peers from reconnecting (default: %u)</source>
-        <translation>Sekundenanzahl, um fehlerhafte Peers von der Wiederverbindung abzuhalten (default: %u)</translation>
-    </message>
-    <message>
-        <source>Obfuscation uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</source>
-        <translation>Verschleierung benötigt exakt gestückelte Mengen um Gelder zu versenden, ggf. müssen Sie einfach mehr Münzen anonymisieren.</translation>
-    </message>
-    <message>
-        <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
-        <translation>Debug-Informationen ausgeben (Standard: %u, die Bereitstellung von &lt;category&gt; ist optional)</translation>
-    </message>
-    <message>
-        <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
-        <translation>Abfrage von Gegenstellen-Adressen per DNS-Lookup, falls wenige Adressen verfügbar sind (Standard: 1, ausser -connect ist aktiviert)</translation>
-    </message>
-    <message>
-        <source>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</source>
-        <translation>Randomisiere Zugangsdaten für jede einzelne Proxy-Verbindung. Dies ermöglicht die Stream-Isolation im Tor Netzwerk (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Require high priority for relaying free or low-fee transactions (default:%u)</source>
-        <translation>Benötige hohe Priorität um kostenlose Transaktionen oder Transaktionen mit niedriger Gebühr weiterzuleiten (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Send trace/debug info to console instead of debug.log file (default: %u)</source>
-        <translation>Sende die Debug-Info an die Konsole, anstatt in die debug.log-Datei (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
-        <translation>Maximale Größe von Transaktionen mit hoher Priorität/niedrigen Gebühren festlegen, in Bytes (Standard: %d)</translation>
-    </message>
-    <message>
-        <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
-        <translation>Anzahl der Threads festlegen, die für die Skript Verifikation verwendet werden (%u to %d, 0 = auto, &lt;0 = diese Anzahl an Kernen ungenutzt lassen, Standard: %d)</translation>
-    </message>
-    <message>
-        <source>Set the number of threads for coin generation if enabled (-1 = all cores, default: %d)</source>
-        <translation>Wenn aktiviert, kann die Anzahl der CPU-Threads für die Coin-Erzeugung festgelegt werden (-1 = alle Kerne, Standard: %d)</translation>
-    </message>
-    <message>
-        <source>Show N confirmations for a successfully locked transaction (0-9999, default: %u)</source>
-        <translation>Zeige N Bestätigungen für eine erfolgreich gesperrte Transaktion (0-9999, Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
-        <translation>Unterstütze Filtern von Blöcken und Transaktionen mittels Bloom-Filtern (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit &lt;https://www.openssl.org/&gt; and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard.</source>
-        <translation>Dieses Produkt beinhaltet Software, die vom OpenSSL Projekt für die Nutzung im OpenSSL Toolkit &lt;https://www.openssl.org/&gt; entwickelt wurde. Desweiteren kryptografische Software , die von Eric Young, und UPnP Software, die von Thomas Bernard, geschrieben wurde.</translation>
-    </message>
-    <message>
-        <source>Unable to bind to %s on this computer. DIGIWAGE Core is probably already running.</source>
-        <translation>Fehler: Port %s ist bereits belegt! Läuft bereits eine andere DIGIWAGE Core Wallet ?</translation>
-    </message>
-    <message>
-        <source>Unable to locate enough Obfuscation denominated funds for this transaction.</source>
-        <translation>Nicht genügend gestückeltes, verschleiertes Guthaben für diese Transaktion gefunden.</translation>
-    </message>
-    <message>
-        <source>Unable to locate enough Obfuscation non-denominated funds for this transaction that are not equal 10000 WAGE.</source>
-        <translation>Nicht genügend verschleiertes, nicht gestückeltes Guthaben für diese Transaktion gefunden, die nicht gleich 10000 WAGE entsprechen.</translation>
-    </message>
-    <message>
-        <source>Unable to locate enough funds for this transaction that are not equal 10000 WAGE.</source>
-        <translation>Nicht genügend Guthaben für diese Transaktion gefunden, die nicht gleich 10000 WAGE entsprechen.</translation>
-    </message>
-    <message>
-        <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</source>
-        <translation>Verwende seperate SOCKS5-Proxys um Gegenstellen über Tor-Hidden-Services zu erreichen (Standard: %s)</translation>
-    </message>
-    <message>
-        <source>Warning: -maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
-        <translation>Warnung: -maxtxfee ist sehr hoch eingestellt! Gebühren in dieser Höhe können in einer einzigen Transaktion abgebucht werden.</translation>
-    </message>
-    <message>
-        <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation>Warnung: -paytxfee ist sehr hoch eingestellt! Diese Transaktionsgebühr werden Ihnen abgebucht, falls Sie die Transaktion überweisen.</translation>
-    </message>
-    <message>
-        <source>Warning: Please check that your computer's date and time are correct! If your clock is wrong DIGIWAGE Core will not work properly.</source>
-        <translation>Warnung: Bitte stellen Sie sicher, das vom Computer verwendete Zeit und Datumangaben korrekt sind! Wenn ihr System falsche Zeitangaben nutzt, wird DIGIWAGE Core nicht korrekt funktionieren.</translation>
+        <source>The block database contains a block which appears to be from the future. This may be due to your computer's date and time being set incorrectly. Only rebuild the block database if you are sure that your computer's date and time are correct</source>
+        <translation>Die Block Datenbank enthält einen Block, der aus der Zukunft zu kommen scheint. Dies könnte an falschen Datum- und Zeiteinstellungen Ihres Computers liegen. Bauen Sie die Blockdatenbank nur neu auf, wenn Sie sich sicher sind, dass die Zeiteinstellungen Ihres Computers korrekt sind.</translation>
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
         <translation>Warnung: Unstimmigkeiten im Netzwerk! Einige Miner scheinen Probleme zu haben.</translation>
     </message>
     <message>
+        <source>Warning: Wallet file corrupt, data salvaged! Original %s saved as %s in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
+        <translation>Warnung: Wallet-Datei beschädigt, Daten gerettet! Das Original %s wurde als %s in %s gespeichert; wenn Ihr Kontostand oder Ihre Transaktionen nicht korrekt sind, sollten Sie von einer Sicherungskopie wiederherstellen.</translation>
+    </message>
+    <message>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
         <translation>Warnung: Es scheint einige Unstimmigkeiten mit unseren Gegenstellen zu geben. Eventuell müssen Sie oder andere Nodes Upgrades durchführen.</translation>
     </message>
     <message>
-        <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation>Warnung: Fehler beim Lesen der wallet.dat! Alle Schlüssel wurden korrekt gelesen, aber Transaktionsdaten oder Adressbuch-Einträge könnten fehlen oder inkorrekt sein.</translation>
+        <source>"local" vote is no longer available with DMNs. Use "alias" from the wallet with the voting key.</source>
+        <translation>Die "lokale" Abstimmung ist bei DMNs nicht mehr verfügbar. Verwenden Sie "Alias" aus der Brieftasche mit dem Abstimmungsschlüssel.</translation>
     </message>
     <message>
-        <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
-        <translation>Warnung: wallet.dat fehlerhaft, Daten wurden gerettet! Die originale wallet.dat wurde als wallet.{Zeitstempel}.bak in %s gesichert; falls ihr Kontostand oder ihre Transaktionen fehlerhaft sind, sollten Sie ein Backup zur Wiederherstellung nutzen.</translation>
+        <source>%s Invalid %s address or hostname: '%s'</source>
+        <translation>%s Ungültige %s-Adresse oder ungültiger Hostname: '%s'.</translation>
     </message>
     <message>
-        <source>Whitelist peers connecting from the given netmask or IP address. Can be specified multiple times.</source>
-        <translation>Setze Verbindungen aus der folgenden Subnetzmaske oder IP-Adresse. Dies kann mehrere male spezifiziert werden.</translation>
+        <source>%s corrupt, salvage failed</source>
+        <translation>%s beschädigt, Datenrettung fehlgeschlagen</translation>
     </message>
     <message>
-        <source>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</source>
-        <translation>Whitelist-Peers können nicht verboten werden und ihre Transaktionen werden immer weitergeleitet, auch wenn sie bereits im Mempool sind, nützlich z. für ein Gateway</translation>
+        <source>%s is not allowed in combination with enabled wallet functionality</source>
+        <translation>%s ist in Kombination mit aktivierten Wallet-Funktionen nicht erlaubt</translation>
     </message>
     <message>
-        <source>You must specify a masternodeprivkey in the configuration. Please see documentation for help.</source>
-        <translation>Sie müssen einen privaten Masternode-Schlüssel in der Konfiguration festlegen. Bitte nutzen Sie die Dokumentation zwecks Hilfe.</translation>
+        <source>%s is only allowed with a single wallet file</source>
+        <translation>%s ist nur mit einer einzigen Wallet-Datei erlaubt</translation>
     </message>
     <message>
-        <source>(46003 could be used only on mainnet)</source>
-        <translation>(46003 kann nur im Mainnet verwendet werden)</translation>
-    </message>
-    <message>
-        <source>(default: %s)</source>
-        <translation>(default: %s)</translation>
-    </message>
-    <message>
-        <source>(default: 1)</source>
-        <translation>(default: 1)</translation>
-    </message>
-    <message>
-        <source>(must be 46003 for mainnet)</source>
-        <translation>(muss im Mainnet 46003 sein)</translation>
-    </message>
-    <message>
-        <source>Accept command line and JSON-RPC commands</source>
-        <translation>Akzeptiere Kommandozeilen- und JSON-RPC- Eingaben</translation>
-    </message>
-    <message>
-        <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
-        <translation>Akzeptiere Verbindungen von aussen (Standard: 1 , falls -proxy oder -connect nicht genutzt wird)</translation>
-    </message>
-    <message>
-        <source>Accept public REST requests (default: %u)</source>
-        <translation>Akzeptiere öffentliche REST Anfragen (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation>Füge ein Node zum verbinden hinzu und versuche die Verbindung offen zu halten</translation>
-    </message>
-    <message>
-        <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
-        <translation>Erlaube DNS lookups für -addnode, -seednode und -connect</translation>
-    </message>
-    <message>
-        <source>Always query for peer addresses via DNS lookup (default: %u)</source>
-        <translation>Gegenstellen-Adressen immer per DNS lookup anfragen (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Attempt to recover private keys from a corrupt wallet.dat</source>
-        <translation>Versuche private Schlüssel aus fehlerhafter wallet.dat wiederherzustellen.</translation>
-    </message>
-    <message>
-        <source>Automatically create Tor hidden service (default: %d)</source>
-        <translation>Tor-Hidden-Service automatisch erzeugen (Standard: %d)</translation>
-    </message>
-    <message>
-        <source>Block creation options:</source>
-        <translation>Block-Erzeugungs-Optionen:</translation>
-    </message>
-    <message>
-        <source>Calculating missing accumulators...</source>
-        <translation>Fehlende Akkus berechnen ...</translation>
-    </message>
-    <message>
-        <source>Cannot downgrade wallet</source>
+        <source>Cannot downgrade wallet.</source>
         <translation>Wallet downgrade nicht möglich</translation>
     </message>
     <message>
-        <source>Cannot resolve -bind address: '%s'</source>
-        <translation>Kann -bind Adresse nicht auflösen: '%s'</translation>
+        <source>Cannot set %s or %s together with %s</source>
+        <translation>Kann %s oder %s nicht zusammen mit %s einstellen</translation>
     </message>
     <message>
-        <source>Cannot resolve -externalip address: '%s'</source>
-        <translation>Kann -externalip Adresse nicht auflösen: '%s'</translation>
-    </message>
-    <message>
-        <source>Cannot resolve -whitebind address: '%s'</source>
-        <translation>Kann -whitebind Adresse nicht auflösen: '%s'</translation>
-    </message>
-    <message>
-        <source>Connect only to the specified node(s)</source>
-        <translation>Nur mit den aufgeführten Node(s) verbinden</translation>
-    </message>
-    <message>
-        <source>Connect through SOCKS5 proxy</source>
-        <translation>Verbindung per SOCKS5 proxy</translation>
-    </message>
-    <message>
-        <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Verbinde zu einer Node um Gegenstellen-Adressen abzurufen und trenne die Verbindung.</translation>
-    </message>
-    <message>
-        <source>Connection options:</source>
-        <translation>Verbindungsoptionen:</translation>
+        <source>Cannot upgrade a locked wallet.</source>
+        <translation>Eine gesperrte Wallet kann nicht aktualisiert werden.</translation>
     </message>
     <message>
         <source>Copyright (C) 2009-%i The Bitcoin Core Developers</source>
@@ -4923,40 +5275,20 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Copyright (C) 2014-%i The Dash Core Developers</translation>
     </message>
     <message>
-        <source>Copyright (C) 2015-%i The DIGIWAGE Core Developers</source>
-        <translation>Copyright (C) 2015-%i The DIGIWAGE Core Developers</translation>
-    </message>
-    <message>
         <source>Corrupted block database detected</source>
         <translation>Beschädigte Block-Datenbank gefunden</translation>
+    </message>
+    <message>
+        <source>Could not open debug log file %s</source>
+        <translation>Debug-Protokolldatei konnte nicht geöffnet werden %s</translation>
     </message>
     <message>
         <source>Could not parse masternode.conf</source>
         <translation>Kann masternode.conf nicht parsen</translation>
     </message>
     <message>
-        <source>Debugging/Testing options:</source>
-        <translation>Debugging-  / Testoptionen</translation>
-    </message>
-    <message>
-        <source>Delete blockchain folders and resync from scratch</source>
-        <translation>Löschen Sie Blockchain-Ordner und resync von Grund auf neu</translation>
-    </message>
-    <message>
-        <source>Disable OS notifications for incoming transactions (default: %u)</source>
-        <translation>Benachrichtigungen über eingehende Transaktionen im Betriebsystem ausschalten (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Disable safemode, override a real safe mode event (default: %u)</source>
-        <translation>Deaktivieren Sie den Safemodus, überschreiben Sie ein echtes Safe-Mode-Ereignis (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
-        <translation>Eigene IP-Adresse erkennen (Standard: 1 beim Hören und keine -Ausnahme)</translation>
-    </message>
-    <message>
-        <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation>Wallet nicht laden und Wallet Fernaufruf/RPC unterbinden</translation>
+        <source>Deterministic masternodes are not enforced yet</source>
+        <translation>Die Verwendung des Masternodes wurde noch nicht erzwungen</translation>
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
@@ -4967,20 +5299,8 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Geladen</translation>
     </message>
     <message>
-        <source>Enable automatic Zerocoin minting (0-1, default: %u)</source>
-        <translation>Automatische Zerocoin-Prägung ermöglichen (0-1, Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Enable publish hash transaction (locked via SwiftX) in &lt;address&gt;</source>
-        <translation>Aktivieren Sie die Veröffentlichung der Hash-Transaktion (gesperrt über SwiftX) in &lt;address&gt;</translation>
-    </message>
-    <message>
-        <source>Enable publish raw transaction (locked via SwiftX) in &lt;address&gt;</source>
-        <translation>Aktivieren Sie die Publish-Raw-Transaktion (gesperrt über SwiftX) in&lt;address&gt;</translation>
-    </message>
-    <message>
-        <source>Enable the client to act as a masternode (0-1, default: %u)</source>
-        <translation>Ermögliche dem Client als Masternode zu fungieren (0-1, Standard: %u)</translation>
+        <source>Elliptic curve cryptography sanity check failure. Aborting.</source>
+        <translation>Kryptographie mit elliptischen Kurven - Fehler bei der Sicherheitsüberprüfung. Abbruch.</translation>
     </message>
     <message>
         <source>Error initializing block database</source>
@@ -4995,28 +5315,12 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Fehler beim Laden der Block-Datenbank</translation>
     </message>
     <message>
-        <source>Error loading wallet.dat</source>
-        <translation>Fehler beim Laden von wallet.dat</translation>
-    </message>
-    <message>
-        <source>Error loading wallet.dat: Wallet corrupted</source>
-        <translation>Fehler beim Laden von wallet.dat : Wallet beschädigt</translation>
-    </message>
-    <message>
-        <source>Error loading wallet.dat: Wallet requires newer version of DIGIWAGE Core</source>
-        <translation>Fehler beim Laden der wallet.dat: Neuere DIGIWAGE Core Version benötigt</translation>
-    </message>
-    <message>
         <source>Error opening block database</source>
         <translation>Fehler beim Öffnen der Block-Datenbank</translation>
     </message>
     <message>
         <source>Error reading from database, shutting down.</source>
         <translation>Fehler beim Lesen der Datenbank, wird heruntergefahren.</translation>
-    </message>
-    <message>
-        <source>Error writing zerocoinDB to disk</source>
-        <translation>Fehler beim Schreiben von zerocoinDB auf die Festplatte</translation>
     </message>
     <message>
         <source>Error</source>
@@ -5031,60 +5335,12 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Fehler: Festplattenspeicher ist knapp.</translation>
     </message>
     <message>
-        <source>Error: Unsupported argument -tor found, use -onion.</source>
-        <translation>Fehler: Argument -tor nicht unterstützt, nutzen Sie -onion.</translation>
-    </message>
-    <message>
-        <source>Error: Wallet locked, unable to create transaction!</source>
-        <translation>Fehler: Wallet verschlossen, Transaktion konnte nicht erstellt werden!</translation>
-    </message>
-    <message>
-        <source>Failed to calculate accumulator checkpoint</source>
-        <translation>Fehler beim Berechnen des Akku-Checkpoints</translation>
-    </message>
-    <message>
-        <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
-        <translation>Abhören jeglicher Ports fehlgeschlagen. Nutzen Sie -listen=0 falls dies erwünscht ist.</translation>
-    </message>
-    <message>
         <source>Failed to parse host:port string</source>
         <translation>Fehler beim Analysieren von host: port string</translation>
     </message>
     <message>
-        <source>Failed to read block</source>
-        <translation>Block konnte nicht gelesen werden</translation>
-    </message>
-    <message>
-        <source>Fee (in WAGE/kB) to add to transactions you send (default: %s)</source>
-        <translation>Gebühr (in WAGE/kB) die den Transaktionen, die Sie überweisen, hinzugefügt wird (Standard: %s)</translation>
-    </message>
-    <message>
-        <source>Force safe mode (default: %u)</source>
-        <translation>Erzwinge Safe-Mode (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Generate coins (default: %u)</source>
-        <translation>Generiere Coins (default: %u)</translation>
-    </message>
-    <message>
-        <source>How many blocks to check at startup (default: %u, 0 = all)</source>
-        <translation>Zu überprüfende Blöcke beim Start (default: %u, 0 = all)</translation>
-    </message>
-    <message>
-        <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
-        <translation>Wenn &lt;category&gt; nicht angegeben wurde, gebe alle Debuginformationen aus. </translation>
-    </message>
-    <message>
         <source>Importing...</source>
         <translation>Importiere...</translation>
-    </message>
-    <message>
-        <source>Imports blocks from external blk000??.dat file</source>
-        <translation>Importiere Blöcke aus externer Datei blk000??.dat</translation>
-    </message>
-    <message>
-        <source>Include IP addresses in debug output (default: %u)</source>
-        <translation>Ip-Adresse in Debug-Ausgabe einbeziehen (Standard: %u)</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
@@ -5095,244 +5351,126 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Hinweis</translation>
     </message>
     <message>
-        <source>Initialization sanity check failed. DIGIWAGE Core is shutting down.</source>
-        <translation>Initialisierung Sanity-Check fehlgeschlagen. DIGIWAGE Core schaltet ab.</translation>
-    </message>
-    <message>
-        <source>Insufficient funds</source>
-        <translation>Unzureichende Mittel</translation>
-    </message>
-    <message>
         <source>Insufficient funds.</source>
         <translation>Unzureichende Mittel.</translation>
     </message>
     <message>
-        <source>Invalid -onion address or hostname: '%s'</source>
-        <translation>Ungültige -onion Adresse oder Hostname: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Ungültiger Betrag für -maxtxfee=&lt;amount&gt;: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Ungültiger Betrag für -minrelaytxfee=&lt;amount&gt;: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -mintxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Ungültiger Betrag für -mintxfee=&lt;amount&gt;: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s' (must be at least %s)</source>
-        <translation>Ungültiger Betrag für -paytxfee=&lt;amount&gt;: '%s' (muss mindestens  %s sein)</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Ungültiger Betrag für -paytxfee=&lt;amount&gt;: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -reservebalance=&lt;amount&gt;</source>
-        <translation>Ungültiger Betrag für -reservebalance=&lt;amount&gt;</translation>
-    </message>
-    <message>
-        <source>Invalid amount</source>
-        <translation>Ungültiger Betrag</translation>
-    </message>
-    <message>
-        <source>Invalid masternodeprivkey. Please see documenation.</source>
-        <translation>Ungültiger privater Masternode-Schlüssel. Bitte sehen Sie in der Dokumentation nach.</translation>
-    </message>
-    <message>
-        <source>Invalid netmask specified in -whitelist: '%s'</source>
-        <translation>Fehlerhafte Netzmaske in -whitelist festgelegt: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid port detected in masternode.conf</source>
-        <translation>Ungültiger Port in masternode.conf entdeckt</translation>
-    </message>
-    <message>
-        <source>Percentage of automatically minted Zerocoin  (1-100, default: %u)</source>
-        <translation>Prozent automatisch geprägter Zerocoins (1-100, Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Reindex the WAGE and zWAGE money supply statistics</source>
-        <translation>Die Geldmengenstatistik WAGE und zWAGE neu indizieren</translation>
-    </message>
-    <message>
-        <source>Reindexing zerocoin database...</source>
-        <translation>Reindiziere Zerocoin Datenbank...</translation>
-    </message>
-    <message>
-        <source>Reindexing zerocoin failed</source>
-        <translation>Zerocoin Reindizierung fehlgeschlagen</translation>
-    </message>
-    <message>
-        <source>Selected coins value is less than payment target</source>
-        <translation>Ausgewählter Coinwert ist geringer als der Zielbetrag</translation>
-    </message>
-    <message>
-        <source>SwiftX options:</source>
-        <translation>SwiftX Optionen:</translation>
+        <source>Invalid -masternodeaddr port %d, isn't the same as the peer port %d</source>
+        <translation>Invalid -masternodeaddr port %d, isn't the same as the peer port %d</translation>
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for staking or merchant applications!</source>
         <translation>Dies ist ein Pre-Release-Testbuild - Nutzung auf eigene Gefahr - Nutzen Sie diese Version nicht für Staking oder Handelsanwendungen.</translation>
     </message>
     <message>
-        <source> mints deleted
-</source>
-        <translation>Prägungen gelöscht
-</translation>
-    </message>
-    <message>
-        <source> mints updated, </source>
-        <translation>Prägungen geupdatet,</translation>
-    </message>
-    <message>
-        <source> unconfirmed transactions removed
-</source>
-        <translation>unbestätigte Transaktionen entfernt
-</translation>
-    </message>
-    <message>
-        <source>Disable all DIGIWAGE specific functionality (Masternodes, Zerocoin, SwiftX, Budgeting) (0-1, default: %u)</source>
-        <translation>Deaktivieren Sie alle DIGIWAGE-spezifischen Funktionen (Masternodes, Zerocoin, SwiftX, Budgetierung) (0-1, Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Enable SwiftX, show confirmations for locked transactions (bool, default: %s)</source>
-        <translation>Swifttx aktivieren, Bestätigungen für gesperrte Transaktionen anzeigen (bool, default: %s)</translation>
-    </message>
-    <message>
-        <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Fehler: Die Transaktion wurde abgelehnt! Dies könnte passieren, wenn einige Coins in deiner Wallet schon ausgegeben wurden, als  wenn du eine Kopie von der wallet.dat benutzt hättest. Coins wurden in der Kopie verbracht, aber hier nicht als verbracht markiert.</translation>
-    </message>
-    <message>
-        <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation>Fehler: Diese Transaktion erfordert eine Transaktionsgebühr von mindestens %s wegen ihrer Menge, Komplexität oder Verwendung von kürzlich erhaltenen Mitteln!</translation>
-    </message>
-    <message>
-        <source>Error: Unsupported argument -checklevel found. Checklevel must be level 4.</source>
-        <translation>Fehler: Nicht unterstütztes Argument -checklevel entdeckt. Checklevel muss Level 4 sein.</translation>
-    </message>
-    <message>
-        <source>Execute command when the best block changes and its size is over (%s in cmd is replaced by block hash, %d with the block size)</source>
-        <translation>Befehl ausführen, wenn sich der beste Block ändert und seine Größe überschritten ist (%s in cmd wird durch Blockhash ersetzt, %d durch die Blockgröße)</translation>
-    </message>
-    <message>
-        <source>Failed to find coin set amongst held coins with less than maxNumber of Spends</source>
-        <translation>Fehler beim Finden der Münzen unter den gehaltenen Münzen mit weniger als maxNaval of Spends</translation>
-    </message>
-    <message>
-        <source>In rare cases, a spend with 7 coins exceeds our maximum allowable transaction size, please retry spend using 6 or less coins</source>
-        <translation>In seltenen Fällen überschreiten Ausgaben mit 7 Münzen die maximal zulässige Transaktionsgröße. Bitte versuchen Sie erneut, mit 6 oder weniger Münzen auszugeben</translation>
-    </message>
-    <message>
-        <source>Preferred Denomination for automatically minted Zerocoin  (1/5/10/50/100/500/1000/5000), 0 for no preference. default: %u)</source>
-        <translation>Bervorzugte Stückelung für automatisch geprägte Zerocoins (1/5/10/50/100/500/1000/5000), 0 falls keine bestimmte Stückelung präferiert wird. Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Specify custom backup path to add a copy of any automatic zWAGE backup. If set as dir, every backup generates a timestamped file. If set as file, will rewrite to that file every backup. If backuppath is set as well, 4 backups will happen</source>
-        <translation>Benutzerdefinierten Sicherungspfad festlegen, in den Kopien von allen automatischen zWAGE-Sicherungen abgelegt werden. Wenn ein Verzeichnis ausgewählt ist, wird jede Sicherung als Datei mit Zeitstempel erstellt. Wenn eine Datei ausgewählt ist, wird diese Datei bei jeder Sicherung überschrieben. Wenn der Sicherungspfad auch festgelegt ist, werden 4 Sicherungen erstellt.</translation>
-    </message>
-    <message>
-        <source>Specify custom backup path to add a copy of any wallet backup. If set as dir, every backup generates a timestamped file. If set as file, will rewrite to that file every backup.</source>
-        <translation>Benutzerdefinierten Sicherungspfad festlegen, in den Kopien von allen Wallet-Sicherungen abgelegt werden. Wenn ein Verzeichnis ausgewählt ist, wird jede Sicherung als Datei mit Zeitstempel erstellt. Wenn eine Datei ausgewählt ist, wird diese Datei bei jeder Sicherung überschrieben.</translation>
-    </message>
-    <message>
-        <source>SwiftX requires inputs with at least 6 confirmations, you might need to wait a few minutes and try again.</source>
-        <translation>SwiftTX benötigt mindestens 6 confirmations, Sie sollten ggf. einige Minuten abwarten und dann erneut probieren.</translation>
-    </message>
-    <message>
-        <source>&lt;category&gt; can be:</source>
-        <translation>&lt;category&gt;kann folgendes sein:</translation>
-    </message>
-    <message>
-        <source>Attempt to force blockchain corruption recovery</source>
-        <translation>Versuche die Wiederherstellung der fehlerhaften Blockchain zu forcieren</translation>
-    </message>
-    <message>
-        <source>CoinSpend: Accumulator witness does not verify</source>
-        <translation>CoinSpend: Akkumulator-Zeuge verifiziert nicht</translation>
-    </message>
-    <message>
-        <source>Display the stake modifier calculations in the debug.log file.</source>
-        <translation>Zeigen Sie die Berechnungen des Pfahlmodifikators in der Datei debug.log an.</translation>
-    </message>
-    <message>
-        <source>Display verbose coin stake messages in the debug.log file.</source>
-        <translation>Zeigen Sie in der Datei "debug.log" ausführliche Meldungen zum Pfahlstatus an.</translation>
-    </message>
-    <message>
-        <source>Enable publish hash block in &lt;address&gt;</source>
-        <translation>Aktivieren Sie den Veröffentlichungs-Hash-Block in&lt;address&gt;</translation>
-    </message>
-    <message>
-        <source>Enable publish hash transaction in &lt;address&gt;</source>
-        <translation>Aktivieren Sie die Veröffentlichung der Hash-Transaktion in&lt;address&gt;</translation>
-    </message>
-    <message>
-        <source>Enable publish raw block in &lt;address&gt;</source>
-        <translation>Aktivieren Sie den Veröffentlichungsrohblock in&lt;address&gt;</translation>
-    </message>
-    <message>
-        <source>Enable publish raw transaction in &lt;address&gt;</source>
-        <translation>Aktivieren Sie die Veröffentlichung der Rohtransaktion in&lt;address&gt;</translation>
-    </message>
-    <message>
-        <source>Enable staking functionality (0-1, default: %u)</source>
-        <translation>Aktiviere Staking-Funktionalität (0-1, default: %u)</translation>
-    </message>
-    <message>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
         <translation>Fehler: Ein schwerwiegender Fehler ist aufgetreten, schauen Sie für detailiertere Infos ins debug.log </translation>
     </message>
     <message>
-        <source>Error: No valid utxo!</source>
-        <translation>Error: No valid utxo!</translation>
+        <source>Cannot find the Sapling parameters in the following directory:
+%s
+Please run 'sapling-fetch-params' or './util/fetch-params.sh' and then restart.</source>
+        <translation>Die Sapling-Parameter können im folgenden Verzeichnis nicht gefunden werden:
+%s
+Bitte führen Sie 'sapling-fetch-params' oder './util/fetch-params.sh' aus und dann neustarten.</translation>
     </message>
     <message>
-        <source>Failed to create mint</source>
-        <translation>Fehler beim Erstellen von Minze</translation>
+        <source>Cannot upgrade to Sapling wallet (already running Sapling support). Version: %d</source>
+        <translation>Konnte nicht zum Sapling Wallet upgraden (Sapling support läuft bereits). Version: %d</translation>
     </message>
     <message>
-        <source>Failed to find Zerocoins in wallet.dat</source>
-        <translation>Zerocoins in wallet.dat nicht gefunden</translation>
+        <source>This file contains all of your private keys in plain text. DO NOT send this file to anyone!</source>
+        <translation>Diese Datei enthält alle Ihre privaten Schlüssel im Klartext. Senden Sie diese Datei NICHT an irgendjemanden!</translation>
     </message>
     <message>
-        <source>Failed to select a zerocoin</source>
-        <translation>Fehler beim Auswählen einer Nullstelle</translation>
+        <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of %s.</source>
+        <translation>Die Gesamtlänge der Netzwerkversionszeichenfolge (%i) überschreitet die maximale Länge (%i). Reduzieren Sie die Anzahl oder Größe von %s.</translation>
     </message>
     <message>
-        <source>Failed to wipe zerocoinDB</source>
-        <translation>Zerocoin Datenbank konnte nicht gelöscht werden</translation>
+        <source>Unable to replay blocks. You will need to rebuild the database using %s.</source>
+        <translation>Blöcke können nicht wiedergegeben werden. Sie müssen die Datenbank mit %s neu erstellen.</translation>
     </message>
     <message>
-        <source>Failed to write coin serial number into wallet</source>
-        <translation>Fehler beim Schreiben der Seriennummer der Münze in die Brieftasche</translation>
+        <source>Warning: %s is set very high! Fees this large could be paid on a single transaction.</source>
+        <translation>Warnung: %s ist sehr hoch eingestellt! Gebühren in dieser Höhe könnten mit einer einzigen Transaktion bezahlt werden.</translation>
     </message>
     <message>
-        <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>
-        <translation>Halte höchstens &lt;n&gt; unverbindbare Transaktionen im Speicher (Standard: %u)</translation>
+        <source>Warning: %s is set very high! This is the transaction fee you will pay if you send a transaction.</source>
+        <translation>Warnung: %s ist sehr hoch eingestellt! Dies ist die Transaktionsgebühr, die Sie zahlen, wenn Sie eine Transaktion senden.</translation>
     </message>
     <message>
-        <source>Limit size of signature cache to &lt;n&gt; entries (default: %u)</source>
-        <translation>Begrenze die Größe des Signatur Cache auf &lt;n&gt; Einträge (Standard: %u)</translation>
+        <source>Warning: error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
+        <translation>Warnung: Fehler beim Lesen der %s! Alle Schlüssel wurden korrekt gelesen, aber Transaktionsdaten oder Adressbuch-Einträge könnten fehlen oder inkorrekt sein.</translation>
+    </message>
+    <message>
+        <source>A fatal internal error occurred, see debug.log for details</source>
+        <translation>Ein schwerwiegender interner Fehler ist aufgetreten, siehe debug.log für Details</translation>
+    </message>
+    <message>
+        <source>Calculating money supply...</source>
+        <translation>Geldmenge berechnen...</translation>
+    </message>
+    <message>
+        <source>Error loading %s: Wallet corrupted</source>
+        <translation>Fehler beim Laden %s: Wallet beschädigt</translation>
+    </message>
+    <message>
+        <source>Error loading %s
+</source>
+        <translation>Fehler beim Laden %s
+</translation>
+    </message>
+    <message>
+        <source>Error loading wallet %s. Duplicate %s filename specified.</source>
+        <translation>Fehler beim Laden der Wallet %s. Duplizierter %s-Dateiname angegeben.</translation>
+    </message>
+    <message>
+        <source>Error upgrading chainstate database</source>
+        <translation>Fehler beim upgraden der Block-Datenbank</translation>
+    </message>
+    <message>
+        <source>Error: %s must be at least %d MB</source>
+        <translation>Fehler: %s muss mindestens %d MB groß sein</translation>
+    </message>
+    <message>
+        <source>Error: %s must be true if %s is set.</source>
+        <translation>Fehler: %s muss wahr sein, wenn %s gesetzt ist.</translation>
+    </message>
+    <message>
+        <source>Error: Disk space is low for %s</source>
+        <translation>Fehler: Zu wenig Speicherplatz für %s</translation>
+    </message>
+    <message>
+        <source>Error: Initializing networking failed</source>
+        <translation>Fehler: Initialisierung des Netzwerks fehlgeschlagen</translation>
+    </message>
+    <message>
+        <source>Error: Unsupported argument %s found, use %s.</source>
+        <translation>Fehler: Nicht unterstütztes Argument %s gefunden, verwenden Sie %s.</translation>
+    </message>
+    <message>
+        <source>Error: Unsupported argument %s found. Checklevel must be level 4.</source>
+        <translation>Fehler: Nicht unterstütztes Argument %s gefunden. Checklevel muss Level 4 sein.</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -%s=&lt;amount&gt;: '%s'</source>
+        <translation>Ungültiger Betrag für -%s=&lt;amount&gt;: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid masternodeprivkey. Please see the documentation.</source>
+        <translation>Ungültiger masternodeprivkey. Bitte beachten Sie die Dokumentation.</translation>
     </message>
     <message>
         <source>Line: %d</source>
         <translation>Zeile: %d</translation>
     </message>
     <message>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: %u or testnet: %u)</source>
-        <translation>Überwache Port &lt;port&gt; auf JSON-RPC Verbindungen (Standard: %u oder Testnetzwerk: %u)</translation>
-    </message>
-    <message>
-        <source>Listen for connections on &lt;port&gt; (default: %u or testnet: %u)</source>
-        <translation>Überwache Port &lt;port&gt; auf Verbindungen (Standard: %u oder Testnetzwerk: %u)</translation>
-    </message>
-    <message>
         <source>Loading addresses...</source>
         <translation>Lade Adressen...</translation>
+    </message>
+    <message>
+        <source>Loading banlist...</source>
+        <translation>Lade Verbannungsliste...</translation>
     </message>
     <message>
         <source>Loading block index...</source>
@@ -5355,256 +5493,213 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Lade Sporks...</translation>
     </message>
     <message>
-        <source>Loading wallet... (%3.2f %%)</source>
-        <translation>Lade Wallet... (%3.2f %%)</translation>
-    </message>
-    <message>
         <source>Loading wallet...</source>
         <translation>Lade Wallet...</translation>
     </message>
     <message>
-        <source>Location of the auth cookie (default: data dir)</source>
-        <translation>Location of the auth cookie (default: data dir)</translation>
-    </message>
-    <message>
-        <source>Lock masternodes from masternode configuration file (default: %u)</source>
-        <translation>Masternodes aus der masternode-Konfigurationsdatei sperren (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Lookup(): Invalid -proxy address or hostname: '%s'</source>
-        <translation>Lookup(): Invalid -proxy address or hostname: '%s'</translation>
-    </message>
-    <message>
-        <source>Maintain at most &lt;n&gt; connections to peers (default: %u)</source>
-        <translation>Pflegen Sie höchstens&lt;n&gt; Verbindungen zu Peers (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Masternode options:</source>
-        <translation>Masternode-Optionen:</translation>
-    </message>
-    <message>
-        <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
-        <translation>Maximaler Empfangspuffer pro Verbindung &lt;n&gt;*1000 bytes (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
-        <translation>Maximaler Sendepuffer pro Verbindung &lt;n&gt;*1000 bytes (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Mint did not make it into blockchain</source>
-        <translation>Mint schaffte es nicht in Blockchain</translation>
-    </message>
-    <message>
-        <source>Need to specify a port with -whitebind: '%s'</source>
-        <translation>Sie müssen einen Port mittels -whitebind festlegen: '%s'</translation>
-    </message>
-    <message>
-        <source>Node relay options:</source>
-        <translation>Optionen für Knotenrelais:</translation>
+        <source>MNs synchronization pending...</source>
+        <translation>MNs Synchronisation ausstehend...</translation>
     </message>
     <message>
         <source>Not enough file descriptors available.</source>
         <translation>Nicht genügend Datei-Deskriptoren verfügbar.</translation>
     </message>
     <message>
-        <source>Number of automatic wallet backups (default: 10)</source>
-        <translation>Anzahl automatischer Wallet-Backups (Standard: 10)</translation>
+        <source>Peers are being disconnected due time differences.</source>
+        <translation>Peers werden getrennt, da es zu Zeitunterschieden gekommen ist.</translation>
     </message>
     <message>
-        <source>Number of custom location backups to retain (default: %d)</source>
-        <translation>Anzahl an benutzerdefinierter Backups die aufbewahrt werden (Standard: %d)</translation>
+        <source>Specified blocks directory "%s" does not exist.</source>
+        <translation>Das angegebene Blockverzeichnis "%s" existiert nicht.</translation>
     </message>
     <message>
-        <source>Only accept block chain matching built-in checkpoints (default: %u)</source>
-        <translation>Akzeptiere nur Blockchains, die mit eingebauten Prüfpunkten übereinstimmt (Standard: %u)</translation>
+        <source>Unknown network specified in %s: '%s'</source>
+        <translation>Unbekanntes Netzwerk in %s angegeben: '%s'</translation>
     </message>
     <message>
-        <source>Only connect to nodes in network &lt;net&gt; (ipv4, ipv6 or onion)</source>
-        <translation>Nur Verbindung zu Knoten im Netzwerk &lt;net&gt; (ipv4, ipv6 oder onion)</translation>
+        <source>Upgrading coins database if needed...</source>
+        <translation>Aktualisieren der Coin-Datenbank bei Bedarf...</translation>
     </message>
     <message>
-        <source>Options:</source>
-        <translation>Optionen:</translation>
+        <source>Verifying wallet(s)...</source>
+        <translation>Verifiziere Wallets</translation>
     </message>
     <message>
-        <source>Password for JSON-RPC connections</source>
-        <translation>Passwort für JSON-RPC Verbindungen</translation>
-    </message>
-    <message>
-        <source>isValid(): Invalid -proxy address or hostname: '%s'</source>
-        <translation>isValid(): Invalid -proxy address or hostname: '%s'</translation>
+        <source>Wallet %s resides outside data directory %s</source>
+        <translation>Wallet %s liegt außerhalb des Datenverzeichnisses %s</translation>
     </message>
     <message>
         <source>Preparing for resync...</source>
         <translation>Vorbereitung für die Resynchronisierung ...</translation>
     </message>
     <message>
-        <source>Prepend debug output with timestamp (default: %u)</source>
-        <translation>Zeitstempel vor Debug-Ausgabe vermerken (Standard: %u)</translation>
+        <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
+        <translation>Kann keine Sperre für das Datenverzeichnis %s erhalten. %s wird wahrscheinlich bereits ausgeführt.</translation>
     </message>
     <message>
-        <source>Print version and exit</source>
-        <translation>Version drucken und Programm beenden</translation>
+        <source>Cannot start deterministic masternode before enforcement. Remove %s to start as legacy masternode</source>
+        <translation>Deterministischer Masternode kann vor der Durchsetzung nicht gestartet werden. %s entfernen, um als Legacy-Masternode zu starten</translation>
     </message>
     <message>
-        <source>RPC server options:</source>
-        <translation>RPC Serveroptionen:</translation>
+        <source>Enabling Masternode support requires turning on transaction indexing.Please add %s to your configuration and start with %s</source>
+        <translation>Um die Masternode-Unterstützung zu aktivieren, müssen Sie die Transaktionsindizierung einschalten: Fügen Sie %s zu Ihrer Konfiguration hinzu und beginnen Sie mit %s</translation>
     </message>
     <message>
-        <source>Randomly drop 1 of every &lt;n&gt; network messages</source>
-        <translation>Nach dem Zufallsprinzip 1 von jedem fallen lassen&lt;n&gt; Netzwerknachrichten</translation>
+        <source>Error: Unsupported argument %s found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
+        <translation>Fehler: Nicht unterstütztes Argument %s gefunden. Das Setzen der SOCKS-Version ist nicht mehr möglich, es werden nur noch SOCKS5-Proxys unterstützt.</translation>
     </message>
     <message>
-        <source>Randomly fuzz 1 of every &lt;n&gt; network messages</source>
-        <translation>Zufällig fuzz 1 von jedem&lt;n&gt; Netzwerknachrichten</translation>
+        <source>Failed to create backup, file already exists! This could happen if you restarted wallet in less than 60 seconds. You can continue if you are ok with this.</source>
+        <translation>Backup konnte nicht erstellt werden, Datei existiert bereits! Dies kann passieren, wenn Sie die Wallet in weniger als 60 Sekunden neu gestartet haben. Sie können fortfahren, wenn Sie damit einverstanden sind.</translation>
     </message>
     <message>
-        <source>Rebuild block chain index from current blk000??.dat files</source>
-        <translation>Baue den Blockchain-Index mithilfe der aktuellen blk000??.dat Datei erneut auf</translation>
+        <source>Invalid amount for %s: '%s' (must be at least the minimum relay fee of %s to prevent stuck transactions)</source>
+        <translation>Ungültiger Betrag für %s: '%s' (muss mindestens die Mindest-Relaisgebühr von %s betragen, um stockende Transaktionen zu verhindern)</translation>
     </message>
     <message>
-        <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation>Empfange P2P-Netzwerk-Warnsignale und zeige diese an (Standard: %u)</translation>
+        <source>Legacy masternode system disabled. Use %s to start as deterministic masternode</source>
+        <translation>Legacy-Masternode-System deaktiviert. Verwenden Sie %s, um als deterministischer Masternode zu starten</translation>
     </message>
     <message>
-        <source>Reindex the accumulator database</source>
-        <translation>Reinde die Akkumulator-Datenbank neu</translation>
+        <source>System error while flushing the chainstate after pruning invalid entries. Possible corrupt database.</source>
+        <translation>Systemfehler beim Bereinigen der Blockchain nach dem Entfernen ungültiger Einträge. Möglicherweise ist die Datenbank beschädigt.</translation>
     </message>
     <message>
-        <source>Relay and mine data carrier transactions (default: %u)</source>
-        <translation>Relay und meine Datenträgertransaktionen (Standard: %u)</translation>
+        <source>WARNING: The transaction has been signed and recorded, so the wallet will try to re-send it. Use 'abandontransaction' to cancel it. (txid: %s)</source>
+        <translation>WARNUNG: Die Transaktion wurde signiert und aufgezeichnet, sodass das Wallet versucht, sie erneut zu senden. Verwenden Sie 'abandontransaction', um den Vorgang abzubrechen. (txid: %s)</translation>
     </message>
     <message>
-        <source>Relay non-P2SH multisig (default: %u)</source>
-        <translation>Relais nicht-P2SH multisig (Standard: %u)</translation>
+        <source>(must be %d for %s-net)</source>
+        <translation>(muss %d für %s-net sein)</translation>
     </message>
     <message>
-        <source>Rescan the block chain for missing wallet transactions</source>
-        <translation>Neuscannen der  Blockchain nach fehlenden Wallet-Transaktionen</translation>
+        <source>Active Masternode not initialized.</source>
+        <translation>Aktive Masternode nicht initialisiert</translation>
+    </message>
+    <message>
+        <source>Can't generate a change-address key. Please call keypoolrefill first.</source>
+        <translation>Es kann kein Adressänderungsschlüssel generiert werden. Bitte rufen Sie zuerst keypoolrefill auf.</translation>
+    </message>
+    <message>
+        <source>Cannot resolve -%s address: '%s'</source>
+        <translation>Kann -%s Adresse nicht auflösen: '%s'</translation>
+    </message>
+    <message>
+        <source>Cannot write to data directory '%s'; check permissions.</source>
+        <translation>Kann nicht in das Datenverzeichnis '%s' schreiben; Berechtigungen prüfen.</translation>
+    </message>
+    <message>
+        <source>Change index out of range</source>
+        <translation>Ändert den Index außerhalb des Bereichs</translation>
+    </message>
+    <message>
+        <source>Failed to accept tx in the memory pool (reason: %s)
+</source>
+        <translation>Fehler beim Akzeptieren von tx im Speicherpool (Grund:%s)</translation>
+    </message>
+    <message>
+        <source>Failed to delete backup, error: %s</source>
+        <translation>Sicherung konnte nicht gelöscht werden, Fehler: %s</translation>
+    </message>
+    <message>
+        <source>Failed to listen on any port. Use %s if you want this.</source>
+        <translation>Konnte auf keinem Port lauschen. Verwenden Sie %s, wenn Sie dies wünschen.</translation>
+    </message>
+    <message>
+        <source>Failed to rescan the wallet during initialization</source>
+        <translation>Das Wallet konnte während der Initialisierung nicht neu gescannt werden</translation>
+    </message>
+    <message>
+        <source>Initialization sanity check failed. %s is shutting down.</source>
+        <translation>Initialisierungsüberprüfung fehlgeschlagen. %s wird heruntergefahren.</translation>
+    </message>
+    <message>
+        <source>Invalid -masternodeaddr address: %s</source>
+        <translation>Ungültige -masternodeaddr Adresse: %s</translation>
+    </message>
+    <message>
+        <source>Invalid -masternodeaddr port %d, only %d is supported on %s-net.</source>
+        <translation>Ungültiger -masternodeaddr Port %d, nur Port %d  wird von %s-net unterstützt.</translation>
+    </message>
+    <message>
+        <source>Invalid activation height (%s)</source>
+        <translation>Ungültige Aktivierungshöhe (%s)</translation>
+    </message>
+    <message>
+        <source>Invalid amount for %s: '%s' (must be at least %s)</source>
+        <translation>Ungültiger Betrag für %s: '%s' (muss mindestens %s sein)</translation>
+    </message>
+    <message>
+        <source>Invalid mnoperatorprivatekey. Please see the documentation.</source>
+        <translation>Ungültiger mnoperatorprivatekey. Bitte lesen Sie die Dokumentation.</translation>
+    </message>
+    <message>
+        <source>Invalid netmask specified in %s: '%s'</source>
+        <translation>Fehlerhafte Netzmaske festgelegt in %s: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid network upgrade (%s)</source>
+        <translation>Ungültiges Netzwerk-Upgrade (%s)</translation>
+    </message>
+    <message>
+        <source>Invalid port %d detected in masternode.conf</source>
+        <translation>Ungültiger port %d in masternode.conf entdeckt</translation>
+    </message>
+    <message>
+        <source>Invalid status error.</source>
+        <translation>Ungültiger Status Fehler</translation>
+    </message>
+    <message>
+        <source>Keypool ran out, please call keypoolrefill first, or unlock the wallet.</source>
+        <translation>Der Keypool ist abgelaufen, bitte rufe zuerst keypoolrefill auf oder entsperre das Wallet.</translation>
+    </message>
+    <message>
+        <source>Legacy Masternode is obsolete.</source>
+        <translation>Legacy Masternode ist veraltet.</translation>
+    </message>
+    <message>
+        <source>Loading/Pruning invalid outputs...</source>
+        <translation>Laden/Löschen ungültiger Ausgänge...</translation>
+    </message>
+    <message>
+        <source>Need to specify a port with %s: '%s'</source>
+        <translation>Sie müssen einen Anschluss mit %s angeben: '%s'</translation>
+    </message>
+    <message>
+        <source>Network upgrade parameters malformed, expecting %s</source>
+        <translation>Netzwerk-Upgrade-Parameter sind fehlerhaft, erwartet %s</translation>
+    </message>
+    <message>
+        <source>Network upgrade parameters may only be overridden on regtest.</source>
+        <translation>Netzwerk-Upgrade-Parameter können nur beim Regtest außer Kraft gesetzt werden.</translation>
+    </message>
+    <message>
+        <source>No error</source>
+        <translation>Kein Fehler</translation>
+    </message>
+    <message>
+        <source>OS cryptographic RNG sanity check failure. Aborting.</source>
+        <translation>Fehler bei der kryptographischen RNG-Sicherheitsprüfung des Betriebssystems. Abbruch.</translation>
+    </message>
+    <message>
+        <source>Reaccepting wallet transactions...</source>
+        <translation>Wallet-Transaktionen wieder annehmen...</translation>
+    </message>
+    <message>
+        <source>Replaying blocks...</source>
+        <translation>Blöcke wiederholen...</translation>
     </message>
     <message>
         <source>Rescanning...</source>
         <translation>Neuscannen...</translation>
     </message>
     <message>
-        <source>ResetMintZerocoin finished: </source>
-        <translation>ResetMintZerocoin abgeschlossen: </translation>
-    </message>
-    <message>
-        <source>ResetSpentZerocoin finished: </source>
-        <translation>ResetSpentZerocoin abgeschlossen: </translation>
-    </message>
-    <message>
-        <source>Run a thread to flush wallet periodically (default: %u)</source>
-        <translation>Führen Sie einen Thread aus, um die Brieftasche regelmäßig zu leeren (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Run in the background as a daemon and accept commands</source>
-        <translation>Als Hintergrundprozess ausführen und Eingaben akzeptieren</translation>
-    </message>
-    <message>
-        <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
-        <translation>Sende die Transaktion als gebührenfreie Transaktion, falls möglich (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Session timed out.</source>
-        <translation>Zeitüberschreitung</translation>
-    </message>
-    <message>
-        <source>Set database cache size in megabytes (%d to %d, default: %d)</source>
-        <translation>Größe des Datenbank-Cache in Megabytes festlegen (%d to %d, Standard: %d)</translation>
-    </message>
-    <message>
-        <source>Set external address:port to get to this masternode (example: %s)</source>
-        <translation>Port für externe Adressen festlegen, die verwendet werden um diese Masternode anzusteuern (Beispiel: %s)</translation>
-    </message>
-    <message>
-        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
-        <translation>Setze Key-Pool Größe auf &lt;n&gt; (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Set maximum block size in bytes (default: %d)</source>
-        <translation>Maximale Blockgröße in Bytes festlegen (Standard: %d)</translation>
-    </message>
-    <message>
-        <source>Set minimum block size in bytes (default: %u)</source>
-        <translation>Minimale Blockgröße in Bytes festlegen (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Set the Maximum reorg depth (default: %u)</source>
-        <translation>Legen Sie die maximale Reorganisationstiefe fest (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Set the masternode private key</source>
-        <translation>Privaten Masternode-Schlüssel festlegen</translation>
-    </message>
-    <message>
-        <source>Set the number of threads to service RPC calls (default: %d)</source>
-        <translation>Anzahl der Threads festlegen, die genutzt werden um RPC Anfragen zu bearbeiten (Standard: %d)</translation>
-    </message>
-    <message>
-        <source>Sets the DB_PRIVATE flag in the wallet db environment (default: %u)</source>
-        <translation>Setzt das DB_PRIVATE-Flag in der Wallet-Datenbankumgebung (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Show all debugging options (usage: --help -help-debug)</source>
-        <translation>Zeige alle debugging Optionen (verwende: --help -help-debug)</translation>
-    </message>
-    <message>
-        <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
-        <translation>Schrumpfe debug.log Datei beim Client-Start (Standard: 1, falls -debug nicht gesetzt ist)</translation>
-    </message>
-    <message>
-        <source>Signing timed out.</source>
-        <translation>Zeitüberschreitung bei der Signierung.</translation>
+        <source>Shutdown requested over the txs scan. Exiting.</source>
+        <translation>Herunterfahren für den Txs-Scan angefordert. Beende Wallet.</translation>
     </message>
     <message>
         <source>Signing transaction failed</source>
         <translation>Signieren der Transaktion fehlgeschlagen</translation>
-    </message>
-    <message>
-        <source>Specify configuration file (default: %s)</source>
-        <translation>Konfigurationsdatei auswählen (Standard: %s)</translation>
-    </message>
-    <message>
-        <source>Specify connection timeout in milliseconds (minimum: 1, default: %d)</source>
-        <translation>Verbindungs-Timeout in Millisekunden festlegen (Minimum: 1, Standard: %d)</translation>
-    </message>
-    <message>
-        <source>Specify data directory</source>
-        <translation>Datenverzeichnis festlegen</translation>
-    </message>
-    <message>
-        <source>Specify masternode configuration file (default: %s)</source>
-        <translation>Bezeichne Masternode-Konfigurationsdatei (default: %s)</translation>
-    </message>
-    <message>
-        <source>Specify pid file (default: %s)</source>
-        <translation>Bezeichne pid-Datei  (default: %s)</translation>
-    </message>
-    <message>
-        <source>Specify wallet file (within data directory)</source>
-        <translation>Bezeichne Wallet-Datei (im Datenverzeichnis)</translation>
-    </message>
-    <message>
-        <source>Specify your own public address</source>
-        <translation>Bezeichnen Sie ihre eigene öffentliche Adresse</translation>
-    </message>
-    <message>
-        <source>Spend Valid</source>
-        <translation>Spend Valid</translation>
-    </message>
-    <message>
-        <source>Spend unconfirmed change when sending transactions (default: %u)</source>
-        <translation>Unbestätigte Änderung beim Senden von Transaktionen ausgeben (Standard: %u)</translation>
-    </message>
-    <message>
-        <source>Staking options:</source>
-        <translation>Staking-Optionen:</translation>
-    </message>
-    <message>
-        <source>Stop running after importing blocks from disk (default: %u)</source>
-        <translation>Stoppt den Lauf nach dem Importieren von Blöcken von der Festplatte (default: %u)</translation>
     </message>
     <message>
         <source>Synchronization failed</source>
@@ -5613,10 +5708,6 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
     <message>
         <source>Synchronization finished</source>
         <translation>Synchronisierung erfolgreich beendet</translation>
-    </message>
-    <message>
-        <source>Synchronization pending...</source>
-        <translation>Synchronisierung ausstehend...</translation>
     </message>
     <message>
         <source>Synchronizing budgets...</source>
@@ -5635,52 +5726,69 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Synchronisiere Sporks....</translation>
     </message>
     <message>
-        <source>Syncing zWAGE wallet...</source>
-        <translation>Synchronisiere zWAGE Wallet... </translation>
-    </message>
-    <message>
-        <source>The coin spend has been used</source>
-        <translation>Die Münzausgabe wurde verwendet</translation>
-    </message>
-    <message>
-        <source>The transaction did not verify</source>
-        <translation>Die Transaktion wurde nicht verifiziert</translation>
-    </message>
-    <message>
-        <source>This help message</source>
-        <translation>Dieser Hilfetext</translation>
+        <source>The threshold value cannot be less than %s</source>
+        <translation> 
+Der Schwellenwert darf nicht kleiner sein als %s</translation>
     </message>
     <message>
         <source>This is experimental software.</source>
         <translation>Dies ist experimentelle Software.</translation>
     </message>
     <message>
-        <source>This is intended for regression testing tools and app development.</source>
-        <translation>Dies ist für Regressionstest-Tools und Anwendungsentwicklung gedacht.</translation>
+        <source>This is not a deterministic masternode. 'local' option disabled.</source>
+        <translation>Es handelt sich nicht um einen deterministischen Masternode. Die Option 'local' ist deaktiviert.</translation>
     </message>
     <message>
-        <source>Threshold for disconnecting misbehaving peers (default: %u)</source>
-        <translation>Schwellenwert zum Trennen von sich falsch verhaltenden Gegenstellen (Standard: %u)</translation>
+        <source>This is not a masternode. 'local' option disabled.</source>
+        <translation>Dies ist kein Masternode. Option 'lokal' deaktiviert.</translation>
     </message>
     <message>
-        <source>Too many spends needed</source>
-        <translation>Zu viele Ausgaben benötigt</translation>
+        <source>This is not a masternode.</source>
+        <translation>Dies ist keine Masternode</translation>
     </message>
     <message>
-        <source>Tor control port password (default: empty)</source>
-        <translation>Tor Kontroll-Port Passwort (Standard: ohne)</translation>
+        <source>This product includes UPnP software written by Thomas Bernard.</source>
+        <translation>Dieses Produkt enthält UPnP-Software, die von Thomas Bernard geschrieben wurde.</translation>
     </message>
     <message>
-        <source>Tor control port to use if onion listening enabled (default: %s)</source>
-        <translation>Zu verwendender Tor Kontroll-Port, falls onion Überwachung aktiviert ist (Standard %s)</translation>
+        <source>Invalid -wallet path '%s'. -wallet path should point to a directory where wallet.dat and database/log.?????????? files can be stored, a location where such a directory could be created or (for backwards compatibility) the name of an existing data file in -walletdir (%s)</source>
+        <translation>Ungültiger -Wallet-Pfad '%s'. -Wallet-Pfad sollte auf ein Verzeichnis verweisen, in dem die Dateien wallet.dat und database/log.?????????? gespeichert werden können, auf einen Ort, an dem ein solches Verzeichnis erstellt werden kann, oder (aus Gründen der Abwärtskompatibilität) auf den Namen einer vorhandenen Datendatei in -walletdir (%s)</translation>
     </message>
     <message>
-        <source>Transaction Created</source>
-        <translation>Transaktion erstellt</translation>
+        <source>Please check that your computer's date and time are correct! If your clock is wrong %s will not work properly.</source>
+        <translation>Bitte überprüfen Sie, ob Datum und Uhrzeit Ihres Computers richtig eingestellt sind! Wenn Ihre Uhr falsch eingestellt ist, wird %s nicht richtig funktionieren.</translation>
     </message>
     <message>
-        <source>Transaction Mint Started</source>
-        <translation>Transaktion Mint gestartet</translation>
+        <source>Warning: Please check that your computer's date and time are correct! If your clock is wrong %s will not work properly.</source>
+        <translation>Achtung! Bitte überprüfen Sie, ob Datum und Uhrzeit Ihres Computers richtig eingestellt sind! Wenn Ihre Uhr falsch eingestellt ist, wird %s nicht richtig funktionieren.</translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2015-%i The %s Developers</source>
+        <translation>Copyright (C) 2015-%i Die %s-Entwickler</translation>
+    </message>
+    <message>
+        <source>Could not find asmap file %s</source>
+        <translation>Asmap-Datei %s konnte nicht gefunden werden</translation>
+    </message>
+    <message>
+        <source>Could not parse asmap file %s</source>
+        <translation>Asmap-Datei %s konnte nicht geparst werden</translation>
+    </message>
+    <message>
+        <source>Error loading %s: Wallet requires newer version of %s</source>
+        <translation>Fehler beim Laden von %s: Wallet benötigt neuere Version von %s</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" does not exist</source>
+        <translation>Das angegebene -walletdir "%s" existiert nicht</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" is a relative path</source>
+        <translation>Das angegebene -walletdir "%s" ist ein relativer Pfad</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" is not a directory</source>
+        <translation>Das angegebene -walletdir "%s" ist kein Verzeichnis</translation>
     </message>
     <message>
         <source>Transaction amount too small</source>
@@ -5691,6 +5799,14 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Transaktionsbeträge müssen positiv sein</translation>
     </message>
     <message>
+        <source>Transaction canceled.</source>
+        <translation>Transaktion abgebrochen</translation>
+    </message>
+    <message>
+        <source>Transaction must have at least one recipient</source>
+        <translation>Die Transaktion muss mindestens einen Empfänger haben</translation>
+    </message>
+    <message>
         <source>Transaction too large for fee policy</source>
         <translation>Transaktion ist für die Gebührenrichtlinie zu groß</translation>
     </message>
@@ -5699,12 +5815,20 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Transaktion zu groß</translation>
     </message>
     <message>
-        <source>Trying to spend an already spent serial #, try again.</source>
-        <translation>Versuchen Sie, eine bereits ausgegebene Seriennummer auszugeben, versuchen Sie es erneut.</translation>
-    </message>
-    <message>
         <source>Unable to bind to %s on this computer (bind returned error %s)</source>
         <translation>Kann auf diesem Computer nicht an %s binden (zurückgegebener Fehler: %s)</translation>
+    </message>
+    <message>
+        <source>Unable to bind to %s on this computer. %s is probably already running.</source>
+        <translation>Auf diesem Computer kann keine Verbindung zu %s hergestellt werden. %s wird wahrscheinlich bereits ausgeführt.</translation>
+    </message>
+    <message>
+        <source>Unable to generate initial key!</source>
+        <translation>Initialschlüssel kann nicht erzeugt werden!</translation>
+    </message>
+    <message>
+        <source>Unable to generate keys</source>
+        <translation>Schlüssel konnten nicht erzeugt werden</translation>
     </message>
     <message>
         <source>Unable to sign spork message, wrong key?</source>
@@ -5715,60 +5839,36 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Der HTTP-Server konnte nicht gestartet werden. Details finden Sie im Debug-Protokoll.</translation>
     </message>
     <message>
-        <source>Unknown network specified in -onlynet: '%s'</source>
-        <translation>Unbekannter Netztyp in -onlynet angegeben: '%s'</translation>
+        <source>Wallet needed to be rewritten: restart %s to complete</source>
+        <translation>Wallet muss neu geschrieben werden: Neustart %s zur Fertigstellung</translation>
     </message>
     <message>
-        <source>Upgrade wallet to latest format</source>
-        <translation>Wallet auf das neueste Format aktualisieren</translation>
+        <source>Warning: Unsupported argument %s ignored, use %s</source>
+        <translation>Warnung: Nicht unterstütztes Argument %s wird ignoriert, verwenden Sie %s</translation>
     </message>
     <message>
-        <source>Use UPnP to map the listening port (default: %u)</source>
-        <translation>UPnP verwenden, um eine Portweiterleitung einzurichten (Standard: %u)</translation>
+        <source>Warning: Unsupported argument %s ignored, use %s.</source>
+        <translation>Warnung: Nicht unterstütztes Argument %s wird ignoriert, verwenden Sie %s.</translation>
     </message>
     <message>
-        <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>UPnP verwenden, um eine Portweiterleitung einzurichten (Standard: 1, wenn abgehört wird)</translation>
+        <source>You can not start a masternode in litemode</source>
+        <translation>Du kannst keinen Masternode im Litemode starten</translation>
     </message>
     <message>
-        <source>Use a custom max chain reorganization depth (default: %u)</source>
-        <translation>Verwenden Sie eine benutzerdefinierte Max-Reorganisation der Kette (Standard: %u)</translation>
+        <source>You need to rebuild the database using %s to change %s</source>
+        <translation>Sie müssen die Datenbank mit %s neu erstellen, um %s zu ändern</translation>
     </message>
     <message>
-        <source>Use the test network</source>
-        <translation>Das Testnetzwerk verwenden</translation>
+        <source>Unsupported logging category %s=%s.</source>
+        <translation>NIcht unterstützte Logging-Kategorie %s=%s.</translation>
     </message>
     <message>
-        <source>Username for JSON-RPC connections</source>
-        <translation>Benutzername für JSON-RPC-Verbindungen</translation>
-    </message>
-    <message>
-        <source>Value is below the smallest available denomination (= 1) of zWAGE</source>
-        <translation>Der Betrag ist unterhalb des kleinsten Wertes (=1) an zWAGE</translation>
+        <source>User Agent comment (%s) contains unsafe characters.</source>
+        <translation>User Agend Kommentar (%s) enthält nicht sichere Zeichen.</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
         <translation>Verifiziere Blöcke...</translation>
-    </message>
-    <message>
-        <source>Verifying wallet...</source>
-        <translation>Verifiziere Wallet...</translation>
-    </message>
-    <message>
-        <source>Wallet %s resides outside data directory %s</source>
-        <translation>Wallet %s liegt außerhalb des Datenverzeichnisses %s</translation>
-    </message>
-    <message>
-        <source>Wallet needed to be rewritten: restart DIGIWAGE Core to complete</source>
-        <translation>Wallet musste neu geschrieben werden: Bitte DIGIWAGE Core neu starten</translation>
-    </message>
-    <message>
-        <source>Wallet options:</source>
-        <translation>Wallet-Optionen:</translation>
-    </message>
-    <message>
-        <source>Wallet window title</source>
-        <translation>Fensterüberschrift der Wallet</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -5779,59 +5879,63 @@ Präge entweder höhere Stückelungen (damit weniger Eingaben benötigt werdenn)
         <translation>Warnung: Diese Version is veraltet, Aktualisierung erforderlich!</translation>
     </message>
     <message>
-        <source>Warning: Unsupported argument -benchmark ignored, use -debug=bench.</source>
-        <translation>Warnung: Nicht unterstütztes Argument -benchmark wurde ignoriert, nutzen Sie -debug=bench.</translation>
-    </message>
-    <message>
-        <source>Warning: Unsupported argument -debugnet ignored, use -debug=net.</source>
-        <translation>Warnung: Nicht unterstütztes Argument -debugnet wurde ignoriert, nutze stattdessen -debug=net.</translation>
-    </message>
-    <message>
-        <source>You don't have enough Zerocoins in your wallet</source>
-        <translation>Du hast nicht genug Zerocoins in deiner Brieftasche</translation>
-    </message>
-    <message>
-        <source>You need to rebuild the database using -reindex to change -txindex</source>
-        <translation>Sie müssen die Datenbank mithilfe von -reindex neu erstellen, um -txindex zu ändern</translation>
-    </message>
-    <message>
         <source>Zapping all transactions from wallet...</source>
         <translation>Lösche alle Transaktionen aus der Wallet...</translation>
-    </message>
-    <message>
-        <source>ZeroMQ notification options:</source>
-        <translation>ZeroMQ Benachrichtigungsoptionen:</translation>
-    </message>
-    <message>
-        <source>Zerocoin options:</source>
-        <translation>Zerocoin Optionen:</translation>
-    </message>
-    <message>
-        <source>on startup</source>
-        <translation>beim Starten</translation>
-    </message>
-    <message>
-        <source>wallet.dat corrupt, salvage failed</source>
-        <translation>wallet.dat beschädigt, Datenrettung fehlgeschlagen</translation>
     </message>
 </context>
 <context>
     <name>send</name>
     <message>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
         <source>Send</source>
-        <translation>Schicken</translation>
+        <translation>Senden</translation>
     </message>
     <message>
-        <source>TextLabel</source>
-        <translation>TextEtikett</translation>
+        <source>Transfer coins publicly or privately</source>
+        <translation>Coins öffentlich oder privat transferieren</translation>
     </message>
     <message>
-        <source>PushButton</source>
-        <translation>Druckknopf</translation>
+        <source>Transparent</source>
+        <translation>Durchsichtig</translation>
+    </message>
+    <message>
+        <source>Shielded</source>
+        <translation>Abgeschirmt</translation>
+    </message>
+    <message>
+        <source>Select which coins to spend</source>
+        <translation>Wählen Sie aus, welche Coins ausgegeben werden sollen</translation>
+    </message>
+    <message>
+        <source>Recipient address</source>
+        <translation>Empfangsadresse</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Betrag</translation>
+    </message>
+    <message>
+        <source>Customize fee</source>
+        <translation>Benutzerdefinierte Gebühr</translation>
+    </message>
+    <message>
+        <source>Clear all</source>
+        <translation>Alles löschen</translation>
+    </message>
+    <message>
+        <source>Add recipient</source>
+        <translation>Füge Empfänger hinzu</translation>
+    </message>
+    <message>
+        <source>Total to send</source>
+        <translation>Totalbetrag zum Senden</translation>
+    </message>
+    <message>
+        <source>Reset to default</source>
+        <translation>Auf Voreinstellungen zurücksetzen</translation>
+    </message>
+    <message>
+        <source>Include delegated</source>
+        <translation>Schließe Zugewiesene mit ein</translation>
     </message>
 </context>
 </TS>

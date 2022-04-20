@@ -1,0 +1,3 @@
+usr/local/bin/digiwaged usr/bin
+usr/local/bin/digiwage-cli usr/bin
+debian/examples/digiwage.conf etc/digiwage

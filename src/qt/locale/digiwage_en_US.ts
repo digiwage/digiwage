@@ -1,5 +1,53 @@
 <TS language="en_US" version="2.1">
 <context>
+    <name>AddNewAddressDialog</name>
+    <message>
+        <source>New Address</source>
+        <translation>New Address</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Address</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
+    </message>
+</context>
+<context>
+    <name>AddNewContactDialog</name>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
+    </message>
+    <message>
+        <source>Edit Contact</source>
+        <translation>Edit Contact</translation>
+    </message>
+    <message>
+        <source>Set a label for the selected address</source>
+        <translation>Set a label for the selected address</translation>
+    </message>
+    <message>
+        <source>Enter a label for the address (e.g. Exchange)</source>
+        <translation>Enter a label for the address (e.g. Exchange)</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
+    </message>
+    <message>
+        <source>Edit label for the selected address:
+%1</source>
+        <translation>Edit label for the selected address:
+%1</translation>
+    </message>
+</context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
@@ -109,8 +157,107 @@
         <translation>Address</translation>
     </message>
     <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(no label)</translation>
+    </message>
+</context>
+<context>
+    <name>AddressesWidget</name>
+    <message>
+        <source>Contact name</source>
+        <translation>Contact name</translation>
+    </message>
+    <message>
+        <source>Enter address</source>
+        <translation>Enter address</translation>
+    </message>
+    <message>
+        <source>Contacts</source>
+        <translation>Contacts</translation>
+    </message>
+    <message>
+        <source>You can add a new one in the options menu to the side.</source>
+        <translation>You can add a new one in the options menu to the side.</translation>
+    </message>
+    <message>
+        <source>No contacts yet</source>
+        <translation>No contacts yet</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
+    </message>
+    <message>
+        <source>Add new contact</source>
+        <translation>Add new contact</translation>
+    </message>
+    <message>
+        <source>Generate a new address to receive tokens.</source>
+        <translation>Generate a new address to receive tokens.</translation>
+    </message>
+    <message>
+        <source>Invalid Contact Address</source>
+        <translation>Invalid Contact Address</translation>
+    </message>
+    <message>
+        <source>Cannot store your own address as contact</source>
+        <translation>Cannot store your own address as contact</translation>
+    </message>
+    <message>
+        <source>Address already stored, label: %1</source>
+        <translation>Address already stored, label: %1</translation>
+    </message>
+    <message>
+        <source>New Contact Stored</source>
+        <translation>New Contact Stored</translation>
+    </message>
+    <message>
+        <source>Error Storing Contact</source>
+        <translation>Error Storing Contact</translation>
+    </message>
+    <message>
+        <source>Contact edited</source>
+        <translation>Contact edited</translation>
+    </message>
+    <message>
+        <source>Contact edit failed</source>
+        <translation>Contact edit failed</translation>
+    </message>
+    <message>
+        <source>Delete Contact</source>
+        <translation>Delete Contact</translation>
+    </message>
+    <message>
+        <source>You are just about to remove the contact:
+
+%1
+
+Are you sure?</source>
+        <translation>You are just about to remove the contact:
+
+%1
+
+Are you sure?</translation>
+    </message>
+    <message>
+        <source>Contact Deleted</source>
+        <translation>Contact Deleted</translation>
+    </message>
+    <message>
+        <source>Error deleting a contact</source>
+        <translation>Error deleting a contact</translation>
+    </message>
+    <message>
+        <source>Address copied</source>
+        <translation>Address copied</translation>
     </message>
 </context>
 <context>
@@ -118,26 +265,6 @@
     <message>
         <source>Passphrase Dialog</source>
         <translation>Passphrase Dialog</translation>
-    </message>
-    <message>
-        <source>Enter passphrase</source>
-        <translation>Enter passphrase</translation>
-    </message>
-    <message>
-        <source>New passphrase</source>
-        <translation>New passphrase</translation>
-    </message>
-    <message>
-        <source>Repeat new passphrase</source>
-        <translation>Repeat new passphrase</translation>
-    </message>
-    <message>
-        <source>Serves to disable the trivial sendmoney when OS account compromised. Provides no real security.</source>
-        <translation>Serves to disable the trivial sendmoney when OS account compromised. Provides no real security.</translation>
-    </message>
-    <message>
-        <source>For anonymization and staking only</source>
-        <translation>For anonymization and staking only</translation>
     </message>
     <message>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
@@ -150,6 +277,12 @@
     <message>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
         <translation>This operation needs your wallet passphrase to unlock the wallet.</translation>
+    </message>
+    <message>
+        <source>Unlock wallet
+for staking</source>
+        <translation>Unlock wallet
+for staking</translation>
     </message>
     <message>
         <source>Unlock wallet</source>
@@ -176,20 +309,44 @@
         <translation>Confirm wallet encryption</translation>
     </message>
     <message>
-        <source>DIGIWAGE will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your WAGEs from being stolen by malware infecting your computer.</source>
-        <translation>DIGIWAGE will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your WAGEs from being stolen by malware infecting your computer.</translation>
+        <source>WARNING</source>
+        <translation>WARNING</translation>
+    </message>
+    <message>
+        <source>If you encrypt your wallet and lose your passphrase, you will</source>
+        <translation>If you encrypt your wallet and lose your passphrase, you will</translation>
+    </message>
+    <message>
+        <source>ENCRYPT</source>
+        <translation>ENCRYPT</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Are you sure you wish to encrypt your wallet?</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR WAGE&lt;/b&gt;!</source>
-        <translation>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR WAGE&lt;/b&gt;!</translation>
-    </message>
-    <message>
         <source>Wallet encrypted</source>
         <translation>Wallet encrypted</translation>
+    </message>
+    <message>
+        <source>WARNING:</source>
+        <translation>WARNING:</translation>
+    </message>
+    <message>
+        <source>The caps lock key is on!</source>
+        <translation>The caps lock key is on!</translation>
+    </message>
+    <message>
+        <source>Passphrases do not match!</source>
+        <translation>Passphrases do not match!</translation>
+    </message>
+    <message>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your WAGEs from being stolen by malware infecting your computer.</source>
+        <translation>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your WAGEs from being stolen by malware infecting your computer.</translation>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
@@ -200,12 +357,20 @@
         <translation>Wallet encryption failed</translation>
     </message>
     <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
         <translation>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</translation>
     </message>
     <message>
         <source>The supplied passphrases do not match.</source>
         <translation>The supplied passphrases do not match.</translation>
+    </message>
+    <message>
+        <source>LOSE ALL OF YOUR COINS</source>
+        <translation>LOSE ALL OF YOUR COINS</translation>
     </message>
     <message>
         <source>Wallet unlock failed</source>
@@ -223,633 +388,53 @@
         <source>Wallet passphrase was successfully changed.</source>
         <translation>Wallet passphrase was successfully changed.</translation>
     </message>
+</context>
+<context>
+    <name>BalanceBubble</name>
     <message>
-        <source>Warning: The Caps Lock key is on!</source>
-        <translation>Warning: The Caps Lock key is on!</translation>
+        <source>Transparent</source>
+        <translation>Transparent</translation>
+    </message>
+    <message>
+        <source>Shielded</source>
+        <translation>Shielded</translation>
     </message>
 </context>
 <context>
-    <name>Bip38ToolDialog</name>
+    <name>BanTableModel</name>
     <message>
-        <source>BIP 38 Tool</source>
-        <translation>BIP 38 Tool</translation>
+        <source>IP/Netmask</source>
+        <translation>IP/Netmask</translation>
     </message>
     <message>
-        <source>&amp;BIP 38 Encrypt</source>
-        <translation>&amp;BIP 38 Encrypt</translation>
-    </message>
-    <message>
-        <source>Enter a Digiwage Address that you would like to encrypt using BIP 38. Enter a passphrase in the middle box. Press encrypt to compute the encrypted private key.</source>
-        <translation>Enter a Digiwage Address that you would like to encrypt using BIP 38. Enter a passphrase in the middle box. Press encrypt to compute the encrypted private key.</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation>Address:</translation>
-    </message>
-    <message>
-        <source>The DIGIWAGE address to sign the message with</source>
-        <translation>The DIGIWAGE address to sign the message with</translation>
-    </message>
-    <message>
-        <source>Choose previously used address</source>
-        <translation>Choose previously used address</translation>
-    </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
-    </message>
-    <message>
-        <source>Paste address from clipboard</source>
-        <translation>Paste address from clipboard</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
-    </message>
-    <message>
-        <source>Passphrase: </source>
-        <translation>Passphrase: </translation>
-    </message>
-    <message>
-        <source>Encrypted Key:</source>
-        <translation>Encrypted Key:</translation>
-    </message>
-    <message>
-        <source>Copy the current signature to the system clipboard</source>
-        <translation>Copy the current signature to the system clipboard</translation>
-    </message>
-    <message>
-        <source>Sign the message to prove you own this DIGIWAGE address</source>
-        <translation>Sign the message to prove you own this DIGIWAGE address</translation>
-    </message>
-    <message>
-        <source>Encrypt &amp;Key</source>
-        <translation>Encrypt &amp;Key</translation>
-    </message>
-    <message>
-        <source>Reset all sign message fields</source>
-        <translation>Reset all sign message fields</translation>
-    </message>
-    <message>
-        <source>Clear &amp;All</source>
-        <translation>Clear &amp;All</translation>
-    </message>
-    <message>
-        <source>&amp;BIP 38 Decrypt</source>
-        <translation>&amp;BIP 38 Decrypt</translation>
-    </message>
-    <message>
-        <source>Enter the BIP 38 encrypted private key. Enter the passphrase in the middle box. Click Decrypt Key to compute the private key. After the key is decrypted, clicking 'Import Address' will add this private key to the wallet.</source>
-        <translation>Enter the BIP 38 encrypted private key. Enter the passphrase in the middle box. Click Decrypt Key to compute the private key. After the key is decrypted, clicking 'Import Address' will add this private key to the wallet.</translation>
-    </message>
-    <message>
-        <source>The DIGIWAGE address the message was signed with</source>
-        <translation>The DIGIWAGE address the message was signed with</translation>
-    </message>
-    <message>
-        <source>Verify the message to ensure it was signed with the specified DIGIWAGE address</source>
-        <translation>Verify the message to ensure it was signed with the specified DIGIWAGE address</translation>
-    </message>
-    <message>
-        <source>Decrypt &amp;Key</source>
-        <translation>Decrypt &amp;Key</translation>
-    </message>
-    <message>
-        <source>Reset all verify message fields</source>
-        <translation>Reset all verify message fields</translation>
-    </message>
-    <message>
-        <source>Decrypted Key:</source>
-        <translation>Decrypted Key:</translation>
-    </message>
-    <message>
-        <source>Import Address</source>
-        <translation>Import Address</translation>
-    </message>
-    <message>
-        <source>Click "Decrypt Key" to compute key</source>
-        <translation>Click "Decrypt Key" to compute key</translation>
-    </message>
-    <message>
-        <source>The entered passphrase is invalid. </source>
-        <translation>The entered passphrase is invalid. </translation>
-    </message>
-    <message>
-        <source>Allowed: 0-9,a-z,A-Z,</source>
-        <translation>Allowed: 0-9,a-z,A-Z,</translation>
-    </message>
-    <message>
-        <source>The entered address is invalid.</source>
-        <translation>The entered address is invalid.</translation>
-    </message>
-    <message>
-        <source>Please check the address and try again.</source>
-        <translation>Please check the address and try again.</translation>
-    </message>
-    <message>
-        <source>The entered address does not refer to a key.</source>
-        <translation>The entered address does not refer to a key.</translation>
-    </message>
-    <message>
-        <source>Wallet unlock was cancelled.</source>
-        <translation>Wallet unlock was cancelled.</translation>
-    </message>
-    <message>
-        <source>Private key for the entered address is not available.</source>
-        <translation>Private key for the entered address is not available.</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt.</source>
-        <translation>Failed to decrypt.</translation>
-    </message>
-    <message>
-        <source>Please check the key and passphrase and try again.</source>
-        <translation>Please check the key and passphrase and try again.</translation>
-    </message>
-    <message>
-        <source>Data Not Valid.</source>
-        <translation>Data Not Valid.</translation>
-    </message>
-    <message>
-        <source>Please try again.</source>
-        <translation>Please try again.</translation>
-    </message>
-    <message>
-        <source>Please wait while key is imported</source>
-        <translation>Please wait while key is imported</translation>
-    </message>
-    <message>
-        <source>Key Already Held By Wallet</source>
-        <translation>Key Already Held By Wallet</translation>
-    </message>
-    <message>
-        <source>Error Adding Key To Wallet</source>
-        <translation>Error Adding Key To Wallet</translation>
-    </message>
-    <message>
-        <source>Successfully Added Private Key To Wallet</source>
-        <translation>Successfully Added Private Key To Wallet</translation>
+        <source>Banned Until</source>
+        <translation>Banned Until</translation>
     </message>
 </context>
 <context>
-    <name>BitcoinGUI</name>
+    <name>CSRow</name>
     <message>
-        <source>Wallet</source>
-        <translation>Wallet</translation>
+        <source>Savings</source>
+        <translation>Savings</translation>
     </message>
     <message>
-        <source>Node</source>
-        <translation>Node</translation>
+        <source>address</source>
+        <translation>address</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Overview</translation>
+        <source>Not Staking</source>
+        <translation>Not Staking</translation>
     </message>
     <message>
-        <source>Show general overview of wallet</source>
-        <translation>Show general overview of wallet</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Send</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Receive</translation>
-    </message>
-    <message>
-        <source>&amp;Transactions</source>
-        <translation>&amp;Transactions</translation>
-    </message>
-    <message>
-        <source>Browse transaction history</source>
-        <translation>Browse transaction history</translation>
-    </message>
-    <message>
-        <source>E&amp;xit</source>
-        <translation>E&amp;xit</translation>
-    </message>
-    <message>
-        <source>Quit application</source>
-        <translation>Quit application</translation>
-    </message>
-    <message>
-        <source>About &amp;Qt</source>
-        <translation>About &amp;Qt</translation>
-    </message>
-    <message>
-        <source>Show information about Qt</source>
-        <translation>Show information about Qt</translation>
-    </message>
-    <message>
-        <source>&amp;Options...</source>
-        <translation>&amp;Options...</translation>
-    </message>
-    <message>
-        <source>&amp;Show / Hide</source>
-        <translation>&amp;Show / Hide</translation>
-    </message>
-    <message>
-        <source>Show or hide the main Window</source>
-        <translation>Show or hide the main Window</translation>
-    </message>
-    <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Encrypt Wallet...</translation>
-    </message>
-    <message>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Encrypt the private keys that belong to your wallet</translation>
-    </message>
-    <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Backup Wallet...</translation>
-    </message>
-    <message>
-        <source>Backup wallet to another location</source>
-        <translation>Backup wallet to another location</translation>
-    </message>
-    <message>
-        <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Change Passphrase...</translation>
-    </message>
-    <message>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Change the passphrase used for wallet encryption</translation>
-    </message>
-    <message>
-        <source>&amp;Unlock Wallet...</source>
-        <translation>&amp;Unlock Wallet...</translation>
-    </message>
-    <message>
-        <source>Unlock wallet</source>
-        <translation>Unlock wallet</translation>
-    </message>
-    <message>
-        <source>&amp;Lock Wallet</source>
-        <translation>&amp;Lock Wallet</translation>
-    </message>
-    <message>
-        <source>Sign &amp;message...</source>
-        <translation>Sign &amp;message...</translation>
-    </message>
-    <message>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Verify message...</translation>
-    </message>
-    <message>
-        <source>&amp;Information</source>
-        <translation>&amp;Information</translation>
-    </message>
-    <message>
-        <source>Show diagnostic information</source>
-        <translation>Show diagnostic information</translation>
-    </message>
-    <message>
-        <source>&amp;Debug console</source>
-        <translation>&amp;Debug console</translation>
-    </message>
-    <message>
-        <source>Open debugging console</source>
-        <translation>Open debugging console</translation>
-    </message>
-    <message>
-        <source>&amp;Network Monitor</source>
-        <translation>&amp;Network Monitor</translation>
-    </message>
-    <message>
-        <source>Show network monitor</source>
-        <translation>Show network monitor</translation>
-    </message>
-    <message>
-        <source>&amp;Peers list</source>
-        <translation>&amp;Peers list</translation>
-    </message>
-    <message>
-        <source>Show peers info</source>
-        <translation>Show peers info</translation>
-    </message>
-    <message>
-        <source>Wallet &amp;Repair</source>
-        <translation>Wallet &amp;Repair</translation>
-    </message>
-    <message>
-        <source>Show wallet repair options</source>
-        <translation>Show wallet repair options</translation>
-    </message>
-    <message>
-        <source>Open configuration file</source>
-        <translation>Open configuration file</translation>
-    </message>
-    <message>
-        <source>Show Automatic &amp;Backups</source>
-        <translation>Show Automatic &amp;Backups</translation>
-    </message>
-    <message>
-        <source>Show automatically created wallet backups</source>
-        <translation>Show automatically created wallet backups</translation>
-    </message>
-    <message>
-        <source>&amp;Sending addresses...</source>
-        <translation>&amp;Sending addresses...</translation>
-    </message>
-    <message>
-        <source>Show the list of used sending addresses and labels</source>
-        <translation>Show the list of used sending addresses and labels</translation>
-    </message>
-    <message>
-        <source>&amp;Receiving addresses...</source>
-        <translation>&amp;Receiving addresses...</translation>
-    </message>
-    <message>
-        <source>Show the list of used receiving addresses and labels</source>
-        <translation>Show the list of used receiving addresses and labels</translation>
-    </message>
-    <message>
-        <source>Open &amp;URI...</source>
-        <translation>Open &amp;URI...</translation>
-    </message>
-    <message>
-        <source>&amp;Command-line options</source>
-        <translation>&amp;Command-line options</translation>
-    </message>
-    <message numerus="yes">
-        <source>Processed %n blocks of transaction history.</source>
-        <translation><numerusform>Processed %n block of transaction history.</numerusform><numerusform>Processed %n blocks of transaction history.</numerusform></translation>
-    </message>
-    <message>
-        <source>Synchronizing additional data: %p%</source>
-        <translation>Synchronizing additional data: %p%</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;File</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>&amp;Settings</translation>
-    </message>
-    <message>
-        <source>&amp;Tools</source>
-        <translation>&amp;Tools</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Help</translation>
-    </message>
-    <message>
-        <source>Tabs toolbar</source>
-        <translation>Tabs toolbar</translation>
-    </message>
-    <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
-    </message>
-    <message>
-        <source>Send coins to a DIGIWAGE address</source>
-        <translation>Send coins to a DIGIWAGE address</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and digiwage: URIs)</source>
-        <translation>Request payments (generates QR codes and digiwage: URIs)</translation>
-    </message>
-    <message>
-        <source>&amp;Masternodes</source>
-        <translation>&amp;Masternodes</translation>
-    </message>
-    <message>
-        <source>Browse masternodes</source>
-        <translation>Browse masternodes</translation>
-    </message>
-    <message>
-        <source>&amp;About DIGIWAGE Core</source>
-        <translation>&amp;About DIGIWAGE Core</translation>
-    </message>
-    <message>
-        <source>Show information about DIGIWAGE Core</source>
-        <translation>Show information about DIGIWAGE Core</translation>
-    </message>
-    <message>
-        <source>Modify configuration options for DIGIWAGE</source>
-        <translation>Modify configuration options for DIGIWAGE</translation>
-    </message>
-    <message>
-        <source>Sign messages with your DIGIWAGE addresses to prove you own them</source>
-        <translation>Sign messages with your DIGIWAGE addresses to prove you own them</translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified DIGIWAGE addresses</source>
-        <translation>Verify messages to ensure they were signed with specified DIGIWAGE addresses</translation>
-    </message>
-    <message>
-        <source>&amp;BIP38 tool</source>
-        <translation>&amp;BIP38 tool</translation>
-    </message>
-    <message>
-        <source>Encrypt and decrypt private keys using a passphrase</source>
-        <translation>Encrypt and decrypt private keys using a passphrase</translation>
-    </message>
-    <message>
-        <source>&amp;MultiSend</source>
-        <translation>&amp;MultiSend</translation>
-    </message>
-    <message>
-        <source>MultiSend Settings</source>
-        <translation>MultiSend Settings</translation>
-    </message>
-    <message>
-        <source>Open Wallet &amp;Configuration File</source>
-        <translation>Open Wallet &amp;Configuration File</translation>
-    </message>
-    <message>
-        <source>Open &amp;Masternode Configuration File</source>
-        <translation>Open &amp;Masternode Configuration File</translation>
-    </message>
-    <message>
-        <source>Open Masternode configuration file</source>
-        <translation>Open Masternode configuration file</translation>
-    </message>
-    <message>
-        <source>Open a DIGIWAGE: URI or payment request</source>
-        <translation>Open a DIGIWAGE: URI or payment request</translation>
-    </message>
-    <message>
-        <source>&amp;Blockchain explorer</source>
-        <translation>&amp;Blockchain explorer</translation>
-    </message>
-    <message>
-        <source>Block explorer window</source>
-        <translation>Block explorer window</translation>
-    </message>
-    <message>
-        <source>Show the DIGIWAGE Core help message to get a list with possible DIGIWAGE command-line options</source>
-        <translation>Show the DIGIWAGE Core help message to get a list with possible DIGIWAGE command-line options</translation>
-    </message>
-    <message>
-        <source>DIGIWAGE Core client</source>
-        <translation>DIGIWAGE Core client</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to DIGIWAGE network</source>
-        <translation><numerusform>%n active connection(s) to DIGIWAGE network</numerusform><numerusform>%n active connection(s) to DIGIWAGE network</numerusform></translation>
-    </message>
-    <message>
-        <source>Synchronizing with network...</source>
-        <translation>Synchronizing with network...</translation>
-    </message>
-    <message>
-        <source>Importing blocks from disk...</source>
-        <translation>Importing blocks from disk...</translation>
-    </message>
-    <message>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Reindexing blocks on disk...</translation>
-    </message>
-    <message>
-        <source>No block source available...</source>
-        <translation>No block source available...</translation>
-    </message>
-    <message>
-        <source>Up to date</source>
-        <translation>Up to date</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s)</source>
-        <translation><numerusform>%n hour</numerusform><numerusform>%n hours</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s)</source>
-        <translation><numerusform>%n day</numerusform><numerusform>%n days</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s)</source>
-        <translation><numerusform>%n week</numerusform><numerusform>%n weeks</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 and %2</source>
-        <translation>%1 and %2</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n year(s)</source>
-        <translation><numerusform>%n year</numerusform><numerusform>%n years</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 behind</source>
-        <translation>%1 behind</translation>
-    </message>
-    <message>
-        <source>Catching up...</source>
-        <translation>Catching up...</translation>
-    </message>
-    <message>
-        <source>Last received block was generated %1 ago.</source>
-        <translation>Last received block was generated %1 ago.</translation>
-    </message>
-    <message>
-        <source>Transactions after this will not yet be visible.</source>
-        <translation>Transactions after this will not yet be visible.</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Error</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Warning</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Information</translation>
-    </message>
-    <message>
-        <source>Sent transaction</source>
-        <translation>Sent transaction</translation>
-    </message>
-    <message>
-        <source>Incoming transaction</source>
-        <translation>Incoming transaction</translation>
-    </message>
-    <message>
-        <source>Sent MultiSend transaction</source>
-        <translation>Sent MultiSend transaction</translation>
-    </message>
-    <message>
-        <source>Date: %1
-Amount: %2
-Type: %3
-Address: %4
-</source>
-        <translation>Date: %1
-Amount: %2
-Type: %3
-Address: %4
-</translation>
-    </message>
-    <message>
-        <source>Staking is active
- MultiSend: %1</source>
-        <translation>Staking is active
- MultiSend: %1</translation>
-    </message>
-    <message>
-        <source>Active</source>
-        <translation>Active</translation>
-    </message>
-    <message>
-        <source>Not Active</source>
-        <translation>Not Active</translation>
-    </message>
-    <message>
-        <source>Staking is not active
- MultiSend: %1</source>
-        <translation>Staking is not active
- MultiSend: %1</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt; for anonimization and staking only</source>
-        <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt; for anonimization and staking only</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>BlockExplorer</name>
-    <message>
-        <source>Blockchain Explorer</source>
-        <translation>Blockchain Explorer</translation>
-    </message>
-    <message>
-        <source>Address / Block / Transaction</source>
-        <translation>Address / Block / Transaction</translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation>Search</translation>
-    </message>
-    <message>
-        <source>TextLabel</source>
-        <translation>TextLabel</translation>
-    </message>
-    <message>
-        <source>Not all transactions will be shown. To view all transactions you need to set txindex=1 in the configuration file (digiwage.conf).</source>
-        <translation>Not all transactions will be shown. To view all transactions you need to set txindex=1 in the configuration file (digiwage.conf).</translation>
+        <source>Own delegation</source>
+        <translation>Own delegation</translation>
     </message>
 </context>
 <context>
     <name>ClientModel</name>
     <message>
-        <source>Total: %1 (OBF compatible: %2 / Enabled: %3)</source>
-        <translation>Total: %1 (OBF compatible: %2 / Enabled: %3)</translation>
-    </message>
-    <message>
-        <source>Network Alert</source>
-        <translation>Network Alert</translation>
+        <source>Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unknown: %5)</source>
+        <translation>Total: %1 (IPv4: %2 / IPv6: %3 / Tor: %4 / Unknown: %5)</translation>
     </message>
 </context>
 <context>
@@ -863,14 +448,6 @@ Address: %4
         <translation>Bytes:</translation>
     </message>
     <message>
-        <source>Amount:</source>
-        <translation>Amount:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Priority:</translation>
-    </message>
-    <message>
         <source>Fee:</source>
         <translation>Fee:</translation>
     </message>
@@ -879,24 +456,16 @@ Address: %4
         <translation>Coin Selection</translation>
     </message>
     <message>
+        <source>Select WAGE Outputs to Spend</source>
+        <translation>Select WAGE Outputs to Spend</translation>
+    </message>
+    <message>
         <source>Dust:</source>
         <translation>Dust:</translation>
     </message>
     <message>
-        <source>After Fee:</source>
-        <translation>After Fee:</translation>
-    </message>
-    <message>
         <source>Change:</source>
         <translation>Change:</translation>
-    </message>
-    <message>
-        <source>(un)select all</source>
-        <translation>(un)select all</translation>
-    </message>
-    <message>
-        <source>toggle lock state</source>
-        <translation>toggle lock state</translation>
     </message>
     <message>
         <source>Tree mode</source>
@@ -915,6 +484,18 @@ Address: %4
         <translation>Amount</translation>
     </message>
     <message>
+        <source>0.00 WAGE</source>
+        <translation>0.00 WAGE</translation>
+    </message>
+    <message>
+        <source>Select all</source>
+        <translation>Select all</translation>
+    </message>
+    <message>
+        <source>Toggle lock state</source>
+        <translation>Toggle lock state</translation>
+    </message>
+    <message>
         <source>Received with label</source>
         <translation>Received with label</translation>
     </message>
@@ -923,8 +504,12 @@ Address: %4
         <translation>Received with address</translation>
     </message>
     <message>
-        <source>DS Rounds</source>
-        <translation>DS Rounds</translation>
+        <source>After Fee: </source>
+        <translation>After Fee: </translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Date</source>
@@ -937,10 +522,6 @@ Address: %4
     <message>
         <source>Confirmed</source>
         <translation>Confirmed</translation>
-    </message>
-    <message>
-        <source>Priority</source>
-        <translation>Priority</translation>
     </message>
     <message>
         <source>Copy address</source>
@@ -967,136 +548,516 @@ Address: %4
         <translation>Unlock unspent</translation>
     </message>
     <message>
-        <source>Copy quantity</source>
-        <translation>Copy quantity</translation>
-    </message>
-    <message>
-        <source>Copy fee</source>
-        <translation>Copy fee</translation>
-    </message>
-    <message>
-        <source>Copy after fee</source>
-        <translation>Copy after fee</translation>
-    </message>
-    <message>
-        <source>Copy bytes</source>
-        <translation>Copy bytes</translation>
-    </message>
-    <message>
-        <source>Copy priority</source>
-        <translation>Copy priority</translation>
-    </message>
-    <message>
-        <source>Copy dust</source>
-        <translation>Copy dust</translation>
-    </message>
-    <message>
-        <source>Copy change</source>
-        <translation>Copy change</translation>
+        <source>Unselect all</source>
+        <translation>Unselect all</translation>
     </message>
     <message>
         <source>Please switch to "List mode" to use this function.</source>
         <translation>Please switch to "List mode" to use this function.</translation>
     </message>
     <message>
-        <source>Non-anonymized input selected. &lt;b&gt;Obfuscation will be disabled.&lt;/b&gt;&lt;br&gt;&lt;br&gt;If you still want to use Obfuscation, please deselect all non-nonymized inputs first and then check Obfuscation checkbox again.</source>
-        <translation>Non-anonymized input selected. &lt;b&gt;Obfuscation will be disabled.&lt;/b&gt;&lt;br&gt;&lt;br&gt;If you still want to use Obfuscation, please deselect all non-nonymized inputs first and then check Obfuscation checkbox again.</translation>
+        <source>Quantity Copied</source>
+        <translation>Quantity Copied</translation>
     </message>
     <message>
-        <source>highest</source>
-        <translation>highest</translation>
+        <source>Amount Copied</source>
+        <translation>Amount Copied</translation>
     </message>
     <message>
-        <source>higher</source>
-        <translation>higher</translation>
+        <source>Fee Copied</source>
+        <translation>Fee Copied</translation>
     </message>
     <message>
-        <source>high</source>
-        <translation>high</translation>
+        <source>After Fee Copied</source>
+        <translation>After Fee Copied</translation>
     </message>
     <message>
-        <source>medium-high</source>
-        <translation>medium-high</translation>
+        <source>Bytes Copied</source>
+        <translation>Bytes Copied</translation>
     </message>
     <message>
-        <source>Can vary +/- %1 zen(s) per input.</source>
-        <translation>Can vary +/- %1 zen(s) per input.</translation>
+        <source>Dust Copied</source>
+        <translation>Dust Copied</translation>
     </message>
     <message>
-        <source>n/a</source>
-        <translation>n/a</translation>
-    </message>
-    <message>
-        <source>medium</source>
-        <translation>medium</translation>
-    </message>
-    <message>
-        <source>low-medium</source>
-        <translation>low-medium</translation>
-    </message>
-    <message>
-        <source>low</source>
-        <translation>low</translation>
-    </message>
-    <message>
-        <source>lower</source>
-        <translation>lower</translation>
-    </message>
-    <message>
-        <source>lowest</source>
-        <translation>lowest</translation>
+        <source>Change Copied</source>
+        <translation>Change Copied</translation>
     </message>
     <message>
         <source>(%1 locked)</source>
         <translation>(%1 locked)</translation>
     </message>
     <message>
-        <source>none</source>
-        <translation>none</translation>
-    </message>
-    <message>
         <source>yes</source>
         <translation>yes</translation>
+    </message>
+    <message>
+        <source>This label turns red, if recipient receives an amount smaller than %1 (transparent) / %2 (shield).</source>
+        <translation>This label turns red, if recipient receives an amount smaller than %1 (transparent) / %2 (shield).</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 u%2 per input.</source>
+        <translation>Can vary +/- %1 u%2 per input.</translation>
+    </message>
+    <message>
+        <source>change in %1</source>
+        <translation>change in %1</translation>
+    </message>
+    <message>
+        <source>delegated to %1 for cold staking</source>
+        <translation>delegated to %1 for cold staking</translation>
+    </message>
+    <message>
+        <source>Delegated to %1</source>
+        <translation>Delegated to %1</translation>
+    </message>
+    <message>
+        <source>Select All</source>
+        <translation>Select All</translation>
     </message>
     <message>
         <source>no</source>
         <translation>no</translation>
     </message>
     <message>
-        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
-        <translation>This label turns red, if the transaction size is greater than 1000 bytes.</translation>
-    </message>
-    <message>
-        <source>This means a fee of at least %1 per kB is required.</source>
-        <translation>This means a fee of at least %1 per kB is required.</translation>
-    </message>
-    <message>
-        <source>Can vary +/- 1 byte per input.</source>
-        <translation>Can vary +/- 1 byte per input.</translation>
-    </message>
-    <message>
-        <source>Transactions with higher priority are more likely to get included into a block.</source>
-        <translation>Transactions with higher priority are more likely to get included into a block.</translation>
-    </message>
-    <message>
-        <source>This label turns red, if the priority is smaller than "medium".</source>
-        <translation>This label turns red, if the priority is smaller than "medium".</translation>
-    </message>
-    <message>
-        <source>This label turns red, if any recipient receives an amount smaller than %1.</source>
-        <translation>This label turns red, if any recipient receives an amount smaller than %1.</translation>
-    </message>
-    <message>
         <source>(no label)</source>
         <translation>(no label)</translation>
     </message>
     <message>
-        <source>change from %1 (%2)</source>
-        <translation>change from %1 (%2)</translation>
-    </message>
-    <message>
         <source>(change)</source>
         <translation>(change)</translation>
+    </message>
+</context>
+<context>
+    <name>ColdStakingWidget</name>
+    <message>
+        <source>Owner address (optional, if empty a new address will be created)</source>
+        <translation>Owner address (optional, if empty a new address will be created)</translation>
+    </message>
+    <message>
+        <source>Total Staking:</source>
+        <translation>Total Staking:</translation>
+    </message>
+    <message>
+        <source>Cold Staking</source>
+        <translation>Cold Staking</translation>
+    </message>
+    <message>
+        <source>Staker</source>
+        <translation>Staker</translation>
+    </message>
+    <message>
+        <source>Delegation</source>
+        <translation>Delegation</translation>
+    </message>
+    <message>
+        <source>Delegate</source>
+        <translation>Delegate</translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>Clear All</source>
+        <translation>Clear All</translation>
+    </message>
+    <message>
+        <source>Delegated balance history</source>
+        <translation>Delegated balance history</translation>
+    </message>
+    <message>
+        <source>No delegations yet</source>
+        <translation>No delegations yet</translation>
+    </message>
+    <message>
+        <source>Total Staking: %1</source>
+        <translation>Total Staking: %1</translation>
+    </message>
+    <message>
+        <source>Error loading delegations: %1</source>
+        <translation>Error loading delegations: %1</translation>
+    </message>
+    <message>
+        <source>You can delegate your WAGEs, letting a hot node (24/7 online node)
+stake on your behalf, while you keep the keys securely offline.</source>
+        <translation>You can delegate your WAGEs, letting a hot node (24/7 online node)
+stake on your behalf, while you keep the keys securely offline.</translation>
+    </message>
+    <message>
+        <source>Enter owner address</source>
+        <translation>Enter owner address</translation>
+    </message>
+    <message>
+        <source>Accept WAGE delegation / Delegate WAGE</source>
+        <translation>Accept WAGE delegation / Delegate WAGE</translation>
+    </message>
+    <message>
+        <source>Cold Staking address</source>
+        <translation>Cold Staking address</translation>
+    </message>
+    <message>
+        <source>No receive addresses available, you can go to the receive screen and create some there!</source>
+        <translation>No receive addresses available, you can go to the receive screen and create some there!</translation>
+    </message>
+    <message>
+        <source>No contacts available, you can go to the contacts screen and add some there!</source>
+        <translation>No contacts available, you can go to the contacts screen and add some there!</translation>
+    </message>
+    <message>
+        <source>Cannot send delegation, wallet locked</source>
+        <translation>Cannot send delegation, wallet locked</translation>
+    </message>
+    <message>
+        <source>Cold staking is networkely disabled</source>
+        <translation>Cold staking is networkely disabled</translation>
+    </message>
+    <message>
+        <source>Coin Control</source>
+        <translation>Coin Control</translation>
+    </message>
+    <message>
+        <source>Select %1 outputs to delegate.</source>
+        <translation>Select %1 outputs to delegate.</translation>
+    </message>
+    <message>
+        <source>Create Cold Staking Address</source>
+        <translation>Create Cold Staking Address</translation>
+    </message>
+    <message>
+        <source>Creates an address to receive delegated coins
+and stake them on their owner's behalf.</source>
+        <translation>Creates an address to receive delegated coins
+and stake them on their owner's behalf.</translation>
+    </message>
+    <message>
+        <source>My Cold Staking Addresses</source>
+        <translation>My Cold Staking Addresses</translation>
+    </message>
+    <message>
+        <source>List your own cold staking addresses.</source>
+        <translation>List your own cold staking addresses.</translation>
+    </message>
+    <message>
+        <source>Invalid entry</source>
+        <translation>Invalid entry</translation>
+    </message>
+    <message>
+        <source>Invalid entry, minimum delegable amount is </source>
+        <translation>Invalid entry, minimum delegable amount is </translation>
+    </message>
+    <message>
+        <source>Owner address invalid</source>
+        <translation>Owner address invalid</translation>
+    </message>
+    <message>
+        <source>ALERT!</source>
+        <translation>ALERT!</translation>
+    </message>
+    <message>
+        <source>Delegating to an external owner address!
+
+The delegated coins will NOT be spendable by this wallet.
+Spending these coins will need to be done from the wallet or
+device containing the owner address.
+
+Do you wish to proceed?</source>
+        <translation>Delegating to an external owner address!
+
+The delegated coins will NOT be spendable by this wallet.
+Spending these coins will need to be done from the wallet or
+device containing the owner address.
+
+Do you wish to proceed?</translation>
+    </message>
+    <message>
+        <source>Staking address corresponds to this wallet, change it to an external node</source>
+        <translation>Staking address corresponds to this wallet, change it to an external node</translation>
+    </message>
+    <message>
+        <source>Cannot create transaction.</source>
+        <translation>Cannot create transaction.</translation>
+    </message>
+    <message>
+        <source>Coins delegated</source>
+        <translation>Coins delegated</translation>
+    </message>
+    <message>
+        <source>You don't have any %1 to select.</source>
+        <translation>You don't have any %1 to select.</translation>
+    </message>
+    <message>
+        <source>Cannot perform operation, wallet locked</source>
+        <translation>Cannot perform operation, wallet locked</translation>
+    </message>
+    <message>
+        <source>URI copied to clipboard</source>
+        <translation>URI copied to clipboard</translation>
+    </message>
+    <message>
+        <source>Address copied to clipboard</source>
+        <translation>Address copied to clipboard</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>Copy</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Edit</translation>
+    </message>
+    <message>
+        <source>Stake</source>
+        <translation>Stake</translation>
+    </message>
+    <message>
+        <source>Blacklist</source>
+        <translation>Blacklist</translation>
+    </message>
+    <message>
+        <source>Edit Label</source>
+        <translation>Edit Label</translation>
+    </message>
+    <message>
+        <source>Copy owner
+address</source>
+        <translation>Copy owner
+address</translation>
+    </message>
+    <message>
+        <source>Address copied</source>
+        <translation>Address copied</translation>
+    </message>
+    <message>
+        <source>Edit Cold Address Label</source>
+        <translation>Edit Cold Address Label</translation>
+    </message>
+    <message>
+        <source>Whitelist failed, please check the logs</source>
+        <translation>Whitelist failed, please check the logs</translation>
+    </message>
+    <message>
+        <source> staking!</source>
+        <translation> staking!</translation>
+    </message>
+    <message>
+        <source>Blacklist failed, please check the logs</source>
+        <translation>Blacklist failed, please check the logs</translation>
+    </message>
+    <message>
+        <source> blacklisted from staking</source>
+        <translation> blacklisted from staking</translation>
+    </message>
+    <message>
+        <source>Owner address copied</source>
+        <translation>Owner address copied</translation>
+    </message>
+    <message>
+        <source>Edit Owner Address Label</source>
+        <translation>Edit Owner Address Label</translation>
+    </message>
+    <message>
+        <source>Address label saved</source>
+        <translation>Address label saved</translation>
+    </message>
+    <message>
+        <source>Error storing address label</source>
+        <translation>Error storing address label</translation>
+    </message>
+</context>
+<context>
+    <name>CreateProposalDialog</name>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Receiver</source>
+        <translation>Receiver</translation>
+    </message>
+    <message>
+        <source>Summary</source>
+        <translation>Summary</translation>
+    </message>
+    <message>
+        <source>Create New Proposal</source>
+        <translation>Create New Proposal</translation>
+    </message>
+    <message>
+        <source>Make sure you have 50 WAGE for the proposal fee</source>
+        <translation>Make sure you have 50 WAGE for the proposal fee</translation>
+    </message>
+    <message>
+        <source>Proposal Name</source>
+        <translation>Proposal Name</translation>
+    </message>
+    <message>
+        <source>Proposal URL</source>
+        <translation>Proposal URL</translation>
+    </message>
+    <message>
+        <source>Proposal Payee</source>
+        <translation>Proposal Payee</translation>
+    </message>
+    <message>
+        <source>Add the requested number of payments, the amount per payment, and the payee address.</source>
+        <translation>Add the requested number of payments, the amount per payment, and the payee address.</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Address</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Amount</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Months</translation>
+    </message>
+    <message>
+        <source>Proposal Summary</source>
+        <translation>Proposal Summary</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>NEXT</source>
+        <translation>NEXT</translation>
+    </message>
+    <message>
+        <source>BACK</source>
+        <translation>BACK</translation>
+    </message>
+    <message>
+        <source>Proposal name cannot be empty</source>
+        <translation>Proposal name cannot be empty</translation>
+    </message>
+    <message>
+        <source>Proposal name cannot contain non UTF-8 characters</source>
+        <translation>Proposal name cannot contain non UTF-8 characters</translation>
+    </message>
+    <message>
+        <source>Invalid amount</source>
+        <translation>Invalid amount</translation>
+    </message>
+    <message>
+        <source>Invalid payment address</source>
+        <translation>Invalid payment address</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Send</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Next</translation>
+    </message>
+    <message>
+        <source>No contacts available, you can go to the contacts screen and add some there!</source>
+        <translation>No contacts available, you can go to the contacts screen and add some there!</translation>
+    </message>
+</context>
+<context>
+    <name>DashboardWidget</name>
+    <message>
+        <source>Transactions</source>
+        <translation>Transactions</translation>
+    </message>
+    <message>
+        <source>Staking Rewards</source>
+        <translation>Staking Rewards</translation>
+    </message>
+    <message>
+        <source>Staking statistics</source>
+        <translation>Staking statistics</translation>
+    </message>
+    <message>
+        <source>View your account's history</source>
+        <translation>View your account's history</translation>
+    </message>
+    <message>
+        <source>How to get WAGE</source>
+        <translation>How to get WAGE</translation>
+    </message>
+    <message>
+        <source>Amount of staking rewards received.</source>
+        <translation>Amount of staking rewards received.</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Sort by</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>Days</translation>
+    </message>
+    <message>
+        <source>Months</source>
+        <translation>Months</translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Years</translation>
+    </message>
+    <message>
+        <source>Filter by</source>
+        <translation>Filter by</translation>
+    </message>
+    <message>
+        <source>Please wait until the wallet is fully synced to see your correct balance</source>
+        <translation>Please wait until the wallet is fully synced to see your correct balance</translation>
+    </message>
+    <message>
+        <source>No transactions yet</source>
+        <translation>No transactions yet</translation>
+    </message>
+    <message>
+        <source>You can verify the staking activity in the status bar at the top right of the wallet.
+It will start automatically as soon as the wallet has enough confirmations on any unspent balances, and the wallet has synced.</source>
+        <translation>You can verify the staking activity in the status bar at the top right of the wallet.
+It will start automatically as soon as the wallet has enough confirmations on any unspent balances, and the wallet has synced.</translation>
+    </message>
+    <message>
+        <source>You have no staking rewards</source>
+        <translation>You have no staking rewards</translation>
+    </message>
+    <message>
+        <source>No charts library</source>
+        <translation>No charts library</translation>
+    </message>
+    <message>
+        <source>Loading chart..</source>
+        <translation>Loading chart..</translation>
+    </message>
+    <message>
+        <source>Error loading chart, invalid show option</source>
+        <translation>Error loading chart, invalid show option</translation>
+    </message>
+    <message>
+        <source>Error loading chart, invalid data</source>
+        <translation>Error loading chart, invalid data</translation>
+    </message>
+    <message>
+        <source>Error loading chart: %1</source>
+        <translation>Error loading chart: %1</translation>
+    </message>
+</context>
+<context>
+    <name>DefaultDialog</name>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
     </message>
 </context>
 <context>
@@ -1178,58 +1139,155 @@ Address: %4
     </message>
 </context>
 <context>
+    <name>GovernanceWidget</name>
+    <message>
+        <source>Governance</source>
+        <translation>Governance</translation>
+    </message>
+    <message>
+        <source>View, follow, vote and submit network budget proposals.
+Be part of the DAO.</source>
+        <translation>View, follow, vote and submit network budget proposals.
+Be part of the DAO.</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Amount</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Sort by</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>All</translation>
+    </message>
+    <message>
+        <source>Passing</source>
+        <translation>Passing</translation>
+    </message>
+    <message>
+        <source>Not Passing</source>
+        <translation>Not Passing</translation>
+    </message>
+    <message>
+        <source>Waiting</source>
+        <translation>Waiting</translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation>Filter</translation>
+    </message>
+    <message>
+        <source>Please wait until the node is fully synced to see the correct information</source>
+        <translation>Please wait until the node is fully synced to see the correct information</translation>
+    </message>
+    <message>
+        <source>Prepare and submit a new proposal.</source>
+        <translation>Prepare and submit a new proposal.</translation>
+    </message>
+    <message>
+        <source>Please wait until the node is fully synced</source>
+        <translation>Please wait until the node is fully synced</translation>
+    </message>
+    <message>
+        <source>Cannot vote for the proposal yet, wait until it's confirmed by the network</source>
+        <translation>Cannot vote for the proposal yet, wait until it's confirmed by the network</translation>
+    </message>
+    <message>
+        <source>Vote emitted successfully!</source>
+        <translation>Vote emitted successfully!</translation>
+    </message>
+    <message>
+        <source>Cannot create proposal, wallet locked</source>
+        <translation>Cannot create proposal, wallet locked</translation>
+    </message>
+    <message>
+        <source>Cannot create proposal, need to have at least %1 to pay for the proposal fee</source>
+        <translation>Cannot create proposal, need to have at least %1 to pay for the proposal fee</translation>
+    </message>
+    <message>
+        <source>Proposal transaction fee broadcasted!</source>
+        <translation>Proposal transaction fee broadcasted!</translation>
+    </message>
+    <message>
+        <source>Copy Url</source>
+        <translation>Copy Url</translation>
+    </message>
+    <message>
+        <source>Open Url</source>
+        <translation>Open Url</translation>
+    </message>
+    <message>
+        <source>More Info</source>
+        <translation>More Info</translation>
+    </message>
+    <message>
+        <source>Proposal URL copied to clipboard</source>
+        <translation>Proposal URL copied to clipboard</translation>
+    </message>
+    <message>
+        <source>Open Proposal URL</source>
+        <translation>Open Proposal URL</translation>
+    </message>
+    <message>
+        <source>The following URL will be opened in the default browser</source>
+        <translation>The following URL will be opened in the default browser</translation>
+    </message>
+    <message>
+        <source>Are you sure?
+(Always verify the URL validity before opening it)
+</source>
+        <translation>Are you sure?
+(Always verify the URL validity before opening it)
+</translation>
+    </message>
+    <message>
+        <source>Failed to open proposal URL</source>
+        <translation>Failed to open proposal URL</translation>
+    </message>
+    <message>
+        <source>Next superblock today!
+%2 blocks to go.</source>
+        <translation>Next superblock today!
+%2 blocks to go.</translation>
+    </message>
+    <message>
+        <source>Next superblock in %1 days.
+%2 blocks to go.</source>
+        <translation>Next superblock in %1 days.
+%2 blocks to go.</translation>
+    </message>
+</context>
+<context>
     <name>HelpMessageDialog</name>
     <message>
         <source>version</source>
         <translation>version</translation>
     </message>
     <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
+        <source>About %1</source>
+        <translation>About %1</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
         <translation>(%1-bit)</translation>
     </message>
     <message>
-        <source>About DIGIWAGE Core</source>
-        <translation>About DIGIWAGE Core</translation>
-    </message>
-    <message>
         <source>Command-line options</source>
         <translation>Command-line options</translation>
     </message>
     <message>
-        <source>Usage:</source>
-        <translation>Usage:</translation>
-    </message>
-    <message>
-        <source>command-line options</source>
-        <translation>command-line options</translation>
-    </message>
-    <message>
-        <source>UI Options:</source>
-        <translation>UI Options:</translation>
-    </message>
-    <message>
-        <source>Choose data directory on startup (default: %u)</source>
-        <translation>Choose data directory on startup (default: %u)</translation>
-    </message>
-    <message>
-        <source>Show splash screen on startup (default: %u)</source>
-        <translation>Show splash screen on startup (default: %u)</translation>
-    </message>
-    <message>
-        <source>Set language, for example "de_DE" (default: system locale)</source>
-        <translation>Set language, for example "de_DE" (default: system locale)</translation>
-    </message>
-    <message>
-        <source>Start minimized</source>
-        <translation>Start minimized</translation>
-    </message>
-    <message>
-        <source>Set SSL root certificates for payment request (default: -system-)</source>
-        <translation>Set SSL root certificates for payment request (default: -system-)</translation>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1239,28 +1297,32 @@ Address: %4
         <translation>Welcome</translation>
     </message>
     <message>
-        <source>Welcome to DIGIWAGE Core.</source>
-        <translation>Welcome to DIGIWAGE Core.</translation>
+        <source>Welcome to %1.</source>
+        <translation>Welcome to %1.</translation>
     </message>
     <message>
-        <source>As this is the first time the program is launched, you can choose where DIGIWAGE Core will store its data.</source>
-        <translation>As this is the first time the program is launched, you can choose where DIGIWAGE Core will store its data.</translation>
+        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
+        <translation>As this is the first time the program is launched, you can choose where %1 will store its data.</translation>
     </message>
     <message>
-        <source>DIGIWAGE Core will download and store a copy of the DIGIWAGE block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
-        <translation>DIGIWAGE Core will download and store a copy of the DIGIWAGE block chain. At least %1GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</translation>
+        <source>%1 will download and store a copy of the DIGIWAGE block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>%1 will download and store a copy of the DIGIWAGE block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
         <translation>Use the default data directory</translation>
     </message>
     <message>
-        <source>Use a custom data directory:</source>
-        <translation>Use a custom data directory:</translation>
+        <source>Use a custom data directory</source>
+        <translation>Use a custom data directory</translation>
     </message>
     <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Error: Specified data directory "%1" cannot be created.</source>
@@ -1280,312 +1342,509 @@ Address: %4
     </message>
 </context>
 <context>
-    <name>MasternodeList</name>
+    <name>LoadingDialog</name>
     <message>
-        <source>Form</source>
-        <translation>Form</translation>
+        <source>Loading</source>
+        <translation>Loading</translation>
+    </message>
+</context>
+<context>
+    <name>LockUnlock</name>
+    <message>
+        <source>Unlock Wallet</source>
+        <translation>Unlock Wallet</translation>
     </message>
     <message>
-        <source>My Masternodes</source>
-        <translation>My Masternodes</translation>
+        <source>Lock Wallet</source>
+        <translation>Lock Wallet</translation>
     </message>
     <message>
-        <source>Note: Status of your masternodes in local wallet can potentially be slightly incorrect.&lt;br /&gt;Always wait for wallet to sync additional data and then double check from another node&lt;br /&gt;if your node should be running but you still see "MISSING" in "Status" field.</source>
-        <translation>Note: Status of your masternodes in local wallet can potentially be slightly incorrect.&lt;br /&gt;Always wait for wallet to sync additional data and then double check from another node&lt;br /&gt;if your node should be running but you still see "MISSING" in "Status" field.</translation>
+        <source>Staking Only</source>
+        <translation>Staking Only</translation>
+    </message>
+</context>
+<context>
+    <name>MNRow</name>
+    <message>
+        <source>Collateral tx not found</source>
+        <translation>Collateral tx not found</translation>
     </message>
     <message>
-        <source>Alias</source>
-        <translation>Alias</translation>
+        <source>Status: %1</source>
+        <translation>Status: %1</translation>
+    </message>
+</context>
+<context>
+    <name>MasterNodeWizardDialog</name>
+    <message>
+        <source>1</source>
+        <translation>1</translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation>2</translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation>3</translation>
+    </message>
+    <message>
+        <source>Intro</source>
+        <translation>Intro</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
     <message>
         <source>Address</source>
         <translation>Address</translation>
     </message>
     <message>
-        <source>Protocol</source>
-        <translation>Protocol</translation>
+        <source>Create New Masternode Controller</source>
+        <translation>Create New Masternode Controller</translation>
     </message>
     <message>
-        <source>Status</source>
-        <translation>Status</translation>
+        <source>Set Masternode Name</source>
+        <translation>Set Masternode Name</translation>
     </message>
     <message>
-        <source>Active</source>
-        <translation>Active</translation>
+        <source>Set Masternode IP and Port</source>
+        <translation>Set Masternode IP and Port</translation>
     </message>
     <message>
-        <source>Last Seen (UTC)</source>
-        <translation>Last Seen (UTC)</translation>
+        <source>Enter port</source>
+        <translation>Enter port</translation>
     </message>
     <message>
-        <source>Pubkey</source>
-        <translation>Pubkey</translation>
+        <source>Make sure you have this amount of coins.</source>
+        <translation>Make sure you have this amount of coins.</translation>
     </message>
     <message>
-        <source>S&amp;tart alias</source>
-        <translation>S&amp;tart alias</translation>
+        <source>Address of the node that must always be online running the actual master node.</source>
+        <translation>Address of the node that must always be online running the actual master node.</translation>
     </message>
     <message>
-        <source>Start &amp;all</source>
-        <translation>Start &amp;all</translation>
+        <source>Enter IP address</source>
+        <translation>Enter IP address</translation>
     </message>
     <message>
-        <source>Start &amp;MISSING</source>
-        <translation>Start &amp;MISSING</translation>
+        <source>NEXT</source>
+        <translation>NEXT</translation>
     </message>
     <message>
-        <source>&amp;Update status</source>
-        <translation>&amp;Update status</translation>
+        <source>BACK</source>
+        <translation>BACK</translation>
     </message>
     <message>
-        <source>Status will be updated automatically in (sec):</source>
-        <translation>Status will be updated automatically in (sec):</translation>
+        <source>address label cannot be empty</source>
+        <translation>address label cannot be empty</translation>
     </message>
     <message>
-        <source>0</source>
-        <translation>0</translation>
+        <source>IP or port cannot be empty</source>
+        <translation>IP or port cannot be empty</translation>
     </message>
     <message>
-        <source>Start alias</source>
-        <translation>Start alias</translation>
+        <source>Invalid IP address</source>
+        <translation>Invalid IP address</translation>
     </message>
     <message>
-        <source>Confirm masternode start</source>
-        <translation>Confirm masternode start</translation>
+        <source>Unknown error</source>
+        <translation>Unknown error</translation>
     </message>
     <message>
-        <source>Are you sure you want to start masternode %1?</source>
-        <translation>Are you sure you want to start masternode %1?</translation>
+        <source>Prepare master node failed.
+
+%1
+</source>
+        <translation>Prepare master node failed.
+
+%1
+</translation>
     </message>
     <message>
-        <source>Confirm all masternodes start</source>
-        <translation>Confirm all masternodes start</translation>
+        <source>Invalid collateral output index</source>
+        <translation>Invalid collateral output index</translation>
     </message>
     <message>
-        <source>Are you sure you want to start ALL masternodes?</source>
-        <translation>Are you sure you want to start ALL masternodes?</translation>
+        <source>Master node created! Wait %1 confirmations before starting it.</source>
+        <translation>Master node created! Wait %1 confirmations before starting it.</translation>
     </message>
     <message>
-        <source>Command is not available right now</source>
-        <translation>Command is not available right now</translation>
+        <source>Cannot send collateral transaction.
+
+%1</source>
+        <translation>Cannot send collateral transaction.
+
+%1</translation>
     </message>
     <message>
-        <source>You can't use this command until masternode list is synced</source>
-        <translation>You can't use this command until masternode list is synced</translation>
+        <source>To create a DIGIWAGE Masternode you must dedicate %1 (the unit of DIGIWAGE) to the network (however, these coins are still yours and will never leave your possession).</source>
+        <translation>To create a DIGIWAGE Masternode you must dedicate %1 (the unit of DIGIWAGE) to the network (however, these coins are still yours and will never leave your possession).</translation>
     </message>
     <message>
-        <source>Confirm missing masternodes start</source>
-        <translation>Confirm missing masternodes start</translation>
+        <source>You can deactivate the node and unlock the coins at any time.</source>
+        <translation>You can deactivate the node and unlock the coins at any time.</translation>
     </message>
     <message>
-        <source>Are you sure you want to start MISSING masternodes?</source>
-        <translation>Are you sure you want to start MISSING masternodes?</translation>
+        <source>A transaction of %1 will be made</source>
+        <translation>A transaction of %1 will be made</translation>
+    </message>
+    <message>
+        <source>to a new empty address in your wallet.</source>
+        <translation>to a new empty address in your wallet.</translation>
+    </message>
+    <message>
+        <source>The Address is labeled under the master node's name.</source>
+        <translation>The Address is labeled under the master node's name.</translation>
+    </message>
+    <message>
+        <source>walletModel not set</source>
+        <translation>walletModel not set</translation>
+    </message>
+    <message>
+        <source>Invalid masternode.conf file</source>
+        <translation>Invalid masternode.conf file</translation>
+    </message>
+    <message>
+        <source>Error parsing masternode.conf file</source>
+        <translation>Error parsing masternode.conf file</translation>
+    </message>
+    <message>
+        <source>masternode.conf file doesn't exists</source>
+        <translation>masternode.conf file doesn't exists</translation>
     </message>
 </context>
 <context>
-    <name>MultiSendDialog</name>
+    <name>MasterNodesWidget</name>
     <message>
-        <source>MultiSend</source>
-        <translation>MultiSend</translation>
+        <source>Start All</source>
+        <translation>Start All</translation>
     </message>
     <message>
-        <source>Enter whole numbers 1 - 100</source>
-        <translation>Enter whole numbers 1 - 100</translation>
+        <source>Start Inactive/s</source>
+        <translation>Start Inactive/s</translation>
     </message>
     <message>
-        <source>Enter % to Give (1-100)</source>
-        <translation>Enter % to Give (1-100)</translation>
+        <source>Masternodes</source>
+        <translation>Masternodes</translation>
     </message>
     <message>
-        <source>Enter Address to Send to</source>
-        <translation>Enter Address to Send to</translation>
+        <source>Full nodes that incentivize node operators to perform the core consensus functions
+and vote on the treasury system receiving a periodic reward.</source>
+        <translation>Full nodes that incentivize node operators to perform the core consensus functions
+and vote on the treasury system receiving a periodic reward.</translation>
     </message>
     <message>
-        <source>MultiSend allows you to automatically send up to 100% of your stake or masternode reward to a list of other DIGIWAGE addresses after it matures.
-To Add: enter percentage to give and DIGIWAGE address to add to the MultiSend vector.
-To Delete: Enter address to delete and press delete.
-MultiSend will not be activated unless you have clicked Activate</source>
-        <translation>MultiSend allows you to automatically send up to 100% of your stake or masternode reward to a list of other DIGIWAGE addresses after it matures.
-To Add: enter percentage to give and DIGIWAGE address to add to the MultiSend vector.
-To Delete: Enter address to delete and press delete.
-MultiSend will not be activated unless you have clicked Activate</translation>
+        <source>Create Masternode Controller</source>
+        <translation>Create Masternode Controller</translation>
     </message>
     <message>
-        <source>Add to MultiSend Vector</source>
-        <translation>Add to MultiSend Vector</translation>
+        <source>No active Masternode yet</source>
+        <translation>No active Masternode yet</translation>
     </message>
     <message>
-        <source>Add</source>
-        <translation>Add</translation>
-    </message>
-    <message>
-        <source>Deactivate MultiSend</source>
-        <translation>Deactivate MultiSend</translation>
-    </message>
-    <message>
-        <source>Deactivate</source>
-        <translation>Deactivate</translation>
-    </message>
-    <message>
-        <source>Choose an address from the address book</source>
-        <translation>Choose an address from the address book</translation>
-    </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
-    </message>
-    <message>
-        <source>Percentage of stake to send</source>
-        <translation>Percentage of stake to send</translation>
-    </message>
-    <message>
-        <source>Percentage:</source>
-        <translation>Percentage:</translation>
-    </message>
-    <message>
-        <source>Address to send portion of stake to</source>
-        <translation>Address to send portion of stake to</translation>
-    </message>
-    <message>
-        <source>Address:</source>
-        <translation>Address:</translation>
-    </message>
-    <message>
-        <source>Delete Address From MultiSend Vector</source>
-        <translation>Delete Address From MultiSend Vector</translation>
+        <source>Start</source>
+        <translation>Start</translation>
     </message>
     <message>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <source>Activate MultiSend</source>
-        <translation>Activate MultiSend</translation>
+        <source>Info</source>
+        <translation>Info</translation>
     </message>
     <message>
-        <source>Activate</source>
-        <translation>Activate</translation>
+        <source>Please wait until the node is fully synced</source>
+        <translation>Please wait until the node is fully synced</translation>
     </message>
     <message>
-        <source>View MultiSend Vector</source>
-        <translation>View MultiSend Vector</translation>
+        <source>Start Masternode</source>
+        <translation>Start Masternode</translation>
     </message>
     <message>
-        <source>View MultiSend</source>
-        <translation>View MultiSend</translation>
-    </message>
-    <message>
-        <source>Send For Stakes</source>
-        <translation>Send For Stakes</translation>
-    </message>
-    <message>
-        <source>Send For Masternode Rewards</source>
-        <translation>Send For Masternode Rewards</translation>
-    </message>
-    <message>
-        <source>The entered address:
+        <source>Are you sure you want to start masternode %1?
 </source>
-        <translation>The entered address:
+        <translation>Are you sure you want to start masternode %1?
 </translation>
     </message>
     <message>
-        <source> is invalid.
-Please check the address and try again.</source>
-        <translation> is invalid.
-Please check the address and try again.</translation>
+        <source>Cannot edit masternode, wallet locked</source>
+        <translation>Cannot edit masternode, wallet locked</translation>
     </message>
     <message>
-        <source>The total amount of your MultiSend vector is over 100% of your stake reward
+        <source>Cannot start masternode, the collateral transaction has not been confirmed by the network yet.
+Please wait few more minutes (masternode collaterals require %1 confirmations).</source>
+        <translation>Cannot start masternode, the collateral transaction has not been confirmed by the network yet.
+Please wait few more minutes (masternode collaterals require %1 confirmations).</translation>
+    </message>
+    <message>
+        <source>Background task is being executed, please wait</source>
+        <translation>Background task is being executed, please wait</translation>
+    </message>
+    <message>
+        <source>Start ALL masternodes failed</source>
+        <translation>Start ALL masternodes failed</translation>
+    </message>
+    <message>
+        <source>Wallet unlock cancelled</source>
+        <translation>Wallet unlock cancelled</translation>
+    </message>
+    <message>
+        <source>Cannot perform Masternodes start</source>
+        <translation>Cannot perform Masternodes start</translation>
+    </message>
+    <message>
+        <source>%1 Masternodes failed to start, %2 started</source>
+        <translation>%1 Masternodes failed to start, %2 started</translation>
+    </message>
+    <message>
+        <source>All Masternodes started!</source>
+        <translation>All Masternodes started!</translation>
+    </message>
+    <message>
+        <source>Cannot show Masternode information, wallet locked</source>
+        <translation>Cannot show Masternode information, wallet locked</translation>
+    </message>
+    <message>
+        <source>Masternode data copied to the clipboard.</source>
+        <translation>Masternode data copied to the clipboard.</translation>
+    </message>
+    <message>
+        <source>Remote Masternode Data</source>
+        <translation>Remote Masternode Data</translation>
+    </message>
+    <message>
+        <source>What is a Masternode?</source>
+        <translation>What is a Masternode?</translation>
+    </message>
+    <message>
+        <source>FAQ explaining what Masternodes are</source>
+        <translation>FAQ explaining what Masternodes are</translation>
+    </message>
+    <message>
+        <source>What is a Controller?</source>
+        <translation>What is a Controller?</translation>
+    </message>
+    <message>
+        <source>FAQ explaining what is a Masternode Controller</source>
+        <translation>FAQ explaining what is a Masternode Controller</translation>
+    </message>
+    <message>
+        <source>You are just about to export the required data to run a Masternode
+on a remote server to your clipboard.
+
+
+You will only have to paste the data in the digiwage.conf file
+of your remote server and start it, then start the Masternode using
+this controller wallet (select the Masternode in the list and press "start").
 </source>
-        <translation>The total amount of your MultiSend vector is over 100% of your stake reward
+        <translation>You are just about to export the required data to run a Masternode
+on a remote server to your clipboard.
+
+
+You will only have to paste the data in the digiwage.conf file
+of your remote server and start it, then start the Masternode using
+this controller wallet (select the Masternode in the list and press "start").
 </translation>
     </message>
     <message>
-        <source>Please Enter 1 - 100 for percent.</source>
-        <translation>Please Enter 1 - 100 for percent.</translation>
+        <source>Delete Masternode</source>
+        <translation>Delete Masternode</translation>
     </message>
     <message>
-        <source>MultiSend Vector
-</source>
-        <translation>MultiSend Vector
-</translation>
+        <source>You are just about to delete Masternode:
+%1
+
+Are you sure?</source>
+        <translation>You are just about to delete Masternode:
+%1
+
+Are you sure?</translation>
     </message>
     <message>
-        <source>Removed </source>
-        <translation>Removed </translation>
+        <source>Invalid masternode.conf file</source>
+        <translation>Invalid masternode.conf file</translation>
     </message>
     <message>
-        <source>Could not locate address
-</source>
-        <translation>Could not locate address
-</translation>
+        <source>Error parsing masternode.conf file</source>
+        <translation>Error parsing masternode.conf file</translation>
+    </message>
+    <message>
+        <source>masternode.conf file doesn't exists</source>
+        <translation>masternode.conf file doesn't exists</translation>
+    </message>
+    <message>
+        <source>Cannot create Masternode controller, wallet locked</source>
+        <translation>Cannot create Masternode controller, wallet locked</translation>
+    </message>
+    <message>
+        <source>Not enough balance to create a masternode, %1 required.</source>
+        <translation>Not enough balance to create a masternode, %1 required.</translation>
+    </message>
+    <message>
+        <source>Error creating masternode</source>
+        <translation>Error creating masternode</translation>
     </message>
 </context>
 <context>
-    <name>ObfuscationConfig</name>
+    <name>MnInfoDialog</name>
     <message>
-        <source>Configure Obfuscation</source>
-        <translation>Configure Obfuscation</translation>
+        <source>Masternode Information</source>
+        <translation>Masternode Information</translation>
     </message>
     <message>
-        <source>Basic Privacy</source>
-        <translation>Basic Privacy</translation>
+        <source>Public Key:</source>
+        <translation>Public Key:</translation>
     </message>
     <message>
-        <source>High Privacy</source>
-        <translation>High Privacy</translation>
+        <source>Address: </source>
+        <translation>Address: </translation>
     </message>
     <message>
-        <source>Maximum Privacy</source>
-        <translation>Maximum Privacy</translation>
+        <source>Collaterall tx id:</source>
+        <translation>Collaterall tx id:</translation>
     </message>
     <message>
-        <source>Please select a privacy level.</source>
-        <translation>Please select a privacy level.</translation>
+        <source>Output index:</source>
+        <translation>Output index:</translation>
     </message>
     <message>
-        <source>Use 2 separate masternodes to mix funds up to 10000 WAGE</source>
-        <translation>Use 2 separate masternodes to mix funds up to 10000 WAGE</translation>
+        <source>1 Inputs</source>
+        <translation>1 Inputs</translation>
     </message>
     <message>
-        <source>Use 8 separate masternodes to mix funds up to 10000 WAGE</source>
-        <translation>Use 8 separate masternodes to mix funds up to 10000 WAGE</translation>
+        <source>Status:</source>
+        <translation>Status:</translation>
     </message>
     <message>
-        <source>Use 16 separate masternodes</source>
-        <translation>Use 16 separate masternodes</translation>
+        <source>Export data to run the Masternode on a remote server</source>
+        <translation>Export data to run the Masternode on a remote server</translation>
     </message>
     <message>
-        <source>This option is the quickest and will cost about ~0.025 WAGE to anonymize 10000 WAGE</source>
-        <translation>This option is the quickest and will cost about ~0.025 WAGE to anonymize 10000 WAGE</translation>
+        <source>Masternode public key copied</source>
+        <translation>Masternode public key copied</translation>
     </message>
     <message>
-        <source>This option is moderately fast and will cost about 0.05 WAGE to anonymize 10000 WAGE</source>
-        <translation>This option is moderately fast and will cost about 0.05 WAGE to anonymize 10000 WAGE</translation>
+        <source>Collateral tx id copied</source>
+        <translation>Collateral tx id copied</translation>
+    </message>
+</context>
+<context>
+    <name>MnSelectionDialog</name>
+    <message>
+        <source>Select Masternodes</source>
+        <translation>Select Masternodes</translation>
     </message>
     <message>
-        <source>This is the slowest and most secure option. Using maximum anonymity will cost</source>
-        <translation>This is the slowest and most secure option. Using maximum anonymity will cost</translation>
+        <source>Each Masternode refers to a single vote, you can select which one will vote for the proposal</source>
+        <translation>Each Masternode refers to a single vote, you can select which one will vote for the proposal</translation>
     </message>
     <message>
-        <source>0.1 WAGE per 10000 WAGE you anonymize.</source>
-        <translation>0.1 WAGE per 10000 WAGE you anonymize.</translation>
+        <source>Amount of votes:</source>
+        <translation>Amount of votes:</translation>
     </message>
     <message>
-        <source>Obfuscation Configuration</source>
-        <translation>Obfuscation Configuration</translation>
+        <source>Select All</source>
+        <translation>Select All</translation>
     </message>
     <message>
-        <source>Obfuscation was successfully set to basic (%1 and 2 rounds). You can change this at any time by opening DIGIWAGE's configuration screen.</source>
-        <translation>Obfuscation was successfully set to basic (%1 and 2 rounds). You can change this at any time by opening DIGIWAGE's configuration screen.</translation>
+        <source>Name</source>
+        <translation>Name</translation>
     </message>
     <message>
-        <source>Obfuscation was successfully set to high (%1 and 8 rounds). You can change this at any time by opening DIGIWAGE's configuration screen.</source>
-        <translation>Obfuscation was successfully set to high (%1 and 8 rounds). You can change this at any time by opening DIGIWAGE's configuration screen.</translation>
+        <source>Vote</source>
+        <translation>Vote</translation>
     </message>
     <message>
-        <source>Obfuscation was successfully set to maximum (%1 and 16 rounds). You can change this at any time by opening DIGIWAGE's configuration screen.</source>
-        <translation>Obfuscation was successfully set to maximum (%1 and 16 rounds). You can change this at any time by opening DIGIWAGE's configuration screen.</translation>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
+    </message>
+    <message>
+        <source>SELECT VOTES</source>
+        <translation>SELECT VOTES</translation>
+    </message>
+    <message>
+        <source>Unselect All</source>
+        <translation>Unselect All</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Yes</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>The direction of the already broadcasted vote</source>
+        <translation>The direction of the already broadcasted vote</translation>
+    </message>
+    <message>
+        <source>No vote has been emitted from this Masternode</source>
+        <translation>No vote has been emitted from this Masternode</translation>
+    </message>
+    <message>
+        <source>Time between votes is too soon, have to wait %1 minutes to change your vote</source>
+        <translation>Time between votes is too soon, have to wait %1 minutes to change your vote</translation>
+    </message>
+</context>
+<context>
+    <name>NavMenuWidget</name>
+    <message>
+        <source>HOME
+</source>
+        <translation>HOME
+</translation>
+    </message>
+    <message>
+        <source>SEND
+</source>
+        <translation>SEND
+</translation>
+    </message>
+    <message>
+        <source>RECEIVE
+</source>
+        <translation>RECEIVE
+</translation>
+    </message>
+    <message>
+        <source>CONTACTS
+</source>
+        <translation>CONTACTS
+</translation>
+    </message>
+    <message>
+        <source>DAO</source>
+        <translation>DAO</translation>
+    </message>
+    <message>
+        <source>MASTER
+NODES</source>
+        <translation>MASTER
+NODES</translation>
+    </message>
+    <message>
+        <source>COLD
+STAKING</source>
+        <translation>COLD
+STAKING</translation>
+    </message>
+    <message>
+        <source>SETTINGS
+</source>
+        <translation>SETTINGS
+</translation>
+    </message>
+    <message>
+        <source>v%1</source>
+        <translation>v%1</translation>
     </message>
 </context>
 <context>
@@ -1595,478 +1854,87 @@ Please check the address and try again.</translation>
         <translation>Open URI</translation>
     </message>
     <message>
-        <source>Open payment request from URI or file</source>
-        <translation>Open payment request from URI or file</translation>
+        <source>Open DIGIWAGE URI</source>
+        <translation>Open DIGIWAGE URI</translation>
     </message>
     <message>
-        <source>URI:</source>
-        <translation>URI:</translation>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
     </message>
     <message>
-        <source>Select payment request file</source>
-        <translation>Select payment request file</translation>
-    </message>
-    <message>
-        <source>Select payment request file to open</source>
-        <translation>Select payment request file to open</translation>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
-    <name>OptionsDialog</name>
+    <name>DIGIWAGEGUI</name>
     <message>
-        <source>Options</source>
-        <translation>Options</translation>
+        <source>Wallet</source>
+        <translation>Wallet</translation>
     </message>
     <message>
-        <source>&amp;Main</source>
-        <translation>&amp;Main</translation>
+        <source>Node</source>
+        <translation>Node</translation>
     </message>
     <message>
-        <source>Size of &amp;database cache</source>
-        <translation>Size of &amp;database cache</translation>
+        <source>&amp;Show / Hide</source>
+        <translation>&amp;Show / Hide</translation>
     </message>
     <message>
-        <source>MB</source>
-        <translation>MB</translation>
+        <source>Show or hide the main Window</source>
+        <translation>Show or hide the main Window</translation>
     </message>
     <message>
-        <source>Number of script &amp;verification threads</source>
-        <translation>Number of script &amp;verification threads</translation>
+        <source>E&amp;xit</source>
+        <translation>E&amp;xit</translation>
     </message>
     <message>
-        <source>(0 = auto, &lt;0 = leave that many cores free)</source>
-        <translation>(0 = auto, &lt;0 = leave that many cores free)</translation>
+        <source>Quit application</source>
+        <translation>Quit application</translation>
     </message>
     <message>
-        <source>W&amp;allet</source>
-        <translation>W&amp;allet</translation>
+        <source>%1 client</source>
+        <translation>%1 client</translation>
     </message>
     <message>
-        <source>If you disable the spending of unconfirmed change, the change from a transaction&lt;br/&gt;cannot be used until that transaction has at least one confirmation.&lt;br/&gt;This also affects how your balance is computed.</source>
-        <translation>If you disable the spending of unconfirmed change, the change from a transaction&lt;br/&gt;cannot be used until that transaction has at least one confirmation.&lt;br/&gt;This also affects how your balance is computed.</translation>
+        <source>Alert!</source>
+        <translation>Alert!</translation>
     </message>
     <message>
-        <source>Automatically open the DIGIWAGE client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatically open the DIGIWAGE client port on the router. This only works when your router supports UPnP and it is enabled.</translation>
+        <source>Error</source>
+        <translation>Error</translation>
     </message>
     <message>
-        <source>Accept connections from outside</source>
-        <translation>Accept connections from outside</translation>
+        <source>Warning</source>
+        <translation>Warning</translation>
     </message>
     <message>
-        <source>Allow incoming connections</source>
-        <translation>Allow incoming connections</translation>
+        <source>Information</source>
+        <translation>Information</translation>
     </message>
     <message>
-        <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
-        <translation>&amp;Connect through SOCKS5 proxy (default proxy):</translation>
+        <source>System Message</source>
+        <translation>System Message</translation>
     </message>
     <message>
-        <source>Expert</source>
-        <translation>Expert</translation>
+        <source>Sent transaction</source>
+        <translation>Sent transaction</translation>
     </message>
     <message>
-        <source>Automatically start DIGIWAGE after logging in to the system.</source>
-        <translation>Automatically start DIGIWAGE after logging in to the system.</translation>
+        <source>Incoming transaction</source>
+        <translation>Incoming transaction</translation>
     </message>
     <message>
-        <source>&amp;Start DIGIWAGE on system login</source>
-        <translation>&amp;Start DIGIWAGE on system login</translation>
-    </message>
-    <message>
-        <source>This setting determines the amount of individual masternodes that an input will be anonymized through.&lt;br/&gt;More rounds of anonymization gives a higher degree of privacy, but also costs more in fees.</source>
-        <translation>This setting determines the amount of individual masternodes that an input will be anonymized through.&lt;br/&gt;More rounds of anonymization gives a higher degree of privacy, but also costs more in fees.</translation>
-    </message>
-    <message>
-        <source>Obfuscation rounds to use</source>
-        <translation>Obfuscation rounds to use</translation>
-    </message>
-    <message>
-        <source>This amount acts as a threshold to turn off Obfuscation once it's reached.</source>
-        <translation>This amount acts as a threshold to turn off Obfuscation once it's reached.</translation>
-    </message>
-    <message>
-        <source>Amount of DIGIWAGE to keep anonymized</source>
-        <translation>Amount of DIGIWAGE to keep anonymized</translation>
-    </message>
-    <message>
-        <source>Whether to show coin control features or not.</source>
-        <translation>Whether to show coin control features or not.</translation>
-    </message>
-    <message>
-        <source>Enable coin &amp;control features</source>
-        <translation>Enable coin &amp;control features</translation>
-    </message>
-    <message>
-        <source>Show additional tab listing all your masternodes in first sub-tab&lt;br/&gt;and all masternodes on the network in second sub-tab.</source>
-        <translation>Show additional tab listing all your masternodes in first sub-tab&lt;br/&gt;and all masternodes on the network in second sub-tab.</translation>
-    </message>
-    <message>
-        <source>Show Masternodes Tab</source>
-        <translation>Show Masternodes Tab</translation>
-    </message>
-    <message>
-        <source>&amp;Spend unconfirmed change</source>
-        <translation>&amp;Spend unconfirmed change</translation>
-    </message>
-    <message>
-        <source>&amp;Network</source>
-        <translation>&amp;Network</translation>
-    </message>
-    <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting DIGIWAGE.</source>
-        <translation>The user interface language can be set here. This setting will take effect after restarting DIGIWAGE.</translation>
-    </message>
-    <message>
-        <source>Language missing or translation incomplete? Help contributing translations here:
-https://www.transifex.com/digiwage-project/digiwage-project-translations</source>
-        <translation>Language missing or translation incomplete? Help contributing translations here:
-https://www.transifex.com/digiwage-project/digiwage-project-translations</translation>
-    </message>
-    <message>
-        <source>Map port using &amp;UPnP</source>
-        <translation>Map port using &amp;UPnP</translation>
-    </message>
-    <message>
-        <source>Connect to the DIGIWAGE network through a SOCKS5 proxy.</source>
-        <translation>Connect to the DIGIWAGE network through a SOCKS5 proxy.</translation>
-    </message>
-    <message>
-        <source>Proxy &amp;IP:</source>
-        <translation>Proxy &amp;IP:</translation>
-    </message>
-    <message>
-        <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
-        <translation>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</translation>
-    </message>
-    <message>
-        <source>&amp;Port:</source>
-        <translation>&amp;Port:</translation>
-    </message>
-    <message>
-        <source>Port of the proxy (e.g. 9050)</source>
-        <translation>Port of the proxy (e.g. 9050)</translation>
-    </message>
-    <message>
-        <source>&amp;Window</source>
-        <translation>&amp;Window</translation>
-    </message>
-    <message>
-        <source>Show only a tray icon after minimizing the window.</source>
-        <translation>Show only a tray icon after minimizing the window.</translation>
-    </message>
-    <message>
-        <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>&amp;Minimize to the tray instead of the taskbar</translation>
-    </message>
-    <message>
-        <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</translation>
-    </message>
-    <message>
-        <source>M&amp;inimize on close</source>
-        <translation>M&amp;inimize on close</translation>
-    </message>
-    <message>
-        <source>&amp;Display</source>
-        <translation>&amp;Display</translation>
-    </message>
-    <message>
-        <source>User Interface &amp;language:</source>
-        <translation>User Interface &amp;language:</translation>
-    </message>
-    <message>
-        <source>User Interface Theme:</source>
-        <translation>User Interface Theme:</translation>
-    </message>
-    <message>
-        <source>&amp;Unit to show amounts in:</source>
-        <translation>&amp;Unit to show amounts in:</translation>
-    </message>
-    <message>
-        <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Choose the default subdivision unit to show in the interface and when sending coins.</translation>
-    </message>
-    <message>
-        <source>Decimal digits</source>
-        <translation>Decimal digits</translation>
-    </message>
-    <message>
-        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
-        <translation>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</translation>
-    </message>
-    <message>
-        <source>Third party transaction URLs</source>
-        <translation>Third party transaction URLs</translation>
-    </message>
-    <message>
-        <source>Active command-line options that override above options:</source>
-        <translation>Active command-line options that override above options:</translation>
-    </message>
-    <message>
-        <source>Reset all client options to default.</source>
-        <translation>Reset all client options to default.</translation>
-    </message>
-    <message>
-        <source>&amp;Reset Options</source>
-        <translation>&amp;Reset Options</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation>&amp;Cancel</translation>
-    </message>
-    <message>
-        <source>default</source>
-        <translation>default</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation>none</translation>
-    </message>
-    <message>
-        <source>Confirm options reset</source>
-        <translation>Confirm options reset</translation>
-    </message>
-    <message>
-        <source>Client restart required to activate changes.</source>
-        <translation>Client restart required to activate changes.</translation>
-    </message>
-    <message>
-        <source>Client will be shutdown, do you want to proceed?</source>
-        <translation>Client will be shutdown, do you want to proceed?</translation>
-    </message>
-    <message>
-        <source>This change would require a client restart.</source>
-        <translation>This change would require a client restart.</translation>
-    </message>
-    <message>
-        <source>The supplied proxy address is invalid.</source>
-        <translation>The supplied proxy address is invalid.</translation>
-    </message>
-</context>
-<context>
-    <name>OverviewPage</name>
-    <message>
-        <source>Form</source>
-        <translation>Form</translation>
-    </message>
-    <message>
-        <source>Available:</source>
-        <translation>Available:</translation>
-    </message>
-    <message>
-        <source>Your current spendable balance</source>
-        <translation>Your current spendable balance</translation>
-    </message>
-    <message>
-        <source>Pending:</source>
-        <translation>Pending:</translation>
-    </message>
-    <message>
-        <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
-        <translation>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</translation>
-    </message>
-    <message>
-        <source>Immature:</source>
-        <translation>Immature:</translation>
-    </message>
-    <message>
-        <source>Staked or masternode rewards that has not yet matured</source>
-        <translation>Staked or masternode rewards that has not yet matured</translation>
-    </message>
-    <message>
-        <source>Balances</source>
-        <translation>Balances</translation>
-    </message>
-    <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the DIGIWAGE network after a connection is established, but this process has not completed yet.</source>
-        <translation>The displayed information may be out of date. Your wallet automatically synchronizes with the DIGIWAGE network after a connection is established, but this process has not completed yet.</translation>
-    </message>
-    <message>
-        <source>Unconfirmed transactions to watch-only addresses</source>
-        <translation>Unconfirmed transactions to watch-only addresses</translation>
-    </message>
-    <message>
-        <source>Staked or masternode rewards in watch-only addresses that has not yet matured</source>
-        <translation>Staked or masternode rewards in watch-only addresses that has not yet matured</translation>
-    </message>
-    <message>
-        <source>Total:</source>
-        <translation>Total:</translation>
-    </message>
-    <message>
-        <source>Your current total balance</source>
-        <translation>Your current total balance</translation>
-    </message>
-    <message>
-        <source>Current total balance in watch-only addresses</source>
-        <translation>Current total balance in watch-only addresses</translation>
-    </message>
-    <message>
-        <source>Watch-only:</source>
-        <translation>Watch-only:</translation>
-    </message>
-    <message>
-        <source>Your current balance in watch-only addresses</source>
-        <translation>Your current balance in watch-only addresses</translation>
-    </message>
-    <message>
-        <source>Spendable:</source>
-        <translation>Spendable:</translation>
-    </message>
-    <message>
-        <source>Status:</source>
-        <translation>Status:</translation>
-    </message>
-    <message>
-        <source>Obfuscation Balance:</source>
-        <translation>Obfuscation Balance:</translation>
-    </message>
-    <message>
-        <source>0 WAGE / 0 Rounds</source>
-        <translation>0 WAGE / 0 Rounds</translation>
-    </message>
-    <message>
-        <source>Enabled/Disabled</source>
-        <translation>Enabled/Disabled</translation>
-    </message>
-    <message>
-        <source>Try to manually submit a Obfuscation request.</source>
-        <translation>Try to manually submit a Obfuscation request.</translation>
-    </message>
-    <message>
-        <source>Reset the current status of Obfuscation (can interrupt Obfuscation if it's in the process of Mixing, which can cost you money!)</source>
-        <translation>Reset the current status of Obfuscation (can interrupt Obfuscation if it's in the process of Mixing, which can cost you money!)</translation>
-    </message>
-    <message>
-        <source>Obfuscation</source>
-        <translation>Obfuscation</translation>
-    </message>
-    <message>
-        <source>Completion:</source>
-        <translation>Completion:</translation>
-    </message>
-    <message>
-        <source>Amount and Rounds:</source>
-        <translation>Amount and Rounds:</translation>
-    </message>
-    <message>
-        <source>Submitted Denom:</source>
-        <translation>Submitted Denom:</translation>
-    </message>
-    <message>
-        <source>n/a</source>
-        <translation>n/a</translation>
-    </message>
-    <message>
-        <source>Recent transactions</source>
-        <translation>Recent transactions</translation>
-    </message>
-    <message>
-        <source>Start/Stop Mixing</source>
-        <translation>Start/Stop Mixing</translation>
-    </message>
-    <message>
-        <source>The denominations you submitted to the Masternode.&lt;br&gt;To mix, other users must submit the exact same denominations.</source>
-        <translation>The denominations you submitted to the Masternode.&lt;br&gt;To mix, other users must submit the exact same denominations.</translation>
-    </message>
-    <message>
-        <source>(Last Message)</source>
-        <translation>(Last Message)</translation>
-    </message>
-    <message>
-        <source>Try Mix</source>
-        <translation>Try Mix</translation>
-    </message>
-    <message>
-        <source>Reset</source>
-        <translation>Reset</translation>
-    </message>
-    <message>
-        <source>out of sync</source>
-        <translation>out of sync</translation>
-    </message>
-    <message>
-        <source>Disabled</source>
-        <translation>Disabled</translation>
-    </message>
-    <message>
-        <source>No inputs detected</source>
-        <translation>No inputs detected</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n Rounds</source>
-        <translation><numerusform>%n Round</numerusform><numerusform>%n Rounds</numerusform></translation>
-    </message>
-    <message>
-        <source>Not enough compatible inputs to anonymize &lt;span style='color:red;'&gt;%1&lt;/span&gt;,&lt;br&gt;will anonymize &lt;span style='color:red;'&gt;%2&lt;/span&gt; instead</source>
-        <translation>Not enough compatible inputs to anonymize &lt;span style='color:red;'&gt;%1&lt;/span&gt;,&lt;br&gt;will anonymize &lt;span style='color:red;'&gt;%2&lt;/span&gt; instead</translation>
-    </message>
-    <message>
-        <source>Overall progress</source>
-        <translation>Overall progress</translation>
-    </message>
-    <message>
-        <source>Denominated</source>
-        <translation>Denominated</translation>
-    </message>
-    <message>
-        <source>Anonymized</source>
-        <translation>Anonymized</translation>
-    </message>
-    <message numerus="yes">
-        <source>Denominated inputs have %5 of %n rounds on average</source>
-        <translation><numerusform>Denominated inputs have %5 of %n rounds on average</numerusform><numerusform>Denominated inputs have %5 of %n rounds on average</numerusform></translation>
-    </message>
-    <message>
-        <source>Last Obfuscation message:
+        <source>Date: %1
+Amount: %2
+Type: %3
+Address: %4
 </source>
-        <translation>Last Obfuscation message:
+        <translation>Date: %1
+Amount: %2
+Type: %3
+Address: %4
 </translation>
-    </message>
-    <message>
-        <source>Obfuscation was successfully reset.</source>
-        <translation>Obfuscation was successfully reset.</translation>
-    </message>
-    <message>
-        <source>If you don't want to see internal Obfuscation fees/transactions select "Most Common" as Type on the "Transactions" tab.</source>
-        <translation>If you don't want to see internal Obfuscation fees/transactions select "Most Common" as Type on the "Transactions" tab.</translation>
-    </message>
-    <message>
-        <source>Obfuscation requires at least %1 to use.</source>
-        <translation>Obfuscation requires at least %1 to use.</translation>
-    </message>
-    <message>
-        <source>Wallet is locked and user declined to unlock. Disabling Obfuscation.</source>
-        <translation>Wallet is locked and user declined to unlock. Disabling Obfuscation.</translation>
-    </message>
-    <message>
-        <source>Found enough compatible inputs to anonymize %1</source>
-        <translation>Found enough compatible inputs to anonymize %1</translation>
-    </message>
-    <message>
-        <source>Start Obfuscation</source>
-        <translation>Start Obfuscation</translation>
-    </message>
-    <message>
-        <source>Stop Obfuscation</source>
-        <translation>Stop Obfuscation</translation>
-    </message>
-    <message>
-        <source>Mixed</source>
-        <translation>Mixed</translation>
-    </message>
-    <message>
-        <source>Enabled</source>
-        <translation>Enabled</translation>
-    </message>
-    <message>
-        <source>N/A</source>
-        <translation>N/A</translation>
     </message>
 </context>
 <context>
@@ -2080,14 +1948,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>URI handling</translation>
     </message>
     <message>
-        <source>Payment request fetch URL is invalid: %1</source>
-        <translation>Payment request fetch URL is invalid: %1</translation>
-    </message>
-    <message>
-        <source>Payment request file handling</source>
-        <translation>Payment request file handling</translation>
-    </message>
-    <message>
         <source>Invalid payment address %1</source>
         <translation>Invalid payment address %1</translation>
     </message>
@@ -2098,66 +1958,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     <message>
         <source>URI cannot be parsed! This can be caused by an invalid DIGIWAGE address or malformed URI parameters.</source>
         <translation>URI cannot be parsed! This can be caused by an invalid DIGIWAGE address or malformed URI parameters.</translation>
-    </message>
-    <message>
-        <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
-        <translation>Payment request file cannot be read! This can be caused by an invalid payment request file.</translation>
-    </message>
-    <message>
-        <source>Payment request rejected</source>
-        <translation>Payment request rejected</translation>
-    </message>
-    <message>
-        <source>Payment request network doesn't match client network.</source>
-        <translation>Payment request network doesn't match client network.</translation>
-    </message>
-    <message>
-        <source>Payment request has expired.</source>
-        <translation>Payment request has expired.</translation>
-    </message>
-    <message>
-        <source>Payment request is not initialized.</source>
-        <translation>Payment request is not initialized.</translation>
-    </message>
-    <message>
-        <source>Unverified payment requests to custom payment scripts are unsupported.</source>
-        <translation>Unverified payment requests to custom payment scripts are unsupported.</translation>
-    </message>
-    <message>
-        <source>Requested payment amount of %1 is too small (considered dust).</source>
-        <translation>Requested payment amount of %1 is too small (considered dust).</translation>
-    </message>
-    <message>
-        <source>Refund from %1</source>
-        <translation>Refund from %1</translation>
-    </message>
-    <message>
-        <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
-        <translation>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</translation>
-    </message>
-    <message>
-        <source>Payment request DoS protection</source>
-        <translation>Payment request DoS protection</translation>
-    </message>
-    <message>
-        <source>Error communicating with %1: %2</source>
-        <translation>Error communicating with %1: %2</translation>
-    </message>
-    <message>
-        <source>Payment request cannot be parsed!</source>
-        <translation>Payment request cannot be parsed!</translation>
-    </message>
-    <message>
-        <source>Bad response from server %1</source>
-        <translation>Bad response from server %1</translation>
-    </message>
-    <message>
-        <source>Network request error</source>
-        <translation>Network request error</translation>
-    </message>
-    <message>
-        <source>Payment acknowledged</source>
-        <translation>Payment acknowledged</translation>
     </message>
 </context>
 <context>
@@ -2174,6 +1974,104 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <source>Ping Time</source>
         <translation>Ping Time</translation>
     </message>
+    <message>
+        <source>NodeID</source>
+        <translation>NodeID</translation>
+    </message>
+</context>
+<context>
+    <name>ProposalCard</name>
+    <message>
+        <source>Vote</source>
+        <translation>Vote</translation>
+    </message>
+    <message>
+        <source>Inactive proposal</source>
+        <translation>Inactive proposal</translation>
+    </message>
+    <message>
+        <source>Last month in course</source>
+        <translation>Last month in course</translation>
+    </message>
+    <message>
+        <source>%1 of %2 months left</source>
+        <translation>%1 of %2 months left</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Yes</translation>
+    </message>
+    <message>
+        <source>Waiting</source>
+        <translation>Waiting</translation>
+    </message>
+    <message>
+        <source>Finished</source>
+        <translation>Finished</translation>
+    </message>
+    <message>
+        <source>No Votes</source>
+        <translation>No Votes</translation>
+    </message>
+    <message>
+        <source>Not Passing</source>
+        <translation>Not Passing</translation>
+    </message>
+    <message>
+        <source>Passing</source>
+        <translation>Passing</translation>
+    </message>
+</context>
+<context>
+    <name>ProposalInfoDialog</name>
+    <message>
+        <source>Proposal Information</source>
+        <translation>Proposal Information</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Proposal Name</source>
+        <translation>Proposal Name</translation>
+    </message>
+    <message>
+        <source>Recipient</source>
+        <translation>Recipient</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Amount</translation>
+    </message>
+    <message>
+        <source>End Block</source>
+        <translation>End Block</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Start Block</source>
+        <translation>Start Block</translation>
+    </message>
+    <message>
+        <source>URL</source>
+        <translation>URL</translation>
+    </message>
+    <message>
+        <source>Positive Votes</source>
+        <translation>Positive Votes</translation>
+    </message>
+    <message>
+        <source>Negative Votes</source>
+        <translation>Negative Votes</translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -2182,8 +2080,8 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Amount</translation>
     </message>
     <message>
-        <source>Enter a DIGIWAGE address (e.g. %1)</source>
-        <translation>Enter a DIGIWAGE address (e.g. %1)</translation>
+        <source>Enter DIGIWAGE address (e.g. %1)</source>
+        <translation>Enter DIGIWAGE address (e.g. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -2206,6 +2104,10 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>NETWORK</translation>
     </message>
     <message>
+        <source>BLOOM</source>
+        <translation>BLOOM</translation>
+    </message>
+    <message>
         <source>UNKNOWN</source>
         <translation>UNKNOWN</translation>
     </message>
@@ -2221,24 +2123,213 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <source>%1 ms</source>
         <translation>%1 ms</translation>
     </message>
-</context>
-<context>
-    <name>QRImageWidget</name>
     <message>
-        <source>&amp;Save Image...</source>
-        <translation>&amp;Save Image...</translation>
+        <source>A fatal error occurred. DIGIWAGE can no longer continue safely and will quit.</source>
+        <translation>A fatal error occurred. DIGIWAGE can no longer continue safely and will quit.</translation>
     </message>
     <message>
-        <source>&amp;Copy Image</source>
-        <translation>&amp;Copy Image</translation>
+        <source>Error: Specified data directory "%1" does not exist.</source>
+        <translation>Error: Specified data directory "%1" does not exist.</translation>
     </message>
     <message>
-        <source>Save QR Code</source>
-        <translation>Save QR Code</translation>
+        <source>Error: Cannot parse configuration file: %1. Only use key=value syntax.</source>
+        <translation>Error: Cannot parse configuration file: %1. Only use key=value syntax.</translation>
     </message>
     <message>
-        <source>PNG Image (*.png)</source>
-        <translation>PNG Image (*.png)</translation>
+        <source>Error: %1</source>
+        <translation>Error: %1</translation>
+    </message>
+    <message>
+        <source>%1 didn't yet exit safely...</source>
+        <translation>%1 didn't yet exit safely...</translation>
+    </message>
+    <message>
+        <source>Error reading masternode configuration file: %1</source>
+        <translation>Error reading masternode configuration file: %1</translation>
+    </message>
+    <message>
+        <source>Contact</source>
+        <translation>Contact</translation>
+    </message>
+    <message>
+        <source>Receiving</source>
+        <translation>Receiving</translation>
+    </message>
+    <message>
+        <source>Delegator</source>
+        <translation>Delegator</translation>
+    </message>
+    <message>
+        <source>Delegable</source>
+        <translation>Delegable</translation>
+    </message>
+    <message>
+        <source>Cold Staking</source>
+        <translation>Cold Staking</translation>
+    </message>
+    <message>
+        <source>Cold Staking Contact</source>
+        <translation>Cold Staking Contact</translation>
+    </message>
+    <message>
+        <source>Receiving Shielded</source>
+        <translation>Receiving Shielded</translation>
+    </message>
+    <message>
+        <source>Contact Shielded</source>
+        <translation>Contact Shielded</translation>
+    </message>
+    <message>
+        <source>Hidden</source>
+        <translation>Hidden</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unknown</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>All</translation>
+    </message>
+    <message>
+        <source>Contacts</source>
+        <translation>Contacts</translation>
+    </message>
+    <message>
+        <source>Staking Contacts</source>
+        <translation>Staking Contacts</translation>
+    </message>
+    <message>
+        <source>Shielded Recv</source>
+        <translation>Shielded Recv</translation>
+    </message>
+    <message>
+        <source>Shielded Contact</source>
+        <translation>Shielded Contact</translation>
+    </message>
+    <message>
+        <source>Date desc</source>
+        <translation>Date desc</translation>
+    </message>
+    <message>
+        <source>Date asc</source>
+        <translation>Date asc</translation>
+    </message>
+    <message>
+        <source>Amount desc</source>
+        <translation>Amount desc</translation>
+    </message>
+    <message>
+        <source>Amount asc</source>
+        <translation>Amount asc</translation>
+    </message>
+    <message>
+        <source>Received</source>
+        <translation>Received</translation>
+    </message>
+    <message>
+        <source>Sent</source>
+        <translation>Sent</translation>
+    </message>
+    <message>
+        <source>Shield</source>
+        <translation>Shield</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Mined</translation>
+    </message>
+    <message>
+        <source>Minted</source>
+        <translation>Minted</translation>
+    </message>
+    <message>
+        <source>MN reward</source>
+        <translation>MN reward</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>To yourself</translation>
+    </message>
+    <message>
+        <source>Cold stakes</source>
+        <translation>Cold stakes</translation>
+    </message>
+    <message>
+        <source>Hot stakes</source>
+        <translation>Hot stakes</translation>
+    </message>
+    <message>
+        <source>Delegated</source>
+        <translation>Delegated</translation>
+    </message>
+    <message>
+        <source>Delegations</source>
+        <translation>Delegations</translation>
+    </message>
+    <message>
+        <source>by Label</source>
+        <translation>by Label</translation>
+    </message>
+    <message>
+        <source>by Address</source>
+        <translation>by Address</translation>
+    </message>
+    <message>
+        <source>by Date</source>
+        <translation>by Date</translation>
+    </message>
+    <message>
+        <source>Jan</source>
+        <translation>Jan</translation>
+    </message>
+    <message>
+        <source>Feb</source>
+        <translation>Feb</translation>
+    </message>
+    <message>
+        <source>Mar</source>
+        <translation>Mar</translation>
+    </message>
+    <message>
+        <source>Apr</source>
+        <translation>Apr</translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation>May</translation>
+    </message>
+    <message>
+        <source>Jun</source>
+        <translation>Jun</translation>
+    </message>
+    <message>
+        <source>Jul</source>
+        <translation>Jul</translation>
+    </message>
+    <message>
+        <source>Aug</source>
+        <translation>Aug</translation>
+    </message>
+    <message>
+        <source>Sep</source>
+        <translation>Sep</translation>
+    </message>
+    <message>
+        <source>Oct</source>
+        <translation>Oct</translation>
+    </message>
+    <message>
+        <source>Nov</source>
+        <translation>Nov</translation>
+    </message>
+    <message>
+        <source>Dec</source>
+        <translation>Dec</translation>
+    </message>
+    <message>
+        <source>Address with no label</source>
+        <translation>Address with no label</translation>
     </message>
 </context>
 <context>
@@ -2262,10 +2353,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     <message>
         <source>Client name</source>
         <translation>Client name</translation>
-    </message>
-    <message>
-        <source>N/A</source>
-        <translation>N/A</translation>
     </message>
     <message>
         <source>Number of connections</source>
@@ -2292,14 +2379,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Debug log file</translation>
     </message>
     <message>
-        <source>Using OpenSSL version</source>
-        <translation>Using OpenSSL version</translation>
-    </message>
-    <message>
-        <source>Build date</source>
-        <translation>Build date</translation>
-    </message>
-    <message>
         <source>Current number of blocks</source>
         <translation>Current number of blocks</translation>
     </message>
@@ -2322,6 +2401,14 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     <message>
         <source>Number of Masternodes</source>
         <translation>Number of Masternodes</translation>
+    </message>
+    <message>
+        <source>Data Directory</source>
+        <translation>Data Directory</translation>
+    </message>
+    <message>
+        <source>Last block hash</source>
+        <translation>Last block hash</translation>
     </message>
     <message>
         <source>&amp;Console</source>
@@ -2356,8 +2443,16 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>&amp;Peers</translation>
     </message>
     <message>
+        <source>Banned peers</source>
+        <translation>Banned peers</translation>
+    </message>
+    <message>
         <source>Select a peer to view detailed information.</source>
         <translation>Select a peer to view detailed information.</translation>
+    </message>
+    <message>
+        <source>Whitelisted</source>
+        <translation>Whitelisted</translation>
     </message>
     <message>
         <source>Direction</source>
@@ -2374,14 +2469,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     <message>
         <source>Services</source>
         <translation>Services</translation>
-    </message>
-    <message>
-        <source>Starting Height</source>
-        <translation>Starting Height</translation>
-    </message>
-    <message>
-        <source>Sync Height</source>
-        <translation>Sync Height</translation>
     </message>
     <message>
         <source>Ban Score</source>
@@ -2416,8 +2503,36 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>&amp;Wallet Repair</translation>
     </message>
     <message>
+        <source>Delete local Blockchain Folders</source>
+        <translation>Delete local Blockchain Folders</translation>
+    </message>
+    <message>
         <source>Wallet In Use:</source>
         <translation>Wallet In Use:</translation>
+    </message>
+    <message>
+        <source>Starting Block</source>
+        <translation>Starting Block</translation>
+    </message>
+    <message>
+        <source>Synced Headers</source>
+        <translation>Synced Headers</translation>
+    </message>
+    <message>
+        <source>Synced Blocks</source>
+        <translation>Synced Blocks</translation>
+    </message>
+    <message>
+        <source>The duration of a currently outstanding ping.</source>
+        <translation>The duration of a currently outstanding ping.</translation>
+    </message>
+    <message>
+        <source>Ping Wait</source>
+        <translation>Ping Wait</translation>
+    </message>
+    <message>
+        <source>Time Offset</source>
+        <translation>Time Offset</translation>
     </message>
     <message>
         <source>Salvage wallet</source>
@@ -2460,6 +2575,10 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Rebuild block chain index from current blk000??.dat files.</translation>
     </message>
     <message>
+        <source>Deletes all local blockchain folders so the wallet synchronizes from scratch.</source>
+        <translation>Deletes all local blockchain folders so the wallet synchronizes from scratch.</translation>
+    </message>
+    <message>
         <source>The buttons below will restart the wallet with command-line options to repair the wallet, fix issues with corrupt blockhain files or missing/obsolete transactions.</source>
         <translation>The buttons below will restart the wallet with command-line options to repair the wallet, fix issues with corrupt blockhain files or missing/obsolete transactions.</translation>
     </message>
@@ -2488,12 +2607,68 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Welcome to the DIGIWAGE RPC console.</translation>
     </message>
     <message>
-        <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
-        <translation>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</translation>
+        <source>&amp;Disconnect Node</source>
+        <translation>&amp;Disconnect Node</translation>
     </message>
     <message>
-        <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</translation>
+        <source>Ban Node for</source>
+        <translation>Ban Node for</translation>
+    </message>
+    <message>
+        <source>1 &amp;hour</source>
+        <translation>1 &amp;hour</translation>
+    </message>
+    <message>
+        <source>1 &amp;day</source>
+        <translation>1 &amp;day</translation>
+    </message>
+    <message>
+        <source>1 &amp;week</source>
+        <translation>1 &amp;week</translation>
+    </message>
+    <message>
+        <source>1 &amp;year</source>
+        <translation>1 &amp;year</translation>
+    </message>
+    <message>
+        <source>&amp;Unban Node</source>
+        <translation>&amp;Unban Node</translation>
+    </message>
+    <message>
+        <source>This will delete your local blockchain folders and the wallet will synchronize the complete Blockchain from scratch.&lt;br /&gt;&lt;br /&gt;</source>
+        <translation>This will delete your local blockchain folders and the wallet will synchronize the complete Blockchain from scratch.&lt;br /&gt;&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>This needs quite some time and downloads a lot of data.&lt;br /&gt;&lt;br /&gt;</source>
+        <translation>This needs quite some time and downloads a lot of data.&lt;br /&gt;&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Your transactions and funds will be visible again after the download has completed.&lt;br /&gt;&lt;br /&gt;</source>
+        <translation>Your transactions and funds will be visible again after the download has completed.&lt;br /&gt;&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Do you want to continue?.&lt;br /&gt;</source>
+        <translation>Do you want to continue?.&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Confirm resync Blockchain</source>
+        <translation>Confirm resync Blockchain</translation>
+    </message>
+    <message>
+        <source>Use up and down arrows to navigate history, and %1 to clear screen.</source>
+        <translation>Use up and down arrows to navigate history, and %1 to clear screen.</translation>
+    </message>
+    <message>
+        <source>Type %1 for an overview of available commands.</source>
+        <translation>Type %1 for an overview of available commands.</translation>
+    </message>
+    <message>
+        <source>For more information on using this console type %1.</source>
+        <translation>For more information on using this console type %1.</translation>
+    </message>
+    <message>
+        <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramifications of a command.</source>
+        <translation>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramifications of a command.</translation>
     </message>
     <message>
         <source>%1 B</source>
@@ -2512,6 +2687,10 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>%1 GB</translation>
     </message>
     <message>
+        <source>(node id: %1)</source>
+        <translation>(node id: %1)</translation>
+    </message>
+    <message>
         <source>via %1</source>
         <translation>via %1</translation>
     </message>
@@ -2528,154 +2707,136 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Outbound</translation>
     </message>
     <message>
+        <source>Yes</source>
+        <translation>Yes</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
         <source>Unknown</source>
         <translation>Unknown</translation>
     </message>
+</context>
+<context>
+    <name>ReceiveDialog</name>
     <message>
-        <source>Fetching...</source>
-        <translation>Fetching...</translation>
+        <source>My Address</source>
+        <translation>My Address</translation>
+    </message>
+    <message>
+        <source>COPY</source>
+        <translation>COPY</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
     </message>
 </context>
 <context>
-    <name>ReceiveCoinsDialog</name>
+    <name>ReceiveWidget</name>
     <message>
-        <source>Reuse one of the previously used receiving addresses.&lt;br&gt;Reusing addresses has security and privacy issues.&lt;br&gt;Do not use this unless re-generating a payment request made before.</source>
-        <translation>Reuse one of the previously used receiving addresses.&lt;br&gt;Reusing addresses has security and privacy issues.&lt;br&gt;Do not use this unless re-generating a payment request made before.</translation>
+        <source>Scan the QR code or copy the address to receive WAGE</source>
+        <translation>Scan the QR code or copy the address to receive WAGE</translation>
     </message>
     <message>
-        <source>R&amp;euse an existing receiving address (not recommended)</source>
-        <translation>R&amp;euse an existing receiving address (not recommended)</translation>
+        <source>Transparent</source>
+        <translation>Transparent</translation>
     </message>
     <message>
-        <source>&amp;Message:</source>
-        <translation>&amp;Message:</translation>
+        <source>Shielded</source>
+        <translation>Shielded</translation>
     </message>
     <message>
-        <source>An optional label to associate with the new receiving address.</source>
-        <translation>An optional label to associate with the new receiving address.</translation>
+        <source>Accept transparent or shielded WAGE</source>
+        <translation>Accept transparent or shielded WAGE</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the DIGIWAGE network.</source>
-        <translation>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the DIGIWAGE network.</translation>
+        <source>Add Label</source>
+        <translation>Add Label</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the DIGIWAGE network.</source>
-        <translation>An optional message to attach to the payment request, which will be displayed when the request is opened.&lt;br&gt;Note: The message will not be sent with the payment over the DIGIWAGE network.</translation>
+        <source>Generate Address</source>
+        <translation>Generate Address</translation>
     </message>
     <message>
-        <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
-        <translation>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</translation>
+        <source>Copy</source>
+        <translation>Copy</translation>
     </message>
     <message>
-        <source>&amp;Label:</source>
-        <translation>&amp;Label:</translation>
+        <source>Filter</source>
+        <translation>Filter</translation>
     </message>
     <message>
-        <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
-        <translation>An optional amount to request. Leave this empty or zero to not request a specific amount.</translation>
+        <source>Receive</source>
+        <translation>Receive</translation>
     </message>
     <message>
-        <source>&amp;Amount:</source>
-        <translation>&amp;Amount:</translation>
+        <source>My Addresses</source>
+        <translation>My Addresses</translation>
     </message>
     <message>
-        <source>&amp;Request payment</source>
-        <translation>&amp;Request payment</translation>
+        <source>List your own addresses</source>
+        <translation>List your own addresses</translation>
     </message>
     <message>
-        <source>Clear all fields of the form.</source>
-        <translation>Clear all fields of the form.</translation>
+        <source>Create Request</source>
+        <translation>Create Request</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>Clear</translation>
+        <source>Request payment with a fixed amount</source>
+        <translation>Request payment with a fixed amount</translation>
     </message>
     <message>
-        <source>Requested payments history</source>
-        <translation>Requested payments history</translation>
+        <source>No available address
+try unlocking the wallet</source>
+        <translation>No available address
+try unlocking the wallet</translation>
     </message>
     <message>
-        <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation>Show the selected request (does the same as double clicking an entry)</translation>
+        <source>Error generating address</source>
+        <translation>Error generating address</translation>
     </message>
     <message>
-        <source>Show</source>
-        <translation>Show</translation>
+        <source>Edit Label</source>
+        <translation>Edit Label</translation>
     </message>
     <message>
-        <source>Remove the selected entries from the list</source>
-        <translation>Remove the selected entries from the list</translation>
+        <source>Edit Address Label</source>
+        <translation>Edit Address Label</translation>
     </message>
     <message>
-        <source>Remove</source>
-        <translation>Remove</translation>
+        <source>Address label saved</source>
+        <translation>Address label saved</translation>
     </message>
     <message>
-        <source>Copy label</source>
-        <translation>Copy label</translation>
+        <source>Error storing address label</source>
+        <translation>Error storing address label</translation>
     </message>
     <message>
-        <source>Copy message</source>
-        <translation>Copy message</translation>
+        <source>Cannot create new address, wallet locked</source>
+        <translation>Cannot create new address, wallet locked</translation>
     </message>
     <message>
-        <source>Copy amount</source>
-        <translation>Copy amount</translation>
-    </message>
-</context>
-<context>
-    <name>ReceiveRequestDialog</name>
-    <message>
-        <source>QR Code</source>
-        <translation>QR Code</translation>
+        <source>New address created</source>
+        <translation>New address created</translation>
     </message>
     <message>
-        <source>Copy &amp;URI</source>
-        <translation>Copy &amp;URI</translation>
+        <source>Address copied</source>
+        <translation>Address copied</translation>
     </message>
     <message>
-        <source>Copy &amp;Address</source>
-        <translation>Copy &amp;Address</translation>
+        <source>Cannot perform operation, wallet locked</source>
+        <translation>Cannot perform operation, wallet locked</translation>
     </message>
     <message>
-        <source>&amp;Save Image...</source>
-        <translation>&amp;Save Image...</translation>
+        <source>URI copied to clipboard</source>
+        <translation>URI copied to clipboard</translation>
     </message>
     <message>
-        <source>Request payment to %1</source>
-        <translation>Request payment to %1</translation>
-    </message>
-    <message>
-        <source>Payment information</source>
-        <translation>Payment information</translation>
-    </message>
-    <message>
-        <source>URI</source>
-        <translation>URI</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation>Address</translation>
-    </message>
-    <message>
-        <source>Amount</source>
-        <translation>Amount</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation>Label</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation>Message</translation>
-    </message>
-    <message>
-        <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>Resulting URI too long, try to reduce the text for label / message.</translation>
-    </message>
-    <message>
-        <source>Error encoding URI into QR Code.</source>
-        <translation>Error encoding URI into QR Code.</translation>
+        <source>Address copied to clipboard</source>
+        <translation>Address copied to clipboard</translation>
     </message>
 </context>
 <context>
@@ -2691,6 +2852,10 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     <message>
         <source>Message</source>
         <translation>Message</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Address</translation>
     </message>
     <message>
         <source>Amount</source>
@@ -2710,519 +2875,1274 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     </message>
 </context>
 <context>
-    <name>SendCoinsDialog</name>
+    <name>RequestDialog</name>
     <message>
-        <source>Send Coins</source>
-        <translation>Send Coins</translation>
+        <source>Amount</source>
+        <translation>Amount</translation>
     </message>
     <message>
-        <source>Coin Control Features</source>
-        <translation>Coin Control Features</translation>
+        <source>Instead of sharing only a DIGIWAGE address, you can create a payment request, bundling up more information</source>
+        <translation>Instead of sharing only a DIGIWAGE address, you can create a payment request, bundling up more information</translation>
     </message>
     <message>
-        <source>Inputs...</source>
-        <translation>Inputs...</translation>
+        <source>COPY ADDRESS</source>
+        <translation>COPY ADDRESS</translation>
     </message>
     <message>
-        <source>automatically selected</source>
-        <translation>automatically selected</translation>
+        <source>COPY URL</source>
+        <translation>COPY URL</translation>
     </message>
     <message>
-        <source>Insufficient funds!</source>
-        <translation>Insufficient funds!</translation>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
     </message>
     <message>
-        <source>Quantity:</source>
-        <translation>Quantity:</translation>
+        <source>Label</source>
+        <translation>Label</translation>
     </message>
     <message>
-        <source>Bytes:</source>
-        <translation>Bytes:</translation>
+        <source>Description (optional)</source>
+        <translation>Description (optional)</translation>
     </message>
     <message>
-        <source>Amount:</source>
-        <translation>Amount:</translation>
+        <source>New Payment Request</source>
+        <translation>New Payment Request</translation>
     </message>
     <message>
-        <source>Priority:</source>
-        <translation>Priority:</translation>
+        <source>Enter a label for the address</source>
+        <translation>Enter a label for the address</translation>
     </message>
     <message>
-        <source>medium</source>
-        <translation>medium</translation>
+        <source>Enter description</source>
+        <translation>Enter description</translation>
     </message>
     <message>
-        <source>Fee:</source>
-        <translation>Fee:</translation>
+        <source>Error</source>
+        <translation>Error</translation>
     </message>
     <message>
-        <source>Dust:</source>
-        <translation>Dust:</translation>
+        <source>GENERATE</source>
+        <translation>GENERATE</translation>
     </message>
     <message>
-        <source>no</source>
-        <translation>no</translation>
+        <source>Creates an address to receive coin delegations and be able to stake them.</source>
+        <translation>Creates an address to receive coin delegations and be able to stake them.</translation>
     </message>
     <message>
-        <source>After Fee:</source>
-        <translation>After Fee:</translation>
+        <source>New Cold Staking Address</source>
+        <translation>New Cold Staking Address</translation>
     </message>
     <message>
-        <source>Change:</source>
-        <translation>Change:</translation>
+        <source>Amount (optional)</source>
+        <translation>Amount (optional)</translation>
     </message>
     <message>
-        <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
-        <translation>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</translation>
+        <source>Address label cannot be empty</source>
+        <translation>Address label cannot be empty</translation>
     </message>
     <message>
-        <source>Custom change address</source>
-        <translation>Custom change address</translation>
+        <source>Invalid amount</source>
+        <translation>Invalid amount</translation>
     </message>
     <message>
-        <source>Split UTXO</source>
-        <translation>Split UTXO</translation>
+        <source>Request for </source>
+        <translation>Request for </translation>
     </message>
     <message>
-        <source># of outputs</source>
-        <translation># of outputs</translation>
+        <source>Cold Staking Address Generated</source>
+        <translation>Cold Staking Address Generated</translation>
+    </message>
+</context>
+<context>
+    <name>SendChangeAddressDialog</name>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
     </message>
     <message>
-        <source>UTXO Size:</source>
-        <translation>UTXO Size:</translation>
+        <source>Custom Change Address</source>
+        <translation>Custom Change Address</translation>
     </message>
     <message>
-        <source>0 WAGE</source>
-        <translation>0 WAGE</translation>
+        <source>The remainder of the value resultant from the inputs minus the outputs value goes to the "change" DIGIWAGE address</source>
+        <translation>The remainder of the value resultant from the inputs minus the outputs value goes to the "change" DIGIWAGE address</translation>
     </message>
     <message>
-        <source>Transaction Fee:</source>
-        <translation>Transaction Fee:</translation>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
     </message>
     <message>
-        <source>Choose...</source>
-        <translation>Choose...</translation>
+        <source>RESET</source>
+        <translation>RESET</translation>
     </message>
     <message>
-        <source>collapse fee-settings</source>
-        <translation>collapse fee-settings</translation>
+        <source>Invalid address</source>
+        <translation>Invalid address</translation>
     </message>
     <message>
-        <source>Minimize</source>
-        <translation>Minimize</translation>
+        <source>Cannot use cold staking addresses for change</source>
+        <translation>Cannot use cold staking addresses for change</translation>
     </message>
-    <message>
-        <source>Obfuscation</source>
-        <translation>Obfuscation</translation>
-    </message>
-    <message>
-        <source>per kilobyte</source>
-        <translation>per kilobyte</translation>
-    </message>
-    <message>
-        <source>total at least</source>
-        <translation>total at least</translation>
-    </message>
-    <message>
-        <source>(read the tooltip)</source>
-        <translation>(read the tooltip)</translation>
-    </message>
-    <message>
-        <source>Custom:</source>
-        <translation>Custom:</translation>
-    </message>
-    <message>
-        <source>(Smart fee not initialized yet. This usually takes a few blocks...)</source>
-        <translation>(Smart fee not initialized yet. This usually takes a few blocks...)</translation>
-    </message>
-    <message>
-        <source>Confirmation time:</source>
-        <translation>Confirmation time:</translation>
-    </message>
-    <message>
-        <source>If the custom fee is set to 1000 uWAGEs and the transaction is only 250 bytes, then "per kilobyte" only pays 250 uWAGEs in fee,&lt;br /&gt;while "at least" pays 1000 uWAGEs. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>If the custom fee is set to 1000 uWAGEs and the transaction is only 250 bytes, then "per kilobyte" only pays 250 uWAGEs in fee,&lt;br /&gt;while "at least" pays 1000 uWAGEs. For transactions bigger than a kilobyte both pay by kilobyte.</translation>
-    </message>
-    <message>
-        <source>If the custom fee is set to 1000 uWAGEs and the transaction is only 250 bytes, then "per kilobyte" only pays 250 uWAGEs in fee,&lt;br /&gt;while "total at least" pays 1000 uWAGEs. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation>If the custom fee is set to 1000 uWAGEs and the transaction is only 250 bytes, then "per kilobyte" only pays 250 uWAGEs in fee,&lt;br /&gt;while "total at least" pays 1000 uWAGEs. For transactions bigger than a kilobyte both pay by kilobyte.</translation>
-    </message>
-    <message>
-        <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;But be aware that this can end up in a never confirming transaction once there is more demand for DIGIWAGE transactions than the network can process.</source>
-        <translation>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks.&lt;br /&gt;But be aware that this can end up in a never confirming transaction once there is more demand for DIGIWAGE transactions than the network can process.</translation>
-    </message>
-    <message>
-        <source>normal</source>
-        <translation>normal</translation>
-    </message>
-    <message>
-        <source>fast</source>
-        <translation>fast</translation>
-    </message>
+</context>
+<context>
+    <name>SendCustomFeeDialog</name>
     <message>
         <source>Recommended</source>
         <translation>Recommended</translation>
     </message>
     <message>
-        <source>Send as zero-fee transaction if possible</source>
-        <translation>Send as zero-fee transaction if possible</translation>
+        <source>Customize the transaction fee, depending on the fee value your transaction might be included faster in the blockchain</source>
+        <translation>Customize the transaction fee, depending on the fee value your transaction might be included faster in the blockchain</translation>
     </message>
     <message>
-        <source>(confirmation may take longer)</source>
-        <translation>(confirmation may take longer)</translation>
+        <source>Custom</source>
+        <translation>Custom</translation>
     </message>
     <message>
-        <source>Confirm the send action</source>
-        <translation>Confirm the send action</translation>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
     </message>
     <message>
-        <source>S&amp;end</source>
-        <translation>S&amp;end</translation>
+        <source>Customize Fee</source>
+        <translation>Customize Fee</translation>
     </message>
     <message>
-        <source>Clear all fields of the form.</source>
-        <translation>Clear all fields of the form.</translation>
+        <source>Normal</source>
+        <translation>Normal</translation>
     </message>
     <message>
-        <source>Clear &amp;All</source>
-        <translation>Clear &amp;All</translation>
+        <source>Slow</source>
+        <translation>Slow</translation>
     </message>
     <message>
-        <source>Send to multiple recipients at once</source>
-        <translation>Send to multiple recipients at once</translation>
+        <source>Fast</source>
+        <translation>Fast</translation>
     </message>
     <message>
-        <source>Add &amp;Recipient</source>
-        <translation>Add &amp;Recipient</translation>
+        <source>Invalid custom fee amount</source>
+        <translation>Invalid custom fee amount</translation>
     </message>
     <message>
-        <source>SwiftTX</source>
-        <translation>SwiftTX</translation>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
     </message>
     <message>
-        <source>Balance:</source>
-        <translation>Balance:</translation>
+        <source>Fee too high. Must be below: %1</source>
+        <translation>Fee too high. Must be below: %1</translation>
     </message>
     <message>
-        <source>Copy quantity</source>
-        <translation>Copy quantity</translation>
-    </message>
-    <message>
-        <source>Copy amount</source>
-        <translation>Copy amount</translation>
-    </message>
-    <message>
-        <source>Copy fee</source>
-        <translation>Copy fee</translation>
-    </message>
-    <message>
-        <source>Copy after fee</source>
-        <translation>Copy after fee</translation>
-    </message>
-    <message>
-        <source>Copy bytes</source>
-        <translation>Copy bytes</translation>
-    </message>
-    <message>
-        <source>Copy priority</source>
-        <translation>Copy priority</translation>
-    </message>
-    <message>
-        <source>Copy dust</source>
-        <translation>Copy dust</translation>
-    </message>
-    <message>
-        <source>Copy change</source>
-        <translation>Copy change</translation>
-    </message>
-    <message>
-        <source>The split block tool does not work when sending to outside addresses. Try again.</source>
-        <translation>The split block tool does not work when sending to outside addresses. Try again.</translation>
-    </message>
-    <message>
-        <source>The split block tool does not work with multiple addresses. Try again.</source>
-        <translation>The split block tool does not work with multiple addresses. Try again.</translation>
-    </message>
-    <message>
-        <source>using</source>
-        <translation>using</translation>
-    </message>
-    <message>
-        <source>anonymous funds</source>
-        <translation>anonymous funds</translation>
-    </message>
-    <message>
-        <source>Warning: Invalid DIGIWAGE address</source>
-        <translation>Warning: Invalid DIGIWAGE address</translation>
-    </message>
-    <message>
-        <source>any available funds (not recommended)</source>
-        <translation>any available funds (not recommended)</translation>
-    </message>
-    <message>
-        <source>and SwiftTX</source>
-        <translation>and SwiftTX</translation>
-    </message>
-    <message>
-        <source>%1 to %2</source>
-        <translation>%1 to %2</translation>
-    </message>
-    <message>
-        <source>Are you sure you want to send?</source>
-        <translation>Are you sure you want to send?</translation>
-    </message>
-    <message>
-        <source>are added as transaction fee</source>
-        <translation>are added as transaction fee</translation>
-    </message>
-    <message>
-        <source>Total Amount = &lt;b&gt;%1&lt;/b&gt;&lt;br /&gt;= %2</source>
-        <translation>Total Amount = &lt;b&gt;%1&lt;/b&gt;&lt;br /&gt;= %2</translation>
-    </message>
-    <message>
-        <source>Confirm send coins</source>
-        <translation>Confirm send coins</translation>
-    </message>
-    <message>
-        <source>A fee %1 times higher than %2 per kB is considered an insanely high fee.</source>
-        <translation>A fee %1 times higher than %2 per kB is considered an insanely high fee.</translation>
-    </message>
-    <message numerus="yes">
-        <source>Estimated to begin confirmation within %n block(s).</source>
-        <translation><numerusform>Estimated to begin confirmation within %n block.</numerusform><numerusform>Estimated to begin confirmation within %n blocks.</numerusform></translation>
-    </message>
-    <message>
-        <source>The recipient address is not valid, please recheck.</source>
-        <translation>The recipient address is not valid, please recheck.</translation>
-    </message>
-    <message>
-        <source>(obfuscation requires this amount to be rounded up to the nearest %1).</source>
-        <translation>(obfuscation requires this amount to be rounded up to the nearest %1).</translation>
-    </message>
-    <message>
-        <source> split into %1 outputs using the UTXO splitter.</source>
-        <translation> split into %1 outputs using the UTXO splitter.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;(%1 of %2 entries displayed)&lt;/b&gt;</source>
-        <translation>&lt;b&gt;(%1 of %2 entries displayed)&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>The amount to pay must be larger than 0.</source>
-        <translation>The amount to pay must be larger than 0.</translation>
-    </message>
-    <message>
-        <source>The amount exceeds your balance.</source>
-        <translation>The amount exceeds your balance.</translation>
-    </message>
-    <message>
-        <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>The total exceeds your balance when the %1 transaction fee is included.</translation>
-    </message>
-    <message>
-        <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>Duplicate address found, can only send to each address once per send operation.</translation>
-    </message>
-    <message>
-        <source>Transaction creation failed!</source>
-        <translation>Transaction creation failed!</translation>
-    </message>
-    <message>
-        <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</translation>
-    </message>
-    <message>
-        <source>Error: The wallet was unlocked only to anonymize coins.</source>
-        <translation>Error: The wallet was unlocked only to anonymize coins.</translation>
-    </message>
-    <message>
-        <source>Pay only the minimum fee of %1</source>
-        <translation>Pay only the minimum fee of %1</translation>
-    </message>
-    <message>
-        <source>Warning: Unknown change address</source>
-        <translation>Warning: Unknown change address</translation>
-    </message>
-    <message>
-        <source>(no label)</source>
-        <translation>(no label)</translation>
+        <source>Fee too low. Must be at least: %1</source>
+        <translation>Fee too low. Must be at least: %1</translation>
     </message>
 </context>
 <context>
-    <name>SendCoinsEntry</name>
+    <name>SendMemoDialog</name>
     <message>
-        <source>This is a normal payment.</source>
-        <translation>This is a normal payment.</translation>
+        <source>Private message only visible for the recipient(s)</source>
+        <translation>Private message only visible for the recipient(s)</translation>
     </message>
     <message>
-        <source>Pay &amp;To:</source>
-        <translation>Pay &amp;To:</translation>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
     </message>
     <message>
-        <source>The DIGIWAGE address to send the payment to</source>
-        <translation>The DIGIWAGE address to send the payment to</translation>
+        <source>RESET</source>
+        <translation>RESET</translation>
     </message>
     <message>
-        <source>Choose previously used address</source>
-        <translation>Choose previously used address</translation>
-    </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
-    </message>
-    <message>
-        <source>Paste address from clipboard</source>
-        <translation>Paste address from clipboard</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
-    </message>
-    <message>
-        <source>Remove this entry</source>
-        <translation>Remove this entry</translation>
-    </message>
-    <message>
-        <source>&amp;Label:</source>
-        <translation>&amp;Label:</translation>
-    </message>
-    <message>
-        <source>Enter a label for this address to add it to the list of used addresses</source>
-        <translation>Enter a label for this address to add it to the list of used addresses</translation>
-    </message>
-    <message>
-        <source>A&amp;mount:</source>
-        <translation>A&amp;mount:</translation>
-    </message>
-    <message>
-        <source>Message:</source>
-        <translation>Message:</translation>
-    </message>
-    <message>
-        <source>A message that was attached to the DIGIWAGE: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the DIGIWAGE network.</source>
-        <translation>A message that was attached to the DIGIWAGE: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the DIGIWAGE network.</translation>
-    </message>
-    <message>
-        <source>This is an unverified payment request.</source>
-        <translation>This is an unverified payment request.</translation>
-    </message>
-    <message>
-        <source>Pay To:</source>
-        <translation>Pay To:</translation>
-    </message>
-    <message>
-        <source>Memo:</source>
-        <translation>Memo:</translation>
-    </message>
-    <message>
-        <source>This is a verified payment request.</source>
-        <translation>This is a verified payment request.</translation>
-    </message>
-    <message>
-        <source>Enter a label for this address to add it to your address book</source>
-        <translation>Enter a label for this address to add it to your address book</translation>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
     </message>
 </context>
 <context>
-    <name>ShutdownWindow</name>
+    <name>SendMultiRow</name>
     <message>
-        <source>DIGIWAGE Core is shutting down...</source>
-        <translation>DIGIWAGE Core is shutting down...</translation>
+        <source>Enter address</source>
+        <translation>Enter address</translation>
     </message>
     <message>
-        <source>Do not shut down the computer until this window disappears.</source>
-        <translation>Do not shut down the computer until this window disappears.</translation>
+        <source>Address label (optional)</source>
+        <translation>Address label (optional)</translation>
+    </message>
+    <message>
+        <source>Enter label</source>
+        <translation>Enter label</translation>
+    </message>
+    <message>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less WAGE than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <translation>The fee will be deducted from the amount being sent. The recipient will receive less WAGE than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</translation>
+    </message>
+    <message>
+        <source>Subtract fee from amount</source>
+        <translation>Subtract fee from amount</translation>
+    </message>
+    <message>
+        <source>Update memo</source>
+        <translation>Update memo</translation>
+    </message>
+    <message>
+        <source>Add encrypted memo</source>
+        <translation>Add encrypted memo</translation>
+    </message>
+    <message>
+        <source>Memo field reset</source>
+        <translation>Memo field reset</translation>
     </message>
 </context>
 <context>
-    <name>SignVerifyMessageDialog</name>
+    <name>SendWidget</name>
     <message>
-        <source>Signatures - Sign / Verify a Message</source>
-        <translation>Signatures - Sign / Verify a Message</translation>
+        <source>Total remaining from the selected UTXO</source>
+        <translation>Total remaining from the selected UTXO</translation>
     </message>
     <message>
-        <source>&amp;Sign Message</source>
-        <translation>&amp;Sign Message</translation>
+        <source>Warning!</source>
+        <translation>Warning!</translation>
     </message>
     <message>
-        <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</translation>
+        <source>The change address doesn't belong to this wallet.
+
+Do you want to continue?</source>
+        <translation>The change address doesn't belong to this wallet.
+
+Do you want to continue?</translation>
     </message>
     <message>
-        <source>The DIGIWAGE address to sign the message with</source>
-        <translation>The DIGIWAGE address to sign the message with</translation>
+        <source>Customize Fee</source>
+        <translation>Customize Fee</translation>
     </message>
     <message>
-        <source>Choose previously used address</source>
-        <translation>Choose previously used address</translation>
+        <source>Maximum amount of outputs reached</source>
+        <translation>Maximum amount of outputs reached</translation>
     </message>
     <message>
-        <source>Alt+A</source>
-        <translation>Alt+A</translation>
+        <source>Parse a DIGIWAGE URI</source>
+        <translation>Parse a DIGIWAGE URI</translation>
     </message>
     <message>
-        <source>Paste address from clipboard</source>
-        <translation>Paste address from clipboard</translation>
+        <source>Invalid entry, previous entries must be valid before add a new one</source>
+        <translation>Invalid entry, previous entries must be valid before add a new one</translation>
     </message>
     <message>
-        <source>Alt+P</source>
-        <translation>Alt+P</translation>
+        <source>Possibly spend coins delegated for cold-staking (currently available: %1</source>
+        <translation>Possibly spend coins delegated for cold-staking (currently available: %1</translation>
     </message>
     <message>
-        <source>Enter the message you want to sign here</source>
-        <translation>Enter the message you want to sign here</translation>
+        <source>Invalid entry</source>
+        <translation>Invalid entry</translation>
+    </message>
+    <message>
+        <source>No set recipients</source>
+        <translation>No set recipients</translation>
+    </message>
+    <message>
+        <source>Cannot send, wallet locked</source>
+        <translation>Cannot send, wallet locked</translation>
+    </message>
+    <message>
+        <source>WARNING:
+Transaction spends a cold-stake delegation, voiding it.
+These coins will no longer be cold-staked.</source>
+        <translation>WARNING:
+Transaction spends a cold-stake delegation, voiding it.
+These coins will no longer be cold-staked.</translation>
+    </message>
+    <message>
+        <source>Transaction sent</source>
+        <translation>Transaction sent</translation>
+    </message>
+    <message>
+        <source>Address label update failed for address: %1</source>
+        <translation>Address label update failed for address: %1</translation>
+    </message>
+    <message>
+        <source>Invalid URI</source>
+        <translation>Invalid URI</translation>
+    </message>
+    <message>
+        <source>Invalid address in URI</source>
+        <translation>Invalid address in URI</translation>
+    </message>
+    <message>
+        <source>Memo</source>
+        <translation>Memo</translation>
+    </message>
+    <message>
+        <source>Custom Fee %1</source>
+        <translation>Custom Fee %1</translation>
+    </message>
+    <message>
+        <source>Coin Control</source>
+        <translation>Coin Control</translation>
+    </message>
+    <message>
+        <source>Select the source of the coins</source>
+        <translation>Select the source of the coins</translation>
+    </message>
+    <message>
+        <source>Change Address</source>
+        <translation>Change Address</translation>
+    </message>
+    <message>
+        <source>Customize the change address</source>
+        <translation>Customize the change address</translation>
+    </message>
+    <message>
+        <source>Open URI</source>
+        <translation>Open URI</translation>
+    </message>
+    <message>
+        <source>Shield Coins</source>
+        <translation>Shield Coins</translation>
+    </message>
+    <message>
+        <source>Convert all transparent coins into shielded coins</source>
+        <translation>Convert all transparent coins into shielded coins</translation>
+    </message>
+    <message>
+        <source>Unlocked remaining</source>
+        <translation>Unlocked remaining</translation>
+    </message>
+    <message>
+        <source>Cannot send memo to address
+%1
+
+Encrypted memo messages are available only for shielded recipients.
+
+Do you wish to proceed without memo?
+</source>
+        <translation>Cannot send memo to address
+%1
+
+Encrypted memo messages are available only for shielded recipients.
+
+Do you wish to proceed without memo?
+</translation>
+    </message>
+    <message>
+        <source>Sapling Protocol temporarily in maintenance. Shielded transactions disabled (SPORK 20)</source>
+        <translation>Sapling Protocol temporarily in maintenance. Shielded transactions disabled (SPORK 20)</translation>
+    </message>
+    <message>
+        <source>On going process being executed, please wait until it's finished to create a new transaction</source>
+        <translation>On going process being executed, please wait until it's finished to create a new transaction</translation>
+    </message>
+    <message>
+        <source>Preparing transaction</source>
+        <translation>Preparing transaction</translation>
+    </message>
+    <message>
+        <source>Processing full, refreshing amounts later</source>
+        <translation>Processing full, refreshing amounts later</translation>
+    </message>
+    <message>
+        <source>You don't have any %1 to select.</source>
+        <translation>You don't have any %1 to select.</translation>
+    </message>
+    <message>
+        <source>You are just about to anonymize all of your balance!
+Available %1
+With fee %2
+
+Meaning that you will be able to perform completely
+anonymous transactions
+
+Do you want to continue?
+</source>
+        <translation>You are just about to anonymize all of your balance!
+Available %1
+With fee %2
+
+Meaning that you will be able to perform completely
+anonymous transactions
+
+Do you want to continue?
+</translation>
+    </message>
+    <message>
+        <source>Error generating address to shield WAGEs</source>
+        <translation>Error generating address to shield WAGEs</translation>
+    </message>
+    <message>
+        <source>You don't have any transparent WAGEs to shield.</source>
+        <translation>You don't have any transparent WAGEs to shield.</translation>
+    </message>
+    <message>
+        <source>No contacts available, you can go to the contacts screen and add some there!</source>
+        <translation>No contacts available, you can go to the contacts screen and add some there!</translation>
+    </message>
+    <message>
+        <source>Add Memo</source>
+        <translation>Add Memo</translation>
+    </message>
+    <message>
+        <source>Save contact</source>
+        <translation>Save contact</translation>
+    </message>
+    <message>
+        <source>Subtract fee</source>
+        <translation>Subtract fee</translation>
+    </message>
+    <message>
+        <source>Address field is empty</source>
+        <translation>Address field is empty</translation>
+    </message>
+    <message>
+        <source>Invalid address</source>
+        <translation>Invalid address</translation>
+    </message>
+    <message>
+        <source>Cannot store your own address as contact</source>
+        <translation>Cannot store your own address as contact</translation>
+    </message>
+    <message>
+        <source>Update Contact</source>
+        <translation>Update Contact</translation>
+    </message>
+    <message>
+        <source>Create New Contact</source>
+        <translation>Create New Contact</translation>
+    </message>
+    <message>
+        <source>New Contact Stored</source>
+        <translation>New Contact Stored</translation>
+    </message>
+    <message>
+        <source>Error Storing Contact</source>
+        <translation>Error Storing Contact</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsBackupWallet</name>
+    <message>
+        <source>Change Wallet Passphrase</source>
+        <translation>Change Wallet Passphrase</translation>
+    </message>
+    <message>
+        <source>Where</source>
+        <translation>Where</translation>
+    </message>
+    <message>
+        <source>Keep your wallet safe by doing regular backups and storing your backup file externally.
+This option creates a wallet.dat file that can be used to recover your whole balance (transactions and addresses) on another device</source>
+        <translation>Keep your wallet safe by doing regular backups and storing your backup file externally.
+This option creates a wallet.dat file that can be used to recover your whole balance (transactions and addresses) on another device</translation>
+    </message>
+    <message>
+        <source>Select folder...</source>
+        <translation>Select folder...</translation>
+    </message>
+    <message>
+        <source>This will decrypt the whole wallet data and encrypt it back with the new passphrase.
+Remember to write it down and store it safely, otherwise you might lose access to your funds</source>
+        <translation>This will decrypt the whole wallet data and encrypt it back with the new passphrase.
+Remember to write it down and store it safely, otherwise you might lose access to your funds</translation>
+    </message>
+    <message>
+        <source>Change Passphrase</source>
+        <translation>Change Passphrase</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Backup Wallet</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Wallet Data (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup created</source>
+        <translation>Backup created</translation>
+    </message>
+    <message>
+        <source>Backup creation failed</source>
+        <translation>Backup creation failed</translation>
+    </message>
+    <message>
+        <source>Please select a folder to export the backup first.</source>
+        <translation>Please select a folder to export the backup first.</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsBitToolWidget</name>
+    <message>
+        <source>Import Address</source>
+        <translation>Import Address</translation>
+    </message>
+    <message>
+        <source>BIP38 Tool</source>
+        <translation>BIP38 Tool</translation>
+    </message>
+    <message>
+        <source>Encrypt your DIGIWAGE addresses (key pair actually) using BIP38 encryption.
+Using this mechanism you can share your keys without middle-man risk, only need to store your passphrase safely</source>
+        <translation>Encrypt your DIGIWAGE addresses (key pair actually) using BIP38 encryption.
+Using this mechanism you can share your keys without middle-man risk, only need to store your passphrase safely</translation>
+    </message>
+    <message>
+        <source>Encrypt</source>
+        <translation>Encrypt</translation>
+    </message>
+    <message>
+        <source>Decrypt</source>
+        <translation>Decrypt</translation>
+    </message>
+    <message>
+        <source>Encrypted key</source>
+        <translation>Encrypted key</translation>
+    </message>
+    <message>
+        <source>Enter a encrypted key</source>
+        <translation>Enter a encrypted key</translation>
+    </message>
+    <message>
+        <source>Passphrase</source>
+        <translation>Passphrase</translation>
+    </message>
+    <message>
+        <source>Decrypted address result</source>
+        <translation>Decrypted address result</translation>
+    </message>
+    <message>
+        <source>Decrypted Address</source>
+        <translation>Decrypted Address</translation>
+    </message>
+    <message>
+        <source>DECRYPT KEY</source>
+        <translation>DECRYPT KEY</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE address</source>
+        <translation>DIGIWAGE address</translation>
+    </message>
+    <message>
+        <source>Enter address</source>
+        <translation>Enter address</translation>
+    </message>
+    <message>
+        <source>Enter passphrase</source>
+        <translation>Enter passphrase</translation>
+    </message>
+    <message>
+        <source>Encrypted Key</source>
+        <translation>Encrypted Key</translation>
+    </message>
+    <message>
+        <source>ENCRYPT</source>
+        <translation>ENCRYPT</translation>
+    </message>
+    <message>
+        <source>CLEAR ALL</source>
+        <translation>CLEAR ALL</translation>
+    </message>
+    <message>
+        <source>Enter a passphrase</source>
+        <translation>Enter a passphrase</translation>
+    </message>
+    <message>
+        <source>CLEAR</source>
+        <translation>CLEAR</translation>
+    </message>
+    <message>
+        <source>The entered passphrase is invalid. </source>
+        <translation>The entered passphrase is invalid. </translation>
+    </message>
+    <message>
+        <source>Allowed: 0-9,a-z,A-Z,</source>
+        <translation>Allowed: 0-9,a-z,A-Z,</translation>
+    </message>
+    <message>
+        <source>The entered address is invalid.</source>
+        <translation>The entered address is invalid.</translation>
+    </message>
+    <message>
+        <source>Please check the address and try again.</source>
+        <translation>Please check the address and try again.</translation>
+    </message>
+    <message>
+        <source>The entered address does not refer to a key.</source>
+        <translation>The entered address does not refer to a key.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock was cancelled.</source>
+        <translation>Wallet unlock was cancelled.</translation>
+    </message>
+    <message>
+        <source>Private key for the entered address is not available.</source>
+        <translation>Private key for the entered address is not available.</translation>
+    </message>
+    <message>
+        <source>Address encrypted.</source>
+        <translation>Address encrypted.</translation>
+    </message>
+    <message>
+        <source>No addresses available, you can go to the receive screen and add some there!</source>
+        <translation>No addresses available, you can go to the receive screen and add some there!</translation>
+    </message>
+    <message>
+        <source>Failed to decrypt.</source>
+        <translation>Failed to decrypt.</translation>
+    </message>
+    <message>
+        <source>Please check the key and passphrase and try again.</source>
+        <translation>Please check the key and passphrase and try again.</translation>
+    </message>
+    <message>
+        <source>Wallet is currently rescanning. Abort existing rescan or wait.</source>
+        <translation>Wallet is currently rescanning. Abort existing rescan or wait.</translation>
+    </message>
+    <message>
+        <source>Data Not Valid.</source>
+        <translation>Data Not Valid.</translation>
+    </message>
+    <message>
+        <source>Please try again.</source>
+        <translation>Please try again.</translation>
+    </message>
+    <message>
+        <source>Please wait while key is imported</source>
+        <translation>Please wait while key is imported</translation>
+    </message>
+    <message>
+        <source>Cannot import address, key already held by the wallet</source>
+        <translation>Cannot import address, key already held by the wallet</translation>
+    </message>
+    <message>
+        <source>Error adding key to the wallet</source>
+        <translation>Error adding key to the wallet</translation>
+    </message>
+    <message>
+        <source>Successfully added private key to the wallet</source>
+        <translation>Successfully added private key to the wallet</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsConsoleWidget</name>
+    <message>
+        <source>Console</source>
+        <translation>Console</translation>
+    </message>
+    <message>
+        <source>Console input</source>
+        <translation>Console input</translation>
+    </message>
+    <message>
+        <source>Open Debug File</source>
+        <translation>Open Debug File</translation>
+    </message>
+    <message>
+        <source>Command Line Options</source>
+        <translation>Command Line Options</translation>
+    </message>
+    <message>
+        <source>Clear history</source>
+        <translation>Clear history</translation>
+    </message>
+    <message>
+        <source>Cannot open debug file.
+Verify that you have installed a predetermined text editor.</source>
+        <translation>Cannot open debug file.
+Verify that you have installed a predetermined text editor.</translation>
+    </message>
+    <message>
+        <source>Welcome to the DIGIWAGE RPC console.</source>
+        <translation>Welcome to the DIGIWAGE RPC console.</translation>
+    </message>
+    <message>
+        <source>Use up and down arrows to navigate history, and %1 to clear screen.</source>
+        <translation>Use up and down arrows to navigate history, and %1 to clear screen.</translation>
+    </message>
+    <message>
+        <source>Type %1 for an overview of available commands.</source>
+        <translation>Type %1 for an overview of available commands.</translation>
+    </message>
+    <message>
+        <source>For more information on using this console type %1.</source>
+        <translation>For more information on using this console type %1.</translation>
+    </message>
+    <message>
+        <source>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramifications of a command.</source>
+        <translation>WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramifications of a command.</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsDisplayOptionsWidget</name>
+    <message>
+        <source>Hide stake charts in the dashboard</source>
+        <translation>Hide stake charts in the dashboard</translation>
+    </message>
+    <message>
+        <source>Reset to default</source>
+        <translation>Reset to default</translation>
+    </message>
+    <message>
+        <source>Discard changes</source>
+        <translation>Discard changes</translation>
+    </message>
+    <message>
+        <source>Display</source>
+        <translation>Display</translation>
+    </message>
+    <message>
+        <source>Customize the display view options</source>
+        <translation>Customize the display view options</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Language</translation>
+    </message>
+    <message>
+        <source>Unit to show amount</source>
+        <translation>Unit to show amount</translation>
+    </message>
+    <message>
+        <source>Decimal digits</source>
+        <translation>Decimal digits</translation>
+    </message>
+    <message>
+        <source>Third party transactions URLs</source>
+        <translation>Third party transactions URLs</translation>
+    </message>
+    <message>
+        <source>Hide empty balances</source>
+        <translation>Hide empty balances</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
+    </message>
+    <message>
+        <source>default</source>
+        <translation>default</translation>
+    </message>
+    <message>
+        <source>Options reset succeed</source>
+        <translation>Options reset succeed</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsExportCSV</name>
+    <message>
+        <source>Export Accounting</source>
+        <translation>Export Accounting</translation>
+    </message>
+    <message>
+        <source>Export your wallet's accounting data to a csv file.</source>
+        <translation>Export your wallet's accounting data to a csv file.</translation>
+    </message>
+    <message>
+        <source>Export Transaction History</source>
+        <translation>Export Transaction History</translation>
+    </message>
+    <message>
+        <source>Select folder...</source>
+        <translation>Select folder...</translation>
+    </message>
+    <message>
+        <source>Export Address Book</source>
+        <translation>Export Address Book</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Comma separated file (*.csv)</translation>
+    </message>
+    <message>
+        <source>Please select a folder to export the csv file first.</source>
+        <translation>Please select a folder to export the csv file first.</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Confirmed</translation>
+    </message>
+    <message>
+        <source>Watch-only</source>
+        <translation>Watch-only</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Label</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Address</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Exporting Successful
+The transaction history was successfully saved to %1.</source>
+        <translation>Exporting Successful
+The transaction history was successfully saved to %1.</translation>
+    </message>
+    <message>
+        <source>Exporting Failed
+There was an error trying to save the transaction history to %1.</source>
+        <translation>Exporting Failed
+There was an error trying to save the transaction history to %1.</translation>
+    </message>
+    <message>
+        <source>No available addresses to export under the selected filter</source>
+        <translation>No available addresses to export under the selected filter</translation>
+    </message>
+    <message>
+        <source>Exporting Successful
+The address book was successfully saved to %1.</source>
+        <translation>Exporting Successful
+The address book was successfully saved to %1.</translation>
+    </message>
+    <message>
+        <source>Exporting Failed
+There was an error trying to save the address list to %1. Please try again.</source>
+        <translation>Exporting Failed
+There was an error trying to save the address list to %1. Please try again.</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsFaqWidget</name>
+    <message>
+        <source>1) What is DIGIWAGE?</source>
+        <translation>1) What is DIGIWAGE?</translation>
+    </message>
+    <message>
+        <source>2) Why are my WAGE unspendable?</source>
+        <translation>2) Why are my WAGE unspendable?</translation>
+    </message>
+    <message>
+        <source>1</source>
+        <translation>1</translation>
+    </message>
+    <message>
+        <source>What is DIGIWAGE?</source>
+        <translation>What is DIGIWAGE?</translation>
+    </message>
+    <message>
+        <source>2</source>
+        <translation>2</translation>
+    </message>
+    <message>
+        <source>Why are my WAGE unspendable?</source>
+        <translation>Why are my WAGE unspendable?</translation>
+    </message>
+    <message>
+        <source>3</source>
+        <translation>3</translation>
+    </message>
+    <message>
+        <source>How do I stake WAGE?</source>
+        <translation>How do I stake WAGE?</translation>
+    </message>
+    <message>
+        <source>4</source>
+        <translation>4</translation>
+    </message>
+    <message>
+        <source>5</source>
+        <translation>5</translation>
+    </message>
+    <message>
+        <source>6</source>
+        <translation>6</translation>
+    </message>
+    <message>
+        <source>Where should I go if I need support?</source>
+        <translation>Where should I go if I need support?</translation>
+    </message>
+    <message>
+        <source>What is a Masternode?</source>
+        <translation>What is a Masternode?</translation>
+    </message>
+    <message>
+        <source>What is a Masternode Controller?</source>
+        <translation>What is a Masternode Controller?</translation>
+    </message>
+    <message>
+        <source>Frequently Asked Questions</source>
+        <translation>Frequently Asked Questions</translation>
+    </message>
+    <message>
+        <source>Close FAQ</source>
+        <translation>Close FAQ</translation>
+    </message>
+    <message>
+        <source>3) How do I stake WAGE?</source>
+        <translation>3) How do I stake WAGE?</translation>
+    </message>
+    <message>
+        <source>4) Where I should go if I need support?</source>
+        <translation>4) Where I should go if I need support?</translation>
+    </message>
+    <message>
+        <source>5) What is a Masternode?</source>
+        <translation>5) What is a Masternode?</translation>
+    </message>
+    <message>
+        <source>6) What is a Masternode Controller?</source>
+        <translation>6) What is a Masternode Controller?</translation>
+    </message>
+    <message>
+        <source>You can read more here</source>
+        <translation>You can read more here</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE is a form of digital online money using blockchain technology that can be easily transferred globally, instantly, and with near zero fees. DIGIWAGE incorporates market leading security &amp; privacy and is also the first PoS (Proof of Stake) Cryptocurrency to implement Sapling(SHIELD), a zk-SNARKs based privacy protocol.</source>
+        <translation>DIGIWAGE is a form of digital online money using blockchain technology that can be easily transferred globally, instantly, and with near zero fees. DIGIWAGE incorporates market leading security &amp; privacy and is also the first PoS (Proof of Stake) Cryptocurrency to implement Sapling(SHIELD), a zk-SNARKs based privacy protocol.</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE utilizes a Proof of Stake (PoS) consensus system algorithm, allowing all owners of DIGIWAGE to participate in earning block rewards while securing the network with full node wallets, as well as to run Masternodes to create and vote on proposals.</source>
+        <translation>DIGIWAGE utilizes a Proof of Stake (PoS) consensus system algorithm, allowing all owners of DIGIWAGE to participate in earning block rewards while securing the network with full node wallets, as well as to run Masternodes to create and vote on proposals.</translation>
+    </message>
+    <message>
+        <source>Newly received DIGIWAGE requires 6 confirmations on the network to become eligible for spending which can take ~6 minutes.</source>
+        <translation>Newly received DIGIWAGE requires 6 confirmations on the network to become eligible for spending which can take ~6 minutes.</translation>
+    </message>
+    <message>
+        <source>Your DIGIWAGE wallet also needs to be completely synchronized to see and spend balances on the network.</source>
+        <translation>Your DIGIWAGE wallet also needs to be completely synchronized to see and spend balances on the network.</translation>
+    </message>
+    <message>
+        <source>Make sure your wallet is completely synchronized and you are using the latest release.</source>
+        <translation>Make sure your wallet is completely synchronized and you are using the latest release.</translation>
+    </message>
+    <message>
+        <source>You must have a balance of DIGIWAGE with a minimum of 600 confirmations.</source>
+        <translation>You must have a balance of DIGIWAGE with a minimum of 600 confirmations.</translation>
+    </message>
+    <message>
+        <source>Your wallet must stay online and be unlocked for staking purposes.</source>
+        <translation>Your wallet must stay online and be unlocked for staking purposes.</translation>
+    </message>
+    <message>
+        <source>Once all those steps are followed staking should be enabled.</source>
+        <translation>Once all those steps are followed staking should be enabled.</translation>
+    </message>
+    <message>
+        <source>You can see the status of staking in the wallet by mousing over the package icon in the row on the top left of the wallet interface. The package will be lit up and will state "Staking Enabled" to indicate it is staking. Using the command line interface (%1); the command %2 will confirm that staking is active.</source>
+        <translation>You can see the status of staking in the wallet by mousing over the package icon in the row on the top left of the wallet interface. The package will be lit up and will state "Staking Enabled" to indicate it is staking. Using the command line interface (%1); the command %2 will confirm that staking is active.</translation>
+    </message>
+    <message>
+        <source>We have support channels in most of our official chat groups, for example %1</source>
+        <translation>We have support channels in most of our official chat groups, for example %1</translation>
+    </message>
+    <message>
+        <source>#support in our Discord</source>
+        <translation>#support in our Discord</translation>
+    </message>
+    <message>
+        <source>%1 per single Masternode instance</source>
+        <translation>%1 per single Masternode instance</translation>
+    </message>
+    <message>
+        <source>A Masternode Controller wallet is where the %1 collateral can reside during a Controller-Remote masternode setup. It is a wallet that can activate the remote masternode wallet(s) and allows you to keep your collateral coins offline while the remote masternode remains online.</source>
+        <translation>A Masternode Controller wallet is where the %1 collateral can reside during a Controller-Remote masternode setup. It is a wallet that can activate the remote masternode wallet(s) and allows you to keep your collateral coins offline while the remote masternode remains online.</translation>
+    </message>
+    <message>
+        <source>A decentralized governance (Proposal Voting)</source>
+        <translation>A decentralized governance (Proposal Voting)</translation>
+    </message>
+    <message>
+        <source>A masternode is a computer running a full node %1 wallet with a requirement of %2 secured collateral to provide extra services to the network and in return, receive a portion of the block reward regularly. These services include:</source>
+        <translation>A masternode is a computer running a full node %1 wallet with a requirement of %2 secured collateral to provide extra services to the network and in return, receive a portion of the block reward regularly. These services include:</translation>
+    </message>
+    <message>
+        <source>A decentralized budgeting system (Treasury)</source>
+        <translation>A decentralized budgeting system (Treasury)</translation>
+    </message>
+    <message>
+        <source>Validation of transactions within each block</source>
+        <translation>Validation of transactions within each block</translation>
+    </message>
+    <message>
+        <source>Act as an additional full node in the network</source>
+        <translation>Act as an additional full node in the network</translation>
+    </message>
+    <message>
+        <source>For providing such services, masternodes are also paid a certain portion of reward for each block. This can serve as a passive income to the masternode owners minus their running cost.</source>
+        <translation>For providing such services, masternodes are also paid a certain portion of reward for each block. This can serve as a passive income to the masternode owners minus their running cost.</translation>
+    </message>
+    <message>
+        <source>Masternode Perks:</source>
+        <translation>Masternode Perks:</translation>
+    </message>
+    <message>
+        <source>Participate in DIGIWAGE Governance</source>
+        <translation>Participate in DIGIWAGE Governance</translation>
+    </message>
+    <message>
+        <source>Earn Masternode Rewards</source>
+        <translation>Earn Masternode Rewards</translation>
+    </message>
+    <message>
+        <source>Commodity option for future sale</source>
+        <translation>Commodity option for future sale</translation>
+    </message>
+    <message>
+        <source>Help secure the DIGIWAGE network</source>
+        <translation>Help secure the DIGIWAGE network</translation>
+    </message>
+    <message>
+        <source>Requirements:</source>
+        <translation>Requirements:</translation>
+    </message>
+    <message>
+        <source>Must be stored in a core wallet</source>
+        <translation>Must be stored in a core wallet</translation>
+    </message>
+    <message>
+        <source>Need dedicated IP address</source>
+        <translation>Need dedicated IP address</translation>
+    </message>
+    <message>
+        <source>Masternode wallet to remain online</source>
+        <translation>Masternode wallet to remain online</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsInformationWidget</name>
+    <message>
+        <source>Network Monitor</source>
+        <translation>Network Monitor</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
+        <source>Client Version:</source>
+        <translation>Client Version:</translation>
+    </message>
+    <message>
+        <source>BerkeleyDB version:</source>
+        <translation>BerkeleyDB version:</translation>
+    </message>
+    <message>
+        <source>Datadir:</source>
+        <translation>Datadir:</translation>
+    </message>
+    <message>
+        <source>Startup time:</source>
+        <translation>Startup time:</translation>
+    </message>
+    <message>
+        <source>Connections:</source>
+        <translation>Connections:</translation>
+    </message>
+    <message>
+        <source>Number of Masternodes:</source>
+        <translation>Number of Masternodes:</translation>
+    </message>
+    <message>
+        <source>Current number of blocks:</source>
+        <translation>Current number of blocks:</translation>
+    </message>
+    <message>
+        <source>Last block time:</source>
+        <translation>Last block time:</translation>
+    </message>
+    <message>
+        <source>Last block hash:</source>
+        <translation>Last block hash:</translation>
+    </message>
+    <message>
+        <source>Current number of transactions:</source>
+        <translation>Current number of transactions:</translation>
+    </message>
+    <message>
+        <source>User Agent:</source>
+        <translation>User Agent:</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Network</translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation>Name:</translation>
+    </message>
+    <message>
+        <source>Blockchain</source>
+        <translation>Blockchain</translation>
+    </message>
+    <message>
+        <source>Memory Pool</source>
+        <translation>Memory Pool</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation>Main</translation>
+    </message>
+    <message>
+        <source>Wallet Conf</source>
+        <translation>Wallet Conf</translation>
+    </message>
+    <message>
+        <source>Backups</source>
+        <translation>Backups</translation>
+    </message>
+    <message>
+        <source>No information</source>
+        <translation>No information</translation>
+    </message>
+    <message>
+        <source>Unable to open backups folder</source>
+        <translation>Unable to open backups folder</translation>
+    </message>
+    <message>
+        <source>Unable to open digiwage.conf with default application</source>
+        <translation>Unable to open digiwage.conf with default application</translation>
+    </message>
+    <message>
+        <source>In:</source>
+        <translation>In:</translation>
+    </message>
+    <message>
+        <source>Out:</source>
+        <translation>Out:</translation>
+    </message>
+    <message>
+        <source>No available data</source>
+        <translation>No available data</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsMainOptionsWidget</name>
+    <message>
+        <source>Window</source>
+        <translation>Window</translation>
+    </message>
+    <message>
+        <source>Customize the application window options</source>
+        <translation>Customize the application window options</translation>
+    </message>
+    <message>
+        <source>Reset to default</source>
+        <translation>Reset to default</translation>
+    </message>
+    <message>
+        <source>Discard changes</source>
+        <translation>Discard changes</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation>Main</translation>
+    </message>
+    <message>
+        <source>Customize the main application options</source>
+        <translation>Customize the main application options</translation>
+    </message>
+    <message>
+        <source>Size of database cache</source>
+        <translation>Size of database cache</translation>
+    </message>
+    <message>
+        <source>Number of script verification threads</source>
+        <translation>Number of script verification threads</translation>
+    </message>
+    <message>
+        <source>Minimize to the tray instead of the taskbar</source>
+        <translation>Minimize to the tray instead of the taskbar</translation>
+    </message>
+    <message>
+        <source>Minimize on close</source>
+        <translation>Minimize on close</translation>
+    </message>
+    <message>
+        <source>Start %1 on system login</source>
+        <translation>Start %1 on system login</translation>
+    </message>
+    <message>
+        <source>Reset Options</source>
+        <translation>Reset Options</translation>
+    </message>
+    <message>
+        <source>You are just about to reset the app's options to the default values.
+
+Are you sure?
+</source>
+        <translation>You are just about to reset the app's options to the default values.
+
+Are you sure?
+</translation>
+    </message>
+    <message>
+        <source>Options reset succeed</source>
+        <translation>Options reset succeed</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsSignMessageWidgets</name>
+    <message>
+        <source>Sign/Verify Message</source>
+        <translation>Sign/Verify Message</translation>
+    </message>
+    <message>
+        <source>Sign</source>
+        <translation>Sign</translation>
+    </message>
+    <message>
+        <source>Verify</source>
+        <translation>Verify</translation>
+    </message>
+    <message>
+        <source>Write message here...</source>
+        <translation>Write message here...</translation>
+    </message>
+    <message>
+        <source>Select mode</source>
+        <translation>Select mode</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Message</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE address or contact label</source>
+        <translation>DIGIWAGE address or contact label</translation>
+    </message>
+    <message>
+        <source>Enter address</source>
+        <translation>Enter address</translation>
     </message>
     <message>
         <source>Signature</source>
         <translation>Signature</translation>
     </message>
     <message>
-        <source>Copy the current signature to the system clipboard</source>
-        <translation>Copy the current signature to the system clipboard</translation>
+        <source>SIGN</source>
+        <translation>SIGN</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this DIGIWAGE address</source>
-        <translation>Sign the message to prove you own this DIGIWAGE address</translation>
+        <source>CLEAR ALL</source>
+        <translation>CLEAR ALL</translation>
     </message>
     <message>
-        <source>The DIGIWAGE address the message was signed with</source>
-        <translation>The DIGIWAGE address the message was signed with</translation>
-    </message>
-    <message>
-        <source>Verify the message to ensure it was signed with the specified DIGIWAGE address</source>
-        <translation>Verify the message to ensure it was signed with the specified DIGIWAGE address</translation>
-    </message>
-    <message>
-        <source>Sign &amp;Message</source>
-        <translation>Sign &amp;Message</translation>
-    </message>
-    <message>
-        <source>Reset all sign message fields</source>
-        <translation>Reset all sign message fields</translation>
-    </message>
-    <message>
-        <source>Clear &amp;All</source>
-        <translation>Clear &amp;All</translation>
-    </message>
-    <message>
-        <source>&amp;Verify Message</source>
-        <translation>&amp;Verify Message</translation>
+        <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</translation>
     </message>
     <message>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
         <translation>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</translation>
     </message>
     <message>
-        <source>Verify &amp;Message</source>
-        <translation>Verify &amp;Message</translation>
-    </message>
-    <message>
-        <source>Reset all verify message fields</source>
-        <translation>Reset all verify message fields</translation>
-    </message>
-    <message>
-        <source>Click "Sign Message" to generate signature</source>
-        <translation>Click "Sign Message" to generate signature</translation>
+        <source>VERIFY</source>
+        <translation>VERIFY</translation>
     </message>
     <message>
         <source>The entered address is invalid.</source>
@@ -3261,10 +4181,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Please check the signature and try again.</translation>
     </message>
     <message>
-        <source>The signature did not match the message digest.</source>
-        <translation>The signature did not match the message digest.</translation>
-    </message>
-    <message>
         <source>Message verification failed.</source>
         <translation>Message verification failed.</translation>
     </message>
@@ -3272,32 +4188,573 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <source>Message verified.</source>
         <translation>Message verified.</translation>
     </message>
+    <message>
+        <source>No addresses available, you can go to the receive screen and add some there!</source>
+        <translation>No addresses available, you can go to the receive screen and add some there!</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsWalletOptionsWidget</name>
+    <message>
+        <source>Reset to default</source>
+        <translation>Reset to default</translation>
+    </message>
+    <message>
+        <source>Discard changes</source>
+        <translation>Discard changes</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Wallet</translation>
+    </message>
+    <message>
+        <source>Customize the internal wallet options</source>
+        <translation>Customize the internal wallet options</translation>
+    </message>
+    <message>
+        <source>Stake split threshold</source>
+        <translation>Stake split threshold</translation>
+    </message>
+    <message>
+        <source>Spend unconfirmed change</source>
+        <translation>Spend unconfirmed change</translation>
+    </message>
+    <message>
+        <source>Network</source>
+        <translation>Network</translation>
+    </message>
+    <message>
+        <source>Customize the node network options</source>
+        <translation>Customize the node network options</translation>
+    </message>
+    <message>
+        <source>Automatically open the DIGIWAGE client port on the router. This only works when your router supports NAT-PMP and it is enabled. The external port could be random.</source>
+        <translation>Automatically open the DIGIWAGE client port on the router. This only works when your router supports NAT-PMP and it is enabled. The external port could be random.</translation>
+    </message>
+    <message>
+        <source>Map port using NAT-PMP</source>
+        <translation>Map port using NAT-PMP</translation>
+    </message>
+    <message>
+        <source>Connect through SOCKS5 proxy (default proxy)</source>
+        <translation>Connect through SOCKS5 proxy (default proxy)</translation>
+    </message>
+    <message>
+        <source>Proxy IP</source>
+        <translation>Proxy IP</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>Port</translation>
+    </message>
+    <message>
+        <source>Enter port</source>
+        <translation>Enter port</translation>
+    </message>
+    <message>
+        <source>Enter proxy IP</source>
+        <translation>Enter proxy IP</translation>
+    </message>
+    <message>
+        <source>Map port using UPnP</source>
+        <translation>Map port using UPnP</translation>
+    </message>
+    <message>
+        <source>Allow incoming connections</source>
+        <translation>Allow incoming connections</translation>
+    </message>
+    <message>
+        <source>SAVE</source>
+        <translation>SAVE</translation>
+    </message>
+    <message>
+        <source>Options reset succeed</source>
+        <translation>Options reset succeed</translation>
+    </message>
+    <message>
+        <source>Stake Split too low, it shall be either &gt;= %1 or equal to 0 (to disable stake splitting)</source>
+        <translation>Stake Split too low, it shall be either &gt;= %1 or equal to 0 (to disable stake splitting)</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsWalletRepairWidget</name>
+    <message>
+        <source>Wallet Repair</source>
+        <translation>Wallet Repair</translation>
+    </message>
+    <message>
+        <source>Upgrade wallet to latest format on startup. (Note: this is NOT an update of the wallet itself)</source>
+        <translation>Upgrade wallet to latest format on startup. (Note: this is NOT an update of the wallet itself)</translation>
+    </message>
+    <message>
+        <source>The buttons below will restart the wallet with command-line options to repair this wallet, fix issues with corrupt blockchain files or missing/obsolete transactions</source>
+        <translation>The buttons below will restart the wallet with command-line options to repair this wallet, fix issues with corrupt blockchain files or missing/obsolete transactions</translation>
+    </message>
+    <message>
+        <source>Salvage wallet</source>
+        <translation>Salvage wallet</translation>
+    </message>
+    <message>
+        <source>Attempt to recover private keys from a corrupt wallet.dat</source>
+        <translation>Attempt to recover private keys from a corrupt wallet.dat</translation>
+    </message>
+    <message>
+        <source>Rescan blockchain file</source>
+        <translation>Rescan blockchain file</translation>
+    </message>
+    <message>
+        <source>Rescan the blockchain for missing wallet transactions</source>
+        <translation>Rescan the blockchain for missing wallet transactions</translation>
+    </message>
+    <message>
+        <source>Recover transactions 1</source>
+        <translation>Recover transactions 1</translation>
+    </message>
+    <message>
+        <source>Recover transactions from blockchain (keep-meta-data, e.g. account owner)</source>
+        <translation>Recover transactions from blockchain (keep-meta-data, e.g. account owner)</translation>
+    </message>
+    <message>
+        <source>Recover transactions 2</source>
+        <translation>Recover transactions 2</translation>
+    </message>
+    <message>
+        <source>Recover transactions from blockchain (drop meta-data)</source>
+        <translation>Recover transactions from blockchain (drop meta-data)</translation>
+    </message>
+    <message>
+        <source>Upgrade wallet format</source>
+        <translation>Upgrade wallet format</translation>
+    </message>
+    <message>
+        <source>Rebuild index</source>
+        <translation>Rebuild index</translation>
+    </message>
+    <message>
+        <source>Rebuild blockchain index from current blk000???.dat files</source>
+        <translation>Rebuild blockchain index from current blk000???.dat files</translation>
+    </message>
+    <message>
+        <source>Delete local blockchain</source>
+        <translation>Delete local blockchain</translation>
+    </message>
+    <message>
+        <source>Deletes all local blockchain folders so the wallet synchronizes from scratch</source>
+        <translation>Deletes all local blockchain folders so the wallet synchronizes from scratch</translation>
+    </message>
+    <message>
+        <source>This will delete your local blockchain folders and the wallet will synchronize the complete Blockchain from scratch.&lt;br /&gt;&lt;br /&gt;</source>
+        <translation>This will delete your local blockchain folders and the wallet will synchronize the complete Blockchain from scratch.&lt;br /&gt;&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>This needs quite some time and downloads a lot of data.&lt;br /&gt;&lt;br /&gt;</source>
+        <translation>This needs quite some time and downloads a lot of data.&lt;br /&gt;&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Your transactions and funds will be visible again after the download has completed.&lt;br /&gt;&lt;br /&gt;</source>
+        <translation>Your transactions and funds will be visible again after the download has completed.&lt;br /&gt;&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Do you want to continue?.&lt;br /&gt;</source>
+        <translation>Do you want to continue?.&lt;br /&gt;</translation>
+    </message>
+    <message>
+        <source>Confirm resync Blockchain</source>
+        <translation>Confirm resync Blockchain</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsWidget</name>
+    <message>
+        <source>Wallet Data</source>
+        <translation>Wallet Data</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Wallet</translation>
+    </message>
+    <message>
+        <source>Export Accounting</source>
+        <translation>Export Accounting</translation>
+    </message>
+    <message>
+        <source>Tools</source>
+        <translation>Tools</translation>
+    </message>
+    <message>
+        <source>Sign/Verify Message</source>
+        <translation>Sign/Verify Message</translation>
+    </message>
+    <message>
+        <source>BIP38 Tool</source>
+        <translation>BIP38 Tool</translation>
+    </message>
+    <message>
+        <source>Options</source>
+        <translation>Options</translation>
+    </message>
+    <message>
+        <source>Main</source>
+        <translation>Main</translation>
+    </message>
+    <message>
+        <source>Display</source>
+        <translation>Display</translation>
+    </message>
+    <message>
+        <source>Debug</source>
+        <translation>Debug</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Console</source>
+        <translation>Console</translation>
+    </message>
+    <message>
+        <source>Wallet Repair</source>
+        <translation>Wallet Repair</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Help</translation>
+    </message>
+    <message>
+        <source>FAQ</source>
+        <translation>FAQ</translation>
+    </message>
+    <message>
+        <source>About DIGIWAGE</source>
+        <translation>About DIGIWAGE</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Settings</translation>
+    </message>
+    <message>
+        <source>Confirm options reset</source>
+        <translation>Confirm options reset</translation>
+    </message>
+    <message>
+        <source>Client restart required to activate changes.</source>
+        <translation>Client restart required to activate changes.</translation>
+    </message>
+    <message>
+        <source>Client will be shutdown, do you want to proceed?</source>
+        <translation>Client will be shutdown, do you want to proceed?</translation>
+    </message>
+    <message>
+        <source>Restart required</source>
+        <translation>Restart required</translation>
+    </message>
+    <message>
+        <source>Your wallet needs to be restarted to apply the changes
+</source>
+        <translation>Your wallet needs to be restarted to apply the changes
+</translation>
+    </message>
+    <message>
+        <source>Restart Now</source>
+        <translation>Restart Now</translation>
+    </message>
+    <message>
+        <source>Restart Later</source>
+        <translation>Restart Later</translation>
+    </message>
+    <message>
+        <source>Options will be applied on next wallet restart</source>
+        <translation>Options will be applied on next wallet restart</translation>
+    </message>
+    <message>
+        <source>Options stored</source>
+        <translation>Options stored</translation>
+    </message>
+    <message>
+        <source>Options store failed</source>
+        <translation>Options store failed</translation>
+    </message>
+    <message>
+        <source>Discard Unsaved Changes</source>
+        <translation>Discard Unsaved Changes</translation>
+    </message>
+    <message>
+        <source>You are just about to discard all of your unsaved options.
+
+Are you sure?
+</source>
+        <translation>You are just about to discard all of your unsaved options.
+
+Are you sure?
+</translation>
+    </message>
+</context>
+<context>
+    <name>ShutdownWindow</name>
+    <message>
+        <source>%1 is shutting down...</source>
+        <translation>%1 is shutting down...</translation>
+    </message>
+    <message>
+        <source>Do not shut down the computer until this window disappears.</source>
+        <translation>Do not shut down the computer until this window disappears.</translation>
+    </message>
+</context>
+<context>
+    <name>Splash</name>
+    <message>
+        <source>Loading…</source>
+        <translation>Loading…</translation>
+    </message>
 </context>
 <context>
     <name>SplashScreen</name>
     <message>
-        <source>DIGIWAGE Core</source>
-        <translation>DIGIWAGE Core</translation>
-    </message>
-    <message>
-        <source>Version %1</source>
-        <translation>Version %1</translation>
-    </message>
-    <message>
-        <source>The Bitcoin Core developers</source>
-        <translation>The Bitcoin Core developers</translation>
-    </message>
-    <message>
-        <source>The Dash Core developers</source>
-        <translation>The Dash Core developers</translation>
-    </message>
-    <message>
-        <source>The DIGIWAGE Core developers</source>
-        <translation>The DIGIWAGE Core developers</translation>
-    </message>
-    <message>
         <source>[testnet]</source>
         <translation>[testnet]</translation>
+    </message>
+</context>
+<context>
+    <name>TooltipMenu</name>
+    <message>
+        <source>Copy</source>
+        <translation>Copy</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Edit</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <source>Last</source>
+        <translation>Last</translation>
+    </message>
+</context>
+<context>
+    <name>TopBar</name>
+    <message>
+        <source>transparent</source>
+        <translation>transparent</translation>
+    </message>
+    <message>
+        <source>shielded</source>
+        <translation>shielded</translation>
+    </message>
+    <message>
+        <source>Available</source>
+        <translation>Available</translation>
+    </message>
+    <message>
+        <source>Pending</source>
+        <translation>Pending</translation>
+    </message>
+    <message>
+        <source>Immature</source>
+        <translation>Immature</translation>
+    </message>
+    <message>
+        <source>Wallet Unlocked for staking</source>
+        <translation>Wallet Unlocked for staking</translation>
+    </message>
+    <message>
+        <source>Error generating address</source>
+        <translation>Error generating address</translation>
+    </message>
+    <message>
+        <source>Address Copied</source>
+        <translation>Address Copied</translation>
+    </message>
+    <message>
+        <source>Staking active</source>
+        <translation>Staking active</translation>
+    </message>
+    <message>
+        <source>Staking not active</source>
+        <translation>Staking not active</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n active connection(s)</source>
+        <translation><numerusform>%n active connection(s)</numerusform><numerusform>%n active connection(s)</numerusform></translation>
+    </message>
+    <message>
+        <source>Synchronized - Block: %1</source>
+        <translation>Synchronized - Block: %1</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n hour</numerusform><numerusform>%n hours</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation><numerusform>%n day</numerusform><numerusform>%n days</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation><numerusform>%n week</numerusform><numerusform>%n weeks</numerusform></translation>
+    </message>
+    <message>
+        <source>%1 and %2</source>
+        <translation>%1 and %2</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation><numerusform>%n year</numerusform><numerusform>%n years</numerusform></translation>
+    </message>
+    <message>
+        <source>Wallet Upgrade</source>
+        <translation>Wallet Upgrade</translation>
+    </message>
+    <message>
+        <source>Upgrading to HD wallet will improve
+the wallet's reliability and security.
+
+
+NOTE: after the upgrade, a new
+backup will be created.
+</source>
+        <translation>Upgrading to HD wallet will improve
+the wallet's reliability and security.
+
+
+NOTE: after the upgrade, a new
+backup will be created.
+</translation>
+    </message>
+    <message>
+        <source>Upgrade Wallet</source>
+        <translation>Upgrade Wallet</translation>
+    </message>
+    <message>
+        <source>Wallet unlock cancelled</source>
+        <translation>Wallet unlock cancelled</translation>
+    </message>
+    <message>
+        <source>Tor Disabled</source>
+        <translation>Tor Disabled</translation>
+    </message>
+    <message>
+        <source>FAQ</source>
+        <translation>FAQ</translation>
+    </message>
+    <message>
+        <source>Upgrade to HD Wallet</source>
+        <translation>Upgrade to HD Wallet</translation>
+    </message>
+    <message>
+        <source>No Connection</source>
+        <translation>No Connection</translation>
+    </message>
+    <message>
+        <source>Staking Disabled</source>
+        <translation>Staking Disabled</translation>
+    </message>
+    <message>
+        <source>Cold Staking Disabled</source>
+        <translation>Cold Staking Disabled</translation>
+    </message>
+    <message>
+        <source> %54 Synchronizing..</source>
+        <translation> %54 Synchronizing..</translation>
+    </message>
+    <message>
+        <source>Light Theme</source>
+        <translation>Light Theme</translation>
+    </message>
+    <message>
+        <source>Dark Theme</source>
+        <translation>Dark Theme</translation>
+    </message>
+    <message>
+        <source>Wallet Locked </source>
+        <translation>Wallet Locked </translation>
+    </message>
+    <message>
+        <source>Wallet Locked</source>
+        <translation>Wallet Locked</translation>
+    </message>
+    <message>
+        <source>Wallet Unlocked</source>
+        <translation>Wallet Unlocked</translation>
+    </message>
+    <message>
+        <source>Upgrade to Sapling Wallet</source>
+        <translation>Upgrade to Sapling Wallet</translation>
+    </message>
+    <message>
+        <source>Upgrading to Sapling wallet will enable
+all of the privacy features!
+
+
+NOTE: after the upgrade, a new
+backup will be created.
+</source>
+        <translation>Upgrading to Sapling wallet will enable
+all of the privacy features!
+
+
+NOTE: after the upgrade, a new
+backup will be created.
+</translation>
+    </message>
+    <message>
+        <source>Tor Active</source>
+        <translation>Tor Active</translation>
+    </message>
+    <message>
+        <source>Wallet Unencrypted</source>
+        <translation>Wallet Unencrypted</translation>
+    </message>
+    <message>
+        <source>Available (Locked included)</source>
+        <translation>Available (Locked included)</translation>
+    </message>
+    <message>
+        <source>The wallet has been successfully upgraded to HD.</source>
+        <translation>The wallet has been successfully upgraded to HD.</translation>
+    </message>
+    <message>
+        <source>It is advised to make a backup.</source>
+        <translation>It is advised to make a backup.</translation>
+    </message>
+    <message>
+        <source>Do you wish to backup now?</source>
+        <translation>Do you wish to backup now?</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Backup Wallet</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Wallet Data (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup created</source>
+        <translation>Backup created</translation>
+    </message>
+    <message>
+        <source>Backup creation failed</source>
+        <translation>Backup creation failed</translation>
+    </message>
+    <message>
+        <source>no file selected</source>
+        <translation>no file selected</translation>
+    </message>
+    <message>
+        <source>Wallet upgraded successfully, but no backup created.</source>
+        <translation>Wallet upgraded successfully, but no backup created.</translation>
+    </message>
+    <message>
+        <source>WARNING: remember to make a copy of your wallet file!</source>
+        <translation>WARNING: remember to make a copy of your wallet file!</translation>
+    </message>
+    <message>
+        <source>Upgrade Wallet Error</source>
+        <translation>Upgrade Wallet Error</translation>
     </message>
 </context>
 <context>
@@ -3305,204 +4762,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     <message>
         <source>KB/s</source>
         <translation>KB/s</translation>
-    </message>
-</context>
-<context>
-    <name>TransactionDesc</name>
-    <message numerus="yes">
-        <source>Open for %n more block(s)</source>
-        <translation><numerusform>Open for %n more block</numerusform><numerusform>Open for %n more blocks</numerusform></translation>
-    </message>
-    <message>
-        <source>Open until %1</source>
-        <translation>Open until %1</translation>
-    </message>
-    <message>
-        <source>conflicted</source>
-        <translation>conflicted</translation>
-    </message>
-    <message>
-        <source>%1/offline (verified via swifttx)</source>
-        <translation>%1/offline (verified via swifttx)</translation>
-    </message>
-    <message>
-        <source>%1/confirmed (verified via swifttx)</source>
-        <translation>%1/confirmed (verified via swifttx)</translation>
-    </message>
-    <message>
-        <source>%1 confirmations (verified via swifttx)</source>
-        <translation>%1 confirmations (verified via swifttx)</translation>
-    </message>
-    <message>
-        <source>%1/offline</source>
-        <translation>%1/offline</translation>
-    </message>
-    <message>
-        <source>%1/unconfirmed</source>
-        <translation>%1/unconfirmed</translation>
-    </message>
-    <message>
-        <source>%1 confirmations</source>
-        <translation>%1 confirmations</translation>
-    </message>
-    <message>
-        <source>%1/offline (SwiftTX verification in progress - %2 of %3 signatures)</source>
-        <translation>%1/offline (SwiftTX verification in progress - %2 of %3 signatures)</translation>
-    </message>
-    <message>
-        <source>%1/confirmed (SwiftTX verification in progress - %2 of %3 signatures )</source>
-        <translation>%1/confirmed (SwiftTX verification in progress - %2 of %3 signatures )</translation>
-    </message>
-    <message>
-        <source>%1 confirmations (SwiftTX verification in progress - %2 of %3 signatures)</source>
-        <translation>%1 confirmations (SwiftTX verification in progress - %2 of %3 signatures)</translation>
-    </message>
-    <message>
-        <source>%1/offline (SwiftTX verification failed)</source>
-        <translation>%1/offline (SwiftTX verification failed)</translation>
-    </message>
-    <message>
-        <source>%1/confirmed (SwiftTX verification failed)</source>
-        <translation>%1/confirmed (SwiftTX verification failed)</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation>Status</translation>
-    </message>
-    <message>
-        <source>, has not been successfully broadcast yet</source>
-        <translation>, has not been successfully broadcast yet</translation>
-    </message>
-    <message numerus="yes">
-        <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, broadcast through %n node</numerusform><numerusform>, broadcast through %n nodes</numerusform></translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Date</translation>
-    </message>
-    <message>
-        <source>Source</source>
-        <translation>Source</translation>
-    </message>
-    <message>
-        <source>Generated</source>
-        <translation>Generated</translation>
-    </message>
-    <message>
-        <source>From</source>
-        <translation>From</translation>
-    </message>
-    <message>
-        <source>unknown</source>
-        <translation>unknown</translation>
-    </message>
-    <message>
-        <source>To</source>
-        <translation>To</translation>
-    </message>
-    <message>
-        <source>own address</source>
-        <translation>own address</translation>
-    </message>
-    <message>
-        <source>watch-only</source>
-        <translation>watch-only</translation>
-    </message>
-    <message>
-        <source>label</source>
-        <translation>label</translation>
-    </message>
-    <message>
-        <source>Credit</source>
-        <translation>Credit</translation>
-    </message>
-    <message numerus="yes">
-        <source>matures in %n more block(s)</source>
-        <translation><numerusform>matures in %n more block</numerusform><numerusform>matures in %n more blocks</numerusform></translation>
-    </message>
-    <message>
-        <source>not accepted</source>
-        <translation>not accepted</translation>
-    </message>
-    <message>
-        <source>Debit</source>
-        <translation>Debit</translation>
-    </message>
-    <message>
-        <source>Total debit</source>
-        <translation>Total debit</translation>
-    </message>
-    <message>
-        <source>Total credit</source>
-        <translation>Total credit</translation>
-    </message>
-    <message>
-        <source>Transaction fee</source>
-        <translation>Transaction fee</translation>
-    </message>
-    <message>
-        <source>Net amount</source>
-        <translation>Net amount</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation>Message</translation>
-    </message>
-    <message>
-        <source>Comment</source>
-        <translation>Comment</translation>
-    </message>
-    <message>
-        <source>Transaction ID</source>
-        <translation>Transaction ID</translation>
-    </message>
-    <message>
-        <source>Output index</source>
-        <translation>Output index</translation>
-    </message>
-    <message>
-        <source>Merchant</source>
-        <translation>Merchant</translation>
-    </message>
-    <message>
-        <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</translation>
-    </message>
-    <message>
-        <source>Debug information</source>
-        <translation>Debug information</translation>
-    </message>
-    <message>
-        <source>Transaction</source>
-        <translation>Transaction</translation>
-    </message>
-    <message>
-        <source>Inputs</source>
-        <translation>Inputs</translation>
-    </message>
-    <message>
-        <source>Amount</source>
-        <translation>Amount</translation>
-    </message>
-    <message>
-        <source>true</source>
-        <translation>true</translation>
-    </message>
-    <message>
-        <source>false</source>
-        <translation>false</translation>
-    </message>
-</context>
-<context>
-    <name>TransactionDescDialog</name>
-    <message>
-        <source>Transaction details</source>
-        <translation>Transaction details</translation>
-    </message>
-    <message>
-        <source>This pane shows a detailed description of the transaction</source>
-        <translation>This pane shows a detailed description of the transaction</translation>
     </message>
 </context>
 <context>
@@ -3528,10 +4787,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Open until %1</translation>
     </message>
     <message>
-        <source>Offline</source>
-        <translation>Offline</translation>
-    </message>
-    <message>
         <source>Unconfirmed</source>
         <translation>Unconfirmed</translation>
     </message>
@@ -3552,10 +4807,6 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Immature (%1 confirmations, will be available after %2)</translation>
     </message>
     <message>
-        <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>This block was not received by any other nodes and will probably not be accepted!</translation>
-    </message>
-    <message>
         <source>Received with</source>
         <translation>Received with</translation>
     </message>
@@ -3568,24 +4819,24 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Received from</translation>
     </message>
     <message>
-        <source>Received via Obfuscation</source>
-        <translation>Received via Obfuscation</translation>
+        <source>%1 Stake</source>
+        <translation>%1 Stake</translation>
     </message>
     <message>
-        <source>Obfuscation Denominate</source>
-        <translation>Obfuscation Denominate</translation>
+        <source>z%1 Stake</source>
+        <translation>z%1 Stake</translation>
     </message>
     <message>
-        <source>Obfuscation Collateral Payment</source>
-        <translation>Obfuscation Collateral Payment</translation>
+        <source>%1 Cold Stake</source>
+        <translation>%1 Cold Stake</translation>
     </message>
     <message>
-        <source>Obfuscation Make Collateral Inputs</source>
-        <translation>Obfuscation Make Collateral Inputs</translation>
+        <source>%1 Stake on behalf of</source>
+        <translation>%1 Stake on behalf of</translation>
     </message>
     <message>
-        <source>Obfuscation Create Denominations</source>
-        <translation>Obfuscation Create Denominations</translation>
+        <source>Stake delegation</source>
+        <translation>Stake delegation</translation>
     </message>
     <message>
         <source>Sent to</source>
@@ -3600,20 +4851,68 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Payment to yourself</translation>
     </message>
     <message>
-        <source>Minted</source>
-        <translation>Minted</translation>
+        <source>Shielding coins to yourself</source>
+        <translation>Shielding coins to yourself</translation>
+    </message>
+    <message>
+        <source>Unshielding coins to yourself</source>
+        <translation>Unshielding coins to yourself</translation>
+    </message>
+    <message>
+        <source>Shielded change, transfer between own shielded addresses</source>
+        <translation>Shielded change, transfer between own shielded addresses</translation>
+    </message>
+    <message>
+        <source>Stake delegation spent by</source>
+        <translation>Stake delegation spent by</translation>
     </message>
     <message>
         <source>Mined</source>
         <translation>Mined</translation>
     </message>
     <message>
-        <source>Obfuscated</source>
-        <translation>Obfuscated</translation>
+        <source>Converted %1 to z%1</source>
+        <translation>Converted %1 to z%1</translation>
+    </message>
+    <message>
+        <source>Spent z%1</source>
+        <translation>Spent z%1</translation>
+    </message>
+    <message>
+        <source>Received %1 from z%1</source>
+        <translation>Received %1 from z%1</translation>
+    </message>
+    <message>
+        <source>Minted Change as z%1 from z%1 Spend</source>
+        <translation>Minted Change as z%1 from z%1 Spend</translation>
+    </message>
+    <message>
+        <source>Converted z%1 to %1</source>
+        <translation>Converted z%1 to %1</translation>
+    </message>
+    <message>
+        <source>Received with shielded</source>
+        <translation>Received with shielded</translation>
+    </message>
+    <message>
+        <source>Shielded send to</source>
+        <translation>Shielded send to</translation>
+    </message>
+    <message>
+        <source>Burned WAGEs</source>
+        <translation>Burned WAGEs</translation>
     </message>
     <message>
         <source>watch-only</source>
         <translation>watch-only</translation>
+    </message>
+    <message>
+        <source>Anonymous</source>
+        <translation>Anonymous</translation>
+    </message>
+    <message>
+        <source>No information</source>
+        <translation>No information</translation>
     </message>
     <message>
         <source>(n/a)</source>
@@ -3645,192 +4944,171 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
     </message>
 </context>
 <context>
-    <name>TransactionView</name>
+    <name>TxDetailDialog</name>
     <message>
-        <source>All</source>
-        <translation>All</translation>
+        <source>Transaction Details</source>
+        <translation>Transaction Details</translation>
     </message>
     <message>
-        <source>Today</source>
-        <translation>Today</translation>
+        <source>Total amount</source>
+        <translation>Total amount</translation>
     </message>
     <message>
-        <source>This week</source>
-        <translation>This week</translation>
+        <source>Previous Transaction</source>
+        <translation>Previous Transaction</translation>
     </message>
     <message>
-        <source>This month</source>
-        <translation>This month</translation>
-    </message>
-    <message>
-        <source>Last month</source>
-        <translation>Last month</translation>
-    </message>
-    <message>
-        <source>This year</source>
-        <translation>This year</translation>
-    </message>
-    <message>
-        <source>Range...</source>
-        <translation>Range...</translation>
-    </message>
-    <message>
-        <source>Most Common</source>
-        <translation>Most Common</translation>
-    </message>
-    <message>
-        <source>Received with</source>
-        <translation>Received with</translation>
-    </message>
-    <message>
-        <source>Sent to</source>
-        <translation>Sent to</translation>
-    </message>
-    <message>
-        <source>Obfuscated</source>
-        <translation>Obfuscated</translation>
-    </message>
-    <message>
-        <source>Obfuscation Make Collateral Inputs</source>
-        <translation>Obfuscation Make Collateral Inputs</translation>
-    </message>
-    <message>
-        <source>Obfuscation Create Denominations</source>
-        <translation>Obfuscation Create Denominations</translation>
-    </message>
-    <message>
-        <source>Obfuscation Denominate</source>
-        <translation>Obfuscation Denominate</translation>
-    </message>
-    <message>
-        <source>Obfuscation Collateral Payment</source>
-        <translation>Obfuscation Collateral Payment</translation>
-    </message>
-    <message>
-        <source>To yourself</source>
-        <translation>To yourself</translation>
-    </message>
-    <message>
-        <source>Mined</source>
-        <translation>Mined</translation>
-    </message>
-    <message>
-        <source>Minted</source>
-        <translation>Minted</translation>
-    </message>
-    <message>
-        <source>Masternode Reward</source>
-        <translation>Masternode Reward</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation>Other</translation>
-    </message>
-    <message>
-        <source>Enter address or label to search</source>
-        <translation>Enter address or label to search</translation>
-    </message>
-    <message>
-        <source>Min amount</source>
-        <translation>Min amount</translation>
-    </message>
-    <message>
-        <source>Copy address</source>
-        <translation>Copy address</translation>
-    </message>
-    <message>
-        <source>Copy label</source>
-        <translation>Copy label</translation>
-    </message>
-    <message>
-        <source>Copy amount</source>
-        <translation>Copy amount</translation>
-    </message>
-    <message>
-        <source>Copy transaction ID</source>
-        <translation>Copy transaction ID</translation>
-    </message>
-    <message>
-        <source>Edit label</source>
-        <translation>Edit label</translation>
-    </message>
-    <message>
-        <source>Show transaction details</source>
-        <translation>Show transaction details</translation>
-    </message>
-    <message>
-        <source>Export Transaction History</source>
-        <translation>Export Transaction History</translation>
-    </message>
-    <message>
-        <source>Comma separated file (*.csv)</source>
-        <translation>Comma separated file (*.csv)</translation>
-    </message>
-    <message>
-        <source>Confirmed</source>
-        <translation>Confirmed</translation>
-    </message>
-    <message>
-        <source>Watch-only</source>
-        <translation>Watch-only</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Date</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Type</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation>Label</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation>Address</translation>
+        <source>Output Index</source>
+        <translation>Output Index</translation>
     </message>
     <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <source>Exporting Failed</source>
-        <translation>Exporting Failed</translation>
+        <source>Sending to</source>
+        <translation>Sending to</translation>
     </message>
     <message>
-        <source>There was an error trying to save the transaction history to %1.</source>
-        <translation>There was an error trying to save the transaction history to %1.</translation>
+        <source>Coin inputs</source>
+        <translation>Coin inputs</translation>
     </message>
     <message>
-        <source>Exporting Successful</source>
-        <translation>Exporting Successful</translation>
+        <source>Fee</source>
+        <translation>Fee</translation>
     </message>
     <message>
-        <source>The transaction history was successfully saved to %1.</source>
-        <translation>The transaction history was successfully saved to %1.</translation>
+        <source>Size</source>
+        <translation>Size</translation>
     </message>
     <message>
-        <source>Range:</source>
-        <translation>Range:</translation>
+        <source>Change address</source>
+        <translation>Change address</translation>
     </message>
     <message>
-        <source>to</source>
-        <translation>to</translation>
+        <source>Spendable</source>
+        <translation>Spendable</translation>
+    </message>
+    <message>
+        <source>Confirmations</source>
+        <translation>Confirmations</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Memo</source>
+        <translation>Memo</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Confirm Your Transaction</source>
+        <translation>Confirm Your Transaction</translation>
+    </message>
+    <message>
+        <source>SEND</source>
+        <translation>SEND</translation>
+    </message>
+    <message>
+        <source>Note From Address</source>
+        <translation>Note From Address</translation>
+    </message>
+    <message>
+        <source>Index</source>
+        <translation>Index</translation>
+    </message>
+    <message>
+        <source>ID copied</source>
+        <translation>ID copied</translation>
+    </message>
+    <message>
+        <source>Memo copied</source>
+        <translation>Memo copied</translation>
+    </message>
+    <message>
+        <source>Delegating to</source>
+        <translation>Delegating to</translation>
+    </message>
+    <message>
+        <source>Shielding to</source>
+        <translation>Shielding to</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unknown</translation>
     </message>
 </context>
 <context>
-    <name>UnitDisplayStatusBarControl</name>
+    <name>VoteDialog</name>
     <message>
-        <source>Unit to show amounts in. Click to select another unit.</source>
-        <translation>Unit to show amounts in. Click to select another unit.</translation>
+        <source>Vote For Proposal</source>
+        <translation>Vote For Proposal</translation>
     </message>
-</context>
-<context>
-    <name>WalletFrame</name>
     <message>
-        <source>No wallet has been loaded.</source>
-        <translation>No wallet has been loaded.</translation>
+        <source>Select vote direction and the masternodes that will vote for it</source>
+        <translation>Select vote direction and the masternodes that will vote for it</translation>
+    </message>
+    <message>
+        <source>Select Voting Masternodes</source>
+        <translation>Select Voting Masternodes</translation>
+    </message>
+    <message>
+        <source>CANCEL</source>
+        <translation>CANCEL</translation>
+    </message>
+    <message>
+        <source>VOTE</source>
+        <translation>VOTE</translation>
+    </message>
+    <message>
+        <source>You can change your vote later</source>
+        <translation>You can change your vote later</translation>
+    </message>
+    <message>
+        <source>%1 months remaining</source>
+        <translation>%1 months remaining</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Yes</translation>
+    </message>
+    <message>
+        <source>Select a vote direction</source>
+        <translation>Select a vote direction</translation>
+    </message>
+    <message>
+        <source>Missing voting masternodes selection</source>
+        <translation>Missing voting masternodes selection</translation>
+    </message>
+    <message>
+        <source>Time between votes is too soon, have to wait %1 minutes</source>
+        <translation>Time between votes is too soon, have to wait %1 minutes</translation>
+    </message>
+    <message>
+        <source>You have voted with %1 Masternodes for this proposal
+Change votes</source>
+        <translation>You have voted with %1 Masternodes for this proposal
+Change votes</translation>
+    </message>
+    <message>
+        <source>%1 Masternodes selected to vote</source>
+        <translation>%1 Masternodes selected to vote</translation>
     </message>
 </context>
 <context>
@@ -3840,438 +5118,167 @@ https://www.transifex.com/digiwage-project/digiwage-project-translations</transl
         <translation>Send Coins</translation>
     </message>
     <message>
-        <source>SwiftTX doesn't support sending values that high yet. Transactions are currently limited to %1 WAGE.</source>
-        <translation>SwiftTX doesn't support sending values that high yet. Transactions are currently limited to %1 WAGE.</translation>
+        <source>Transaction creation failed!
+%1</source>
+        <translation>Transaction creation failed!
+%1</translation>
+    </message>
+    <message>
+        <source>The size of the transaction is too big.
+Select fewer inputs with coin control.</source>
+        <translation>The size of the transaction is too big.
+Select fewer inputs with coin control.</translation>
     </message>
 </context>
 <context>
-    <name>WalletView</name>
+    <name>WelcomeContentWidget</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
+        <source>1</source>
+        <translation>1</translation>
     </message>
     <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Export the data in the current tab to a file</translation>
+        <source>2</source>
+        <translation>2</translation>
     </message>
     <message>
-        <source>Selected amount:</source>
-        <translation>Selected amount:</translation>
+        <source>3</source>
+        <translation>3</translation>
     </message>
     <message>
-        <source>Backup Wallet</source>
-        <translation>Backup Wallet</translation>
+        <source>4</source>
+        <translation>4</translation>
     </message>
     <message>
-        <source>Wallet Data (*.dat)</source>
-        <translation>Wallet Data (*.dat)</translation>
+        <source>Language</source>
+        <translation>Language</translation>
     </message>
     <message>
-        <source>Backup Failed</source>
-        <translation>Backup Failed</translation>
+        <source>Welcome</source>
+        <translation>Welcome</translation>
     </message>
     <message>
-        <source>There was an error trying to save the wallet data to %1.</source>
-        <translation>There was an error trying to save the wallet data to %1.</translation>
+        <source>Privacy</source>
+        <translation>Privacy</translation>
     </message>
     <message>
-        <source>Backup Successful</source>
-        <translation>Backup Successful</translation>
+        <source>Masternodes</source>
+        <translation>Masternodes</translation>
     </message>
     <message>
-        <source>The wallet data was successfully saved to %1.</source>
-        <translation>The wallet data was successfully saved to %1.</translation>
+        <source>Select your language</source>
+        <translation>Select your language</translation>
+    </message>
+    <message>
+        <source>DIGIWAGE is the world’s most innovative Proof of Stake blockchain based technology. Developed by a team of highly experienced developers and cryptographers.</source>
+        <translation>DIGIWAGE is the world’s most innovative Proof of Stake blockchain based technology. Developed by a team of highly experienced developers and cryptographers.</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;As our manifesto says: Privacy is a non-negotiable basic human right; it grants users the freedom to share their data whenever and with whomever they want - DIGIWAGE believes in self sovereignty.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;As our manifesto says: Privacy is a non-negotiable basic human right; it grants users the freedom to share their data whenever and with whomever they want - DIGIWAGE believes in self sovereignty.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>The masternode network is DIGIWAGE's second layer network on top of the blockchain that enables our DAO to provide decentralized governance and a treasury.</source>
+        <translation>The masternode network is DIGIWAGE's second layer network on top of the blockchain that enables our DAO to provide decentralized governance and a treasury.</translation>
+    </message>
+    <message>
+        <source>How DIGIWAGE respects your privacy?</source>
+        <translation>How DIGIWAGE respects your privacy?</translation>
+    </message>
+    <message>
+        <source>Welcome to
+%1 Wallet</source>
+        <translation>Welcome to
+%1 Wallet</translation>
+    </message>
+    <message>
+        <source>What is a Masternode?</source>
+        <translation>What is a Masternode?</translation>
+    </message>
+    <message>
+        <source>default</source>
+        <translation>default</translation>
+    </message>
+</context>
+<context>
+    <name>governancewidget</name>
+    <message>
+        <source>No active proposals yet</source>
+        <translation>No active proposals yet</translation>
+    </message>
+    <message>
+        <source>Budget Distribution</source>
+        <translation>Budget Distribution</translation>
+    </message>
+    <message>
+        <source>Funds accessible for the proposals' implementation</source>
+        <translation>Funds accessible for the proposals' implementation</translation>
+    </message>
+    <message>
+        <source>Available</source>
+        <translation>Available</translation>
+    </message>
+    <message>
+        <source>Allocated</source>
+        <translation>Allocated</translation>
     </message>
 </context>
 <context>
     <name>digiwage-core</name>
     <message>
-        <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
-        <translation>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</translation>
-    </message>
-    <message>
-        <source>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</source>
-        <translation>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</translation>
-    </message>
-    <message>
-        <source>An error occurred while setting up the RPC address %s port %u for listening: %s</source>
-        <translation>An error occurred while setting up the RPC address %s port %u for listening: %s</translation>
-    </message>
-    <message>
-        <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
-        <translation>Bind to given address and always listen on it. Use [host]:port notation for IPv6</translation>
-    </message>
-    <message>
-        <source>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</source>
-        <translation>Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6</translation>
-    </message>
-    <message>
-        <source>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</source>
-        <translation>Bind to given address to listen for JSON-RPC connections. Use [host]:port notation for IPv6. This option can be specified multiple times (default: bind to all interfaces)</translation>
-    </message>
-    <message>
-        <source>Cannot obtain a lock on data directory %s. DIGIWAGE Core is probably already running.</source>
-        <translation>Cannot obtain a lock on data directory %s. DIGIWAGE Core is probably already running.</translation>
-    </message>
-    <message>
-        <source>Change automatic finalized budget voting behavior. mode=auto: Vote for only exact finalized budget match to my generated budget. (string, default: auto)</source>
-        <translation>Change automatic finalized budget voting behavior. mode=auto: Vote for only exact finalized budget match to my generated budget. (string, default: auto)</translation>
-    </message>
-    <message>
-        <source>Continuously rate-limit free transactions to &lt;n&gt;*1000 bytes per minute (default:%u)</source>
-        <translation>Continuously rate-limit free transactions to &lt;n&gt;*1000 bytes per minute (default:%u)</translation>
-    </message>
-    <message>
-        <source>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</source>
-        <translation>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</translation>
-    </message>
-    <message>
-        <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
-        <translation>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</translation>
-    </message>
-    <message>
-        <source>Disable all DIGIWAGE specific functionality (Masternodes, Obfuscation, SwiftTX, Budgeting) (0-1, default: %u)</source>
-        <translation>Disable all DIGIWAGE specific functionality (Masternodes, Obfuscation, SwiftTX, Budgeting) (0-1, default: %u)</translation>
-    </message>
-    <message>
         <source>Distributed under the MIT software license, see the accompanying file COPYING or &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</source>
         <translation>Distributed under the MIT software license, see the accompanying file COPYING or &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</translation>
-    </message>
-    <message>
-        <source>Enable spork administration functionality with the appropriate private key.</source>
-        <translation>Enable spork administration functionality with the appropriate private key.</translation>
-    </message>
-    <message>
-        <source>Enable swifttx, show confirmations for locked transactions (bool, default: %s)</source>
-        <translation>Enable swifttx, show confirmations for locked transactions (bool, default: %s)</translation>
-    </message>
-    <message>
-        <source>Enable use of automated obfuscation for funds stored in this wallet (0-1, default: %u)</source>
-        <translation>Enable use of automated obfuscation for funds stored in this wallet (0-1, default: %u)</translation>
-    </message>
-    <message>
-        <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</source>
-        <translation>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</translation>
     </message>
     <message>
         <source>Error: Listening for incoming connections failed (listen returned error %s)</source>
         <translation>Error: Listening for incoming connections failed (listen returned error %s)</translation>
     </message>
     <message>
-        <source>Error: Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
-        <translation>Error: Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</translation>
-    </message>
-    <message>
-        <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
-        <translation>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</translation>
-    </message>
-    <message>
-        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</translation>
-    </message>
-    <message>
-        <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation>Execute command when the best block changes (%s in cmd is replaced by block hash)</translation>
-    </message>
-    <message>
-        <source>Fees (in WAGE/Kb) smaller than this are considered zero fee for relaying (default: %s)</source>
-        <translation>Fees (in WAGE/Kb) smaller than this are considered zero fee for relaying (default: %s)</translation>
-    </message>
-    <message>
-        <source>Fees (in WAGE/Kb) smaller than this are considered zero fee for transaction creation (default: %s)</source>
-        <translation>Fees (in WAGE/Kb) smaller than this are considered zero fee for transaction creation (default: %s)</translation>
-    </message>
-    <message>
-        <source>Flush database activity from memory pool to disk log every &lt;n&gt; megabytes (default: %u)</source>
-        <translation>Flush database activity from memory pool to disk log every &lt;n&gt; megabytes (default: %u)</translation>
-    </message>
-    <message>
-        <source>Found unconfirmed denominated outputs, will wait till they confirm to continue.</source>
-        <translation>Found unconfirmed denominated outputs, will wait till they confirm to continue.</translation>
-    </message>
-    <message>
-        <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
-        <translation>How thorough the block verification of -checkblocks is (0-4, default: %u)</translation>
-    </message>
-    <message>
-        <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
-        <translation>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</translation>
-    </message>
-    <message>
-        <source>In this mode -genproclimit controls how many blocks are generated immediately.</source>
-        <translation>In this mode -genproclimit controls how many blocks are generated immediately.</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
-        <translation>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)</translation>
-    </message>
-    <message>
-        <source>Keep the specified amount available for spending at all times (default: 0)</source>
-        <translation>Keep the specified amount available for spending at all times (default: 0)</translation>
-    </message>
-    <message>
-        <source>Log transaction priority and fee per kB when mining blocks (default: %u)</source>
-        <translation>Log transaction priority and fee per kB when mining blocks (default: %u)</translation>
-    </message>
-    <message>
-        <source>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</source>
-        <translation>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</translation>
-    </message>
-    <message>
-        <source>Maximum size of data in data carrier transactions we relay and mine (default: %u)</source>
-        <translation>Maximum size of data in data carrier transactions we relay and mine (default: %u)</translation>
-    </message>
-    <message>
-        <source>Maximum total fees to use in a single wallet transaction, setting too low may abort large transactions (default: %s)</source>
-        <translation>Maximum total fees to use in a single wallet transaction, setting too low may abort large transactions (default: %s)</translation>
-    </message>
-    <message>
-        <source>Number of seconds to keep misbehaving peers from reconnecting (default: %u)</source>
-        <translation>Number of seconds to keep misbehaving peers from reconnecting (default: %u)</translation>
-    </message>
-    <message>
-        <source>Obfuscation uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</source>
-        <translation>Obfuscation uses exact denominated amounts to send funds, you might simply need to anonymize some more coins.</translation>
-    </message>
-    <message>
-        <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
-        <translation>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</translation>
-    </message>
-    <message>
-        <source>Provide liquidity to Obfuscation by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</source>
-        <translation>Provide liquidity to Obfuscation by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)</translation>
-    </message>
-    <message>
-        <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
-        <translation>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</translation>
-    </message>
-    <message>
-        <source>Require high priority for relaying free or low-fee transactions (default:%u)</source>
-        <translation>Require high priority for relaying free or low-fee transactions (default:%u)</translation>
-    </message>
-    <message>
-        <source>Send trace/debug info to console instead of debug.log file (default: %u)</source>
-        <translation>Send trace/debug info to console instead of debug.log file (default: %u)</translation>
-    </message>
-    <message>
-        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
-        <translation>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</translation>
-    </message>
-    <message>
-        <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
-        <translation>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</translation>
-    </message>
-    <message>
-        <source>Set the number of threads for coin generation if enabled (-1 = all cores, default: %d)</source>
-        <translation>Set the number of threads for coin generation if enabled (-1 = all cores, default: %d)</translation>
-    </message>
-    <message>
-        <source>Show N confirmations for a successfully locked transaction (0-9999, default: %u)</source>
-        <translation>Show N confirmations for a successfully locked transaction (0-9999, default: %u)</translation>
-    </message>
-    <message>
-        <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
-        <translation>Support filtering of blocks and transaction with bloom filters (default: %u)</translation>
-    </message>
-    <message>
-        <source>SwiftTX requires inputs with at least 6 confirmations, you might need to wait a few minutes and try again.</source>
-        <translation>SwiftTX requires inputs with at least 6 confirmations, you might need to wait a few minutes and try again.</translation>
-    </message>
-    <message>
-        <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit &lt;https://www.openssl.org/&gt; and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard.</source>
-        <translation>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit &lt;https://www.openssl.org/&gt; and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard.</translation>
-    </message>
-    <message>
-        <source>To use digiwaged, or the -server option to digiwage-qt, you must set an rpcpassword in the configuration file:
-%s
-It is recommended you use the following random password:
-rpcuser=digiwagerpc
-rpcpassword=%s
-(you do not need to remember this password)
-The username and password MUST NOT be the same.
-If the file does not exist, create it with owner-readable-only file permissions.
-It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
-</source>
-        <translation>To use digiwaged, or the -server option to digiwage-qt, you must set an rpcpassword in the configuration file:
-%s
-It is recommended you use the following random password:
-rpcuser=digiwagerpc
-rpcpassword=%s
-(you do not need to remember this password)
-The username and password MUST NOT be the same.
-If the file does not exist, create it with owner-readable-only file permissions.
-It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
-</translation>
-    </message>
-    <message>
-        <source>Unable to bind to %s on this computer. DIGIWAGE Core is probably already running.</source>
-        <translation>Unable to bind to %s on this computer. DIGIWAGE Core is probably already running.</translation>
-    </message>
-    <message>
-        <source>Unable to locate enough Obfuscation denominated funds for this transaction.</source>
-        <translation>Unable to locate enough Obfuscation denominated funds for this transaction.</translation>
-    </message>
-    <message>
-        <source>Unable to locate enough Obfuscation non-denominated funds for this transaction that are not equal 10000 WAGE.</source>
-        <translation>Unable to locate enough Obfuscation non-denominated funds for this transaction that are not equal 10000 WAGE.</translation>
-    </message>
-    <message>
-        <source>Unable to locate enough funds for this transaction that are not equal 10000 WAGE.</source>
-        <translation>Unable to locate enough funds for this transaction that are not equal 10000 WAGE.</translation>
-    </message>
-    <message>
-        <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</source>
-        <translation>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</translation>
-    </message>
-    <message>
-        <source>Warning: -maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
-        <translation>Warning: -maxtxfee is set very high! Fees this large could be paid on a single transaction.</translation>
-    </message>
-    <message>
-        <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</translation>
-    </message>
-    <message>
-        <source>Warning: Please check that your computer's date and time are correct! If your clock is wrong DIGIWAGE Core will not work properly.</source>
-        <translation>Warning: Please check that your computer's date and time are correct! If your clock is wrong DIGIWAGE Core will not work properly.</translation>
+        <source>The block database contains a block which appears to be from the future. This may be due to your computer's date and time being set incorrectly. Only rebuild the block database if you are sure that your computer's date and time are correct</source>
+        <translation>The block database contains a block which appears to be from the future. This may be due to your computer's date and time being set incorrectly. Only rebuild the block database if you are sure that your computer's date and time are correct</translation>
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
         <translation>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</translation>
     </message>
     <message>
+        <source>Warning: Wallet file corrupt, data salvaged! Original %s saved as %s in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
+        <translation>Warning: Wallet file corrupt, data salvaged! Original %s saved as %s in %s; if your balance or transactions are incorrect you should restore from a backup.</translation>
+    </message>
+    <message>
         <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
         <translation>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</translation>
     </message>
     <message>
-        <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</translation>
+        <source>"local" vote is no longer available with DMNs. Use "alias" from the wallet with the voting key.</source>
+        <translation>"local" vote is no longer available with DMNs. Use "alias" from the wallet with the voting key.</translation>
     </message>
     <message>
-        <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
-        <translation>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</translation>
+        <source>%s Invalid %s address or hostname: '%s'</source>
+        <translation>%s Invalid %s address or hostname: '%s'</translation>
     </message>
     <message>
-        <source>Whitelist peers connecting from the given netmask or IP address. Can be specified multiple times.</source>
-        <translation>Whitelist peers connecting from the given netmask or IP address. Can be specified multiple times.</translation>
+        <source>%s corrupt, salvage failed</source>
+        <translation>%s corrupt, salvage failed</translation>
     </message>
     <message>
-        <source>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</source>
-        <translation>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</translation>
+        <source>%s is not allowed in combination with enabled wallet functionality</source>
+        <translation>%s is not allowed in combination with enabled wallet functionality</translation>
     </message>
     <message>
-        <source>You must specify a masternodeprivkey in the configuration. Please see documentation for help.</source>
-        <translation>You must specify a masternodeprivkey in the configuration. Please see documentation for help.</translation>
+        <source>%s is only allowed with a single wallet file</source>
+        <translation>%s is only allowed with a single wallet file</translation>
     </message>
     <message>
-        <source>(46003 could be used only on mainnet)</source>
-        <translation>(46003 could be used only on mainnet)</translation>
+        <source>Cannot downgrade wallet.</source>
+        <translation>Cannot downgrade wallet.</translation>
     </message>
     <message>
-        <source>(default: %s)</source>
-        <translation>(default: %s)</translation>
+        <source>Cannot set %s or %s together with %s</source>
+        <translation>Cannot set %s or %s together with %s</translation>
     </message>
     <message>
-        <source>(default: 1)</source>
-        <translation>(default: 1)</translation>
-    </message>
-    <message>
-        <source>(must be 46003 for mainnet)</source>
-        <translation>(must be 46003 for mainnet)</translation>
-    </message>
-    <message>
-        <source>Accept command line and JSON-RPC commands</source>
-        <translation>Accept command line and JSON-RPC commands</translation>
-    </message>
-    <message>
-        <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
-        <translation>Accept connections from outside (default: 1 if no -proxy or -connect)</translation>
-    </message>
-    <message>
-        <source>Accept public REST requests (default: %u)</source>
-        <translation>Accept public REST requests (default: %u)</translation>
-    </message>
-    <message>
-        <source>Acceptable ciphers (default: %s)</source>
-        <translation>Acceptable ciphers (default: %s)</translation>
-    </message>
-    <message>
-        <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation>Add a node to connect to and attempt to keep the connection open</translation>
-    </message>
-    <message>
-        <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
-        <translation>Allow DNS lookups for -addnode, -seednode and -connect</translation>
-    </message>
-    <message>
-        <source>Already have that input.</source>
-        <translation>Already have that input.</translation>
-    </message>
-    <message>
-        <source>Always query for peer addresses via DNS lookup (default: %u)</source>
-        <translation>Always query for peer addresses via DNS lookup (default: %u)</translation>
-    </message>
-    <message>
-        <source>Attempt to recover private keys from a corrupt wallet.dat</source>
-        <translation>Attempt to recover private keys from a corrupt wallet.dat</translation>
-    </message>
-    <message>
-        <source>Block creation options:</source>
-        <translation>Block creation options:</translation>
-    </message>
-    <message>
-        <source>Can't denominate: no compatible inputs left.</source>
-        <translation>Can't denominate: no compatible inputs left.</translation>
-    </message>
-    <message>
-        <source>Can't find random Masternode.</source>
-        <translation>Can't find random Masternode.</translation>
-    </message>
-    <message>
-        <source>Can't mix while sync in progress.</source>
-        <translation>Can't mix while sync in progress.</translation>
-    </message>
-    <message>
-        <source>Cannot downgrade wallet</source>
-        <translation>Cannot downgrade wallet</translation>
-    </message>
-    <message>
-        <source>Cannot resolve -bind address: '%s'</source>
-        <translation>Cannot resolve -bind address: '%s'</translation>
-    </message>
-    <message>
-        <source>Cannot resolve -externalip address: '%s'</source>
-        <translation>Cannot resolve -externalip address: '%s'</translation>
-    </message>
-    <message>
-        <source>Cannot resolve -whitebind address: '%s'</source>
-        <translation>Cannot resolve -whitebind address: '%s'</translation>
-    </message>
-    <message>
-        <source>Cannot write default address</source>
-        <translation>Cannot write default address</translation>
-    </message>
-    <message>
-        <source>Collateral not valid.</source>
-        <translation>Collateral not valid.</translation>
-    </message>
-    <message>
-        <source>Connect only to the specified node(s)</source>
-        <translation>Connect only to the specified node(s)</translation>
-    </message>
-    <message>
-        <source>Connect through SOCKS5 proxy</source>
-        <translation>Connect through SOCKS5 proxy</translation>
-    </message>
-    <message>
-        <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Connect to a node to retrieve peer addresses, and disconnect</translation>
-    </message>
-    <message>
-        <source>Connection options:</source>
-        <translation>Connection options:</translation>
+        <source>Cannot upgrade a locked wallet.</source>
+        <translation>Cannot upgrade a locked wallet.</translation>
     </message>
     <message>
         <source>Copyright (C) 2009-%i The Bitcoin Core Developers</source>
@@ -4282,36 +5289,20 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Copyright (C) 2014-%i The Dash Core Developers</translation>
     </message>
     <message>
-        <source>Copyright (C) 2015-%i The DIGIWAGE Core Developers</source>
-        <translation>Copyright (C) 2015-%i The DIGIWAGE Core Developers</translation>
-    </message>
-    <message>
         <source>Corrupted block database detected</source>
         <translation>Corrupted block database detected</translation>
     </message>
     <message>
-        <source>Could not parse -rpcbind value %s as network address</source>
-        <translation>Could not parse -rpcbind value %s as network address</translation>
+        <source>Could not open debug log file %s</source>
+        <translation>Could not open debug log file %s</translation>
     </message>
     <message>
         <source>Could not parse masternode.conf</source>
         <translation>Could not parse masternode.conf</translation>
     </message>
     <message>
-        <source>Debugging/Testing options:</source>
-        <translation>Debugging/Testing options:</translation>
-    </message>
-    <message>
-        <source>Disable safemode, override a real safe mode event (default: %u)</source>
-        <translation>Disable safemode, override a real safe mode event (default: %u)</translation>
-    </message>
-    <message>
-        <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
-        <translation>Discover own IP address (default: 1 when listening and no -externalip)</translation>
-    </message>
-    <message>
-        <source>Do not load the wallet and disable wallet RPC calls</source>
-        <translation>Do not load the wallet and disable wallet RPC calls</translation>
+        <source>Deterministic masternodes are not enforced yet</source>
+        <translation>Deterministic masternodes are not enforced yet</translation>
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>
@@ -4322,16 +5313,8 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Done loading</translation>
     </message>
     <message>
-        <source>Enable the client to act as a masternode (0-1, default: %u)</source>
-        <translation>Enable the client to act as a masternode (0-1, default: %u)</translation>
-    </message>
-    <message>
-        <source>Entries are full.</source>
-        <translation>Entries are full.</translation>
-    </message>
-    <message>
-        <source>Error connecting to Masternode.</source>
-        <translation>Error connecting to Masternode.</translation>
+        <source>Elliptic curve cryptography sanity check failure. Aborting.</source>
+        <translation>Elliptic curve cryptography sanity check failure. Aborting.</translation>
     </message>
     <message>
         <source>Error initializing block database</source>
@@ -4346,28 +5329,12 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Error loading block database</translation>
     </message>
     <message>
-        <source>Error loading wallet.dat</source>
-        <translation>Error loading wallet.dat</translation>
-    </message>
-    <message>
-        <source>Error loading wallet.dat: Wallet corrupted</source>
-        <translation>Error loading wallet.dat: Wallet corrupted</translation>
-    </message>
-    <message>
-        <source>Error loading wallet.dat: Wallet requires newer version of DIGIWAGE Core</source>
-        <translation>Error loading wallet.dat: Wallet requires newer version of DIGIWAGE Core</translation>
-    </message>
-    <message>
         <source>Error opening block database</source>
         <translation>Error opening block database</translation>
     </message>
     <message>
         <source>Error reading from database, shutting down.</source>
         <translation>Error reading from database, shutting down.</translation>
-    </message>
-    <message>
-        <source>Error recovering public key.</source>
-        <translation>Error recovering public key.</translation>
     </message>
     <message>
         <source>Error</source>
@@ -4378,84 +5345,16 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Error: A fatal internal error occured, see debug.log for details</translation>
     </message>
     <message>
-        <source>Error: Can't select current denominated inputs</source>
-        <translation>Error: Can't select current denominated inputs</translation>
-    </message>
-    <message>
         <source>Error: Disk space is low!</source>
         <translation>Error: Disk space is low!</translation>
     </message>
     <message>
-        <source>Error: Unsupported argument -tor found, use -onion.</source>
-        <translation>Error: Unsupported argument -tor found, use -onion.</translation>
-    </message>
-    <message>
-        <source>Error: Wallet locked, unable to create transaction!</source>
-        <translation>Error: Wallet locked, unable to create transaction!</translation>
-    </message>
-    <message>
-        <source>Error: You already have pending entries in the Obfuscation pool</source>
-        <translation>Error: You already have pending entries in the Obfuscation pool</translation>
-    </message>
-    <message>
-        <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
-        <translation>Failed to listen on any port. Use -listen=0 if you want this.</translation>
-    </message>
-    <message>
-        <source>Failed to read block</source>
-        <translation>Failed to read block</translation>
-    </message>
-    <message>
-        <source>Fee (in WAGE/kB) to add to transactions you send (default: %s)</source>
-        <translation>Fee (in WAGE/kB) to add to transactions you send (default: %s)</translation>
-    </message>
-    <message>
-        <source>Finalizing transaction.</source>
-        <translation>Finalizing transaction.</translation>
-    </message>
-    <message>
-        <source>Force safe mode (default: %u)</source>
-        <translation>Force safe mode (default: %u)</translation>
-    </message>
-    <message>
-        <source>Found enough users, signing ( waiting %s )</source>
-        <translation>Found enough users, signing ( waiting %s )</translation>
-    </message>
-    <message>
-        <source>Found enough users, signing ...</source>
-        <translation>Found enough users, signing ...</translation>
-    </message>
-    <message>
-        <source>Generate coins (default: %u)</source>
-        <translation>Generate coins (default: %u)</translation>
-    </message>
-    <message>
-        <source>How many blocks to check at startup (default: %u, 0 = all)</source>
-        <translation>How many blocks to check at startup (default: %u, 0 = all)</translation>
-    </message>
-    <message>
-        <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
-        <translation>If &lt;category&gt; is not supplied, output all debugging information.</translation>
+        <source>Failed to parse host:port string</source>
+        <translation>Failed to parse host:port string</translation>
     </message>
     <message>
         <source>Importing...</source>
         <translation>Importing...</translation>
-    </message>
-    <message>
-        <source>Imports blocks from external blk000??.dat file</source>
-        <translation>Imports blocks from external blk000??.dat file</translation>
-    </message>
-    <message>
-        <source>Include IP addresses in debug output (default: %u)</source>
-        <translation>Include IP addresses in debug output (default: %u)</translation>
-    </message>
-    <message>
-        <source>Incompatible mode.</source>
-        <translation>Incompatible mode.</translation>
-    </message>
-    <message>
-        <source>Incompatible version.</source>
-        <translation>Incompatible version.</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
@@ -4466,152 +5365,126 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Information</translation>
     </message>
     <message>
-        <source>Initialization sanity check failed. DIGIWAGE Core is shutting down.</source>
-        <translation>Initialization sanity check failed. DIGIWAGE Core is shutting down.</translation>
-    </message>
-    <message>
-        <source>Input is not valid.</source>
-        <translation>Input is not valid.</translation>
-    </message>
-    <message>
         <source>Insufficient funds.</source>
         <translation>Insufficient funds.</translation>
     </message>
     <message>
-        <source>Invalid -onion address: '%s'</source>
-        <translation>Invalid -onion address: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid -proxy address: '%s'</source>
-        <translation>Invalid -proxy address: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Invalid amount for -minrelaytxfee=&lt;amount&gt;: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -mintxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Invalid amount for -mintxfee=&lt;amount&gt;: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s' (must be at least %s)</source>
-        <translation>Invalid amount for -paytxfee=&lt;amount&gt;: '%s' (must be at least %s)</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s'</source>
-        <translation>Invalid amount for -paytxfee=&lt;amount&gt;: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid amount for -reservebalance=&lt;amount&gt;</source>
-        <translation>Invalid amount for -reservebalance=&lt;amount&gt;</translation>
-    </message>
-    <message>
-        <source>Invalid masternodeprivkey. Please see documenation.</source>
-        <translation>Invalid masternodeprivkey. Please see documenation.</translation>
-    </message>
-    <message>
-        <source>Invalid netmask specified in -whitelist: '%s'</source>
-        <translation>Invalid netmask specified in -whitelist: '%s'</translation>
-    </message>
-    <message>
-        <source>Invalid port detected in masternode.conf</source>
-        <translation>Invalid port detected in masternode.conf</translation>
-    </message>
-    <message>
-        <source>Invalid private key.</source>
-        <translation>Invalid private key.</translation>
-    </message>
-    <message>
-        <source>Invalid script detected.</source>
-        <translation>Invalid script detected.</translation>
+        <source>Invalid -masternodeaddr port %d, isn't the same as the peer port %d</source>
+        <translation>Invalid -masternodeaddr port %d, isn't the same as the peer port %d</translation>
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for staking or merchant applications!</source>
         <translation>This is a pre-release test build - use at your own risk - do not use for staking or merchant applications!</translation>
     </message>
     <message>
-        <source>&lt;category&gt; can be:</source>
-        <translation>&lt;category&gt; can be:</translation>
+        <source>Error: A fatal internal error occurred, see debug.log for details</source>
+        <translation>Error: A fatal internal error occurred, see debug.log for details</translation>
     </message>
     <message>
-        <source>Attempt to force blockchain corruption recovery</source>
-        <translation>Attempt to force blockchain corruption recovery</translation>
+        <source>Cannot find the Sapling parameters in the following directory:
+%s
+Please run 'sapling-fetch-params' or './util/fetch-params.sh' and then restart.</source>
+        <translation>Cannot find the Sapling parameters in the following directory:
+%s
+Please run 'sapling-fetch-params' or './util/fetch-params.sh' and then restart.</translation>
     </message>
     <message>
-        <source>Display the stake modifier calculations in the debug.log file.</source>
-        <translation>Display the stake modifier calculations in the debug.log file.</translation>
+        <source>Cannot upgrade to Sapling wallet (already running Sapling support). Version: %d</source>
+        <translation>Cannot upgrade to Sapling wallet (already running Sapling support). Version: %d</translation>
     </message>
     <message>
-        <source>Display verbose coin stake messages in the debug.log file.</source>
-        <translation>Display verbose coin stake messages in the debug.log file.</translation>
+        <source>This file contains all of your private keys in plain text. DO NOT send this file to anyone!</source>
+        <translation>This file contains all of your private keys in plain text. DO NOT send this file to anyone!</translation>
     </message>
     <message>
-        <source>Enable publish hash block in &lt;address&gt;</source>
-        <translation>Enable publish hash block in &lt;address&gt;</translation>
+        <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of %s.</source>
+        <translation>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of %s.</translation>
     </message>
     <message>
-        <source>Enable publish hash transaction (locked via SwiftTX) in &lt;address&gt;</source>
-        <translation>Enable publish hash transaction (locked via SwiftTX) in &lt;address&gt;</translation>
+        <source>Unable to replay blocks. You will need to rebuild the database using %s.</source>
+        <translation>Unable to replay blocks. You will need to rebuild the database using %s.</translation>
     </message>
     <message>
-        <source>Enable publish hash transaction in &lt;address&gt;</source>
-        <translation>Enable publish hash transaction in &lt;address&gt;</translation>
+        <source>Warning: %s is set very high! Fees this large could be paid on a single transaction.</source>
+        <translation>Warning: %s is set very high! Fees this large could be paid on a single transaction.</translation>
     </message>
     <message>
-        <source>Enable publish raw block in &lt;address&gt;</source>
-        <translation>Enable publish raw block in &lt;address&gt;</translation>
+        <source>Warning: %s is set very high! This is the transaction fee you will pay if you send a transaction.</source>
+        <translation>Warning: %s is set very high! This is the transaction fee you will pay if you send a transaction.</translation>
     </message>
     <message>
-        <source>Enable publish raw transaction (locked via SwiftTX) in &lt;address&gt;</source>
-        <translation>Enable publish raw transaction (locked via SwiftTX) in &lt;address&gt;</translation>
+        <source>Warning: error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
+        <translation>Warning: error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</translation>
     </message>
     <message>
-        <source>Enable publish raw transaction in &lt;address&gt;</source>
-        <translation>Enable publish raw transaction in &lt;address&gt;</translation>
+        <source>A fatal internal error occurred, see debug.log for details</source>
+        <translation>A fatal internal error occurred, see debug.log for details</translation>
     </message>
     <message>
-        <source>Enable staking functionality (0-1, default: %u)</source>
-        <translation>Enable staking functionality (0-1, default: %u)</translation>
+        <source>Calculating money supply...</source>
+        <translation>Calculating money supply...</translation>
     </message>
     <message>
-        <source>Keep N WAGE anonymized (default: %u)</source>
-        <translation>Keep N WAGE anonymized (default: %u)</translation>
+        <source>Error loading %s: Wallet corrupted</source>
+        <translation>Error loading %s: Wallet corrupted</translation>
     </message>
     <message>
-        <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>
-        <translation>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</translation>
+        <source>Error loading %s
+</source>
+        <translation>Error loading %s
+</translation>
     </message>
     <message>
-        <source>Last Obfuscation was too recent.</source>
-        <translation>Last Obfuscation was too recent.</translation>
+        <source>Error loading wallet %s. Duplicate %s filename specified.</source>
+        <translation>Error loading wallet %s. Duplicate %s filename specified.</translation>
     </message>
     <message>
-        <source>Last successful Obfuscation action was too recent.</source>
-        <translation>Last successful Obfuscation action was too recent.</translation>
+        <source>Error upgrading chainstate database</source>
+        <translation>Error upgrading chainstate database</translation>
     </message>
     <message>
-        <source>Limit size of signature cache to &lt;n&gt; entries (default: %u)</source>
-        <translation>Limit size of signature cache to &lt;n&gt; entries (default: %u)</translation>
+        <source>Error: %s must be at least %d MB</source>
+        <translation>Error: %s must be at least %d MB</translation>
+    </message>
+    <message>
+        <source>Error: %s must be true if %s is set.</source>
+        <translation>Error: %s must be true if %s is set.</translation>
+    </message>
+    <message>
+        <source>Error: Disk space is low for %s</source>
+        <translation>Error: Disk space is low for %s</translation>
+    </message>
+    <message>
+        <source>Error: Initializing networking failed</source>
+        <translation>Error: Initializing networking failed</translation>
+    </message>
+    <message>
+        <source>Error: Unsupported argument %s found, use %s.</source>
+        <translation>Error: Unsupported argument %s found, use %s.</translation>
+    </message>
+    <message>
+        <source>Error: Unsupported argument %s found. Checklevel must be level 4.</source>
+        <translation>Error: Unsupported argument %s found. Checklevel must be level 4.</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -%s=&lt;amount&gt;: '%s'</source>
+        <translation>Invalid amount for -%s=&lt;amount&gt;: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid masternodeprivkey. Please see the documentation.</source>
+        <translation>Invalid masternodeprivkey. Please see the documentation.</translation>
     </message>
     <message>
         <source>Line: %d</source>
         <translation>Line: %d</translation>
     </message>
     <message>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: %u or testnet: %u)</source>
-        <translation>Listen for JSON-RPC connections on &lt;port&gt; (default: %u or testnet: %u)</translation>
-    </message>
-    <message>
-        <source>Listen for connections on &lt;port&gt; (default: %u or testnet: %u)</source>
-        <translation>Listen for connections on &lt;port&gt; (default: %u or testnet: %u)</translation>
-    </message>
-    <message>
         <source>Loading addresses...</source>
         <translation>Loading addresses...</translation>
+    </message>
+    <message>
+        <source>Loading banlist...</source>
+        <translation>Loading banlist...</translation>
     </message>
     <message>
         <source>Loading block index...</source>
@@ -4630,316 +5503,218 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Loading masternode payment cache...</translation>
     </message>
     <message>
-        <source>Loading wallet... (%3.2f %%)</source>
-        <translation>Loading wallet... (%3.2f %%)</translation>
+        <source>Loading sporks...</source>
+        <translation>Loading sporks...</translation>
     </message>
     <message>
         <source>Loading wallet...</source>
         <translation>Loading wallet...</translation>
     </message>
     <message>
-        <source>Lock is already in place.</source>
-        <translation>Lock is already in place.</translation>
-    </message>
-    <message>
-        <source>Lock masternodes from masternode configuration file (default: %u)</source>
-        <translation>Lock masternodes from masternode configuration file (default: %u)</translation>
-    </message>
-    <message>
-        <source>Maintain at most &lt;n&gt; connections to peers (default: %u)</source>
-        <translation>Maintain at most &lt;n&gt; connections to peers (default: %u)</translation>
-    </message>
-    <message>
-        <source>Masternode options:</source>
-        <translation>Masternode options:</translation>
-    </message>
-    <message>
-        <source>Masternode queue is full.</source>
-        <translation>Masternode queue is full.</translation>
-    </message>
-    <message>
-        <source>Masternode:</source>
-        <translation>Masternode:</translation>
-    </message>
-    <message>
-        <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
-        <translation>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: %u)</translation>
-    </message>
-    <message>
-        <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
-        <translation>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: %u)</translation>
-    </message>
-    <message>
-        <source>Missing input transaction information.</source>
-        <translation>Missing input transaction information.</translation>
-    </message>
-    <message>
-        <source>Mixing in progress...</source>
-        <translation>Mixing in progress...</translation>
-    </message>
-    <message>
-        <source>Need to specify a port with -whitebind: '%s'</source>
-        <translation>Need to specify a port with -whitebind: '%s'</translation>
-    </message>
-    <message>
-        <source>No Masternodes detected.</source>
-        <translation>No Masternodes detected.</translation>
-    </message>
-    <message>
-        <source>No compatible Masternode found.</source>
-        <translation>No compatible Masternode found.</translation>
-    </message>
-    <message>
-        <source>No funds detected in need of denominating.</source>
-        <translation>No funds detected in need of denominating.</translation>
-    </message>
-    <message>
-        <source>No matching denominations found for mixing.</source>
-        <translation>No matching denominations found for mixing.</translation>
-    </message>
-    <message>
-        <source>Node relay options:</source>
-        <translation>Node relay options:</translation>
-    </message>
-    <message>
-        <source>Non-standard public key detected.</source>
-        <translation>Non-standard public key detected.</translation>
-    </message>
-    <message>
-        <source>Not compatible with existing transactions.</source>
-        <translation>Not compatible with existing transactions.</translation>
+        <source>MNs synchronization pending...</source>
+        <translation>MNs synchronization pending...</translation>
     </message>
     <message>
         <source>Not enough file descriptors available.</source>
         <translation>Not enough file descriptors available.</translation>
     </message>
     <message>
-        <source>Not in the Masternode list.</source>
-        <translation>Not in the Masternode list.</translation>
+        <source>Peers are being disconnected due time differences.</source>
+        <translation>Peers are being disconnected due time differences.</translation>
     </message>
     <message>
-        <source>Number of automatic wallet backups (default: 10)</source>
-        <translation>Number of automatic wallet backups (default: 10)</translation>
+        <source>Specified blocks directory "%s" does not exist.</source>
+        <translation>Specified blocks directory "%s" does not exist.</translation>
     </message>
     <message>
-        <source>Obfuscation is idle.</source>
-        <translation>Obfuscation is idle.</translation>
+        <source>Unknown network specified in %s: '%s'</source>
+        <translation>Unknown network specified in %s: '%s'</translation>
     </message>
     <message>
-        <source>Obfuscation options:</source>
-        <translation>Obfuscation options:</translation>
+        <source>Upgrading coins database if needed...</source>
+        <translation>Upgrading coins database if needed...</translation>
     </message>
     <message>
-        <source>Obfuscation request complete:</source>
-        <translation>Obfuscation request complete:</translation>
+        <source>Verifying wallet(s)...</source>
+        <translation>Verifying wallet(s)...</translation>
     </message>
     <message>
-        <source>Obfuscation request incomplete:</source>
-        <translation>Obfuscation request incomplete:</translation>
+        <source>Wallet %s resides outside data directory %s</source>
+        <translation>Wallet %s resides outside data directory %s</translation>
     </message>
     <message>
-        <source>Only accept block chain matching built-in checkpoints (default: %u)</source>
-        <translation>Only accept block chain matching built-in checkpoints (default: %u)</translation>
+        <source>Preparing for resync...</source>
+        <translation>Preparing for resync...</translation>
     </message>
     <message>
-        <source>Only connect to nodes in network &lt;net&gt; (ipv4, ipv6 or onion)</source>
-        <translation>Only connect to nodes in network &lt;net&gt; (ipv4, ipv6 or onion)</translation>
+        <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
+        <translation>Cannot obtain a lock on data directory %s. %s is probably already running.</translation>
     </message>
     <message>
-        <source>Options:</source>
-        <translation>Options:</translation>
+        <source>Cannot start deterministic masternode before enforcement. Remove %s to start as legacy masternode</source>
+        <translation>Cannot start deterministic masternode before enforcement. Remove %s to start as legacy masternode</translation>
     </message>
     <message>
-        <source>Password for JSON-RPC connections</source>
-        <translation>Password for JSON-RPC connections</translation>
+        <source>Enabling Masternode support requires turning on transaction indexing.Please add %s to your configuration and start with %s</source>
+        <translation>Enabling Masternode support requires turning on transaction indexing.Please add %s to your configuration and start with %s</translation>
     </message>
     <message>
-        <source>Prepend debug output with timestamp (default: %u)</source>
-        <translation>Prepend debug output with timestamp (default: %u)</translation>
+        <source>Error: Unsupported argument %s found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
+        <translation>Error: Unsupported argument %s found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</translation>
     </message>
     <message>
-        <source>Print version and exit</source>
-        <translation>Print version and exit</translation>
+        <source>Failed to create backup, file already exists! This could happen if you restarted wallet in less than 60 seconds. You can continue if you are ok with this.</source>
+        <translation>Failed to create backup, file already exists! This could happen if you restarted wallet in less than 60 seconds. You can continue if you are ok with this.</translation>
     </message>
     <message>
-        <source>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
-        <translation>RPC SSL options: (see the Bitcoin Wiki for SSL setup instructions)</translation>
+        <source>Invalid amount for %s: '%s' (must be at least the minimum relay fee of %s to prevent stuck transactions)</source>
+        <translation>Invalid amount for %s: '%s' (must be at least the minimum relay fee of %s to prevent stuck transactions)</translation>
     </message>
     <message>
-        <source>RPC server options:</source>
-        <translation>RPC server options:</translation>
+        <source>Legacy masternode system disabled. Use %s to start as deterministic masternode</source>
+        <translation>Legacy masternode system disabled. Use %s to start as deterministic masternode</translation>
     </message>
     <message>
-        <source>RPC support for HTTP persistent connections (default: %d)</source>
-        <translation>RPC support for HTTP persistent connections (default: %d)</translation>
+        <source>System error while flushing the chainstate after pruning invalid entries. Possible corrupt database.</source>
+        <translation>System error while flushing the chainstate after pruning invalid entries. Possible corrupt database.</translation>
     </message>
     <message>
-        <source>Randomly drop 1 of every &lt;n&gt; network messages</source>
-        <translation>Randomly drop 1 of every &lt;n&gt; network messages</translation>
+        <source>WARNING: The transaction has been signed and recorded, so the wallet will try to re-send it. Use 'abandontransaction' to cancel it. (txid: %s)</source>
+        <translation>WARNING: The transaction has been signed and recorded, so the wallet will try to re-send it. Use 'abandontransaction' to cancel it. (txid: %s)</translation>
     </message>
     <message>
-        <source>Randomly fuzz 1 of every &lt;n&gt; network messages</source>
-        <translation>Randomly fuzz 1 of every &lt;n&gt; network messages</translation>
+        <source>(must be %d for %s-net)</source>
+        <translation>(must be %d for %s-net)</translation>
     </message>
     <message>
-        <source>Rebuild block chain index from current blk000??.dat files</source>
-        <translation>Rebuild block chain index from current blk000??.dat files</translation>
+        <source>Active Masternode not initialized.</source>
+        <translation>Active Masternode not initialized.</translation>
     </message>
     <message>
-        <source>Receive and display P2P network alerts (default: %u)</source>
-        <translation>Receive and display P2P network alerts (default: %u)</translation>
+        <source>Can't generate a change-address key. Please call keypoolrefill first.</source>
+        <translation>Can't generate a change-address key. Please call keypoolrefill first.</translation>
     </message>
     <message>
-        <source>Relay and mine data carrier transactions (default: %u)</source>
-        <translation>Relay and mine data carrier transactions (default: %u)</translation>
+        <source>Cannot resolve -%s address: '%s'</source>
+        <translation>Cannot resolve -%s address: '%s'</translation>
     </message>
     <message>
-        <source>Relay non-P2SH multisig (default: %u)</source>
-        <translation>Relay non-P2SH multisig (default: %u)</translation>
+        <source>Cannot write to data directory '%s'; check permissions.</source>
+        <translation>Cannot write to data directory '%s'; check permissions.</translation>
     </message>
     <message>
-        <source>Rescan the block chain for missing wallet transactions</source>
-        <translation>Rescan the block chain for missing wallet transactions</translation>
+        <source>Change index out of range</source>
+        <translation>Change index out of range</translation>
+    </message>
+    <message>
+        <source>Failed to accept tx in the memory pool (reason: %s)
+</source>
+        <translation>Failed to accept tx in the memory pool (reason: %s)
+</translation>
+    </message>
+    <message>
+        <source>Failed to delete backup, error: %s</source>
+        <translation>Failed to delete backup, error: %s</translation>
+    </message>
+    <message>
+        <source>Failed to listen on any port. Use %s if you want this.</source>
+        <translation>Failed to listen on any port. Use %s if you want this.</translation>
+    </message>
+    <message>
+        <source>Failed to rescan the wallet during initialization</source>
+        <translation>Failed to rescan the wallet during initialization</translation>
+    </message>
+    <message>
+        <source>Initialization sanity check failed. %s is shutting down.</source>
+        <translation>Initialization sanity check failed. %s is shutting down.</translation>
+    </message>
+    <message>
+        <source>Invalid -masternodeaddr address: %s</source>
+        <translation>Invalid -masternodeaddr address: %s</translation>
+    </message>
+    <message>
+        <source>Invalid -masternodeaddr port %d, only %d is supported on %s-net.</source>
+        <translation>Invalid -masternodeaddr port %d, only %d is supported on %s-net.</translation>
+    </message>
+    <message>
+        <source>Invalid activation height (%s)</source>
+        <translation>Invalid activation height (%s)</translation>
+    </message>
+    <message>
+        <source>Invalid amount for %s: '%s' (must be at least %s)</source>
+        <translation>Invalid amount for %s: '%s' (must be at least %s)</translation>
+    </message>
+    <message>
+        <source>Invalid mnoperatorprivatekey. Please see the documentation.</source>
+        <translation>Invalid mnoperatorprivatekey. Please see the documentation.</translation>
+    </message>
+    <message>
+        <source>Invalid netmask specified in %s: '%s'</source>
+        <translation>Invalid netmask specified in %s: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid network upgrade (%s)</source>
+        <translation>Invalid network upgrade (%s)</translation>
+    </message>
+    <message>
+        <source>Invalid port %d detected in masternode.conf</source>
+        <translation>Invalid port %d detected in masternode.conf</translation>
+    </message>
+    <message>
+        <source>Invalid status error.</source>
+        <translation>Invalid status error.</translation>
+    </message>
+    <message>
+        <source>Keypool ran out, please call keypoolrefill first, or unlock the wallet.</source>
+        <translation>Keypool ran out, please call keypoolrefill first, or unlock the wallet.</translation>
+    </message>
+    <message>
+        <source>Legacy Masternode is obsolete.</source>
+        <translation>Legacy Masternode is obsolete.</translation>
+    </message>
+    <message>
+        <source>Loading/Pruning invalid outputs...</source>
+        <translation>Loading/Pruning invalid outputs...</translation>
+    </message>
+    <message>
+        <source>Need to specify a port with %s: '%s'</source>
+        <translation>Need to specify a port with %s: '%s'</translation>
+    </message>
+    <message>
+        <source>Network upgrade parameters malformed, expecting %s</source>
+        <translation>Network upgrade parameters malformed, expecting %s</translation>
+    </message>
+    <message>
+        <source>Network upgrade parameters may only be overridden on regtest.</source>
+        <translation>Network upgrade parameters may only be overridden on regtest.</translation>
+    </message>
+    <message>
+        <source>No error</source>
+        <translation>No error</translation>
+    </message>
+    <message>
+        <source>OS cryptographic RNG sanity check failure. Aborting.</source>
+        <translation>OS cryptographic RNG sanity check failure. Aborting.</translation>
+    </message>
+    <message>
+        <source>Reaccepting wallet transactions...</source>
+        <translation>Reaccepting wallet transactions...</translation>
+    </message>
+    <message>
+        <source>Replaying blocks...</source>
+        <translation>Replaying blocks...</translation>
     </message>
     <message>
         <source>Rescanning...</source>
         <translation>Rescanning...</translation>
     </message>
     <message>
-        <source>Run a thread to flush wallet periodically (default: %u)</source>
-        <translation>Run a thread to flush wallet periodically (default: %u)</translation>
-    </message>
-    <message>
-        <source>Run in the background as a daemon and accept commands</source>
-        <translation>Run in the background as a daemon and accept commands</translation>
-    </message>
-    <message>
-        <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
-        <translation>Send transactions as zero-fee transactions if possible (default: %u)</translation>
-    </message>
-    <message>
-        <source>Server certificate file (default: %s)</source>
-        <translation>Server certificate file (default: %s)</translation>
-    </message>
-    <message>
-        <source>Server private key (default: %s)</source>
-        <translation>Server private key (default: %s)</translation>
-    </message>
-    <message>
-        <source>Session not complete!</source>
-        <translation>Session not complete!</translation>
-    </message>
-    <message>
-        <source>Session timed out.</source>
-        <translation>Session timed out.</translation>
-    </message>
-    <message>
-        <source>Set database cache size in megabytes (%d to %d, default: %d)</source>
-        <translation>Set database cache size in megabytes (%d to %d, default: %d)</translation>
-    </message>
-    <message>
-        <source>Set external address:port to get to this masternode (example: %s)</source>
-        <translation>Set external address:port to get to this masternode (example: %s)</translation>
-    </message>
-    <message>
-        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
-        <translation>Set key pool size to &lt;n&gt; (default: %u)</translation>
-    </message>
-    <message>
-        <source>Set maximum block size in bytes (default: %d)</source>
-        <translation>Set maximum block size in bytes (default: %d)</translation>
-    </message>
-    <message>
-        <source>Set minimum block size in bytes (default: %u)</source>
-        <translation>Set minimum block size in bytes (default: %u)</translation>
-    </message>
-    <message>
-        <source>Set the masternode private key</source>
-        <translation>Set the masternode private key</translation>
-    </message>
-    <message>
-        <source>Set the number of threads to service RPC calls (default: %d)</source>
-        <translation>Set the number of threads to service RPC calls (default: %d)</translation>
-    </message>
-    <message>
-        <source>Sets the DB_PRIVATE flag in the wallet db environment (default: %u)</source>
-        <translation>Sets the DB_PRIVATE flag in the wallet db environment (default: %u)</translation>
-    </message>
-    <message>
-        <source>Show all debugging options (usage: --help -help-debug)</source>
-        <translation>Show all debugging options (usage: --help -help-debug)</translation>
-    </message>
-    <message>
-        <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
-        <translation>Shrink debug.log file on client startup (default: 1 when no -debug)</translation>
-    </message>
-    <message>
-        <source>Signing failed.</source>
-        <translation>Signing failed.</translation>
-    </message>
-    <message>
-        <source>Signing timed out.</source>
-        <translation>Signing timed out.</translation>
+        <source>Shutdown requested over the txs scan. Exiting.</source>
+        <translation>Shutdown requested over the txs scan. Exiting.</translation>
     </message>
     <message>
         <source>Signing transaction failed</source>
         <translation>Signing transaction failed</translation>
-    </message>
-    <message>
-        <source>Specify configuration file (default: %s)</source>
-        <translation>Specify configuration file (default: %s)</translation>
-    </message>
-    <message>
-        <source>Specify connection timeout in milliseconds (minimum: 1, default: %d)</source>
-        <translation>Specify connection timeout in milliseconds (minimum: 1, default: %d)</translation>
-    </message>
-    <message>
-        <source>Specify data directory</source>
-        <translation>Specify data directory</translation>
-    </message>
-    <message>
-        <source>Specify masternode configuration file (default: %s)</source>
-        <translation>Specify masternode configuration file (default: %s)</translation>
-    </message>
-    <message>
-        <source>Specify pid file (default: %s)</source>
-        <translation>Specify pid file (default: %s)</translation>
-    </message>
-    <message>
-        <source>Specify wallet file (within data directory)</source>
-        <translation>Specify wallet file (within data directory)</translation>
-    </message>
-    <message>
-        <source>Specify your own public address</source>
-        <translation>Specify your own public address</translation>
-    </message>
-    <message>
-        <source>Spend unconfirmed change when sending transactions (default: %u)</source>
-        <translation>Spend unconfirmed change when sending transactions (default: %u)</translation>
-    </message>
-    <message>
-        <source>Staking options:</source>
-        <translation>Staking options:</translation>
-    </message>
-    <message>
-        <source>Stop running after importing blocks from disk (default: %u)</source>
-        <translation>Stop running after importing blocks from disk (default: %u)</translation>
-    </message>
-    <message>
-        <source>Submitted following entries to masternode: %u / %d</source>
-        <translation>Submitted following entries to masternode: %u / %d</translation>
-    </message>
-    <message>
-        <source>Submitted to masternode, waiting for more entries ( %u / %d ) %s</source>
-        <translation>Submitted to masternode, waiting for more entries ( %u / %d ) %s</translation>
-    </message>
-    <message>
-        <source>Submitted to masternode, waiting in queue %s</source>
-        <translation>Submitted to masternode, waiting in queue %s</translation>
-    </message>
-    <message>
-        <source>SwiftTX options:</source>
-        <translation>SwiftTX options:</translation>
     </message>
     <message>
         <source>Synchronization failed</source>
@@ -4948,10 +5723,6 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
     <message>
         <source>Synchronization finished</source>
         <translation>Synchronization finished</translation>
-    </message>
-    <message>
-        <source>Synchronization pending...</source>
-        <translation>Synchronization pending...</translation>
     </message>
     <message>
         <source>Synchronizing budgets...</source>
@@ -4970,24 +5741,68 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Synchronizing sporks...</translation>
     </message>
     <message>
-        <source>This help message</source>
-        <translation>This help message</translation>
+        <source>The threshold value cannot be less than %s</source>
+        <translation>The threshold value cannot be less than %s</translation>
     </message>
     <message>
         <source>This is experimental software.</source>
         <translation>This is experimental software.</translation>
     </message>
     <message>
-        <source>This is intended for regression testing tools and app development.</source>
-        <translation>This is intended for regression testing tools and app development.</translation>
+        <source>This is not a deterministic masternode. 'local' option disabled.</source>
+        <translation>This is not a deterministic masternode. 'local' option disabled.</translation>
     </message>
     <message>
-        <source>This is not a Masternode.</source>
-        <translation>This is not a Masternode.</translation>
+        <source>This is not a masternode. 'local' option disabled.</source>
+        <translation>This is not a masternode. 'local' option disabled.</translation>
     </message>
     <message>
-        <source>Threshold for disconnecting misbehaving peers (default: %u)</source>
-        <translation>Threshold for disconnecting misbehaving peers (default: %u)</translation>
+        <source>This is not a masternode.</source>
+        <translation>This is not a masternode.</translation>
+    </message>
+    <message>
+        <source>This product includes UPnP software written by Thomas Bernard.</source>
+        <translation>This product includes UPnP software written by Thomas Bernard.</translation>
+    </message>
+    <message>
+        <source>Invalid -wallet path '%s'. -wallet path should point to a directory where wallet.dat and database/log.?????????? files can be stored, a location where such a directory could be created or (for backwards compatibility) the name of an existing data file in -walletdir (%s)</source>
+        <translation>Invalid -wallet path '%s'. -wallet path should point to a directory where wallet.dat and database/log.?????????? files can be stored, a location where such a directory could be created or (for backwards compatibility) the name of an existing data file in -walletdir (%s)</translation>
+    </message>
+    <message>
+        <source>Please check that your computer's date and time are correct! If your clock is wrong %s will not work properly.</source>
+        <translation>Please check that your computer's date and time are correct! If your clock is wrong %s will not work properly.</translation>
+    </message>
+    <message>
+        <source>Warning: Please check that your computer's date and time are correct! If your clock is wrong %s will not work properly.</source>
+        <translation>Warning: Please check that your computer's date and time are correct! If your clock is wrong %s will not work properly.</translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2015-%i The %s Developers</source>
+        <translation>Copyright (C) 2015-%i The %s Developers</translation>
+    </message>
+    <message>
+        <source>Could not find asmap file %s</source>
+        <translation>Could not find asmap file %s</translation>
+    </message>
+    <message>
+        <source>Could not parse asmap file %s</source>
+        <translation>Could not parse asmap file %s</translation>
+    </message>
+    <message>
+        <source>Error loading %s: Wallet requires newer version of %s</source>
+        <translation>Error loading %s: Wallet requires newer version of %s</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" does not exist</source>
+        <translation>Specified -walletdir "%s" does not exist</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" is a relative path</source>
+        <translation>Specified -walletdir "%s" is a relative path</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" is not a directory</source>
+        <translation>Specified -walletdir "%s" is not a directory</translation>
     </message>
     <message>
         <source>Transaction amount too small</source>
@@ -4998,16 +5813,12 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Transaction amounts must be positive</translation>
     </message>
     <message>
-        <source>Transaction created successfully.</source>
-        <translation>Transaction created successfully.</translation>
+        <source>Transaction canceled.</source>
+        <translation>Transaction canceled.</translation>
     </message>
     <message>
-        <source>Transaction fees are too high.</source>
-        <translation>Transaction fees are too high.</translation>
-    </message>
-    <message>
-        <source>Transaction not valid.</source>
-        <translation>Transaction not valid.</translation>
+        <source>Transaction must have at least one recipient</source>
+        <translation>Transaction must have at least one recipient</translation>
     </message>
     <message>
         <source>Transaction too large for fee policy</source>
@@ -5018,84 +5829,60 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Transaction too large</translation>
     </message>
     <message>
-        <source>Transmitting final transaction.</source>
-        <translation>Transmitting final transaction.</translation>
-    </message>
-    <message>
         <source>Unable to bind to %s on this computer (bind returned error %s)</source>
         <translation>Unable to bind to %s on this computer (bind returned error %s)</translation>
+    </message>
+    <message>
+        <source>Unable to bind to %s on this computer. %s is probably already running.</source>
+        <translation>Unable to bind to %s on this computer. %s is probably already running.</translation>
+    </message>
+    <message>
+        <source>Unable to generate initial key!</source>
+        <translation>Unable to generate initial key!</translation>
+    </message>
+    <message>
+        <source>Unable to generate keys</source>
+        <translation>Unable to generate keys</translation>
     </message>
     <message>
         <source>Unable to sign spork message, wrong key?</source>
         <translation>Unable to sign spork message, wrong key?</translation>
     </message>
     <message>
-        <source>Unknown network specified in -onlynet: '%s'</source>
-        <translation>Unknown network specified in -onlynet: '%s'</translation>
+        <source>Unable to start HTTP server. See debug log for details.</source>
+        <translation>Unable to start HTTP server. See debug log for details.</translation>
     </message>
     <message>
-        <source>Unknown state: id = %u</source>
-        <translation>Unknown state: id = %u</translation>
+        <source>Wallet needed to be rewritten: restart %s to complete</source>
+        <translation>Wallet needed to be rewritten: restart %s to complete</translation>
     </message>
     <message>
-        <source>Upgrade wallet to latest format</source>
-        <translation>Upgrade wallet to latest format</translation>
+        <source>Warning: Unsupported argument %s ignored, use %s</source>
+        <translation>Warning: Unsupported argument %s ignored, use %s</translation>
     </message>
     <message>
-        <source>Use N separate masternodes to anonymize funds  (2-8, default: %u)</source>
-        <translation>Use N separate masternodes to anonymize funds  (2-8, default: %u)</translation>
+        <source>Warning: Unsupported argument %s ignored, use %s.</source>
+        <translation>Warning: Unsupported argument %s ignored, use %s.</translation>
     </message>
     <message>
-        <source>Use OpenSSL (https) for JSON-RPC connections</source>
-        <translation>Use OpenSSL (https) for JSON-RPC connections</translation>
+        <source>You can not start a masternode in litemode</source>
+        <translation>You can not start a masternode in litemode</translation>
     </message>
     <message>
-        <source>Use UPnP to map the listening port (default: %u)</source>
-        <translation>Use UPnP to map the listening port (default: %u)</translation>
+        <source>You need to rebuild the database using %s to change %s</source>
+        <translation>You need to rebuild the database using %s to change %s</translation>
     </message>
     <message>
-        <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>Use UPnP to map the listening port (default: 1 when listening)</translation>
+        <source>Unsupported logging category %s=%s.</source>
+        <translation>Unsupported logging category %s=%s.</translation>
     </message>
     <message>
-        <source>Use the test network</source>
-        <translation>Use the test network</translation>
-    </message>
-    <message>
-        <source>Username for JSON-RPC connections</source>
-        <translation>Username for JSON-RPC connections</translation>
-    </message>
-    <message>
-        <source>Value more than Obfuscation pool maximum allows.</source>
-        <translation>Value more than Obfuscation pool maximum allows.</translation>
+        <source>User Agent comment (%s) contains unsafe characters.</source>
+        <translation>User Agent comment (%s) contains unsafe characters.</translation>
     </message>
     <message>
         <source>Verifying blocks...</source>
         <translation>Verifying blocks...</translation>
-    </message>
-    <message>
-        <source>Verifying wallet...</source>
-        <translation>Verifying wallet...</translation>
-    </message>
-    <message>
-        <source>Wallet %s resides outside data directory %s</source>
-        <translation>Wallet %s resides outside data directory %s</translation>
-    </message>
-    <message>
-        <source>Wallet is locked.</source>
-        <translation>Wallet is locked.</translation>
-    </message>
-    <message>
-        <source>Wallet needed to be rewritten: restart DIGIWAGE Core to complete</source>
-        <translation>Wallet needed to be rewritten: restart DIGIWAGE Core to complete</translation>
-    </message>
-    <message>
-        <source>Wallet options:</source>
-        <translation>Wallet options:</translation>
-    </message>
-    <message>
-        <source>Wallet window title</source>
-        <translation>Wallet window title</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -5106,44 +5893,63 @@ for example: alertnotify=echo %%s | mail -s "DIGIWAGE Alert" admin@foo.com
         <translation>Warning: This version is obsolete, upgrade required!</translation>
     </message>
     <message>
-        <source>Warning: Unsupported argument -benchmark ignored, use -debug=bench.</source>
-        <translation>Warning: Unsupported argument -benchmark ignored, use -debug=bench.</translation>
-    </message>
-    <message>
-        <source>Warning: Unsupported argument -debugnet ignored, use -debug=net.</source>
-        <translation>Warning: Unsupported argument -debugnet ignored, use -debug=net.</translation>
-    </message>
-    <message>
-        <source>Will retry...</source>
-        <translation>Will retry...</translation>
-    </message>
-    <message>
-        <source>You need to rebuild the database using -reindex to change -txindex</source>
-        <translation>You need to rebuild the database using -reindex to change -txindex</translation>
-    </message>
-    <message>
-        <source>Your entries added successfully.</source>
-        <translation>Your entries added successfully.</translation>
-    </message>
-    <message>
-        <source>Your transaction was accepted into the pool!</source>
-        <translation>Your transaction was accepted into the pool!</translation>
-    </message>
-    <message>
         <source>Zapping all transactions from wallet...</source>
         <translation>Zapping all transactions from wallet...</translation>
     </message>
+</context>
+<context>
+    <name>send</name>
     <message>
-        <source>ZeroMQ notification options:</source>
-        <translation>ZeroMQ notification options:</translation>
+        <source>Send</source>
+        <translation>Send</translation>
     </message>
     <message>
-        <source>on startup</source>
-        <translation>on startup</translation>
+        <source>Transfer coins publicly or privately</source>
+        <translation>Transfer coins publicly or privately</translation>
     </message>
     <message>
-        <source>wallet.dat corrupt, salvage failed</source>
-        <translation>wallet.dat corrupt, salvage failed</translation>
+        <source>Transparent</source>
+        <translation>Transparent</translation>
+    </message>
+    <message>
+        <source>Shielded</source>
+        <translation>Shielded</translation>
+    </message>
+    <message>
+        <source>Select which coins to spend</source>
+        <translation>Select which coins to spend</translation>
+    </message>
+    <message>
+        <source>Recipient address</source>
+        <translation>Recipient address</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Amount</translation>
+    </message>
+    <message>
+        <source>Customize fee</source>
+        <translation>Customize fee</translation>
+    </message>
+    <message>
+        <source>Clear all</source>
+        <translation>Clear all</translation>
+    </message>
+    <message>
+        <source>Add recipient</source>
+        <translation>Add recipient</translation>
+    </message>
+    <message>
+        <source>Total to send</source>
+        <translation>Total to send</translation>
+    </message>
+    <message>
+        <source>Reset to default</source>
+        <translation>Reset to default</translation>
+    </message>
+    <message>
+        <source>Include delegated</source>
+        <translation>Include delegated</translation>
     </message>
 </context>
 </TS>

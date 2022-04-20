@@ -5,6 +5,7 @@
 #ifndef DIGIWAGE_BLOCKSIGNATURE_H
 #define DIGIWAGE_BLOCKSIGNATURE_H
 
+#include "utilstrencodings.h"
 #include "key.h"
 #include "primitives/block.h"
 #include "keystore.h"

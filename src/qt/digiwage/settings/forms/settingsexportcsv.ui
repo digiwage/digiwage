@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -94,7 +94,7 @@
            <item>
             <widget class="QLabel" name="labelSubtitleLocation">
              <property name="text">
-              <string>Where</string>
+              <string>Export Transaction History</string>
              </property>
             </widget>
            </item>
@@ -294,4 +294,3 @@
  <resources/>
  <connections/>
 </ui>
-

@@ -4,21 +4,32 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Utilities for manipulating blocks and transactions."""
 
-from test_framework.mininode import *
-from test_framework.script import CScript, OP_TRUE, OP_CHECKSIG
+from .messages import (
+    CBlock,
+    COIN,
+    COutPoint,
+    CTransaction,
+    CTxIn,
+    CTxOut,
+    NullOutPoint
+)
+from .script import CScript, CScriptNum, CScriptOp, OP_TRUE, OP_CHECKSIG, OP_1
 
 
 # Create a block (with regtest difficulty)
-def create_block(hashprev, coinbase, nTime=None):
+def create_block(hashprev, coinbase, nTime=None, nVersion=None, hashFinalSaplingRoot=None):
     block = CBlock()
     if nTime is None:
         import time
         block.nTime = int(time.time()+600)
     else:
         block.nTime = nTime
+    if nVersion is not None:
+        block.nVersion = nVersion
+    if hashFinalSaplingRoot is not None:
+        block.hashFinalSaplingRoot = hashFinalSaplingRoot
     block.hashPrevBlock = hashprev
-    block.nBits = 0x1e0ffff0 # Will break after a difficulty adjustment...
-    block.nAccumulatorCheckpoint = 0
+    block.nBits = 0x207fffff  # difficulty retargeting is disabled in REGTEST chainparams
     block.vtx.append(coinbase)
     block.hashMerkleRoot = block.calc_merkle_root()
     block.calc_sha256()
@@ -39,22 +50,26 @@ def serialize_script_num(value):
         r[-1] |= 0x80
     return r
 
-def cbase_scriptsig(height):
-    return ser_string(serialize_script_num(height))
-
 def cbase_value(height):
     #return ((50 * COIN) >> int(height/150))
     return (250 * COIN)
+
+def script_BIP34_coinbase_height(height):
+    if height <= 16:
+        res = CScriptOp.encode_op_n(height)
+        # Append dummy to increase scriptSig size above 2 (see bad-cb-length consensus rule)
+        return CScript([res, OP_1])
+    return CScript([CScriptNum(height)])
 
 # Create a coinbase transaction, assuming no miner fees.
 # If pubkey is passed in, the coinbase output will be a P2PK output;
 # otherwise an anyone-can-spend output.
 def create_coinbase(height, pubkey = None):
     coinbase = CTransaction()
-    coinbase.vin = [CTxIn(NullOutPoint, cbase_scriptsig(height), 0xffffffff)]
+    coinbase.vin = [CTxIn(NullOutPoint, script_BIP34_coinbase_height(height), 0xffffffff)]
     coinbaseoutput = CTxOut()
     coinbaseoutput.nValue = cbase_value(height)
-    if (pubkey != None):
+    if (pubkey is not None):
         coinbaseoutput.scriptPubKey = CScript([pubkey, OP_CHECKSIG])
     else:
         coinbaseoutput.scriptPubKey = CScript([OP_TRUE])
@@ -94,16 +109,10 @@ def get_legacy_sigopcount_tx(tx, fAccurate=True):
         count += CScript(j.scriptSig).GetSigOpCount(fAccurate)
     return count
 
-### DIGIWAGE specific blocktools ###
+# DIGIWAGE specific blocktools
 def create_coinbase_pos(height):
     coinbase = CTransaction()
-    coinbase.vin = [CTxIn(NullOutPoint, cbase_scriptsig(height), 0xffffffff)]
+    coinbase.vin = [CTxIn(NullOutPoint, script_BIP34_coinbase_height(height), 0xffffffff)]
     coinbase.vout = [CTxOut(0, b"")]
     coinbase.calc_sha256()
     return coinbase
-
-def is_zerocoin(uniqueness):
-    ulen = len(uniqueness)
-    if ulen == 32: return True
-    if ulen == 36: return False
-    raise Exception("Wrong uniqueness len: %d" % ulen)

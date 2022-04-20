@@ -2,22 +2,26 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#if defined(HAVE_CONFIG_H)
+#include "config/digiwage-config.h"
+#endif
+
 #include "qt/digiwage/settings/settingsfaqwidget.h"
 #include "qt/digiwage/settings/forms/ui_settingsfaqwidget.h"
-#include <QScrollBar>
-#include <QMetaObject>
+#include "clientmodel.h"
 #include "qt/digiwage/qtutils.h"
 
-SettingsFaqWidget::SettingsFaqWidget(QWidget *parent) :
+#include <QScrollBar>
+#include <QMetaObject>
+
+SettingsFaqWidget::SettingsFaqWidget(DIGIWAGEGUI* parent, ClientModel* _model) :
     QDialog(parent),
-    ui(new Ui::SettingsFaqWidget)
+    ui(new Ui::SettingsFaqWidget),
+    clientModel(_model)
 {
     ui->setupUi(this);
-
     this->setStyleSheet(parent->styleSheet());
 
-    ui->labelTitle->setText(tr("Frequently Asked Questions"));
-    ui->labelWebLink->setText(tr("You can read more here"));
 #ifdef Q_OS_MAC
     ui->container->load("://bg-welcome");
     setCssProperty(ui->container, "container-welcome-no-image");
@@ -29,155 +33,192 @@ SettingsFaqWidget::SettingsFaqWidget(QWidget *parent) :
 
     // Content
     setCssProperty({
-           ui->labelNumber1,
-           ui->labelNumber2,
-           ui->labelNumber3,
-           ui->labelNumber4,
-           ui->labelNumber5,
-           ui->labelNumber6,
-           ui->labelNumber7,
-           ui->labelNumber8,
-           ui->labelNumber9
+           ui->labelNumber_Intro,
+           ui->labelNumber_UnspendableWAGE,
+           ui->labelNumber_Stake,
+           ui->labelNumber_Support,
+           ui->labelNumber_Masternode,
+           ui->labelNumber_MNController
         }, "container-number-faq");
 
     setCssProperty({
-              ui->labelSubtitle1,
-              ui->labelSubtitle2,
-              ui->labelSubtitle3,
-              ui->labelSubtitle4,
-              ui->labelSubtitle5,
-              ui->labelSubtitle6,
-              ui->labelSubtitle7,
-              ui->labelSubtitle8,
-              ui->labelSubtitle9
+              ui->labelSubtitle_Intro,
+              ui->labelSubtitle_UnspendableWAGE,
+              ui->labelSubtitle_Stake,
+              ui->labelSubtitle_Support,
+              ui->labelSubtitle_Masternode,
+              ui->labelSubtitle_MNController
             }, "text-subtitle-faq");
 
 
     setCssProperty({
-              ui->labelContent1,
-              ui->labelContent2,
-              ui->labelContent3,
-              ui->labelContent4,
-              ui->labelContent5,
-              ui->labelContent6,
-              ui->labelContent7,
-              ui->labelContent8,
-              ui->labelContent9
+              ui->labelContent_Intro,
+              ui->labelContent_UnspendableWAGE,
+              ui->labelContent_Stake,
+              ui->labelContent_Support,
+              ui->labelContent_Masternode,
+              ui->labelContent_MNController
             }, "text-content-faq");
 
 
     setCssProperty({
-              ui->pushButtonFaq1,
-              ui->pushButtonFaq2,
-              ui->pushButtonFaq3,
-              ui->pushButtonFaq4,
-              ui->pushButtonFaq5,
-              ui->pushButtonFaq6,
-              ui->pushButtonFaq7,
-              ui->pushButtonFaq8,
-              ui->pushButtonFaq9,
+              ui->pushButton_Intro,
+              ui->pushButton_UnspendableWAGE,
+              ui->pushButton_Stake,
+              ui->pushButton_Support,
+              ui->pushButton_Masternode,
+              ui->pushButton_MNController
             }, "btn-faq-options");
 
-    ui->labelContent3->setOpenExternalLinks(true);
-    ui->labelContent5->setOpenExternalLinks(true);
-    ui->labelContent8->setOpenExternalLinks(true);
+    ui->labelContent_Support->setOpenExternalLinks(true);
+
+    // Set FAQ content strings
+    QString introContent = formatFAQContent(
+        formatFAQParagraph(
+            tr("DIGIWAGE is a form of digital online money using blockchain technology "
+               "that can be easily transferred globally, instantly, and with near "
+               "zero fees. DIGIWAGE incorporates market leading security & "
+               "privacy and is also the first PoS (Proof of Stake) Cryptocurrency "
+               "to implement Sapling(SHIELD), a zk-SNARKs based privacy protocol.")) +
+        formatFAQParagraph(
+            tr("DIGIWAGE utilizes a Proof of Stake (PoS) consensus system algorithm, "
+               "allowing all owners of DIGIWAGE to participate in earning block rewards "
+               "while securing the network with full node wallets, as well as to "
+               "run Masternodes to create and vote on proposals.")));
+    ui->labelContent_Intro->setText(introContent);
+
+    QString unspendableWAGEContent = formatFAQContent(
+        formatFAQParagraph(
+            tr("Newly received DIGIWAGE requires 6 confirmations on the network "
+               "to become eligible for spending which can take ~6 minutes.")) +
+        formatFAQParagraph(
+            tr("Your DIGIWAGE wallet also needs to be completely synchronized "
+               "to see and spend balances on the network.")));
+    ui->labelContent_UnspendableWAGE->setText(unspendableWAGEContent);
+
+    QString stakeContent = formatFAQContent(
+        formatFAQOrderedList(
+            formatFAQListItem(tr("Make sure your wallet is completely synchronized and you are using the latest release.")) +
+            formatFAQListItem(tr("You must have a balance of DIGIWAGE with a minimum of 600 confirmations.")) +
+            formatFAQListItem(tr("Your wallet must stay online and be unlocked for staking purposes.")) +
+            formatFAQListItem(tr("Once all those steps are followed staking should be enabled."))) +
+        formatFAQParagraph(
+            tr("You can see the status of staking in the wallet by mousing over the "
+               "package icon in the row on the top left of the wallet interface. The "
+               "package will be lit up and will state \"Staking Enabled\" to indicate "
+               "it is staking. Using the command line interface (%1); the command %2 "
+               "will confirm that staking is active.")
+                .arg("digiwage-cli", "<span style=\"font-style:italic\">getstakingstatus</span>")));
+    ui->labelContent_Stake->setText(stakeContent);
+
+    QString supportContent = formatFAQContent(
+        formatFAQParagraph(
+            tr("We have support channels in most of our official chat groups, for example %1")
+                .arg("<a style='color: #b088ff' href='https://discord.DIGIWAGE.org'>" + tr("#support in our Discord") + "</a>.")));
+    ui->labelContent_Support->setText(supportContent);
+
+    QString masternodeContent = formatFAQContent(
+        formatFAQParagraph(
+            tr("A masternode is a computer running a full node %1 wallet with a "
+               "requirement of %2 secured collateral to provide extra services "
+               "to the network and in return, receive a portion of the block reward "
+               "regularly. These services include:")
+                .arg(PACKAGE_NAME)
+                .arg(GUIUtil::formatBalance(clientModel->getMNCollateralRequiredAmount(), BitcoinUnits::WAGE)) +
+            formatFAQUnorderedList(
+                formatFAQListItem(tr("A decentralized governance (Proposal Voting)")) +
+                formatFAQListItem(tr("A decentralized budgeting system (Treasury)")) +
+                formatFAQListItem(tr("Validation of transactions within each block")) +
+                formatFAQListItem(tr("Act as an additional full node in the network")))) +
+        formatFAQParagraph(
+            tr("For providing such services, masternodes are also paid a certain portion "
+               "of reward for each block. This can serve as a passive income to the "
+               "masternode owners minus their running cost.")) +
+        formatFAQParagraph(
+            tr("Masternode Perks:") +
+            formatFAQUnorderedList(
+                formatFAQListItem(tr("Participate in DIGIWAGE Governance")) +
+                formatFAQListItem(tr("Earn Masternode Rewards")) +
+                formatFAQListItem(tr("Commodity option for future sale")) +
+                formatFAQListItem(tr("Help secure the DIGIWAGE network")))) +
+        formatFAQParagraph(
+            tr("Requirements:") +
+            formatFAQUnorderedList(
+                formatFAQListItem(tr("%1 per single Masternode instance")
+                        .arg(GUIUtil::formatBalance(clientModel->getMNCollateralRequiredAmount(), BitcoinUnits::WAGE))) +
+                formatFAQListItem(tr("Must be stored in a core wallet")) +
+                formatFAQListItem(tr("Need dedicated IP address")) +
+                formatFAQListItem(tr("Masternode wallet to remain online")))));
+    ui->labelContent_Masternode->setText(masternodeContent);
+
+    QString mNControllerContent = formatFAQContent(
+        formatFAQParagraph(
+            tr("A Masternode Controller wallet is where the %1 collateral "
+               "can reside during a Controller-Remote masternode setup. It is a wallet "
+               "that can activate the remote masternode wallet(s) and allows you to keep "
+               "your collateral coins offline while the remote masternode remains online.")
+                    .arg(GUIUtil::formatBalance(clientModel->getMNCollateralRequiredAmount(), BitcoinUnits::WAGE))));
+    ui->labelContent_MNController->setText(mNControllerContent);
+
 
     // Exit button
-    ui->pushButtonExit->setText(tr("Exit"));
     setCssProperty(ui->pushButtonExit, "btn-faq-exit");
 
     // Web Link
-    ui->pushButtonWebLink->setText("https://digiwage.org/");
     setCssProperty(ui->pushButtonWebLink, "btn-faq-web");
     setCssProperty(ui->containerButtons, "container-faq-buttons");
 
     // Buttons
-    connect(ui->pushButtonExit, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->pushButtonFaq1, SIGNAL(clicked()), this, SLOT(onFaq1Clicked()));
-    connect(ui->pushButtonFaq2, SIGNAL(clicked()), this, SLOT(onFaq2Clicked()));
-    connect(ui->pushButtonFaq3, SIGNAL(clicked()), this, SLOT(onFaq3Clicked()));
-    connect(ui->pushButtonFaq4, SIGNAL(clicked()), this, SLOT(onFaq4Clicked()));
-    connect(ui->pushButtonFaq5, SIGNAL(clicked()), this, SLOT(onFaq5Clicked()));
-    connect(ui->pushButtonFaq6, SIGNAL(clicked()), this, SLOT(onFaq6Clicked()));
-    connect(ui->pushButtonFaq7, SIGNAL(clicked()), this, SLOT(onFaq7Clicked()));
-    connect(ui->pushButtonFaq8, SIGNAL(clicked()), this, SLOT(onFaq8Clicked()));
-    connect(ui->pushButtonFaq9, SIGNAL(clicked()), this, SLOT(onFaq9Clicked()));
+    connect(ui->pushButtonExit, &QPushButton::clicked, this, &SettingsFaqWidget::close);
+    connect(ui->pushButton_Intro, &QPushButton::clicked, [this](){onFaqClicked(ui->widget_Intro);});
+    connect(ui->pushButton_UnspendableWAGE, &QPushButton::clicked, [this](){onFaqClicked(ui->widget_UnspendableWAGE);});
+    connect(ui->pushButton_Stake, &QPushButton::clicked, [this](){onFaqClicked(ui->widget_Stake);});
+    connect(ui->pushButton_Support, &QPushButton::clicked, [this](){onFaqClicked(ui->widget_Support);});
+    connect(ui->pushButton_Masternode, &QPushButton::clicked, [this](){onFaqClicked(ui->widget_Masternode);});
+    connect(ui->pushButton_MNController, &QPushButton::clicked, [this](){onFaqClicked(ui->widget_MNController);});
 
     if (parent)
-        connect(parent, SIGNAL(windowResizeEvent(QResizeEvent*)), this, SLOT(windowResizeEvent(QResizeEvent*)));
+        connect(parent, &DIGIWAGEGUI::windowResizeEvent, this, &SettingsFaqWidget::windowResizeEvent);
 }
 
-void SettingsFaqWidget::showEvent(QShowEvent *event){
-    if(pos != 0){
-        QPushButton* btn = getButtons()[pos - 1];
-        QMetaObject::invokeMethod(btn, "setChecked", Qt::QueuedConnection, Q_ARG(bool, true));
-        QMetaObject::invokeMethod(btn, "clicked", Qt::QueuedConnection);
-    }
+void SettingsFaqWidget::showEvent(QShowEvent *event)
+{
+    QPushButton* btn = getButtons()[section];
+    QMetaObject::invokeMethod(btn, "setChecked", Qt::QueuedConnection, Q_ARG(bool, true));
+    QMetaObject::invokeMethod(btn, "clicked", Qt::QueuedConnection);
 }
 
-void SettingsFaqWidget::setSection(int num){
-    if (num < 1 || num > 9)
-        return;
-    pos = num;
+void SettingsFaqWidget::setSection(Section _section)
+{
+    section = _section;
 }
 
-void SettingsFaqWidget::onFaq1Clicked(){
-    ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq1->y());
+void SettingsFaqWidget::onFaqClicked(const QWidget* const widget)
+{
+    ui->scrollAreaFaq->verticalScrollBar()->setValue(widget->y());
 }
 
-void SettingsFaqWidget::onFaq2Clicked(){
-   ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq2->y());
-}
-
-void SettingsFaqWidget::onFaq3Clicked(){
-   ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq3->y());
-}
-
-void SettingsFaqWidget::onFaq4Clicked(){
-    ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq4->y());
-}
-
-void SettingsFaqWidget::onFaq5Clicked(){
-    ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq5->y());
-}
-
-void SettingsFaqWidget::onFaq6Clicked(){
-    ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq6->y());
-}
-
-void SettingsFaqWidget::onFaq7Clicked(){
-    ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq7->y());
-}
-
-void SettingsFaqWidget::onFaq8Clicked(){
-    ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq8->y());
-}
-
-void SettingsFaqWidget::onFaq9Clicked(){
-    ui->scrollAreaFaq->verticalScrollBar()->setValue(ui->widgetFaq9->y());
-}
-
-void SettingsFaqWidget::windowResizeEvent(QResizeEvent* event){
+void SettingsFaqWidget::windowResizeEvent(QResizeEvent* event)
+{
     QWidget* w = qobject_cast<QWidget*>(parent());
     this->resize(w->width(), w->height());
     this->move(QPoint(0, 0));
 }
 
-std::vector<QPushButton*> SettingsFaqWidget::getButtons(){
+std::vector<QPushButton*> SettingsFaqWidget::getButtons()
+{
     return {
-            ui->pushButtonFaq1,
-            ui->pushButtonFaq2,
-            ui->pushButtonFaq3,
-            ui->pushButtonFaq4,
-            ui->pushButtonFaq5,
-            ui->pushButtonFaq6,
-            ui->pushButtonFaq7,
-            ui->pushButtonFaq8,
-            ui->pushButtonFaq9
+            ui->pushButton_Intro,
+            ui->pushButton_UnspendableWAGE,
+            ui->pushButton_Stake,
+            ui->pushButton_Support,
+            ui->pushButton_Masternode,
+            ui->pushButton_MNController
     };
 }
 
-SettingsFaqWidget::~SettingsFaqWidget(){
+SettingsFaqWidget::~SettingsFaqWidget()
+{
     delete ui;
 }
 

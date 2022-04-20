@@ -16,8 +16,8 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "DIGIWAGE Ecosystem"
-            VALUE "FileDescription",    "digiwage-cli (OSS RPC client for DIGIWAGE)"
+            VALUE "CompanyName",        "DIGIWAGE"
+            VALUE "FileDescription",    "digiwage-cli (OSS RPC client for " PACKAGE_NAME ")"
             VALUE "FileVersion",        VER_FILEVERSION_STR
             VALUE "InternalName",       "digiwage-cli"
             VALUE "LegalCopyright",     COPYRIGHT_STR

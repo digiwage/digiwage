@@ -1,20 +1,24 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "qt/digiwage/sendcustomfeedialog.h"
 #include "qt/digiwage/forms/ui_sendcustomfeedialog.h"
 #include "qt/digiwage/qtutils.h"
-#include "walletmodel.h"
+#include "qt/walletmodel.h"
 #include "optionsmodel.h"
 #include "guiutil.h"
+#include "wallet/fees.h"
 #include <QListView>
 #include <QComboBox>
 
-SendCustomFeeDialog::SendCustomFeeDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::SendCustomFeeDialog)
+SendCustomFeeDialog::SendCustomFeeDialog(DIGIWAGEGUI* parent, WalletModel* model) :
+    FocusedDialog(parent),
+    ui(new Ui::SendCustomFeeDialog),
+    walletModel(model)
 {
+    if (!walletModel)
+        throw std::runtime_error(strprintf("%s: No wallet model set", __func__));
     ui->setupUi(this);
 
     // Stylesheet
@@ -22,8 +26,6 @@ SendCustomFeeDialog::SendCustomFeeDialog(QWidget *parent) :
     setCssProperty(ui->frame, "container-dialog");
 
     // Text
-    ui->labelTitle->setText(tr("Customize Fee"));
-    ui->labelMessage->setText(tr("Customize the transaction fee, depending on the fee value your transaction might be included faster in the blockchain."));
     setCssProperty(ui->labelTitle, "text-title-dialog");
     setCssProperty(ui->labelMessage, "text-main-grey");
 
@@ -37,91 +39,152 @@ SendCustomFeeDialog::SendCustomFeeDialog(QWidget *parent) :
 
     // Custom
     setCssProperty(ui->labelCustomFee, "label-subtitle-dialog");
-    ui->lineEditCustomFee->setPlaceholderText("0.000001 WAGE");
     initCssEditLine(ui->lineEditCustomFee, true);
     GUIUtil::setupAmountWidget(ui->lineEditCustomFee, this);
 
     // Buttons
     setCssProperty(ui->btnEsc, "ic-close");
     setCssProperty(ui->btnCancel, "btn-dialog-cancel");
-    ui->btnSave->setText(tr("SAVE"));
     setCssBtnPrimary(ui->btnSave);
 
-    connect(ui->btnEsc, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->btnSave, SIGNAL(clicked()), this, SLOT(accept()));
-    connect(ui->checkBoxCustom, SIGNAL(clicked()), this, SLOT(onCustomChecked()));
-    connect(ui->checkBoxRecommended, SIGNAL(clicked()), this, SLOT(onRecommendedChecked()));
-    connect(ui->comboBoxRecommended, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(updateFee()));
-    if(parent) connect(parent, SIGNAL(themeChanged(bool, QString&)), this, SLOT(onChangeTheme(bool, QString&)));
+    connect(ui->btnEsc, &QPushButton::clicked, this, &SendCustomFeeDialog::close);
+    connect(ui->btnCancel, &QPushButton::clicked, this, &SendCustomFeeDialog::close);
+    connect(ui->btnSave, &QPushButton::clicked, this, &SendCustomFeeDialog::accept);
+    connect(ui->checkBoxCustom, &QCheckBox::clicked, this, &SendCustomFeeDialog::onCustomChecked);
+    connect(ui->checkBoxRecommended, &QCheckBox::clicked, this, &SendCustomFeeDialog::onRecommendedChecked);
+    connect(ui->comboBoxRecommended, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+        this, &SendCustomFeeDialog::updateFee);
+    if (parent)
+        connect(parent, &DIGIWAGEGUI::themeChanged, this, &SendCustomFeeDialog::onChangeTheme);
     ui->checkBoxRecommended->setChecked(true);
 }
 
-void SendCustomFeeDialog::setWalletModel(WalletModel* walletModel){
-    this->walletModel = walletModel;
-}
-
-void SendCustomFeeDialog::showEvent(QShowEvent *event){
+void SendCustomFeeDialog::showEvent(QShowEvent* event)
+{
+    FocusedDialog::showEvent(event);
     updateFee();
+
+    ui->labelCustomFee->setText(BitcoinUnits::name(walletModel->getOptionsModel()->getDisplayUnit()) + "/kB");
+
+    if (walletModel->hasWalletCustomFee()) {
+        ui->checkBoxCustom->setChecked(true);
+        onCustomChecked();
+    } else {
+        ui->checkBoxRecommended->setChecked(true);
+        onRecommendedChecked();
+    }
 }
 
-void SendCustomFeeDialog::onCustomChecked(){
+void SendCustomFeeDialog::onCustomChecked()
+{
     bool isChecked = ui->checkBoxCustom->checkState() == Qt::Checked;
     ui->lineEditCustomFee->setEnabled(isChecked);
     ui->comboBoxRecommended->setEnabled(!isChecked);
     ui->checkBoxRecommended->setChecked(!isChecked);
 
-    if(walletModel && ui->lineEditCustomFee->text().isEmpty()) {
-        feeRate = CWallet::minTxFee;
-        ui->lineEditCustomFee->setText(BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), feeRate.GetFeePerK()));
+    if (isChecked) {
+        CAmount nFee;
+        walletModel->getWalletCustomFee(nFee);
+        ui->lineEditCustomFee->setText(BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), nFee));
+    } else {
+        ui->lineEditCustomFee->clear();
     }
 }
 
-void SendCustomFeeDialog::onRecommendedChecked(){
+void SendCustomFeeDialog::onRecommendedChecked()
+{
     bool isChecked = ui->checkBoxRecommended->checkState() == Qt::Checked;
     ui->lineEditCustomFee->setEnabled(!isChecked);
     ui->comboBoxRecommended->setEnabled(isChecked);
     ui->checkBoxCustom->setChecked(!isChecked);
+    if (isChecked) {
+        ui->lineEditCustomFee->clear();
+    }
 }
 
 // Fast = 1.
 // Medium = 5
 // Slow = 20
-void SendCustomFeeDialog::updateFee(){
-    if (!walletModel || !walletModel->getOptionsModel()) return;
+void SendCustomFeeDialog::updateFee()
+{
+    if (!walletModel->getOptionsModel()) return;
 
     QVariant num = ui->comboBoxRecommended->currentData();
     bool res = false;
     int nBlocksToConfirm = num.toInt(&res);
     if (res) {
         feeRate = mempool.estimateFee(nBlocksToConfirm);
-        if (feeRate <= CFeeRate(0)) { // not enough data => minfee
-            feeRate = CWallet::minTxFee;
-            ui->labelFee->setText(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(),
-                                                               feeRate.GetFeePerK()) + "/kB");
-        } else {
-            ui->labelFee->setText(
-                    BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(),
-                                                 feeRate.GetFeePerK()) + "/kB");
-        }
+        if (feeRate < CWallet::minTxFee) feeRate = CWallet::minTxFee;    // not enough data => minfee
+        ui->labelFee->setText(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(),
+                                                           feeRate.GetFeePerK()) + "/kB");
     }
 }
 
-void SendCustomFeeDialog::clear(){
-    onRecommendedChecked();
-    updateFee();
+void SendCustomFeeDialog::accept()
+{
+    const bool fUseCustomFee = ui->checkBoxCustom->checkState() == Qt::Checked;
+    const CAmount customFee = getFeeRate().GetFeePerK();
+    // Check insane fee
+    const CAmount insaneFee = ::minRelayTxFee.GetFeePerK() * 10000;
+    if (customFee >= insaneFee) {
+        ui->lineEditCustomFee->setText(BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), insaneFee - walletModel->getNetMinFee()));
+        inform(tr("Fee too high. Must be below: %1").arg(
+                BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), insaneFee)));
+    } else if (customFee < walletModel->getNetMinFee()) {
+        CAmount nFee = 0;
+        if (walletModel->hasWalletCustomFee()) {
+            walletModel->getWalletCustomFee(nFee);
+        } else {
+            nFee = walletModel->getNetMinFee();
+        }
+        ui->lineEditCustomFee->setText(BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), nFee));
+        inform(tr("Fee too low. Must be at least: %1").arg(
+                BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), walletModel->getNetMinFee())));
+    } else {
+        walletModel->setWalletCustomFee(fUseCustomFee, customFee);
+        QDialog::accept();
+    }
 }
 
-CFeeRate SendCustomFeeDialog::getFeeRate(){
-    return ui->checkBoxRecommended->isChecked() ?
-           feeRate : CFeeRate(GUIUtil::parseValue(ui->lineEditCustomFee->text(), walletModel->getOptionsModel()->getDisplayUnit()));
+void SendCustomFeeDialog::clear()
+{
+    ui->comboBoxRecommended->setCurrentIndex(0);
 }
 
-void SendCustomFeeDialog::onChangeTheme(bool isLightTheme, QString& theme){
+CFeeRate SendCustomFeeDialog::getFeeRate()
+{
+    if (ui->checkBoxRecommended->isChecked()) {
+        return feeRate;
+    }
+
+    // Parse custom value
+    auto value = GUIUtil::parseValue(ui->lineEditCustomFee->text(), walletModel->getOptionsModel()->getDisplayUnit());
+    if (value <= 0) {
+        inform(tr("Invalid custom fee amount"));
+    }
+    return CFeeRate(value);
+}
+
+bool SendCustomFeeDialog::isCustomFeeChecked()
+{
+    return ui->checkBoxCustom->checkState() == Qt::Checked;
+}
+
+void SendCustomFeeDialog::onChangeTheme(bool isLightTheme, QString& theme)
+{
     this->setStyleSheet(theme);
     updateStyle(this);
 }
 
-SendCustomFeeDialog::~SendCustomFeeDialog(){
+void SendCustomFeeDialog::inform(const QString& text)
+{
+    if (!snackBar) snackBar = new SnackBar(nullptr, this);
+    snackBar->setText(text);
+    snackBar->resize(this->width(), snackBar->height());
+    openDialog(snackBar, this);
+}
+
+SendCustomFeeDialog::~SendCustomFeeDialog()
+{
     delete ui;
 }

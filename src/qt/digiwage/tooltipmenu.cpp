@@ -17,27 +17,33 @@ TooltipMenu::TooltipMenu(DIGIWAGEGUI *_window, QWidget *parent) :
     ui->btnLast->setVisible(false);
     setCssProperty(ui->container, "container-list-menu");
     setCssProperty({ui->btnCopy, ui->btnDelete, ui->btnEdit, ui->btnLast}, "btn-list-menu");
-    connect(ui->btnCopy, SIGNAL(clicked()), this, SLOT(copyClicked()));
-    connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(deleteClicked()));
-    connect(ui->btnEdit, SIGNAL(clicked()), this, SLOT(editClicked()));
-    connect(ui->btnLast, SIGNAL(clicked()), this, SLOT(lastClicked()));
+    connect(ui->btnCopy, &QPushButton::clicked, this, &TooltipMenu::copyClicked);
+    connect(ui->btnDelete, &QPushButton::clicked, this, &TooltipMenu::deleteClicked);
+    connect(ui->btnEdit, &QPushButton::clicked, this, &TooltipMenu::editClicked);
+    connect(ui->btnLast, &QPushButton::clicked, this, &TooltipMenu::lastClicked);
 }
 
-void TooltipMenu::setEditBtnText(QString btnText){
+void TooltipMenu::setEditBtnText(const QString& btnText){
     ui->btnEdit->setText(btnText);
 }
 
-void TooltipMenu::setDeleteBtnText(QString btnText){
+void TooltipMenu::setDeleteBtnText(const QString& btnText){
     ui->btnDelete->setText(btnText);
 }
 
-void TooltipMenu::setCopyBtnText(QString btnText){
+void TooltipMenu::setCopyBtnText(const QString& btnText){
     ui->btnCopy->setText(btnText);
 }
 
-void TooltipMenu::setLastBtnText(QString btnText, int minHeight){
+void TooltipMenu::setLastBtnText(const QString& btnText, int minHeight){
     ui->btnLast->setText(btnText);
     ui->btnLast->setMinimumHeight(minHeight);
+}
+
+void TooltipMenu::setLastBtnCheckable(bool checkable, bool isChecked)
+{
+    ui->btnLast->setCheckable(checkable);
+    ui->btnLast->setChecked(isChecked);
 }
 
 void TooltipMenu::setCopyBtnVisible(bool visible){
@@ -77,7 +83,7 @@ void TooltipMenu::lastClicked() {
 }
 
 void TooltipMenu::showEvent(QShowEvent *event){
-    QTimer::singleShot(5000, this, SLOT(hide()));
+    QTimer::singleShot(5000, this, &TooltipMenu::hide);
 }
 
 TooltipMenu::~TooltipMenu()

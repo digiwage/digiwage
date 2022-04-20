@@ -4,19 +4,24 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test message sending before handshake completion.
 
-A node should never send anything other than VERSION/VERACK/REJECT until it's
+A node should never send anything other than VERSION/VERACK until it's
 received a VERACK.
 
 This test connects to a node and sends it a few messages, trying to intice it
 into sending us something it shouldn't.
 
-Also test that nodes that send unsupported service bits to bitcoind are disconnected
+Also test that nodes that send unsupported service bits to digiwaged are disconnected
 and don't receive a VERACK. Unsupported service bits are currently 1 << 5 and
-1 << 7 (until August 1st 2018)."""
+1 << 7 (until August 1st 2018).
+"""
 
-from test_framework.mininode import *
-from test_framework.test_framework import DigiwageTestFramework
-from test_framework.util import *
+import time
+
+from test_framework.messages import NODE_NETWORK, msg_getaddr, msg_ping, msg_verack
+from test_framework.mininode import mininode_lock, P2PInterface
+from test_framework.test_framework import PivxTestFramework
+from test_framework.util import wait_until
+
 
 banscore = 10
 
@@ -59,13 +64,11 @@ class CLazyNode(P2PInterface):
 # anyway, and eventually get disconnected.
 class CNodeNoVersionBan(CLazyNode):
     # send a bunch of veracks without sending a message. This should get us disconnected.
-    # NOTE: implementation-specific check here. Remove if bitcoind ban behavior changes
+    # NOTE: implementation-specific check here. Remove if digiwaged ban behavior changes
     def on_open(self):
         super().on_open()
         for i in range(banscore):
             self.send_message(msg_verack())
-
-    def on_reject(self, message): pass
 
 # Node that never sends a version. This one just sits idle and hopes to receive
 # any message (it shouldn't!)
@@ -79,7 +82,6 @@ class CNodeNoVerackIdle(CLazyNode):
         self.version_received = False
         super().__init__()
 
-    def on_reject(self, message): pass
     def on_verack(self, message): pass
     # When version is received, don't reply with a verack. Instead, see if the
     # node will give us a message that it shouldn't. This is not an exhaustive
@@ -89,7 +91,7 @@ class CNodeNoVerackIdle(CLazyNode):
         self.send_message(msg_ping())
         self.send_message(msg_getaddr())
 
-class P2PLeakTest(DigiwageTestFramework):
+class P2PLeakTest(PivxTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.extra_args = [['-banscore='+str(banscore)]]
@@ -102,8 +104,6 @@ class P2PLeakTest(DigiwageTestFramework):
         no_verack_idlenode = self.nodes[0].add_p2p_connection(CNodeNoVerackIdle())
         unsupported_service_bit5_node = self.nodes[0].add_p2p_connection(CLazyNode(), services=NODE_NETWORK)
         unsupported_service_bit7_node = self.nodes[0].add_p2p_connection(CLazyNode(), services=NODE_NETWORK)
-
-        network_thread_start()
 
         wait_until(lambda: no_version_bannode.ever_connected, timeout=10, lock=mininode_lock)
         wait_until(lambda: no_version_idlenode.ever_connected, timeout=10, lock=mininode_lock)
@@ -118,17 +118,16 @@ class P2PLeakTest(DigiwageTestFramework):
         time.sleep(5)
 
         #This node should have been banned
-        assert no_version_bannode.state != "connected"
+        assert not no_version_bannode.is_connected
 
         # These nodes should have been disconnected
-        assert unsupported_service_bit5_node.state != "connected"
-        assert unsupported_service_bit7_node.state != "connected"
+        assert not unsupported_service_bit5_node.is_connected
+        assert not unsupported_service_bit7_node.is_connected
 
         self.nodes[0].disconnect_p2ps()
 
-        # Wait until all connections are closed and the network thread has terminated
+        # Wait until all connections are closed
         wait_until(lambda: len(self.nodes[0].getpeerinfo()) == 0)
-        network_thread_join()
 
         # Make sure no unexpected messages came in
         assert(no_version_bannode.unexpected_msg == False)
@@ -143,11 +142,9 @@ class P2PLeakTest(DigiwageTestFramework):
         allowed_service_bit5_node = self.nodes[0].add_p2p_connection(P2PInterface(), services=NODE_NETWORK)
         allowed_service_bit7_node = self.nodes[0].add_p2p_connection(P2PInterface(), services=NODE_NETWORK)
 
-        # Network thread stopped when all previous P2PInterfaces disconnected. Restart it
-        network_thread_start()
-
         wait_until(lambda: allowed_service_bit5_node.message_count["verack"], lock=mininode_lock)
         wait_until(lambda: allowed_service_bit7_node.message_count["verack"], lock=mininode_lock)
+
 
 if __name__ == '__main__':
     P2PLeakTest().main()

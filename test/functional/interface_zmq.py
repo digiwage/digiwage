@@ -3,18 +3,21 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the ZMQ notification interface."""
+
 import configparser
+from io import BytesIO
 import os
 import struct
 import time
 
-from test_framework.test_framework import DigiwageTestFramework, SkipTest
-from test_framework.mininode import CTransaction
-from test_framework.util import (assert_equal,
-                                 bytes_to_hex_str,
-                                 hash256,
-                                )
-from io import BytesIO
+from test_framework.messages import CTransaction
+from test_framework.test_framework import PivxTestFramework, SkipTest
+from test_framework.util import (
+    assert_equal,
+    bytes_to_hex_str,
+    hash256
+)
+
 
 class ZMQSubscriber:
     def __init__(self, socket, topic):
@@ -35,7 +38,7 @@ class ZMQSubscriber:
         return body
 
 
-class ZMQTest (DigiwageTestFramework):
+class ZMQTest (PivxTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
 
@@ -110,7 +113,7 @@ class ZMQTest (DigiwageTestFramework):
 
             # Should receive the generated raw block.
             block = self.rawblock.receive()
-            assert_equal(genhashes[x], bytes_to_hex_str(hash256(block[:112])))
+            assert_equal(genhashes[x], bytes_to_hex_str(hash256(block[:80])))
 
         self.log.info("Wait for tx from second node")
         payment_txid = self.nodes[1].sendtoaddress(self.nodes[0].getnewaddress(), 1.0)

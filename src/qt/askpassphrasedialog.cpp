@@ -1,8 +1,12 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2019 The DIGIWAGE developers
+// Copyright (c) 2015-2020 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#if defined(HAVE_CONFIG_H)
+#include "config/digiwage-config.h"
+#endif
 
 #include "askpassphrasedialog.h"
 #include "ui_askpassphrasedialog.h"
@@ -59,6 +63,7 @@ AskPassphraseDialog::AskPassphraseDialog(Mode mode, QWidget* parent, WalletModel
     ui->passLabel3->setText("Repeat passphrase");
     ui->passLabel3->setProperty("cssClass", "text-title");
 
+    setCssProperty(ui->passWarningLabel, "text-warning-small");
     ui->passWarningLabel->setVisible(false);
 
     ui->passEdit1->setMinimumSize(ui->passEdit1->sizeHint());
@@ -129,12 +134,12 @@ AskPassphraseDialog::AskPassphraseDialog(Mode mode, QWidget* parent, WalletModel
     ui->labelTitle->setText(title);
 
     textChanged();
-    connect(btnWatch, SIGNAL(clicked()), this, SLOT(onWatchClicked()));
-    connect(ui->passEdit1, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
-    connect(ui->passEdit2, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
-    connect(ui->passEdit3, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
-    connect(ui->pushButtonOk, SIGNAL(clicked()), this, SLOT(accept()));
-    connect(ui->btnEsc, SIGNAL(clicked()), this, SLOT(close()));
+    connect(btnWatch, &QCheckBox::clicked, this, &AskPassphraseDialog::onWatchClicked);
+    connect(ui->passEdit1, &QLineEdit::textChanged, this, &AskPassphraseDialog::textChanged);
+    connect(ui->passEdit2, &QLineEdit::textChanged, this, &AskPassphraseDialog::textChanged);
+    connect(ui->passEdit3, &QLineEdit::textChanged, this, &AskPassphraseDialog::textChanged);
+    connect(ui->pushButtonOk, &QPushButton::clicked, this, &AskPassphraseDialog::accept);
+    connect(ui->btnEsc, &QPushButton::clicked, this, &AskPassphraseDialog::close);
 }
 
 void AskPassphraseDialog::onWatchClicked()
@@ -162,6 +167,7 @@ void AskPassphraseDialog::showEvent(QShowEvent *event)
 
 void AskPassphraseDialog::accept()
 {
+    SecureString oldpass, newpass1, newpass2;
     if (!model)
         return;
     oldpass.reserve(MAX_PASSPHRASE_SIZE);
@@ -183,7 +189,7 @@ void AskPassphraseDialog::accept()
         bool ret = openStandardDialog(
                 tr("Confirm wallet encryption"),
                 "<b>" + tr("WARNING") + ":</b> " + tr("If you encrypt your wallet and lose your passphrase, you will") +
-                " <b>" + tr("LOSE ALL OF YOUR WAGE") + "</b>!<br><br>" + tr("Are you sure you wish to encrypt your wallet?"),
+                " <b>" + tr("LOSE ALL OF YOUR COINS") + "</b>!<br><br>" + tr("Are you sure you wish to encrypt your wallet?"),
                 tr("ENCRYPT"), tr("CANCEL")
         );
         if (ret) {
@@ -253,9 +259,9 @@ void AskPassphraseDialog::textChanged()
         acceptable = !ui->passEdit1->text().isEmpty();
         break;
     case Mode::ChangePass: // Old passphrase x1, new passphrase x2
-        acceptable = !ui->passEdit1->text().isEmpty() && !ui->passEdit2->text().isEmpty() && // Old passphrases are not empty
-                     ui->passEdit2->text() == ui->passEdit3->text() &&                       // Old passphrases match eachother
-                     !ui->passEdit3->text().isEmpty();                                       // New passphrase is not empty
+        acceptable = !ui->passEdit2->text().isEmpty() && !ui->passEdit3->text().isEmpty() && // New passphrases are not empty
+                     ui->passEdit2->text() == ui->passEdit3->text() &&                       // New passphrases match eachother
+                     !ui->passEdit1->text().isEmpty();                                       // Old passphrase is not empty
         break;
     }
     ui->pushButtonOk->setEnabled(acceptable);
@@ -270,21 +276,7 @@ bool AskPassphraseDialog::event(QEvent* event)
             fCapsLock = !fCapsLock;
         }
 
-        // Merge warning labels together if there's two warnings
-        bool validPassphrases = false;
-        validPassphrases = ui->passEdit2->text() == ui->passEdit3->text();
-        QString warningStr = "";
-        if (fCapsLock) warningStr += tr("WARNING: The Caps Lock key is on!");
-        if (fCapsLock && !validPassphrases) warningStr += "<br>";
-        if (!validPassphrases) warningStr += tr("WARNING: Passphrases do not match!");
-
-        if (warningStr.isEmpty()) {
-            ui->passWarningLabel->clear();
-            ui->passWarningLabel->setVisible(false);
-        } else {
-            ui->passWarningLabel->setText(warningStr);
-            ui->passWarningLabel->setVisible(true);
-        }
+        updateWarningsLabel();
 
         // Detect Enter key press
         if ((ke->key() == Qt::Key_Enter || ke->key() == Qt::Key_Return) && ui->pushButtonOk->isEnabled()) {
@@ -315,21 +307,7 @@ bool AskPassphraseDialog::eventFilter(QObject* object, QEvent* event)
             }
         }
     }
-    // Merge warning labels together if there's two warnings
-    bool validPassphrases = false;
-    validPassphrases = ui->passEdit2->text() == ui->passEdit3->text();
-    QString warningStr = "";
-    if (fCapsLock) warningStr += tr("WARNING: The Caps Lock key is on!");
-    if (fCapsLock && !validPassphrases) warningStr += "<br>";
-    if (!validPassphrases) warningStr += tr("WARNING: Passphrases do not match!");
-
-    if (warningStr.isEmpty()) {
-        ui->passWarningLabel->clear();
-        ui->passWarningLabel->setVisible(false);
-    } else {
-        ui->passWarningLabel->setText(warningStr);
-        ui->passWarningLabel->setVisible(true);
-    }
+    updateWarningsLabel();
 
     return QDialog::eventFilter(object, event);
 }
@@ -346,6 +324,26 @@ bool AskPassphraseDialog::openStandardDialog(QString title, QString body, QStrin
     return ret;
 }
 
+void AskPassphraseDialog::updateWarningsLabel()
+{
+    // Merge warning labels together if there's two warnings
+    bool validPassphrases = false;
+    validPassphrases = ui->passEdit2->text() == ui->passEdit3->text();
+    QString warningStr = "";
+    if (fCapsLock || !validPassphrases) warningStr += tr("WARNING:") + "<br>";
+    if (fCapsLock) warningStr += "* " + tr("The caps lock key is on!");
+    if (fCapsLock && !validPassphrases) warningStr += "<br>";
+    if (!validPassphrases) warningStr += "* " + tr("Passphrases do not match!");
+
+    if (warningStr.isEmpty()) {
+        ui->passWarningLabel->clear();
+        ui->passWarningLabel->setVisible(false);
+    } else {
+        ui->passWarningLabel->setText(warningStr);
+        ui->passWarningLabel->setVisible(true);
+    }
+}
+
 void AskPassphraseDialog::warningMessage()
 {
     hide();
@@ -353,9 +351,9 @@ void AskPassphraseDialog::warningMessage()
     openStandardDialog(
             tr("Wallet encrypted"),
             "<qt>" +
-            tr("DIGIWAGE will close now to finish the encryption process. "
+            tr("%1 will close now to finish the encryption process. "
                "Remember that encrypting your wallet cannot fully protect "
-               "your WAGE from being stolen by malware infecting your computer.") +
+               "your WAGEs from being stolen by malware infecting your computer.").arg(PACKAGE_NAME) +
             "<br><br><b>" +
             tr("IMPORTANT: Any previous backups you have made of your wallet file "
                "should be replaced with the newly generated, encrypted wallet file. "
@@ -390,7 +388,9 @@ void AskPassphraseDialog::run(int type)
 }
 void AskPassphraseDialog::onError(QString error, int type)
 {
-    newpassCache = "";
+    newpassCache.clear();
+    LogPrintf("Error encrypting wallet, %s\n", error.toStdString());
+    QMetaObject::invokeMethod(this, "errorEncryptingWallet", Qt::QueuedConnection);
 }
 
 void AskPassphraseDialog::initWatch(QWidget *parent)

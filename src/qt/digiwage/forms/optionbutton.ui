@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
@@ -112,7 +112,7 @@
           <item>
            <widget class="QLabel" name="labelTitleChange">
             <property name="text">
-             <string>TextLabel</string>
+             <string notr="true">N/A</string>
             </property>
            </widget>
           </item>
@@ -121,7 +121,7 @@
         <item>
          <widget class="QLabel" name="labelSubtitleChange">
           <property name="text">
-           <string>TextLabel</string>
+           <string notr="true">N/A</string>
           </property>
          </widget>
         </item>

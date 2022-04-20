@@ -8,7 +8,7 @@
 
 #include <QDialog>
 #include "qt/digiwage/prunnable.h"
-#include "allocators.h"
+#include "support/allocators/secure.h"
 #include <QCheckBox>
 
 class WalletModel;
@@ -55,7 +55,6 @@ public:
 
     void showEvent(QShowEvent *event) override;
     void accept() override;
-    SecureString getPassword() { return oldpass; }
 
 private:
     Ui::AskPassphraseDialog* ui;
@@ -64,8 +63,8 @@ private:
     Context context;
     bool fCapsLock;
     SecureString newpassCache = "";
-    SecureString oldpass, newpass1, newpass2;
 
+    void updateWarningsLabel();
     void run(int type) override;
     void onError(QString error, int type) override;
     QCheckBox *btnWatch;

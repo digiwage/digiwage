@@ -5,18 +5,23 @@
 #ifndef BITCOIN_CONSENSUS_TX_VERIFY_H
 #define BITCOIN_CONSENSUS_TX_VERIFY_H
 
+#include "chainparams.h"
+#include "primitives/transaction.h"
+
 #include <stdint.h>
 #include <vector>
 
 class CBlockIndex;
+class CChainParams;
 class CCoinsViewCache;
-class CTransaction;
 class CValidationState;
 
 /** Transaction validation functions */
 
 /** Context-independent validity checks */
-bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, CValidationState& state, bool fColdStakingActive=false);
+bool CheckTransaction(const CTransaction& tx, CValidationState& state, bool fColdStakingActive);
+/** Context-dependent validity checks */
+bool ContextualCheckTransaction(const CTransactionRef& tx, CValidationState& state, const CChainParams& chainparams, int nHeight, bool isMined, bool fIBD);
 
 /**
  * Count ECDSA signature operations the old-fashioned (pre-0.6) way
@@ -38,6 +43,6 @@ unsigned int GetP2SHSigOpCount(const CTransaction& tx, const CCoinsViewCache& ma
  * Check if transaction is final and can be included in a block with the
  * specified height and time. Consensus critical.
  */
-bool IsFinalTx(const CTransaction& tx, int nBlockHeight = 0, int64_t nBlockTime = 0);
+bool IsFinalTx(const CTransactionRef& tx, int nBlockHeight, int64_t nBlockTime = 0);
 
 #endif // BITCOIN_CONSENSUS_TX_VERIFY_H

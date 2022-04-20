@@ -11,18 +11,11 @@ include Makefile.qt_locale.include
 QT_FORMS_UI = \
   qt/forms/addressbookpage.ui \
   qt/forms/askpassphrasedialog.ui \
-  qt/forms/startoptionsdialog.ui \
-  qt/forms/startoptions.ui \
-  qt/forms/startoptionsrestore.ui \
-  qt/forms/startoptionssort.ui \
-  qt/forms/startoptionsrevealed.ui \
-  qt/forms/startoptionsmain.ui \
   qt/forms/coincontroldialog.ui \
   qt/forms/editaddressdialog.ui \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
   qt/forms/openuridialog.ui \
-  qt/forms/optionsdialog.ui \
   qt/forms/rpcconsole.ui \
   qt/digiwage/forms/loadingdialog.ui \
   qt/digiwage/forms/snackbar.ui \
@@ -30,6 +23,7 @@ QT_FORMS_UI = \
   qt/digiwage/forms/lockunlock.ui \
   qt/digiwage/forms/expandablebutton.ui \
   qt/digiwage/forms/receivedialog.ui \
+  qt/digiwage/forms/balancebubble.ui \
   qt/digiwage/forms/topbar.ui \
   qt/digiwage/forms/txrow.ui \
   qt/digiwage/forms/dashboardwidget.ui \
@@ -42,10 +36,10 @@ QT_FORMS_UI = \
   qt/digiwage/forms/masternodeswidget.ui \
   qt/digiwage/forms/myaddressrow.ui \
   qt/digiwage/forms/csrow.ui \
+  qt/digiwage/forms/sendmemodialog.ui \
   qt/digiwage/forms/sendchangeaddressdialog.ui \
   qt/digiwage/forms/sendconfirmdialog.ui \
   qt/digiwage/forms/sendcustomfeedialog.ui \
-  qt/digiwage/forms/sendchangeaddressdialog.ui \
   qt/digiwage/forms/sendmultirow.ui \
   qt/digiwage/forms/send.ui \
   qt/digiwage/forms/addnewaddressdialog.ui \
@@ -56,6 +50,12 @@ QT_FORMS_UI = \
   qt/digiwage/forms/addresseswidget.ui \
   qt/digiwage/forms/defaultdialog.ui \
   qt/digiwage/forms/coldstakingwidget.ui \
+  qt/digiwage/forms/proposalcard.ui \
+  qt/digiwage/forms/mnselectiondialog.ui \
+  qt/digiwage/forms/votedialog.ui \
+  qt/digiwage/forms/createproposaldialog.ui \
+  qt/digiwage/forms/proposalinfodialog.ui \
+  qt/digiwage/forms/governancewidget.ui \
   qt/digiwage/settings/forms/settingsbackupwallet.ui \
   qt/digiwage/settings/forms/settingsexportcsv.ui \
   qt/digiwage/settings/forms/settingsbittoolwidget.ui \
@@ -64,8 +64,6 @@ QT_FORMS_UI = \
   qt/digiwage/settings/forms/settingsfaqwidget.ui \
   qt/digiwage/settings/forms/settingsinformationwidget.ui \
   qt/digiwage/settings/forms/settingsmainoptionswidget.ui \
-  qt/digiwage/settings/forms/settingsmultisenddialog.ui \
-  qt/digiwage/settings/forms/settingsmultisendwidget.ui \
   qt/digiwage/settings/forms/settingssignmessagewidgets.ui \
   qt/digiwage/settings/forms/settingswalletoptionswidget.ui \
   qt/digiwage/settings/forms/settingswalletrepairwidget.ui \
@@ -77,12 +75,6 @@ QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
   qt/moc_addresstablemodel.cpp \
   qt/moc_askpassphrasedialog.cpp \
-  qt/moc_startoptionsdialog.cpp \
-  qt/moc_startoptions.cpp \
-  qt/moc_startoptionsrestore.cpp \
-  qt/moc_startoptionssort.cpp \
-  qt/moc_startoptionsrevealed.cpp \
-  qt/moc_startoptionsmain.cpp \
   qt/moc_bantablemodel.cpp \
   qt/moc_bitcoinaddressvalidator.cpp \
   qt/digiwage/moc_digiwagegui.cpp \
@@ -98,7 +90,6 @@ QT_MOC_CPP = \
   qt/moc_macnotificationhandler.cpp \
   qt/moc_notificator.cpp \
   qt/moc_openuridialog.cpp \
-  qt/moc_optionsdialog.cpp \
   qt/moc_optionsmodel.cpp \
   qt/moc_peertablemodel.cpp \
   qt/moc_paymentserver.cpp \
@@ -106,15 +97,15 @@ QT_MOC_CPP = \
   qt/moc_qvaluecombobox.cpp \
   qt/moc_recentrequeststablemodel.cpp \
   qt/moc_rpcconsole.cpp \
-  qt/moc_splashscreen.cpp \
+  qt/moc_rpcexecutor.cpp \
   qt/moc_trafficgraphwidget.cpp \
-  qt/moc_transactiondesc.cpp \
   qt/moc_transactionfilterproxy.cpp \
   qt/moc_transactiontablemodel.cpp \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletmodel.cpp \
   qt/digiwage/moc_loadingdialog.cpp \
   qt/digiwage/moc_pwidget.cpp \
+  qt/digiwage/moc_focuseddialog.cpp \
   qt/digiwage/moc_snackbar.cpp \
   qt/digiwage/moc_navmenuwidget.cpp \
   qt/digiwage/moc_lockunlock.cpp \
@@ -140,7 +131,7 @@ QT_MOC_CPP = \
   qt/digiwage/moc_sendchangeaddressdialog.cpp \
   qt/digiwage/moc_sendconfirmdialog.cpp \
   qt/digiwage/moc_sendcustomfeedialog.cpp \
-  qt/digiwage/moc_sendchangeaddressdialog.cpp \
+  qt/digiwage/moc_sendmemodialog.cpp \
   qt/digiwage/moc_sendmultirow.cpp \
   qt/digiwage/moc_send.cpp \
   qt/digiwage/moc_addnewaddressdialog.cpp \
@@ -151,6 +142,12 @@ QT_MOC_CPP = \
   qt/digiwage/moc_addresseswidget.cpp \
   qt/digiwage/moc_defaultdialog.cpp \
   qt/digiwage/moc_coldstakingwidget.cpp \
+  qt/digiwage/moc_proposalcard.cpp \
+  qt/digiwage/moc_mnselectiondialog.cpp \
+  qt/digiwage/moc_votedialog.cpp \
+  qt/digiwage/moc_createproposaldialog.cpp \
+  qt/digiwage/moc_proposalinfodialog.cpp \
+  qt/digiwage/moc_governancewidget.cpp \
   qt/digiwage/settings/moc_settingsbackupwallet.cpp \
   qt/digiwage/settings/moc_settingsexportcsv.cpp \
   qt/digiwage/settings/moc_settingsbittoolwidget.cpp \
@@ -159,8 +156,6 @@ QT_MOC_CPP = \
   qt/digiwage/settings/moc_settingsfaqwidget.cpp \
   qt/digiwage/settings/moc_settingsinformationwidget.cpp \
   qt/digiwage/settings/moc_settingsmainoptionswidget.cpp \
-  qt/digiwage/settings/moc_settingsmultisenddialog.cpp \
-  qt/digiwage/settings/moc_settingsmultisendwidget.cpp \
   qt/digiwage/settings/moc_settingssignmessagewidgets.cpp \
   qt/digiwage/settings/moc_settingswalletoptionswidget.cpp \
   qt/digiwage/settings/moc_settingswalletrepairwidget.cpp \
@@ -174,18 +169,12 @@ BITCOIN_MM = \
 
 QT_MOC = \
   qt/digiwage.moc \
-  qt/intro.moc \
-  qt/rpcconsole.moc \
-  qt/digiwage/settings/moc_settingsconsolewidget.cpp
+  qt/intro.moc
 
 QT_QRC_CPP = qt/qrc_digiwage.cpp
 QT_QRC = qt/digiwage.qrc
 QT_QRC_LOCALE_CPP = qt/qrc_digiwage_locale.cpp
 QT_QRC_LOCALE = qt/digiwage_locale.qrc
-
-PROTOBUF_CC = qt/paymentrequest.pb.cc
-PROTOBUF_H = qt/paymentrequest.pb.h
-PROTOBUF_PROTO = qt/paymentrequest.proto
 
 BITCOIN_QT_H = \
   qt/addressbookpage.h \
@@ -208,9 +197,7 @@ BITCOIN_QT_H = \
   qt/networkstyle.h \
   qt/notificator.h \
   qt/openuridialog.h \
-  qt/optionsdialog.h \
   qt/optionsmodel.h \
-  qt/paymentrequestplus.h \
   qt/paymentserver.h \
   qt/peertablemodel.h \
   qt/platformstyle.h \
@@ -218,15 +205,8 @@ BITCOIN_QT_H = \
   qt/qvaluecombobox.h \
   qt/recentrequeststablemodel.h \
   qt/rpcconsole.h \
-  qt/splashscreen.h \
-  qt/startoptionsdialog.h \
-  qt/startoptions.h \
-  qt/startoptionsrestore.h \
-  qt/startoptionssort.h \
-  qt/startoptionsrevealed.h \
-  qt/startoptionsmain.h \
+  qt/rpcexecutor.h \
   qt/trafficgraphwidget.h \
-  qt/transactiondesc.h \
   qt/transactionfilterproxy.h \
   qt/transactionrecord.h \
   qt/transactiontablemodel.h \
@@ -238,6 +218,7 @@ BITCOIN_QT_H = \
   qt/digiwage/loadingdialog.h \
   qt/winshutdownmonitor.h \
   qt/digiwage/pwidget.h \
+  qt/digiwage/focuseddialog.h \
   qt/digiwage/guitransactionsutils.h \
   qt/digiwage/snackbar.h \
   qt/digiwage/navmenuwidget.h \
@@ -248,6 +229,7 @@ BITCOIN_QT_H = \
   qt/digiwage/txviewholder.h \
   qt/digiwage/qtutils.h \
   qt/digiwage/expandablebutton.h \
+  qt/digiwage/balancebubble.h \
   qt/digiwage/topbar.h \
   qt/digiwage/txrow.h \
   qt/digiwage/addressholder.h \
@@ -268,7 +250,7 @@ BITCOIN_QT_H = \
   qt/digiwage/sendchangeaddressdialog.h \
   qt/digiwage/sendconfirmdialog.h \
   qt/digiwage/sendcustomfeedialog.h \
-  qt/digiwage/sendchangeaddressdialog.h \
+  qt/digiwage/sendmemodialog.h \
   qt/digiwage/sendmultirow.h \
   qt/digiwage/send.h \
   qt/digiwage/addnewaddressdialog.h \
@@ -279,6 +261,13 @@ BITCOIN_QT_H = \
   qt/digiwage/addresseswidget.h \
   qt/digiwage/defaultdialog.h \
   qt/digiwage/coldstakingwidget.h \
+  qt/digiwage/governancemodel.h \
+  qt/digiwage/proposalcard.h \
+  qt/digiwage/mnselectiondialog.h \
+  qt/digiwage/votedialog.h \
+  qt/digiwage/createproposaldialog.h \
+  qt/digiwage/proposalinfodialog.h \
+  qt/digiwage/governancewidget.h \
   qt/digiwage/settings/settingsbackupwallet.h \
   qt/digiwage/settings/settingsexportcsv.h \
   qt/digiwage/settings/settingsbittoolwidget.h \
@@ -287,8 +276,6 @@ BITCOIN_QT_H = \
   qt/digiwage/settings/settingsfaqwidget.h \
   qt/digiwage/settings/settingsinformationwidget.h \
   qt/digiwage/settings/settingsmainoptionswidget.h \
-  qt/digiwage/settings/settingsmultisenddialog.h \
-  qt/digiwage/settings/settingsmultisendwidget.h \
   qt/digiwage/settings/settingssignmessagewidgets.h \
   qt/digiwage/settings/settingswalletoptionswidget.h \
   qt/digiwage/settings/settingswalletrepairwidget.h \
@@ -337,8 +324,6 @@ RES_ICONS = \
   qt/digiwage/res/img/bg-welcome-container@2x.png \
   qt/digiwage/res/img/bg-welcome-container@3x.png \
   qt/digiwage/res/img/ic-check-staking-off.svg \
-  qt/digiwage/res/img/ic-check-hd.svg \
-  qt/digiwage/res/img/ic-check-hd-off.svg \
   qt/digiwage/res/img/ic-nav-master-hover.svg \
   qt/digiwage/res/img/ic-watch-password.svg \
   qt/digiwage/res/img/bg-welcome.jpg \
@@ -348,18 +333,20 @@ RES_ICONS = \
   qt/digiwage/res/img/bg-welcome.png \
   qt/digiwage/res/img/ic-check-staking.svg \
   qt/digiwage/res/img/ic-nav-master.svg \
-  qt/digiwage/res/img/bg-dashboard-banner.png \
-  qt/digiwage/res/img/bg-copy.png \
+  qt/digiwage/res/img/img-dashboard-banner.jpg \
   qt/digiwage/res/img/btn-radio-active.svg \
   qt/digiwage/res/img/ic-check-sync-off.svg \
+  qt/digiwage/res/img/ic-nav-privacy-active.svg \
   qt/digiwage/res/img/img-empty-contacts.svg \
   qt/digiwage/res/img/btn-radio-off.svg \
-  qt/digiwage/res/img/ic-check-sync.svg \
+  qt/digiwage/res/img/ic-check-sync.png \
+  qt/digiwage/res/img/ic-nav-privacy-hover.svg \
   qt/digiwage/res/img/img-empty-dark-contacts.svg \
   qt/digiwage/res/img/ic-contact-arrow-down.svg \
   qt/digiwage/res/img/ic-contact-arrow-down-white.svg \
-  qt/digiwage/res/img/ic-check-hardfork.svg \
+  qt/digiwage/res/img/ic-check-sync.svg \
   qt/digiwage/res/img/ic-check-faq.svg \
+  qt/digiwage/res/img/ic-nav-privacy.svg \
   qt/digiwage/res/img/img-empty-dark-error.svg \
   qt/digiwage/res/img/ic-add-label.svg \
   qt/digiwage/res/img/ic-pending.svg \
@@ -385,6 +372,7 @@ RES_ICONS = \
   qt/digiwage/res/img/img-empty-dark-transactions.svg \
   qt/digiwage/res/img/ic-address-book-white.svg \
   qt/digiwage/res/img/ic-chevron-right.svg \
+  qt/digiwage/res/img/ic-chevron-right-liliac.svg \
   qt/digiwage/res/img/ic-nav-send.svg \
   qt/digiwage/res/img/img-empty-error.svg \
   qt/digiwage/res/img/ic-address-book.svg \
@@ -399,15 +387,22 @@ RES_ICONS = \
   qt/digiwage/res/img/ic-close-white.svg \
   qt/digiwage/res/img/ic-nav-settings.svg \
   qt/digiwage/res/img/img-empty-peers.svg \
+  qt/digiwage/res/img/img-empty-privacy.svg \
+  qt/digiwage/res/img/img-empty-privacy-dark.svg \
   qt/digiwage/res/img/ic-arrow-drop-down-white.svg \
   qt/digiwage/res/img/ic-close.svg \
   qt/digiwage/res/img/ic-radio-liliac-on.svg \
   qt/digiwage/res/img/img-empty-staking-off.svg \
   qt/digiwage/res/img/ic-arrow-drop-down.svg \
+  qt/digiwage/res/img/ic-coin-wage.svg \
   qt/digiwage/res/img/ic-receive-off.svg \
+  qt/digiwage/res/img/img-empty-staking-on.svg \
   qt/digiwage/res/img/ic-arrow-drop-up-white.svg \
+  qt/digiwage/res/img/ic-coin-zwage.png \
   qt/digiwage/res/img/ic-receive-on.svg \
+  qt/digiwage/res/img/img-empty-transactions.svg \
   qt/digiwage/res/img/ic-arrow-drop-up.svg \
+  qt/digiwage/res/img/ic-coin-zwage.svg \
   qt/digiwage/res/img/ic-received.svg \
   qt/digiwage/res/img/img-logo-digiwage.png \
   qt/digiwage/res/img/ic-arrow-drop-white-down.svg \
@@ -444,6 +439,7 @@ RES_ICONS = \
   qt/digiwage/res/img/ic-switch-on.svg \
   qt/digiwage/res/img/img-qr-test.png \
   qt/digiwage/res/img/ic-check-box.svg \
+  qt/digiwage/res/img/ic-check-box-light.svg \
   qt/digiwage/res/img/ic-check-box-dark-active.svg \
   qt/digiwage/res/img/ic-check-box-indeterminate.svg \
   qt/digiwage/res/img/ic-check-box-liliac-indeterminate.svg \
@@ -509,10 +505,24 @@ RES_ICONS = \
   qt/digiwage/res/img/ic-transaction-cs-contract.svg \
   qt/digiwage/res/img/ic-transaction-cs-contract-inactive.svg \
   qt/digiwage/res/img/ic-check-box-indeterminate.svg \
+  qt/digiwage/res/img/ic-information.svg \
+  qt/digiwage/res/img/ic-information-hover.svg \
   qt/digiwage/res/img/ani-loading-dark.gif \
-  qt/digiwage/res/img/ani-loading.gif
-
-
+  qt/digiwage/res/img/ani-loading.gif \
+  qt/digiwage/res/img/ic-check-vote.svg \
+  qt/digiwage/res/img/ic-check-vote-active.svg \
+  qt/digiwage/res/img/ic-check-vote-dark.svg \
+  qt/digiwage/res/img/ic-check-vote-active-dark.svg \
+  qt/digiwage/res/img/ic-check-block.svg \
+  qt/digiwage/res/img/ic-filter.svg \
+  qt/digiwage/res/img/ic-link.svg \
+  qt/digiwage/res/img/ic-nav-governance.svg \
+  qt/digiwage/res/img/ic-nav-governance-active.svg \
+  qt/digiwage/res/img/ic-nav-governance-hover.svg \
+  qt/digiwage/res/img/ic-time.svg \
+  qt/digiwage/res/img/ic-link-hover.svg \
+  qt/digiwage/res/img/img-empty-governance.svg \
+  qt/digiwage/res/img/img-empty-dark-governance.svg
 
 BITCOIN_QT_BASE_CPP = \
   qt/bantablemodel.cpp \
@@ -525,21 +535,14 @@ BITCOIN_QT_BASE_CPP = \
   qt/intro.cpp \
   qt/networkstyle.cpp \
   qt/notificator.cpp \
-  qt/optionsdialog.cpp \
   qt/optionsmodel.cpp \
   qt/peertablemodel.cpp \
   qt/platformstyle.cpp \
   qt/qvalidatedlineedit.cpp \
   qt/qvaluecombobox.cpp \
   qt/rpcconsole.cpp \
-  qt/splashscreen.cpp \
+  qt/rpcexecutor.cpp \
   qt/trafficgraphwidget.cpp \
-  qt/startoptionsdialog.cpp \
-  qt/startoptions.cpp \
-  qt/startoptionsrestore.cpp \
-  qt/startoptionssort.cpp \
-  qt/startoptionsrevealed.cpp \
-  qt/startoptionsmain.cpp \
   qt/utilitydialog.cpp
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
@@ -552,10 +555,8 @@ BITCOIN_QT_WALLET_CPP = \
   qt/coincontroltreewidget.cpp \
   qt/editaddressdialog.cpp \
   qt/openuridialog.cpp \
-  qt/paymentrequestplus.cpp \
   qt/paymentserver.cpp \
   qt/recentrequeststablemodel.cpp \
-  qt/transactiondesc.cpp \
   qt/transactionfilterproxy.cpp \
   qt/transactionrecord.cpp \
   qt/transactiontablemodel.cpp \
@@ -563,6 +564,7 @@ BITCOIN_QT_WALLET_CPP = \
   qt/walletmodeltransaction.cpp \
   qt/digiwage/loadingdialog.cpp \
   qt/digiwage/pwidget.cpp \
+  qt/digiwage/focuseddialog.cpp \
   qt/digiwage/guitransactionsutils.cpp \
   qt/digiwage/snackbar.cpp \
   qt/digiwage/navmenuwidget.cpp \
@@ -572,6 +574,7 @@ BITCOIN_QT_WALLET_CPP = \
   qt/digiwage/txviewholder.cpp \
   qt/digiwage/qtutils.cpp \
   qt/digiwage/expandablebutton.cpp \
+  qt/digiwage/balancebubble.cpp \
   qt/digiwage/topbar.cpp \
   qt/digiwage/txrow.cpp \
   qt/digiwage/addressholder.cpp \
@@ -592,7 +595,7 @@ BITCOIN_QT_WALLET_CPP = \
   qt/digiwage/sendchangeaddressdialog.cpp \
   qt/digiwage/sendconfirmdialog.cpp \
   qt/digiwage/sendcustomfeedialog.cpp \
-  qt/digiwage/sendchangeaddressdialog.cpp \
+  qt/digiwage/sendmemodialog.cpp \
   qt/digiwage/sendmultirow.cpp \
   qt/digiwage/send.cpp \
   qt/digiwage/addnewaddressdialog.cpp \
@@ -603,6 +606,13 @@ BITCOIN_QT_WALLET_CPP = \
   qt/digiwage/addresseswidget.cpp \
   qt/digiwage/defaultdialog.cpp \
   qt/digiwage/coldstakingwidget.cpp \
+  qt/digiwage/governancemodel.cpp \
+  qt/digiwage/proposalcard.cpp \
+  qt/digiwage/mnselectiondialog.cpp \
+  qt/digiwage/votedialog.cpp \
+  qt/digiwage/createproposaldialog.cpp \
+  qt/digiwage/proposalinfodialog.cpp \
+  qt/digiwage/governancewidget.cpp \
   qt/digiwage/settings/settingsbackupwallet.cpp \
   qt/digiwage/settings/settingsexportcsv.cpp \
   qt/digiwage/settings/settingsbittoolwidget.cpp \
@@ -611,8 +621,6 @@ BITCOIN_QT_WALLET_CPP = \
   qt/digiwage/settings/settingsfaqwidget.cpp \
   qt/digiwage/settings/settingsinformationwidget.cpp \
   qt/digiwage/settings/settingsmainoptionswidget.cpp \
-  qt/digiwage/settings/settingsmultisenddialog.cpp \
-  qt/digiwage/settings/settingsmultisendwidget.cpp \
   qt/digiwage/settings/settingssignmessagewidgets.cpp \
   qt/digiwage/settings/settingswalletoptionswidget.cpp \
   qt/digiwage/settings/settingswalletrepairwidget.cpp \
@@ -646,15 +654,14 @@ BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
   -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
 
 qt_libbitcoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
-  $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
+  $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
 qt_libbitcoinqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 qt_libbitcoinqt_a_OBJCXXFLAGS = $(AM_OBJCXXFLAGS) $(QT_PIE_FLAGS)
 
 qt_libbitcoinqt_a_SOURCES = $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(QT_FORMS_UI) \
-  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS)
+  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS)
 
-nodist_qt_libbitcoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
-  $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
+nodist_qt_libbitcoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
 
 # forms/foo.h -> forms/ui_foo.h
 QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))
@@ -664,14 +671,9 @@ QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:
 $(QT_MOC): $(QT_FORMS_H)
 $(qt_libbitcoinqt_a_OBJECTS) $(qt_digiwage_qt_OBJECTS) : | $(QT_MOC)
 
-#Generating these with a half-written protobuf header leads to wacky results.
-#This makes sure it's done.
-$(QT_MOC): $(PROTOBUF_H)
-$(QT_MOC_CPP): $(PROTOBUF_H)
-
 # digiwage-qt binary #
 qt_digiwage_qt_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
-  $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
+  $(QT_INCLUDES) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
 qt_digiwage_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
 qt_digiwage_qt_SOURCES = qt/digiwage.cpp
@@ -688,9 +690,9 @@ endif
 if ENABLE_ZMQ
 qt_digiwage_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
-qt_digiwage_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBBITCOIN_ZEROCOIN) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
-  $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(SVG_LIBS) $(CHARTS_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
-  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+qt_digiwage_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBSAPLING) $(LIBRUSTZCASH) $(LIBZCASH_LIBS) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
+  $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(SVG_LIBS) $(CHARTS_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(LIBSECP256K1) \
+  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(BLS_LIBS)
 qt_digiwage_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 qt_digiwage_qt_LIBTOOLFLAGS = $(AM_LIBTOOLFLAGS) --tag CXX
 
@@ -701,7 +703,7 @@ SECONDARY: $(QT_QM)
 
 $(srcdir)/qt/digiwagestrings.cpp: $(libbitcoin_server_a_SOURCES) $(libbitcoin_wallet_a_SOURCES) $(libbitcoin_common_a_SOURCES) $(libbitcoin_zmq_a_SOURCES) $(libbitcoin_util_a_SOURCES)
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
-	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) PACKAGE_NAME="$(PACKAGE_NAME)" $(PYTHON) ../share/qt/extract_strings_qt.py $^
+	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) $(PYTHON) ../share/qt/extract_strings_qt.py $^
 
 translate: $(srcdir)/qt/digiwagestrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(BITCOIN_QT_BASE_CPP) qt/digiwage.cpp $(BITCOIN_QT_WINDOWS_CPP) $(BITCOIN_QT_WALLET_CPP) $(BITCOIN_QT_H) $(BITCOIN_MM)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
@@ -714,12 +716,12 @@ $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 	@rm $(@D)/temp_$(<F)
 
-$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(PROTOBUF_H)
+$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS)
 	@test -f $(RCC)
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name digiwage $< | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
-CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno qt/temp_digiwage_locale.qrc
+CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno qt/digiwage/*.gcda qt/digiwage/*.gcno qt/digiwage/settings/*.gcda qt/digiwage/settings/*.gcno qt/temp_digiwage_locale.qrc
 
 CLEANFILES += $(CLEAN_QT)
 

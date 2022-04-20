@@ -1,5 +1,5 @@
 // Copyright (c) 2012-2013 The Bitcoin Core developers
-// Copyright (c) 2017-2019 The DIGIWAGE developers
+// Copyright (c) 2017-2020 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,7 +19,7 @@
 static std::vector<unsigned char>
 Serialize(const CScript& s)
 {
-    std::vector<unsigned char> sSerialized(s);
+    std::vector<unsigned char> sSerialized(s.begin(), s.end());
     return sSerialized;
 }
 

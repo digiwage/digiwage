@@ -1,21 +1,20 @@
 // Copyright (c) 2014-2016 The Dash developers
-// Copyright (c) 2016-2019 The DIGIWAGE developers
+// Copyright (c) 2016-2020 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef SPORK_H
 #define SPORK_H
 
-#include "base58.h"
 #include "hash.h"
 #include "key.h"
-#include "main.h"
+#include "key_io.h"
+#include "messagesigner.h"
 #include "net.h"
 #include "sporkid.h"
 #include "sync.h"
-#include "util.h"
+#include "util/system.h"
 
-#include "obfuscation.h"
 #include "protocol.h"
 
 
@@ -57,29 +56,14 @@ public:
     // override CSignedMessage functions
     uint256 GetSignatureHash() const override;
     std::string GetStrMessage() const override;
-    const CTxIn GetVin() const override { return CTxIn(); };
 
-    // override GetPublicKey - gets Params().SporkPubkey()
-    const CPubKey GetPublicKey(std::string& strErrorRet) const override;
+    // - gets Params().SporkPubkey()
+    const CPubKey GetPublicKey() const;
+    const CPubKey GetPublicKeyOld() const;
 
     void Relay();
 
-    ADD_SERIALIZE_METHODS;
-
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
-    {
-        READWRITE(nSporkID);
-        READWRITE(nValue);
-        READWRITE(nTimeSigned);
-        READWRITE(vchSig);
-        try
-        {
-            READWRITE(nMessVersion);
-        } catch (...) {
-            nMessVersion = MessageVersion::MESS_VER_STRMESS;
-        }
-    }
+    SERIALIZE_METHODS(CSporkMessage, obj) { READWRITE(obj.nSporkID, obj.nValue, obj.nTimeSigned, obj.vchSig, obj.nMessVersion); }
 };
 
 
@@ -95,22 +79,18 @@ private:
 public:
     CSporkManager();
 
-    ADD_SERIALIZE_METHODS;
-
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
-    {
-        READWRITE(mapSporksActive);
-        // we don't serialize private key to prevent its leakage
-    }
+    SERIALIZE_METHODS(CSporkManager, obj) { READWRITE(obj.mapSporksActive); }
 
     void Clear();
     void LoadSporksFromDB();
 
     void ProcessSpork(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
     int64_t GetSporkValue(SporkId nSporkID);
-    void ExecuteSpork(SporkId nSporkID, int nValue);
+    // Create/Sign/Relay the spork message, and update the maps
     bool UpdateSpork(SporkId nSporkID, int64_t nValue);
+    // Add spork message to mapSporks and mapSporksActive.
+    // if flush=true, save to DB as well
+    void AddOrUpdateSporkMessage(const CSporkMessage& spork, bool flush = false);
 
     bool IsSporkActive(SporkId nSporkID);
     std::string GetSporkNameByID(SporkId id);
@@ -118,6 +98,12 @@ public:
 
     bool SetPrivKey(std::string strPrivKey);
     std::string ToString() const;
+
+    // Process SPORK message, returning the banning score (or 0 if no banning is needed)
+    int ProcessSporkMsg(CDataStream& vRecv);
+    int ProcessSporkMsg(CSporkMessage& spork);
+    // Process GETSPORKS message
+    void ProcessGetSporks(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
 };
 
 #endif

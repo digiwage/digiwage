@@ -51,14 +51,14 @@ public Q_SLOTS:
     void done(int retval);
 
 private:
-    Ui::AddressBookPage* ui;
-    AddressTableModel* model;
+    Ui::AddressBookPage* ui{nullptr};
+    AddressTableModel* model{nullptr};
     Mode mode;
     Tabs tab;
     QString returnValue;
-    QSortFilterProxyModel* proxyModel;
-    QMenu* contextMenu;
-    QAction* deleteAction; // to be able to explicitly disable it
+    QSortFilterProxyModel* proxyModel{nullptr};
+    QMenu* contextMenu{nullptr};
+    QAction* deleteAction{nullptr}; // to be able to explicitly disable it
     QString newAddressToSelect;
 
 private Q_SLOTS:

@@ -318,6 +318,42 @@ QPushButton[cssClass="img-nav-logo"] {
     color: #fcdd1f;
 }
 
+*[cssClass="btn-nav-governance"] {
+    qproperty-icon: url("://ic-nav-governance") off,
+                    url("://ic-nav-governance-active") on ;
+    qproperty-iconSize: 24px 30px;
+    background-color:transparent;
+    font-size:14px;
+    color: #ffffff;
+}
+
+*[cssClass="btn-nav-governance"]:checked {
+    background-color: qlineargradient(x1:0, x2: 1, stop: 0 #3c2559, stop: 1 #1f162b);
+    font-size:14px;
+    color: #fcdd1f;
+}
+
+*[cssClass="btn-nav-governance"]:checked:hover {
+    background-color: qlineargradient(x1:0, x2: 1, stop: 0 #3c2559, stop: 1 #1f162b);
+    color: #fcdd1f;
+}
+
+*[cssClass="btn-nav-governance"]:hover {
+    qproperty-icon: url("://ic-nav-governance-hover");
+    qproperty-iconSize: 24px 30px;
+    background-color: #1A000000;
+    color: #ffffff;
+}
+
+*[cssClass="btn-nav-governance-active"] {
+    qproperty-icon:url("://ic-nav-governance-active")  ;
+    qproperty-iconSize: 24px 30px;
+    background-color: qlineargradient(x1:0, x2: 1, stop: 0 #7e5c0f, stop: 1 #7e5c0f);
+    font-size:14px;
+    color: #fcdd1f;
+}
+
+
 /*HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 HH       TOP BAR
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
@@ -2373,9 +2409,9 @@ HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
 }
 
 
-*[cssClass="coin-icon-piv"] {
-    qproperty-icon: url("://ic-coin-piv") off,
-    url("://ic-coin-piv") on ;
+*[cssClass="coin-icon-wage"] {
+    qproperty-icon: url("://ic-coin-wage") off,
+    url("://ic-coin-wage") on ;
     qproperty-iconSize: 24px 24px;
     background-color: #f1f2f2;
     border:  2px solid #f1f2f2;

@@ -1,92 +1,72 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019 The DIGIWAGE developers
+# Copyright (c) 2019-2020 The DIGIWAGE developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-# -*- coding: utf-8 -*-
 
+from decimal import Decimal
 from io import BytesIO
 from time import sleep
 
 from test_framework.messages import CTransaction, CTxIn, CTxOut, COIN, COutPoint
-from test_framework.mininode import network_thread_start
-from test_framework.digiwage_node import DigiwageTestNode
 from test_framework.script import CScript, OP_CHECKSIG
-from test_framework.test_framework import DigiwageTestFramework
-from test_framework.util import connect_nodes_bi, p2p_port, bytes_to_hex_str, set_node_times, \
-    assert_equal, assert_greater_than, sync_blocks, sync_mempools, assert_raises_rpc_error
+from test_framework.test_framework import PivxTestFramework
+from test_framework.util import (
+    assert_equal,
+    assert_greater_than,
+    assert_raises_rpc_error,
+    bytes_to_hex_str,
+    set_node_times,
+)
 
 # filter utxos based on first 5 bytes of scriptPubKey
 def getDelegatedUtxos(utxos):
-    return [x for x in utxos if x["scriptPubKey"][:10] == '76a97b63d1']
+    return [x for x in utxos if x["scriptPubKey"][:10] == '76a97b63d1' or x["scriptPubKey"][:10] == '76a97b63d2']
 
 
-class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
+class DIGIWAGE_ColdStakingTest(PivxTestFramework):
 
     def set_test_params(self):
         self.num_nodes = 3
-        self.extra_args = [[]] * self.num_nodes
+        # whitelist all peers to speed up tx relay / mempool sync
+        self.extra_args = [['-nuparams=v5_shield:201', "-whitelist=127.0.0.1"]] * self.num_nodes
         self.extra_args[0].append('-sporkkey=932HEevBSujW2ud7RfB1YF91AFygbBRQj3de3LyaCRqNzKKgWXi')
-
-    def setup_chain(self):
-        # Start with PoW cache: 200 blocks
-        self._initialize_chain()
         self.enable_mocktime()
 
-
-    def setup_network(self):
-        ''' Can't rely on syncing all the nodes when staking=1
-        '''
-        self.setup_nodes()
-        for i in range(self.num_nodes - 1):
-            for j in range(i+1, self.num_nodes):
-                connect_nodes_bi(self.nodes, i, j)
-
-    def init_test(self):
-        title = "*** Starting %s ***" % self.__class__.__name__
-        underline = "-" * len(title)
-        self.log.info("\n\n%s\n%s\n%s\n", title, underline, self.description)
-        self.DEFAULT_FEE = 0.05
-        # Setup the p2p connections and start up the network thread.
-        self.test_nodes = []
-        for i in range(self.num_nodes):
-            self.test_nodes.append(DigiwageTestNode())
-            self.test_nodes[i].peer_connect('127.0.0.1', p2p_port(i))
-
-        network_thread_start()  # Start up network handling in another thread
-
-        # Let the test nodes get in sync
-        for i in range(self.num_nodes):
-            self.test_nodes[i].wait_for_verack()
-
     def setColdStakingEnforcement(self, fEnable=True):
-        sporkName = "SPORK_17_COLDSTAKING_ENFORCEMENT"
-        # update spork 17 with node[0]
+        sporkName = "SPORK_18_COLDSTAKING_MAINTENANCE"
+        # update spork 19 with node[0]
         if fEnable:
-            self.log.info("Enabling cold staking with SPORK 17...")
-            res = self.activate_spork(0, sporkName)
-        else:
-            self.log.info("Disabling cold staking with SPORK 17...")
+            self.log.info("Enabling cold staking with SPORK 18...")
             res = self.deactivate_spork(0, sporkName)
+        else:
+            self.log.info("Disabling cold staking with SPORK 18...")
+            res = self.activate_spork(0, sporkName)
         assert_equal(res, "success")
         sleep(1)
         # check that node[1] receives it
-        assert_equal(fEnable, self.is_spork_active(1, sporkName))
+        assert_equal(fEnable, not self.is_spork_active(1, sporkName))
         self.log.info("done")
 
     def isColdStakingEnforced(self):
         # verify from node[1]
-        return self.is_spork_active(1, "SPORK_17_COLDSTAKING_ENFORCEMENT")
-
-
+        return not self.is_spork_active(1, "SPORK_18_COLDSTAKING_MAINTENANCE")
 
     def run_test(self):
         self.description = "Performs tests on the Cold Staking P2CS implementation"
-        self.init_test()
+        title = "*** Starting %s ***" % self.__class__.__name__
+        underline = "-" * len(title)
+        self.log.info("\n\n%s\n%s\n%s\n", title, underline, self.description)
+        self.DEFAULT_FEE = 0.05
         NUM_OF_INPUTS = 20
         INPUT_VALUE = 249
 
         # nodes[0] - coin-owner
         # nodes[1] - cold-staker
+
+        # First put cold-staking in maintenance mode
+        self.setColdStakingEnforcement(False)
+        # double check
+        assert (not self.isColdStakingEnforced())
 
         # 1) nodes[0] and nodes[2] mine 25 blocks each
         # --------------------------------------------
@@ -95,24 +75,34 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         for peer in [0, 2]:
             for j in range(25):
                 self.mocktime = self.generate_pow(peer, self.mocktime)
-            sync_blocks(self.nodes)
+            self.sync_blocks()
 
         # 2) node[1] sends his entire balance (50 mature rewards) to node[2]
         #  - node[2] stakes a block - node[1] locks the change
+        #  - node[0] shields 250 coins (to be delegated later)
         print("*** 2 ***")
         self.log.info("Emptying node1 balance")
         assert_equal(self.nodes[1].getbalance(), 50 * 250)
         txid = self.nodes[1].sendtoaddress(self.nodes[2].getnewaddress(), (50 * 250 - 0.01))
         assert (txid is not None)
-        sync_mempools(self.nodes)
+        self.sync_mempools()
         self.mocktime = self.generate_pos(2, self.mocktime)
-        sync_blocks(self.nodes)
+        self.sync_blocks()
         # lock the change output (so it's not used as stake input in generate_pos)
         for x in self.nodes[1].listunspent():
             assert (self.nodes[1].lockunspent(False, [{"txid": x['txid'], "vout": x['vout']}]))
         # check that it cannot stake
         sleep(1)
         assert_equal(self.nodes[1].getstakingstatus()["stakeablecoins"], 0)
+        # create shielded balance for node 0
+        self.log.info("Shielding some coins for node0...")
+        self.nodes[0].shieldsendmany("from_transparent", [{"address": self.nodes[0].getnewshieldaddress(),
+                                                             "amount": Decimal('250.00')}], 1)
+        self.sync_all()
+        for i in range(6):
+            self.mocktime = self.generate_pos(0, self.mocktime)
+        self.sync_blocks()
+        assert_equal(self.nodes[0].getshieldbalance(), 250)
 
         # 3) nodes[0] generates a owner address
         #    nodes[1] generates a cold-staking address.
@@ -130,11 +120,12 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         # Check that SPORK 17 is disabled
         assert (not self.isColdStakingEnforced())
         self.log.info("Creating a stake-delegation tx before cold staking enforcement...")
-        assert_raises_rpc_error(-4, "The transaction was rejected!",
-                                self.nodes[0].delegatestake, staker_address, INPUT_VALUE, owner_address, False, False, True)
+        assert_raises_rpc_error(-4, "Failed to accept tx in the memory pool (reason: cold-stake-inactive)\nTransaction canceled.",
+                                self.nodes[0].delegatestake, staker_address, INPUT_VALUE, owner_address,
+                                False, False, False, True)
         self.log.info("Good. Cold Staking NOT ACTIVE yet.")
 
-        # Enable SPORK
+        # Enable via SPORK
         self.setColdStakingEnforcement()
         # double check
         assert (self.isColdStakingEnforced())
@@ -163,19 +154,28 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         self.log.info("Good. Warning NOT triggered.")
 
         self.log.info("Now creating %d real stake-delegation txes..." % NUM_OF_INPUTS)
-        for i in range(NUM_OF_INPUTS):
+        for i in range(NUM_OF_INPUTS-1):
             res = self.nodes[0].delegatestake(staker_address, INPUT_VALUE, owner_address)
-            assert(res != None and res["txid"] != None and res["txid"] != "")
+            assert(res is not None and res["txid"] is not None and res["txid"] != "")
             assert_equal(res["owner_address"], owner_address)
             assert_equal(res["staker_address"], staker_address)
-        sync_mempools(self.nodes)
+        # delegate  the shielded balance
+        res = self.nodes[0].delegatestake(staker_address, INPUT_VALUE, owner_address, False, False, True)
+        assert (res is not None and res["txid"] is not None and res["txid"] != "")
+        assert_equal(res["owner_address"], owner_address)
+        assert_equal(res["staker_address"], staker_address)
+        fee = self.nodes[0].viewshieldtransaction(res["txid"])['fee']
+        # sync and mine 2 blocks
+        self.sync_mempools()
         self.mocktime = self.generate_pos(2, self.mocktime)
-        sync_blocks(self.nodes)
+        self.sync_blocks()
         self.log.info("%d Txes created." % NUM_OF_INPUTS)
         # check balances:
         self.expected_balance = NUM_OF_INPUTS * INPUT_VALUE
         self.expected_immature_balance = 0
         self.checkBalances()
+        # also shielded balance of node 0 (250 - 249 - fee)
+        assert_equal(self.nodes[0].getshieldbalance(), round(Decimal(1)-Decimal(fee), 8))
 
         # 6) check that the owner (nodes[0]) can spend the coins.
         # -------------------------------------------------------
@@ -186,11 +186,14 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         assert_equal(len(delegated_utxos), len(self.nodes[0].listcoldutxos()))
         u = delegated_utxos[0]
         txhash = self.spendUTXOwithNode(u, 0)
-        assert(txhash != None)
+        assert(txhash is not None)
         self.log.info("Good. Owner was able to spend - tx: %s" % str(txhash))
-
+        self.sync_mempools()
         self.mocktime = self.generate_pos(2, self.mocktime)
-        sync_blocks(self.nodes)
+        self.sync_blocks()
+        # check tx
+        self.check_tx_in_chain(0, txhash)
+        self.check_tx_in_chain(1, txhash)
         # check balances after spend.
         self.expected_balance -= float(u["amount"])
         self.checkBalances()
@@ -220,8 +223,9 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         assert_raises_rpc_error(-26, "mandatory-script-verify-flag-failed (Script failed an OP_CHECKCOLDSTAKEVERIFY operation",
                                 self.spendUTXOwithNode, u, 1)
         self.log.info("Good. Cold staker was NOT able to spend (failed OP_CHECKCOLDSTAKEVERIFY)")
-        self.mocktime = self.generate_pos(2, self.mocktime)
-        sync_blocks(self.nodes)
+        for _ in range(20): # Staking min depth
+            self.mocktime = self.generate_pos(2, self.mocktime)
+        self.sync_blocks()
 
         # 9) check that the staker can use the coins to stake a block with internal miner.
         # --------------------------------------------------------------------------------
@@ -234,7 +238,7 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         self.log.info("Block %s submitted" % newblockhash)
 
         # Verify that nodes[0] accepts it
-        sync_blocks(self.nodes)
+        self.sync_blocks()
         assert_equal(self.nodes[0].getblockcount(), self.nodes[1].getblockcount())
         assert_equal(newblockhash, self.nodes[0].getbestblockhash())
         self.log.info("Great. Cold-staked block was accepted!")
@@ -257,11 +261,12 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         self.log.info("New block created (rawtx) by cold-staking. Trying to submit...")
         # Try to submit the block
         ret = self.nodes[1].submitblock(bytes_to_hex_str(new_block.serialize()))
+        assert (ret is None)
         self.log.info("Block %s submitted." % new_block.hash)
-        assert(ret is None)
+        assert_equal(new_block.hash, self.nodes[1].getbestblockhash())
 
         # Verify that nodes[0] accepts it
-        sync_blocks(self.nodes)
+        self.sync_blocks()
         assert_equal(self.nodes[0].getblockcount(), self.nodes[1].getblockcount())
         assert_equal(new_block.hash, self.nodes[0].getbestblockhash())
         self.log.info("Great. Cold-staked block was accepted!")
@@ -290,7 +295,7 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         assert("rejected" in ret)
 
         # Verify that nodes[0] rejects it
-        sync_blocks(self.nodes)
+        self.sync_blocks()
         assert_raises_rpc_error(-5, "Block not found", self.nodes[0].getblock, new_block.hash)
         self.log.info("Great. Malicious cold-staked block was NOT accepted!")
         self.checkBalances()
@@ -305,16 +310,16 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         assert_greater_than(len(stakeInputs), 0)
         # Create the block
         new_block = self.stake_next_block(1, stakeInputs, self.mocktime, staker_privkey)
-        # Add output (dummy key address) to coinstake (taking 100 PIV from the pot)
+        # Add output (dummy key address) to coinstake (taking 100 WAGE from the pot)
         self.add_output_to_coinstake(new_block, 100)
         self.log.info("New block created (rawtx) by cold-staking. Trying to submit...")
         # Try to submit the block
         ret = self.nodes[1].submitblock(bytes_to_hex_str(new_block.serialize()))
         self.log.info("Block %s submitted." % new_block.hash)
-        assert_equal(ret, "bad-p2cs-outs")
+        assert ret in ["bad-p2cs-outs", "rejected"]
 
         # Verify that nodes[0] rejects it
-        sync_blocks(self.nodes)
+        self.sync_blocks()
         assert_raises_rpc_error(-5, "Block not found", self.nodes[0].getblock, new_block.hash)
         self.log.info("Great. Malicious cold-staked block was NOT accepted!")
         self.checkBalances()
@@ -324,27 +329,31 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         # ----------------------------------------------------------------------------------------
         self.log.info("Let's void the contracts.")
         self.mocktime = self.generate_pos(2, self.mocktime)
-        sync_blocks(self.nodes)
+        self.sync_blocks()
         print("*** 13 ***")
         self.log.info("Cancel the stake delegation spending the delegated utxos...")
         delegated_utxos = getDelegatedUtxos(self.nodes[0].listunspent())
         # remove one utxo to spend later
         final_spend = delegated_utxos.pop()
         txhash = self.spendUTXOsWithNode(delegated_utxos, 0)
-        assert(txhash != None)
+        assert(txhash is not None)
         self.log.info("Good. Owner was able to void the stake delegations - tx: %s" % str(txhash))
+        self.sync_blocks()
         self.mocktime = self.generate_pos(2, self.mocktime)
-        sync_blocks(self.nodes)
+        self.sync_blocks()
 
         # deactivate SPORK 17 and check that the owner can still spend the last utxo
         self.setColdStakingEnforcement(False)
         assert (not self.isColdStakingEnforced())
         txhash = self.spendUTXOsWithNode([final_spend], 0)
-        assert(txhash != None)
+        assert(txhash is not None)
         self.log.info("Good. Owner was able to void a stake delegation (with SPORK 17 disabled) - tx: %s" % str(txhash))
+        self.sync_mempools()
         self.mocktime = self.generate_pos(2, self.mocktime)
-        sync_blocks(self.nodes)
-
+        self.sync_blocks()
+        # check tx
+        self.check_tx_in_chain(0, txhash)
+        self.check_tx_in_chain(1, txhash)
         # check balances after big spend.
         self.expected_balance = 0
         self.checkBalances()
@@ -368,22 +377,27 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
             for peer in [0, 2]:
                 for j in range(25):
                     self.mocktime = self.generate_pos(peer, self.mocktime)
-                sync_blocks(self.nodes)
+                self.sync_blocks()
         self.expected_balance = self.expected_immature_balance
         self.expected_immature_balance = 0
         self.checkBalances()
         delegated_utxos = getDelegatedUtxos(self.nodes[0].listunspent())
         txhash = self.spendUTXOsWithNode(delegated_utxos, 0)
-        assert (txhash != None)
+        assert (txhash is not None)
         self.log.info("Good. Owner was able to spend the cold staked coins - tx: %s" % str(txhash))
+        self.sync_mempools()
         self.mocktime = self.generate_pos(2, self.mocktime)
-        sync_blocks(self.nodes)
+        self.sync_blocks()
+        # check tx
+        self.check_tx_in_chain(0, txhash)
+        self.check_tx_in_chain(1, txhash)
         self.expected_balance = 0
         self.checkBalances()
 
 
     def checkBalances(self):
         w_info = self.nodes[0].getwalletinfo()
+        assert_equal(self.nodes[0].getblockcount(), w_info['last_processed_block'])
         self.log.info("OWNER - Delegated %f / Cold %f   [%f / %f]" % (
             float(w_info["delegated_balance"]), w_info["cold_staking_balance"],
             float(w_info["immature_delegated_balance"]), w_info["immature_cold_staking_balance"]))
@@ -391,6 +405,7 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         assert_equal(float(w_info["immature_delegated_balance"]), self.expected_immature_balance)
         assert_equal(float(w_info["cold_staking_balance"]), 0)
         w_info = self.nodes[1].getwalletinfo()
+        assert_equal(self.nodes[1].getblockcount(), w_info['last_processed_block'])
         self.log.info("STAKER - Delegated %f / Cold %f   [%f / %f]" % (
             float(w_info["delegated_balance"]), w_info["cold_staking_balance"],
             float(w_info["immature_delegated_balance"]), w_info["immature_cold_staking_balance"]))
@@ -440,9 +455,6 @@ class DIGIWAGE_ColdStakingTest(DigiwageTestFramework):
         block.hashMerkleRoot = block.calc_merkle_root()
         block.rehash()
         block.re_sign_block()
-
-
-
 
 
 if __name__ == '__main__':

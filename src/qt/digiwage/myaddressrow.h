@@ -19,7 +19,7 @@ public:
     explicit MyAddressRow(QWidget *parent = nullptr);
     ~MyAddressRow();
 
-    void updateView(QString address, QString label, QString date);
+    void updateView(const QString& address, const QString& label, const QString& date);
 
 private:
     Ui::MyAddressRow *ui;

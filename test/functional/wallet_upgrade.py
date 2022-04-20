@@ -11,15 +11,13 @@
 - 5) Dry out the pre-HD keypool.
 - 6) Generate new addresses and verify HD path correctness.
 """
+
 import os
 import shutil
-from test_framework.test_framework import DigiwageTestFramework
-from test_framework.util import (
-    assert_equal,
-    assert_raises_rpc_error,
-    wait_until,
-    initialize_datadir,
-)
+
+from test_framework.test_framework import PivxTestFramework
+from test_framework.util import assert_equal
+
 
 def read_dump(file_name, addrs):
     """
@@ -66,7 +64,7 @@ def copyPreHDWallet(tmpdir, createFolder):
     sourcePath = os.path.join("test", "util", "data", "pre_hd_wallet.dat")
     shutil.copyfile(sourcePath, destPath)
 
-class WalletUpgradeTest (DigiwageTestFramework):
+class WalletUpgradeTest (PivxTestFramework):
 
     def setup_chain(self):
         self._initialize_chain_clean()
@@ -101,6 +99,10 @@ class WalletUpgradeTest (DigiwageTestFramework):
 
 
     def run_test(self):
+        # Make sure we use hd
+        if '-legacywallet' in self.nodes[0].extra_args:
+            self.log.info("Exiting HD upgrade test for non-HD wallets")
+            return
         self.log.info("Checking correct version")
         assert_equal(self.nodes[0].getwalletinfo()['walletversion'], 61000)
 
@@ -131,7 +133,7 @@ class WalletUpgradeTest (DigiwageTestFramework):
         copyPreHDWallet(self.options.tmpdir, False)
         self.start_node(0)
 
-        # Generating a block to not be in IBD
+        # Generating a block to not be in IBD, here we create a new key for the coinbase script
         self.nodes[0].generate(1)
 
         self.log.info("Upgrading wallet..")

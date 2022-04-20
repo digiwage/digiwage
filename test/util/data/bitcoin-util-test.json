@@ -70,7 +70,7 @@
     ["-create",
      "outaddr=1"],
     "return_code": 1,
-    "error_txt": "error: TX output missing separator",
+    "error_txt": "error: TX output missing or too many separators",
     "description": "Malformed outaddr argument (no address specified). Expected to fail."
   },
   { "exec": "./digiwage-tx",
@@ -78,7 +78,7 @@
     ["-create",
      "outaddr=1:DPvuYbbib66zreC6HNNQgUKzF3jnMmxk71:garbage"],
     "return_code": 1,
-    "error_txt": "error: invalid TX output address",
+    "error_txt": "error: TX output missing or too many separators",
     "description": "Malformed outaddr argument (too many separators). Expected to fail."
   },
   { "exec": "./digiwage-tx",

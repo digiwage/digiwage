@@ -1,8 +1,7 @@
 #include <string>
 #include <vector>
 
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
+#include "fs.h"
 
 class CForge;
 extern CForge forgeMain;
@@ -72,8 +71,12 @@ public:
     int getCount()
     {
         int c = -1;
+        int fmc = 0;
         for (CForgeItem e : entries) {
-            if (e.getTxHash() != "") c++;
+            if (e.getTxHash() != "") {
+                ++c;                
+                fmc = c; 
+            }     
         }
         return c;
     }

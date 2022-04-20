@@ -1,13 +1,14 @@
 package=gmp
-$(package)_version=6.1.2
+$(package)_version=6.2.1
 $(package)_download_path=https://gmplib.org/download/gmp
-$(package)_file_name=$(package)-$($(package)_version).tar.bz2
-$(package)_sha256_hash=5275bb04f4863a13516b2f39392ac5e272f5e1bb8057b18aec1c9b79d73d8fb2
+$(package)_file_name=$(package)-$($(package)_version).tar.xz
+$(package)_sha256_hash=fd4829912cddd12f84181c3451cc752be224643e87fac497b69edddadc49b4f2
 
 define $(package)_set_vars
 $(package)_config_opts=--disable-shared
 $(package)_config_opts_mingw32=--enable-mingw
 $(package)_config_opts_linux=--with-pic
+$(package)_config_opts_aarch64_darwin+=--with-pic
 endef
 
 define $(package)_config_cmds

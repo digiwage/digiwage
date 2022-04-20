@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019 The DIGIWAGE developers
+# Copyright (c) 2019-2020 The DIGIWAGE developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 import time
 
-from test_framework.test_framework import DigiwageTestFramework
+from test_framework.test_framework import PivxTestFramework
 from test_framework.util import (
     assert_equal,
-    connect_nodes_bi,
-    set_node_times
+    connect_nodes,
+    set_node_times,
 )
 
-class TimeOffsetTest(DigiwageTestFramework):
+
+def connect_nodes_bi(nodes, a, b):
+    connect_nodes(nodes[a], b)
+    connect_nodes(nodes[b], a)
+
+class TimeOffsetTest(PivxTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 8

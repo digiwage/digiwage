@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,25 +6,35 @@
 #include "qt/digiwage/forms/ui_masternodewizarddialog.h"
 
 #include "activemasternode.h"
+#include "clientmodel.h"
+#include "key_io.h"
 #include "optionsmodel.h"
-#include "pairresult.h"
 #include "qt/digiwage/mnmodel.h"
 #include "qt/digiwage/guitransactionsutils.h"
 #include "qt/digiwage/qtutils.h"
+#include "qt/walletmodeltransaction.h"
 
 #include <QFile>
 #include <QIntValidator>
 #include <QHostAddress>
 #include <QRegularExpression>
-#include <QRegularExpressionValidator>
 
-MasterNodeWizardDialog::MasterNodeWizardDialog(WalletModel *model, QWidget *parent) :
-    QDialog(parent),
+static inline QString formatParagraph(const QString& str) {
+    return "<p align=\"justify\" style=\"text-align:center;\">" + str + "</p>";
+}
+
+static inline QString formatHtmlContent(const QString& str) {
+    return "<html><body>" + str + "</body></html>";
+}
+
+MasterNodeWizardDialog::MasterNodeWizardDialog(WalletModel* model, ClientModel* _clientModel, QWidget *parent) :
+    FocusedDialog(parent),
     ui(new Ui::MasterNodeWizardDialog),
-    icConfirm1(new QPushButton()),
-    icConfirm3(new QPushButton()),
-    icConfirm4(new QPushButton()),
-    walletModel(model)
+    icConfirm1(new QPushButton(this)),
+    icConfirm3(new QPushButton(this)),
+    icConfirm4(new QPushButton(this)),
+    walletModel(model),
+    clientModel(_clientModel)
 {
     ui->setupUi(this);
 
@@ -49,13 +59,23 @@ MasterNodeWizardDialog::MasterNodeWizardDialog(WalletModel *model, QWidget *pare
     setCssProperty(ui->labelMessage1a, "text-main-grey");
     setCssProperty(ui->labelMessage1b, "text-main-purple");
 
+    QString collateralAmountStr = GUIUtil::formatBalance(clientModel->getMNCollateralRequiredAmount());
+    ui->labelMessage1a->setText(formatHtmlContent(
+                formatParagraph(tr("To create a DIGIWAGE Masternode you must dedicate %1 (the unit of DIGIWAGE) "
+                        "to the network (however, these coins are still yours and will never leave your possession).").arg(collateralAmountStr)) +
+                formatParagraph(tr("You can deactivate the node and unlock the coins at any time."))));
+
     // Frame 3
     setCssProperty(ui->labelTitle3, "text-title-dialog");
     setCssProperty(ui->labelMessage3, "text-main-grey");
 
-    ui->lineEditName->setPlaceholderText(tr("e.g user_masternode"));
+    ui->labelMessage3->setText(formatHtmlContent(
+                formatParagraph(tr("A transaction of %1 will be made").arg(collateralAmountStr)) +
+                formatParagraph(tr("to a new empty address in your wallet.")) +
+                formatParagraph(tr("The Address is labeled under the master node's name."))));
+
     initCssEditLine(ui->lineEditName);
-        // MN alias must not contain spaces or "#" character
+    // MN alias must not contain spaces or "#" character
     QRegularExpression rx("^(?:(?![\\#\\s]).)*");
     ui->lineEditName->setValidator(new QRegularExpressionValidator(rx, ui->lineEditName));
 
@@ -64,8 +84,6 @@ MasterNodeWizardDialog::MasterNodeWizardDialog(WalletModel *model, QWidget *pare
     setCssProperty({ui->labelSubtitleIp, ui->labelSubtitlePort}, "text-title");
     setCssSubtitleScreen(ui->labelSubtitleAddressIp);
 
-    ui->lineEditIpAddress->setPlaceholderText("e.g 18.255.255.255");
-    ui->lineEditPort->setPlaceholderText("e.g 46003");
     initCssEditLine(ui->lineEditIpAddress);
     initCssEditLine(ui->lineEditPort);
     ui->stackedWidget->setCurrentIndex(pos);
@@ -73,9 +91,9 @@ MasterNodeWizardDialog::MasterNodeWizardDialog(WalletModel *model, QWidget *pare
     if (walletModel->isRegTestNetwork()) {
         ui->lineEditPort->setText("51476");
     } else if (walletModel->isTestNetwork()) {
-        ui->lineEditPort->setText("46005");
+        ui->lineEditPort->setText("51474");
     } else {
-        ui->lineEditPort->setText("46003");
+        ui->lineEditPort->setText("51472");
     }
 
     // Confirm icons
@@ -87,15 +105,13 @@ MasterNodeWizardDialog::MasterNodeWizardDialog(WalletModel *model, QWidget *pare
 
     // Connect btns
     setCssBtnPrimary(ui->btnNext);
-    ui->btnNext->setText(tr("NEXT"));
     setCssProperty(ui->btnBack , "btn-dialog-cancel");
     ui->btnBack->setVisible(false);
-    ui->btnBack->setText(tr("BACK"));
     setCssProperty(ui->pushButtonSkip, "ic-close");
 
-    connect(ui->pushButtonSkip, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->btnNext, SIGNAL(clicked()), this, SLOT(onNextClicked()));
-    connect(ui->btnBack, SIGNAL(clicked()), this, SLOT(onBackClicked()));
+    connect(ui->pushButtonSkip, &QPushButton::clicked, this, &MasterNodeWizardDialog::close);
+    connect(ui->btnNext, &QPushButton::clicked, this, &MasterNodeWizardDialog::accept);
+    connect(ui->btnBack, &QPushButton::clicked, this, &MasterNodeWizardDialog::onBackClicked);
 }
 
 void MasterNodeWizardDialog::showEvent(QShowEvent *event)
@@ -103,7 +119,7 @@ void MasterNodeWizardDialog::showEvent(QShowEvent *event)
     if (ui->btnNext) ui->btnNext->setFocus();
 }
 
-void MasterNodeWizardDialog::onNextClicked()
+void MasterNodeWizardDialog::accept()
 {
     switch(pos) {
         case 0:{
@@ -117,7 +133,7 @@ void MasterNodeWizardDialog::onNextClicked()
             ui->lineEditName->setFocus();
             break;
         }
-        case 1:{
+        case 1: {
 
             // No empty names accepted.
             if (ui->lineEditName->text().isEmpty()) {
@@ -136,7 +152,7 @@ void MasterNodeWizardDialog::onNextClicked()
             ui->lineEditIpAddress->setFocus();
             break;
         }
-        case 2:{
+        case 2: {
 
             // No empty address accepted
             if (ui->lineEditIpAddress->text().isEmpty()) {
@@ -147,7 +163,7 @@ void MasterNodeWizardDialog::onNextClicked()
             ui->btnBack->setVisible(true);
             ui->btnBack->setVisible(true);
             isOk = createMN();
-            accept();
+            QDialog::accept();
         }
     }
     pos++;
@@ -196,26 +212,27 @@ bool MasterNodeWizardDialog::createMN()
     // create the mn key
     CKey secret;
     secret.MakeNewKey(false);
-    CBitcoinSecret mnKey = CBitcoinSecret(secret);
-    std::string mnKeyString = mnKey.ToString();
-    
+    std::string mnKeyString = KeyIO::EncodeSecret(secret);
+
     // Look for a valid collateral utxo
     COutPoint collateralOut;
 
     // If not found create a new collateral tx
     if (!walletModel->getMNCollateralCandidate(collateralOut)) {
         // New receive address
-        CBitcoinAddress address;
-        PairResult r = walletModel->getNewAddress(address, alias);
-
-        if (!r.result) {
+        auto r = walletModel->getNewAddress(alias);
+        if (!r) {
             // generate address fail
-            inform(tr(r.status->c_str()));
+            inform(tr(r.getError().c_str()));
             return false;
         }
 
         // const QString& addr, const QString& label, const CAmount& amount, const QString& message
-        SendCoinsRecipient sendCoinsRecipient(QString::fromStdString(address.ToString()), QString::fromStdString(alias), CAmount(12000) * COIN, "");
+        SendCoinsRecipient sendCoinsRecipient(
+                QString::fromStdString(r.getObjResult()->ToString()),
+                QString::fromStdString(alias),
+                clientModel->getMNCollateralRequiredAmount(),
+                "");
 
         // Send the 10 tx to one of your address
         QList<SendCoinsRecipient> recipients;
@@ -223,9 +240,10 @@ bool MasterNodeWizardDialog::createMN()
         WalletModelTransaction currentTransaction(recipients);
         WalletModel::SendCoinsReturn prepareStatus;
 
-        prepareStatus = walletModel->prepareTransaction(currentTransaction);
+        // no coincontrol, no P2CS delegations
+        prepareStatus = walletModel->prepareTransaction(&currentTransaction, nullptr, false);
 
-        QString returnMsg = "Unknown error";
+        QString returnMsg = tr("Unknown error");
         // process prepareStatus and on error generate message shown to user
         CClientUIInterface::MessageBoxFlags informType;
         returnMsg = GuiTransactionsUtils::ProcessSendCoinsReturn(
@@ -258,12 +276,12 @@ bool MasterNodeWizardDialog::createMN()
         }
 
         // look for the tx index of the collateral
-        CWalletTx* walletTx = currentTransaction.getTransaction();
+        CTransactionRef walletTx = currentTransaction.getTransaction();
         std::string txID = walletTx->GetHash().GetHex();
         int indexOut = -1;
         for (int i=0; i < (int)walletTx->vout.size(); i++) {
-            CTxOut& out = walletTx->vout[i];
-            if (out.nValue == 12000 * COIN) {
+            const CTxOut& out = walletTx->vout[i];
+            if (out.nValue == clientModel->getMNCollateralRequiredAmount()) {
                 indexOut = i;
                 break;
             }
@@ -279,18 +297,19 @@ bool MasterNodeWizardDialog::createMN()
     // Update the conf file
     std::string strConfFile = "masternode.conf";
     std::string strDataDir = GetDataDir().string();
-    if (strConfFile != boost::filesystem::basename(strConfFile) + boost::filesystem::extension(strConfFile)) {
+    fs::path conf_file_path(strConfFile);
+    if (strConfFile != conf_file_path.filename().string()) {
         throw std::runtime_error(strprintf(_("masternode.conf %s resides outside data directory %s"), strConfFile, strDataDir));
     }
 
-    boost::filesystem::path pathBootstrap = GetDataDir() / strConfFile;
-    if (!boost::filesystem::exists(pathBootstrap)) {
+    fs::path pathBootstrap = GetDataDir() / strConfFile;
+    if (!fs::exists(pathBootstrap)) {
         returnStr = tr("masternode.conf file doesn't exists");
         return false;
     }
 
-    boost::filesystem::path pathMasternodeConfigFile = GetMasternodeConfigFile();
-    boost::filesystem::ifstream streamConfig(pathMasternodeConfigFile);
+    fs::path pathMasternodeConfigFile = GetMasternodeConfigFile();
+    fsbridge::ifstream streamConfig(pathMasternodeConfigFile);
 
     if (!streamConfig.good()) {
         returnStr = tr("Invalid masternode.conf file");
@@ -343,22 +362,19 @@ bool MasterNodeWizardDialog::createMN()
         ipAddress = "["+ipAddress+"]";
     }
 
-    boost::filesystem::path pathConfigFile("masternode_temp.conf");
-    if (!pathConfigFile.is_complete()) pathConfigFile = GetDataDir() / pathConfigFile;
+    fs::path pathConfigFile = AbsPathForConfigVal(fs::path("masternode_temp.conf"));
     FILE* configFile = fopen(pathConfigFile.string().c_str(), "w");
     lineCopy += alias+" "+ipAddress+":"+port+" "+mnKeyString+" "+txID+" "+indexOutStr+"\n";
     fwrite(lineCopy.c_str(), std::strlen(lineCopy.c_str()), 1, configFile);
     fclose(configFile);
 
-    boost::filesystem::path pathOldConfFile("old_masternode.conf");
-    if (!pathOldConfFile.is_complete()) pathOldConfFile = GetDataDir() / pathOldConfFile;
-    if (boost::filesystem::exists(pathOldConfFile)) {
-        boost::filesystem::remove(pathOldConfFile);
+    fs::path pathOldConfFile = AbsPathForConfigVal(fs::path("old_masternode.conf"));
+    if (fs::exists(pathOldConfFile)) {
+        fs::remove(pathOldConfFile);
     }
     rename(pathMasternodeConfigFile, pathOldConfFile);
 
-    boost::filesystem::path pathNewConfFile("masternode.conf");
-    if (!pathNewConfFile.is_complete()) pathNewConfFile = GetDataDir() / pathNewConfFile;
+    fs::path pathNewConfFile = AbsPathForConfigVal(fs::path("masternode.conf"));
     rename(pathConfigFile, pathNewConfFile);
 
     mnEntry = masternodeConfig.add(alias, ipAddress+":"+port, mnKeyString, txID, indexOutStr);
@@ -366,7 +382,7 @@ bool MasterNodeWizardDialog::createMN()
     // Lock collateral output
     walletModel->lockCoin(collateralOut);
 
-    returnStr = tr("Masternode created! Wait %1 confirmations before starting it.").arg(MASTERNODE_MIN_CONFIRMATIONS);
+    returnStr = tr("Master node created! Wait %1 confirmations before starting it.").arg(MasternodeCollateralMinConf());
     return true;
 }
 
@@ -388,7 +404,7 @@ void MasterNodeWizardDialog::onBackClicked()
             ui->btnBack->setVisible(false);
             break;
         }
-        case 1:{
+        case 1: {
             ui->stackedWidget->setCurrentIndex(1);
             ui->lineEditName->setFocus();
             ui->pushNumber4->setChecked(false);

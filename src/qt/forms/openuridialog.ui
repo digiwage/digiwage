@@ -56,7 +56,7 @@
       <item>
        <widget class="QLabel" name="labelTitle">
         <property name="text">
-         <string>Open payment request from URI or file</string>
+         <string>Open DIGIWAGE URI</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -82,7 +82,7 @@
       <item>
        <widget class="QLabel" name="labelSubtitle">
         <property name="text">
-         <string>TextLabel</string>
+         <string notr="true">TextLabel</string>
         </property>
        </widget>
       </item>
@@ -98,31 +98,6 @@
 	border-top-right-radius:0px;
 	border-bottom-right-radius:0px;
 }</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="selectFileButton">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>41</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Select payment request file</string>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">#selectFileButton{
-	border-top-left-radius:0px;
-	border-bottom-left-radius:0px;
-}</string>
-          </property>
-          <property name="text">
-           <string notr="true">...</string>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
           </property>
          </widget>
         </item>

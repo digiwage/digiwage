@@ -238,7 +238,7 @@ def update_build_systems():
     filename_lang.sort(key=lambda x: x[0])
 
     # update qrc locales
-    with open('src/qt/digiwage_locale.qrc', 'w') as f:
+    with open('src/qt/digiwage_locale.qrc', 'w', encoding="utf8") as f:
         f.write('<!DOCTYPE RCC><RCC version="1.0">\n')
         f.write('    <qresource prefix="/translations">\n')
         for (filename, basename, lang) in filename_lang:
@@ -247,7 +247,7 @@ def update_build_systems():
         f.write('</RCC>\n')
 
     # update Makefile include
-    with open('src/Makefile.qt_locale.include', 'w') as f:
+    with open('src/Makefile.qt_locale.include', 'w', encoding="utf8") as f:
         f.write('QT_TS = \\\n')
         f.write(' \\\n'.join(f'  qt/locale/{filename}' for (filename, basename, lang) in filename_lang))
         f.write('\n') # make sure last line doesn't end with a backslash

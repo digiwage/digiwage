@@ -42,7 +42,6 @@ public:
             setDateRange(MIN_DATE, MAX_DATE);
     }
 
-    void setAddressPrefix(const QString& addrPrefix);
     /**
       @note Type filter takes a bit field created with TYPE() or ALL_TYPES
      */
@@ -59,16 +58,8 @@ public:
     /** Set whether to hide orphan stakes. */
     void setHideOrphans(bool fHide);
 
-    /** Only stakes and masternode reward txes **/
-    void setOnlyStakesandMNTxes(bool fOnlyStakesandMN);
-
-    /** Shows only p2cs-p2cs && xxx-p2cs **/
-    void setOnlyColdStakes(bool fOnlyColdStakes);
-
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     static bool isOrphan(const int status, const int type);
-
-    //QVariant dataFromSourcePos(int sourceRow, int role) const;
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const;
@@ -76,19 +67,12 @@ protected:
 private:
     QDateTime dateFrom;
     QDateTime dateTo;
-    QString addrPrefix;
     quint32 typeFilter;
     WatchOnlyFilter watchOnlyFilter;
     CAmount minAmount;
     int limitRows;
     bool showInactive;
     bool fHideOrphans = true;
-    bool fOnlyStakesandMN = false;
-    bool fOnlyColdStaking = false;
-
-    bool isStakeTx(int type) const;
-    bool isMasternodeRewardTx(int type) const;
-    bool isColdStake(int type) const;
 };
 
 #endif // BITCOIN_QT_TRANSACTIONFILTERPROXY_H

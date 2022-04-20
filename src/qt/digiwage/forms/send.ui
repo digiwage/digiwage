@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>send</class>
  <widget class="QWidget" name="send">
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,1">
    <property name="spacing">
@@ -66,7 +66,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <property name="spacing">
-             <number>5</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QLabel" name="labelTitle">
@@ -81,7 +81,7 @@
             <item>
              <widget class="QLabel" name="labelSubtitle1">
               <property name="text">
-               <string>Send DIGIWAGE (WAGE) to other addresses.</string>
+               <string>Transfer coins publicly or privately</string>
               </property>
              </widget>
             </item>
@@ -103,15 +103,20 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <property name="spacing">
-             <number>0</number>
+             <number>3</number>
             </property>
-            <item>
+            <item alignment="Qt::AlignHCenter">
              <widget class="QGroupBox" name="groupBox">
+              <property name="styleSheet">
+               <string notr="true">#groupBox{
+padding-top:2px;
+}</string>
+              </property>
               <property name="title">
                <string/>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               <set>Qt::AlignCenter</set>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <property name="spacing">
@@ -129,7 +134,82 @@
                <property name="bottomMargin">
                 <number>0</number>
                </property>
+               <item>
+                <widget class="QPushButton" name="pushLeft">
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>120</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="text">
+                  <string>Transparent</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoExclusive">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushRight">
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>120</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="text">
+                  <string>Shielded</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoExclusive">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
               </layout>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+             <widget class="QLabel" name="labelSubtitle2">
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Select which coins to spend</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="indent">
+               <number>0</number>
+              </property>
              </widget>
             </item>
            </layout>
@@ -175,7 +255,7 @@
              <string notr="true">margin-left:8px;</string>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string>Recipient address</string>
             </property>
            </widget>
           </item>
@@ -198,7 +278,7 @@
           <item>
            <widget class="QLabel" name="labelSubtitleAmount">
             <property name="text">
-             <string>TextLabel</string>
+             <string>Amount</string>
             </property>
            </widget>
           </item>
@@ -297,9 +377,22 @@
           <property name="spacing">
            <number>6</number>
           </property>
+          <property name="leftMargin">
+           <number>20</number>
+          </property>
           <property name="rightMargin">
            <number>20</number>
           </property>
+          <item>
+           <widget class="QCheckBox" name="checkBoxDelegations">
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="text">
+             <string>Include delegated</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <spacer name="horizontalSpacer_4">
             <property name="orientation">
@@ -307,7 +400,7 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
+              <width>10</width>
               <height>20</height>
              </size>
             </property>
@@ -319,7 +412,7 @@
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Customize fee</string>
             </property>
            </widget>
           </item>
@@ -333,7 +426,7 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
+              <width>10</width>
               <height>20</height>
              </size>
             </property>
@@ -348,7 +441,7 @@
              <enum>Qt::RightToLeft</enum>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Clear all</string>
             </property>
            </widget>
           </item>
@@ -362,7 +455,7 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>20</width>
+              <width>10</width>
               <height>20</height>
              </size>
             </property>
@@ -374,7 +467,7 @@
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Add recipient</string>
             </property>
            </widget>
           </item>
@@ -478,14 +571,14 @@
                      <item>
                       <widget class="QLabel" name="labelTitleTotalSend">
                        <property name="text">
-                        <string>TextLabel</string>
+                        <string>Total to send</string>
                        </property>
                       </widget>
                      </item>
                      <item>
                       <widget class="QLabel" name="labelAmountSend">
                        <property name="text">
-                        <string>TextLabel</string>
+                        <string notr="true">0.00 WAGE</string>
                        </property>
                       </widget>
                      </item>
@@ -550,14 +643,14 @@
                      <item>
                       <widget class="QLabel" name="labelTitleTotalRemaining">
                        <property name="text">
-                        <string>TextLabel</string>
+                        <string notr="true">N/A</string>
                        </property>
                       </widget>
                      </item>
                      <item>
                       <widget class="QLabel" name="labelAmountRemaining">
                        <property name="text">
-                        <string>TextLabel</string>
+                        <string notr="true">N/A</string>
                        </property>
                       </widget>
                      </item>
@@ -607,7 +700,7 @@
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="text">
-             <string/>
+             <string>Send</string>
             </property>
            </widget>
           </item>
@@ -669,6 +762,16 @@
          </widget>
         </item>
         <item>
+         <widget class="OptionButton" name="btnShieldCoins" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>50</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_5">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -714,7 +817,7 @@
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Reset to default</string>
             </property>
            </widget>
           </item>

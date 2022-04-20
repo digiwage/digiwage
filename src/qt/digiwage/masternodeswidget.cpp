@@ -4,27 +4,22 @@
 
 #include "qt/digiwage/masternodeswidget.h"
 #include "qt/digiwage/forms/ui_masternodeswidget.h"
+
 #include "qt/digiwage/qtutils.h"
 #include "qt/digiwage/mnrow.h"
 #include "qt/digiwage/mninfodialog.h"
-
 #include "qt/digiwage/masternodewizarddialog.h"
 
 #include "activemasternode.h"
 #include "clientmodel.h"
+#include "fs.h"
 #include "guiutil.h"
-#include "init.h"
 #include "masternode-sync.h"
 #include "masternodeconfig.h"
 #include "masternodeman.h"
-#include "sync.h"
-#include "wallet/wallet.h"
-#include "walletmodel.h"
-#include "askpassphrasedialog.h"
-#include "util.h"
+#include "util/system.h"
+#include "qt/digiwage/mnmodel.h"
 #include "qt/digiwage/optionbutton.h"
-#include <boost/filesystem.hpp>
-#include <iostream>
 #include <fstream>
 
 #define DECORATION_SIZE 65
@@ -35,8 +30,6 @@
 class MNHolder : public FurListRow<QWidget*>
 {
 public:
-    MNHolder();
-
     explicit MNHolder(bool _isLightTheme) : FurListRow(), isLightTheme(_isLightTheme) {}
 
     MNRow* createHolder(int pos) override
@@ -78,7 +71,6 @@ MasterNodesWidget::MasterNodesWidget(DIGIWAGEGUI *parent) :
             new MNHolder(isLightTheme()),
             this
     );
-    mnModel = new MNModel(this);
 
     this->setStyleSheet(parent->styleSheet());
 
@@ -93,24 +85,20 @@ MasterNodesWidget::MasterNodesWidget(DIGIWAGEGUI *parent) :
     fontLight.setWeight(QFont::Light);
 
     /* Title */
-    ui->labelTitle->setText(tr("Masternodes"));
     setCssTitleScreen(ui->labelTitle);
     ui->labelTitle->setFont(fontLight);
-
-    ui->labelSubtitle1->setText(tr("Full nodes that incentivize node operators to perform the core consensus functions\nand vote on the treasury system receiving a periodic reward."));
     setCssSubtitleScreen(ui->labelSubtitle1);
 
     /* Buttons */
-    ui->pushButtonSave->setText(tr("Create Masternode Controller"));
     setCssBtnPrimary(ui->pushButtonSave);
     setCssBtnPrimary(ui->pushButtonStartAll);
-    setCssBtnPrimary(ui->pushButtonOpenConfig);
+    setCssBtnPrimary(ui->pushButtonStartMissing);
 
     /* Options */
-    ui->btnAbout->setTitleClassAndText("btn-title-grey", "What is a Masternode?");
-    ui->btnAbout->setSubTitleClassAndText("text-subtitle", "FAQ explaining what Masternodes are");
-    ui->btnAboutController->setTitleClassAndText("btn-title-grey", "What is a Controller?");
-    ui->btnAboutController->setSubTitleClassAndText("text-subtitle", "FAQ explaining what is a Masternode Controller");
+    ui->btnAbout->setTitleClassAndText("btn-title-grey", tr("What is a Masternode?"));
+    ui->btnAbout->setSubTitleClassAndText("text-subtitle", tr("FAQ explaining what Masternodes are"));
+    ui->btnAboutController->setTitleClassAndText("btn-title-grey", tr("What is a Controller?"));
+    ui->btnAboutController->setSubTitleClassAndText("text-subtitle", tr("FAQ explaining what is a Masternode Controller"));
 
     setCssProperty(ui->listMn, "container");
     ui->listMn->setItemDelegate(delegate);
@@ -121,19 +109,18 @@ MasterNodesWidget::MasterNodesWidget(DIGIWAGEGUI *parent) :
 
     ui->emptyContainer->setVisible(false);
     setCssProperty(ui->pushImgEmpty, "img-empty-master");
-    ui->labelEmpty->setText(tr("No active Masternode yet"));
     setCssProperty(ui->labelEmpty, "text-empty");
 
-    connect(ui->pushButtonSave, SIGNAL(clicked()), this, SLOT(onCreateMNClicked()));
+    connect(ui->pushButtonSave, &QPushButton::clicked, this, &MasterNodesWidget::onCreateMNClicked);
     connect(ui->pushButtonStartAll, &QPushButton::clicked, [this]() {
         onStartAllClicked(REQUEST_START_ALL);
     });
-    connect(ui->pushButtonOpenConfig, &QPushButton::clicked, [this]() {
-        onOpenConfigClicked();
+    connect(ui->pushButtonStartMissing, &QPushButton::clicked, [this]() {
+        onStartAllClicked(REQUEST_START_MISSING);
     });
-    connect(ui->listMn, SIGNAL(clicked(QModelIndex)), this, SLOT(onMNClicked(QModelIndex)));
-    connect(ui->btnAbout, &OptionButton::clicked, [this](){window->openFAQ(9);});
-    connect(ui->btnAboutController, &OptionButton::clicked, [this](){window->openFAQ(10);});
+    connect(ui->listMn, &QListView::clicked, this, &MasterNodesWidget::onMNClicked);
+    connect(ui->btnAbout, &OptionButton::clicked, [this](){window->openFAQ(SettingsFaqWidget::Section::MASTERNODE);});
+    connect(ui->btnAboutController, &OptionButton::clicked, [this](){window->openFAQ(SettingsFaqWidget::Section::MNCONTROLLER);});
 }
 
 void MasterNodesWidget::showEvent(QShowEvent *event)
@@ -151,13 +138,12 @@ void MasterNodesWidget::hideEvent(QHideEvent *event)
     if (timer) timer->stop();
 }
 
-void MasterNodesWidget::loadWalletModel()
+void MasterNodesWidget::setMNModel(MNModel* _mnModel)
 {
-    if (walletModel) {
-        ui->listMn->setModel(mnModel);
-        ui->listMn->setModelColumn(AddressTableModel::Label);
-        updateListState();
-    }
+    mnModel = _mnModel;
+    ui->listMn->setModel(mnModel);
+    ui->listMn->setModelColumn(AddressTableModel::Label);
+    updateListState();
 }
 
 void MasterNodesWidget::updateListState()
@@ -181,11 +167,11 @@ void MasterNodesWidget::onMNClicked(const QModelIndex &index)
         this->menu->setDeleteBtnText(tr("Delete"));
         this->menu->setCopyBtnText(tr("Info"));
         connect(this->menu, &TooltipMenu::message, this, &AddressesWidget::message);
-        connect(this->menu, SIGNAL(onEditClicked()), this, SLOT(onEditMNClicked()));
-        connect(this->menu, SIGNAL(onDeleteClicked()), this, SLOT(onDeleteMNClicked()));
-        connect(this->menu, SIGNAL(onCopyClicked()), this, SLOT(onInfoMNClicked()));
+        connect(this->menu, &TooltipMenu::onEditClicked, this, &MasterNodesWidget::onEditMNClicked);
+        connect(this->menu, &TooltipMenu::onDeleteClicked, this, &MasterNodesWidget::onDeleteMNClicked);
+        connect(this->menu, &TooltipMenu::onCopyClicked, this, &MasterNodesWidget::onInfoMNClicked);
         this->menu->adjustSize();
-    }else {
+    } else {
         this->menu->hide();
     }
     this->index = index;
@@ -207,7 +193,7 @@ bool MasterNodesWidget::checkMNsNetwork()
 
 void MasterNodesWidget::onEditMNClicked()
 {
-    if(walletModel) {
+    if (walletModel) {
         if (!walletModel->isRegTestNetwork() && !checkMNsNetwork()) return;
         if (index.sibling(index.row(), MNModel::WAS_COLLATERAL_ACCEPTED).data(Qt::DisplayRole).toBool()) {
             // Start MN
@@ -223,20 +209,34 @@ void MasterNodesWidget::onEditMNClicked()
             }
         } else {
             inform(tr("Cannot start masternode, the collateral transaction has not been confirmed by the network yet.\n"
-                    "Please wait few more minutes (masternode collaterals require %1 confirmations).").arg(MASTERNODE_MIN_CONFIRMATIONS));
+                    "Please wait few more minutes (masternode collaterals require %1 confirmations).").arg(MasternodeCollateralMinConf()));
         }
     }
 }
 
-void MasterNodesWidget::startAlias(QString strAlias)
+static bool startMN(const CMasternodeConfig::CMasternodeEntry& mne, int chainHeight, std::string& strError)
+{
+    CMasternodeBroadcast mnb;
+    if (!CMasternodeBroadcast::Create(mne.getIp(), mne.getPrivKey(), mne.getTxHash(), mne.getOutputIndex(), strError, mnb, false, chainHeight))
+        return false;
+
+    mnodeman.UpdateMasternodeList(mnb);
+    if (activeMasternode.pubKeyMasternode == mnb.GetPubKey()) {
+        activeMasternode.EnableHotColdMasterNode(mnb.vin, mnb.addr);
+    }
+    mnb.Relay();
+    return true;
+}
+
+void MasterNodesWidget::startAlias(const QString& strAlias)
 {
     QString strStatusHtml;
     strStatusHtml += "Alias: " + strAlias + " ";
 
-    for (CMasternodeConfig::CMasternodeEntry mne : masternodeConfig.getEntries()) {
+    for (const auto& mne : masternodeConfig.getEntries()) {
         if (mne.getAlias() == strAlias.toStdString()) {
             std::string strError;
-            strStatusHtml += (!startMN(mne, strError)) ? ("failed to start.\nError: " + QString::fromStdString(strError)) : "successfully started.";
+            strStatusHtml += (!startMN(mne, walletModel->getLastBlockProcessedNum(), strError)) ? ("failed to start.\nError: " + QString::fromStdString(strError)) : "successfully started.";
             break;
         }
     }
@@ -244,37 +244,26 @@ void MasterNodesWidget::startAlias(QString strAlias)
     updateModelAndInform(strStatusHtml);
 }
 
-void MasterNodesWidget::updateModelAndInform(QString informText)
+void MasterNodesWidget::updateModelAndInform(const QString& informText)
 {
     mnModel->updateMNList();
     inform(informText);
 }
 
-bool MasterNodesWidget::startMN(CMasternodeConfig::CMasternodeEntry mne, std::string& strError)
-{
-    CMasternodeBroadcast mnb;
-    if (!CMasternodeBroadcast::Create(mne.getIp(), mne.getPrivKey(), mne.getTxHash(), mne.getOutputIndex(), strError, mnb))
-        return false;
-
-    mnodeman.UpdateMasternodeList(mnb);
-    mnb.Relay();
-    return true;
-}
-
 void MasterNodesWidget::onStartAllClicked(int type)
 {
-    WalletModel::UnlockContext ctx(walletModel->requestUnlock());
-    if (!ctx.isValid()) {
-        // Unlock wallet was cancelled
-        inform(tr("Cannot perform Masternodes start, wallet locked"));
-        return;
-    }
-    if (!checkMNsNetwork()) return;
+    if (!Params().IsRegTestNet() && !checkMNsNetwork()) return;     // skip on RegNet: so we can test even if tier two not synced
+
     if (isLoading) {
         inform(tr("Background task is being executed, please wait"));
     } else {
+        std::unique_ptr<WalletModel::UnlockContext> pctx = std::make_unique<WalletModel::UnlockContext>(walletModel->requestUnlock());
+        if (!pctx->isValid()) {
+            warn(tr("Start ALL masternodes failed"), tr("Wallet unlock cancelled"));
+            return;
+        }
         isLoading = true;
-        if (!execute(type)) {
+        if (!execute(type, std::move(pctx))) {
             isLoading = false;
             inform(tr("Cannot perform Masternodes start"));
         }
@@ -285,7 +274,7 @@ bool MasterNodesWidget::startAll(QString& failText, bool onlyMissing)
 {
     int amountOfMnFailed = 0;
     int amountOfMnStarted = 0;
-    for (CMasternodeConfig::CMasternodeEntry mne : masternodeConfig.getEntries()) {
+    for (const auto& mne : masternodeConfig.getEntries()) {
         // Check for missing only
         QString mnAlias = QString::fromStdString(mne.getAlias());
         if (onlyMissing && !mnModel->isMNInactive(mnAlias)) {
@@ -294,8 +283,13 @@ bool MasterNodesWidget::startAll(QString& failText, bool onlyMissing)
             continue;
         }
 
+        if (!mnModel->isMNCollateralMature(mnAlias)) {
+            amountOfMnFailed++;
+            continue;
+        }
+
         std::string strError;
-        if (!startMN(mne, strError)) {
+        if (!startMN(mne, walletModel->getLastBlockProcessedNum(), strError)) {
             amountOfMnFailed++;
         } else {
             amountOfMnStarted++;
@@ -306,12 +300,6 @@ bool MasterNodesWidget::startAll(QString& failText, bool onlyMissing)
         return false;
     }
     return true;
-}
-
-void MasterNodesWidget::onOpenConfigClicked()
-{
-    GUIUtil::openMNConfigfile();
-    inform(tr("Please remember to restart your wallet after changing the config file!"));
 }
 
 void MasterNodesWidget::run(int type)
@@ -366,7 +354,7 @@ void MasterNodesWidget::onInfoMNClicked()
                                  "masternodeaddr=" + address + + "\n" +
                                  "masternodeprivkey=" + index.sibling(index.row(), MNModel::PRIV_KEY).data(Qt::DisplayRole).toString() + "\n";
             GUIUtil::setClipboard(exportedMN);
-            inform(tr("Masternode exported!, check your clipboard"));
+            inform(tr("Masternode data copied to the clipboard."));
         }
     }
 
@@ -385,14 +373,15 @@ void MasterNodesWidget::onDeleteMNClicked()
 
     std::string strConfFile = "masternode.conf";
     std::string strDataDir = GetDataDir().string();
-    if (strConfFile != boost::filesystem::basename(strConfFile) + boost::filesystem::extension(strConfFile)) {
+    fs::path conf_file_path(strConfFile);
+    if (strConfFile != conf_file_path.filename().string()) {
         throw std::runtime_error(strprintf(_("masternode.conf %s resides outside data directory %s"), strConfFile, strDataDir));
     }
 
-    boost::filesystem::path pathBootstrap = GetDataDir() / strConfFile;
-    if (boost::filesystem::exists(pathBootstrap)) {
-        boost::filesystem::path pathMasternodeConfigFile = GetMasternodeConfigFile();
-        boost::filesystem::ifstream streamConfig(pathMasternodeConfigFile);
+    fs::path pathBootstrap = GetDataDir() / strConfFile;
+    if (fs::exists(pathBootstrap)) {
+        fs::path pathMasternodeConfigFile = GetMasternodeConfigFile();
+        fsbridge::ifstream streamConfig(pathMasternodeConfigFile);
 
         if (!streamConfig.good()) {
             inform(tr("Invalid masternode.conf file"));
@@ -434,34 +423,31 @@ void MasterNodesWidget::onDeleteMNClicked()
         if (lineCopy.size() == 0) {
             lineCopy = "# Masternode config file\n"
                                     "# Format: alias IP:port masternodeprivkey collateral_output_txid collateral_output_index\n"
-                                    "# Example: mn1 127.0.0.2:46003 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 0\n";
+                                    "# Example: mn1 127.0.0.2:51472 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 0\n";
         }
 
         streamConfig.close();
 
         if (lineNumToRemove != -1) {
-            boost::filesystem::path pathConfigFile("masternode_temp.conf");
-            if (!pathConfigFile.is_complete()) pathConfigFile = GetDataDir() / pathConfigFile;
-            FILE* configFile = fopen(pathConfigFile.string().c_str(), "w");
+            fs::path pathConfigFile = AbsPathForConfigVal(fs::path("masternode_temp.conf"));
+            FILE* configFile = fsbridge::fopen(pathConfigFile, "w");
             fwrite(lineCopy.c_str(), std::strlen(lineCopy.c_str()), 1, configFile);
             fclose(configFile);
 
-            boost::filesystem::path pathOldConfFile("old_masternode.conf");
-            if (!pathOldConfFile.is_complete()) pathOldConfFile = GetDataDir() / pathOldConfFile;
-            if (boost::filesystem::exists(pathOldConfFile)) {
-                boost::filesystem::remove(pathOldConfFile);
+            fs::path pathOldConfFile = AbsPathForConfigVal(fs::path("old_masternode.conf"));
+            if (fs::exists(pathOldConfFile)) {
+                fs::remove(pathOldConfFile);
             }
             rename(pathMasternodeConfigFile, pathOldConfFile);
 
-            boost::filesystem::path pathNewConfFile("masternode.conf");
-            if (!pathNewConfFile.is_complete()) pathNewConfFile = GetDataDir() / pathNewConfFile;
+            fs::path pathNewConfFile = AbsPathForConfigVal(fs::path("masternode.conf"));
             rename(pathConfigFile, pathNewConfFile);
 
             // Unlock collateral
             bool convertOK = false;
             unsigned int indexOut = outIndex.toUInt(&convertOK);
-            if(convertOK) {
-                COutPoint collateralOut(uint256(txId.toStdString()), indexOut);
+            if (convertOK) {
+                COutPoint collateralOut(uint256S(txId.toStdString()), indexOut);
                 walletModel->unlockCoin(collateralOut);
             }
 
@@ -471,12 +457,13 @@ void MasterNodesWidget::onDeleteMNClicked()
             mnModel->removeMn(index);
             updateListState();
         }
-    } else{
+    } else {
         inform(tr("masternode.conf file doesn't exists"));
     }
 }
 
-void MasterNodesWidget::onCreateMNClicked(){
+void MasterNodesWidget::onCreateMNClicked()
+{
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
     if (!ctx.isValid()) {
         // Unlock wallet was cancelled
@@ -484,12 +471,14 @@ void MasterNodesWidget::onCreateMNClicked(){
         return;
     }
 
-    if (walletModel->getBalance() <= (COIN * 12000)) {
-        inform(tr("Not enough balance to create a masternode, 12,000 WAGE required."));
+    CAmount mnCollateralAmount = clientModel->getMNCollateralRequiredAmount();
+    if (walletModel->getBalance() <= mnCollateralAmount) {
+        inform(tr("Not enough balance to create a masternode, %1 required.")
+            .arg(GUIUtil::formatBalance(mnCollateralAmount, BitcoinUnits::WAGE)));
         return;
     }
     showHideOp(true);
-    MasterNodeWizardDialog *dialog = new MasterNodeWizardDialog(walletModel, window);
+    MasterNodeWizardDialog *dialog = new MasterNodeWizardDialog(walletModel, clientModel, window);
     if (openDialogWithOpaqueBackgroundY(dialog, window, 5, 7)) {
         if (dialog->isOk) {
             // Update list

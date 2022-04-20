@@ -10,24 +10,24 @@
 
 #include "qt/guiutil.h"
 #include "clientmodel.h"
+#include "interfaces/handler.h"
 #include "optionsmodel.h"
 #include "networkstyle.h"
 #include "notificator.h"
 #include "guiinterface.h"
 #include "qt/digiwage/qtutils.h"
 #include "qt/digiwage/defaultdialog.h"
-#include "qt/digiwage/settings/settingsfaqwidget.h"
+#include "shutdown.h"
+#include "util/system.h"
 
-#include <QDesktopWidget>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <QApplication>
 #include <QColor>
-#include <QShortcut>
+#include <QHBoxLayout>
 #include <QKeySequence>
+#include <QScreen>
+#include <QShortcut>
 #include <QWindowStateChangeEvent>
 
-#include "util.h"
 
 #define BASE_WINDOW_WIDTH 1200
 #define BASE_WINDOW_HEIGHT 740
@@ -47,7 +47,7 @@ DIGIWAGEGUI::DIGIWAGEGUI(const NetworkStyle* networkStyle, QWidget* parent) :
 
 
     // Adapt screen size
-    QRect rec = QApplication::desktop()->screenGeometry();
+    QRect rec = QGuiApplication::primaryScreen()->geometry();
     int adaptedHeight = (rec.height() < BASE_WINDOW_HEIGHT) ?  BASE_WINDOW_MIN_HEIGHT : BASE_WINDOW_HEIGHT;
     int adaptedWidth = (rec.width() < BASE_WINDOW_WIDTH) ?  BASE_WINDOW_MIN_WIDTH : BASE_WINDOW_WIDTH;
     GUIUtil::restoreWindowGeometry(
@@ -58,27 +58,25 @@ DIGIWAGEGUI::DIGIWAGEGUI(const NetworkStyle* networkStyle, QWidget* parent) :
 
 #ifdef ENABLE_WALLET
     /* if compiled with wallet support, -disablewallet can still disable the wallet */
-    enableWallet = !GetBoolArg("-disablewallet", false);
+    enableWallet = !gArgs.GetBoolArg("-disablewallet", DEFAULT_DISABLE_WALLET);
 #else
     enableWallet = false;
 #endif // ENABLE_WALLET
 
-    QString windowTitle = tr("DIGIWAGE Core") + " - ";
-    windowTitle += ((enableWallet) ? tr("Wallet") : tr("Node"));
+    QString windowTitle = QString::fromStdString(gArgs.GetArg("-windowtitle", ""));
+    if (windowTitle.isEmpty()) {
+        windowTitle = QString{PACKAGE_NAME} + " - ";
+        windowTitle += ((enableWallet) ? tr("Wallet") : tr("Node"));
+    }
     windowTitle += " " + networkStyle->getTitleAddText();
     setWindowTitle(windowTitle);
 
-#ifndef Q_OS_MAC
     QApplication::setWindowIcon(networkStyle->getAppIcon());
     setWindowIcon(networkStyle->getAppIcon());
-#else
-    MacDockIconHandler::instance()->setIcon(networkStyle->getAppIcon());
-#endif
 
 #ifdef ENABLE_WALLET
     // Create wallet frame
-    if(enableWallet){
-
+    if (enableWallet) {
         QFrame* centralWidget = new QFrame(this);
         this->setMinimumWidth(BASE_WINDOW_MIN_WIDTH);
         this->setMinimumHeight(BASE_WINDOW_MIN_HEIGHT);
@@ -127,6 +125,7 @@ DIGIWAGEGUI::DIGIWAGEGUI(const NetworkStyle* networkStyle, QWidget* parent) :
         addressesWidget = new AddressesWidget(this);
         masterNodesWidget = new MasterNodesWidget(this);
         coldStakingWidget = new ColdStakingWidget(this);
+        governancewidget = new GovernanceWidget(this);
         settingsWidget = new SettingsWidget(this);
 
         // Add to parent
@@ -136,6 +135,7 @@ DIGIWAGEGUI::DIGIWAGEGUI(const NetworkStyle* networkStyle, QWidget* parent) :
         stackedContainer->addWidget(addressesWidget);
         stackedContainer->addWidget(masterNodesWidget);
         stackedContainer->addWidget(coldStakingWidget);
+        stackedContainer->addWidget(governancewidget);
         stackedContainer->addWidget(settingsWidget);
         stackedContainer->setCurrentWidget(dashboard);
 
@@ -166,7 +166,8 @@ DIGIWAGEGUI::DIGIWAGEGUI(const NetworkStyle* networkStyle, QWidget* parent) :
 
 }
 
-void DIGIWAGEGUI::createActions(const NetworkStyle* networkStyle){
+void DIGIWAGEGUI::createActions(const NetworkStyle* networkStyle)
+{
     toggleHideAction = new QAction(networkStyle->getAppIcon(), tr("&Show / Hide"), this);
     toggleHideAction->setStatusTip(tr("Show or hide the main Window"));
 
@@ -175,14 +176,15 @@ void DIGIWAGEGUI::createActions(const NetworkStyle* networkStyle){
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
 
-    connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
-    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(toggleHideAction, &QAction::triggered, this, &DIGIWAGEGUI::toggleHidden);
+    connect(quitAction, &QAction::triggered, qApp, &QApplication::quit);
 }
 
 /**
  * Here add every event connection
  */
-void DIGIWAGEGUI::connectActions() {
+void DIGIWAGEGUI::connectActions()
+{
     QShortcut *consoleShort = new QShortcut(this);
     consoleShort->setKey(QKeySequence(SHORT_KEY + Qt::Key_C));
     connect(consoleShort, &QShortcut::activated, [this](){
@@ -201,14 +203,17 @@ void DIGIWAGEGUI::connectActions() {
     connect(masterNodesWidget, &MasterNodesWidget::execDialog, this, &DIGIWAGEGUI::execDialog);
     connect(coldStakingWidget, &ColdStakingWidget::showHide, this, &DIGIWAGEGUI::showHide);
     connect(coldStakingWidget, &ColdStakingWidget::execDialog, this, &DIGIWAGEGUI::execDialog);
+    connect(governancewidget, &GovernanceWidget::showHide, this, &DIGIWAGEGUI::showHide);
+    connect(governancewidget, &GovernanceWidget::execDialog, this, &DIGIWAGEGUI::execDialog);
     connect(settingsWidget, &SettingsWidget::execDialog, this, &DIGIWAGEGUI::execDialog);
 }
 
 
-void DIGIWAGEGUI::createTrayIcon(const NetworkStyle* networkStyle) {
+void DIGIWAGEGUI::createTrayIcon(const NetworkStyle* networkStyle)
+{
 #ifndef Q_OS_MAC
     trayIcon = new QSystemTrayIcon(this);
-    QString toolTip = tr("DIGIWAGE Core client") + " " + networkStyle->getTitleAddText();
+    QString toolTip = tr("%1 client").arg(PACKAGE_NAME) + " " + networkStyle->getTitleAddText();
     trayIcon->setToolTip(toolTip);
     trayIcon->setIcon(networkStyle->getAppIcon());
     trayIcon->hide();
@@ -216,8 +221,8 @@ void DIGIWAGEGUI::createTrayIcon(const NetworkStyle* networkStyle) {
     notificator = new Notificator(QApplication::applicationName(), trayIcon, this);
 }
 
-//
-DIGIWAGEGUI::~DIGIWAGEGUI() {
+DIGIWAGEGUI::~DIGIWAGEGUI()
+{
     // Unsubscribe from notifications from core
     unsubscribeFromCoreSignals();
 
@@ -231,16 +236,17 @@ DIGIWAGEGUI::~DIGIWAGEGUI() {
 
 
 /** Get restart command-line parameters and request restart */
-void DIGIWAGEGUI::handleRestart(QStringList args){
+void DIGIWAGEGUI::handleRestart(QStringList args)
+{
     if (!ShutdownRequested())
         Q_EMIT requestedRestart(args);
 }
 
 
-void DIGIWAGEGUI::setClientModel(ClientModel* clientModel) {
-    this->clientModel = clientModel;
-    if(this->clientModel) {
-
+void DIGIWAGEGUI::setClientModel(ClientModel* _clientModel)
+{
+    this->clientModel = _clientModel;
+    if (this->clientModel) {
         // Create system tray menu (or setup the dock menu) that late to prevent users from calling actions,
         // while the client has not yet fully loaded
         createTrayIconMenu();
@@ -248,12 +254,18 @@ void DIGIWAGEGUI::setClientModel(ClientModel* clientModel) {
         topBar->setClientModel(clientModel);
         dashboard->setClientModel(clientModel);
         sendWidget->setClientModel(clientModel);
+        masterNodesWidget->setClientModel(clientModel);
         settingsWidget->setClientModel(clientModel);
+        governancewidget->setClientModel(clientModel);
 
         // Receive and report messages from client model
-        connect(clientModel, SIGNAL(message(QString, QString, unsigned int)), this, SLOT(message(QString, QString, unsigned int)));
-        connect(topBar, SIGNAL(walletSynced(bool)), dashboard, SLOT(walletSynced(bool)));
-        connect(topBar, SIGNAL(walletSynced(bool)), coldStakingWidget, SLOT(walletSynced(bool)));
+        connect(clientModel, &ClientModel::message, this, &DIGIWAGEGUI::message);
+        connect(clientModel, &ClientModel::alertsChanged, [this](const QString& _alertStr) {
+            message(tr("Alert!"), _alertStr, CClientUIInterface::MSG_WARNING);
+        });
+        connect(topBar, &TopBar::walletSynced, dashboard, &DashboardWidget::walletSynced);
+        connect(topBar, &TopBar::walletSynced, coldStakingWidget, &ColdStakingWidget::walletSynced);
+        connect(topBar, &TopBar::tierTwoSynced, governancewidget, &GovernanceWidget::tierTwoSynced);
 
         // Get restart command-line parameters and handle restart
         connect(settingsWidget, &SettingsWidget::handleRestart, [this](QStringList arg){handleRestart(arg);});
@@ -275,29 +287,31 @@ void DIGIWAGEGUI::setClientModel(ClientModel* clientModel) {
     }
 }
 
-void DIGIWAGEGUI::createTrayIconMenu() {
+void DIGIWAGEGUI::createTrayIconMenu()
+{
 #ifndef Q_OS_MAC
-    // return if trayIcon is unset (only on non-Mac OSes)
+    // return if trayIcon is unset (only on non-macOSes)
     if (!trayIcon)
         return;
 
     trayIconMenu = new QMenu(this);
     trayIcon->setContextMenu(trayIconMenu);
 
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &DIGIWAGEGUI::trayIconActivated);
 #else
-    // Note: On Mac, the dock icon is used to provide the tray's functionality.
+    // Note: On macOS, the Dock icon is used to provide the tray's functionality.
     MacDockIconHandler* dockIconHandler = MacDockIconHandler::instance();
-    dockIconHandler->setMainWindow((QMainWindow*)this);
-    trayIconMenu = dockIconHandler->dockMenu();
+    connect(dockIconHandler, &MacDockIconHandler::dockIconClicked, this, &DIGIWAGEGUI::macosDockIconActivated);
+
+    trayIconMenu = new QMenu(this);
+    trayIconMenu->setAsDockMenu();
 #endif
 
-    // Configuration of the tray icon (or dock icon) icon menu
+    // Configuration of the tray icon (or Dock icon) icon menu
     trayIconMenu->addAction(toggleHideAction);
     trayIconMenu->addSeparator();
 
-#ifndef Q_OS_MAC // This is built-in on Mac
+#ifndef Q_OS_MAC // This is built-in on macOS
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
 #endif
@@ -311,6 +325,12 @@ void DIGIWAGEGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
         toggleHidden();
     }
 }
+#else
+void DIGIWAGEGUI::macosDockIconActivated()
+ {
+     show();
+     activateWindow();
+ }
 #endif
 
 void DIGIWAGEGUI::changeEvent(QEvent* e)
@@ -321,7 +341,10 @@ void DIGIWAGEGUI::changeEvent(QEvent* e)
         if (clientModel && clientModel->getOptionsModel() && clientModel->getOptionsModel()->getMinimizeToTray()) {
             QWindowStateChangeEvent* wsevt = static_cast<QWindowStateChangeEvent*>(e);
             if (!(wsevt->oldState() & Qt::WindowMinimized) && isMinimized()) {
-                QTimer::singleShot(0, this, SLOT(hide()));
+                QTimer::singleShot(0, this, &DIGIWAGEGUI::hide);
+                e->ignore();
+            } else if ((wsevt->oldState() & Qt::WindowMinimized) && !isMinimized()) {
+                QTimer::singleShot(0, this, &DIGIWAGEGUI::show);
                 e->ignore();
             }
         }
@@ -335,23 +358,29 @@ void DIGIWAGEGUI::closeEvent(QCloseEvent* event)
     if (clientModel && clientModel->getOptionsModel()) {
         if (!clientModel->getOptionsModel()->getMinimizeOnClose()) {
             QApplication::quit();
+        } else {
+            QMainWindow::showMinimized();
+            event->ignore();
         }
     }
-#endif
+#else
     QMainWindow::closeEvent(event);
+#endif
 }
 
 
-void DIGIWAGEGUI::messageInfo(const QString& text){
-    if(!this->snackBar) this->snackBar = new SnackBar(this, this);
+void DIGIWAGEGUI::messageInfo(const QString& text)
+{
+    if (!this->snackBar) this->snackBar = new SnackBar(this, this);
     this->snackBar->setText(text);
     this->snackBar->resize(this->width(), snackBar->height());
     openDialog(this->snackBar, this);
 }
 
 
-void DIGIWAGEGUI::message(const QString& title, const QString& message, unsigned int style, bool* ret) {
-    QString strTitle =  tr("DIGIWAGE Core"); // default title
+void DIGIWAGEGUI::message(const QString& title, const QString& message, unsigned int style, bool* ret)
+{
+    QString strTitle = QString{PACKAGE_NAME}; // default title
     // Default to information icon
     int nNotifyIcon = Notificator::Information;
 
@@ -389,26 +418,27 @@ void DIGIWAGEGUI::message(const QString& title, const QString& message, unsigned
         // Check for buttons, use OK as default, if none was supplied
         int r = 0;
         showNormalIfMinimized();
-        if(style & CClientUIInterface::BTN_MASK){
+        if (style & CClientUIInterface::BTN_MASK) {
             r = openStandardDialog(
                     (title.isEmpty() ? strTitle : title), message, "OK", "CANCEL"
                 );
-        }else{
+        } else {
             r = openStandardDialog((title.isEmpty() ? strTitle : title), message, "OK");
         }
         if (ret != NULL)
             *ret = r;
-    } else if(style & CClientUIInterface::MSG_INFORMATION_SNACK){
+    } else if (style & CClientUIInterface::MSG_INFORMATION_SNACK) {
         messageInfo(message);
-    }else {
+    } else {
         // Append title to "DIGIWAGE - "
         if (!msgType.isEmpty())
             strTitle += " - " + msgType;
-        notificator->notify((Notificator::Class) nNotifyIcon, strTitle, message);
+        notificator->notify(static_cast<Notificator::Class>(nNotifyIcon), strTitle, message);
     }
 }
 
-bool DIGIWAGEGUI::openStandardDialog(QString title, QString body, QString okBtn, QString cancelBtn){
+bool DIGIWAGEGUI::openStandardDialog(QString title, QString body, QString okBtn, QString cancelBtn)
+{
     DefaultDialog *dialog;
     if (isVisible()) {
         showHide(true);
@@ -419,7 +449,7 @@ bool DIGIWAGEGUI::openStandardDialog(QString title, QString body, QString okBtn,
     } else {
         dialog = new DefaultDialog();
         dialog->setText(title, body, okBtn);
-        dialog->setWindowTitle(tr("DIGIWAGE Core"));
+        dialog->setWindowTitle(PACKAGE_NAME);
         dialog->adjustSize();
         dialog->raise();
         dialog->exec();
@@ -430,28 +460,24 @@ bool DIGIWAGEGUI::openStandardDialog(QString title, QString body, QString okBtn,
 }
 
 
-void DIGIWAGEGUI::showNormalIfMinimized(bool fToggleHidden) {
+void DIGIWAGEGUI::showNormalIfMinimized(bool fToggleHidden)
+{
     if (!clientModel)
         return;
-    // activateWindow() (sometimes) helps with keyboard focus on Windows
-    if (isHidden()) {
-        show();
-        activateWindow();
-    } else if (isMinimized()) {
-        showNormal();
-        activateWindow();
-    } else if (GUIUtil::isObscured(this)) {
-        raise();
-        activateWindow();
-    } else if (fToggleHidden)
+    if (!isHidden() && !isMinimized() && !GUIUtil::isObscured(this) && fToggleHidden) {
         hide();
+    } else {
+        GUIUtil::bringToFront(this);
+    }
 }
 
-void DIGIWAGEGUI::toggleHidden() {
+void DIGIWAGEGUI::toggleHidden()
+{
     showNormalIfMinimized(true);
 }
 
-void DIGIWAGEGUI::detectShutdown() {
+void DIGIWAGEGUI::detectShutdown()
+{
     if (ShutdownRequested()) {
         if (rpcConsole)
             rpcConsole->hide();
@@ -459,27 +485,37 @@ void DIGIWAGEGUI::detectShutdown() {
     }
 }
 
-void DIGIWAGEGUI::goToDashboard(){
-    if(stackedContainer->currentWidget() != dashboard){
+void DIGIWAGEGUI::goToDashboard()
+{
+    if (stackedContainer->currentWidget() != dashboard) {
         stackedContainer->setCurrentWidget(dashboard);
         topBar->showBottom();
     }
 }
 
-void DIGIWAGEGUI::goToSend(){
+void DIGIWAGEGUI::goToSend()
+{
     showTop(sendWidget);
 }
 
-void DIGIWAGEGUI::goToAddresses(){
+void DIGIWAGEGUI::goToAddresses()
+{
     showTop(addressesWidget);
 }
 
-void DIGIWAGEGUI::goToMasterNodes(){
+void DIGIWAGEGUI::goToMasterNodes()
+{
     showTop(masterNodesWidget);
 }
 
-void DIGIWAGEGUI::goToColdStaking(){
+void DIGIWAGEGUI::goToColdStaking()
+{
     showTop(coldStakingWidget);
+}
+
+void DIGIWAGEGUI::goToGovernance()
+{
+    showTop(governancewidget);
 }
 
 void DIGIWAGEGUI::goToSettings(){
@@ -493,7 +529,8 @@ void DIGIWAGEGUI::goToSettingsInfo()
     goToSettings();
 }
 
-void DIGIWAGEGUI::goToReceive(){
+void DIGIWAGEGUI::goToReceive()
+{
     showTop(receiveWidget);
 }
 
@@ -502,14 +539,16 @@ void DIGIWAGEGUI::openNetworkMonitor()
     settingsWidget->openNetworkMonitor();
 }
 
-void DIGIWAGEGUI::showTop(QWidget* view){
-    if(stackedContainer->currentWidget() != view){
+void DIGIWAGEGUI::showTop(QWidget* view)
+{
+    if (stackedContainer->currentWidget() != view) {
         stackedContainer->setCurrentWidget(view);
         topBar->showTop();
     }
 }
 
-void DIGIWAGEGUI::changeTheme(bool isLightTheme){
+void DIGIWAGEGUI::changeTheme(bool isLightTheme)
+{
 
     QString css = GUIUtil::loadStyleSheet();
     this->setStyleSheet(css);
@@ -521,7 +560,8 @@ void DIGIWAGEGUI::changeTheme(bool isLightTheme){
     updateStyle(this);
 }
 
-void DIGIWAGEGUI::resizeEvent(QResizeEvent* event){
+void DIGIWAGEGUI::resizeEvent(QResizeEvent* event)
+{
     // Parent..
     QMainWindow::resizeEvent(event);
     // background
@@ -530,19 +570,21 @@ void DIGIWAGEGUI::resizeEvent(QResizeEvent* event){
     Q_EMIT windowResizeEvent(event);
 }
 
-bool DIGIWAGEGUI::execDialog(QDialog *dialog, int xDiv, int yDiv){
+bool DIGIWAGEGUI::execDialog(QDialog *dialog, int xDiv, int yDiv)
+{
     return openDialogWithOpaqueBackgroundY(dialog, this);
 }
 
-void DIGIWAGEGUI::showHide(bool show){
-    if(!op) op = new QLabel(this);
-    if(!show){
+void DIGIWAGEGUI::showHide(bool show)
+{
+    if (!op) op = new QLabel(this);
+    if (!show) {
         op->setVisible(false);
         opEnabled = false;
-    }else{
+    } else {
         QColor bg("#000000");
         bg.setAlpha(200);
-        if(!isLightTheme()){
+        if (!isLightTheme()) {
             bg = QColor("#00000000");
             bg.setAlpha(150);
         }
@@ -561,24 +603,39 @@ void DIGIWAGEGUI::showHide(bool show){
     }
 }
 
-int DIGIWAGEGUI::getNavWidth(){
+int DIGIWAGEGUI::getNavWidth()
+{
     return this->navMenu->width();
 }
 
-void DIGIWAGEGUI::openFAQ(int section){
+void DIGIWAGEGUI::openFAQ(SettingsFaqWidget::Section section)
+{
     showHide(true);
-    SettingsFaqWidget* dialog = new SettingsFaqWidget(this);
-    if (section > 0) dialog->setSection(section);
+    SettingsFaqWidget* dialog = new SettingsFaqWidget(this, clientModel);
+    dialog->setSection(section);
     openDialogWithOpaqueBackgroundFullScreen(dialog, this);
     dialog->deleteLater();
 }
 
 
 #ifdef ENABLE_WALLET
+void DIGIWAGEGUI::setGovModel(GovernanceModel* govModel)
+{
+    if (!stackedContainer || !clientModel) return;
+    governancewidget->setGovModel(govModel);
+}
+
+void DIGIWAGEGUI::setMNModel(MNModel* mnModel)
+{
+    if (!stackedContainer || !clientModel) return;
+    governancewidget->setMNModel(mnModel);
+    masterNodesWidget->setMNModel(mnModel);
+}
+
 bool DIGIWAGEGUI::addWallet(const QString& name, WalletModel* walletModel)
 {
     // Single wallet supported for now..
-    if(!stackedContainer || !clientModel || !walletModel)
+    if (!stackedContainer || !clientModel || !walletModel)
         return false;
 
     // set the model for every view
@@ -590,38 +647,43 @@ bool DIGIWAGEGUI::addWallet(const QString& name, WalletModel* walletModel)
     addressesWidget->setWalletModel(walletModel);
     masterNodesWidget->setWalletModel(walletModel);
     coldStakingWidget->setWalletModel(walletModel);
+    governancewidget->setWalletModel(walletModel);
     settingsWidget->setWalletModel(walletModel);
 
     // Connect actions..
     connect(walletModel, &WalletModel::message, this, &DIGIWAGEGUI::message);
     connect(masterNodesWidget, &MasterNodesWidget::message, this, &DIGIWAGEGUI::message);
-    connect(coldStakingWidget, &MasterNodesWidget::message, this, &DIGIWAGEGUI::message);
+    connect(coldStakingWidget, &ColdStakingWidget::message, this, &DIGIWAGEGUI::message);
     connect(topBar, &TopBar::message, this, &DIGIWAGEGUI::message);
     connect(sendWidget, &SendWidget::message,this, &DIGIWAGEGUI::message);
     connect(receiveWidget, &ReceiveWidget::message,this, &DIGIWAGEGUI::message);
     connect(addressesWidget, &AddressesWidget::message,this, &DIGIWAGEGUI::message);
+    connect(governancewidget, &GovernanceWidget::message,this, &DIGIWAGEGUI::message);
     connect(settingsWidget, &SettingsWidget::message, this, &DIGIWAGEGUI::message);
 
     // Pass through transaction notifications
-    connect(dashboard, SIGNAL(incomingTransaction(QString, int, CAmount, QString, QString)), this, SLOT(incomingTransaction(QString, int, CAmount, QString, QString)));
+    connect(dashboard, &DashboardWidget::incomingTransaction, this, &DIGIWAGEGUI::incomingTransaction);
 
     return true;
 }
 
-bool DIGIWAGEGUI::setCurrentWallet(const QString& name) {
+bool DIGIWAGEGUI::setCurrentWallet(const QString& name)
+{
     // Single wallet supported.
     return true;
 }
 
-void DIGIWAGEGUI::removeAllWallets() {
+void DIGIWAGEGUI::removeAllWallets()
+{
     // Single wallet supported.
 }
 
-void DIGIWAGEGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address) {
+void DIGIWAGEGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address)
+{
     // Only send notifications when not disabled
-    if(!bdisableSystemnotifications){
+    if (!bdisableSystemnotifications) {
         // On new transaction, make an info balloon
-        message((amount) < 0 ? (pwalletMain->fMultiSendNotify == true ? tr("Sent MultiSend transaction") : tr("Sent transaction")) : tr("Incoming transaction"),
+        message(amount < 0 ? tr("Sent transaction") : tr("Incoming transaction"),
             tr("Date: %1\n"
                "Amount: %2\n"
                "Type: %3\n"
@@ -631,8 +693,6 @@ void DIGIWAGEGUI::incomingTransaction(const QString& date, int unit, const CAmou
                 .arg(type)
                 .arg(address),
             CClientUIInterface::MSG_INFORMATION);
-
-        pwalletMain->fMultiSendNotify = false;
     }
 }
 
@@ -661,11 +721,11 @@ static bool ThreadSafeMessageBox(DIGIWAGEGUI* gui, const std::string& message, c
 void DIGIWAGEGUI::subscribeToCoreSignals()
 {
     // Connect signals to client
-    uiInterface.ThreadSafeMessageBox.connect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
+    m_handler_message_box = interfaces::MakeHandler(uiInterface.ThreadSafeMessageBox.connect(std::bind(ThreadSafeMessageBox, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
 }
 
 void DIGIWAGEGUI::unsubscribeFromCoreSignals()
 {
     // Disconnect signals from client
-    uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
+    m_handler_message_box->disconnect();
 }

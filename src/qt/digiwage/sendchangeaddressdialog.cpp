@@ -1,16 +1,22 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "qt/digiwage/sendchangeaddressdialog.h"
 #include "qt/digiwage/forms/ui_sendchangeaddressdialog.h"
-#include "walletmodel.h"
 #include "qt/digiwage/qtutils.h"
 
-SendChangeAddressDialog::SendChangeAddressDialog(QWidget *parent) :
-    QDialog(parent),
+SendChangeAddressDialog::SendChangeAddressDialog(QWidget* parent, WalletModel* model) :
+    FocusedDialog(parent),
+    walletModel(model),
     ui(new Ui::SendChangeAddressDialog)
 {
+    // Change address
+    dest = CNoDestination();
+
+    if (!walletModel) {
+        throw std::runtime_error(strprintf("%s: No wallet model set", __func__));
+    }
     ui->setupUi(this);
     this->setStyleSheet(parent->styleSheet());
 
@@ -18,13 +24,9 @@ SendChangeAddressDialog::SendChangeAddressDialog(QWidget *parent) :
     ui->frame->setProperty("cssClass", "container-dialog");
 
     // Text
-    ui->labelTitle->setText(tr("Custom Change Address"));
     ui->labelTitle->setProperty("cssClass", "text-title-dialog");
-
-    ui->labelMessage->setText(tr("The remainder of the value resultant from the inputs minus the outputs value goes to the \"change\" DIGIWAGE address"));
     ui->labelMessage->setProperty("cssClass", "text-main-grey");
 
-    ui->lineEditAddress->setPlaceholderText("Enter DIGIWAGE address (e.g ZmkEBAFKzay6fMaYp3ZB… ");
     initCssEditLine(ui->lineEditAddress, true);
 
     // Buttons
@@ -32,25 +34,22 @@ SendChangeAddressDialog::SendChangeAddressDialog(QWidget *parent) :
     ui->btnEsc->setProperty("cssClass", "ic-close");
 
     ui->btnCancel->setProperty("cssClass", "btn-dialog-cancel");
-    ui->btnSave->setText("SAVE");
     setCssBtnPrimary(ui->btnSave);
 
-    connect(ui->btnEsc, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->btnSave, &QPushButton::clicked, [this](){ selected = true; accept(); });
+    connect(ui->btnEsc, &QPushButton::clicked, this, &SendChangeAddressDialog::close);
+    connect(ui->btnCancel, &QPushButton::clicked, this, &SendChangeAddressDialog::reset);
+    connect(ui->btnSave, &QPushButton::clicked, this, &SendChangeAddressDialog::accept);
 }
 
-void SendChangeAddressDialog::setAddress(QString address){
+void SendChangeAddressDialog::setAddress(QString address)
+{
     ui->lineEditAddress->setText(address);
+    ui->btnCancel->setText(tr("RESET"));
 }
 
-bool SendChangeAddressDialog::getAddress(WalletModel *model, QString *retAddress){
-    QString address = ui->lineEditAddress->text();
-    if(!address.isEmpty() && model->validateAddress(address)){
-        *retAddress = address;
-        return true;
-    }
-    return false;
+CTxDestination SendChangeAddressDialog::getDestination() const
+{
+    return dest;
 }
 
 void SendChangeAddressDialog::showEvent(QShowEvent *event)
@@ -58,6 +57,44 @@ void SendChangeAddressDialog::showEvent(QShowEvent *event)
     if (ui->lineEditAddress) ui->lineEditAddress->setFocus();
 }
 
-SendChangeAddressDialog::~SendChangeAddressDialog(){
+void SendChangeAddressDialog::reset()
+{
+    if (!ui->lineEditAddress->text().isEmpty()) {
+        ui->lineEditAddress->clear();
+        ui->btnCancel->setText(tr("CANCEL"));
+    }
+    close();
+}
+
+void SendChangeAddressDialog::accept()
+{
+    if (ui->lineEditAddress->text().isEmpty()) {
+        // no custom change address set
+        dest = CNoDestination();
+        QDialog::accept();
+    } else {
+        // validate address
+        bool isStakingAddr;
+        dest = DecodeDestination(ui->lineEditAddress->text().toStdString(), isStakingAddr);
+        if (!IsValidDestination(dest)) {
+            inform(tr("Invalid address"));
+        } else if (isStakingAddr) {
+            inform(tr("Cannot use cold staking addresses for change"));
+        } else {
+            QDialog::accept();
+        }
+    }
+}
+
+void SendChangeAddressDialog::inform(const QString& text)
+{
+    if (!snackBar) snackBar = new SnackBar(nullptr, this);
+    snackBar->setText(text);
+    snackBar->resize(this->width(), snackBar->height());
+    openDialog(snackBar, this);
+}
+
+SendChangeAddressDialog::~SendChangeAddressDialog()
+{
     delete ui;
 }

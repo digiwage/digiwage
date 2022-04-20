@@ -70,7 +70,7 @@
            <item alignment="Qt::AlignHCenter">
             <widget class="QLabel" name="labelTitle">
              <property name="text">
-              <string>TextLabel</string>
+              <string notr="true">N/A</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -148,7 +148,7 @@
              </size>
             </property>
             <property name="text">
-             <string>TextLabel</string>
+             <string notr="true">N/A</string>
             </property>
            </widget>
           </item>
@@ -204,7 +204,7 @@
         <item alignment="Qt::AlignHCenter">
          <widget class="QLabel" name="passLabel2">
           <property name="text">
-           <string>TextLabel</string>
+           <string notr="true">N/A</string>
           </property>
          </widget>
         </item>
@@ -261,7 +261,7 @@
         <item alignment="Qt::AlignHCenter">
          <widget class="QLabel" name="passLabel3">
           <property name="text">
-           <string>TextLabel</string>
+           <string notr="true">N/A</string>
           </property>
          </widget>
         </item>
@@ -351,7 +351,7 @@
            </size>
           </property>
           <property name="text">
-           <string>PushButton</string>
+           <string notr="true">N/A</string>
           </property>
          </widget>
         </item>

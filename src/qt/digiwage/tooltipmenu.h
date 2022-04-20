@@ -28,17 +28,17 @@ public:
     explicit TooltipMenu(DIGIWAGEGUI* _window, QWidget *parent = nullptr);
     ~TooltipMenu() override;
 
-    void setIndex(const QModelIndex &index);
     virtual void showEvent(QShowEvent *event) override;
 
-    void setEditBtnText(QString btnText);
-    void setDeleteBtnText(QString btnText);
-    void setCopyBtnText(QString btnText);
-    void setLastBtnText(QString btnText, int minHeight = 30);
+    void setEditBtnText(const QString& btnText);
+    void setDeleteBtnText(const QString& btnText);
+    void setCopyBtnText(const QString& btnText);
+    void setLastBtnText(const QString& btnText, int minHeight = 30);
     void setCopyBtnVisible(bool visible);
     void setDeleteBtnVisible(bool visible);
     void setEditBtnVisible(bool visible);
     void setLastBtnVisible(bool visible);
+    void setLastBtnCheckable(bool checkable, bool isChecked);
 
 Q_SIGNALS:
     void onDeleteClicked();

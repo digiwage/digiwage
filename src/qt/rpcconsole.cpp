@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2019 The DIGIWAGE developers
+// Copyright (c) 2015-2020 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,24 +9,13 @@
 
 #include "bantablemodel.h"
 #include "clientmodel.h"
-#include "walletmodel.h"
-#include "guiutil.h"
 #include "peertablemodel.h"
+#include "qt/rpcexecutor.h"
+#include "walletmodel.h"
 
 #include "chainparams.h"
-#include "main.h"
-#include "rpc/client.h"
-#include "rpc/server.h"
-#include "util.h"
-
-#include "init.h"
-#include <startoptionsmain.h>
-#include "askpassphrasedialog.h"
-#ifdef ENABLE_WALLET
-#include "wallet/wallet.h"
-#endif // ENABLE_WALLET
-
-#include <univalue.h>
+#include "netbase.h"
+#include "util/system.h"
 
 #ifdef ENABLE_WALLET
 #include <db_cxx.h>
@@ -36,10 +25,8 @@
 #include <QKeyEvent>
 #include <QMenu>
 #include <QScrollBar>
-#include <QSignalMapper>
 #include <QThread>
 #include <QTime>
-#include <QTimer>
 #include <QStringList>
 
 // TODO: add a scrollback limit, as there is currently none
@@ -70,201 +57,14 @@ const struct {
     {"misc", ":/icons/tx_inout"},
     {NULL, NULL}};
 
-/* Object for executing console RPC commands in a separate thread.
-*/
-class RPCExecutor : public QObject
-{
-    Q_OBJECT
-
-public Q_SLOTS:
-    void request(const QString& command);
-
-Q_SIGNALS:
-    void reply(int category, const QString& command);
-};
-
-/** Class for handling RPC timers
- * (used for e.g. re-locking the wallet after a timeout)
- */
-class QtRPCTimerBase: public QObject, public RPCTimerBase
-{
-    Q_OBJECT
-public:
-    QtRPCTimerBase(boost::function<void(void)>& func, int64_t millis):
-        func(func)
-    {
-        timer.setSingleShot(true);
-        connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
-        timer.start(millis);
-    }
-    ~QtRPCTimerBase() {}
-private Q_SLOTS:
-    void timeout() { func(); }
-private:
-    QTimer timer;
-    boost::function<void(void)> func;
-};
-
-class QtRPCTimerInterface: public RPCTimerInterface
-{
-public:
-    ~QtRPCTimerInterface() {}
-    const char *Name() { return "Qt"; }
-    RPCTimerBase* NewTimer(boost::function<void(void)>& func, int64_t millis)
-    {
-        return new QtRPCTimerBase(func, millis);
-    }
-};
-
-#include "rpcconsole.moc"
-
-/**
- * Split shell command line into a list of arguments. Aims to emulate \c bash and friends.
- *
- * - Arguments are delimited with whitespace
- * - Extra whitespace at the beginning and end and between arguments will be ignored
- * - Text can be "double" or 'single' quoted
- * - The backslash \c \ is used as escape character
- *   - Outside quotes, any character can be escaped
- *   - Within double quotes, only escape \c " and backslashes before a \c " or another backslash
- *   - Within single quotes, no escaping is possible and no special interpretation takes place
- *
- * @param[out]   args        Parsed arguments will be appended to this list
- * @param[in]    strCommand  Command line to split
- */
-bool parseCommandLine(std::vector<std::string>& args, const std::string& strCommand)
-{
-    enum CmdParseState {
-        STATE_EATING_SPACES,
-        STATE_ARGUMENT,
-        STATE_SINGLEQUOTED,
-        STATE_DOUBLEQUOTED,
-        STATE_ESCAPE_OUTER,
-        STATE_ESCAPE_DOUBLEQUOTED
-    } state = STATE_EATING_SPACES;
-    std::string curarg;
-    Q_FOREACH (char ch, strCommand) {
-        switch (state) {
-        case STATE_ARGUMENT:      // In or after argument
-        case STATE_EATING_SPACES: // Handle runs of whitespace
-            switch (ch) {
-            case '"':
-                state = STATE_DOUBLEQUOTED;
-                break;
-            case '\'':
-                state = STATE_SINGLEQUOTED;
-                break;
-            case '\\':
-                state = STATE_ESCAPE_OUTER;
-                break;
-            case ' ':
-            case '\n':
-            case '\t':
-                if (state == STATE_ARGUMENT) // Space ends argument
-                {
-                    args.push_back(curarg);
-                    curarg.clear();
-                }
-                state = STATE_EATING_SPACES;
-                break;
-            default:
-                curarg += ch;
-                state = STATE_ARGUMENT;
-            }
-            break;
-        case STATE_SINGLEQUOTED: // Single-quoted string
-            switch (ch) {
-            case '\'':
-                state = STATE_ARGUMENT;
-                break;
-            default:
-                curarg += ch;
-            }
-            break;
-        case STATE_DOUBLEQUOTED: // Double-quoted string
-            switch (ch) {
-            case '"':
-                state = STATE_ARGUMENT;
-                break;
-            case '\\':
-                state = STATE_ESCAPE_DOUBLEQUOTED;
-                break;
-            default:
-                curarg += ch;
-            }
-            break;
-        case STATE_ESCAPE_OUTER: // '\' outside quotes
-            curarg += ch;
-            state = STATE_ARGUMENT;
-            break;
-        case STATE_ESCAPE_DOUBLEQUOTED:                  // '\' in double-quoted text
-            if (ch != '"' && ch != '\\') curarg += '\\'; // keep '\' for everything but the quote and '\' itself
-            curarg += ch;
-            state = STATE_DOUBLEQUOTED;
-            break;
-        }
-    }
-    switch (state) // final state
-    {
-    case STATE_EATING_SPACES:
-        return true;
-    case STATE_ARGUMENT:
-        args.push_back(curarg);
-        return true;
-    default: // ERROR to end in one of the other states
-        return false;
-    }
-}
-
-void RPCExecutor::request(const QString& command)
-{
-    std::vector<std::string> args;
-    if (!parseCommandLine(args, command.toStdString())) {
-        Q_EMIT reply(RPCConsole::CMD_ERROR, QString("Parse error: unbalanced ' or \""));
-        return;
-    }
-    if (args.empty())
-        return; // Nothing to do
-    try {
-        std::string strPrint;
-        // Convert argument list to JSON objects in method-dependent way,
-        // and pass it along with the method name to the dispatcher.
-        UniValue result = tableRPC.execute(
-            args[0],
-            RPCConvertValues(args[0], std::vector<std::string>(args.begin() + 1, args.end())));
-
-        // Format result reply
-        if (result.isNull())
-            strPrint = "";
-        else if (result.isStr())
-            strPrint = result.get_str();
-        else
-            strPrint = result.write(2);
-
-        Q_EMIT reply(RPCConsole::CMD_REPLY, QString::fromStdString(strPrint));
-    } catch (const UniValue& objError) {
-        try // Nice formatting for standard-format error
-        {
-            int code = find_value(objError, "code").get_int();
-            std::string message = find_value(objError, "message").get_str();
-            Q_EMIT reply(RPCConsole::CMD_ERROR, QString::fromStdString(message) + " (code " + QString::number(code) + ")");
-        } catch (const std::runtime_error&) // raised when converting to invalid type, i.e. missing code or message
-        {                             // Show raw JSON object
-            Q_EMIT reply(RPCConsole::CMD_ERROR, QString::fromStdString(objError.write()));
-        }
-    } catch (const std::exception& e) {
-        Q_EMIT reply(RPCConsole::CMD_ERROR, QString("Error: ") + QString::fromStdString(e.what()));
-    }
-}
-
 RPCConsole::RPCConsole(QWidget* parent) : QDialog(parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint),
                                           ui(new Ui::RPCConsole),
-                                          clientModel(0),
-                                          walletModel(0),
+                                          clientModel(nullptr),
+                                          walletModel(nullptr),
                                           historyPtr(0),
                                           cachedNodeid(-1),
-                                          peersTableContextMenu(0),
-                                          banTableContextMenu(0)
+                                          peersTableContextMenu(nullptr),
+                                          banTableContextMenu(nullptr)
 {
     ui->setupUi(this);
     GUIUtil::restoreWindowGeometry("nRPCConsoleWindow", this->size(), this);
@@ -277,37 +77,21 @@ RPCConsole::RPCConsole(QWidget* parent) : QDialog(parent, Qt::WindowSystemMenuHi
     ui->lineEdit->installEventFilter(this);
     ui->messagesWidget->installEventFilter(this);
 
-    connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clear()));
-    connect(ui->btnClearTrafficGraph, SIGNAL(clicked()), ui->trafficGraph, SLOT(clear()));
+    connect(ui->clearButton, &QPushButton::clicked, this, &RPCConsole::clear);
+    connect(ui->btnClearTrafficGraph, &QPushButton::clicked, ui->trafficGraph, &TrafficGraphWidget::clear);
 
     // Wallet Repair Buttons
-    connect(ui->btn_salvagewallet, SIGNAL(clicked()), this, SLOT(walletSalvage()));
-    connect(ui->btn_rescan, SIGNAL(clicked()), this, SLOT(walletRescan()));
-    connect(ui->btn_zapwallettxes1, SIGNAL(clicked()), this, SLOT(walletZaptxes1()));
-    connect(ui->btn_zapwallettxes2, SIGNAL(clicked()), this, SLOT(walletZaptxes2()));
-    connect(ui->btn_upgradewallet, SIGNAL(clicked()), this, SLOT(walletUpgrade()));
-    connect(ui->btn_reindex, SIGNAL(clicked()), this, SLOT(walletReindex()));
-    connect(ui->btn_resync, SIGNAL(clicked()), this, SLOT(walletResync()));
-    connect(ui->btn_convert_to_hd_Wallet, SIGNAL(clicked()), this, SLOT(walletUpgradeToHd()));
+    connect(ui->btn_salvagewallet, &QPushButton::clicked, this, &RPCConsole::walletSalvage);
+    connect(ui->btn_rescan, &QPushButton::clicked, this, &RPCConsole::walletRescan);
+    connect(ui->btn_zapwallettxes1, &QPushButton::clicked, this, &RPCConsole::walletZaptxes1);
+    connect(ui->btn_zapwallettxes2, &QPushButton::clicked, this, &RPCConsole::walletZaptxes2);
+    connect(ui->btn_upgradewallet, &QPushButton::clicked, this, &RPCConsole::walletUpgrade);
+    connect(ui->btn_reindex, &QPushButton::clicked, this, &RPCConsole::walletReindex);
+    connect(ui->btn_resync, &QPushButton::clicked, this, &RPCConsole::walletResync);
 
     // set library version labels
 #ifdef ENABLE_WALLET
-    std::string strPathCustom = GetArg("-backuppath", "");
-    int nCustomBackupThreshold = GetArg("-custombackupthreshold", DEFAULT_CUSTOMBACKUPTHRESHOLD);
-
-    if(!strPathCustom.empty()) {
-        ui->wallet_custombackuppath->setText(QString::fromStdString(strPathCustom));
-        ui->wallet_custombackuppath_label->show();
-        ui->wallet_custombackuppath->show();
-        if (nCustomBackupThreshold > 0) {
-            ui->wallet_custombackupthreshold->setText(QString::fromStdString(std::to_string(nCustomBackupThreshold)));
-            ui->wallet_custombackupthreshold_label->setVisible(true);
-            ui->wallet_custombackupthreshold->setVisible(true);
-        }
-    }
-
     ui->berkeleyDBVersion->setText(DbEnv::version(0, 0, 0));
-    ui->wallet_path->setText(QString::fromStdString(GetDataDir().string() + QDir::separator().toLatin1() + GetArg("-wallet", "wallet.dat")));
 #else
 
     ui->label_berkeleyDBVersion->hide();
@@ -393,16 +177,15 @@ void RPCConsole::setClientModel(ClientModel* model)
     if (model && clientModel->getPeerTableModel() && clientModel->getBanTableModel()) {
         // Keep up to date with client
         setNumConnections(model->getNumConnections());
-        connect(model, SIGNAL(numConnectionsChanged(int)), this, SLOT(setNumConnections(int)));
+        connect(model, &ClientModel::numConnectionsChanged, this, &RPCConsole::setNumConnections);
 
         setNumBlocks(model->getNumBlocks());
-        connect(model, SIGNAL(numBlocksChanged(int)), this, SLOT(setNumBlocks(int)));
+        connect(model, &ClientModel::numBlocksChanged, this, &RPCConsole::setNumBlocks);
 
-        setMasternodeCount(model->getMasternodeCountString());
-        connect(model, SIGNAL(strMasternodesChanged(QString)), this, SLOT(setMasternodeCount(QString)));
+        connect(model, &ClientModel::strMasternodesChanged, this, &RPCConsole::setMasternodeCount);
 
         updateTrafficStats(model->getTotalBytesRecv(), model->getTotalBytesSent());
-        connect(model, SIGNAL(bytesChanged(quint64, quint64)), this, SLOT(updateTrafficStats(quint64, quint64)));
+        connect(model, &ClientModel::bytesChanged, this, &RPCConsole::updateTrafficStats);
 
         // set up peer table
         ui->peerWidget->setModel(model->getPeerTableModel());
@@ -431,29 +214,19 @@ void RPCConsole::setClientModel(ClientModel* model)
         peersTableContextMenu->addAction(banAction7d);
         peersTableContextMenu->addAction(banAction365d);
 
-        // Add a signal mapping to allow dynamic context menu arguments.
-        // We need to use int (instead of int64_t), because signal mapper only supports
-        // int or objects, which is okay because max bantime (1 year) is < int_max.
-        QSignalMapper* signalMapper = new QSignalMapper(this);
-        signalMapper->setMapping(banAction1h, 60*60);
-        signalMapper->setMapping(banAction24h, 60*60*24);
-        signalMapper->setMapping(banAction7d, 60*60*24*7);
-        signalMapper->setMapping(banAction365d, 60*60*24*365);
-        connect(banAction1h, SIGNAL(triggered()), signalMapper, SLOT(map()));
-        connect(banAction24h, SIGNAL(triggered()), signalMapper, SLOT(map()));
-        connect(banAction7d, SIGNAL(triggered()), signalMapper, SLOT(map()));
-        connect(banAction365d, SIGNAL(triggered()), signalMapper, SLOT(map()));
-        connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(banSelectedNode(int)));
+        connect(banAction1h, &QAction::triggered, [this] { banSelectedNode(60 * 60); });
+        connect(banAction24h, &QAction::triggered, [this] { banSelectedNode(60 * 60 * 24); });
+        connect(banAction7d, &QAction::triggered, [this] { banSelectedNode(60 * 60 * 24 * 7); });
+        connect(banAction365d, &QAction::triggered, [this] { banSelectedNode(60 * 60 * 24 * 365); });
 
         // peer table context menu signals
-        connect(ui->peerWidget, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showPeersTableContextMenu(const QPoint&)));
-        connect(disconnectAction, SIGNAL(triggered()), this, SLOT(disconnectSelectedNode()));
+        connect(ui->peerWidget, &QTableView::customContextMenuRequested, this, &RPCConsole::showPeersTableContextMenu);
+        connect(disconnectAction, &QAction::triggered, this, &RPCConsole::disconnectSelectedNode);
 
         // peer table signal handling - update peer details when selecting new node
-        connect(ui->peerWidget->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(peerSelected(const QItemSelection &, const QItemSelection &)));
+        connect(ui->peerWidget->selectionModel(), &QItemSelectionModel::selectionChanged, this, &RPCConsole::peerSelected);
         // peer table signal handling - update peer details when new nodes are added to the model
-        connect(model->getPeerTableModel(), SIGNAL(layoutChanged()), this, SLOT(peerLayoutChanged()));
+        connect(model->getPeerTableModel(), &PeerTableModel::layoutChanged, this, &RPCConsole::peerLayoutChanged);
 
         // set up ban table
         ui->banlistWidget->setModel(model->getBanTableModel());
@@ -474,19 +247,18 @@ void RPCConsole::setClientModel(ClientModel* model)
         banTableContextMenu->addAction(unbanAction);
 
         // ban table context menu signals
-        connect(ui->banlistWidget, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(showBanTableContextMenu(const QPoint&)));
-        connect(unbanAction, SIGNAL(triggered()), this, SLOT(unbanSelectedNode()));
+        connect(ui->banlistWidget, &QTableView::customContextMenuRequested, this, &RPCConsole::showBanTableContextMenu);
+        connect(unbanAction, &QAction::triggered, this, &RPCConsole::unbanSelectedNode);
 
         // ban table signal handling - clear peer details when clicking a peer in the ban table
-        connect(ui->banlistWidget, SIGNAL(clicked(const QModelIndex&)), this, SLOT(clearSelectedNode()));
+        connect(ui->banlistWidget, &QTableView::clicked, this, &RPCConsole::clearSelectedNode);
         // ban table signal handling - ensure ban table is shown or hidden (if empty)
-        connect(model->getBanTableModel(), SIGNAL(layoutChanged()), this, SLOT(showOrHideBanTableIfRequired()));
+        connect(model->getBanTableModel(), &BanTableModel::layoutChanged, this, &RPCConsole::showOrHideBanTableIfRequired);
         showOrHideBanTableIfRequired();
 
         // Provide initial values
-        ui->clientVersion->setText(model->formatFullVersionWithCodename());
+        ui->clientVersion->setText(model->formatFullVersion());
         ui->clientName->setText(model->clientName());
-        ui->buildDate->setText(model->formatBuildDate());
         ui->dataDir->setText(model->dataDir());
         ui->startupTime->setText(model->formatClientStartupTime());
         ui->networkName->setText(QString::fromStdString(Params().NetworkIDString()));
@@ -500,6 +272,7 @@ void RPCConsole::setClientModel(ClientModel* model)
             wordList << ("help " + commandList[i]).c_str();
         }
 
+        wordList << "help-console";
         wordList.sort();
         autoCompleter = new QCompleter(wordList, this);
         autoCompleter->setModelSorting(QCompleter::CaseSensitivelySortedModel);
@@ -510,26 +283,11 @@ void RPCConsole::setClientModel(ClientModel* model)
     }
 }
 
-void RPCConsole::setWalletModel(WalletModel* walletModel)
+void RPCConsole::setWalletModel(WalletModel* model)
 {
-    this->walletModel = walletModel;
-}
-
-
-static QString categoryClass(int category)
-{
-    switch (category) {
-    case RPCConsole::CMD_REQUEST:
-        return "cmd-request";
-        break;
-    case RPCConsole::CMD_REPLY:
-        return "cmd-reply";
-        break;
-    case RPCConsole::CMD_ERROR:
-        return "cmd-error";
-        break;
-    default:
-        return "misc";
+    walletModel = model;
+    if (walletModel) {
+        ui->wallet_path->setText(walletModel->getWalletPath());
     }
 }
 
@@ -590,107 +348,6 @@ void RPCConsole::walletResync()
     buildParameterlist(RESYNC);
 }
 
-/** Restart wallet with "-resync" and upgrade to a HD wallet*/
-void RPCConsole::walletUpgradeToHd()
-{
-    QString upgradeWarning = tr("This will convert you non-HD wallet to a HD wallet<br /><br />");
-    upgradeWarning +=   tr("Make sure to make a backup of your wallet ahead of time<br /><br />");
-    upgradeWarning +=   tr("You shouldn't force close the wallet while this is running<br /><br />");
-    upgradeWarning +=   tr("Do you want to continue?.<br />");
-    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm upgrade to HD wallet"),
-                                                               upgradeWarning,
-                                                               QMessageBox::Yes | QMessageBox::Cancel,
-                                                               QMessageBox::Cancel);
-
-    if (retval != QMessageBox::Yes) {
-        // Resync canceled
-        return;
-    }
-
-    if (IsInitialBlockDownload()) {
-        throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Cannot set a new HD seed while still in Initial Block Download");
-    }
-
-    LOCK2(cs_main, pwalletMain->cs_wallet);
-
-    // Do not do anything to HD wallets
-    if (pwalletMain->IsHDEnabled()) {
-        throw JSONRPCError(RPC_WALLET_ERROR, "Cannot upgrade a wallet to hd if It is already upgraded to hd.");
-    }
-
-    std::vector<std::string> words;
-    SecureString strWalletPass;
-    strWalletPass.reserve(100);
-
-    int prev_version = pwalletMain->GetVersion();
-
-    int nMaxVersion = GetArg("-upgradewallet", 0);
-    if (nMaxVersion == 0) // the -upgradewallet without argument case
-    {
-        LogPrintf("Performing wallet upgrade to %i\n", FEATURE_LATEST);
-        nMaxVersion = CLIENT_VERSION;
-        pwalletMain->SetMinVersion(FEATURE_LATEST); // permanently upgrade the wallet immediately
-    } else
-        LogPrintf("Allowing wallet upgrade up to %i\n", nMaxVersion);
-    if (nMaxVersion < pwalletMain->GetVersion()) {
-        throw JSONRPCError(RPC_WALLET_ERROR, "Cannot downgrade wallet");
-    }
-
-    pwalletMain->SetMaxVersion(nMaxVersion);
-
-    // Do not upgrade versions to any version between HD_SPLIT and FEATURE_PRE_SPLIT_KEYPOOL unless already supporting HD_SPLIT
-    int max_version = pwalletMain->GetVersion();
-    if (!pwalletMain->CanSupportFeature(FEATURE_HD) && max_version >=FEATURE_HD && max_version < FEATURE_PRE_SPLIT_KEYPOOL) {
-        throw JSONRPCError(RPC_WALLET_ERROR, "Cannot upgrade a non HD split wallet without upgrading to support pre split keypool. Please use -upgradewallet=169900 or -upgradewallet with no version specified.");
-    }
-
-    bool hd_upgrade = false;
-    bool split_upgrade = false;
-    if (pwalletMain->CanSupportFeature(FEATURE_HD) && !pwalletMain->IsHDEnabled()) {
-        LogPrintf("Upgrading wallet to HD\n");
-        pwalletMain->SetMinVersion(FEATURE_HD);
-
-        if (walletModel->getEncryptionStatus() == WalletModel::Locked || walletModel->getEncryptionStatus() == WalletModel::UnlockedForStaking) {
-            AskPassphraseDialog dlg(AskPassphraseDialog::Mode::Unlock, this, walletModel, AskPassphraseDialog::Context::ToggleLock);
-            dlg.exec();
-            strWalletPass = dlg.getPassword();
-        } else {
-            strWalletPass = std::string().c_str();
-        }
-
-        StartOptionsMain dlg(nullptr);
-        dlg.exec();
-        words = dlg.getWords();
-
-        pwalletMain->GenerateNewHDChain(words, strWalletPass);
-
-        hd_upgrade = true;
-    }
-
-    // Upgrade to HD chain split if necessary
-    if (pwalletMain->CanSupportFeature(FEATURE_HD)) {
-        LogPrintf("Upgrading wallet to use HD chain split\n");
-        pwalletMain->SetMinVersion(FEATURE_PRE_SPLIT_KEYPOOL);
-        split_upgrade = FEATURE_HD > prev_version;
-    }
-
-    // Mark all keys currently in the keypool as pre-split
-    if (split_upgrade) {
-        pwalletMain->MarkPreSplitKeys();
-    }
-
-    // Regenerate the keypool if upgraded to HD
-    if (hd_upgrade) {
-        if (!pwalletMain->TopUpKeyPool()) {
-            throw JSONRPCError(RPC_WALLET_ERROR, "Unable to generate keys\n");
-        }
-    }
-
-    buildParameterlist(RESCAN);
-
-}
-
-
 /** Build command-line parameter list for restart */
 void RPCConsole::buildParameterlist(QString arg)
 {
@@ -746,9 +403,10 @@ void RPCConsole::clear()
     QString clsKey = "Ctrl-L";
 #endif
 
-    message(CMD_REPLY, (tr("Welcome to the DIGIWAGE RPC console.") + "<br>" +
+    message(RPCExecutor::CMD_REPLY, (tr("Welcome to the DIGIWAGE RPC console.") + "<br>" +
                         tr("Use up and down arrows to navigate history, and %1 to clear screen.").arg("<b>"+clsKey+"</b>") + "<br>" +
-                        tr("Type <b>help</b> for an overview of available commands.") +
+                        tr("Type %1 for an overview of available commands.").arg("<b>help</b>") + "<br>" +
+                        tr("For more information on using this console type %1.").arg("<b>help-console</b>") +
                         "<br><span class=\"secwarning\"><br>" +
                         tr("WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramifications of a command.") +
                         "</span>"),
@@ -768,8 +426,8 @@ void RPCConsole::message(int category, const QString& message, bool html)
     QString timeString = time.toString();
     QString out;
     out += "<table><tr><td class=\"time\" width=\"65\">" + timeString + "</td>";
-    out += "<td class=\"icon\" width=\"32\"><img src=\"" + categoryClass(category) + "\"></td>";
-    out += "<td class=\"message " + categoryClass(category) + "\" valign=\"middle\">";
+    out += "<td class=\"icon\" width=\"32\"><img src=\"" + RPCExecutor::categoryClass(category) + "\"></td>";
+    out += "<td class=\"message " + RPCExecutor::categoryClass(category) + "\" valign=\"middle\">";
     if (html)
         out += message;
     else
@@ -810,7 +468,7 @@ void RPCConsole::on_lineEdit_returnPressed()
     ui->lineEdit->clear();
 
     if (!cmd.isEmpty()) {
-        message(CMD_REQUEST, cmd);
+        message(RPCExecutor::CMD_REQUEST, cmd);
         Q_EMIT cmdRequest(cmd);
         // Remove command, if already in history
         history.removeOne(cmd);
@@ -846,17 +504,17 @@ void RPCConsole::startExecutor()
     executor->moveToThread(thread);
 
     // Replies from executor object must go to this object
-    connect(executor, SIGNAL(reply(int, QString)), this, SLOT(message(int, QString)));
+    connect(executor, &RPCExecutor::reply, this, static_cast<void (RPCConsole::*)(int, const QString&)>(&RPCConsole::message));
     // Requests from this object must go to executor
-    connect(this, SIGNAL(cmdRequest(QString)), executor, SLOT(request(QString)));
+    connect(this, &RPCConsole::cmdRequest, executor, &RPCExecutor::request);
 
     // On stopExecutor signal
     // - queue executor for deletion (in execution thread)
     // - quit the Qt event loop in the execution thread
-    connect(this, SIGNAL(stopExecutor()), executor, SLOT(deleteLater()));
-    connect(this, SIGNAL(stopExecutor()), thread, SLOT(quit()));
+    connect(this, &RPCConsole::stopExecutor, executor, &RPCExecutor::deleteLater);
+    connect(this, &RPCConsole::stopExecutor, thread, &QThread::quit);
     // Queue the thread for deletion (in this thread) when it is finished
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
 
     // Default implementation of QThread::run() simply spins up an event loop in the thread,
     // which is what we want.
@@ -1027,11 +685,11 @@ void RPCConsole::updateNodeDetail(const CNodeCombinedStats* stats)
         peerAddrDetails += "<br />" + tr("via %1").arg(QString::fromStdString(stats->nodeStats.addrLocal));
     ui->peerHeading->setText(peerAddrDetails);
     ui->peerServices->setText(GUIUtil::formatServicesStr(stats->nodeStats.nServices));
-    ui->peerLastSend->setText(stats->nodeStats.nLastSend ? GUIUtil::formatDurationStr(GetTime() - stats->nodeStats.nLastSend) : tr("never"));
-    ui->peerLastRecv->setText(stats->nodeStats.nLastRecv ? GUIUtil::formatDurationStr(GetTime() - stats->nodeStats.nLastRecv) : tr("never"));
+    ui->peerLastSend->setText(stats->nodeStats.nLastSend ? GUIUtil::formatDurationStr(GetSystemTimeInSeconds() - stats->nodeStats.nLastSend) : tr("never"));
+    ui->peerLastRecv->setText(stats->nodeStats.nLastRecv ? GUIUtil::formatDurationStr(GetSystemTimeInSeconds() - stats->nodeStats.nLastRecv) : tr("never"));
     ui->peerBytesSent->setText(FormatBytes(stats->nodeStats.nSendBytes));
     ui->peerBytesRecv->setText(FormatBytes(stats->nodeStats.nRecvBytes));
-    ui->peerConnTime->setText(GUIUtil::formatDurationStr(GetTime() - stats->nodeStats.nTimeConnected));
+    ui->peerConnTime->setText(GUIUtil::formatDurationStr(GetSystemTimeInSeconds() - stats->nodeStats.nTimeConnected));
     ui->peerPingTime->setText(GUIUtil::formatPingTime(stats->nodeStats.dPingTime));
     ui->peerPingWait->setText(GUIUtil::formatPingTime(stats->nodeStats.dPingWait));
     ui->timeoffset->setText(GUIUtil::formatTimeOffset(stats->nodeStats.nTimeOffset));
@@ -1077,6 +735,7 @@ void RPCConsole::showEvent(QShowEvent* event)
 
     // start PeerTableModel auto refresh
     clientModel->getPeerTableModel()->startAutoRefresh();
+    clientModel->startMasternodesTimer();
 }
 
 void RPCConsole::hideEvent(QHideEvent* event)
@@ -1088,6 +747,7 @@ void RPCConsole::hideEvent(QHideEvent* event)
 
     // stop PeerTableModel auto refresh
     clientModel->getPeerTableModel()->stopAutoRefresh();
+    clientModel->stopMasternodesTimer();
 }
 
 void RPCConsole::showBackups()
@@ -1111,34 +771,34 @@ void RPCConsole::showBanTableContextMenu(const QPoint& point)
 
 void RPCConsole::disconnectSelectedNode()
 {
+    if(!g_connman)
+        return;
     // Get currently selected peer address
-    QString strNode = GUIUtil::getEntryData(ui->peerWidget, 0, PeerTableModel::Address);
+    NodeId id = GUIUtil::getEntryData(ui->peerWidget, 0, PeerTableModel::NetNodeId).toInt();
     // Find the node, disconnect it and clear the selected node
-    if (CNode *bannedNode = FindNode(strNode.toStdString())) {
-        bannedNode->CloseSocketDisconnect();
+    if(g_connman->DisconnectNode(id))
         clearSelectedNode();
-    }
 }
 
 void RPCConsole::banSelectedNode(int bantime)
 {
-    if (!clientModel)
+    if (!clientModel || !g_connman)
         return;
 
     // Get currently selected peer address
-    QString strNode = GUIUtil::getEntryData(ui->peerWidget, 0, PeerTableModel::Address);
+    QString strNode = GUIUtil::getEntryData(ui->peerWidget, 0, PeerTableModel::Address).toString();
     // Find possible nodes, ban it and clear the selected node
-    if (FindNode(strNode.toStdString())) {
-        std::string nStr = strNode.toStdString();
-        std::string addr;
-        int port = 0;
-        SplitHostPort(nStr, port, addr);
+    std::string nStr = strNode.toStdString();
+    std::string addr;
+    int port = 0;
+    SplitHostPort(nStr, port, addr);
 
-        CNode::Ban(CNetAddr(addr), BanReasonManuallyAdded, bantime);
-
-        clearSelectedNode();
-        clientModel->getBanTableModel()->refresh();
-    }
+    CNetAddr resolved;
+    if (!LookupHost(addr.c_str(), resolved, false))
+        return;
+    g_connman->Ban(resolved, BanReasonManuallyAdded, bantime);
+    clearSelectedNode();
+    clientModel->getBanTableModel()->refresh();
 }
 
 void RPCConsole::unbanSelectedNode()
@@ -1147,12 +807,13 @@ void RPCConsole::unbanSelectedNode()
         return;
 
     // Get currently selected ban address
-    QString strNode = GUIUtil::getEntryData(ui->banlistWidget, 0, BanTableModel::Address);
-    CSubNet possibleSubnet(strNode.toStdString());
+    QString strNode = GUIUtil::getEntryData(ui->banlistWidget, 0, BanTableModel::Address).toString();
+    CSubNet possibleSubnet;
 
-    if (possibleSubnet.IsValid())
+    LookupSubNet(strNode.toStdString().c_str(), possibleSubnet);
+    if (possibleSubnet.IsValid() && g_connman)
     {
-        CNode::Unban(possibleSubnet);
+        g_connman->Unban(possibleSubnet);
         clientModel->getBanTableModel()->refresh();
     }
 }
@@ -1174,3 +835,4 @@ void RPCConsole::showOrHideBanTableIfRequired()
     ui->banlistWidget->setVisible(visible);
     ui->banHeading->setVisible(visible);
 }
+

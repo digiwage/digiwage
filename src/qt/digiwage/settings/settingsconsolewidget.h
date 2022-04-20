@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -34,17 +34,10 @@ public:
     void loadClientModel() override;
     void showEvent(QShowEvent *event) override;
 
-    enum MessageClass {
-        MC_ERROR,
-        MC_DEBUG,
-        CMD_REQUEST,
-        CMD_REPLY,
-        CMD_ERROR
-    };
-
 public Q_SLOTS:
     void clear(bool clearHistory = true);
-    void message(int category, const QString& message, bool html = false);
+    void response(int category, const QString &message) { messageInternal(category, message); };
+    void messageInternal(int category, const QString &message, bool html = false);
     /** Go forward or back in history */
     void browseHistory(int offset);
     /** Scroll console view to end */

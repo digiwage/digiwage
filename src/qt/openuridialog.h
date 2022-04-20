@@ -27,9 +27,6 @@ public:
 protected Q_SLOTS:
     void accept() override;
 
-private Q_SLOTS:
-    void on_selectFileButton_clicked();
-
 private:
     Ui::OpenURIDialog* ui;
     SnackBar *snackBar = nullptr;

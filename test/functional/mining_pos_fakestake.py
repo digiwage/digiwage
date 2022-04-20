@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019 The DIGIWAGE developers
+# Copyright (c) 2019-2020 The DIGIWAGE developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
 """
 Covers various scenarios of PoS blocks where the coinstake input is already spent
 (either in a previous block, in a "future" block, or in the same block being staked).
@@ -29,6 +28,7 @@ At the beginning nodes[0] mines 50 blocks (201-250) to reach PoS activation.
   - nodes[1] spends utxos_to_spend at block 256
   - nodes[0] mines 5 more blocks (256-260) to include the spends
   - nodes[1] spams 3 blocks with height 261 --> [REJECTED]
+  - nodes[1] spams fork block with height 258 --> [REJECTED] (coinstake input spent on active chain before the split)
 --> ends at height 260
 
 ** Test_3:
@@ -44,55 +44,51 @@ At the beginning nodes[0] mines 50 blocks (201-250) to reach PoS activation.
 """
 
 from io import BytesIO
-from time import sleep
+import time
 
 from test_framework.authproxy import JSONRPCException
 from test_framework.messages import COutPoint
-from test_framework.test_framework import DigiwageTestFramework
+from test_framework.test_framework import PivxTestFramework
 from test_framework.util import (
-    sync_blocks,
     assert_equal,
     bytes_to_hex_str,
     set_node_times
 )
 
 
-class FakeStakeTest(DigiwageTestFramework):
+class FakeStakeTest(PivxTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
-        # nodes[0] moves the chain and checks the spam blocks, nodes[1] sends them
-
-    def setup_chain(self):
-        # Start with PoW cache: 200 blocks
-        self._initialize_chain()
+        # whitelist all peers to speed up tx relay / mempool sync
+        self.extra_args = [["-whitelist=127.0.0.1"]] * self.num_nodes
         self.enable_mocktime()
+        # nodes[0] moves the chain and checks the spam blocks, nodes[1] sends them
 
     def log_title(self):
         title = "*** Starting %s ***" % self.__class__.__name__
         underline = "-" * len(title)
         description = "Tests the 'fake stake' scenarios.\n" \
                       "1) Stake on main chain with coinstake input spent on the same block\n" \
-                      "2) Stake on main chain with coinstake input spent on a previous block\n" \
+                      "2) Stake on main and fork chain with coinstake input spent on a previous block\n" \
                       "3) Stake on a fork chain with coinstake input spent (later) in main chain\n"
         self.log.info("\n\n%s\n%s\n%s\n", title, underline, description)
 
-
     def run_test(self):
         # init custom fields
-        self.mocktime -= (131 * 60)
+        self.mocktime = int(time.time())
+        set_node_times(self.nodes, self.mocktime)
         self.recipient_0 = self.nodes[0].getnewaddress()
         self.recipient_1 = self.nodes[1].getnewaddress()
         self.init_dummy_key()
 
         # start test
         self.log_title()
-        set_node_times(self.nodes, self.mocktime)
 
         # nodes[0] mines 50 blocks (201-250) to reach PoS activation
         self.log.info("Mining 50 blocks to reach PoS phase...")
         for i in range(50):
             self.mocktime = self.generate_pow(0, self.mocktime)
-        sync_blocks(self.nodes)
+        self.sync_blocks()
 
         # Check Tests 1-3
         self.test_1()
@@ -114,8 +110,8 @@ class FakeStakeTest(DigiwageTestFramework):
         # nodes[0] mines 5 blocks (251-255) to be used as buffer for adding the fork chain later
         self.log.info("Mining 5 blocks as fork depth...")
         for i in range(5):
-            self.mocktime = self.generate_pow(0, self.mocktime)
-        sync_blocks(self.nodes)
+            self.mocktime = self.generate_pos(0, self.mocktime)
+        self.sync_blocks()
 
         # nodes[1] spams 3 blocks with height 256 --> [REJECTED]
         assert_equal(self.nodes[1].getblockcount(), 255)
@@ -131,19 +127,30 @@ class FakeStakeTest(DigiwageTestFramework):
         assert_equal(self.nodes[1].getblockcount(), 255)
         txid = self.spend_utxos(1, self.utxos_to_spend, self.recipient_0)[0]
         self.log.info("'utxos_to_spend' spent on txid=(%s...) on block 256" % txid[:16])
-        self.sync_all()
+        self.sync_mempools()
 
         # nodes[0] mines 5 more blocks (256-260) to include the spends
         self.log.info("Mining 5 blocks to include the spends...")
         for i in range(5):
-            self.mocktime = self.generate_pow(0, self.mocktime)
-        sync_blocks(self.nodes)
+            self.mocktime = self.generate_pos(0, self.mocktime)
+        self.sync_blocks()
         self.check_tx_in_chain(0, txid)
         assert_equal(self.nodes[1].getbalance(), 0)
 
         # nodes[1] spams 3 blocks with height 261 --> [REJECTED]
+        self.log.info("Test rejection on active chain...")
         assert_equal(self.nodes[1].getblockcount(), 260)
         self.fake_stake(list(self.utxos_to_spend))
+
+        # nodes[1] spams fork block with height 258 --> [REJECTED]
+        self.log.info("Test rejection on fork chain...")
+        assert_equal(self.nodes[1].getblockcount(), 260)
+        prevBlockHash = self.nodes[1].getblockhash(257)
+        prevModifier = self.nodes[1].getblock(prevBlockHash)['stakeModifier']
+        block = self.stake_block(1, 7, 258, prevBlockHash, prevModifier, "0",
+                                 self.get_prevouts(1, list(self.utxos_to_spend)), self.mocktime, "", [], False)
+        self.send_block_and_check_error(block, "bad-txns-inputs-spent-fork-pre-split")
+        assert_equal(self.nodes[1].getblockcount(), 260)
         self.log.info("--> Test_2 passed")
 
     # ** PoS block - cstake input spent in the future
@@ -159,6 +166,10 @@ class FakeStakeTest(DigiwageTestFramework):
         assert_equal(self.nodes[1].getblockcount(), 260)
         self.fake_stake(list(self.utxos_to_spend), nHeight=251)
         self.log.info("--> Test_3 passed")
+
+    def send_block_and_check_error(self, block, error_mess):
+        with self.nodes[1].assert_debug_log([error_mess]):
+            self.nodes[1].submitblock(bytes_to_hex_str(block.serialize()))
 
 
     def fake_stake(self,
@@ -208,10 +219,10 @@ class FakeStakeTest(DigiwageTestFramework):
                 prevBlockHash = bHash
                 prevModifier = get_prev_modifier(prevBlockHash)
 
-            stakeInputs = self.get_prevouts(1, staking_utxo_list, False, nHeight - 1)
+            stakeInputs = self.get_prevouts(1, staking_utxo_list)
             # Update stake inputs for second block sent on forked chain (must stake the same input)
             if not isMainChain and i == 1:
-                stakeInputs = self.get_prevouts(1, [stakedUtxo], False, nHeight-1)
+                stakeInputs = self.get_prevouts(1, [stakedUtxo])
 
             # Make spam txes sending the inputs to DUMMY_KEY in order to test double spends
             if fDoubleSpend:
@@ -219,7 +230,7 @@ class FakeStakeTest(DigiwageTestFramework):
                 block_txes = self.make_txes(1, spending_prevouts, self.DUMMY_KEY.get_pubkey())
 
             # Stake the spam block
-            block = self.stake_block(1, nHeight, prevBlockHash, prevModifier, stakeInputs,
+            block = self.stake_block(1, 7, nHeight, prevBlockHash, prevModifier, "0", stakeInputs,
                                      nTime, "", block_txes, fDoubleSpend)
             # Log stake input
             prevout = COutPoint()
@@ -228,13 +239,19 @@ class FakeStakeTest(DigiwageTestFramework):
 
             # Try submitblock and check result
             self.log.info("Trying to send block [%s...] with height=%d" % (block.hash[:16], nHeight))
-            var = self.nodes[1].submitblock(bytes_to_hex_str(block.serialize()))
-            sleep(1)
-            if (not fMustBeAccepted and var not in [None, "rejected"]):
-                raise AssertionError("Error, block submitted (%s) in %s chain" % (var, chainName))
-            elif (fMustBeAccepted and var != "inconclusive"):
-                raise AssertionError("Error, block not submitted (%s) in %s chain" % (var, chainName))
-            self.log.info("Done. Updating context...")
+            if not fMustBeAccepted:
+                if fDoubleSpend:
+                    reject_log = "inputs double spent in the same block"
+                elif isMainChain:
+                    reject_log = "tx inputs spent/not-available on main chain"
+                else:
+                    reject_log = "bad-txns-inputs-spent-fork-post-split"
+                self.send_block_and_check_error(block, reject_log)
+            else:
+                var = self.nodes[1].submitblock(bytes_to_hex_str(block.serialize()))
+                if (var != "inconclusive"):
+                    raise AssertionError("Error, block not submitted (%s) in %s chain" % (var, chainName))
+            self.log.info("Done.")
 
             # Sync and check block hash
             bHash = block.hash

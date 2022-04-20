@@ -1,10 +1,11 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
-// Copyright (c) 2016-2019 The DIGIWAGE developers
+// Copyright (c) 2016-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "chain.h"
+#include "legacy/stakemodifier.h"  // for ComputeNextStakeModifier
 
 
 /**
@@ -63,26 +64,75 @@ const CBlockIndex* CChain::FindFork(const CBlockIndex* pindex) const
     return pindex;
 }
 
+CBlockIndex* CChain::FindEarliestAtLeast(int64_t nTime) const
+{
+    std::vector<CBlockIndex*>::const_iterator lower = std::lower_bound(vChain.begin(), vChain.end(), nTime,
+        [](CBlockIndex* pBlock, const int64_t& time) -> bool { return pBlock->GetBlockTimeMax() < time; });
+    return (lower == vChain.end() ? nullptr : *lower);
+}
+
+/** Turn the lowest '1' bit in the binary representation of a number into a '0'. */
+int static inline InvertLowestOne(int n) { return n & (n - 1); }
+
+/** Compute what height to jump back to with the CBlockIndex::pskip pointer. */
+int static inline GetSkipHeight(int height)
+{
+    if (height < 2)
+        return 0;
+    // Determine which height to jump back to. Any number strictly lower than height is acceptable,
+    // but the following expression seems to perform well in simulations (max 110 steps to go back
+    // up to 2**18 blocks).
+    return (height & 1) ? InvertLowestOne(InvertLowestOne(height - 1)) + 1 : InvertLowestOne(height);
+}
+
+const CBlockIndex* CBlockIndex::GetAncestor(int height) const
+{
+    if (height > nHeight || height < 0) {
+        return nullptr;
+    }
+
+    const CBlockIndex* pindexWalk = this;
+    int heightWalk = nHeight;
+    while (heightWalk > height) {
+        int heightSkip = GetSkipHeight(heightWalk);
+        int heightSkipPrev = GetSkipHeight(heightWalk - 1);
+        if (heightSkip == height ||
+            (heightSkip > height && !(heightSkipPrev < heightSkip - 2 && heightSkipPrev >= height))) {
+            // Only follow pskip if pprev->pskip isn't better than pskip->pprev.
+            pindexWalk = pindexWalk->pskip;
+            heightWalk = heightSkip;
+        } else {
+            assert(pindexWalk->pprev);
+            pindexWalk = pindexWalk->pprev;
+            heightWalk--;
+        }
+    }
+    return pindexWalk;
+}
+
+CBlockIndex* CBlockIndex::GetAncestor(int height)
+{
+    return const_cast<CBlockIndex*>(static_cast<const CBlockIndex*>(this)->GetAncestor(height));
+}
+
+void CBlockIndex::BuildSkip()
+{
+    if (pprev)
+        pskip = pprev->GetAncestor(GetSkipHeight(nHeight));
+}
+
 CBlockIndex::CBlockIndex(const CBlock& block):
         nVersion{block.nVersion},
         hashMerkleRoot{block.hashMerkleRoot},
+        hashFinalSaplingRoot(block.hashFinalSaplingRoot),
         nTime{block.nTime},
         nBits{block.nBits},
         nNonce{block.nNonce}
 {
-    ClearMapZcSupply();
-    if (block.nVersion == 4)
+    if(block.nVersion > 3 && block.nVersion < 7)
         nAccumulatorCheckpoint = block.nAccumulatorCheckpoint;
     if (block.IsProofOfStake())
         SetProofOfStake();
-}
-
-void CBlockIndex::ClearMapZcSupply()
-{
-    mapZerocoinSupply.clear();
-    // Start supply of each denomination with 0s
-    for (auto& denom : libzerocoin::zerocoinDenomList)
-        mapZerocoinSupply.insert(std::make_pair(denom, 0));
 }
 
 std::string CBlockIndex::ToString() const
@@ -93,9 +143,9 @@ std::string CBlockIndex::ToString() const
         GetBlockHash().ToString());
 }
 
-CDiskBlockPos CBlockIndex::GetBlockPos() const
+FlatFilePos CBlockIndex::GetBlockPos() const
 {
-    CDiskBlockPos ret;
+    FlatFilePos ret;
     if (nStatus & BLOCK_HAVE_DATA) {
         ret.nFile = nFile;
         ret.nPos = nDataPos;
@@ -103,9 +153,9 @@ CDiskBlockPos CBlockIndex::GetBlockPos() const
     return ret;
 }
 
-CDiskBlockPos CBlockIndex::GetUndoPos() const
+FlatFilePos CBlockIndex::GetUndoPos() const
 {
-    CDiskBlockPos ret;
+    FlatFilePos ret;
     if (nStatus & BLOCK_HAVE_UNDO) {
         ret.nFile = nFile;
         ret.nPos = nUndoPos;
@@ -123,6 +173,7 @@ CBlockHeader CBlockIndex::GetBlockHeader() const
     block.nBits = nBits;
     block.nNonce = nNonce;
     if (nVersion == 4) block.nAccumulatorCheckpoint = nAccumulatorCheckpoint;
+    if (nVersion >= 6) block.hashFinalSaplingRoot = hashFinalSaplingRoot;
     return block;
 }
 
@@ -140,8 +191,8 @@ int64_t CBlockIndex::MinPastBlockTime() const
 
     // on the transition from Time Protocol v1 to v2
     // pindexPrev->nTime might be in the future (up to the allowed drift)
-    // so we allow the nBlockTimeProtocolV2 to be at most (180-14) seconds earlier than previous block
-    if (nHeight + 1 == consensus.height_start_TimeProtoV2)
+    // so we allow the nBlockTimeProtocolV2 (DIGIWAGE v4.0) to be at most (180-14) seconds earlier than previous block
+    if (nHeight + 1 == consensus.vUpgrades[Consensus::UPGRADE_BIP65_TV2_MSG2].nActivationHeight)
         return GetBlockTime() - consensus.FutureBlockTimeDrift(nHeight) + consensus.FutureBlockTimeDrift(nHeight + 1);
 
     // Time Protocol v2: pindexPrev->nTime
@@ -167,9 +218,6 @@ int64_t CBlockIndex::GetMedianTimePast() const
 unsigned int CBlockIndex::GetStakeEntropyBit() const
 {
     unsigned int nEntropyBit = ((GetBlockHash().GetCheapHash()) & 1);
-    if (GetBoolArg("-printstakemodifier", false))
-        LogPrintf("GetStakeEntropyBit: nHeight=%u hashBlock=%s nEntropyBit=%u\n", nHeight, GetBlockHash().ToString().c_str(), nEntropyBit);
-
     return nEntropyBit;
 }
 
@@ -181,7 +229,7 @@ bool CBlockIndex::SetStakeEntropyBit(unsigned int nEntropyBit)
     return true;
 }
 
-// Sets V1 stake modifier
+// Sets V1 stake modifier (uint64_t)
 void CBlockIndex::SetStakeModifier(const uint64_t nStakeModifier, bool fGeneratedStakeModifier)
 {
     vStakeModifier.clear();
@@ -193,7 +241,20 @@ void CBlockIndex::SetStakeModifier(const uint64_t nStakeModifier, bool fGenerate
 
 }
 
-// Sets V2 stake modifier
+// Generates and sets new V1 stake modifier
+void CBlockIndex::SetNewStakeModifier()
+{
+    // compute stake entropy bit for stake modifier
+    if (!SetStakeEntropyBit(GetStakeEntropyBit()))
+        LogPrintf("%s : SetStakeEntropyBit() failed\n", __func__);
+    uint64_t nStakeModifier = 0;
+    bool fGeneratedStakeModifier = false;
+    if (!ComputeNextStakeModifier(pprev, nStakeModifier, fGeneratedStakeModifier))
+        LogPrintf("%s : ComputeNextStakeModifier() failed \n",  __func__);
+    return SetStakeModifier(nStakeModifier, fGeneratedStakeModifier);
+}
+
+// Sets V2 stake modifiers (uint256)
 void CBlockIndex::SetStakeModifier(const uint256& nStakeModifier)
 {
     vStakeModifier.clear();
@@ -204,7 +265,7 @@ void CBlockIndex::SetStakeModifier(const uint256& nStakeModifier)
 void CBlockIndex::SetNewStakeModifier(const uint256& prevoutId)
 {
     // Shouldn't be called on V1 modifier's blocks (or before setting pprev)
-    if (nHeight < Params().GetConsensus().height_start_StakeModifierV2) return;
+    if (!Params().GetConsensus().NetworkUpgradeActive(nHeight, Consensus::UPGRADE_STK_V2)) return;
     if (!pprev) throw std::runtime_error(strprintf("%s : ERROR: null pprev", __func__));
 
     // Generate Hash(prevoutId | prevModifier) - switch with genesis modifier (0) on upgrade block
@@ -217,7 +278,7 @@ void CBlockIndex::SetNewStakeModifier(const uint256& prevoutId)
 // Returns V1 stake modifier (uint64_t)
 uint64_t CBlockIndex::GetStakeModifierV1() const
 {
-    if (vStakeModifier.empty() || Params().GetConsensus().IsStakeModifierV2(nHeight))
+    if (vStakeModifier.empty() || Params().GetConsensus().NetworkUpgradeActive(nHeight, Consensus::UPGRADE_STK_V2))
         return 0;
     uint64_t nStakeModifier;
     std::memcpy(&nStakeModifier, vStakeModifier.data(), vStakeModifier.size());
@@ -227,11 +288,25 @@ uint64_t CBlockIndex::GetStakeModifierV1() const
 // Returns V2 stake modifier (uint256)
 uint256 CBlockIndex::GetStakeModifierV2() const
 {
-    if (vStakeModifier.empty() || !Params().GetConsensus().IsStakeModifierV2(nHeight))
+    if (vStakeModifier.empty() || !Params().GetConsensus().NetworkUpgradeActive(nHeight, Consensus::UPGRADE_STK_V2))
         return UINT256_ZERO;
     uint256 nStakeModifier;
     std::memcpy(nStakeModifier.begin(), vStakeModifier.data(), vStakeModifier.size());
     return nStakeModifier;
+}
+
+void CBlockIndex::SetChainSaplingValue()
+{
+    // Sapling, update chain value
+    if (pprev) {
+        if (pprev->nChainSaplingValue) {
+            nChainSaplingValue = *pprev->nChainSaplingValue + nSaplingValue;
+        } else {
+            nChainSaplingValue = nullopt;
+        }
+    } else {
+        nChainSaplingValue = nSaplingValue;
+    }
 }
 
 //! Check whether this block index entry is valid up to the passed validity level.
@@ -257,26 +332,24 @@ bool CBlockIndex::RaiseValidity(enum BlockStatus nUpTo)
     return false;
 }
 
-/*
- * CBlockIndex - Legacy Zerocoin
- */
-
-int64_t CBlockIndex::GetZerocoinSupply() const
+/** Find the last common ancestor two blocks have.
+ *  Both pa and pb must be non-NULL. */
+const CBlockIndex* LastCommonAncestor(const CBlockIndex* pa, const CBlockIndex* pb)
 {
-    int64_t nTotal = 0;
-    for (auto& denom : libzerocoin::zerocoinDenomList) {
-        nTotal += GetZcMintsAmount(denom);
+    if (pa->nHeight > pb->nHeight) {
+        pa = pa->GetAncestor(pb->nHeight);
+    } else if (pb->nHeight > pa->nHeight) {
+        pb = pb->GetAncestor(pa->nHeight);
     }
-    return nTotal;
+
+    while (pa != pb && pa && pb) {
+        pa = pa->pprev;
+        pb = pb->pprev;
+    }
+
+    // Eventually all chain branches meet at the genesis block.
+    assert(pa == pb);
+    return pa;
 }
 
-int64_t CBlockIndex::GetZcMints(libzerocoin::CoinDenomination denom) const
-{
-    return mapZerocoinSupply.at(denom);
-}
-
-int64_t CBlockIndex::GetZcMintsAmount(libzerocoin::CoinDenomination denom) const
-{
-    return libzerocoin::ZerocoinDenominationToAmount(denom) * GetZcMints(denom);
-}
 

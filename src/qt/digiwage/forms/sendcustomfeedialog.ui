@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <property name="spacing">
@@ -92,7 +92,7 @@
            <string notr="true">padding-left:24px;</string>
           </property>
           <property name="text">
-           <string>Transaction Details</string>
+           <string>Customize Fee</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -155,7 +155,7 @@
       <item>
        <widget class="QLabel" name="labelMessage">
         <property name="text">
-         <string>Customize the transaction fee at your to your liking, depending on the fee value your transaction will be included or not in the blockchain.</string>
+         <string>Customize the transaction fee, depending on the fee value your transaction might be included faster in the blockchain</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -224,7 +224,7 @@
            <item alignment="Qt::AlignHCenter">
             <widget class="QLabel" name="labelFee">
              <property name="text">
-              <string>0.00 KB</string>
+              <string notr="true">N/A</string>
              </property>
             </widget>
            </item>
@@ -278,12 +278,16 @@
             </spacer>
            </item>
            <item alignment="Qt::AlignHCenter">
-            <widget class="QLineEdit" name="lineEditCustomFee"/>
+            <widget class="QLineEdit" name="lineEditCustomFee">
+             <property name="placeholderText">
+              <string notr="true">0.0001</string>
+             </property>
+            </widget>
            </item>
            <item alignment="Qt::AlignHCenter">
             <widget class="QLabel" name="labelCustomFee">
              <property name="text">
-              <string>WAGE/kilobyte</string>
+              <string notr="true">N/A</string>
              </property>
             </widget>
            </item>
@@ -348,7 +352,7 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
-           <string>OK</string>
+           <string>SAVE</string>
           </property>
          </widget>
         </item>

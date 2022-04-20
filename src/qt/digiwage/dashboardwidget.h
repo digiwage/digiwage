@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -61,10 +61,10 @@ Q_SIGNALS:
 };
 
 enum SortTx {
-    DATE_ASC = 0,
-    DATE_DESC = 1,
-    AMOUNT_ASC = 2,
-    AMOUNT_DESC = 3
+    DATE_DESC = 0,
+    DATE_ASC = 1,
+    AMOUNT_DESC = 2,
+    AMOUNT_ASC = 3
 };
 
 enum ChartShowType {
@@ -80,10 +80,10 @@ public:
 
     QMap<int, std::pair<qint64, qint64>> amountsByCache;
     qreal maxValue = 0;
-    qint64 totalStakes = 0;
-    qint64 totalMNRewards = 0;
-    QList<qreal> valuesStakes;
-    QList<qreal> valuesMNRewards;
+    qint64 totalWage = 0;
+    qint64 totalMN = 0;
+    QList<qreal> valuesWage;
+    QList<qreal> valuesMN;
     QStringList xLabels;
 };
 
@@ -122,10 +122,10 @@ private Q_SLOTS:
     void onSortTypeChanged(const QString& value);
     void updateDisplayUnit();
     void showList();
-    void onTxArrived(const QString& hash, const bool& isCoinStake, const bool& isCSAnyType, const bool& isMasternodeReward);
+    void onTxArrived(const QString& hash, const bool isCoinStake, const bool isMNReward, const bool isCSAnyType);
 
 #ifdef USE_QTCHARTS
-    void windowResizeEvent(QResizeEvent *event);
+    void windowResizeEvent(QResizeEvent* event);
     void changeChartColors();
     void onChartYearChanged(const QString&);
     void onChartMonthChanged(const QString&);
@@ -133,54 +133,59 @@ private Q_SLOTS:
 #endif
 
 private:
-    Ui::DashboardWidget *ui;
-    FurAbstractListItemDelegate* txViewDelegate;
-    TransactionFilterProxy* filter;
-    TxViewHolder* txHolder;
-    TransactionTableModel* txModel;
-    int nDisplayUnit = -1;
-    bool isSync = false;
+    Ui::DashboardWidget *ui{nullptr};
+    FurAbstractListItemDelegate* txViewDelegate{nullptr};
+    TransactionFilterProxy* filter{nullptr};
+    TxViewHolder* txHolder{nullptr};
+    TransactionTableModel* txModel{nullptr};
+    int nDisplayUnit{-1};
+    bool isSync{false};
+
+    void changeSort(int nSortIndex);
 
 #ifdef USE_QTCHARTS
 
-    int64_t lastRefreshTime = 0;
+    int64_t lastRefreshTime{0};
     std::atomic<bool> isLoading;
 
     // Chart
-    TransactionFilterProxy* stakesFilter = nullptr;
-    bool isChartInitialized = false;
-    QChartView *chartView = nullptr;
-    QBarSeries *series = nullptr;
-    QBarSet *set0 = nullptr;
-    QBarSet *set1 = nullptr;
+    TransactionFilterProxy* stakesFilter{nullptr};
+    bool isChartInitialized{false};
+    QChartView *chartView{nullptr};
+    QBarSeries *series{nullptr};
+    QBarSet *set0{nullptr};
+    QBarSet *set1{nullptr};
 
-    QBarCategoryAxis *axisX = nullptr;
-    QValueAxis *axisY = nullptr;
+    QBarCategoryAxis *axisX{nullptr};
+    QValueAxis *axisY{nullptr};
 
-    QChart *chart = nullptr;
-    bool isChartMin = false;
-    ChartShowType chartShow = YEAR;
-    int yearFilter = 0;
-    int monthFilter = 0;
-    int dayStart = 1;
-    bool hasMNRewards = false;
+    QChart *chart{nullptr};
+    bool isChartMin{false};
+    ChartShowType chartShow{YEAR};
+    int yearFilter{0};
+    int monthFilter{0};
+    int dayStart{1};
+    bool hasMNRewards{false};
 
-    ChartData* chartData = nullptr;
-    bool hasStakes = false;
+    ChartData* chartData{nullptr};
+    bool hasStakes{false};
+    bool fShowCharts{true};
+    std::atomic<bool> filterUpdateNeeded{false};
 
     void initChart();
     void showHideEmptyChart(bool show, bool loading, bool forceView = false);
     bool refreshChart();
     void tryChartRefresh();
     void updateStakeFilter();
-    const QMap<int, std::pair<qint64, qint64>> getAmountBy();
+    QMap<int, std::pair<qint64, qint64>> getAmountBy();
     bool loadChartData(bool withMonthNames);
     void updateAxisX(const QStringList *arg = nullptr);
     void setChartShow(ChartShowType type);
-    std::pair<int, int> getChartRange(QMap<int, std::pair<qint64, qint64>> amountsBy);
+    std::pair<int, int> getChartRange(const QMap<int, std::pair<qint64, qint64>>& amountsBy);
 
 private Q_SLOTS:
     void onChartRefreshed();
+    void onHideChartsChanged(bool fHide);
 
 #endif
 

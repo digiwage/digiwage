@@ -1,18 +1,19 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
-// Copyright (c) 2017-2018 The DIGIWAGE developers
+// Copyright (c) 2017-2020 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "sync.h"
 
-#include <memory>
-#include <set>
-
-#include "util.h"
+#include "logging.h"
 #include "utilstrencodings.h"
 #include "util/threadnames.h"
 
 #include <stdio.h>
+#include <system_error>
+#include <map>
+#include <memory>
+#include <set>
 
 #ifdef DEBUG_LOCKCONTENTION
 #if !defined(HAVE_THREAD_LOCAL)
@@ -55,6 +56,11 @@ struct CLockLocation {
         return strprintf(
             "%s %s:%s%s (in thread %s)",
             mutexName, sourceFile, itostr(sourceLine), (fTry ? " (TRY)" : ""), m_thread_name);
+    }
+
+    std::string Name() const
+    {
+        return mutexName;
     }
 
 private:
@@ -124,7 +130,7 @@ static void push_lock(void* c, const CLockLocation& locklocation)
     LockData& lockdata = GetLockData();
     std::lock_guard<std::mutex> lock(lockdata.dd_mutex);
 
-    g_lockstack.push_back(std::make_pair(c, locklocation));
+    g_lockstack.emplace_back(c, locklocation);
 
     for (const std::pair<void*, CLockLocation>& i : g_lockstack) {
         if (i.first == c)
@@ -150,6 +156,18 @@ static void pop_lock()
 void EnterCritical(const char* pszName, const char* pszFile, int nLine, void* cs, bool fTry)
 {
     push_lock(cs, CLockLocation(pszName, pszFile, nLine, fTry, util::ThreadGetInternalName()));
+}
+
+void CheckLastCritical(void* cs, std::string& lockname, const char* guardname, const char* file, int line)
+{
+    if (!g_lockstack.empty()) {
+        const auto& lastlock = g_lockstack.back();
+        if (lastlock.first == cs) {
+            lockname = lastlock.second.Name();
+            return;
+        }
+    }
+    throw std::system_error(EPERM, std::generic_category(), strprintf("%s:%s %s was not most recent critical section locked", file, line, guardname));
 }
 
 void LeaveCritical()

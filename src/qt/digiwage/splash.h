@@ -7,7 +7,13 @@
 
 #include <QWidget>
 
+#include <memory>
+
 class NetworkStyle;
+
+namespace interfaces {
+    class Handler;
+};
 
 namespace Ui {
 class Splash;
@@ -18,7 +24,7 @@ class Splash : public QWidget
     Q_OBJECT
 
 public:
-    explicit Splash(Qt::WindowFlags f, const NetworkStyle* networkStyle);
+    explicit Splash(const NetworkStyle* networkStyle);
     ~Splash();
 
 public Q_SLOTS:
@@ -33,6 +39,11 @@ protected:
 
 private:
     Ui::Splash *ui;
+
+    // Listeners
+    std::unique_ptr<interfaces::Handler> m_handler_init_message;
+    std::unique_ptr<interfaces::Handler> m_handler_show_progress;
+    std::unique_ptr<interfaces::Handler> m_handler_load_wallet;
 
     /** Connect core signals to splash screen */
     void subscribeToCoreSignals();

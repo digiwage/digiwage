@@ -1,17 +1,15 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "qt/digiwage/mninfodialog.h"
 #include "qt/digiwage/forms/ui_mninfodialog.h"
-#include "walletmodel.h"
-#include "wallet/wallet.h"
+
 #include "guiutil.h"
 #include "qt/digiwage/qtutils.h"
-#include <QDateTime>
 
 MnInfoDialog::MnInfoDialog(QWidget *parent) :
-    QDialog(parent),
+    FocusedDialog(parent),
     ui(new Ui::MnInfoDialog)
 {
     ui->setupUi(this);
@@ -23,32 +21,36 @@ MnInfoDialog::MnInfoDialog(QWidget *parent) :
     setCssTextBodyDialog({ui->textAmount, ui->textAddress, ui->textInputs, ui->textStatus, ui->textId, ui->textExport});
     setCssProperty({ui->pushCopy, ui->pushCopyId, ui->pushExport}, "ic-copy-big");
     setCssProperty(ui->btnEsc, "ic-close");
-    connect(ui->btnEsc, SIGNAL(clicked()), this, SLOT(closeDialog()));
-    connect(ui->pushCopy, &QPushButton::clicked, [this](){ copyInform(pubKey, "Masternode public key copied"); });
-    connect(ui->pushCopyId, &QPushButton::clicked, [this](){ copyInform(txId, "Collateral tx id copied"); });
+    connect(ui->btnEsc, &QPushButton::clicked, this, &MnInfoDialog::close);
+    connect(ui->pushCopy, &QPushButton::clicked, [this](){ copyInform(pubKey, tr("Masternode public key copied")); });
+    connect(ui->pushCopyId, &QPushButton::clicked, [this](){ copyInform(txId, tr("Collateral tx id copied")); });
     connect(ui->pushExport, &QPushButton::clicked, [this](){ exportMN = true; accept(); });
 }
 
-void MnInfoDialog::setData(QString pubKey, QString name, QString address, QString txId, QString outputIndex, QString status)
+void MnInfoDialog::setData(const QString& _pubKey, const QString& name, const QString& address, const QString& _txId, const QString& outputIndex, const QString& status)
 {
-    this->pubKey = pubKey;
-    this->txId = txId;
-    QString shortPubKey = pubKey;
-    QString shortTxId = txId;
+    this->pubKey = _pubKey;
+    this->txId = _txId;
+    QString shortPubKey = _pubKey;
+    QString shortTxId = _txId;
+    QString shortAddress = address;
     if (shortPubKey.length() > 20) {
         shortPubKey = shortPubKey.left(13) + "..." + shortPubKey.right(13);
     }
     if (shortTxId.length() > 20) {
         shortTxId = shortTxId.left(12) + "..." + shortTxId.right(12);
     }
+    if (shortAddress.length() >= 40) {
+        shortAddress = shortAddress.left(11) + "..." + shortAddress.right(20);
+    }
     ui->textId->setText(shortPubKey);
-    ui->textAddress->setText(address);
+    ui->textAddress->setText(shortAddress);
     ui->textAmount->setText(shortTxId);
     ui->textInputs->setText(outputIndex);
     ui->textStatus->setText(status);
 }
 
-void MnInfoDialog::copyInform(QString& copyStr, QString message)
+void MnInfoDialog::copyInform(const QString& copyStr, const QString& message)
 {
     GUIUtil::setClipboard(copyStr);
     if (!snackBar) snackBar = new SnackBar(nullptr, this);
@@ -57,10 +59,10 @@ void MnInfoDialog::copyInform(QString& copyStr, QString message)
     openDialog(snackBar, this);
 }
 
-void MnInfoDialog::closeDialog()
+void MnInfoDialog::reject()
 {
     if (snackBar && snackBar->isVisible()) snackBar->hide();
-    close();
+    QDialog::reject();
 }
 
 MnInfoDialog::~MnInfoDialog()

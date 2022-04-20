@@ -23,33 +23,31 @@
 
 from time import sleep
 
-from test_framework.mininode import *
-from test_framework.test_framework import DigiwageTestFramework
-from test_framework.util import *
+from test_framework.messages import msg_ping
+from test_framework.mininode import P2PInterface
+from test_framework.test_framework import PivxTestFramework
 
-class TestNode(P2PInterface):
+class TestP2PConn(P2PInterface):
     def on_version(self, message):
         # Don't send a verack in response
         pass
 
-class TimeoutsTest(DigiwageTestFramework):
+class TimeoutsTest(PivxTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
 
     def run_test(self):
-        # Setup the p2p connections and start up the network thread.
-        no_verack_node = self.nodes[0].add_p2p_connection(TestNode())
-        no_version_node = self.nodes[0].add_p2p_connection(TestNode(), send_version=False)
-        no_send_node = self.nodes[0].add_p2p_connection(TestNode(), send_version=False)
-
-        network_thread_start()
+        # Setup the p2p connections
+        no_verack_node = self.nodes[0].add_p2p_connection(TestP2PConn())
+        no_version_node = self.nodes[0].add_p2p_connection(TestP2PConn(), send_version=False)
+        no_send_node = self.nodes[0].add_p2p_connection(TestP2PConn(), send_version=False)
 
         sleep(1)
 
-        assert no_verack_node.connected
-        assert no_version_node.connected
-        assert no_send_node.connected
+        assert no_verack_node.is_connected
+        assert no_version_node.is_connected
+        assert no_send_node.is_connected
 
         no_verack_node.send_message(msg_ping())
         no_version_node.send_message(msg_ping())
@@ -58,18 +56,18 @@ class TimeoutsTest(DigiwageTestFramework):
 
         assert "version" in no_verack_node.last_message
 
-        assert no_verack_node.connected
-        assert no_version_node.connected
-        assert no_send_node.connected
+        assert no_verack_node.is_connected
+        assert no_version_node.is_connected
+        assert no_send_node.is_connected
 
         no_verack_node.send_message(msg_ping())
         no_version_node.send_message(msg_ping())
 
         sleep(31)
 
-        assert not no_verack_node.connected
-        assert not no_version_node.connected
-        assert not no_send_node.connected
+        assert not no_verack_node.is_connected
+        assert not no_version_node.is_connected
+        assert not no_send_node.is_connected
 
 if __name__ == '__main__':
     TimeoutsTest().main()

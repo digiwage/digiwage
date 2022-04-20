@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0">
    <property name="spacing">
@@ -42,7 +42,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="PFBorderImage" name="containerTop" native="true">
+    <widget class="PFBorderImage" name="containerTop">
      <layout class="QVBoxLayout" name="verticalLayout_11">
       <property name="spacing">
        <number>0</number>
@@ -93,7 +93,7 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <property name="spacing">
-             <number>0</number>
+             <number>5</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -108,7 +108,7 @@
              <number>0</number>
             </property>
             <item alignment="Qt::AlignTop">
-             <widget class="QLabel" name="labelAmountTopWAGE">
+             <widget class="QLabel" name="labelAmountTopWage">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -119,7 +119,14 @@
                <string notr="true">padding:0px;margin:0px;</string>
               </property>
               <property name="text">
-               <string>480.0685 WAGE</string>
+               <string notr="true">480.0685 WAGE</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelTrans">
+              <property name="text">
+               <string>transparent</string>
               </property>
              </widget>
             </item>
@@ -133,11 +140,35 @@
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>20</width>
+                <width>15</width>
                 <height>20</height>
                </size>
               </property>
              </spacer>
+            </item>
+            <item alignment="Qt::AlignVCenter">
+             <widget class="QLabel" name="typeSpacerTop">
+              <property name="minimumSize">
+               <size>
+                <width>1</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>1</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color:white;
+padding:0px;
+border:none;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
             </item>
             <item>
              <spacer name="horizontalSpacer_12">
@@ -149,11 +180,31 @@
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>20</width>
+                <width>15</width>
                 <height>20</height>
                </size>
               </property>
              </spacer>
+            </item>
+            <item alignment="Qt::AlignTop">
+             <widget class="QLabel" name="labelAmountTopShieldedWage">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="text">
+               <string notr="true">1.000 WAGE</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelShield">
+              <property name="text">
+               <string>shielded</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -226,7 +277,7 @@
             </widget>
            </item>
            <item>
-            <widget class="ExpandableButton" name="pushButtonStack" native="true">
+            <widget class="ExpandableButton" name="pushButtonHDUpgrade" native="true">
              <property name="minimumSize">
               <size>
                <width>36</width>
@@ -236,7 +287,7 @@
             </widget>
            </item>
            <item>
-            <widget class="ExpandableButton" name="pushButtonHardfork" native="true">
+            <widget class="ExpandableButton" name="pushButtonStack" native="true">
              <property name="minimumSize">
               <size>
                <width>36</width>
@@ -267,16 +318,6 @@
            </item>
            <item>
             <widget class="ExpandableButton" name="pushButtonTor" native="true">
-             <property name="minimumSize">
-              <size>
-               <width>36</width>
-               <height>36</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="ExpandableButton" name="pushButtonHDEnabled" native="true">
              <property name="minimumSize">
               <size>
                <width>36</width>
@@ -317,6 +358,16 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="ExpandableButton" name="pushButtonFAQ" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>36</width>
+               <height>36</height>
+              </size>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
@@ -344,23 +395,23 @@
           <number>10</number>
          </property>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <property name="bottomMargin">
-            <number>9</number>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>30</number>
            </property>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_7">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>30</number>
-             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_2">
+              <layout class="QHBoxLayout" name="horizontalLayoutContainerAvailable">
+               <property name="spacing">
+                <number>5</number>
+               </property>
                <item>
                 <widget class="QLabel" name="labelTitle1">
                  <property name="text">
@@ -369,21 +420,105 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="labelAmountWAGE">
+                <widget class="QPushButton" name="pushButtonBalanceInfo">
+                 <property name="minimumSize">
+                  <size>
+                   <width>26</width>
+                   <height>26</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>26</width>
+                   <height>26</height>
+                  </size>
+                 </property>
+                 <property name="mouseTracking">
+                  <bool>true</bool>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
                  <property name="text">
-                  <string>480.0685 WAGE</string>
+                  <string notr="true"/>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="shortcut">
+                  <string notr="true"/>
                  </property>
                 </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::MinimumExpanding</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
                </item>
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <property name="spacing">
-                <number>0</number>
+              <widget class="QLabel" name="labelAmountWage">
+               <property name="text">
+                <string notr="true">480.0685 WAGE</string>
                </property>
-               <item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QWidget" name="container_imm_pend" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignLeft">
+               <widget class="QWidget" name="container_pending" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="labelTitle3">
                    <property name="text">
@@ -392,32 +527,52 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="labelLockedWAGE">
+                  <widget class="QLabel" name="labelLockedWage">
                    <property name="text">
-                    <string>6.943 WAGE</string>
+                    <string notr="true">6.943 WAGE</string>
                    </property>
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Fixed</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item alignment="Qt::AlignLeft">
+               <widget class="QWidget" name="container_immature" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="labelTitle4">
                    <property name="text">
@@ -426,17 +581,30 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="labelPendingWAGE">
+                  <widget class="QLabel" name="labelPendingWage">
                    <property name="text">
-                    <string>10 WAGE</string>
+                    <string notr="true">10 WAGE</string>
                    </property>
                   </widget>
                  </item>
                 </layout>
-               </item>
-              </layout>
-             </item>
-            </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </item>

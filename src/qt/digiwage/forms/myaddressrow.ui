@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -34,7 +34,7 @@
      <item>
       <widget class="QLabel" name="labelName">
        <property name="text">
-        <string>Savings</string>
+        <string notr="true">Label</string>
        </property>
       </widget>
      </item>
@@ -54,7 +54,7 @@
      <item>
       <widget class="QLabel" name="labelDate">
        <property name="text">
-        <string>Jan. 19, 2019</string>
+        <string notr="true">N/A</string>
        </property>
       </widget>
      </item>
@@ -63,7 +63,7 @@
    <item>
     <widget class="QLabel" name="labelAddress">
      <property name="text">
-      <string>DN6i46dytMPVhV1JMGZFuQBh7BZZ6nNLox</string>
+      <string notr="true">N/A</string>
      </property>
     </widget>
    </item>

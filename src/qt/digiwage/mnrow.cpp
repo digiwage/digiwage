@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,16 +17,13 @@ MNRow::MNRow(QWidget *parent) :
     ui->lblDivisory->setStyleSheet("background-color:#bababa;");
 }
 
-void MNRow::updateView(QString address, QString label, QString status, bool wasCollateralAccepted)
+void MNRow::updateView(QString address, const QString& label, QString status, bool wasCollateralAccepted)
 {
     ui->labelName->setText(label);
+    address = address.size() < 40 ? address : address.left(20) + "..." + address.right(20);
     ui->labelAddress->setText(address);
-    ui->labelDate->setText("Status: " + status);
-    if (!wasCollateralAccepted) {
-        ui->labelDate->setText("Status: Collateral tx not found");
-    } else {
-        ui->labelDate->setText("Status: " + status);
-    }
+    if (!wasCollateralAccepted) status = tr("Collateral tx not found");
+    ui->labelDate->setText(tr("Status: %1").arg(status));
 }
 
 MNRow::~MNRow()

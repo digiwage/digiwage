@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
+# Copyright (c) 2015-2021 The Bitcoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Combine logs from multiple bitcoin nodes as well as the test_framework log.
 
 This streams the combined log output to stdout. Use combine_logs.py > outputfile
 to write to an outputfile.
-If no argument is provided, the most recent test directory will be used."""
+If no argument is provided, the most recent test directory will be used.
+"""
 
 import argparse
 from collections import defaultdict, namedtuple
+import glob
 import heapq
 import itertools
 import os
@@ -21,7 +26,7 @@ import tempfile
 TMPDIR_PREFIX = "digiwage_func_test_"
 
 # Matches on the date format at the start of the log event
-TIMESTAMP_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6}")
+TIMESTAMP_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z")
 
 LogEvent = namedtuple('LogEvent', ['timestamp', 'source', 'event'])
 
@@ -62,9 +67,17 @@ def read_logs(tmp_dir):
     Delegates to generator function get_log_events() to provide individual log events
     for each of the input log files."""
 
+    # Find out what the folder is called that holds the debug.log file
+    chain = glob.glob("{}/node0/*/debug.log".format(tmp_dir))
+    if chain:
+        chain = chain[0]  # pick the first one if more than one chain was found (should never happen)
+        chain = re.search(r'node0/(.+?)/debug\.log$', chain).group(1)  # extract the chain name
+    else:
+        chain = 'regtest'  # fallback to regtest (should only happen when none exists)
+
     files = [("test", "%s/test_framework.log" % tmp_dir)]
     for i in itertools.count():
-        logfile = "{}/node{}/regtest/debug.log".format(tmp_dir, i)
+        logfile = "{}/node{}/{}/debug.log".format(tmp_dir, i, chain)
         if not os.path.isfile(logfile):
             break
         files.append(("node%d" % i, logfile))
@@ -100,7 +113,7 @@ def get_log_events(source, logfile):
     Log events may be split over multiple lines. We use the timestamp
     regex match as the marker for a new log event."""
     try:
-        with open(logfile, 'r') as infile:
+        with open(logfile, 'r', encoding="utf8") as infile:
             event = ''
             timestamp = ''
             for line in infile:

@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
@@ -74,7 +74,7 @@ font-size: 15px;
 color:white;</string>
         </property>
         <property name="text">
-         <string>Contact Stored</string>
+         <string notr="true">N/A</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

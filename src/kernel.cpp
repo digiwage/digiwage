@@ -5,15 +5,16 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <boost/assign/list_of.hpp>
+#include "kernel.h"
 
 #include "db.h"
-#include "kernel.h"
 #include "legacy/stakemodifier.h"
+#include "policy/policy.h"
 #include "script/interpreter.h"
-#include "util.h"
 #include "stakeinput.h"
+#include "util/system.h"
 #include "utilmoneystr.h"
+#include "validation.h"
 
 /**
  * CStakeKernel Constructor
@@ -29,15 +30,18 @@ CStakeKernel::CStakeKernel(const CBlockIndex* const pindexPrev, CStakeInput* sta
     nBits(nBits),
     stakeValue(stakeInput->GetValue())
 {
-    if (!Params().GetConsensus().IsStakeModifierV2(pindexPrev->nHeight + 1)) { // Modifier v1
+    // Set kernel stake modifier
+    if (!Params().GetConsensus().NetworkUpgradeActive(pindexPrev->nHeight + 1, Consensus::UPGRADE_STK_V2)) {
         uint64_t nStakeModifier = 0;
         if (!GetOldStakeModifier(stakeInput, nStakeModifier))
             LogPrintf("%s : ERROR: Failed to get kernel stake modifier\n", __func__);
+        // Modifier v1
         stakeModifier << nStakeModifier;
-    } else { // Modifier v2
+    } else {
+        // Modifier v2
         stakeModifier << pindexPrev->GetStakeModifierV2();
     }
-    CBlockIndex* pindexFrom = stakeInput->GetIndexFrom();
+    const CBlockIndex* pindexFrom = stakeInput->GetIndexFrom();
     nTimeBlockFrom = pindexFrom->nTime;
 }
 
@@ -53,23 +57,25 @@ uint256 CStakeKernel::GetHash() const
 bool CStakeKernel::CheckKernelHash(bool fSkipLog) const
 {
     // Get weighted target
-    uint256 bnTarget;
+    arith_uint256 bnTarget;
     bnTarget.SetCompact(nBits);
-    bnTarget *= (uint256(stakeValue) / 100);
+    bnTarget *= (arith_uint256(stakeValue) / 100);
 
     // Check PoS kernel hash
-    const uint256& hashProofOfStake = GetHash();
+    const arith_uint256& hashProofOfStake = UintToArith256(GetHash());
     const bool res = hashProofOfStake < bnTarget;
 
     if (!fSkipLog || res) {
-        LogPrint("staking", "%s : Proof Of Stake:"
+        LogPrint(BCLog::STAKING, "%s : Proof Of Stake:"
+                            "\nstakeModifier=%s"
+                            "\nnTimeBlockFrom=%d"
                             "\nssUniqueID=%s"
                             "\nnTimeTx=%d"
                             "\nhashProofOfStake=%s"
                             "\nnBits=%d"
                             "\nweight=%d"
                             "\nbnTarget=%s (res: %d)\n\n",
-            __func__, HexStr(stakeUniqueness), nTime, hashProofOfStake.GetHex(),
+            __func__, HexStr(stakeModifier), nTimeBlockFrom, HexStr(stakeUniqueness), nTime, hashProofOfStake.GetHex(),
             nBits, stakeValue, bnTarget.GetHex(), res);
     }
     return res;
@@ -81,28 +87,17 @@ bool CStakeKernel::CheckKernelHash(bool fSkipLog) const
  */
 
 // helper function for CheckProofOfStake and GetStakeKernelHash
-bool LoadStakeInput(const CBlock& block, const CBlockIndex* pindexPrev, std::unique_ptr<CStakeInput>& stake)
+static bool LoadStakeInput(const CBlock& block, std::unique_ptr<CStakeInput>& stake, int nHeight)
 {
-    // If previous index is not provided, look for it in the blockmap
-    if (!pindexPrev) {
-        BlockMap::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
-        if (mi != mapBlockIndex.end() && (*mi).second) pindexPrev = (*mi).second;
-        else return error("%s : couldn't find previous block", __func__);
-    } else {
-        // check that is the actual parent block
-        if (block.hashPrevBlock != pindexPrev->GetBlockHash())
-            return error("%s : previous block mismatch");
-    }
-
     // Check that this is a PoS block
     if (!block.IsProofOfStake())
         return error("called on non PoS block");
 
     // Construct the stakeinput object
-    const CTxIn& txin = block.vtx[1].vin[0];
-    stake = std::unique_ptr<CStakeInput>(new CPivStake());
+    const CTxIn& txin = block.vtx[1]->vin[0];
+    stake = std::unique_ptr<CStakeInput>(CPivStake::NewPivStake(txin, nHeight, block.nTime));
 
-    return stake->InitFromTxIn(txin);
+    return stake != nullptr;
 }
 
 /*
@@ -116,9 +111,7 @@ bool LoadStakeInput(const CBlock& block, const CBlockIndex* pindexPrev, std::uni
  */
 bool Stake(const CBlockIndex* pindexPrev, CStakeInput* stakeInput, unsigned int nBits, int64_t& nTimeTx)
 {
-    // Double check stake input contextual checks
-    const int nHeightTx = pindexPrev->nHeight + 1;
-    if (!stakeInput || !stakeInput->ContextCheck(nHeightTx, nTimeTx)) return false;
+    if (!stakeInput) return false;
 
     // Get the new time slot (and verify it's not the same as previous block)
     const bool fRegTest = Params().IsRegTestNet();
@@ -142,38 +135,36 @@ bool Stake(const CBlockIndex* pindexPrev, CStakeInput* stakeInput, unsigned int 
  */
 bool CheckProofOfStake(const CBlock& block, std::string& strError, const CBlockIndex* pindexPrev)
 {
+    const int nHeight = pindexPrev->nHeight + 1;
     // Initialize stake input
     std::unique_ptr<CStakeInput> stakeInput;
-    if (!LoadStakeInput(block, pindexPrev, stakeInput)) {
+    if (!LoadStakeInput(block, stakeInput, nHeight)) {
         strError = "stake input initialization failed";
         return false;
     }
-
-    // Stake input contextual checks
-    if (!stakeInput->ContextCheck(pindexPrev->nHeight + 1, block.nTime)) {
-        strError = "stake input failing contextual checks";
-        return false;
-    }
-
-    // Verify signature
-        CTransaction txPrev;
-        if (!stakeInput->GetTxFrom(txPrev)) {
-            strError = "unable to get txPrev for coinstake";
-            return false;
-        }
-        const CTransaction& tx = block.vtx[1];
-        const CTxIn& txin = tx.vin[0];
-        ScriptError serror;
-        if (!VerifyScript(txin.scriptSig, txPrev.vout[txin.prevout.n].scriptPubKey, STANDARD_SCRIPT_VERIFY_FLAGS,
-                 TransactionSignatureChecker(&tx, 0), &serror)) {
-            strError = strprintf("signature fails: %s", serror ? ScriptErrorString(serror) : "");
-            return false;
-        }
 
     // Verify Proof Of Stake
     CStakeKernel stakeKernel(pindexPrev, stakeInput.get(), block.nBits, block.nTime);
     if (!stakeKernel.CheckKernelHash()) {
         strError = "kernel hash check fails";
+        return false;
+    }
+
+    // zPoS disabled (ContextCheck) before blocks V7, and the tx input signature is in CoinSpend
+    if (stakeInput->IsZWAGE()) return true;
+
+    // Verify tx input signature
+    CTxOut stakePrevout;
+    if (!stakeInput->GetTxOutFrom(stakePrevout)) {
+        strError = "unable to get stake prevout for coinstake";
+        return false;
+    }
+    const auto& tx = block.vtx[1];
+    const CTxIn& txin = tx->vin[0];
+    ScriptError serror;
+    if (!VerifyScript(txin.scriptSig, stakePrevout.scriptPubKey, STANDARD_SCRIPT_VERIFY_FLAGS,
+             TransactionSignatureChecker(tx.get(), 0, stakePrevout.nValue), tx->GetRequiredSigVersion(), &serror)) {
+        strError = strprintf("signature fails: %s", serror ? ScriptErrorString(serror) : "");
         return false;
     }
 
@@ -195,7 +186,7 @@ bool GetStakeKernelHash(uint256& hashRet, const CBlock& block, const CBlockIndex
 {
     // Initialize stake input
     std::unique_ptr<CStakeInput> stakeInput;
-    if (!LoadStakeInput(block, pindexPrev, stakeInput))
+    if (!LoadStakeInput(block, stakeInput, pindexPrev->nHeight + 1))
         return error("%s : stake input initialization failed", __func__);
 
     CStakeKernel stakeKernel(pindexPrev, stakeInput.get(), block.nBits, block.nTime);

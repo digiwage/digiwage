@@ -29,7 +29,7 @@ don't have test cases for.
 - Avoid wildcard imports
 - Use a module-level docstring to describe what the test is testing, and how it
   is testing it.
-- When subclassing the DigiwageTestFramwork, place overrides for the
+- When subclassing the PivxTestFramwork, place overrides for the
   `set_test_params()`, `add_options()` and `setup_xxxx()` methods at the top of
   the subclass, then locally-defined helper methods, then the `run_test()` method.
 - Use `'{}'.format(x)` for string formatting, not `'%s' % x`.
@@ -112,14 +112,8 @@ Generally useful functions.
 #### [test_framework/mininode.py](test_framework/mininode.py)
 Basic code to support P2P connectivity to a digiwaged.
 
-#### [test_framework/comptool.py](test_framework/comptool.py)
-Framework for comparison-tool style, p2p tests.
-
 #### [test_framework/script.py](test_framework/script.py)
 Utilities for manipulating transaction scripts (originally from python-bitcoinlib)
-
-#### [test_framework/blockstore.py](test_framework/blockstore.py)
-Implements disk-backed block and tx storage.
 
 #### [test_framework/key.py](test_framework/key.py)
 Wrapper around OpenSSL EC_Key (originally from python-bitcoinlib)
@@ -129,49 +123,3 @@ Helpers for script.py
 
 #### [test_framework/blocktools.py](test_framework/blocktools.py)
 Helper functions for creating blocks and transactions.
-
-### Comptool
-
-* Testing framework for writing tests that compare the block/tx acceptance
-behavior of a digiwaged against 1 or more other digiwaged instances, or against
-known outcomes, or both.
-
-* Set the ```num_nodes``` variable (defined in ```ComparisonTestFramework```) to start up
-1 or more nodes.  If using 1 node, then ```--testbinary``` can be used as a command line
-option to change the digiwaged binary used by the test.  If using 2 or more nodes,
-then ```--refbinary``` can be optionally used to change the digiwaged that will be used
-on nodes 2 and up.
-
-* Implement a (generator) function called ```get_tests()``` which yields ```TestInstance```s.
-Each ```TestInstance``` consists of:
-  - a list of ```[object, outcome, hash]``` entries
-    * ```object``` is a ```CBlock```, ```CTransaction```, or
-    ```CBlockHeader```.  ```CBlock```'s and ```CTransaction```'s are tested for
-    acceptance.  ```CBlockHeader```s can be used so that the test runner can deliver
-    complete headers-chains when requested from the digiwaged, to allow writing
-    tests where blocks can be delivered out of order but still processed by
-    headers-first digiwaged's.
-    * ```outcome``` is ```True```, ```False```, or ```None```.  If ```True```
-    or ```False```, the tip is compared with the expected tip -- either the
-    block passed in, or the hash specified as the optional 3rd entry.  If
-    ```None``` is specified, then the test will compare all the digiwaged's
-    being tested to see if they all agree on what the best tip is.
-    * ```hash``` is the block hash of the tip to compare against. Optional to
-    specify; if left out then the hash of the block passed in will be used as
-    the expected tip.  This allows for specifying an expected tip while testing
-    the handling of either invalid blocks or blocks delivered out of order,
-    which complete a longer chain.
-  - ```sync_every_block```: ```True/False```.  If ```False```, then all blocks
-    are inv'ed together, and the test runner waits until the node receives the
-    last one, and tests only the last block for tip acceptance using the
-    outcome and specified tip.  If ```True```, then each block is tested in
-    sequence and synced (this is slower when processing many blocks).
-  - ```sync_every_transaction```: ```True/False```.  Analogous to
-    ```sync_every_block```, except if the outcome on the last tx is "None",
-    then the contents of the entire mempool are compared across all digiwaged
-    connections.  If ```True``` or ```False```, then only the last tx's
-    acceptance is tested against the given outcome.
-
-* For examples of tests written in this framework, see
-  ```invalidblockrequest.py``` and ```p2p-fullblocktest.py```.
-

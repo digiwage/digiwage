@@ -4,11 +4,20 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the prioritisetransaction mining RPC."""
 
-from test_framework.test_framework import DigiwageTestFramework
-from test_framework.util import *
-from test_framework.mininode import COIN, MAX_BLOCK_BASE_SIZE
+import time
 
-class PrioritiseTransactionTest(DigiwageTestFramework):
+from test_framework.messages import COIN, MAX_BLOCK_BASE_SIZE
+from test_framework.test_framework import PivxTestFramework
+from test_framework.util import (
+    assert_equal,
+    assert_raises_rpc_error,
+    create_confirmed_utxos,
+    create_lots_of_big_transactions,
+    gen_return_txouts,
+)
+
+
+class PrioritiseTransactionTest(PivxTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2
@@ -18,21 +27,16 @@ class PrioritiseTransactionTest(DigiwageTestFramework):
         # Test `prioritisetransaction` required parameters
         assert_raises_rpc_error(-1, "prioritisetransaction", self.nodes[0].prioritisetransaction)
         assert_raises_rpc_error(-1, "prioritisetransaction", self.nodes[0].prioritisetransaction, '')
-        assert_raises_rpc_error(-1, "prioritisetransaction", self.nodes[0].prioritisetransaction, '', 0)
 
         # Test `prioritisetransaction` invalid extra parameters
-        assert_raises_rpc_error(-1, "prioritisetransaction", self.nodes[0].prioritisetransaction, '', 0, 0, 0)
+        assert_raises_rpc_error(-1, "prioritisetransaction", self.nodes[0].prioritisetransaction, '', 0, 0)
 
         # Test `prioritisetransaction` invalid `txid`
-        assert_raises_rpc_error(-1, "txid must be hexadecimal string", self.nodes[0].prioritisetransaction, 'foo', 0, 0)
-
-        # Test `prioritisetransaction` invalid `dummy`
-        txid = '1d1d4e24ed99057e84c3f80fd8fbec79ed9e1acee37da269356ecea000000000'
-        assert_raises_rpc_error(-1, "JSON value is not a number as expected", self.nodes[0].prioritisetransaction, txid, 'foo', 0)
-        #assert_raises_rpc_error(-8, "Priority is no longer supported, dummy argument to prioritisetransaction must be 0.", self.nodes[0].prioritisetransaction, txid, 1, 0)
+        assert_raises_rpc_error(-1, "txid must be hexadecimal string", self.nodes[0].prioritisetransaction, 'foo', 0)
 
         # Test `prioritisetransaction` invalid `fee_delta`
-        assert_raises_rpc_error(-1, "JSON value is not an integer as expected", self.nodes[0].prioritisetransaction, txid, 0, 'foo')
+        txid = '1d1d4e24ed99057e84c3f80fd8fbec79ed9e1acee37da269356ecea000000000'
+        assert_raises_rpc_error(-1, "JSON value is not an integer as expected", self.nodes[0].prioritisetransaction, txid, 'foo')
 
         self.txouts = gen_return_txouts()
         self.relayfee = self.nodes[0].getnetworkinfo()['relayfee']
@@ -78,11 +82,11 @@ class PrioritiseTransactionTest(DigiwageTestFramework):
                 high_fee_tx = x
 
         # Something high-fee should have been mined!
-        assert(high_fee_tx != None)
+        assert(high_fee_tx is not None)
 
         # Add a prioritisation before a tx is in the mempool (de-prioritising a
         # high-fee transaction so that it's now low fee).
-        self.nodes[0].prioritisetransaction(high_fee_tx, 0, -int(2*base_fee*COIN))
+        self.nodes[0].prioritisetransaction(high_fee_tx, -int(2*base_fee*COIN))
 
         # Add everything back to mempool
         self.nodes[0].invalidateblock(self.nodes[0].getbestblockhash())
@@ -111,22 +115,20 @@ class PrioritiseTransactionTest(DigiwageTestFramework):
         assert(len(utxo_list) > 0)
         utxo = utxo_list[0]
 
-        inputs = []
-        outputs = {}
-        inputs.append({"txid" : utxo["txid"], "vout" : utxo["vout"]})
-        outputs[self.nodes[0].getnewaddress()] = float(utxo["amount"])
+        inputs = [{"txid" : utxo["txid"], "vout" : utxo["vout"]}]
+        outputs = {self.nodes[0].getnewaddress(): float(utxo["amount"])}
         raw_tx = self.nodes[0].createrawtransaction(inputs, outputs)
         tx_hex = self.nodes[0].signrawtransaction(raw_tx)["hex"]
         tx_id = self.nodes[0].decoderawtransaction(tx_hex)["txid"]
 
         # This will raise an exception due to min relay fee not being met
-        #assert_raises_rpc_error(-26, "66: min relay fee not met", self.nodes[0].sendrawtransaction, tx_hex)
-        #assert(tx_id not in self.nodes[0].getrawmempool())
+        assert_raises_rpc_error(-26, "66: min relay fee not met", self.nodes[0].sendrawtransaction, tx_hex)
+        assert(tx_id not in self.nodes[0].getrawmempool())
 
         # This is a less than 1000-byte transaction, so just set the fee
         # to be the minimum for a 1000 byte transaction and check that it is
         # accepted.
-        self.nodes[0].prioritisetransaction(tx_id, 0, int(self.relayfee*COIN*2))
+        self.nodes[0].prioritisetransaction(tx_id, int(self.relayfee*COIN*2))
 
         self.log.info("Assert that prioritised free transaction is accepted to mempool")
         assert_equal(self.nodes[0].sendrawtransaction(tx_hex), tx_id)
@@ -137,7 +139,7 @@ class PrioritiseTransactionTest(DigiwageTestFramework):
         mock_time = int(time.time())
         self.nodes[0].setmocktime(mock_time)
         template = self.nodes[0].getblocktemplate()
-        self.nodes[0].prioritisetransaction(tx_id, 0, -int(self.relayfee*COIN))
+        self.nodes[0].prioritisetransaction(tx_id, -int(self.relayfee*COIN))
         self.nodes[0].setmocktime(mock_time+10)
         new_template = self.nodes[0].getblocktemplate()
 

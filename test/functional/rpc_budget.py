@@ -4,11 +4,11 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test RPC commands for budget proposal creation, submission, and verification."""
 
-from test_framework.test_framework import DigiwageTestFramework
-from test_framework.util import *
+from test_framework.test_framework import PivxTestFramework
+from test_framework.util import assert_equal, assert_raises_rpc_error
 
 
-class BudgetProposalTest(DigiwageTestFramework):
+class BudgetProposalTest(PivxTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
 
@@ -36,6 +36,10 @@ class BudgetProposalTest(DigiwageTestFramework):
         assert_raises_rpc_error(-8, "Invalid payment count, must be more than zero.", self.nodes[0].preparebudget,
                                 name, scheme + url, 0, nextsuperblock, address, cycleamount)
 
+        self.log.info("Test with invalid (21) cycles")
+        assert_raises_rpc_error(-8, "Invalid payment count, must be <= 20", self.nodes[0].preparebudget,
+                                name, scheme + url, 21, nextsuperblock, address, cycleamount)
+
         self.log.info("Test with invalid block start")
         assert_raises_rpc_error(-8, "Invalid block start", self.nodes[0].preparebudget,
                                 name, scheme + url, numcycles, nextsuperblock - 12, address, cycleamount)
@@ -47,26 +51,28 @@ class BudgetProposalTest(DigiwageTestFramework):
                                 name, scheme + url, numcycles, nextsuperblock, "DBREvBPNQguwuC4YMoCG5FoH1sA2YntvZm", cycleamount)
 
         self.log.info("Test with too low amount")
-        assert_raises_rpc_error(-8, "Invalid amount - Payment of 9.00 is less than minimum 10 PIV allowed", self.nodes[0].preparebudget,
-                                name, scheme + url, numcycles, nextsuperblock, address, 9)
+        invalid_amt = 9.99999999
+        assert_raises_rpc_error(-8, "Invalid amount - Payment of %.8f is less than minimum 10 WAGE allowed" % invalid_amt, self.nodes[0].preparebudget,
+                                name, scheme + url, numcycles, nextsuperblock, address, invalid_amt)
 
         self.log.info("Test with too high amount")
-        assert_raises_rpc_error(-8, "Invalid amount - Payment of 648001.00 more than max of 648000.00", self.nodes[0].preparebudget,
-                                name, scheme + url, numcycles, nextsuperblock, address, 648001)
+        invalid_amt = 50 * 144 + 0.00000001
+        assert_raises_rpc_error(-8, "Invalid amount - Payment of %.8f more than max of 7200.00" % invalid_amt, self.nodes[0].preparebudget,
+                                name, scheme + url, numcycles, nextsuperblock, address, invalid_amt)
 
 
         self.log.info("Test without URL scheme")
         scheme = ''
-        assert_raises_rpc_error(-8, "Invalid URL, check scheme (e.g. https://)", self.nodes[0].preparebudget, name, scheme + url, 1, nextsuperblock, address, 100)
+        assert_raises_rpc_error(-8, "Invalid URL", self.nodes[0].preparebudget, name, scheme + url, 1, nextsuperblock, address, 100)
 
         self.log.info('Test with invalid URL scheme: ftp://')
         scheme = 'ftp://'
-        assert_raises_rpc_error(-8, "Invalid URL, check scheme (e.g. https://)", self.nodes[0].preparebudget, name, scheme + url, 1, nextsuperblock, address, 100)
+        assert_raises_rpc_error(-8, "Invalid URL", self.nodes[0].preparebudget, name, scheme + url, 1, nextsuperblock, address, 100)
 
         self.log.info("Test with invalid double character scheme: hhttps://")
         scheme = 'hhttps://'
         url = 'test.com'
-        assert_raises_rpc_error(-8, "Invalid URL, check scheme (e.g. https://)", self.nodes[0].preparebudget, name, scheme + url, 1, nextsuperblock, address, 100)
+        assert_raises_rpc_error(-8, "Invalid URL", self.nodes[0].preparebudget, name, scheme + url, 1, nextsuperblock, address, 100)
 
         self.log.info("Test with valid scheme: http://")
         name = 'testvalid1'

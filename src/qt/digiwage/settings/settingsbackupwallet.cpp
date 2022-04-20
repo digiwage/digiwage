@@ -1,15 +1,17 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "qt/digiwage/settings/settingsbackupwallet.h"
+
 #include "qt/digiwage/settings/forms/ui_settingsbackupwallet.h"
-#include <QFile>
-#include <QGraphicsDropShadowEffect>
+
+#include "guiinterface.h"
 #include "guiutil.h"
 #include "qt/digiwage/qtutils.h"
-#include "guiinterface.h"
-#include "qt/digiwage/qtutils.h"
+
+#include <QGraphicsDropShadowEffect>
+
 SettingsBackupWallet::SettingsBackupWallet(DIGIWAGEGUI* _window, QWidget *parent) :
     PWidget(_window, parent),
     ui(new Ui::SettingsBackupWallet)
@@ -23,30 +25,19 @@ SettingsBackupWallet::SettingsBackupWallet(DIGIWAGEGUI* _window, QWidget *parent
     ui->left->setContentsMargins(10,10,10,10);
 
     // Title
-    ui->labelTitle->setText(tr("Backup Wallet "));
     ui->labelTitle->setProperty("cssClass", "text-title-screen");
-
-    ui->labelTitle_2->setText(tr("Change Wallet Passphrase"));
     ui->labelTitle_2->setProperty("cssClass", "text-title-screen");
     ui->labelDivider->setProperty("cssClass", "container-divider");
 
-    // Subtitle
-    ui->labelSubtitle1->setText(tr("Keep your wallet safe by doing regular backups and storing your backup file externally.\nThis option creates a wallet.dat file that can be used to recover your whole balance (transactions and addresses) on another device."));
-    ui->labelSubtitle1->setProperty("cssClass", "text-subtitle");
-
-    ui->labelSubtitle_2->setText(tr("This will decrypt the whole wallet data and encrypt it back with the new passphrase.\nRemember to write it down and store it safely, otherwise you might lose access to your funds."));
-    ui->labelSubtitle_2->setProperty("cssClass", "text-subtitle");
+    // Subtitles
+    setCssProperty({ui->labelSubtitle1, ui->labelSubtitle_2}, "text-subtitle");
 
     // Location
-    ui->labelSubtitleLocation->setText(tr("Where"));
     ui->labelSubtitleLocation->setProperty("cssClass", "text-title");
-
-    ui->pushButtonDocuments->setText(tr("Select folder..."));
     ui->pushButtonDocuments->setProperty("cssClass", "btn-edit-primary-folder");
     setShadow(ui->pushButtonDocuments);
 
     // Buttons
-    ui->pushButtonSave_2->setText(tr("Change Passphrase"));
     setCssBtnPrimary(ui->pushButtonSave_2);
 
     connect(ui->pushButtonDocuments, &QPushButton::clicked, this, &SettingsBackupWallet::selectFileOutput);

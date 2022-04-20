@@ -6,7 +6,7 @@
 
 import os
 
-from test_framework.test_framework import DigiwageTestFramework
+from test_framework.test_framework import PivxTestFramework
 from test_framework.util import (assert_equal, assert_raises_rpc_error)
 
 
@@ -68,17 +68,18 @@ def read_dump(file_name, addrs, hd_master_addr_old):
         return found_addr, found_addr_chg, found_addr_rsv, hd_master_addr_ret
 
 
-class WalletDumpTest(DigiwageTestFramework):
+class WalletDumpTest(PivxTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.extra_args = [["-keypool=90"]]
+        self.rpc_timewait = 90
 
     def setup_network(self, split=False):
         # Use 1 minute timeout because the initial getnewaddress RPC can take
         # longer than the default 30 seconds due to an expensive
         # CWallet::TopUpKeyPool call, and the encryptwallet RPC made later in
         # the test often takes even longer.
-        self.add_nodes(self.num_nodes, self.extra_args, timewait=60)
+        self.add_nodes(self.num_nodes, extra_args=self.extra_args)
         self.start_nodes()
 
     def run_test (self):
@@ -102,7 +103,7 @@ class WalletDumpTest(DigiwageTestFramework):
         found_addr, found_addr_chg, found_addr_rsv, hd_master_addr_unenc = \
             read_dump(dumpUnencrypted, addrs, None)
         assert_equal(found_addr, test_addr_count)  # all keys must be in the dump
-        assert_equal(found_addr_chg, 0)  # 0 blocks where mined
+        assert_equal(found_addr_chg, 50)  # 50 blocks where mined
         assert_equal(found_addr_rsv, 90 * 3)  # 90 keys external plus 100% internal keys plus 100% staking keys
 
         #encrypt wallet, restart, unlock and dump
@@ -117,11 +118,15 @@ class WalletDumpTest(DigiwageTestFramework):
         found_addr, found_addr_chg, found_addr_rsv, hd_master_addr_enc = \
             read_dump(dumpEncrypted, addrs, hd_master_addr_unenc)
         assert_equal(found_addr, test_addr_count)
-        assert_equal(found_addr_chg, 90 * 3 + 1)  # old reserve keys are marked as change now. todo: The +1 needs to be removed once this is updated (master seed taken as an internal key)
+        assert_equal(found_addr_chg, 90 * 3 + 1 + 50)  # old reserve keys are marked as change now. todo: The +1 needs to be removed once this is updated (master seed taken as an internal key)
         assert_equal(found_addr_rsv, 90 * 3) # 90 external + 90 internal + 90 staking
 
         # Overwriting should fail
         assert_raises_rpc_error(-8, "already exists", self.nodes[0].dumpwallet, dumpUnencrypted)
+
+        # Keyword matching should fail
+        assert_raises_rpc_error(-1, "Scam attempt detected!", self.nodes[0].dumpwallet, "debug")
+        assert_raises_rpc_error(-1, "Scam attempt detected!", self.nodes[0].dumpwallet, "wallet.log")
 
 if __name__ == '__main__':
     WalletDumpTest().main ()

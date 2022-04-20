@@ -1,12 +1,13 @@
 [Desktop Entry]
 Version=1.0
-Name=digiwage Core
-Comment=digiwage P2P Cryptocurrency
+Name=DIGIWAGE Core
+Comment=DIGIWAGE P2P Cryptocurrency
+Comment[fr]=DIGIWAGE, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=DIGIWAGE, eşten eşe kriptografik sanal para birimi
 Exec=digiwage-qt %u
 Terminal=false
 Type=Application
 Icon=digiwage128
 MimeType=x-scheme-handler/digiwage;
 Categories=Office;Finance;
-StartupWMClass=digiwage-qt
-Name[en_US]=digiwage-qt.desktop
+StartupWMClass=Digiwage-qt

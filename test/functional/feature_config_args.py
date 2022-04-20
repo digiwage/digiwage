@@ -6,10 +6,11 @@
 
 import os
 
-from test_framework.test_framework import DigiwageTestFramework
+from test_framework.test_framework import PivxTestFramework
 from test_framework.util import get_datadir_path
 
-class ConfArgsTest(DigiwageTestFramework):
+
+class ConfArgsTest(PivxTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
@@ -25,25 +26,30 @@ class ConfArgsTest(DigiwageTestFramework):
 
         # Check that using -datadir argument on non-existent directory fails
         self.nodes[0].datadir = new_data_dir
-        self.assert_start_raises_init_error(0, ['-datadir='+new_data_dir], 'Error: Specified data directory "' + new_data_dir + '" does not exist.')
+        self.nodes[0].assert_start_raises_init_error(['-datadir=' + new_data_dir], 'Error: Specified data directory "' + new_data_dir + '" does not exist.')
 
         # Check that using non-existent datadir in conf file fails
         conf_file = os.path.join(default_data_dir, "digiwage.conf")
-        with open(conf_file, 'a', encoding='utf8') as f:
+
+        # datadir needs to be set before [regtest] section
+        conf_file_contents = open(conf_file, encoding='utf8').read()
+        with open(conf_file, 'w', encoding='utf8') as f:
             f.write("datadir=" + new_data_dir + "\n")
-        self.assert_start_raises_init_error(0, ['-conf='+conf_file], 'Error reading configuration file: specified data directory "' + new_data_dir + '" does not exist.')
+            f.write(conf_file_contents)
+
+        self.nodes[0].assert_start_raises_init_error(['-conf=' + conf_file], 'Error reading configuration file: specified data directory "' + new_data_dir + '" does not exist.')
 
         # Create the directory and ensure the config file now works
         os.mkdir(new_data_dir)
         self.start_node(0, ['-conf='+conf_file, '-wallet=w1'])
         self.stop_node(0)
-        assert os.path.isfile(os.path.join(new_data_dir, 'regtest', 'wallets', 'w1'))
+        assert os.path.exists(os.path.join(new_data_dir, 'regtest', 'wallets', 'w1'))
 
         # Ensure command line argument overrides datadir in conf
         os.mkdir(new_data_dir_2)
         self.nodes[0].datadir = new_data_dir_2
         self.start_node(0, ['-datadir='+new_data_dir_2, '-conf='+conf_file, '-wallet=w2'])
-        assert os.path.isfile(os.path.join(new_data_dir_2, 'regtest', 'wallets', 'w2'))
+        assert os.path.exists(os.path.join(new_data_dir_2, 'regtest', 'wallets', 'w2'))
 
 if __name__ == '__main__':
     ConfArgsTest().main()

@@ -4,8 +4,8 @@
 
 #include "qt/digiwage/addresseswidget.h"
 #include "qt/digiwage/forms/ui_addresseswidget.h"
+#include "qt/digiwage/addressfilterproxymodel.h"
 #include "qt/digiwage/addresslabelrow.h"
-#include "qt/digiwage/addnewaddressdialog.h"
 #include "qt/digiwage/tooltipmenu.h"
 
 #include "qt/digiwage/addnewcontactdialog.h"
@@ -23,29 +23,33 @@
 class ContactsHolder : public FurListRow<QWidget*>
 {
 public:
-    ContactsHolder();
-
     explicit ContactsHolder(bool _isLightTheme) : FurListRow(), isLightTheme(_isLightTheme){}
 
-    AddressLabelRow* createHolder(int pos) override{
+    AddressLabelRow* createHolder(int pos) override
+    {
         if (!cachedRow) cachedRow = new AddressLabelRow();
         cachedRow->init(isLightTheme, false);
         return cachedRow;
     }
 
-    void init(QWidget* holder,const QModelIndex &index, bool isHovered, bool isSelected) const override{
-        AddressLabelRow* row = static_cast<AddressLabelRow*>(holder);
+    void init(QWidget* holder,const QModelIndex &index, bool isHovered, bool isSelected) const override
+    {
+        AddressLabelRow* row = dynamic_cast<AddressLabelRow*>(holder);
 
         row->updateState(isLightTheme, isHovered, isSelected);
 
         QString address = index.data(Qt::DisplayRole).toString();
+        if (index.data(AddressTableModel::TypeRole).toString() == AddressTableModel::ShieldedSend) {
+            address = address.left(26) + "..." + address.right(26);
+        }
         QModelIndex sibling = index.sibling(index.row(), AddressTableModel::Label);
         QString label = sibling.data(Qt::DisplayRole).toString();
 
         row->updateView(address, label);
     }
 
-    QColor rectColor(bool isHovered, bool isSelected) override{
+    QColor rectColor(bool isHovered, bool isSelected) override
+    {
         return getRowColor(isLightTheme, isHovered, isSelected);
     }
 
@@ -78,14 +82,12 @@ AddressesWidget::AddressesWidget(DIGIWAGEGUI* parent) :
     setCssProperty(ui->listAddresses, "container");
 
     // Title
-    ui->labelTitle->setText(tr("Contacts"));
-    ui->labelSubtitle1->setText(tr("You can add a new one in the options menu to the side."));
     setCssTitleScreen(ui->labelTitle);
     setCssSubtitleScreen(ui->labelSubtitle1);
 
     // Change address option
-    ui->btnAddContact->setTitleClassAndText("btn-title-grey", "Add new contact");
-    ui->btnAddContact->setSubTitleClassAndText("text-subtitle", "Generate a new address to receive tokens.");
+    ui->btnAddContact->setTitleClassAndText("btn-title-grey", tr("Add new contact"));
+    ui->btnAddContact->setSubTitleClassAndText("text-subtitle", tr("Generate a new address to receive tokens."));
     ui->btnAddContact->setRightIconClass("ic-arrow-down");
 
     // List Addresses
@@ -108,64 +110,60 @@ AddressesWidget::AddressesWidget(DIGIWAGEGUI* parent) :
     //Empty List
     ui->emptyContainer->setVisible(false);
     setCssProperty(ui->pushImgEmpty, "img-empty-contacts");
-
-    ui->labelEmpty->setText(tr("No contacts yet"));
     setCssProperty(ui->labelEmpty, "text-empty");
 
     // Add Contact
     setCssProperty(ui->layoutNewContact, "container-options");
 
     // Name
-    ui->labelName->setText(tr("Contact name"));
     setCssProperty(ui->labelName, "text-title");
-    ui->lineEditName->setPlaceholderText(tr("e.g. John Doe"));
     setCssEditLine(ui->lineEditName, true);
 
     // Address
-    ui->labelAddress->setText(tr("Enter DIGIWAGE address"));
     setCssProperty(ui->labelAddress, "text-title");
-    ui->lineEditAddress->setPlaceholderText("e.g. ZmkEBAFKzay6fMaYp3ZB…");
     setCssEditLine(ui->lineEditAddress, true);
     ui->lineEditAddress->setValidator(new QRegExpValidator(QRegExp("^[A-Za-z0-9]+"), ui->lineEditName));
 
     // Buttons
-    ui->btnSave->setText(tr("SAVE"));
     setCssBtnPrimary(ui->btnSave);
 
-    connect(ui->listAddresses, SIGNAL(clicked(QModelIndex)), this, SLOT(handleAddressClicked(QModelIndex)));
-    connect(ui->btnSave, SIGNAL(clicked()), this, SLOT(onStoreContactClicked()));
-    connect(ui->btnAddContact, SIGNAL(clicked()), this, SLOT(onAddContactShowHideClicked()));
+    connect(ui->listAddresses, &QListView::clicked, this, &AddressesWidget::handleAddressClicked);
+    connect(ui->btnSave, &QPushButton::clicked, this, &AddressesWidget::onStoreContactClicked);
+    connect(ui->btnAddContact, &OptionButton::clicked, this, &AddressesWidget::onAddContactShowHideClicked);
 }
 
-void AddressesWidget::handleAddressClicked(const QModelIndex &index){
-    ui->listAddresses->setCurrentIndex(index);
-    QRect rect = ui->listAddresses->visualRect(index);
+void AddressesWidget::handleAddressClicked(const QModelIndex& _index)
+{
+    ui->listAddresses->setCurrentIndex(_index);
+    QRect rect = ui->listAddresses->visualRect(_index);
     QPoint pos = rect.topRight();
     pos.setX(pos.x() - (DECORATION_SIZE * 2));
     pos.setY(pos.y() + (DECORATION_SIZE));
 
-    QModelIndex rIndex = filter->mapToSource(index);
+    QModelIndex rIndex = filter->mapToSource(_index);
 
-    if(!this->menu){
+    if (!this->menu) {
         this->menu = new TooltipMenu(window, this);
         connect(this->menu, &TooltipMenu::message, this, &AddressesWidget::message);
-        connect(this->menu, SIGNAL(onEditClicked()), this, SLOT(onEditClicked()));
-        connect(this->menu, SIGNAL(onDeleteClicked()), this, SLOT(onDeleteClicked()));
-        connect(this->menu, SIGNAL(onCopyClicked()), this, SLOT(onCopyClicked()));
-    }else {
+        connect(this->menu, &TooltipMenu::onEditClicked, this, &AddressesWidget::onEditClicked);
+        connect(this->menu, &TooltipMenu::onDeleteClicked, this, &AddressesWidget::onDeleteClicked);
+        connect(this->menu, &TooltipMenu::onCopyClicked, this, &AddressesWidget::onCopyClicked);
+    } else {
         this->menu->hide();
     }
-    this->index = rIndex;
+    index = rIndex;
     menu->move(pos);
     menu->show();
 }
 
-void AddressesWidget::loadWalletModel(){
-    if(walletModel) {
+void AddressesWidget::loadWalletModel()
+{
+    if (walletModel) {
         addressTablemodel = walletModel->getAddressTableModel();
-        this->filter = new AddressFilterProxyModel(QStringList({AddressTableModel::Send, AddressTableModel::ColdStakingSend}), this);
+        this->filter = new AddressFilterProxyModel(
+                QStringList({AddressTableModel::Send, AddressTableModel::ColdStakingSend, AddressTableModel::ShieldedSend}),
+                this);
         this->filter->setSourceModel(addressTablemodel);
-        this->filter->sort(AddressTableModel::Label, Qt::AscendingOrder);
         this->filter->sort(sortType, sortOrder);
         ui->listAddresses->setModel(this->filter);
         ui->listAddresses->setModelColumn(AddressTableModel::Address);
@@ -174,24 +172,28 @@ void AddressesWidget::loadWalletModel(){
     }
 }
 
-void AddressesWidget::updateListView(){
-    bool empty = addressTablemodel->sizeSend() == 0;
+void AddressesWidget::updateListView()
+{
+    bool empty = addressTablemodel->sizeSendAll() == 0;
     ui->emptyContainer->setVisible(empty);
     ui->listAddresses->setVisible(!empty);
 }
 
-void AddressesWidget::onStoreContactClicked(){
+void AddressesWidget::onStoreContactClicked()
+{
     if (walletModel) {
         QString label = ui->lineEditName->text();
         QString address = ui->lineEditAddress->text();
 
-        if (!walletModel->validateAddress(address)) {
+        bool isStakingAddress = false;
+        auto wageAdd = Standard::DecodeDestination(address.toUtf8().constData(), isStakingAddress);
+
+        if (!Standard::IsValidDestination(wageAdd)) {
             setCssEditLine(ui->lineEditAddress, false, true);
             inform(tr("Invalid Contact Address"));
             return;
         }
 
-        CBitcoinAddress wageAdd = CBitcoinAddress(address.toUtf8().constData());
         if (walletModel->isMine(wageAdd)) {
             setCssEditLine(ui->lineEditAddress, false, true);
             inform(tr("Cannot store your own address as contact"));
@@ -200,13 +202,15 @@ void AddressesWidget::onStoreContactClicked(){
 
         QString storedLabel = walletModel->getAddressTableModel()->labelForAddress(address);
 
-        if(!storedLabel.isEmpty()){
+        if (!storedLabel.isEmpty()) {
             inform(tr("Address already stored, label: %1").arg("\'"+storedLabel+"\'"));
             return;
         }
 
-        if (walletModel->updateAddressBookLabels(wageAdd.Get(), label.toUtf8().constData(),
-                wageAdd.IsStakingAddress() ? AddressBook::AddressBookPurpose::COLD_STAKING_SEND : AddressBook::AddressBookPurpose::SEND)
+        bool isShielded = walletModel->IsShieldedDestination(wageAdd);
+        if (walletModel->updateAddressBookLabels(wageAdd, label.toUtf8().constData(),
+                         isShielded ? AddressBook::AddressBookPurpose::SHIELDED_SEND :
+                         isStakingAddress ? AddressBook::AddressBookPurpose::COLD_STAKING_SEND : AddressBook::AddressBookPurpose::SEND)
                 ) {
             ui->lineEditAddress->setText("");
             ui->lineEditName->setText("");
@@ -224,27 +228,30 @@ void AddressesWidget::onStoreContactClicked(){
     }
 }
 
-void AddressesWidget::onEditClicked(){
+void AddressesWidget::onEditClicked()
+{
     QString address = index.data(Qt::DisplayRole).toString();
     QString currentLabel = index.sibling(index.row(), AddressTableModel::Label).data(Qt::DisplayRole).toString();
     showHideOp(true);
     AddNewContactDialog *dialog = new AddNewContactDialog(window);
     dialog->setData(address, currentLabel);
-    if(openDialogWithOpaqueBackground(dialog, window)){
-        if(walletModel->updateAddressBookLabels(
-                CBitcoinAddress(address.toStdString()).Get(), dialog->getLabel().toStdString(), addressTablemodel->purposeForAddress(address.toStdString()))){
+    if (openDialogWithOpaqueBackground(dialog, window)) {
+        if (walletModel->updateAddressBookLabels(
+                Standard::DecodeDestination(address.toStdString()), dialog->getLabel().toStdString(), addressTablemodel->purposeForAddress(address.toStdString()))){
             inform(tr("Contact edited"));
-        }else{
+        } else {
             inform(tr("Contact edit failed"));
         }
     }
     dialog->deleteLater();
 }
 
-void AddressesWidget::onDeleteClicked(){
-    if(walletModel) {
-        if (ask(tr("Delete Contact"), tr("You are just about to remove the contact:\n\n%1\n\nAre you sure?").arg(index.data(Qt::DisplayRole).toString().toUtf8().constData()))
-        ) {
+void AddressesWidget::onDeleteClicked()
+{
+    if (walletModel) {
+        if (ask(tr("Delete Contact"),
+                tr("You are just about to remove the contact:\n\n%1\n\nAre you sure?")
+                .arg(index.data(Qt::DisplayRole).toString().toUtf8().constData()))) {
             if (this->walletModel->getAddressTableModel()->removeRows(index.row(), 1, index)) {
                 updateListView();
                 inform(tr("Contact Deleted"));
@@ -255,16 +262,18 @@ void AddressesWidget::onDeleteClicked(){
     }
 }
 
-void AddressesWidget::onCopyClicked(){
+void AddressesWidget::onCopyClicked()
+{
     GUIUtil::setClipboard(index.data(Qt::DisplayRole).toString());
     inform(tr("Address copied"));
 }
 
-void AddressesWidget::onAddContactShowHideClicked(){
-    if(!ui->layoutNewContact->isVisible()){
+void AddressesWidget::onAddContactShowHideClicked()
+{
+    if (!ui->layoutNewContact->isVisible()){
         ui->btnAddContact->setRightIconClass("btn-dropdown", true);
         ui->layoutNewContact->setVisible(true);
-    }else {
+    } else {
         ui->btnAddContact->setRightIconClass("ic-arrow", true);
         ui->layoutNewContact->setVisible(false);
     }
@@ -288,10 +297,12 @@ void AddressesWidget::sortAddresses()
         this->filter->sort(sortType, sortOrder);
 }
 
-void AddressesWidget::changeTheme(bool isLightTheme, QString& theme){
-    static_cast<ContactsHolder*>(this->delegate->getRowFactory())->isLightTheme = isLightTheme;
+void AddressesWidget::changeTheme(bool isLightTheme, QString& theme)
+{
+    dynamic_cast<ContactsHolder*>(this->delegate->getRowFactory())->isLightTheme = isLightTheme;
 }
 
-AddressesWidget::~AddressesWidget(){
+AddressesWidget::~AddressesWidget()
+{
     delete ui;
 }

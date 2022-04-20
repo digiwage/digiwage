@@ -15,19 +15,19 @@
 class CSDelegation {
 public:
 
-    CSDelegation(){}
+    CSDelegation() {};
     CSDelegation(const std::string& _stakingAddress, const std::string& _ownerAddress) :
-                stakingAddress(_stakingAddress), ownerAddress(_ownerAddress), cachedTotalAmount(0) {}
+                stakingAddress(_stakingAddress), ownerAddress(_ownerAddress) {}
 
-    std::string stakingAddress;
-    std::string ownerAddress;
+    std::string stakingAddress{};
+    std::string ownerAddress{};
     /// Map of txId --> index num for stakeable utxo delegations
-    QMap<QString, int> delegatedUtxo;
+    QMap<QString, int> delegatedUtxo{};
     // Sum of all delegations to this owner address
-    CAmount cachedTotalAmount;
+    CAmount cachedTotalAmount{0};
 
     // coin owner side, set to true if it can be spend
-    bool isSpendable;
+    bool isSpendable{false};
 
     bool operator==(const CSDelegation& obj) {
         return obj.ownerAddress == ownerAddress;
@@ -86,7 +86,7 @@ private:
     QList<CSDelegation> cachedDelegations;
     CAmount cachedAmount;
 
-    bool parseCSDelegation(const CTxOut& out, CSDelegation& ret, const QString& txId, const int& utxoIndex);
+    bool parseCSDelegation(const CTxOut& out, CSDelegation& ret, const QString& txId, const int utxoIndex);
 };
 
 #endif // COLDSTAKINGMODEL_H

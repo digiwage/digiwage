@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,32 +25,26 @@ SettingsDisplayOptionsWidget::SettingsDisplayOptionsWidget(DIGIWAGEGUI* _window,
     ui->left->setProperty("cssClass", "container");
     ui->left->setContentsMargins(10,10,10,10);
 
-    // Title
-    ui->labelTitle->setText(tr("Display"));
+    // Title - Subtitle
     setCssTitleScreen(ui->labelTitle);
-
-    // Subtitle
-    ui->labelSubtitle1->setText(tr("Customize the display view options"));
     setCssSubtitleScreen(ui->labelSubtitle1);
 
-    ui->labelTitleLanguage->setText(tr("Language"));
     ui->labelTitleLanguage->setProperty("cssClass", "text-main-settings");
-
-    ui->labelTitleUnit->setText(tr("Unit to show amount"));
     ui->labelTitleUnit->setProperty("cssClass", "text-main-settings");
-
-    ui->labelTitleDigits->setText(tr("Decimal digits"));
     ui->labelTitleDigits->setProperty("cssClass", "text-main-settings");
-
-    ui->labelTitleUrl->setText(tr("Third party transactions URLs"));
     ui->labelTitleUrl->setProperty("cssClass", "text-main-settings");
+
     // TODO: Reconnect this option to an action. Hide it for now
     ui->labelTitleUrl->hide();
 
-    // Switch
-    ui->pushButtonSwitchBalance->setText(tr("Hide empty balances"));
+    // Switch Balance (hide for now)
     ui->pushButtonSwitchBalance->setProperty("cssClass", "btn-switch");
     ui->pushButtonSwitchBalance->setVisible(false);
+
+    // Hide checkbox if qtcharts not used
+#ifndef USE_QTCHARTS
+    ui->checkBoxHideCharts->setVisible(false);
+#endif
 
     // Combobox
     ui->comboBoxLanguage->setProperty("cssClass", "btn-combo");
@@ -100,33 +94,42 @@ SettingsDisplayOptionsWidget::SettingsDisplayOptionsWidget(DIGIWAGEGUI* _window,
     setCssBtnSecondary(ui->pushButtonReset);
     setCssBtnSecondary(ui->pushButtonClean);
 
-    initLanguages();
-    connect(ui->pushButtonSave, SIGNAL(clicked()), parent, SLOT(onSaveOptionsClicked()));
-    connect(ui->pushButtonReset, SIGNAL(clicked()), this, SLOT(onResetClicked()));
-    connect(ui->pushButtonClean, SIGNAL(clicked()), parent, SLOT(onDiscardChanges()));
+    connect(ui->pushButtonSave, &QPushButton::clicked, [this] { Q_EMIT saveSettings(); });
+    connect(ui->pushButtonReset, &QPushButton::clicked, this, &SettingsDisplayOptionsWidget::onResetClicked);
+    connect(ui->pushButtonClean, &QPushButton::clicked, [this] { Q_EMIT discardSettings(); });
 }
 
-void SettingsDisplayOptionsWidget::initLanguages(){
+void SettingsDisplayOptionsWidget::initLanguages()
+{
+    const QString& selectedLang = this->clientModel->getOptionsModel()->getLang();
     /* Language selector */
     QDir translations(":translations");
     QString defaultStr = QString("(") + tr("default") + QString(")");
     ui->comboBoxLanguage->addItem(defaultStr, QVariant(""));
-    Q_FOREACH (const QString& langStr, translations.entryList()) {
+    QStringList list = translations.entryList();
+    int selectedIndex = 0;
+    for (int i = 0; i < list.size(); ++i) {
+        const QString& langStr = list[i];
         QLocale locale(langStr);
 
         /** check if the locale name consists of 2 parts (language_country) */
-        if(langStr.contains("_")){
+        if (langStr.contains("_")) {
             /** display language strings as "native language - native country (locale name)", e.g. "Deutsch - Deutschland (de)" */
             ui->comboBoxLanguage->addItem(locale.nativeLanguageName() + QString(" - ") + locale.nativeCountryName() + QString(" (") + langStr + QString(")"), QVariant(langStr));
-        }
-        else{
+        } else {
             /** display language strings as "native language (locale name)", e.g. "Deutsch (de)" */
             ui->comboBoxLanguage->addItem(locale.nativeLanguageName() + QString(" (") + langStr + QString(")"), QVariant(langStr));
         }
+        // Save selected index
+        if (langStr == selectedLang) {
+            selectedIndex = i + 1;
+        }
     }
+    ui->comboBoxLanguage->setCurrentIndex(selectedIndex);
 }
 
-void SettingsDisplayOptionsWidget::onResetClicked() {
+void SettingsDisplayOptionsWidget::onResetClicked()
+{
     if (clientModel) {
         OptionsModel *optionsModel = clientModel->getOptionsModel();
         QSettings settings;
@@ -135,19 +138,26 @@ void SettingsDisplayOptionsWidget::onResetClicked() {
     }
 }
 
-void SettingsDisplayOptionsWidget::setMapper(QDataWidgetMapper *mapper){
+void SettingsDisplayOptionsWidget::setMapper(QDataWidgetMapper *mapper)
+{
     mapper->addMapping(ui->comboBoxDigits, OptionsModel::Digits);
-    mapper->addMapping(ui->comboBoxLanguage, OptionsModel::Language);
+    mapper->addMapping(ui->comboBoxLanguage, OptionsModel::Language, "currentData");
     mapper->addMapping(ui->comboBoxUnit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->pushButtonSwitchBalance, OptionsModel::HideZeroBalances);
+#ifdef USE_QTCHARTS
+    mapper->addMapping(ui->checkBoxHideCharts, OptionsModel::HideCharts);
+#endif
 }
 
-void SettingsDisplayOptionsWidget::loadClientModel(){
-    if(clientModel) {
+void SettingsDisplayOptionsWidget::loadClientModel()
+{
+    if (clientModel) {
         ui->comboBoxUnit->setCurrentIndex(this->clientModel->getOptionsModel()->getDisplayUnit());
+        initLanguages();
     }
 }
 
-SettingsDisplayOptionsWidget::~SettingsDisplayOptionsWidget(){
+SettingsDisplayOptionsWidget::~SettingsDisplayOptionsWidget()
+{
     delete ui;
 }

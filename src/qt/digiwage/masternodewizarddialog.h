@@ -5,25 +5,28 @@
 #ifndef MASTERNODEWIZARDDIALOG_H
 #define MASTERNODEWIZARDDIALOG_H
 
-#include <QDialog>
 #include "walletmodel.h"
+#include "qt/digiwage/focuseddialog.h"
 #include "qt/digiwage/snackbar.h"
 #include "masternodeconfig.h"
 #include "qt/digiwage/pwidget.h"
 
 class WalletModel;
+class ClientModel;
 
 namespace Ui {
 class MasterNodeWizardDialog;
 class QPushButton;
 }
 
-class MasterNodeWizardDialog : public QDialog, public PWidget::Translator
+class MasterNodeWizardDialog : public FocusedDialog, public PWidget::Translator
 {
     Q_OBJECT
 
 public:
-    explicit MasterNodeWizardDialog(WalletModel *walletMode, QWidget *parent = nullptr);
+    explicit MasterNodeWizardDialog(WalletModel* walletMode,
+                                    ClientModel* clientModel,
+                                    QWidget *parent = nullptr);
     ~MasterNodeWizardDialog();
     void showEvent(QShowEvent *event) override;
     QString translate(const char *msg) override { return tr(msg); }
@@ -33,7 +36,7 @@ public:
     CMasternodeConfig::CMasternodeEntry* mnEntry = nullptr;
 
 private Q_SLOTS:
-    void onNextClicked();
+    void accept() override;
     void onBackClicked();
 private:
     Ui::MasterNodeWizardDialog *ui;
@@ -43,7 +46,8 @@ private:
     SnackBar *snackBar = nullptr;
     int pos = 0;
 
-    WalletModel *walletModel = nullptr;
+    WalletModel* walletModel{nullptr};
+    ClientModel* clientModel{nullptr};
     bool createMN();
     void inform(QString text);
     void initBtn(std::initializer_list<QPushButton*> args);

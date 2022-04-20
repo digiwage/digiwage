@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2018-2019 The Bitcoin Core developers
-# Copyright (c) 2019 The digiwage developers
+# Copyright (c) 2019-2020 The DIGIWAGE developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -104,13 +104,13 @@ def setup_darwin():
 
 def setup_repos():
     if not os.path.isdir('gitian.sigs'):
-        subprocess.check_call(['git', 'clone', 'https://github.com/digiwage/gitian.sigs.git'])
-    if not os.path.isdir('detached-sigs'):
-        subprocess.check_call(['git', 'clone', 'https://github.com/digiwage/detached-sigs.git'])
+        subprocess.check_call(['git', 'clone', 'https://github.com/digiwage-Project/gitian.sigs.git'])
+    if not os.path.isdir('digiwage-detached-sigs'):
+        subprocess.check_call(['git', 'clone', 'https://github.com/digiwage-Project/digiwage-detached-sigs.git'])
     if not os.path.isdir('gitian-builder'):
         subprocess.check_call(['git', 'clone', 'https://github.com/devrandom/gitian-builder.git'])
     if not os.path.isdir('digiwage'):
-        subprocess.check_call(['git', 'clone', 'https://github.com/digiwage/digiwage.git'])
+        subprocess.check_call(['git', 'clone', 'https://github.com/digiwage-Project/digiwage.git'])
     os.chdir('gitian-builder')
     make_image_prog = ['bin/make-base-vm', '--suite', 'bionic', '--arch', 'amd64']
     if args.docker:
@@ -120,7 +120,7 @@ def setup_repos():
     if args.host_os == 'darwin':
         subprocess.check_call(['sed', '-i.old', '/50cacher/d', 'bin/make-base-vm'])
     if args.host_os == 'linux':
-        if args.is_fedora or args.is_centos:
+        if args.is_fedora or args.is_centos or args.is_wsl:
             subprocess.check_call(['sed', '-i', '/50cacher/d', 'bin/make-base-vm'])
     subprocess.check_call(make_image_prog)
     subprocess.check_call(['git', 'checkout', 'bin/make-base-vm'])
@@ -142,10 +142,8 @@ def build():
     os.chdir('gitian-builder')
     os.makedirs('inputs', exist_ok=True)
 
-    subprocess.check_call(['wget', '-N', '-P', 'inputs', 'https://downloads.sourceforge.net/project/osslsigncode/osslsigncode/osslsigncode-1.7.1.tar.gz'])
-    subprocess.check_call(['wget', '-N', '-P', 'inputs', 'https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch'])
-    subprocess.check_call(["echo 'a8c4e9cafba922f89de0df1f2152e7be286aba73f78505169bc351a7938dd911 inputs/osslsigncode-Backports-to-1.7.1.patch' | sha256sum -c"], shell=True)
-    subprocess.check_call(["echo 'f9a8cdb38b9c309326764ebc937cba1523a3a751a7ab05df3ecc99d18ae466c9 inputs/osslsigncode-1.7.1.tar.gz' | sha256sum -c"], shell=True)
+    subprocess.check_call(['wget', '-O', 'inputs/osslsigncode-2.0.tar.gz', 'https://github.com/mtrojnar/osslsigncode/archive/2.0.tar.gz'])
+    subprocess.check_call(["echo '5a60e0a4b3e0b4d655317b2f12a810211c50242138322b16e7e01c6fbb89d92f inputs/osslsigncode-2.0.tar.gz' | sha256sum -c"], shell=True)
     subprocess.check_call(['make', '-C', '../digiwage/depends', 'download', 'SOURCES_PATH=' + os.getcwd() + '/cache/common'])
 
     if args.linux:
@@ -258,7 +256,7 @@ def main():
     parser = argparse.ArgumentParser(description='Script for running full Gitian builds.')
     parser.add_argument('-c', '--commit', action='store_true', dest='commit', help='Indicate that the version argument is for a commit or branch')
     parser.add_argument('-p', '--pull', action='store_true', dest='pull', help='Indicate that the version argument is the number of a github repository pull request')
-    parser.add_argument('-u', '--url', dest='url', default='https://github.com/digiwage/digiwage', help='Specify the URL of the repository. Default is %(default)s')
+    parser.add_argument('-u', '--url', dest='url', default='https://github.com/digiwage-Project/digiwage', help='Specify the URL of the repository. Default is %(default)s')
     parser.add_argument('-v', '--verify', action='store_true', dest='verify', help='Verify the Gitian build')
     parser.add_argument('-b', '--build', action='store_true', dest='build', help='Do a Gitian build')
     parser.add_argument('-s', '--sign', action='store_true', dest='sign', help='Make signed binaries for Windows and MacOS')
@@ -288,12 +286,15 @@ def main():
         args.is_bionic = False
         args.is_fedora = False
         args.is_centos = False
+        args.is_wsl    = False
         if os.path.isfile('/usr/bin/lsb_release'):
             args.is_bionic = b'bionic' in subprocess.check_output(['lsb_release', '-cs'])
         if os.path.isfile('/etc/fedora-release'):
             args.is_fedora = True
         if os.path.isfile('/etc/centos-release'):
             args.is_centos = True
+        if os.path.isfile('/proc/version') and open('/proc/version', 'r', encoding="utf8").read().find('Microsoft'):
+            args.is_wsl = True
 
     if args.kvm and args.docker:
         raise Exception('Error: cannot have both kvm and docker')
@@ -333,7 +334,7 @@ def main():
     args.macos = 'm' in args.os
 
     # Disable for MacOS if no SDK found
-    if args.macos and not os.path.isfile('gitian-builder/inputs/MacOSX10.11.sdk.tar.gz'):
+    if args.macos and not os.path.isfile('gitian-builder/inputs/Xcode-11.3.1-11C505-extracted-SDK-with-libcxx-headers.tar.gz'):
         print('Cannot build for MacOS, SDK does not exist. Will build for other OSes')
         args.macos = False
 

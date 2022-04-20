@@ -8,7 +8,6 @@
 #ifndef DIGIWAGE_KERNEL_H
 #define DIGIWAGE_KERNEL_H
 
-#include "main.h"
 #include "stakeinput.h"
 
 class CStakeKernel {

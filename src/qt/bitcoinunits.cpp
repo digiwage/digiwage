@@ -1,11 +1,12 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2019 The DIGIWAGE developers
+// Copyright (c) 2015-2020 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "bitcoinunits.h"
 #include "chainparams.h"
+#include "policy/feerate.h"
 #include "primitives/transaction.h"
 
 #include <QSettings>
@@ -21,18 +22,18 @@ BitcoinUnits::BitcoinUnits(QObject* parent) : QAbstractListModel(parent),
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
-    unitlist.append(PIV);
-    unitlist.append(mPIV);
-    unitlist.append(uPIV);
+    unitlist.append(WAGE);
+    unitlist.append(mWAGE);
+    unitlist.append(uWAGE);
     return unitlist;
 }
 
 bool BitcoinUnits::valid(int unit)
 {
     switch (unit) {
-    case PIV:
-    case mPIV:
-    case uPIV:
+    case WAGE:
+    case mWAGE:
+    case uWAGE:
         return true;
     default:
         return false;
@@ -42,38 +43,41 @@ bool BitcoinUnits::valid(int unit)
 QString BitcoinUnits::id(int unit)
 {
     switch (unit) {
-    case PIV:
-        return QString("wage");
-    case mPIV:
-        return QString("mwage");
-    case uPIV:
-        return QString::fromUtf8("uwage");
+    case WAGE:
+        return QString("digiwage");
+    case mWAGE:
+        return QString("mdigiwage");
+    case uWAGE:
+        return QString::fromUtf8("udigiwage");
     default:
         return QString("???");
     }
 }
 
-QString BitcoinUnits::name(int unit)
+QString BitcoinUnits::name(int unit, bool isZwage)
 {
-    if (Params().NetworkID() == CBaseChainParams::MAIN) {
+    const QString CURR_UNIT = QString(CURRENCY_UNIT.c_str());
+    QString z = "";
+    if(isZwage) z = "z";
+    if (Params().NetworkIDString() == CBaseChainParams::MAIN) {
         switch (unit) {
-        case PIV:
-            return QString("WAGE");
-        case mPIV:
-            return QString("mWAGE");
-        case uPIV:
-            return QString::fromUtf8("μWAGE");
+        case WAGE:
+            return z + CURR_UNIT;
+        case mWAGE:
+            return z + QString("m") + CURR_UNIT;
+        case uWAGE:
+            return z + QString::fromUtf8("μ") + CURR_UNIT;
         default:
             return QString("???");
         }
     } else {
         switch (unit) {
-        case PIV:
-            return QString("tWAGE");
-        case mPIV:
-            return QString("mtWAGE");
-        case uPIV:
-            return QString::fromUtf8("μtWAGE");
+        case WAGE:
+            return z + QString("t") + CURR_UNIT;
+        case mWAGE:
+            return z + QString("mt") + CURR_UNIT;
+        case uWAGE:
+            return z + QString::fromUtf8("μt") + CURR_UNIT;
         default:
             return QString("???");
         }
@@ -82,25 +86,26 @@ QString BitcoinUnits::name(int unit)
 
 QString BitcoinUnits::description(int unit)
 {
-    if (Params().NetworkID() == CBaseChainParams::MAIN) {
+    const QString CURR_UNIT = QString(CURRENCY_UNIT.c_str());
+    if (Params().NetworkIDString() == CBaseChainParams::MAIN) {
         switch (unit) {
-        case PIV:
-            return QString("WAGE");
-        case mPIV:
-            return QString("Milli-WAGE (1 / 1" THIN_SP_UTF8 "000)");
-        case uPIV:
-            return QString("Micro-WAGE (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+        case WAGE:
+            return CURR_UNIT;
+        case mWAGE:
+            return QString("Milli-") + CURR_UNIT + QString(" (1 / 1" THIN_SP_UTF8 "000)");
+        case uWAGE:
+            return QString("Micro-") + CURR_UNIT + QString(" (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
         default:
             return QString("???");
         }
     } else {
         switch (unit) {
-        case PIV:
-            return QString("TestWAGE");
-        case mPIV:
-            return QString("Milli-TestWAGE (1 / 1" THIN_SP_UTF8 "000)");
-        case uPIV:
-            return QString("Micro-TestWAGE (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+        case WAGE:
+            return QString("Test") + CURR_UNIT;
+        case mWAGE:
+            return QString("Milli-Test") + CURR_UNIT + QString(" (1 / 1" THIN_SP_UTF8 "000)");
+        case uWAGE:
+            return QString("Micro-Test") + CURR_UNIT + QString(" (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
         default:
             return QString("???");
         }
@@ -110,11 +115,11 @@ QString BitcoinUnits::description(int unit)
 qint64 BitcoinUnits::factor(int unit)
 {
     switch (unit) {
-    case PIV:
+    case WAGE:
         return 100000000;
-    case mPIV:
+    case mWAGE:
         return 100000;
-    case uPIV:
+    case uWAGE:
         return 100;
     default:
         return 100000000;
@@ -124,11 +129,11 @@ qint64 BitcoinUnits::factor(int unit)
 int BitcoinUnits::decimals(int unit)
 {
     switch (unit) {
-    case PIV:
+    case WAGE:
         return 8;
-    case mPIV:
+    case mWAGE:
         return 5;
-    case uPIV:
+    case uWAGE:
         return 2;
     default:
         return 0;
@@ -210,7 +215,7 @@ QString BitcoinUnits::formatHtmlWithUnit(int unit, const CAmount& amount, bool p
     return QString("<span style='white-space: nowrap;'>%1</span>").arg(str);
 }
 
-QString BitcoinUnits::floorWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators, bool cleanRemainderZeros)
+QString BitcoinUnits::floorWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators, bool cleanRemainderZeros, bool isZWAGE)
 {
     QSettings settings;
     int digits = settings.value("digits").toInt();
@@ -227,12 +232,12 @@ QString BitcoinUnits::floorWithUnit(int unit, const CAmount& amount, bool plussi
         }
     }
 
-    return result + QString(" ") + name(unit);
+    return result + QString(" ") + name(unit, isZWAGE);
 }
 
-QString BitcoinUnits::floorHtmlWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators, bool cleanRemainderZeros)
+QString BitcoinUnits::floorHtmlWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators, bool cleanRemainderZeros, bool isZWAGE)
 {
-    QString str(floorWithUnit(unit, amount, plussign, separators, cleanRemainderZeros));
+    QString str(floorWithUnit(unit, amount, plussign, separators, cleanRemainderZeros, isZWAGE));
     str.replace(QChar(THIN_SP_CP), QString(COMMA_HTML));
     return QString("<span style='white-space: nowrap;'>%1</span>").arg(str);
 }

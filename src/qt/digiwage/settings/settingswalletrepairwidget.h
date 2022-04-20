@@ -35,7 +35,6 @@ public Q_SLOTS:
     void walletUpgrade();
     void walletReindex();
     void walletResync();
-    void walletUpgradeToHd();
 
 private:
     Ui::SettingsWalletRepairWidget *ui;

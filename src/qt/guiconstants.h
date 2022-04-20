@@ -13,7 +13,7 @@ static const int MODEL_UPDATE_DELAY = 1000;
 /* AskPassphraseDialog -- Maximum passphrase length */
 static const int MAX_PASSPHRASE_SIZE = 1024;
 
-/* DIGIWAGE GUI -- Size of icons in status bar */
+/* Pivx GUI -- Size of icons in status bar */
 static const int STATUSBAR_ICONSIZE = 16;
 
 static const bool DEFAULT_SPLASHSCREEN = true;
@@ -48,8 +48,9 @@ static const int MAX_URI_LENGTH = 255;
 /* QRCodeDialog -- size of exported QR Code image */
 #define EXPORT_IMAGE_SIZE 256
 
+
 #define QAPP_ORG_NAME "DIGIWAGE"
-#define QAPP_ORG_DOMAIN "digiwage.orf"
+#define QAPP_ORG_DOMAIN "digiwage.org"
 #define QAPP_APP_NAME_DEFAULT "DIGIWAGE-Qt"
 #define QAPP_APP_NAME_TESTNET "DIGIWAGE-Qt-testnet"
 

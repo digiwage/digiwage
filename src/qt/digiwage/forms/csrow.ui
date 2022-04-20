@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -78,6 +78,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
             <widget class="QLabel" name="labelName">
+             <property name="toolTip">
+              <string notr="true"/>
+             </property>
              <property name="text">
               <string>Savings</string>
              </property>
@@ -99,7 +102,7 @@
            <item>
             <widget class="QLabel" name="labelAmount">
              <property name="text">
-              <string>0,00 WAGE</string>
+              <string notr="true">N/A</string>
              </property>
             </widget>
            </item>
@@ -109,6 +112,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
             <widget class="QLabel" name="labelAddress">
+             <property name="toolTip">
+              <string notr="true"/>
+             </property>
              <property name="text">
               <string>address</string>
              </property>

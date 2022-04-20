@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <property name="spacing">
@@ -92,7 +92,7 @@
            <string notr="true">padding-left:24px;</string>
           </property>
           <property name="text">
-           <string>New Request Payment</string>
+           <string>New Payment Request</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -210,7 +210,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Lorem ipsum dolor sit amet, consectur cling elit, sed do </string>
+             <string>Instead of sharing only a DIGIWAGE address, you can create a payment request, bundling up more information</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -289,6 +289,9 @@
                     <height>50</height>
                    </size>
                   </property>
+                  <property name="placeholderText">
+                   <string notr="true">0.00</string>
+                  </property>
                  </widget>
                 </item>
                 <item>
@@ -324,7 +327,7 @@
                    <item>
                     <widget class="QLabel" name="comboBoxCoin">
                      <property name="text">
-                      <string>WAGE</string>
+                      <string notr="true">N/A</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignCenter</set>
@@ -376,7 +379,7 @@
                </size>
               </property>
               <property name="text">
-               <string>TextLabel</string>
+               <string>Label</string>
               </property>
              </widget>
             </item>
@@ -393,6 +396,9 @@
                 <width>16777215</width>
                 <height>50</height>
                </size>
+              </property>
+              <property name="placeholderText">
+               <string>Enter a label for the address</string>
               </property>
              </widget>
             </item>
@@ -434,7 +440,7 @@
                </size>
               </property>
               <property name="text">
-               <string>TextLabel</string>
+               <string>Description (optional)</string>
               </property>
              </widget>
             </item>
@@ -451,6 +457,9 @@
                 <width>16777215</width>
                 <height>50</height>
                </size>
+              </property>
+              <property name="placeholderText">
+               <string>Enter description</string>
               </property>
              </widget>
             </item>
@@ -533,7 +542,7 @@
           <item alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="labelAddress">
             <property name="text">
-             <string>ZmkEBAFKzay6fMaYp3ZBJGSDXCNaa9DjwD </string>
+             <string notr="true">N/A </string>
             </property>
            </widget>
           </item>
@@ -672,7 +681,7 @@
             <enum>Qt::NoFocus</enum>
            </property>
            <property name="text">
-            <string>REQUEST</string>
+            <string>GENERATE</string>
            </property>
           </widget>
          </item>

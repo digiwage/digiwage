@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string notr="true">N/A</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_1">
    <property name="spacing">
@@ -712,9 +712,6 @@
           </item>
           <item>
            <widget class="QLabel" name="labelMessage1a">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To create a DIGIWAGE Masternode you must dedicate 12,000 WAGE (the unit of DIGIWAGE) to the network (however, these coins are still yours and will never leave your possession). &lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;You can deactivate the node and unlock the coins at any time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
             <property name="alignment">
              <set>Qt::AlignHCenter|Qt::AlignTop</set>
             </property>
@@ -820,7 +817,14 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEditName"/>
+           <widget class="QLineEdit" name="lineEditName">
+            <property name="maxLength">
+             <number>25</number>
+            </property>
+            <property name="placeholderText">
+             <string notr="true">e.g. user_masternode</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer_1_5">
@@ -840,9 +844,6 @@
           </item>
           <item>
            <widget class="QLabel" name="labelMessage3">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A transaction of 12,000 WAGE will be made&lt;/p&gt;&lt;p&gt;to a new empty address in your wallet.&lt;/p&gt;&lt;p&gt;The Address is labeled under the master node's name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
             <property name="alignment">
              <set>Qt::AlignHCenter|Qt::AlignTop</set>
             </property>
@@ -945,7 +946,11 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEditIpAddress"/>
+           <widget class="QLineEdit" name="lineEditIpAddress">
+            <property name="placeholderText">
+             <string notr="true">e.g. 18.255.255.255</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer_1_8">
@@ -1055,7 +1060,7 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
-           <string>CANCEL</string>
+           <string>BACK</string>
           </property>
          </widget>
         </item>
@@ -1077,7 +1082,7 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
-           <string>OK</string>
+           <string>NEXT</string>
           </property>
          </widget>
         </item>

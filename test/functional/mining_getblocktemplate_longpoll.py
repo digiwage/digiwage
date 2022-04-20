@@ -4,10 +4,15 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test longpolling with getblocktemplate."""
 
-from test_framework.test_framework import DigiwageTestFramework
-from test_framework.util import *
-
+from decimal import Decimal
 import threading
+
+from test_framework.test_framework import PivxTestFramework
+from test_framework.util import (
+    get_rpc_proxy,
+    random_transaction
+)
+
 
 class LongpollThread(threading.Thread):
     def __init__(self, node):
@@ -22,7 +27,7 @@ class LongpollThread(threading.Thread):
     def run(self):
         self.node.getblocktemplate({'longpollid':int(self.longpollid)})
 
-class GetBlockTemplateLPTest(DigiwageTestFramework):
+class GetBlockTemplateLPTest(PivxTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
 

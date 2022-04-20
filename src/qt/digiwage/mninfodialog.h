@@ -5,7 +5,7 @@
 #ifndef MNINFODIALOG_H
 #define MNINFODIALOG_H
 
-#include <QDialog>
+#include "qt/digiwage/focuseddialog.h"
 #include "qt/digiwage/snackbar.h"
 
 class WalletModel;
@@ -14,7 +14,7 @@ namespace Ui {
 class MnInfoDialog;
 }
 
-class MnInfoDialog : public QDialog
+class MnInfoDialog : public FocusedDialog
 {
     Q_OBJECT
 
@@ -24,10 +24,10 @@ public:
 
     bool exportMN = false;
 
-    void setData(QString privKey, QString name, QString address, QString txId, QString outputIndex, QString status);
+    void setData(const QString& _pubKey, const QString& name, const QString& address, const QString& _txId, const QString& outputIndex, const QString& status);
 
 public Q_SLOTS:
-    void closeDialog();
+    void reject() override;
 
 private:
     Ui::MnInfoDialog *ui;
@@ -37,7 +37,7 @@ private:
     QString txId;
     QString pubKey;
 
-    void copyInform(QString& copyStr, QString message);
+    void copyInform(const QString& copyStr, const QString& message);
 };
 
 #endif // MNINFODIALOG_H

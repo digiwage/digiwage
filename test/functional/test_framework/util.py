@@ -16,7 +16,7 @@ import re
 from subprocess import CalledProcessError
 import time
 
-from . import coverage
+from . import coverage, messages
 from .authproxy import AuthServiceProxy, JSONRPCException
 
 logger = logging.getLogger("TestFramework.utils")
@@ -28,14 +28,21 @@ def assert_fee_amount(fee, tx_size, fee_per_kB):
     """Assert the fee was in range"""
     target_fee = round(tx_size * fee_per_kB / 1000, 8)
     if fee < target_fee:
-        raise AssertionError("Fee of %s BTC too low! (Should be %s BTC)" % (str(fee), str(target_fee)))
+        raise AssertionError("Fee of %s WAGE too low! (Should be %s WAGE)" % (str(fee), str(target_fee)))
     # allow the wallet's estimation to be at most 2 bytes off
     if fee > (tx_size + 20) * fee_per_kB / 1000:
-        raise AssertionError("Fee of %s BTC too high! (Should be %s BTC)" % (str(fee), str(target_fee)))
+        raise AssertionError("Fee of %s WAGE too high! (Should be %s WAGE)" % (str(fee), str(target_fee)))
 
 def assert_equal(thing1, thing2, *args):
     if thing1 != thing2 or any(thing1 != arg for arg in args):
         raise AssertionError("not(%s)" % " == ".join(str(arg) for arg in (thing1, thing2) + args))
+
+def assert_true(condition, message = ""):
+    if not condition:
+        raise AssertionError(message)
+
+def assert_false(condition, message = ""):
+    assert_true(not condition, message)
 
 def assert_greater_than(thing1, thing2):
     if thing1 <= thing2:
@@ -200,7 +207,14 @@ def str_to_b64str(string):
 def satoshi_round(amount):
     return Decimal(amount).quantize(Decimal('0.00000001'), rounding=ROUND_DOWN)
 
-def wait_until(predicate, *, attempts=float('inf'), timeout=float('inf'), lock=None):
+def wait_until(predicate,
+               *,
+               attempts=float('inf'),
+               timeout=float('inf'),
+               lock=None,
+               sendpings=None,
+               mocktime=None):
+
     if attempts == float('inf') and timeout == float('inf'):
         timeout = 60
     attempt = 0
@@ -216,6 +230,10 @@ def wait_until(predicate, *, attempts=float('inf'), timeout=float('inf'), lock=N
                 return
         attempt += 1
         time.sleep(0.5)
+        if sendpings is not None:
+            sendpings()
+        if mocktime is not None:
+            mocktime(1)
 
     # Print the cause of the timeout
     assert_greater_than(attempts, attempt)
@@ -287,22 +305,28 @@ def initialize_datadir(dirname, n):
     datadir = get_datadir_path(dirname, n)
     if not os.path.isdir(datadir):
         os.makedirs(datadir)
-    rpc_u, rpc_p = rpc_auth_pair(n)
     with open(os.path.join(datadir, "digiwage.conf"), 'w', encoding='utf8') as f:
         f.write("regtest=1\n")
-        f.write("rpcuser=" + rpc_u + "\n")
-        f.write("rpcpassword=" + rpc_p + "\n")
+        f.write("[regtest]\n")
         f.write("port=" + str(p2p_port(n)) + "\n")
         f.write("rpcport=" + str(rpc_port(n)) + "\n")
+        f.write("server=1\n")
+        f.write("keypool=1\n")
+        f.write("discover=0\n")
         f.write("listenonion=0\n")
         f.write("spendzeroconfchange=1\n")
+        f.write("printtoconsole=0\n")
+        f.write("natpmp=0\n")
     return datadir
-
-def rpc_auth_pair(n):
-    return 'rpcuser�' + str(n), 'rpcpass�' + str(n)
 
 def get_datadir_path(dirname, n):
     return os.path.join(dirname, "node" + str(n))
+
+def append_config(dirname, n, options):
+    datadir = get_datadir_path(dirname, n)
+    with open(os.path.join(datadir, "digiwage.conf"), 'a', encoding='utf8') as f:
+        for option in options:
+            f.write(option + "\n")
 
 def get_auth_cookie(datadir):
     user = None
@@ -317,7 +341,7 @@ def get_auth_cookie(datadir):
                     assert password is None  # Ensure that there is only one rpcpassword line
                     password = line.split("=")[1].strip("\n")
     if os.path.isfile(os.path.join(datadir, "regtest", ".cookie")):
-        with open(os.path.join(datadir, "regtest", ".cookie"), 'r') as f:
+        with open(os.path.join(datadir, "regtest", ".cookie"), 'r', encoding="utf8") as f:
             userpass = f.read()
             split_userpass = userpass.split(':')
             user = split_userpass[0]
@@ -361,74 +385,12 @@ def connect_nodes(from_connection, node_num):
     # with transaction relaying
     wait_until(lambda:  all(peer['version'] != 0 for peer in from_connection.getpeerinfo()))
 
-def connect_nodes_bi(nodes, a, b):
-    connect_nodes(nodes[a], b)
-    connect_nodes(nodes[b], a)
-
 def connect_nodes_clique(nodes):
     l = len(nodes)
     for a in range(l):
         for b in range(a, l):
-            connect_nodes_bi(nodes, a, b)
-
-def sync_blocks(rpc_connections, *, wait=1, timeout=60):
-    """
-    Wait until everybody has the same tip.
-
-    sync_blocks needs to be called with an rpc_connections set that has least
-    one node already synced to the latest, stable tip, otherwise there's a
-    chance it might return before all nodes are stably synced.
-    """
-    # Use getblockcount() instead of waitforblockheight() to determine the
-    # initial max height because the two RPCs look at different internal global
-    # variables (chainActive vs latestBlock) and the former gets updated
-    # earlier.
-    time.sleep(5)
-    maxheight = max(x.getblockcount() for x in rpc_connections)
-    start_time = cur_time = time.time()
-    while cur_time <= start_time + timeout:
-        tips = [r.waitforblockheight(maxheight, int(wait * 1000)) for r in rpc_connections]
-        if all(t["height"] == maxheight for t in tips):
-            if all(t["hash"] == tips[0]["hash"] for t in tips):
-                return
-            raise AssertionError("Block sync failed, mismatched block hashes:{}".format(
-                                 "".join("\n  {!r}".format(tip) for tip in tips)))
-        cur_time = time.time()
-    raise AssertionError("Block sync to height {} timed out:{}".format(
-                         maxheight, "".join("\n  {!r}".format(tip) for tip in tips)))
-
-def sync_chain(rpc_connections, *, wait=1, timeout=60):
-    """
-    Wait until everybody has the same best block
-    """
-    while timeout > 0:
-        best_hash = [x.getbestblockhash() for x in rpc_connections]
-        if best_hash == [best_hash[0]] * len(best_hash):
-            return
-        time.sleep(wait)
-        timeout -= wait
-    raise AssertionError("Chain sync failed: Best block hashes don't match")
-
-def sync_mempools(rpc_connections, *, wait=1, timeout=60, flush_scheduler=True):
-    """
-    Wait until everybody has the same transactions in their memory
-    pools
-    """
-    while timeout > 0:
-        pool = set(rpc_connections[0].getrawmempool())
-        num_match = 1
-        for i in range(1, len(rpc_connections)):
-            if set(rpc_connections[i].getrawmempool()) == pool:
-                num_match = num_match + 1
-        if num_match == len(rpc_connections):
-            #if flush_scheduler:
-                #for r in rpc_connections:
-                #    r.syncwithvalidationinterfacequeue()
-            return
-        time.sleep(wait)
-        timeout -= wait
-    raise AssertionError("Mempool sync failed")
-
+            connect_nodes(nodes[a], b)
+            connect_nodes(nodes[b], a)
 
 # Transaction/Block functions
 #############################
@@ -590,8 +552,18 @@ def mine_large_block(node, utxos=None):
     create_lots_of_big_transactions(node, txouts, utxos, num, fee=fee)
     node.generate(1)
 
-### DIGIWAGE specific utils ###
-vZC_DENOMS = [1, 5, 10, 50, 100, 500, 1000, 5000]
+def find_vout_for_address(node, txid, addr):
+    """
+    Locate the vout index of the given transaction sending to the
+    given address. Raises runtime error exception if not found.
+    """
+    tx = node.getrawtransaction(txid, True)
+    for i in range(len(tx["vout"])):
+        if any([addr == a for a in tx["vout"][i]["scriptPubKey"]["addresses"]]):
+            return i
+    raise RuntimeError("Vout not found for address: txid=%s, addr=%s" % (txid, addr))
+
+# DIGIWAGE specific utils
 DEFAULT_FEE = 0.01
 SPORK_ACTIVATION_TIME = 1563253447
 SPORK_DEACTIVATION_TIME = 4070908800
@@ -600,4 +572,54 @@ def DecimalAmt(x):
     """Return Decimal from float for equality checks against rpc outputs"""
     return Decimal("{:0.8f}".format(x))
 
+# Find a coinstake/coinbase address on the node, filtering by the number of UTXOs it has.
+# If no filter is provided, returns the coinstake/coinbase address on the node containing
+# the greatest number of spendable UTXOs.
+# The default cached chain has one address per coinbase output.
+def get_coinstake_address(node, expected_utxos=None):
+    addrs = [utxo['address'] for utxo in node.listunspent() if utxo['generated']]
+    assert(len(set(addrs)) > 0)
 
+    if expected_utxos is None:
+        addrs = [(addrs.count(a), a) for a in set(addrs)]
+        return sorted(addrs, reverse=True)[0][1]
+
+    addrs = [a for a in set(addrs) if addrs.count(a) == expected_utxos]
+    assert(len(addrs) > 0)
+    return addrs[0]
+
+# Deterministic masternodes
+def is_coin_locked_by(node, outpoint):
+    return outpoint.to_json() in node.listlockunspent()
+
+def get_collateral_vout(json_tx):
+    funding_txidn = -1
+    for o in json_tx["vout"]:
+        if o["value"] == Decimal('100'):
+            funding_txidn = o["n"]
+            break
+    assert_greater_than(funding_txidn, -1)
+    return funding_txidn
+
+# owner and voting keys are created from controller node.
+# operator keys are created, if operator_keys is None.
+def create_new_dmn(idx, controller, payout_addr, operator_keys):
+    port = p2p_port(idx) if idx <= MAX_NODES else p2p_port(MAX_NODES) + (idx - MAX_NODES)
+    ipport = "127.0.0.1:" + str(port)
+    owner_addr = controller.getnewaddress("mnowner-%d" % idx)
+    voting_addr = controller.getnewaddress("mnvoting-%d" % idx)
+    if operator_keys is None:
+        bls_keypair = controller.generateblskeypair()
+        operator_pk = bls_keypair["public"]
+        operator_sk = bls_keypair["secret"]
+    else:
+        operator_pk = operator_keys[0]
+        operator_sk = operator_keys[1]
+    return messages.Masternode(idx, owner_addr, operator_pk, voting_addr, ipport, payout_addr, operator_sk)
+
+def spend_mn_collateral(spender, dmn):
+    inputs = [dmn.collateral.to_json()]
+    outputs = {spender.getnewaddress(): Decimal('99.99')}
+    sig_res = spender.signrawtransaction(spender.createrawtransaction(inputs, outputs))
+    assert_equal(sig_res['complete'], True)
+    return spender.sendrawtransaction(sig_res['hex'])

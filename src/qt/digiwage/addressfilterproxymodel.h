@@ -6,8 +6,6 @@
 #define DIGIWAGE_CORE_NEW_GUI_ADDRESSFILTERPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
-#include "addresstablemodel.h"
-
 
 class AddressFilterProxyModel final : public QSortFilterProxyModel
 {

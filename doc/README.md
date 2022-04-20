@@ -16,6 +16,8 @@ Unpack the files into a directory and run:
 - `bin/digiwage-qt` (GUI) or
 - `bin/digiwaged` (headless)
 
+If this is the first time running DIGIWAGE Core (since v5.0.0), you'll need to install the sapling params by running the included `install-params.sh` script, which copies the two params files to `$HOME/.digiwage-params`
+
 ### Windows
 
 Unpack the files into a directory, and then run digiwage-qt.exe.
@@ -26,7 +28,7 @@ Drag DIGIWAGE-Qt to your applications folder, and then run DIGIWAGE-Qt.
 
 ### Need Help?
 
-* See the documentation at the [DIGIWAGE Wiki](https://github.com/digiwage/digiwage/wiki)
+* See the documentation at the [DIGIWAGE Wiki](https://github.com/DIGIWAGE-Project/DIGIWAGE/wiki)
 for help and more information.
 * Ask for help on [BitcoinTalk](https://bitcointalk.org/index.php?topic=1262920.0) or on the [DIGIWAGE Forum](http://forum.digiwage.org/).
 * Join our Discord server [Discord Server](https://discord.digiwage.org)
@@ -62,6 +64,8 @@ The DIGIWAGE repo's [root README](/README.md) contains relevant information on t
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
 - [Files](files.md)
+- [Fuzz-testing](fuzzing.md)
+- [Reduce Memory](reduce-memory.md)
 - [Tor Support](tor.md)
 - [Init Scripts (systemd/upstart/openrc)](init.md)
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,12 +10,13 @@ namespace GuiTransactionsUtils {
 
     QString ProcessSendCoinsReturn(PWidget::Translator *parent, const WalletModel::SendCoinsReturn &sendCoinsReturn,
                                 WalletModel *walletModel, CClientUIInterface::MessageBoxFlags& informType, const QString &msgArg,
-                                bool fPrepare) {
+                                bool fPrepare)
+    {
         QString retStr;
         informType = CClientUIInterface::MSG_WARNING;
         // This comment is specific to SendCoinsDialog usage of WalletModel::SendCoinsReturn.
-        // WalletModel::TransactionCommitFailed is used only in WalletModel::sendCoins()
-        // all others are used only in WalletModel::prepareTransaction()
+        // WalletModel::TransactionCheckFailed and WalletModel::TransactionCommitFailed
+        // are used only in WalletModel::sendCoins(). All others are used only in WalletModel::prepareTransaction()
         switch (sendCoinsReturn.status) {
             case WalletModel::InvalidAddress:
                 retStr = parent->translate("The recipient address is not valid, please recheck.");
@@ -24,11 +25,11 @@ namespace GuiTransactionsUtils {
                 retStr = parent->translate("The amount to pay must be larger than 0.");
                 break;
             case WalletModel::AmountExceedsBalance:
-                retStr = parent->translate("The amount exceeds your balance.");
+                retStr = parent->translate("The amount to pay exceeds the available balance.");
                 break;
             case WalletModel::AmountWithFeeExceedsBalance:
                 retStr = parent->translate(
-                        "The total exceeds your balance when the %1 transaction fee is included.").arg(msgArg);
+                        "The total amount to pay exceeds the available balance when the %1 transaction fee is included.").arg(msgArg);
                 break;
             case WalletModel::DuplicateAddress:
                 retStr = parent->translate(
@@ -37,9 +38,12 @@ namespace GuiTransactionsUtils {
             case WalletModel::TransactionCreationFailed:
                 informType = CClientUIInterface::MSG_ERROR;
                 break;
+            case WalletModel::TransactionCheckFailed:
+                retStr = parent->translate("The transaction is not valid!");
+                informType = CClientUIInterface::MSG_ERROR;
+                break;
             case WalletModel::TransactionCommitFailed:
-                retStr = parent->translate(
-                        "The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
+                retStr = QString::fromStdString(sendCoinsReturn.commitRes.ToString());
                 informType = CClientUIInterface::MSG_ERROR;
                 break;
             case WalletModel::StakingOnlyUnlocked:
@@ -69,11 +73,11 @@ namespace GuiTransactionsUtils {
         return retStr;
     }
 
-    void ProcessSendCoinsReturnAndInform(PWidget* parent, const WalletModel::SendCoinsReturn& sendCoinsReturn, WalletModel* walletModel, const QString& msgArg, bool fPrepare) {
+    void ProcessSendCoinsReturnAndInform(PWidget* parent, const WalletModel::SendCoinsReturn& sendCoinsReturn, WalletModel* walletModel, const QString& msgArg, bool fPrepare)
+    {
         CClientUIInterface::MessageBoxFlags informType;
         QString informMsg = ProcessSendCoinsReturn(parent, sendCoinsReturn, walletModel, informType, msgArg, fPrepare);
         if (!informMsg.isEmpty()) parent->emitMessage(parent->translate("Send Coins"), informMsg, informType, 0);
     }
-
 
 }

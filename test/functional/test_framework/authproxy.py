@@ -119,18 +119,20 @@ class AuthServiceProxy():
             self.__conn.request(method, path, postdata, headers)
             return self._get_response()
 
-    def get_request(self, *args):
+    def get_request(self, *args, **argsn):
         AuthServiceProxy.__id_count += 1
 
         log.debug("-%s-> %s %s" % (AuthServiceProxy.__id_count, self._service_name,
                                    json.dumps(args, default=EncodeDecimal, ensure_ascii=self.ensure_ascii)))
+        if args and argsn:
+            raise ValueError('Cannot handle both named and positional arguments')
         return {'version': '1.1',
                 'method': self._service_name,
-                'params': args,
+                'params': args or argsn,
                 'id': AuthServiceProxy.__id_count}
 
     def __call__(self, *args, **argsn):
-        postdata = json.dumps(self.get_request(*args), default=EncodeDecimal, ensure_ascii=self.ensure_ascii)
+        postdata = json.dumps(self.get_request(*args, **argsn), default=EncodeDecimal, ensure_ascii=self.ensure_ascii)
         response = self._request('POST', self.__url.path, postdata.encode('utf-8'))
         if response['error'] is not None:
             raise JSONRPCException(response['error'])
@@ -149,7 +151,7 @@ class AuthServiceProxy():
         req_start_time = time.time()
         try:
             http_response = self.__conn.getresponse()
-        except socket.timeout as e:
+        except socket.timeout:
             raise JSONRPCException({
                 'code': -344,
                 'message': '%r RPC took longer than %f seconds. Consider '

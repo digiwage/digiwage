@@ -10,8 +10,8 @@
 #
 #   Test for the Boost C++ libraries of a particular version (or newer)
 #
-#   If no path to the installed boost library is given the macro searchs
-#   under /usr, /usr/local, /opt and /opt/local and evaluates the
+#   If no path to the installed boost library is given the macro search
+#   under /usr, /usr/local, /opt, /opt/local, and /opt/homebrew and evaluates the
 #   $BOOST_ROOT environment variable. Further documentation is available at
 #   <http://randspringer.de/boost/index.html>.
 #
@@ -130,7 +130,7 @@ if test "x$want_boost" = "xyes"; then
                 fi
         done
     elif test "$cross_compiling" != yes; then
-        for ac_boost_path_tmp in /usr /usr/local /opt /opt/local ; do
+        for ac_boost_path_tmp in /usr /usr/local /opt /opt/local /opt/homebrew ; do
             if test -d "$ac_boost_path_tmp/include/boost" && test -r "$ac_boost_path_tmp/include/boost"; then
                 for libsubdir in $libsubdirs ; do
                     if ls "$ac_boost_path_tmp/$libsubdir/libboost_"* >/dev/null 2>&1 ; then break; fi
@@ -204,7 +204,7 @@ if test "x$want_boost" = "xyes"; then
             fi
         else
             if test "$cross_compiling" != yes; then
-                for ac_boost_path in /usr /usr/local /opt /opt/local ; do
+                for ac_boost_path in /usr /usr/local /opt /opt/local /opt/homebrew ; do
                     if test -d "$ac_boost_path" && test -r "$ac_boost_path"; then
                         for i in `ls -d $ac_boost_path/include/boost-* 2>/dev/null`; do
                             _version_tmp=`echo $i | sed "s#$ac_boost_path##" | sed 's/\/include\/boost-//' | sed 's/_/./'`

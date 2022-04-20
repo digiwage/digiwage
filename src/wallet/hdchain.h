@@ -1,153 +1,68 @@
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #ifndef DIGIWAGE_HDCHAIN_H
 #define DIGIWAGE_HDCHAIN_H
 
 #include "key.h"
-#include "sync.h"
-#include "bip39.h"
 
-/* hd account data model */
-class CHDAccount
-{
-public:
-    uint32_t nExternalChainCounter;
-    uint32_t nInternalChainCounter;
+namespace HDChain {
+    namespace ChangeType {
+        static const uint8_t EXTERNAL = 0;
+        static const uint8_t INTERNAL = 1;
+        static const uint8_t STAKING = 2;
+    };
 
-    CHDAccount() : nExternalChainCounter(0), nInternalChainCounter(0) {}
+    namespace ChainCounterType {
+        static const uint8_t Standard  = 0;
+        static const uint8_t Sapling   = 1;
+    };
+}
 
-    ADD_SERIALIZE_METHODS;
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
-    {
-        READWRITE(nExternalChainCounter);
-        READWRITE(nInternalChainCounter);
-    }
-};
-
-/* simple HD chain data model */
+/* Simple HD chain data model for regular and sapling addresses */
 class CHDChain
 {
 private:
-    static const int CURRENT_VERSION = 1;
     int nVersion;
-
-    uint256 id;
-
-    bool fCrypted;
-
-    SecureVector vchSeed;
-    SecureVector vchMnemonic;
-    SecureVector vchMnemonicPassphrase;
-
-    std::map<uint32_t, CHDAccount> mapAccounts;
-    // critical section to protect mapAccounts
-    mutable RecursiveMutex cs_accounts;
+    CKeyID seed_id;
 
 public:
+    // Standard/Sapling hd chain
+    static const int CURRENT_VERSION = 2;
+    // Single account counters.
+    uint32_t nExternalChainCounter{0};
+    uint32_t nInternalChainCounter{0};
+    uint32_t nStakingChainCounter{0};
+    // Chain counter type
+    uint8_t chainType{HDChain::ChainCounterType::Standard};
 
-    CHDChain() : nVersion(CHDChain::CURRENT_VERSION) { SetNull(); }
-    CHDChain(const CHDChain& other) :
-            nVersion(other.nVersion),
-            id(other.id),
-            fCrypted(other.fCrypted),
-            vchSeed(other.vchSeed),
-            vchMnemonic(other.vchMnemonic),
-            vchMnemonicPassphrase(other.vchMnemonicPassphrase),
-            mapAccounts(other.mapAccounts)
-    {}
+    CHDChain(const uint8_t& _chainType = HDChain::ChainCounterType::Standard) : chainType(_chainType) { SetNull(); }
 
-    ADD_SERIALIZE_METHODS;
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
+    SERIALIZE_METHODS(CHDChain, obj)
     {
-        LOCK(cs_accounts);
-        READWRITE(this->nVersion);
-        nVersion = this->nVersion;
-        READWRITE(id);
-        READWRITE(fCrypted);
-        READWRITE(vchSeed);
-        READWRITE(vchMnemonic);
-        READWRITE(vchMnemonicPassphrase);
-        READWRITE(mapAccounts);
-    }
-
-    void swap(CHDChain& first, CHDChain& second) // nothrow
-    {
-        // enable ADL (not necessary in our case, but good practice)
-        using std::swap;
-
-        // by swapping the members of two classes,
-        // the two classes are effectively swapped
-        swap(first.nVersion, second.nVersion);
-        swap(first.id, second.id);
-        swap(first.fCrypted, second.fCrypted);
-        swap(first.vchSeed, second.vchSeed);
-        swap(first.vchMnemonic, second.vchMnemonic);
-        swap(first.vchMnemonicPassphrase, second.vchMnemonicPassphrase);
-        swap(first.mapAccounts, second.mapAccounts);
-    }
-    CHDChain& operator=(CHDChain from)
-    {
-        swap(*this, from);
-        return *this;
+        READWRITE(obj.nVersion, obj.seed_id, obj.nExternalChainCounter, obj.nInternalChainCounter, obj.nStakingChainCounter);
+        if (obj.nVersion > 1) READWRITE(obj.chainType);
     }
 
     bool SetNull();
     bool IsNull() const;
 
-    void SetCrypted(bool fCryptedIn);
-    bool IsCrypted() const;
+    bool SetSeed(const CKeyID& seedId);
+    CKeyID GetID() const { return seed_id; }
 
-    void Debug(std::string strName) const;
-
-    bool SetMnemonic(const SecureVector& vchMnemonic, const SecureVector& vchMnemonicPassphrase, bool fUpdateID);
-    bool SetMnemonic(const SecureString& ssMnemonic, const SecureString& ssMnemonicPassphrase, bool fUpdateID);
-    bool GetMnemonic(SecureVector& vchMnemonicRet, SecureVector& vchMnemonicPassphraseRet) const;
-    bool GetMnemonic(SecureString& ssMnemonicRet, SecureString& ssMnemonicPassphraseRet) const;
-
-    bool SetSeed(const SecureVector& vchSeedIn, bool fUpdateID);
-    SecureVector GetSeed() const;
-
-    uint256 GetID() const { return id; }
-
-    uint256 GetSeedHash();
-    void DeriveChildExtKey(uint32_t nAccountIndex, bool fInternal, uint32_t nChildIndex, CExtKey& extKeyRet);
-
-    void AddAccount();
-    bool GetAccount(uint32_t nAccountIndex, CHDAccount& hdAccountRet);
-    bool SetAccount(uint32_t nAccountIndex, const CHDAccount& hdAccount);
-    size_t CountAccounts();
-};
-
-/* hd pubkey data model */
-class CHDPubKey
-{
-private:
-    static const int CURRENT_VERSION = 1;
-    int nVersion;
-
-public:
-    CExtPubKey extPubKey;
-    uint256 hdchainID;
-    uint32_t nAccountIndex;
-    uint32_t nChangeIndex;
-
-    CHDPubKey() : nVersion(CHDPubKey::CURRENT_VERSION), nAccountIndex(0), nChangeIndex(0) {}
-
-    ADD_SERIALIZE_METHODS;
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
-    {
-        READWRITE(this->nVersion);
-        nVersion = this->nVersion;
-        READWRITE(extPubKey);
-        READWRITE(hdchainID);
-        READWRITE(nAccountIndex);
-        READWRITE(nChangeIndex);
+    uint32_t& GetChainCounter(const uint8_t& type = HDChain::ChangeType::EXTERNAL) {
+        switch (type) {
+            case HDChain::ChangeType::EXTERNAL:
+                return nExternalChainCounter;
+            case HDChain::ChangeType::INTERNAL:
+                return nInternalChainCounter;
+            case HDChain::ChangeType::STAKING:
+                return nStakingChainCounter;
+            default:
+                throw std::runtime_error("HD chain type doesn't exist.");
+        }
     }
-
-    std::string GetKeyPath() const;
 };
 
 #endif // DIGIWAGE_HDCHAIN_H

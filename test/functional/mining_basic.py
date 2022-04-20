@@ -6,16 +6,18 @@
 
 - getmininginfo
 - getblocktemplate proposal mode
-- submitblock"""
+- submitblock
+"""
 
-import copy
 from binascii import b2a_hex
+import copy
 from decimal import Decimal
 
 from test_framework.blocktools import create_coinbase
-from test_framework.mininode import CBlock
-from test_framework.test_framework import DigiwageTestFramework
+from test_framework.messages import CBlock
+from test_framework.test_framework import PivxTestFramework
 from test_framework.util import assert_equal, assert_raises_rpc_error
+
 
 def b2x(b):
     return b2a_hex(b).decode('ascii')
@@ -26,7 +28,7 @@ def assert_template(node, block, expect, rehash=True):
     rsp = node.getblocktemplate({'data': b2x(block.serialize()), 'mode': 'proposal'})
     assert_equal(rsp, expect)
 
-class MiningTest(DigiwageTestFramework):
+class MiningTest(PivxTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.setup_clean_chain = False

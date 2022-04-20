@@ -5,15 +5,18 @@
 #ifndef MASTERNODESWIDGET_H
 #define MASTERNODESWIDGET_H
 
-#include <QWidget>
 #include "qt/digiwage/pwidget.h"
 #include "qt/digiwage/furabstractlistitemdelegate.h"
-#include "qt/digiwage/mnmodel.h"
 #include "qt/digiwage/tooltipmenu.h"
-#include <QTimer>
+#include "walletmodel.h"
+
 #include <atomic>
 
+#include <QTimer>
+#include <QWidget>
+
 class DIGIWAGEGUI;
+class MNModel;
 
 namespace Ui {
 class MasterNodesWidget;
@@ -31,8 +34,7 @@ public:
 
     explicit MasterNodesWidget(DIGIWAGEGUI *parent = nullptr);
     ~MasterNodesWidget();
-
-    void loadWalletModel() override;
+    void setMNModel(MNModel* _mnModel);
 
     void run(int type) override;
     void onError(QString error, int type) override;
@@ -43,14 +45,13 @@ public:
 private Q_SLOTS:
     void onCreateMNClicked();
     void onStartAllClicked(int type);
-    void onOpenConfigClicked();
     void changeTheme(bool isLightTheme, QString &theme) override;
     void onMNClicked(const QModelIndex &index);
     void onEditMNClicked();
     void onDeleteMNClicked();
     void onInfoMNClicked();
     void updateListState();
-    void updateModelAndInform(QString informText);
+    void updateModelAndInform(const QString& informText);
 
 private:
     Ui::MasterNodesWidget *ui;
@@ -63,9 +64,8 @@ private:
     std::atomic<bool> isLoading;
 
     bool checkMNsNetwork();
-    void startAlias(QString strAlias);
+    void startAlias(const QString& strAlias);
     bool startAll(QString& failedMN, bool onlyMissing);
-    bool startMN(CMasternodeConfig::CMasternodeEntry mne, std::string& strError);
 };
 
 #endif // MASTERNODESWIDGET_H

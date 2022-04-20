@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -23,14 +23,10 @@ LockUnlock::LockUnlock(QWidget *parent) :
     ui->pushButtonStaking->setProperty("cssClass", "btn-check-lock-sub-menu-staking");
     ui->pushButtonStaking->setStyleSheet("padding-left: 34px;");
 
-    ui->pushButtonUnlocked->setText(tr("Unlock Wallet"));
-    ui->pushButtonLocked->setText(tr("Lock Wallet"));
-    ui->pushButtonStaking->setText(tr("Staking Only"));
-
     // Connect
-    connect(ui->pushButtonUnlocked, SIGNAL(clicked()), this, SLOT(onUnlockClicked()));
-    connect(ui->pushButtonLocked, SIGNAL(clicked()), this, SLOT(onLockClicked()));
-    connect(ui->pushButtonStaking, SIGNAL(clicked()), this, SLOT(onStakingClicked()));
+    connect(ui->pushButtonUnlocked, &QPushButton::clicked, this, &LockUnlock::onUnlockClicked);
+    connect(ui->pushButtonLocked, &QPushButton::clicked, this, &LockUnlock::onLockClicked);
+    connect(ui->pushButtonStaking, &QPushButton::clicked, this, &LockUnlock::onStakingClicked);
 }
 
 LockUnlock::~LockUnlock()
@@ -38,8 +34,9 @@ LockUnlock::~LockUnlock()
     delete ui;
 }
 
-void LockUnlock::updateStatus(WalletModel::EncryptionStatus status){
-    switch (status){
+void LockUnlock::updateStatus(WalletModel::EncryptionStatus status)
+{
+    switch (status) {
         case WalletModel::EncryptionStatus::Unlocked:
             ui->pushButtonUnlocked->setChecked(true);
             ui->pushButtonLocked->setChecked(false);
@@ -60,17 +57,20 @@ void LockUnlock::updateStatus(WalletModel::EncryptionStatus status){
     }
 }
 
-void LockUnlock::onLockClicked(){
+void LockUnlock::onLockClicked()
+{
     lock = 0;
     Q_EMIT lockClicked(StateClicked::LOCK);
 }
 
-void LockUnlock::onUnlockClicked(){
+void LockUnlock::onUnlockClicked()
+{
     lock = 1;
     Q_EMIT lockClicked(StateClicked::UNLOCK);
 }
 
-void LockUnlock::onStakingClicked(){
+void LockUnlock::onStakingClicked()
+{
     lock = 2;
     Q_EMIT lockClicked(StateClicked::UNLOCK_FOR_STAKING);
 }
@@ -87,6 +87,7 @@ void LockUnlock::leaveEvent(QEvent *)
     Q_EMIT Mouse_Leave();
 }
 
-bool LockUnlock::isHovered(){
+bool LockUnlock::isHovered()
+{
     return isOnHover;
 }

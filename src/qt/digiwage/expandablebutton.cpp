@@ -1,4 +1,4 @@
-// Copyright (c) 2019 The DIGIWAGE developers
+// Copyright (c) 2019-2020 The DIGIWAGE developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,25 +21,35 @@ ExpandableButton::ExpandableButton(QWidget *parent) :
     ui->pushButton->setCheckable(true);
     this->layout()->setSizeConstraint(QLayout::SetFixedSize);
 
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(mousePressEvent()));
+    connect(ui->pushButton, &QPushButton::clicked, this, &ExpandableButton::innerMousePressEvent);
 }
 
-void ExpandableButton::setButtonClassStyle(const char *name, const QVariant &value, bool forceUpdate){
+void ExpandableButton::setButtonClassStyle(const char *name, const QVariant &value, bool forceUpdate)
+{
     ui->pushButton->setProperty(name, value);
-    if(forceUpdate){
+    if (forceUpdate) {
         updateStyle(ui->pushButton);
     }
 }
 
-void ExpandableButton::setIcon(QString path){
+void ExpandableButton::setIcon(QString path)
+{
     ui->pushButton->setIcon(QIcon(path));
 }
 
-void ExpandableButton::setButtonText(const QString _text){
+void ExpandableButton::setButtonText(const QString& _text)
+{
     this->text = _text;
-    if(this->isExpanded){
+    if (this->isExpanded) {
         ui->pushButton->setText(_text);
     }
+}
+
+void ExpandableButton::setNoIconText(const QString& _text)
+{
+    notExpandedText = _text;
+    if (!this->isExpanded)
+        ui->pushButton->setText(_text);
 }
 
 void ExpandableButton::setText2(QString text2)
@@ -53,48 +63,49 @@ ExpandableButton::~ExpandableButton()
     delete ui;
 }
 
-bool ExpandableButton::isChecked(){
+bool ExpandableButton::isChecked()
+{
     return ui->pushButton->isChecked();
 }
 
-void ExpandableButton::setChecked(bool check){
+void ExpandableButton::setChecked(bool check)
+{
     ui->pushButton->setChecked(check);
 }
 
 void ExpandableButton::setSmall()
 {
-    ui->pushButton->setText("");
+    ui->pushButton->setText(notExpandedText);
     this->setMaximumWidth(36);
     this->isExpanded = false;
     update();
 }
 
-void ExpandableButton::setExpanded(){
+void ExpandableButton::setExpanded()
+{
     this->setMaximumWidth(100);
     ui->pushButton->setText(text);
     this->isExpanded = true;
 }
 
-void ExpandableButton::enterEvent(QEvent *) {
-    if(!this->isAnimating){
+void ExpandableButton::enterEvent(QEvent *)
+{
+    if (!this->isAnimating) {
         setExpanded();
         Q_EMIT Mouse_Hover();
     }
     update();
 }
 
-void ExpandableButton::leaveEvent(QEvent *) {
-    if(!keepExpanded){
+void ExpandableButton::leaveEvent(QEvent *)
+{
+    if (!keepExpanded) {
         this->setSmall();
     }
     Q_EMIT Mouse_HoverLeave();
 }
 
-void ExpandableButton::mousePressEvent(){
-    Q_EMIT Mouse_Pressed();
-}
-
-void ExpandableButton::mousePressEvent(QMouseEvent *ev)
+void ExpandableButton::innerMousePressEvent()
 {
     Q_EMIT Mouse_Pressed();
 }

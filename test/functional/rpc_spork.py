@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019 The DIGIWAGE developers
+# Copyright (c) 2019-2020 The DIGIWAGE developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-# -*- coding: utf-8 -*-
 
 from time import sleep
 
-from test_framework.test_framework import DigiwageTestFramework
+from test_framework.test_framework import PivxTestFramework
 from test_framework.util import set_node_times, assert_equal
 
 
-class DIGIWAGE_RPCSporkTest(DigiwageTestFramework):
+class DIGIWAGE_RPCSporkTest(PivxTestFramework):
 
     def set_test_params(self):
         self.setup_clean_chain = True
@@ -20,6 +19,7 @@ class DIGIWAGE_RPCSporkTest(DigiwageTestFramework):
 
     def setup_chain(self):
         # Start with clean chain
+        self.log.info("Initializing test directory " + self.options.tmpdir)
         self._initialize_chain_clean()
         self.enable_mocktime()
 

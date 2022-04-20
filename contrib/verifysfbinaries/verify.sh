@@ -8,7 +8,7 @@
 ###   signature check or the hash check doesn't pass. If an error occurs the return value is 2
 
 function clean_up {
-   for file in $*
+   for file in "$@"
    do
       rm "$file" 2> /dev/null
    done
@@ -30,7 +30,7 @@ if [ ! -d "$WORKINGDIR" ]; then
    mkdir "$WORKINGDIR"
 fi
 
-cd "$WORKINGDIR"
+cd "$WORKINGDIR" || exit 1
 
 #test if a version number has been passed as an argument
 if [ -n "$1" ]; then
@@ -56,14 +56,11 @@ else
    BASEDIR="${SIGNATUREFILE%/*}/"
 fi
 
-#first we fetch the file containing the signature
-WGETOUT=$(wget -N "$BASEDIR$SIGNATUREFILENAME" 2>&1)
-
-#and then see if wget completed successfully
-if [ $? -ne 0 ]; then
+if ! WGETOUT=$(wget -N "$BASEDIR$SIGNATUREFILENAME" 2>&1); then
    echo "Error: couldn't fetch signature file. Have you specified the version number in the following format?"
    echo "[bitcoin-]<version>-[rc[0-9]] (example: bitcoin-0.9.2-rc1)"
    echo "wget output:"
+   # shellcheck disable=SC2001
    echo "$WGETOUT"|sed 's/^/\t/g'
    exit 2
 fi
@@ -86,6 +83,7 @@ if [ $RET -ne 0 ]; then
    fi
 
    echo "gpg output:"
+   # shellcheck disable=SC2001
    echo "$GPGOUT"|sed 's/^/\t/g'
    clean_up $SIGNATUREFILENAME $TMPFILE
    exit "$RET"

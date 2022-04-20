@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
-// Copyright (c) 2017-2018 The DIGIWAGE developers
+// Copyright (c) 2017-2019 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,8 +15,8 @@
 #include <QCompleter>
 
 class ClientModel;
-class WalletModel;
 class RPCTimerInterface;
+class WalletModel;
 
 namespace Ui
 {
@@ -38,15 +38,7 @@ public:
     ~RPCConsole();
 
     void setClientModel(ClientModel* model);
-    void setWalletModel(WalletModel* walletModel);
-
-    enum MessageClass {
-        MC_ERROR,
-        MC_DEBUG,
-        CMD_REQUEST,
-        CMD_REPLY,
-        CMD_ERROR
-    };
+    void setWalletModel(WalletModel* model);
 
 protected:
     virtual bool eventFilter(QObject* obj, QEvent* event);
@@ -83,10 +75,10 @@ public Q_SLOTS:
     void walletUpgrade();
     void walletReindex();
     void walletResync();
-    void walletUpgradeToHd();
 
     void reject();
-    void message(int category, const QString& message, bool html = false);
+    void message(int category, const QString &msg) { message(category, msg, false); }
+    void message(int category, const QString &message, bool html);
     /** Set number of connections shown in the UI */
     void setNumConnections(int count);
     /** Set number of blocks shown in the UI */

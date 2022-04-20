@@ -1,5 +1,5 @@
 // Copyright (c) 2011-2013 The Bitcoin developers
-// Copyright (c) 2017-2019 The DIGIWAGE developers
+// Copyright (c) 2017-2020 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,13 +7,10 @@
 #define BITCOIN_QT_OPTIONSMODEL_H
 
 #include "amount.h"
+#include <cstdint>
 
 #include <QAbstractListModel>
 #include <QSettings>
-
-QT_BEGIN_NAMESPACE
-class QNetworkProxy;
-QT_END_NAMESPACE
 
 /** Interface from Qt to configuration data structure for DIGIWAGE client.
    To Qt, the options are presented as a list with the different options
@@ -32,6 +29,7 @@ public:
         StartAtStartup,      // bool
         MinimizeToTray,      // bool
         MapPortUPnP,         // bool
+        MapPortNatpmp,       // bool
         MinimizeOnClose,     // bool
         ProxyUse,            // bool
         ProxyIP,             // QString
@@ -45,12 +43,17 @@ public:
         ThreadsScriptVerif,  // int
         DatabaseCache,       // int
         SpendZeroConfChange, // bool
+        ZeromintEnable,      // bool
+        ZeromintAddresses,   // bool
+        ZeromintPercentage,  // int
+        ZeromintPrefDenom,   // int
+        HideCharts,          // bool
         HideZeroBalances,    // bool
         HideOrphans,    // bool
+        AnonymizeDigiwageAmount, //int
         ShowMasternodesTab,  // bool
         Listen,              // bool
-        StakeSplitThreshold, // int
-        ShowColdStakingScreen, // bool
+        ShowColdStakingScreen,  // bool
         OptionIDRowCount,
     };
 
@@ -63,17 +66,16 @@ public:
     void refreshDataView();
     /** Updates current unit in memory, settings and emits displayUnitChanged(newUnit) signal */
     void setDisplayUnit(const QVariant& value);
-    /* Update StakeSplitThreshold's value in wallet */
-    void setStakeSplitThreshold(const CAmount value);
 
     /* Explicit getters */
+    bool isHideCharts() { return fHideCharts; }
     bool getMinimizeToTray() { return fMinimizeToTray; }
     bool getMinimizeOnClose() { return fMinimizeOnClose; }
     int getDisplayUnit() { return nDisplayUnit; }
     QString getThirdPartyTxUrls() { return strThirdPartyTxUrls; }
-    bool getProxySettings(QNetworkProxy& proxy) const;
     bool getCoinControlFeatures() { return fCoinControlFeatures; }
     const QString& getOverriddenByCommandLine() { return strOverriddenByCommandLine; }
+    const QString& getLang() { return language; }
 
     /* Restart flag helper */
     void setRestartRequired(bool fRequired);
@@ -106,6 +108,7 @@ private:
     QString strThirdPartyTxUrls;
     bool fCoinControlFeatures;
     bool showColdStakingScreen;
+    bool fHideCharts;
     bool fHideZeroBalances;
     bool fHideOrphans;
     /* settings that were overriden by command-line */
@@ -118,6 +121,7 @@ Q_SIGNALS:
     void displayUnitChanged(int unit);
     void coinControlFeaturesChanged(bool);
     void showHideColdStakingScreen(bool);
+    void hideChartsChanged(bool);
     void hideZeroBalancesChanged(bool);
     void hideOrphansChanged(bool);
 };

@@ -5,11 +5,11 @@
 #ifndef DIGIWAGE_CSPORKDB_H
 #define DIGIWAGE_CSPORKDB_H
 
-#include <boost/filesystem/path.hpp>
-#include "leveldbwrapper.h"
+#include "fs.h"
+#include "dbwrapper.h"
 #include "spork.h"
 
-class CSporkDB : public CLevelDBWrapper
+class CSporkDB : public CDBWrapper
 {
 public:
     CSporkDB(size_t nCacheSize, bool fMemory = false, bool fWipe = false);
