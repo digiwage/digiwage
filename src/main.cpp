@@ -2895,7 +2895,8 @@ bool ActivateBestChain(CValidationState& state, CBlock* pblock, bool fAlreadyChe
 
             // Whether we have anything to do at all.
             if (pindexMostWork == NULL || pindexMostWork == chainActive.Tip()) {
-                g_best_block = pindexMostWork->GetBlockHash();
+                if (pindexMostWork != NULL )
+                    g_best_block = pindexMostWork->GetBlockHash();
                 return true;
             }
 
