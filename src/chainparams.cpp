@@ -198,8 +198,9 @@ public:
         nDefaultPort = 46003;
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        vSeeds.push_back(CDNSSeedData("144.202.111.9", "144.202.111.9"));
-        vSeeds.push_back(CDNSSeedData("144.202.110.14", "144.202.110.14"));
+        vSeeds.push_back(CDNSSeedData("158.101.29.112", "158.101.29.112"));
+        vSeeds.push_back(CDNSSeedData("129.146.188.249", "129.146.188.249"));
+        vSeeds.push_back(CDNSSeedData("95.179.132.217", "95.179.132.217"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 30);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 90);
