@@ -15,7 +15,7 @@ Features
 Getting Started
 ---------------
 
-1.  Download and install a non-custodial wallet that is compatible with the Digiwage blockchain, such as the [Digiwage wallet](https://github.com/digiwage/wallet).
+1.  Download and install a non-custodial wallet that is compatible with the Digiwage blockchain, such as the [Digiwage wallet](https://github.com/digiwage/Digiwage-litewallet/releases/tag/v2.0.0).
 2.  Create an account on the platform and connect it to your wallet.
 3.  Browse the available jobs or create a new job posting.
 4.  Communicate with clients and freelancers using the platform's messaging system.
