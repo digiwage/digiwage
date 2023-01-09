@@ -1,5 +1,5 @@
 ---
-name: "digiwage-linux-2.0"
+name: "digiwage-linux-2.0.1"
 enable_cache: true
 distro: "ubuntu"
 suites:
