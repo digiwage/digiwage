@@ -38,7 +38,5 @@ script: |
   find ${UNSIGNED_DIR} -name "*-unsigned.exe" | while read i; do
     INFILE="`basename "${i}"`"
     OUTFILE="`echo "${INFILE}" | sed s/-unsigned//`"
-    #gdiscord
-    cp "${OUTFILE}" "${SIGDIR}/${INFILE}.pem"
     ./osslsigncode attach-signature -in "${i}" -out "${OUTDIR}/${OUTFILE}" -sigin "${SIGDIR}/${INFILE}.pem"
   done
