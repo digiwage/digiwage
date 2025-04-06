@@ -43,7 +43,9 @@ bool IsBudgetCollateralValid(uint256 nTxCollateralHash, uint256 nExpectedHash, s
 
     bool foundOpReturn = false;
     for (const CTxOut &o : txCollateral.vout) {
-        if (!o.scriptPubKey.IsNormalPaymentScript() && !o.scriptPubKey.IsUnspendable()) {
+        CTxDestination dest;
+        bool fStandard = ExtractDestination(o.scriptPubKey, dest);
+        if (!fStandard && !o.scriptPubKey.IsUnspendable()) {
             strError = strprintf("Invalid Script %s", txCollateral.ToString());
             LogPrint("mnbudget","CBudgetProposalBroadcast::IsBudgetCollateralValid - %s\n", strError);
             return false;
@@ -2206,9 +2208,12 @@ void CFinalizedBudget::SubmitVote()
 
     bool fNewSigs = false;
     {
-        LOCK(cs_main);
-        fNewSigs = chainActive.NewSigsActive();
-    }
+        LOCK(cs_main); // Lock critical section for accessing chainActive
+        // Get the current chain height from the active tip
+        int nHeight = chainActive.Tip() ? chainActive.Height() : -1;
+        // Check if the new message signature version is active at the current height
+        fNewSigs = Params().GetConsensus().IsMessSigV2(nHeight);
+    } // Unlock cs_main
 
     if (!CMessageSigner::GetKeysFromSecret(strMasterNodePrivKey, keyMasternode, pubKeyMasternode)) {
         LogPrint("mnbudget","CFinalizedBudget::SubmitVote - Error upon calling GetKeysFromSecret\n");

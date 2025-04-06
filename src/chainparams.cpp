@@ -181,7 +181,10 @@ public:
         consensus.height_start_ZC_PublicSpends = INT_MAX;
         consensus.height_start_ZC_SerialRangeCheck = INT_MAX;
         consensus.height_start_ZC_SerialsV2 = INT_MAX;
-	
+
+	   // Add EVMChainID initialization HERE
+        consensus.EVMChainID = 88; // Qtum Mainnet
+
         // Zerocoin-related params
         consensus.ZC_Modulus = "d59f1d99dae2770f40fb82066b6f69bb0b3783113505ecf4d958a6021d7204a8612d7c824741ac69cbf426ba4056a0598f2683c54a72c9162821864da23add323b9af365c63d1c60af802a15c3961c4a23a0a4b8f8d0cd681faf9ff5f308a9d8348993a7f5e2560bdc4274aaa670878562ad8774c7fa15ec449385a7e3f2621b152e1f9978890cf02058d3f00d7ed1fc2fba76fe2b8358205dec3f0bd0b648b995f84b74e34ae77a2c134033075cf966b4339f028e039ce8200e279bd0169cf5994a4b135699280fa7be8f0328cfcaa1f7dc7cabe18ba0ec6f42e00792b3f128ec64fee8eb9306b871f6514946649d3fa2247c62ecd5050914570bb35b035fa80ef0995006790eb5ef2e383e7919b7e1aea89f59917c1a7adfdb1a73239c09e191cdde217c53ba0bf96ac9c265054aef811da8b51b1b3ea31d96f5d1ab9acf87363be80f42acf7353b3c4a5297eb3f5676f04b987a3144c5b04d1f6f3fdec243bab3fa2f463a1c50be50b49c156c421befad74c9b6f4367149163d3796355331";
         consensus.ZC_MaxPublicSpendsPerTx = 637;    // Assume about 220 bytes each input
@@ -280,6 +283,8 @@ public:
         consensus.height_start_ZC_SerialRangeCheck = 500;
         consensus.height_start_ZC_SerialsV2 = 500;
 
+        // Add EVMChainID initialization HERE
+        consensus.EVMChainID = 8888; // Qtum Testnet
         // Zerocoin-related params
         consensus.ZC_Modulus = "25195908475657893494027183240048398571429282126204032027777137836043662020707595556264018525880784"
                 "4069182906412495150821892985591491761845028084891200728449926873928072877767359714183472702618963750149718246911"
@@ -389,7 +394,9 @@ public:
         consensus.height_start_ZC_PublicSpends = 400;
         consensus.height_start_ZC_SerialRangeCheck = 300;
         consensus.height_start_ZC_SerialsV2 = 300;
-
+        
+        // Add EVMChainID initialization HERE
+        consensus.EVMChainID = 8889; // Qtum Regtest
         // Zerocoin-related params
         consensus.ZC_Modulus = "25195908475657893494027183240048398571429282126204032027777137836043662020707595556264018525880784"
                 "4069182906412495150821892985591491761845028084891200728449926873928072877767359714183472702618963750149718246911"

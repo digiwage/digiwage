@@ -7,7 +7,7 @@
 #ifndef BITCOIN_CONSENSUS_CONSENSUS_H
 #define BITCOIN_CONSENSUS_CONSENSUS_H
 
-#include "amount.h"
+#include "../amount.h" // Use relative path to go up one directory
 #include <stdint.h>
 
 /** The maximum allowed size for a block, in bytes (only for buffer size limits) */

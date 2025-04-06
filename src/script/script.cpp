@@ -18,6 +18,7 @@ inline std::string ValueString(const std::vector<unsigned char>& vch)
 }
 } // anon namespace
 
+#include <string>
 
 const char* GetOpName(opcodetype opcode)
 {
@@ -159,6 +160,11 @@ const char* GetOpName(opcodetype opcode)
 
     case OP_INVALIDOPCODE          : return "OP_INVALIDOPCODE";
 
+    // byte code execution
+    case OP_CREATE                 : return "OP_CREATE";
+    case OP_CALL                   : return "OP_CALL";
+    case OP_SPEND                  : return "OP_SPEND";
+    case OP_SENDER                 : return "OP_SENDER";
     // Note:
     //  The template matching params OP_SMALLINTEGER/etc are defined in opcodetype enum
     //  as kind of implementation hack, they are *NOT* real opcodes.  If found in real

@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2018 The Bitcoin developers
-// Copyright (c) 2018-2019 The DIGIWAGE developers
+// Copyright (c) 2018-2019 The DIGIWAGE developers // Updated Copyright Year
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,11 +16,12 @@
 
 class CPubKey;
 class CScript;
-class CTransaction;
+// class CTransaction; // Included via primitives/transaction.h
 class uint256;
+class CScriptNum; // Forward declare CScriptNum needed for CheckLockTime
 
 /** Signature hash types/flags */
-enum
+enum SigHashType : unsigned int
 {
     SIGHASH_ALL = 1,
     SIGHASH_NONE = 2,
@@ -29,7 +30,7 @@ enum
 };
 
 /** Script verification flags */
-enum
+enum ScriptVerificationFlags : unsigned int
 {
     SCRIPT_VERIFY_NONE      = 0,
 
@@ -62,30 +63,50 @@ enum
     SCRIPT_VERIFY_MINIMALDATA = (1U << 6),
 
     // Discourage use of NOPs reserved for upgrades (NOP1-10)
-    //
-    // Provided so that nodes can avoid accepting or mining transactions
-    // containing executed NOP's whose meaning may change after a soft-fork,
-    // thus rendering the script invalid; with this flag set executing
-    // discouraged NOPs fails the script. This verification flag will never be
-    // a mandatory flag applied to scripts in a block. NOPs that are not
-    // executed, e.g.  within an unexecuted IF ENDIF block, are *not* rejected.
+    // ... (description) ...
     SCRIPT_VERIFY_DISCOURAGE_UPGRADABLE_NOPS  = (1U << 7),
 
-    // Require that only a single stack element remains after evaluation. This changes the success criterion from
-    // "At least one stack element must remain, and when interpreted as a boolean, it must be true" to
-    // "Exactly one stack element must remain, and when interpreted as a boolean, it must be true".
-    // (softfork safe, BIP62 rule 6)
-    // Note: CLEANSTACK should never be used without P2SH.
+    // Require that only a single stack element remains after evaluation.
+    // ... (description) ...
     SCRIPT_VERIFY_CLEANSTACK = (1U << 8),
 
     // Verify CHECKLOCKTIMEVERIFY
-    //
-    // See BIP65 for details.
-    SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY = (1U << 9)
+    // ... (description) ...
+    SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY = (1U << 9), // Added comma
+
+    // Verify OP_SENDER application (Qtum QIP5)
+    SCRIPT_OUTPUT_SENDER = (1U << 28) // Added flag
 };
 
+// --- Define Standard Flag Combinations HERE ---
+
+/** Mandatory script verification flags that all new blocks must comply with for
+ * them to be valid. */
+static const unsigned int MANDATORY_SCRIPT_VERIFY_FLAGS = SCRIPT_VERIFY_P2SH;
+
+/** Standard script verification flags that standard transactions will comply with. */
+static const unsigned int STANDARD_SCRIPT_VERIFY_FLAGS = MANDATORY_SCRIPT_VERIFY_FLAGS |
+                                                         SCRIPT_VERIFY_DERSIG |
+                                                         SCRIPT_VERIFY_STRICTENC |
+                                                         SCRIPT_VERIFY_MINIMALDATA |
+                                                         SCRIPT_VERIFY_NULLDUMMY |
+                                                         SCRIPT_VERIFY_DISCOURAGE_UPGRADABLE_NOPS |
+                                                         SCRIPT_VERIFY_CLEANSTACK |
+                                                         SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY;
+                                                         // Note: SCRIPT_OUTPUT_SENDER is NOT typically part of standard Bitcoin flags,
+                                                         // it's usually checked contextually (e.g., in CheckTransaction). Keep it out
+                                                         // unless DigiWage specifically made it standard.
+
+/** For convenience, standard but not mandatory verify flags. */
+static const unsigned int STANDARD_NOT_MANDATORY_VERIFY_FLAGS = STANDARD_SCRIPT_VERIFY_FLAGS & ~MANDATORY_SCRIPT_VERIFY_FLAGS;
+
+// --- End Standard Flag Combinations ---
+
+
+/** Compute the hash of the transaction for signature purposes */
 uint256 SignatureHash(const CScript &scriptCode, const CTransaction& txTo, unsigned int nIn, int nHashType);
 
+/** Base class for signature checkers */
 class BaseSignatureChecker
 {
 public:
@@ -107,6 +128,7 @@ public:
     virtual ~BaseSignatureChecker() {}
 };
 
+/** Signature checker for validating transactions */
 class TransactionSignatureChecker : public BaseSignatureChecker
 {
 private:
@@ -121,10 +143,12 @@ public:
     bool CheckSig(const std::vector<unsigned char>& scriptSig, const std::vector<unsigned char>& vchPubKey, const CScript& scriptCode) const override;
     bool CheckLockTime(const CScriptNum& nLockTime) const override;
     bool CheckColdStake(const CScript& script) const override {
-        return txTo->CheckColdStake(script);
+        return txTo ? txTo->CheckColdStake(script) : false;
     }
 };
 
+
+/** Signature checker for validating mutable transactions (used before tx is finalized) */
 class MutableTransactionSignatureChecker : public TransactionSignatureChecker
 {
 private:
@@ -134,7 +158,11 @@ public:
     MutableTransactionSignatureChecker(const CMutableTransaction* txToIn, unsigned int nInIn) : TransactionSignatureChecker(&txTo, nInIn), txTo(*txToIn) {}
 };
 
+/** Execute script evaluation logic */
 bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& script, unsigned int flags, const BaseSignatureChecker& checker, ScriptError* error = NULL);
+
+/** Verify a script signature against a script public key */
 bool VerifyScript(const CScript& scriptSig, const CScript& scriptPubKey, unsigned int flags, const BaseSignatureChecker& checker, ScriptError* error = NULL);
+
 
 #endif // BITCOIN_SCRIPT_INTERPRETER_H

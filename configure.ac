@@ -60,7 +60,7 @@ case $host in
   ;;
 esac
 dnl Require C++11 compiler (no GNU extensions)
-AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory], [nodefault])
+AX_CXX_COMPILE_STDCXX([20], [noext], [mandatory], [nodefault])
 dnl Check if -latomic is required for <std::atomic>
 CHECK_ATOMIC
 
@@ -912,6 +912,19 @@ if test x$use_upnp != xno; then
   )
 fi
 
+
+CRYPTOPP_CPPFLAGS=
+LIBCRYPTOPP=
+AM_CONDITIONAL([EMBEDDED_CRYPTOPP],[true])
+AC_SUBST(CRYPTOPP_CPPFLAGS)
+AC_SUBST(LIBCRYPTOPP)
+
+LIBFF_CPPFLAGS=
+LIBFF=
+AM_CONDITIONAL([EMBEDDED_LIBFF],[true])
+AC_SUBST(LIBFF_CPPFLAGS)
+AC_SUBST(LIBFF)
+
 BITCOIN_QT_INIT
 
 dnl sets $bitcoin_enable_qt, $bitcoin_enable_qt_test, $bitcoin_enable_qt_dbus
@@ -926,7 +939,7 @@ fi
 if test x$use_boost = xyes; then
 
 dnl Minimum required Boost version
-define(MINIMUM_REQUIRED_BOOST, 1.47.0)
+define(MINIMUM_REQUIRED_BOOST, 1.74.0)
 
 dnl Check for boost libs
 AX_BOOST_BASE([MINIMUM_REQUIRED_BOOST])
@@ -1461,6 +1474,7 @@ AC_SUBST(SHANI_CXXFLAGS)
 AC_SUBST(LIBTOOL_APP_LDFLAGS)
 AC_SUBST(USE_UPNP)
 AC_SUBST(USE_QTCHARTS)
+AC_SUBST(CRYPTOPP_TARGET_FLAGS)
 AC_SUBST(BOOST_LIBS)
 AC_SUBST(TESTDEFS)
 AC_SUBST(LEVELDB_TARGET_FLAGS)

@@ -2,7 +2,7 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-ACLOCAL_AMFLAGS = -I build-aux/m4
+ACLOCAL_AMFLAGS =
 SUBDIRS = src
 if ENABLE_MAN
 SUBDIRS += doc/man
@@ -173,7 +173,7 @@ $(BITCOIN_CLI_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
 if USE_LCOV
-LCOV_FILTER_PATTERN=-p "/usr/include/" -p "/usr/lib/" -p "src/leveldb/" -p "src/univalue" -p "src/secp256k1"
+LCOV_FILTER_PATTERN='-p "/usr/include/" -p "/usr/lib/" -p "src/leveldb/" -p "src/univalue" -p "src/secp256k1" -p "src/cryptopp" -p "src/evmone" -p "src/eth_client"' -p "src/cryptopp"
 
 baseline.info:
 	$(LCOV) -c -i -d $(abs_builddir)/src -o $@

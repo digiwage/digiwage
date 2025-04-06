@@ -15,6 +15,7 @@
 #include "util.h"
 #include "utilstrencodings.h"
 #include "guiinterface.h"
+#include "univalue.h" // Make sure UniValue is included (it likely is via other headers, but good practice)
 
 #include <boost/algorithm/string.hpp> // boost::trim
 
@@ -64,12 +65,30 @@ static void JSONErrorReply(HTTPRequest* req, const UniValue& objError, const Uni
 {
     // Send error reply from json-rpc error object
     int nStatus = HTTP_INTERNAL_SERVER_ERROR;
-    int code = find_value(objError, "code").get_int();
+    int code = RPC_INTERNAL_ERROR; // Default value in case lookup fails
+    try {
+        // Use operator[] to access the value associated with the key "code"
+        const UniValue& codeVal = objError["code"];
+        if (!codeVal.isNull()) { // Check if the key exists and is not null
+             code = codeVal.getInt<int>();
+        }
+    } catch (const std::exception& e) {
+        // Handle potential exceptions if "code" exists but is not an integer,
+        // or other UniValue errors. Log the error?
+        LogPrintf("JSONErrorReply: Error retrieving 'code' from error object: %s\n", e.what());
+        // Keep the default code RPC_INTERNAL_ERROR
+    } catch (...) {
+        // Catch any other exceptions
+        LogPrintf("JSONErrorReply: Unknown error retrieving 'code' from error object.\n");
+        // Keep the default code RPC_INTERNAL_ERROR
+    }
+
 
     if (code == RPC_INVALID_REQUEST)
         nStatus = HTTP_BAD_REQUEST;
     else if (code == RPC_METHOD_NOT_FOUND)
         nStatus = HTTP_NOT_FOUND;
+    // Consider adding other mappings here if needed, e.g., RPC_PARSE_ERROR -> HTTP_BAD_REQUEST
 
     std::string strReply = JSONRPCReply(NullUniValue, objError, id);
 
@@ -115,7 +134,7 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
         return false;
     }
 
-    JSONRequest jreq;
+    JSONRequest jreq; // Default id is NullUniValue
     try {
         // Parse request
         UniValue valRequest;
@@ -125,7 +144,7 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
         std::string strReply;
         // singleton request
         if (valRequest.isObject()) {
-            jreq.parse(valRequest);
+            jreq.parse(valRequest); // This might throw UniValue error if id is missing/wrong type
 
             UniValue result = tableRPC.execute(jreq.strMethod, jreq.params);
 
@@ -134,6 +153,9 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
 
         // array of requests
         } else if (valRequest.isArray())
+            // Batch request: JSONRPCExecBatch handles parsing and execution internally.
+            // It does not use the jreq object declared outside the try block.
+            // The reply format for batch errors doesn't depend on a single id.
             strReply = JSONRPCExecBatch(valRequest.get_array());
         else
             throw JSONRPCError(RPC_PARSE_ERROR, "Top-level object parse error");
@@ -141,9 +163,11 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
         req->WriteHeader("Content-Type", "application/json");
         req->WriteReply(HTTP_OK, strReply);
     } catch (const UniValue& objError) {
+        // Use the id from jreq if it was parsed (for single requests), otherwise NullUniValue
         JSONErrorReply(req, objError, jreq.id);
         return false;
     } catch (const std::exception& e) {
+        // Use the id from jreq if it was parsed (for single requests), otherwise NullUniValue
         JSONErrorReply(req, JSONRPCError(RPC_PARSE_ERROR, e.what()), jreq.id);
         return false;
     }
@@ -162,7 +186,12 @@ static bool InitRPCAuthentication()
             return false;
         }
     } else {
+        LogPrintf("Using rpcuser and rpcpassword authentication\n"); // Added log line
         strRPCUserColonPass = mapArgs["-rpcuser"] + ":" + mapArgs["-rpcpassword"];
+    }
+    if (strRPCUserColonPass.empty()) { // Extra check
+         LogPrintf("Error: RPC authentication information is empty after initialization.\n");
+         return false;
     }
     return true;
 }
@@ -175,15 +204,21 @@ bool StartHTTPRPC()
 
     RegisterHTTPHandler("/", true, HTTPReq_JSONRPC);
 
-    assert(EventBase());
-    httpRPCTimerInterface = new HTTPRPCTimerInterface(EventBase());
+    struct event_base* base = EventBase(); // Capture base locally
+    if (!base) {
+         LogPrintf("Error: Could not obtain event_base for HTTP RPC timer.\n");
+         return false; // Or handle error appropriately
+    }
+    httpRPCTimerInterface = new HTTPRPCTimerInterface(base);
     RPCSetTimerInterface(httpRPCTimerInterface);
+    LogPrint("rpc", "HTTP RPC server started.\n"); // Added confirmation
     return true;
 }
 
 void InterruptHTTPRPC()
 {
     LogPrint("rpc", "Interrupting HTTP RPC server\n");
+    // Implementation may depend on httpserver.cpp, often involves signaling the event loop
 }
 
 void StopHTTPRPC()
@@ -195,4 +230,5 @@ void StopHTTPRPC()
         delete httpRPCTimerInterface;
         httpRPCTimerInterface = 0;
     }
+    LogPrint("rpc", "HTTP RPC server stopped.\n"); // Added confirmation
 }

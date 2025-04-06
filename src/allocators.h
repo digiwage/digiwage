@@ -12,20 +12,13 @@
 #include <string.h>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/once.hpp>
 
 /**
  * Thread-safe class to keep track of locked (ie, non-swappable) memory pages.
- *
- * Memory locks do not stack, that is, pages which have been locked several times by calls to mlock()
- * will be unlocked by a single call to munlock(). This can result in keying material ending up in swap when
- * those functions are used naively. This class simulates stacking memory locks by keeping a counter per page.
- *
- * @note By using a map from each page base address to lock count, this class is optimized for
- * small objects that span up to a few pages, mostly smaller than a page. To support large allocations,
- * something like an interval tree would be the preferred data structure.
  */
 template <class Locker>
 class LockedPageManagerBase
@@ -38,10 +31,7 @@ public:
         page_mask = ~(page_size - 1);
     }
 
-    ~LockedPageManagerBase()
-    {
-    }
-
+    ~LockedPageManagerBase() {}
 
     // For all pages in affected range, increase lock count
     void LockRange(void* p, size_t size)
@@ -58,7 +48,8 @@ public:
             {
                 locker.Lock(reinterpret_cast<void*>(page), page_size);
                 histogram.insert(std::make_pair(page, 1));
-            } else // Page was already locked; increase counter
+            }
+            else // Page was already locked; increase counter
             {
                 it->second += 1;
             }
@@ -104,34 +95,20 @@ private:
     Histogram histogram;
 };
 
-
 /**
  * OS-dependent memory page locking/unlocking.
- * Defined as policy class to make stubbing for test possible.
  */
 class MemoryPageLocker
 {
 public:
-    /** Lock memory pages.
-     * addr and len must be a multiple of the system page size
-     */
+    /** Lock memory pages. */
     bool Lock(const void* addr, size_t len);
-    /** Unlock memory pages.
-     * addr and len must be a multiple of the system page size
-     */
+    /** Unlock memory pages. */
     bool Unlock(const void* addr, size_t len);
 };
 
 /**
- * Singleton class to keep track of locked (ie, non-swappable) memory pages, for use in
- * std::allocator templates.
- *
- * Some implementations of the STL allocate memory in some constructors (i.e., see
- * MSVC's vector<T> implementation where it allocates 1 byte of memory in the allocator.)
- * Due to the unpredictable order of static initializers, we have to make sure the
- * LockedPageManager instance exists before any other STL-based objects that use
- * secure_allocator are created. So instead of having LockedPageManager also be
- * static-initialized, it is created on demand.
+ * Singleton class to keep track of locked memory pages.
  */
 class LockedPageManager : public LockedPageManagerBase<MemoryPageLocker>
 {
@@ -147,11 +124,6 @@ private:
 
     static void CreateInstance()
     {
-        // Using a local static instance guarantees that the object is initialized
-        // when it's first needed and also deinitialized after all objects that use
-        // it are done with it.  I can think of one unlikely scenario where we may
-        // have a static deinitialization order/problem, but the check in
-        // LockedPageManagerBase's destructor helps us detect if that ever happens.
         static LockedPageManager instance;
         LockedPageManager::_instance = &instance;
     }
@@ -160,10 +132,7 @@ private:
     static boost::once_flag init_flag;
 };
 
-//
-// Functions for directly locking/unlocking memory objects.
-// Intended for non-dynamically allocated structures.
-//
+// Functions for directly locking/unlocking memory objects
 template <typename T>
 void LockObject(const T& t)
 {
@@ -177,92 +146,71 @@ void UnlockObject(const T& t)
     LockedPageManager::Instance().UnlockRange((void*)(&t), sizeof(T));
 }
 
-//
 // Allocator that locks its contents from being paged
 // out of memory and clears its contents before deletion.
-//
 template <typename T>
-struct secure_allocator : public std::allocator<T> {
-    // MSVC8 default copy constructor is broken
-    typedef std::allocator<T> base;
-    typedef typename base::size_type size_type;
-    typedef typename base::difference_type difference_type;
-    typedef typename base::pointer pointer;
-    typedef typename base::const_pointer const_pointer;
-    typedef typename base::reference reference;
-    typedef typename base::const_reference const_reference;
-    typedef typename base::value_type value_type;
-    secure_allocator() throw() {}
-    secure_allocator(const secure_allocator& a) throw() : base(a) {}
+struct secure_allocator {
+    typedef T value_type;
+    
+    secure_allocator() noexcept {}
     template <typename U>
-    secure_allocator(const secure_allocator<U>& a) throw() : base(a)
+    secure_allocator(const secure_allocator<U>&) noexcept {}
+    
+    T* allocate(std::size_t n)
     {
-    }
-    ~secure_allocator() throw() {}
-    template <typename _Other>
-    struct rebind {
-        typedef secure_allocator<_Other> other;
-    };
-
-    T* allocate(std::size_t n, const void* hint = 0)
-    {
-        T* p;
-        p = std::allocator<T>::allocate(n, hint);
-        if (p != NULL)
+        T* p = std::allocator<T>().allocate(n);
+        if (p != nullptr)
             LockedPageManager::Instance().LockRange(p, sizeof(T) * n);
         return p;
     }
 
     void deallocate(T* p, std::size_t n)
     {
-        if (p != NULL) {
+        if (p != nullptr) {
             memory_cleanse(p, sizeof(T) * n);
             LockedPageManager::Instance().UnlockRange(p, sizeof(T) * n);
         }
-        std::allocator<T>::deallocate(p, n);
+        std::allocator<T>().deallocate(p, n);
     }
+
+    template <typename U>
+    bool operator==(const secure_allocator<U>&) const { return true; }
+    template <typename U>
+    bool operator!=(const secure_allocator<U>&) const { return false; }
 };
 
-
-//
 // Allocator that clears its contents before deletion.
-//
 template <typename T>
-struct zero_after_free_allocator : public std::allocator<T> {
-    // MSVC8 default copy constructor is broken
-    typedef std::allocator<T> base;
-    typedef typename base::size_type size_type;
-    typedef typename base::difference_type difference_type;
-    typedef typename base::pointer pointer;
-    typedef typename base::const_pointer const_pointer;
-    typedef typename base::reference reference;
-    typedef typename base::const_reference const_reference;
-    typedef typename base::value_type value_type;
-    zero_after_free_allocator() throw() {}
-    zero_after_free_allocator(const zero_after_free_allocator& a) throw() : base(a) {}
+struct zero_after_free_allocator {
+    typedef T value_type;
+    
+    zero_after_free_allocator() noexcept {}
     template <typename U>
-    zero_after_free_allocator(const zero_after_free_allocator<U>& a) throw() : base(a)
+    zero_after_free_allocator(const zero_after_free_allocator<U>&) noexcept {}
+    
+    T* allocate(std::size_t n)
     {
+        return std::allocator<T>().allocate(n);
     }
-    ~zero_after_free_allocator() throw() {}
-    template <typename _Other>
-    struct rebind {
-        typedef zero_after_free_allocator<_Other> other;
-    };
 
     void deallocate(T* p, std::size_t n)
     {
-        if (p != NULL)
+        if (p != nullptr)
             memory_cleanse(p, sizeof(T) * n);
-        std::allocator<T>::deallocate(p, n);
+        std::allocator<T>().deallocate(p, n);
     }
+
+    template <typename U>
+    bool operator==(const zero_after_free_allocator<U>&) const { return true; }
+    template <typename U>
+    bool operator!=(const zero_after_free_allocator<U>&) const { return false; }
 };
 
-// This is exactly like std::string, but with a custom allocator.
-typedef std::basic_string<char, std::char_traits<char>, secure_allocator<char> > SecureString;
-typedef std::vector<unsigned char, secure_allocator<unsigned char> > SecureVector;
+// Secure string and vector types
+typedef std::basic_string<char, std::char_traits<char>, secure_allocator<char>> SecureString;
+typedef std::vector<unsigned char, secure_allocator<unsigned char>> SecureVector;
 
-// Byte-vector that clears its contents before deletion.
-typedef std::vector<char, zero_after_free_allocator<char> > CSerializeData;
+// Byte-vector that clears its contents before deletion
+typedef std::vector<char, zero_after_free_allocator<char>> CSerializeData;
 
 #endif // BITCOIN_ALLOCATORS_H

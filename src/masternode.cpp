@@ -396,9 +396,12 @@ bool CMasternodeBroadcast::Create(CTxIn txin, CService service, CKey keyCollater
 
     bool fNewSigs = false;
     {
-        LOCK(cs_main);
-        fNewSigs = chainActive.NewSigsActive();
-    }
+        LOCK(cs_main); // Lock critical section for accessing chainActive
+        // Get the current chain height from the active tip
+        int nHeight = chainActive.Tip() ? chainActive.Height() : -1;
+        // Check if the new message signature version is active at the current height
+        fNewSigs = Params().GetConsensus().IsMessSigV2(nHeight);
+    } // Unlock cs_main
 
     LogPrint("masternode", "CMasternodeBroadcast::Create -- pubKeyCollateralAddressNew = %s, pubKeyMasternodeNew.GetID() = %s\n",
         CBitcoinAddress(pubKeyCollateralAddressNew.GetID()).ToString(),

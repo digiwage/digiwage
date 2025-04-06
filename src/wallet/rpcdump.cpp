@@ -186,10 +186,10 @@ UniValue dumphdinfo(const UniValue& params, bool fHelp)
     hdChainCurrent.GetMnemonic(ssMnemonic, ssMnemonicPassphrase);
 
     UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("warning", _("This seed contains all of your private keys. DO NOT send this file to anyone!")));
-    obj.push_back(Pair("hdseed", HexStr(hdChainCurrent.GetSeed())));
-    obj.push_back(Pair("mnemonic", ssMnemonic.c_str()));
-    obj.push_back(Pair("mnemonicpassphrase", ssMnemonicPassphrase.c_str()));
+    obj.pushKV("warning", _("This seed contains all of your private keys. DO NOT send this file to anyone!"));
+    obj.pushKV("hdseed", HexStr(hdChainCurrent.GetSeed()));
+    obj.pushKV("mnemonic", ssMnemonic.c_str());
+    obj.pushKV("mnemonicpassphrase", ssMnemonicPassphrase.c_str());
 
     return obj;
 }
@@ -525,8 +525,8 @@ UniValue dumpwallet(const UniValue& params, bool fHelp)
     file.close();
 
     UniValue reply(UniValue::VOBJ);
-    reply.push_back(Pair("warning", _("This file contains all of your private keys in plain text. DO NOT send this file to anyone!")));
-    reply.push_back(Pair("filename", filepath.string()));
+    reply.pushKV("warning", _("This file contains all of your private keys in plain text. DO NOT send this file to anyone!"));
+    reply.pushKV("filename", filepath.string());
 
     return reply;
 }
@@ -571,8 +571,8 @@ UniValue bip38encrypt(const UniValue& params, bool fHelp)
     std::string encryptedOut = BIP38_Encrypt(strAddress, strPassphrase, privKey, vchSecret.IsCompressed());
 
     UniValue result(UniValue::VOBJ);
-    result.push_back(Pair("Addess", strAddress));
-    result.push_back(Pair("Encrypted Key", encryptedOut));
+    result.pushKV("Addess", strAddress);
+    result.pushKV("Encrypted Key", encryptedOut);
 
     return result;
 }
@@ -610,7 +610,7 @@ UniValue bip38decrypt(const UniValue& params, bool fHelp)
         throw JSONRPCError(RPC_WALLET_ERROR, "Failed To Decrypt");
 
     UniValue result(UniValue::VOBJ);
-    result.push_back(Pair("privatekey", HexStr(privKey)));
+    result.pushKV("privatekey", HexStr(privKey));
 
     CKey key;
     key.Set(privKey.begin(), privKey.end(), fCompressed);
@@ -621,7 +621,7 @@ UniValue bip38decrypt(const UniValue& params, bool fHelp)
     CPubKey pubkey = key.GetPubKey();
     pubkey.IsCompressed();
     assert(key.VerifyPubKey(pubkey));
-    result.push_back(Pair("Address", CBitcoinAddress(pubkey.GetID()).ToString()));
+    result.pushKV("Address", CBitcoinAddress(pubkey.GetID()).ToString());
     CKeyID vchAddress = pubkey.GetID();
     {
         pwalletMain->MarkDirty();

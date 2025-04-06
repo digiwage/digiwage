@@ -1,126 +1,154 @@
-// Copyright (c) 2009-2012 The Dash developers
-// Copyright (c) 2015-2019 The DIGIWAGE developers
+// Copyright (c) 2014-2016 The Dash developers
+// Copyright (c) 2016-2019 The DIGIWAGE developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef SWIFTTX_H
 #define SWIFTTX_H
 
-#include "base58.h"
-#include "key.h"
-#include "main.h"
+#include "chain.h"
 #include "net.h"
-#include "spork.h"
+#include "primitives/transaction.h"
 #include "sync.h"
-#include "util.h"
+#include "uint256.h"
+#include "key.h"
+#include "keystore.h"
+#include "script/standard.h"
+#include "serialize.h" // <<< ADDED for ADD_SERIALIZE_METHODS, READWRITE >>>
+#include "timedata.h" // <<< ADDED for GetTime() >>>
 
-/*
-    At 15 signatures, 1/2 of the masternode network can be owned by
-    one party without comprimising the security of SwiftX
-    (1000/2150.0)**10 = 0.00047382219560689856
-    (1000/2900.0)**10 = 2.3769498616783657e-05
+#include <map>
+#include <string>
+#include <vector>
 
-    ### getting 5 of 10 signatures w/ 1000 nodes of 2900
-    (1000/2900.0)**5 = 0.004875397277841433
-*/
+// Define constants if they are not defined elsewhere (check chainparams?)
+#ifndef SWIFTTX_SIGNATURES_REQUIRED
 #define SWIFTTX_SIGNATURES_REQUIRED 6
+#endif
+#ifndef SWIFTTX_SIGNATURES_TOTAL
 #define SWIFTTX_SIGNATURES_TOTAL 10
+#endif
+// Define MIN_SWIFTTX_PROTO_VERSION if not defined elsewhere
+#ifndef MIN_SWIFTTX_PROTO_VERSION
+#define MIN_SWIFTTX_PROTO_VERSION 70210 // Example, adjust if needed
+#endif
+// Define FORGE_MASTERNODES_VERSION_2 if needed for versioning
+#ifndef FORGE_MASTERNODES_VERSION_2
+#define FORGE_MASTERNODES_VERSION_2 70900 // Example, adjust if needed
+#endif
 
 
 class CConsensusVote;
 class CTransaction;
 class CTransactionLock;
-
-static const int MIN_SWIFTTX_PROTO_VERSION = 70103;
+class CTxIn;
+class CNode;
+class CDataStream;
+class CPubKey;
+class CKey;
 
 extern std::map<uint256, CTransaction> mapTxLockReq;
 extern std::map<uint256, CTransaction> mapTxLockReqRejected;
 extern std::map<uint256, CConsensusVote> mapTxLockVote;
 extern std::map<uint256, CTransactionLock> mapTxLocks;
 extern std::map<COutPoint, uint256> mapLockedInputs;
+extern std::map<uint256, int64_t> mapUnknownVotes; //track votes with no tx for DOS
 extern int nCompleteTXLocks;
 
-
-int64_t CreateNewLock(CTransaction tx);
-
 bool IsIXTXValid(const CTransaction& txCollateral);
-
-// if two conflicting locks are approved by the network, they will cancel out
-bool CheckForConflictingLocks(CTransaction& tx);
-
+// <<< MATCH Definition in swifttx.cpp: Pass by value >>>
+int64_t CreateNewLock(CTransaction tx);
+// <<< REMOVED default argument from declaration >>>
+void RelayTransactionLockReq(const CTransaction& tx, bool fPriority /* = false */);
+bool SignLockRequest(const CTransaction& tx, CTransactionLock& txLock);
 void ProcessMessageSwiftTX(CNode* pfrom, std::string& strCommand, CDataStream& vRecv);
-
-//check if we need to vote on this transaction
-void DoConsensusVote(CTransaction& tx, int64_t nBlockHeight);
-
-//process consensus vote message
-bool ProcessConsensusVote(CNode* pnode, CConsensusVote& ctx);
-
-// keep transaction locks in memory for an hour
-void CleanTransactionLocksList();
-
-// get the accepted transaction lock signatures
 int GetTransactionLockSignatures(uint256 txHash);
-
+bool ProcessConsensusVote(CNode* pnode, CConsensusVote& ctx);
+void CleanTransactionLocksList();
+void CheckTransactionLocks(int nHeight);
+bool CheckForConflictingLocks(CTransaction& tx);
 int64_t GetAverageVoteTime();
 
-class CConsensusVote : public CSignedMessage
+// VOTE MESSAGES
+
+class CConsensusVote
 {
 public:
     CTxIn vinMasternode;
     uint256 txHash;
     int nBlockHeight;
+    std::vector<unsigned char> vchMasterNodeSignature;
+    int64_t nTime;
+    // Version, introduced with version 2 messages. Not used at the moment.
+    // Can be used to structure the data differently in the future. Malleability protection.
+    int nMessVersion;
 
-    CConsensusVote() :
-        CSignedMessage(),
-        vinMasternode(),
-        txHash(),
-        nBlockHeight(0)
-    {}
+
+    CConsensusVote(): vinMasternode(), txHash(), nBlockHeight(0), vchMasterNodeSignature(), nTime(0), nMessVersion(1) {};
+
+    CConsensusVote(CTxIn& vinMasternodeIn, uint256 txHashIn, int nBlockHeightIn):
+        vinMasternode(vinMasternodeIn), txHash(txHashIn), nBlockHeight(nBlockHeightIn), vchMasterNodeSignature(), nTime(GetTime()), nMessVersion(1) {};
 
     uint256 GetHash() const;
 
-    // override CSignedMessage functions
-    uint256 GetSignatureHash() const override;
-    std::string GetStrMessage() const override;
-    const CTxIn GetVin() const override { return vinMasternode; };
+    uint256 GetSignatureHash() const;
+
+    std::string GetStrMessage() const;
+
+    bool Sign(std::string strPrivateKey, bool fNewSigs);
+    bool CheckSignature() const;
+    bool CheckSignature(CPubKey& pubKeyMasternode) const;
+    bool Relay() const;
 
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
-    {
-        READWRITE(txHash);
-        READWRITE(vinMasternode);
-        READWRITE(vchSig);
-        READWRITE(nBlockHeight);
-        try
-        {
-            READWRITE(nMessVersion);
-        } catch (...) {
-            nMessVersion = MessageVersion::MESS_VER_STRMESS;
+    // <<< Add nType and nVersion arguments to match ADD_SERIALIZE_METHODS macro >>>
+    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+        // <<< REMOVED ser_action.supportVersions check >>>
+        // <<< USE s.nVersion directly >>>
+        if (s.nVersion >= FORGE_MASTERNODES_VERSION_2) {
+             READWRITE(nMessVersion);
+        } else {
+             if (ser_action.ForRead()) {
+                 nMessVersion = 1;
+             }
         }
+        READWRITE(vinMasternode);
+        READWRITE(txHash);
+        READWRITE(nBlockHeight);
+        READWRITE(vchMasterNodeSignature);
+        READWRITE(nTime);
     }
 };
+
 
 class CTransactionLock
 {
 public:
     int nBlockHeight;
+    int64_t nExpiration;
+    int64_t nTimeout; //when voting stops
     uint256 txHash;
     std::vector<CConsensusVote> vecConsensusVotes;
-    int nExpiration;
-    int nTimeout;
+
+    CTransactionLock(): nBlockHeight(0), nExpiration(0), nTimeout(0), txHash(), vecConsensusVotes() {}
 
     bool SignaturesValid();
     int CountSignatures();
     void AddSignature(CConsensusVote& cv);
+    uint256 GetHash() const { return txHash; }
 
-    uint256 GetHash()
-    {
-        return txHash;
+    ADD_SERIALIZE_METHODS;
+
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) { // Added nType, nVersion
+        READWRITE(nBlockHeight);
+        READWRITE(nExpiration);
+        READWRITE(nTimeout);
+        READWRITE(txHash);
+        READWRITE(vecConsensusVotes);
     }
 };
 
-
-#endif
+#endif // SWIFTTX_H

@@ -171,9 +171,12 @@ bool CActiveMasternode::SendMasternodePing(std::string& errorMessage)
 
     bool fNewSigs = false;
     {
-        LOCK(cs_main);
-        fNewSigs = chainActive.NewSigsActive();
-    }
+        LOCK(cs_main); // Lock critical section for accessing chainActive
+        // Get the current chain height from the active tip
+        int nHeight = chainActive.Tip() ? chainActive.Height() : -1;
+        // Check if the new message signature version is active at the current height
+        fNewSigs = Params().GetConsensus().IsMessSigV2(nHeight);
+    } // Unlock cs_main
 
     CMasternodePing mnp(vin);
     if (!mnp.Sign(keyMasternode, pubKeyMasternode, fNewSigs)) {
@@ -254,9 +257,12 @@ bool CActiveMasternode::CreateBroadcast(CTxIn vin, CService service, CKey keyCol
 
     bool fNewSigs = false;
     {
-        LOCK(cs_main);
-        fNewSigs = chainActive.NewSigsActive();
-    }
+        LOCK(cs_main); // Lock critical section for accessing chainActive
+        // Get the current chain height from the active tip
+        int nHeight = chainActive.Tip() ? chainActive.Height() : -1;
+        // Check if the new message signature version is active at the current height
+        fNewSigs = Params().GetConsensus().IsMessSigV2(nHeight);
+    } // Unlock cs_main
 
     CMasternodePing mnp(vin);
     if (!mnp.Sign(keyMasternode, pubKeyMasternode, fNewSigs)) {

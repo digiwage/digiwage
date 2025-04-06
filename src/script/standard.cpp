@@ -33,6 +33,63 @@ const char* GetTxnOutputType(txnouttype t)
     return NULL;
 }
 
+
+// Add these function definitions to script/standard.cpp
+bool CScript::IsPayToPublicKeyHash() const
+{
+    // Returns true if the script is a conventional pay-to-pubkey-hash script
+    return size() == 25 &&
+           (*this)[0] == OP_DUP &&
+           (*this)[1] == OP_HASH160 &&
+           (*this)[2] == 0x14 &&        // Push 20 bytes
+           (*this)[23] == OP_EQUALVERIFY &&
+           (*this)[24] == OP_CHECKSIG;
+}
+
+bool CScript::IsPayToPublicKey() const
+{
+    // Returns true if the script is a conventional pay-to-pubkey script
+    // Format: <pubkey> OP_CHECKSIG
+    // Sizes: 33 bytes (compressed pubkey) + 1 byte opcode + 1 byte OP_CHECKSIG = 35 bytes
+    //     OR 65 bytes (uncompressed pubkey) + 1 byte opcode + 1 byte OP_CHECKSIG = 67 bytes
+
+    // 1. Check total size and final opcode
+    if ((this->size() != 35 && this->size() != 67) || (*this)[this->size() - 1] != OP_CHECKSIG) {
+        return false;
+    }
+
+    // 2. Check that the first operation is a data push of the correct size
+    CScript::const_iterator pc = this->begin();
+    opcodetype opcode;
+    std::vector<unsigned char> vch;
+    if (!this->GetOp(pc, opcode, vch)) {
+        // Failed to parse first operation
+        return false;
+    }
+
+    // 3. Check if the opcode was a push operation and the size is correct for a pubkey
+    // (Opcodes 1-75 are direct pushes, PUSHDATA1/2/4 are pushes, > OP_16 covers these)
+    if (opcode < OP_1 || opcode > OP_PUSHDATA4 || (vch.size() != 33 && vch.size() != 65) ) {
+         // Not a push opcode, or pushed data size is wrong for a pubkey
+         return false;
+    }
+
+
+    // 4. Check that after reading the push op, we are exactly at the OP_CHECKSIG
+    if (pc != this->end() - 1) {
+        // There was more data/opcodes after the pubkey push but before OP_CHECKSIG
+        return false;
+    }
+
+    // Optional stricter check: Validate the pushed public key itself
+    // CPubKey pubkey(vch);
+    // if (!pubkey.IsValid()) return false;
+
+
+    return true; // Structure matches P2PK
+}
+
+
 /**
  * Return public keys or hashes from scriptPubKey, for 'standard' transaction types.
  */
@@ -245,6 +302,113 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet,
     // Multisig txns have more than one address...
     return false;
 }
+
+
+bool ExtractSenderData(const CScript& outputPubKey, CScript* senderPubKey, CScript* senderSig)
+{
+    // Ensure the script actually claims to have OP_SENDER first
+    if (!outputPubKey.HasOpSender()) {
+        return false;
+    }
+
+    CScript::const_iterator pc = outputPubKey.begin();
+    CScript::const_iterator pend = outputPubKey.end();
+    std::vector<valtype> stack; // Use to store PUSHED data items
+    opcodetype opcode = OP_INVALIDOPCODE;
+    opcodetype contractOpcode = OP_INVALIDOPCODE; // Track if we've seen OP_CALL or OP_CREATE
+
+    // Simulate script execution to find OP_SENDER and preceding data
+    while (pc < pend) {
+        valtype data;
+        if (!outputPubKey.GetOp(pc, opcode, data)) {
+            // Script parsing failed
+            LogPrint("script", "ExtractSenderData Error: Failed to parse script.\n");
+            return false;
+        }
+
+        // If the opcode pushes data, add it to our simulated stack
+        if (data.size() > 0) {
+             stack.push_back(data);
+        } else if (opcode >= OP_1 && opcode <= OP_16) {
+             // Handle OP_N opcodes (push small integers)
+             stack.push_back(valtype(1, CScript::DecodeOP_N(opcode)));
+        } else if (opcode == OP_0) {
+             stack.push_back(valtype()); // OP_0 pushes empty vector
+        }
+        // Ignore non-push opcodes for this purpose, except the ones we care about
+
+        // Track if we hit the main contract opcode
+        if (opcode == OP_CALL || opcode == OP_CREATE) {
+             if (contractOpcode != OP_INVALIDOPCODE) {
+                 LogPrint("script", "ExtractSenderData Error: Multiple OP_CALL/OP_CREATE found.\n");
+                 return false; // Should only be one
+             }
+             contractOpcode = opcode;
+        }
+
+        // Check for OP_SENDER
+        if (opcode == OP_SENDER) {
+            // OP_SENDER format expects stack (bottom to top) before OP_SENDER:
+            // ..., <senderSig>, <senderPubKey>, <programData>
+
+            // 1. Check if we previously found the main contract op
+            if (contractOpcode == OP_INVALIDOPCODE) {
+                 LogPrint("script", "ExtractSenderData Error: OP_SENDER found before OP_CALL/OP_CREATE.\n");
+                 return false; // OP_SENDER must come after the program opcode logically
+            }
+
+            // 2. Check if there are enough items on the simulated stack
+            // We need at least 3 items pushed before OP_SENDER was hit: senderSig, senderPubKey, programData
+            if (stack.size() < 3) {
+                LogPrint("script", "ExtractSenderData Error: OP_SENDER stack too small (%d).\n", stack.size());
+                return false; // Not enough items for OP_SENDER
+            }
+
+            // Extract the items assuming they are the last 3 PUSHED items
+            // Note: The actual EVM execution stack might be different, but we are parsing the script *template*
+            const valtype& programDataStack = stack[stack.size() - 1]; // Last pushed item should be program
+            const valtype& pubkeyDataStack = stack[stack.size() - 2]; // Item before program should be senderPubKey script data
+            const valtype& sigDataStack = stack[stack.size() - 3];    // Item before that should be senderSig script data
+
+            // Basic validation (e.g., non-empty) - add more checks as needed
+            if (pubkeyDataStack.empty() || sigDataStack.empty()) {
+                 LogPrint("script", "ExtractSenderData Error: OP_SENDER pubkey or sig components are empty on stack.\n");
+                 return false;
+            }
+
+
+            // Assign to output parameters if they are not null
+            // We assume the data pushed was the raw CScript bytes
+            if (senderPubKey) {
+                try {
+                    // Deserialize the pubkey script part from the stack data
+                    *senderPubKey = CScript(pubkeyDataStack.begin(), pubkeyDataStack.end());
+                } catch (const std::exception& e) {
+                     LogPrint("script", "ExtractSenderData Error: Failed to deserialize senderPubKey: %s\n", e.what());
+                     return false;
+                }
+            }
+            if (senderSig) {
+                 try {
+                    // Deserialize the signature script part from the stack data
+                    *senderSig = CScript(sigDataStack.begin(), sigDataStack.end());
+                 } catch (const std::exception& e) {
+                     LogPrint("script", "ExtractSenderData Error: Failed to deserialize senderSig: %s\n", e.what());
+                     return false;
+                 }
+            }
+
+            return true; // Found OP_SENDER and extracted data
+        }
+
+        // If it's not OP_SENDER, continue parsing
+    }
+
+    // If we reach the end without finding OP_SENDER
+    // LogPrint("script", "ExtractSenderData: Reached end of script without finding OP_SENDER.\n");
+    return false;
+}
+
 
 bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<CTxDestination>& addressRet, int& nRequiredRet)
 {

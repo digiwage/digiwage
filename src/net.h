@@ -274,7 +274,7 @@ public:
         banReason = BanReasonUnknown;
     }
 
-    std::string banReasonToString()
+    std::string banReasonToString() const
     {
         switch (banReason) {
         case BanReasonNodeMisbehaving:
@@ -330,6 +330,8 @@ public:
     bool fNetworkNode;
     bool fSuccessfullyConnected;
     bool fDisconnect;
+    bool fRequestedSporksIDB{false}; // <------------------- ADD THIS LINE HERE
+
     // We use fRelayTxes for two purposes -
     // a) it allows us to not relay tx invs before receiving the peer's version message
     // b) the peer may tell us in their version message that we should not relay tx invs

@@ -117,44 +117,44 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     GetProxy(NET_IPV4, proxy);
 
     UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("version", CLIENT_VERSION));
-    obj.push_back(Pair("protocolversion", PROTOCOL_VERSION));
-    obj.push_back(Pair("services", services));
+    obj.pushKV("version", CLIENT_VERSION);
+    obj.pushKV("protocolversion", PROTOCOL_VERSION);
+    obj.pushKV("services", services);
 #ifdef ENABLE_WALLET
     if (pwalletMain) {
-        obj.push_back(Pair("walletversion", pwalletMain->GetVersion()));
-        obj.push_back(Pair("balance", ValueFromAmount(pwalletMain->GetBalance())));
-        obj.push_back(Pair("staking status", (pwalletMain->pStakerStatus->IsActive() ?
+        obj.pushKV("walletversion", pwalletMain->GetVersion());
+        obj.pushKV("balance", ValueFromAmount(pwalletMain->GetBalance()));
+        obj.pushKV("staking status", (pwalletMain->pStakerStatus->IsActive() ?
                                                 "Staking Active" :
-                                                "Staking Not Active")));
+                                                "Staking Not Active"));
     }
 #endif
-    obj.push_back(Pair("blocks", (int)chainActive.Height()));
-    obj.push_back(Pair("timeoffset", GetTimeOffset()));
-    obj.push_back(Pair("connections", (int)vNodes.size()));
-    obj.push_back(Pair("proxy", (proxy.IsValid() ? proxy.proxy.ToStringIPPort() : std::string())));
-    obj.push_back(Pair("difficulty", (double)GetDifficulty()));
-    obj.push_back(Pair("testnet", Params().NetworkID() == CBaseChainParams::TESTNET));
-    obj.push_back(Pair("moneysupply",ValueFromAmount(chainActive.Tip()->nMoneySupply)));
+    obj.pushKV("blocks", (int)chainActive.Height());
+    obj.pushKV("timeoffset", GetTimeOffset());
+    obj.pushKV("connections", (int)vNodes.size());
+    obj.pushKV("proxy", (proxy.IsValid() ? proxy.proxy.ToStringIPPort() : std::string()));
+    obj.pushKV("difficulty", (double)GetDifficulty());
+    obj.pushKV("testnet", Params().NetworkID() == CBaseChainParams::TESTNET);
+    obj.pushKV("moneysupply",ValueFromAmount(chainActive.Tip()->nMoneySupply));
     UniValue zwageObj(UniValue::VOBJ);
     for (auto denom : libzerocoin::zerocoinDenomList) {
-        zwageObj.push_back(Pair(std::to_string(denom), ValueFromAmount(chainActive.Tip()->mapZerocoinSupply.at(denom) * (denom*COIN))));
+        zwageObj.pushKV(std::to_string(denom), ValueFromAmount(chainActive.Tip()->mapZerocoinSupply.at(denom) * (denom*COIN)));
     }
-    zwageObj.push_back(Pair("total", ValueFromAmount(chainActive.Tip()->GetZerocoinSupply())));
-    obj.push_back(Pair("zerocoinsupply", zwageObj));
-    obj.push_back(Pair("burned", ValueFromAmount(nBurnedCoins)));
+    zwageObj.pushKV("total", ValueFromAmount(chainActive.Tip()->GetZerocoinSupply()));
+    obj.pushKV("zerocoinsupply", zwageObj);
+    obj.pushKV("burned", ValueFromAmount(nBurnedCoins));
 
 #ifdef ENABLE_WALLET
     if (pwalletMain) {
-        obj.push_back(Pair("keypoololdest", pwalletMain->GetOldestKeyPoolTime()));
-        obj.push_back(Pair("keypoolsize", (int64_t)pwalletMain->KeypoolCountExternalKeys()));
+        obj.pushKV("keypoololdest", pwalletMain->GetOldestKeyPoolTime());
+        obj.pushKV("keypoolsize", (int64_t)pwalletMain->KeypoolCountExternalKeys());
     }
     if (pwalletMain && pwalletMain->IsCrypted())
-        obj.push_back(Pair("unlocked_until", nWalletUnlockTime));
-    obj.push_back(Pair("paytxfee", ValueFromAmount(payTxFee.GetFeePerK())));
+        obj.pushKV("unlocked_until", nWalletUnlockTime);
+    obj.pushKV("paytxfee", ValueFromAmount(payTxFee.GetFeePerK()));
 #endif
-    obj.push_back(Pair("relayfee", ValueFromAmount(::minRelayTxFee.GetFeePerK())));
-    obj.push_back(Pair("errors", GetWarnings("statusbar")));
+    obj.pushKV("relayfee", ValueFromAmount(::minRelayTxFee.GetFeePerK()));
+    obj.pushKV("errors", GetWarnings("statusbar"));
     return obj;
 }
 
@@ -202,22 +202,22 @@ UniValue mnsync(const UniValue& params, bool fHelp)
     if (strMode == "status") {
         UniValue obj(UniValue::VOBJ);
 
-        obj.push_back(Pair("IsBlockchainSynced", masternodeSync.IsBlockchainSynced()));
-        obj.push_back(Pair("lastMasternodeList", masternodeSync.lastMasternodeList));
-        obj.push_back(Pair("lastMasternodeWinner", masternodeSync.lastMasternodeWinner));
-        obj.push_back(Pair("lastBudgetItem", masternodeSync.lastBudgetItem));
-        obj.push_back(Pair("lastFailure", masternodeSync.lastFailure));
-        obj.push_back(Pair("nCountFailures", masternodeSync.nCountFailures));
-        obj.push_back(Pair("sumMasternodeList", masternodeSync.sumMasternodeList));
-        obj.push_back(Pair("sumMasternodeWinner", masternodeSync.sumMasternodeWinner));
-        obj.push_back(Pair("sumBudgetItemProp", masternodeSync.sumBudgetItemProp));
-        obj.push_back(Pair("sumBudgetItemFin", masternodeSync.sumBudgetItemFin));
-        obj.push_back(Pair("countMasternodeList", masternodeSync.countMasternodeList));
-        obj.push_back(Pair("countMasternodeWinner", masternodeSync.countMasternodeWinner));
-        obj.push_back(Pair("countBudgetItemProp", masternodeSync.countBudgetItemProp));
-        obj.push_back(Pair("countBudgetItemFin", masternodeSync.countBudgetItemFin));
-        obj.push_back(Pair("RequestedMasternodeAssets", masternodeSync.RequestedMasternodeAssets));
-        obj.push_back(Pair("RequestedMasternodeAttempt", masternodeSync.RequestedMasternodeAttempt));
+        obj.pushKV("IsBlockchainSynced", masternodeSync.IsBlockchainSynced());
+        obj.pushKV("lastMasternodeList", masternodeSync.lastMasternodeList);
+        obj.pushKV("lastMasternodeWinner", masternodeSync.lastMasternodeWinner);
+        obj.pushKV("lastBudgetItem", masternodeSync.lastBudgetItem);
+        obj.pushKV("lastFailure", masternodeSync.lastFailure);
+        obj.pushKV("nCountFailures", masternodeSync.nCountFailures);
+        obj.pushKV("sumMasternodeList", masternodeSync.sumMasternodeList);
+        obj.pushKV("sumMasternodeWinner", masternodeSync.sumMasternodeWinner);
+        obj.pushKV("sumBudgetItemProp", masternodeSync.sumBudgetItemProp);
+        obj.pushKV("sumBudgetItemFin", masternodeSync.sumBudgetItemFin);
+        obj.pushKV("countMasternodeList", masternodeSync.countMasternodeList);
+        obj.pushKV("countMasternodeWinner", masternodeSync.countMasternodeWinner);
+        obj.pushKV("countBudgetItemProp", masternodeSync.countBudgetItemProp);
+        obj.pushKV("countBudgetItemFin", masternodeSync.countBudgetItemFin);
+        obj.pushKV("RequestedMasternodeAssets", masternodeSync.RequestedMasternodeAssets);
+        obj.pushKV("RequestedMasternodeAttempt", masternodeSync.RequestedMasternodeAttempt);
 
         return obj;
     }
@@ -243,32 +243,32 @@ public:
     UniValue operator()(const CKeyID &keyID) const {
         UniValue obj(UniValue::VOBJ);
         CPubKey vchPubKey;
-        obj.push_back(Pair("isscript", false));
+        obj.pushKV("isscript", false);
         if (bool(mine & ISMINE_ALL)) {
             pwalletMain->GetPubKey(keyID, vchPubKey);
-            obj.push_back(Pair("pubkey", HexStr(vchPubKey)));
-            obj.push_back(Pair("iscompressed", vchPubKey.IsCompressed()));
+            obj.pushKV("pubkey", HexStr(vchPubKey));
+            obj.pushKV("iscompressed", vchPubKey.IsCompressed());
         }
         return obj;
     }
 
     UniValue operator()(const CScriptID &scriptID) const {
         UniValue obj(UniValue::VOBJ);
-        obj.push_back(Pair("isscript", true));
+        obj.pushKV("isscript", true);
         CScript subscript;
         pwalletMain->GetCScript(scriptID, subscript);
         std::vector<CTxDestination> addresses;
         txnouttype whichType;
         int nRequired;
         ExtractDestinations(subscript, whichType, addresses, nRequired);
-        obj.push_back(Pair("script", GetTxnOutputType(whichType)));
-        obj.push_back(Pair("hex", HexStr(subscript.begin(), subscript.end())));
+        obj.pushKV("script", GetTxnOutputType(whichType));
+        obj.pushKV("hex", HexStr(subscript.begin(), subscript.end()));
         UniValue a(UniValue::VARR);
         for (const CTxDestination& addr : addresses)
             a.push_back(CBitcoinAddress(addr).ToString());
-        obj.push_back(Pair("addresses", a));
+        obj.pushKV("addresses", a);
         if (whichType == TX_MULTISIG)
-            obj.push_back(Pair("sigsrequired", nRequired));
+            obj.pushKV("sigsrequired", nRequired);
         return obj;
     }
 };
@@ -282,13 +282,13 @@ UniValue spork(const UniValue& params, bool fHelp)
     if (params.size() == 1 && params[0].get_str() == "show") {
         UniValue ret(UniValue::VOBJ);
         for (const auto& sporkDef : sporkDefs) {
-            ret.push_back(Pair(sporkDef.name, sporkManager.GetSporkValue(sporkDef.sporkId)));
+            ret.pushKV(sporkDef.name, sporkManager.GetSporkValue(sporkDef.sporkId));
         }
         return ret;
     } else if (params.size() == 1 && params[0].get_str() == "active") {
         UniValue ret(UniValue::VOBJ);
         for (const auto& sporkDef : sporkDefs) {
-            ret.push_back(Pair(sporkDef.name, sporkManager.IsSporkActive(sporkDef.sporkId)));
+            ret.pushKV(sporkDef.name, sporkManager.IsSporkActive(sporkDef.sporkId));
         }
         return ret;
     } else if (params.size() == 2) {
@@ -299,7 +299,7 @@ UniValue spork(const UniValue& params, bool fHelp)
         }
 
         // SPORK VALUE
-        int64_t nValue = params[1].get_int64();
+        int64_t nValue = params[1].getInt<int64_t>();
 
         //broadcast new spork
         if (sporkManager.UpdateSpork(nSporkID, nValue)) {
@@ -377,29 +377,30 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
     bool isValid = address.IsValid();
 
     UniValue ret(UniValue::VOBJ);
-    ret.push_back(Pair("isvalid", isValid));
+    ret.pushKV("isvalid", isValid);
     if (isValid) {
         CTxDestination dest = address.Get();
         std::string currentAddress = address.ToString();
-        ret.push_back(Pair("address", currentAddress));
+        ret.pushKV("address", currentAddress);
         CScript scriptPubKey = GetScriptForDestination(dest);
-        ret.push_back(Pair("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
+        ret.pushKV("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end()));
 
 #ifdef ENABLE_WALLET
         isminetype mine = pwalletMain ? IsMine(*pwalletMain, dest) : ISMINE_NO;
-        ret.push_back(Pair("ismine", bool(mine & (ISMINE_SPENDABLE_ALL | ISMINE_COLD))));
-        ret.push_back(Pair("isstaking", address.IsStakingAddress()));
-        ret.push_back(Pair("iswatchonly", bool(mine & ISMINE_WATCH_ONLY)));
+        ret.pushKV("ismine", bool(mine & (ISMINE_SPENDABLE_ALL | ISMINE_COLD)));
+        ret.pushKV("isstaking", address.IsStakingAddress());
+        // Remove extra closing parenthesis from this line
+        ret.pushKV("iswatchonly", bool(mine & ISMINE_WATCH_ONLY));
         UniValue detail = boost::apply_visitor(DescribeAddressVisitor(mine), dest);
         ret.pushKVs(detail);
         if (pwalletMain && pwalletMain->mapAddressBook.count(dest))
-            ret.push_back(Pair("account", pwalletMain->mapAddressBook[dest].name));
+            ret.pushKV("account", pwalletMain->mapAddressBook[dest].name);
         CKeyID keyID;
         CHDChain hdChainCurrent;
         if (pwalletMain && address.GetKeyID(keyID) && pwalletMain->mapHdPubKeys.count(keyID) && pwalletMain->GetHDChain(hdChainCurrent))
         {
-            ret.push_back(Pair("hdkeypath", pwalletMain->mapHdPubKeys[keyID].GetKeyPath()));
-            ret.push_back(Pair("hdchainid", hdChainCurrent.GetID().GetHex()));
+            ret.pushKV("hdkeypath", pwalletMain->mapHdPubKeys[keyID].GetKeyPath());
+            ret.pushKV("hdchainid", hdChainCurrent.GetID().GetHex());
         }
 #endif
     }
@@ -411,7 +412,7 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
  */
 CScript _createmultisig_redeemScript(const UniValue& params)
 {
-    int nRequired = params[0].get_int();
+    int nRequired = params[0].getInt<int>();
     const UniValue& keys = params[1].get_array();
 
     // Gather public keys
@@ -500,8 +501,8 @@ UniValue createmultisig(const UniValue& params, bool fHelp)
     CBitcoinAddress address(innerID);
 
     UniValue result(UniValue::VOBJ);
-    result.push_back(Pair("address", address.ToString()));
-    result.push_back(Pair("redeemScript", HexStr(inner.begin(), inner.end())));
+    result.pushKV("address", address.ToString());
+    result.pushKV("redeemScript", HexStr(inner.begin(), inner.end()));
 
     return result;
 }
@@ -579,7 +580,7 @@ UniValue setmocktime(const UniValue& params, bool fHelp)
     LOCK(cs_main);
 
     RPCTypeCheck(params, boost::assign::list_of(UniValue::VNUM));
-    SetMockTime(params[0].get_int64());
+    SetMockTime(params[0].getInt<int64_t>());
 
     return NullUniValue;
 }
@@ -619,25 +620,25 @@ UniValue getstakingstatus(const UniValue& params, bool fHelp)
     {
         LOCK2(cs_main, &pwalletMain->cs_wallet);
         UniValue obj(UniValue::VOBJ);
-        obj.push_back(Pair("staking_status", pwalletMain->pStakerStatus->IsActive()));
-        obj.push_back(Pair("staking_enabled", GetBoolArg("-staking", true)));
+        obj.pushKV("staking_status", pwalletMain->pStakerStatus->IsActive());
+        obj.pushKV("staking_enabled", GetBoolArg("-staking", true));
         bool fColdStaking = GetBoolArg("-coldstaking", true);
-        obj.push_back(Pair("coldstaking_enabled", fColdStaking));
-        obj.push_back(Pair("haveconnections", !vNodes.empty()));
-        obj.push_back(Pair("mnsync", !masternodeSync.NotCompleted()));
-        obj.push_back(Pair("walletunlocked", !pwalletMain->IsLocked()));
+        obj.pushKV("coldstaking_enabled", fColdStaking);
+        obj.pushKV("haveconnections", !vNodes.empty());
+        obj.pushKV("mnsync", !masternodeSync.NotCompleted());
+        obj.pushKV("walletunlocked", !pwalletMain->IsLocked());
         std::vector<COutput> vCoins;
         pwalletMain->StakeableCoins(&vCoins);
-        obj.push_back(Pair("stakeablecoins", (int)vCoins.size()));
-        obj.push_back(Pair("stakingbalance", ValueFromAmount(pwalletMain->GetStakingBalance(fColdStaking))));
-        obj.push_back(Pair("stakesplitthreshold", ValueFromAmount(pwalletMain->nStakeSplitThreshold)));
+        obj.pushKV("stakeablecoins", (int)vCoins.size());
+        obj.pushKV("stakingbalance", ValueFromAmount(pwalletMain->GetStakingBalance(fColdStaking)));
+        obj.pushKV("stakesplitthreshold", ValueFromAmount(pwalletMain->nStakeSplitThreshold));
         CStakerStatus* ss = pwalletMain->pStakerStatus;
         if (ss) {
-            obj.push_back(Pair("lastattempt_age", (int)(GetTime() - ss->GetLastTime())));
-            obj.push_back(Pair("lastattempt_depth", (chainActive.Height() - ss->GetLastHeight())));
-            obj.push_back(Pair("lastattempt_hash", ss->GetLastHash().GetHex()));
-            obj.push_back(Pair("lastattempt_coins", ss->GetLastCoins()));
-            obj.push_back(Pair("lastattempt_tries", ss->GetLastTries()));
+            obj.pushKV("lastattempt_age", (int)(GetTime() - ss->GetLastTime()));
+            obj.pushKV("lastattempt_depth", (chainActive.Height() - ss->GetLastHeight()));
+            obj.pushKV("lastattempt_hash", ss->GetLastHash().GetHex());
+            obj.pushKV("lastattempt_coins", ss->GetLastCoins());
+            obj.pushKV("lastattempt_tries", ss->GetLastTries());
         }
         return obj;
     }
@@ -672,9 +673,9 @@ UniValue listforgeitems(const UniValue& params, bool fHelp)
         UniValue results(UniValue::VARR);
         for (const CForge::CForgeItem& item : forgeMain.getEntries()) {
             UniValue obj(UniValue::VOBJ);
-            obj.push_back(Pair("name", item.getName()));
-            obj.push_back(Pair("tx", item.getTxHash()));
-            obj.push_back(Pair("vout", item.getOutputIndex()));
+            obj.pushKV("name", item.getName());
+            obj.pushKV("tx", item.getTxHash());
+            obj.pushKV("vout", item.getOutputIndex());
             results.push_back(obj);
         }
         return results;

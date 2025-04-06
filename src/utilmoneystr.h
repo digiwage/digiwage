@@ -14,6 +14,14 @@
 
 #include "amount.h"
 
+// Add to src/utilmoneystr.h
+#include <univalue.h> // For UniValue
+bool ParseFixedPoint(const std::string& val, int decimals, int64_t* amount_out);
+
+CAmount AmountFromValue(const UniValue& value);
+UniValue ValueFromAmount(const CAmount& amount);
+
+
 std::string FormatMoney(const CAmount& n, bool fPlus = false);
 bool ParseMoney(const std::string& str, CAmount& nRet);
 bool ParseMoney(const char* pszIn, CAmount& nRet);

@@ -166,10 +166,13 @@ bool CSporkManager::UpdateSpork(SporkId nSporkID, int64_t nValue)
 {
     bool fNewSigs = false;
     {
-        LOCK(cs_main);
-        fNewSigs = chainActive.NewSigsActive();
-    }
-
+        LOCK(cs_main); // Lock critical section for accessing chainActive
+        // Get the current chain height from the active tip
+        // Use -1 or 0 if tip is null, IsMessSigV2 should handle this gracefully (return false)
+        int nHeight = chainActive.Tip() ? chainActive.Height() : -1;
+        // Check if the new message signature version (likely MESS_VER_HASH) is active at the current height
+        fNewSigs = Params().GetConsensus().IsMessSigV2(nHeight);
+    } // Unlock cs_main
 
     CSporkMessage spork = CSporkMessage(nSporkID, nValue, GetTime());
 

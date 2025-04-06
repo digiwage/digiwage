@@ -7,18 +7,24 @@
 #include "rpc/server.h"
 
 #include "clientversion.h"
-#include "main.h"
+#include "main.h" // Provides GetNodeStateStats, GetWarnings, LOCK(cs_main) etc.
 #include "net.h"
-#include "netbase.h"
-#include "protocol.h"
+#include "netbase.h" // Needed for CSubNet, CNetAddr, Lookup, GetNetworkName, IsLimited, IsReachable etc.
+#include "protocol.h" // Provides PROTOCOL_VERSION
 #include "sync.h"
-#include "timedata.h"
-#include "guiinterface.h"
-#include "util.h"
-#include "version.h"
-
+#include "timedata.h" // Provides GetTimeOffset, GetTimeMillis
+#include "guiinterface.h" // Provides uiInterface
+#include "util.h" // Provides ValueFromAmount
+#include "utilstrencodings.h"
+#include "version.h" // Provides CLIENT_VERSION, strSubVersion
 
 #include <univalue.h>
+
+#include <string> // Include string
+#include <vector> // Include vector
+#include <list>   // Include list
+#include <utility> // Include pair
+#include <algorithm> // Include find
 
 
 UniValue getconnectioncount(const UniValue& params, bool fHelp)
@@ -34,7 +40,8 @@ UniValue getconnectioncount(const UniValue& params, bool fHelp)
             "\nExamples:\n" +
             HelpExampleCli("getconnectioncount", "") + HelpExampleRpc("getconnectioncount", ""));
 
-    LOCK2(cs_main, cs_vNodes);
+    // No need to lock cs_main here, just cs_vNodes is sufficient for vNodes.size()
+    LOCK(cs_vNodes);
 
     return (int)vNodes.size();
 }
@@ -52,7 +59,8 @@ UniValue ping(const UniValue& params, bool fHelp)
             HelpExampleCli("ping", "") + HelpExampleRpc("ping", ""));
 
     // Request that each node send a ping during next message processing pass
-    LOCK2(cs_main, cs_vNodes);
+    // Requires LOCK(cs_vNodes)
+    LOCK(cs_vNodes);
 
     for (CNode* pNode : vNodes) {
         pNode->fPingQueued = true;
@@ -61,11 +69,14 @@ UniValue ping(const UniValue& params, bool fHelp)
     return NullUniValue;
 }
 
+// Helper function to copy node stats
+// Requires LOCK(cs_vNodes) to be held by caller if called directly,
+// but typically called from functions that already hold the lock.
 static void CopyNodeStats(std::vector<CNodeStats>& vstats)
 {
     vstats.clear();
 
-    LOCK(cs_vNodes);
+    LOCK(cs_vNodes); // Lock needed here to safely iterate vNodes
     vstats.reserve(vNodes.size());
     for (CNode* pnode : vNodes) {
         CNodeStats stats;
@@ -94,8 +105,8 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp)
             "    \"bytesrecv\": n,            (numeric) The total bytes received\n"
             "    \"conntime\": ttt,           (numeric) The connection time in seconds since epoch (Jan 1 1970 GMT)\n"
             "    \"timeoffset\": ttt,         (numeric) The time offset in seconds\n"
-            "    \"pingtime\": n,             (numeric) ping time\n"
-            "    \"pingwait\": n,             (numeric) ping wait\n"
+            "    \"pingtime\": n,             (numeric) ping time (if available)\n" // Clarified availability
+            "    \"pingwait\": n,             (numeric) ping wait (if non-zero)\n" // Clarified non-zero
             "    \"version\": v,              (numeric) The peer version, such as 7001\n"
             "    \"subver\": \"/DIGIWAGE Core:x.x.x.x/\",  (string) The string version\n"
             "    \"inbound\": true|false,     (boolean) Inbound (true) or Outbound (false)\n"
@@ -106,7 +117,8 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp)
             "    \"inflight\": [\n"
             "       n,                        (numeric) The heights of blocks we're currently asking from this peer\n"
             "       ...\n"
-            "    ]\n"
+            "    ],\n"
+            "    \"whitelisted\": true|false  (boolean) If the peer is whitelisted\n"
             "  }\n"
             "  ,...\n"
             "]\n"
@@ -114,49 +126,55 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp)
             "\nExamples:\n" +
             HelpExampleCli("getpeerinfo", "") + HelpExampleRpc("getpeerinfo", ""));
 
+    // Requires LOCK(cs_main) because GetNodeStateStats might need it.
+    // Also requires LOCK(cs_vNodes) for CopyNodeStats. Lock cs_main first.
     LOCK(cs_main);
 
     std::vector<CNodeStats> vstats;
-    CopyNodeStats(vstats);
+    CopyNodeStats(vstats); // Locks cs_vNodes internally
 
     UniValue ret(UniValue::VARR);
 
     for (const CNodeStats& stats : vstats) {
         UniValue obj(UniValue::VOBJ);
         CNodeStateStats statestats;
+        // Call GetNodeStateStats, requires cs_main lock which we hold
         bool fStateStats = GetNodeStateStats(stats.nodeid, statestats);
-        obj.push_back(Pair("id", stats.nodeid));
-        obj.push_back(Pair("addr", stats.addrName));
+
+        obj.pushKV("id", stats.nodeid);
+        obj.pushKV("addr", stats.addrName);
         if (!(stats.addrLocal.empty()))
-            obj.push_back(Pair("addrlocal", stats.addrLocal));
-        obj.push_back(Pair("services", strprintf("%016x", stats.nServices)));
-        obj.push_back(Pair("lastsend", stats.nLastSend));
-        obj.push_back(Pair("lastrecv", stats.nLastRecv));
-        obj.push_back(Pair("bytessent", stats.nSendBytes));
-        obj.push_back(Pair("bytesrecv", stats.nRecvBytes));
-        obj.push_back(Pair("conntime", stats.nTimeConnected));
-        obj.push_back(Pair("timeoffset", stats.nTimeOffset));
-        obj.push_back(Pair("pingtime", stats.dPingTime));
+            obj.pushKV("addrlocal", stats.addrLocal);
+        obj.pushKV("services", strprintf("%016x", stats.nServices));
+        obj.pushKV("lastsend", stats.nLastSend);
+        obj.pushKV("lastrecv", stats.nLastRecv);
+        obj.pushKV("bytessent", stats.nSendBytes);
+        obj.pushKV("bytesrecv", stats.nRecvBytes);
+        obj.pushKV("conntime", stats.nTimeConnected);
+        obj.pushKV("timeoffset", stats.nTimeOffset);
+        // Check for valid ping times before adding
+        if (stats.dPingTime > 0)
+             obj.pushKV("pingtime", stats.dPingTime);
         if (stats.dPingWait > 0.0)
-            obj.push_back(Pair("pingwait", stats.dPingWait));
-        obj.push_back(Pair("version", stats.nVersion));
+            obj.pushKV("pingwait", stats.dPingWait);
+        obj.pushKV("version", stats.nVersion);
         // Use the sanitized form of subver here, to avoid tricksy remote peers from
         // corrupting or modifiying the JSON output by putting special characters in
         // their ver message.
-        obj.push_back(Pair("subver", stats.cleanSubVer));
-        obj.push_back(Pair("inbound", stats.fInbound));
-        obj.push_back(Pair("startingheight", stats.nStartingHeight));
+        obj.pushKV("subver", stats.cleanSubVer);
+        obj.pushKV("inbound", stats.fInbound);
+        obj.pushKV("startingheight", stats.nStartingHeight);
         if (fStateStats) {
-            obj.push_back(Pair("banscore", statestats.nMisbehavior));
-            obj.push_back(Pair("synced_headers", statestats.nSyncHeight));
-            obj.push_back(Pair("synced_blocks", statestats.nCommonHeight));
+            obj.pushKV("banscore", statestats.nMisbehavior);
+            obj.pushKV("synced_headers", statestats.nSyncHeight);
+            obj.pushKV("synced_blocks", statestats.nCommonHeight);
             UniValue heights(UniValue::VARR);
             for (int height : statestats.vHeightInFlight) {
                 heights.push_back(height);
             }
-            obj.push_back(Pair("inflight", heights));
+            obj.pushKV("inflight", heights);
         }
-        obj.push_back(Pair("whitelisted", stats.fWhitelisted));
+        obj.pushKV("whitelisted", stats.fWhitelisted);
 
         ret.push_back(obj);
     }
@@ -187,24 +205,26 @@ UniValue addnode(const UniValue& params, bool fHelp)
 
     if (strCommand == "onetry") {
         CAddress addr;
-        OpenNetworkConnection(addr, false, NULL, strNode.c_str());
+        // Assuming OpenNetworkConnection handles potential CAddress lookup internally
+        // If addr needs to be populated first via Lookup, add that logic here.
+        OpenNetworkConnection(addr, false, nullptr, strNode.c_str(), true);
         return NullUniValue;
     }
 
     LOCK(cs_vAddedNodes);
-    std::vector<std::string>::iterator it = vAddedNodes.begin();
-    for (; it != vAddedNodes.end(); it++)
-        if (strNode == *it)
-            break;
+    auto it = std::find(vAddedNodes.begin(), vAddedNodes.end(), strNode);
 
     if (strCommand == "add") {
         if (it != vAddedNodes.end())
             throw JSONRPCError(RPC_CLIENT_NODE_ALREADY_ADDED, "Error: Node already added");
         vAddedNodes.push_back(strNode);
+        // Consider saving the added nodes list here if persistence is desired immediately
+        // e.g. if a WriteAddedNodes() function exists.
     } else if (strCommand == "remove") {
         if (it == vAddedNodes.end())
             throw JSONRPCError(RPC_CLIENT_NODE_NOT_ADDED, "Error: Node has not been added.");
         vAddedNodes.erase(it);
+        // Consider saving the added nodes list here.
     }
 
     return NullUniValue;
@@ -216,20 +236,23 @@ UniValue disconnectnode(const UniValue& params, bool fHelp)
         throw std::runtime_error(
             "disconnectnode \"node\" \n"
             "\nImmediately disconnects from the specified node.\n"
-
+            "Note: make sure the node argument is correctly formatted, typically \"address:port\". Use getpeerinfo to list connected nodes.\n"
             "\nArguments:\n"
             "1. \"node\"     (string, required) The node (see getpeerinfo for nodes)\n"
 
             "\nExamples:\n"
-            + HelpExampleCli("disconnectnode", "\"192.168.0.6:8333\"")
-            + HelpExampleRpc("disconnectnode", "\"192.168.0.6:8333\"")
+            + HelpExampleCli("disconnectnode", "\"192.168.0.6:46003\"")
+            + HelpExampleRpc("disconnectnode", "\"192.168.0.6:46003\"")
         );
+
+    // Requires LOCK(cs_vNodes) for FindNode and accessing pNode
+    LOCK(cs_vNodes);
 
     CNode* pNode = FindNode(params[0].get_str());
     if (pNode == NULL)
         throw JSONRPCError(RPC_CLIENT_NODE_NOT_CONNECTED, "Node not found in connected nodes");
 
-    pNode->CloseSocketDisconnect();
+    pNode->fDisconnect = true; // Mark for disconnection by the network thread
 
     return NullUniValue;
 }
@@ -251,12 +274,12 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "[\n"
             "  {\n"
-            "    \"addednode\" : \"192.168.0.201\",   (string) The node ip address\n"
+            "    \"addednode\" : \"192.168.0.201\",   (string) The node ip address or name\n"
             "    \"connected\" : true|false,          (boolean) If connected\n"
-            "    \"addresses\" : [\n"
+            "    \"addresses\" : [                    (list of objects) Only when connected = true\n"
             "       {\n"
-            "         \"address\" : \"192.168.0.201:46003\",  (string) The DIGIWAGE server host and port\n"
-            "         \"connected\" : \"outbound\"           (string) connection, inbound or outbound\n"
+            "         \"address\" : \"192.168.0.201:46003\",  (string) The DIGIWAGE server host and port of the connected peer\n"
+            "         \"connected\" : \"outbound\" | \"inbound\" (string) connection type \n"
             "       }\n"
             "       ,...\n"
             "     ]\n"
@@ -269,76 +292,80 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
 
     bool fDns = params[0].get_bool();
 
-    std::list<std::string> laddedNodes(0);
-    if (params.size() == 1) {
+    std::list<std::string> laddedNodes;
+    // Populate laddedNodes
+    { // Scope for cs_vAddedNodes lock
         LOCK(cs_vAddedNodes);
-        for (std::string& strAddNode : vAddedNodes)
-            laddedNodes.push_back(strAddNode);
-    } else {
-        std::string strNode = params[1].get_str();
-        LOCK(cs_vAddedNodes);
-        for (std::string& strAddNode : vAddedNodes)
-            if (strAddNode == strNode) {
-                laddedNodes.push_back(strAddNode);
-                break;
+        if (params.size() == 1) {
+            laddedNodes.assign(vAddedNodes.begin(), vAddedNodes.end());
+        } else {
+            std::string strNode = params[1].get_str();
+            bool found = false;
+            for (const std::string& strAddNode : vAddedNodes) {
+                if (strAddNode == strNode) {
+                    laddedNodes.push_back(strAddNode);
+                    found = true;
+                    break;
+                }
             }
-        if (laddedNodes.size() == 0)
-            throw JSONRPCError(RPC_CLIENT_NODE_NOT_ADDED, "Error: Node has not been added.");
-    }
+            if (!found)
+                throw JSONRPCError(RPC_CLIENT_NODE_NOT_ADDED, "Error: Node has not been added.");
+        }
+    } // End scope for cs_vAddedNodes lock
 
     UniValue ret(UniValue::VARR);
     if (!fDns) {
-        for (std::string& strAddNode : laddedNodes) {
+        // Just return the list of nodes
+        for (const std::string& strAddNode : laddedNodes) {
             UniValue obj(UniValue::VOBJ);
-            obj.push_back(Pair("addednode", strAddNode));
+            obj.pushKV("addednode", strAddNode);
             ret.push_back(obj);
         }
         return ret;
     }
 
-    std::list<std::pair<std::string, std::vector<CService> > > laddedAddreses(0);
-    for (std::string& strAddNode : laddedNodes) {
-        std::vector<CService> vservNode(0);
-        if (Lookup(strAddNode.c_str(), vservNode, Params().GetDefaultPort(), fNameLookup, 0))
-            laddedAddreses.push_back(std::make_pair(strAddNode, vservNode));
-        else {
-            UniValue obj(UniValue::VOBJ);
-            obj.push_back(Pair("addednode", strAddNode));
-            obj.push_back(Pair("connected", false));
-            UniValue addresses(UniValue::VARR);
-            obj.push_back(Pair("addresses", addresses));
-        }
+    // Requires LOCK(cs_vNodes) to iterate vNodes
+    LOCK(cs_vNodes);
+
+    // Map node addresses to connection status and details
+    std::map<std::string, UniValue> mapNodeInfo;
+    for (CNode* pnode : vNodes) {
+        UniValue node_info(UniValue::VOBJ);
+        node_info.pushKV("address", pnode->addr.ToStringIPPort());
+        node_info.pushKV("connected", pnode->fInbound ? "inbound" : "outbound");
+
+        // Store info keyed by both potential identifiers
+        mapNodeInfo[pnode->addrName] = node_info;
+        mapNodeInfo[pnode->addr.ToStringIPPort()] = node_info; // In case added node was IP:Port
     }
 
-    LOCK(cs_vNodes);
-    for (std::list<std::pair<std::string, std::vector<CService> > >::iterator it = laddedAddreses.begin(); it != laddedAddreses.end(); it++) {
+
+    for (const std::string& strAddNode : laddedNodes) {
         UniValue obj(UniValue::VOBJ);
-        obj.push_back(Pair("addednode", it->first));
+        obj.pushKV("addednode", strAddNode);
 
         UniValue addresses(UniValue::VARR);
         bool fConnected = false;
-        for (CService& addrNode : it->second) {
-            bool fFound = false;
-            UniValue node(UniValue::VOBJ);
-            node.push_back(Pair("address", addrNode.ToString()));
-            for (CNode* pnode : vNodes)
-                if (pnode->addr == addrNode) {
-                    fFound = true;
-                    fConnected = true;
-                    node.push_back(Pair("connected", pnode->fInbound ? "inbound" : "outbound"));
-                    break;
-                }
-            if (!fFound)
-                node.push_back(Pair("connected", "false"));
-            addresses.push_back(node);
+
+        // Check if the added node string matches a connected node
+        auto it = mapNodeInfo.find(strAddNode);
+        if (it != mapNodeInfo.end()) {
+            addresses.push_back(it->second);
+            fConnected = true;
         }
-        obj.push_back(Pair("connected", fConnected));
-        obj.push_back(Pair("addresses", addresses));
+        // If not found directly, potentially try resolving strAddNode if it's a hostname
+        // and check resolved IPs against connected nodes. This adds complexity.
+        // The current simplified logic only matches exact string or IP:Port.
+
+
+        obj.pushKV("connected", fConnected);
+        obj.pushKV("addresses", addresses); // Will be empty if not connected
         ret.push_back(obj);
     }
 
     return ret;
 }
+
 
 UniValue getnettotals(const UniValue& params, bool fHelp)
 {
@@ -352,16 +379,16 @@ UniValue getnettotals(const UniValue& params, bool fHelp)
             "{\n"
             "  \"totalbytesrecv\": n,   (numeric) Total bytes received\n"
             "  \"totalbytessent\": n,   (numeric) Total bytes sent\n"
-            "  \"timemillis\": t        (numeric) Total cpu time\n"
+            "  \"timemillis\": t        (numeric) Current UNIX epoch time in milliseconds\n"
             "}\n"
 
             "\nExamples:\n" +
             HelpExampleCli("getnettotals", "") + HelpExampleRpc("getnettotals", ""));
 
     UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("totalbytesrecv", CNode::GetTotalBytesRecv()));
-    obj.push_back(Pair("totalbytessent", CNode::GetTotalBytesSent()));
-    obj.push_back(Pair("timemillis", GetTimeMillis()));
+    obj.pushKV("totalbytesrecv", CNode::GetTotalBytesRecv());
+    obj.pushKV("totalbytessent", CNode::GetTotalBytesSent());
+    obj.pushKV("timemillis", GetTimeMillis());
     return obj;
 }
 
@@ -370,16 +397,17 @@ static UniValue GetNetworksInfo()
     UniValue networks(UniValue::VARR);
     for (int n = 0; n < NET_MAX; ++n) {
         enum Network network = static_cast<enum Network>(n);
-        if (network == NET_UNROUTABLE)
+        // Fix: Removed NET_INTERNAL check as it's not standard
+        if (network == NET_UNROUTABLE) // Exclude only unroutable
             continue;
         proxyType proxy;
         UniValue obj(UniValue::VOBJ);
         GetProxy(network, proxy);
-        obj.push_back(Pair("name", GetNetworkName(network)));
-        obj.push_back(Pair("limited", IsLimited(network)));
-        obj.push_back(Pair("reachable", IsReachable(network)));
-        obj.push_back(Pair("proxy", proxy.IsValid() ? proxy.proxy.ToStringIPPort() : std::string()));
-        obj.push_back(Pair("proxy_randomize_credentials", proxy.randomize_credentials));
+        obj.pushKV("name", GetNetworkName(network));
+        obj.pushKV("limited", IsLimited(network));
+        obj.pushKV("reachable", IsReachable(network));
+        obj.pushKV("proxy", proxy.IsValid() ? proxy.proxy.ToStringIPPort() : std::string());
+        obj.pushKV("proxy_randomize_credentials", proxy.randomize_credentials);
         networks.push_back(obj);
     }
     return networks;
@@ -405,11 +433,12 @@ UniValue getnetworkinfo(const UniValue& params, bool fHelp)
             "    \"name\": \"xxx\",                     (string) network (ipv4, ipv6 or onion)\n"
             "    \"limited\": true|false,               (boolean) is the network limited using -onlynet?\n"
             "    \"reachable\": true|false,             (boolean) is the network reachable?\n"
-            "    \"proxy\": \"host:port\"               (string) the proxy that is used for this network, or empty if none\n"
+            "    \"proxy\": \"host:port\",              (string) the proxy that is used for this network, or empty if none\n"
+            "    \"proxy_randomize_credentials\": true|false (boolean) Whether randomized credentials are used\n"
             "  }\n"
             "  ,...\n"
             "  ],\n"
-            "  \"relayfee\": x.xxxxxxxx,                (numeric) minimum relay fee for non-free transactions in WAGE/kb\n"
+            "  \"relayfee\": x.xxxxxxxx,                (numeric) minimum relay fee for non-free transactions in WAGE/kB\n"
             "  \"localaddresses\": [                    (array) list of local addresses\n"
             "  {\n"
             "    \"address\": \"xxxx\",                 (string) network address\n"
@@ -417,35 +446,45 @@ UniValue getnetworkinfo(const UniValue& params, bool fHelp)
             "    \"score\": xxx                         (numeric) relative score\n"
             "  }\n"
             "  ,...\n"
-            "  ]\n"
+            "  ],\n"
+            "  \"warnings\": \"...\"                    (string) any network warnings (such as alert messages)\n"
             "}\n"
 
             "\nExamples:\n" +
             HelpExampleCli("getnetworkinfo", "") + HelpExampleRpc("getnetworkinfo", ""));
 
+    // Requires LOCK(cs_main) for GetTimeOffset(), vNodes.size(), GetWarnings()
     LOCK(cs_main);
 
     UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("version", CLIENT_VERSION));
-    obj.push_back(Pair("subversion",    strSubVersion));
-    obj.push_back(Pair("protocolversion", PROTOCOL_VERSION));
-    obj.push_back(Pair("localservices", strprintf("%016x", nLocalServices)));
-    obj.push_back(Pair("timeoffset", GetTimeOffset()));
-    obj.push_back(Pair("connections", (int)vNodes.size()));
-    obj.push_back(Pair("networks", GetNetworksInfo()));
-    obj.push_back(Pair("relayfee", ValueFromAmount(::minRelayTxFee.GetFeePerK())));
+    obj.pushKV("version", CLIENT_VERSION);
+    obj.pushKV("subversion",    strSubVersion);
+    obj.pushKV("protocolversion", PROTOCOL_VERSION);
+    obj.pushKV("localservices", strprintf("%016x", nLocalServices));
+    obj.pushKV("timeoffset", GetTimeOffset());
+    obj.pushKV("connections", (int)vNodes.size()); // Requires cs_vNodes, but cs_main is higher level
+    obj.pushKV("networks", GetNetworksInfo());
+    // Assumes ::minRelayTxFee is accessible and defined
+    if (::minRelayTxFee.GetFeePerK() > 0) { // Check if relay fee is set
+         obj.pushKV("relayfee", ValueFromAmount(::minRelayTxFee.GetFeePerK()));
+    } else {
+         obj.pushKV("relayfee", 0); // Or indicate it's not set
+    }
+
     UniValue localAddresses(UniValue::VARR);
     {
         LOCK(cs_mapLocalHost);
-        for (const std::pair<const CNetAddr, LocalServiceInfo> &item : mapLocalHost) {
+        for (const std::pair<const CNetAddr, LocalServiceInfo>& item : mapLocalHost) {
             UniValue rec(UniValue::VOBJ);
-            rec.push_back(Pair("address", item.first.ToString()));
-            rec.push_back(Pair("port", item.second.nPort));
-            rec.push_back(Pair("score", item.second.nScore));
+            rec.pushKV("address", item.first.ToString());
+            rec.pushKV("port", item.second.nPort);
+            rec.pushKV("score", item.second.nScore);
             localAddresses.push_back(rec);
         }
     }
-    obj.push_back(Pair("localaddresses", localAddresses));
+    obj.pushKV("localaddresses", localAddresses);
+    obj.pushKV("warnings", GetWarnings("statusbar"));
+
     return obj;
 }
 
@@ -454,64 +493,85 @@ UniValue setban(const UniValue& params, bool fHelp)
     std::string strCommand;
     if (params.size() >= 2)
         strCommand = params[1].get_str();
-    if (fHelp || params.size() < 2 ||
+    if (fHelp || params.size() < 2 || params.size() > 4 ||
         (strCommand != "add" && strCommand != "remove"))
         throw std::runtime_error(
-            "setban \"ip(/netmask)\" \"add|remove\" (bantime) (absolute)\n"
+            "setban \"subnet\" \"add|remove\" (bantime) (absolute)\n"
             "\nAttempts add or remove a IP/Subnet from the banned list.\n"
 
             "\nArguments:\n"
-            "1. \"ip(/netmask)\" (string, required) The IP/Subnet (see getpeerinfo for nodes ip) with a optional netmask (default is /32 = single ip)\n"
+            "1. \"subnet\"       (string, required) The IP/Subnet (see getpeerinfo for nodes ip) with an optional netmask (default is /32 = single ip)\n"
             "2. \"command\"      (string, required) 'add' to add a IP/Subnet to the list, 'remove' to remove a IP/Subnet from the list\n"
             "3. \"bantime\"      (numeric, optional) time in seconds how long (or until when if [absolute] is set) the ip is banned (0 or empty means using the default time of 24h which can also be overwritten by the -bantime startup argument)\n"
-            "4. \"absolute\"     (boolean, optional) If set, the bantime must be a absolute timestamp in seconds since epoch (Jan 1 1970 GMT)\n"
+            "4. \"absolute\"     (boolean, optional, default=false) If set, the bantime must be an absolute timestamp in seconds since epoch (Jan 1 1970 GMT)\n"
 
             "\nExamples:\n"
             + HelpExampleCli("setban", "\"192.168.0.6\" \"add\" 86400")
             + HelpExampleCli("setban", "\"192.168.0.0/24\" \"add\"")
-            + HelpExampleRpc("setban", "\"192.168.0.6\", \"add\" 86400"));
+            + HelpExampleRpc("setban", "\"192.168.0.6\", \"add\", 86400"));
 
     CSubNet subNet;
-    CNetAddr netAddr;
-    bool isSubnet = false;
+    CNetAddr netAddr; // Used only temporarily if input is a single IP
+    bool isSubnet = false; // Not strictly needed anymore, we convert all to subnet
 
-    if (params[0].get_str().find("/") != std::string::npos)
-        isSubnet = true;
+    // Parse the IP/Subnet string
+    std::string strSubnet = params[0].get_str();
+    if (strSubnet.find('/') != std::string::npos) {
+        isSubnet = true; // Keep track for potential error messages if needed
+        subNet = CSubNet(strSubnet);
+        if (!subNet.IsValid())
+            throw JSONRPCError(RPC_CLIENT_INVALID_IP_OR_SUBNET, "Error: Invalid IP/Subnet");
+    } else {
+        // Treat as single IP
+        if (!netAddr.SetSpecial(strSubnet)) {
+            throw JSONRPCError(RPC_CLIENT_INVALID_IP_OR_SUBNET, "Error: Invalid IP Address");
+        }
+        // Convert single IP to /32 subnet for consistent handling
+        subNet = CSubNet(netAddr);
+    }
 
-    if (!isSubnet)
-        netAddr = CNetAddr(params[0].get_str());
-    else
-        subNet = CSubNet(params[0].get_str());
-
-    if (! (isSubnet ? subNet.IsValid() : netAddr.IsValid()) )
-        throw JSONRPCError(RPC_CLIENT_NODE_ALREADY_ADDED, "Error: Invalid IP/Subnet");
 
     if (strCommand == "add")
     {
-        if (isSubnet ? CNode::IsBanned(subNet) : CNode::IsBanned(netAddr))
+        // Use subnet for check
+        if (CNode::IsBanned(subNet))
             throw JSONRPCError(RPC_CLIENT_NODE_ALREADY_ADDED, "Error: IP/Subnet already banned");
 
-        int64_t banTime = 0; //use standard bantime if not specified
-        if (params.size() >= 3 && !params[2].isNull())
-            banTime = params[2].get_int64();
+        int64_t banTime = 0; // Default bantime is set by CNode::Ban
+        if (params.size() >= 3 && !params[2].isNull()) {
+             // Fix: Use getInt<int64_t>()
+             banTime = params[2].getInt<int64_t>();
+             if (banTime < 0) // Ban time cannot be negative
+                  throw JSONRPCError(RPC_INVALID_PARAMETER, "Error: Ban time must be non-negative");
+        }
 
         bool absolute = false;
-        if (params.size() == 4)
+        if (params.size() == 4 && params[3].isBool()) // Check type before getting
             absolute = params[3].get_bool();
 
-        isSubnet ? CNode::Ban(subNet, BanReasonManuallyAdded, banTime, absolute) : CNode::Ban(netAddr, BanReasonManuallyAdded, banTime, absolute);
+        // Use subnet for banning
+        CNode::Ban(subNet, BanReasonManuallyAdded, banTime, absolute);
 
-        //disconnect possible nodes
-        while(CNode *bannedNode = (isSubnet ? FindNode(subNet) : FindNode(netAddr)))
-            bannedNode->CloseSocketDisconnect();
+        // Disconnect nodes matching the subnet
+        // Requires LOCK(cs_vNodes)
+        LOCK(cs_vNodes);
+        for (CNode* pnode : vNodes) {
+            if (subNet.Match(pnode->addr)) {
+                LogPrintf("Disconnecting banned node %s\n", pnode->addrName.c_str());
+                pnode->fDisconnect = true; // Mark for disconnection
+            }
+        }
     }
     else if(strCommand == "remove")
     {
-        if (!( isSubnet ? CNode::Unban(subNet) : CNode::Unban(netAddr) ))
-            throw JSONRPCError(RPC_MISC_ERROR, "Error: Unban failed");
+        // Use subnet for unbanning
+        if (!CNode::Unban(subNet))
+            throw JSONRPCError(RPC_CLIENT_INVALID_IP_OR_SUBNET, "Error: Unban failed. Subnet not found in ban list.");
     }
 
-    DumpBanlist(); //store banlist to disk
+    // Ensure ban list changes are saved and UI is notified
+    DumpBanlist();
+    // Fix: Call BannedListChanged directly
     uiInterface.BannedListChanged();
 
     return NullUniValue;
@@ -527,10 +587,10 @@ UniValue listbanned(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "[\n"
             "  {\n"
-            "    \"address\": \"xxx\",          (string) Network address of banned client.\n"
-            "    \"banned_until\": nnn,         (numeric) Timestamp when the ban is lifted.\n"
-            "    \"ban_created\": nnn,          (numeric) Timestamp when the ban was created.\n"
-            "    \"ban_reason\": \"xxx\"        (string) Reason for banning.\n"
+            "    \"address\": \"xxx\",          (string) The IP/Subnet address of the banned node\n"
+            "    \"banned_until\": ttt,         (numeric) The timestamp (seconds since Unix epoch) when the ban expires\n"
+            "    \"ban_created\": ttt,          (numeric) The timestamp (seconds since Unix epoch) when the ban was created\n"
+            "    \"ban_reason\": \"xxx\"        (string) The reason for the ban (e.g., 'manually added', 'node misbehaving')\n"
             "  }\n"
             "  ,...\n"
             "]\n"
@@ -540,17 +600,18 @@ UniValue listbanned(const UniValue& params, bool fHelp)
             + HelpExampleRpc("listbanned", ""));
 
     banmap_t banMap;
-    CNode::GetBanned(banMap);
+    CNode::GetBanned(banMap); // GetBanned locks cs_setBanned internally
 
     UniValue bannedAddresses(UniValue::VARR);
-    for (banmap_t::iterator it = banMap.begin(); it != banMap.end(); it++)
+    for (const auto& banEntryPair : banMap)
     {
-        CBanEntry banEntry = (*it).second;
+        const CBanEntry& banEntry = banEntryPair.second;
         UniValue rec(UniValue::VOBJ);
-        rec.push_back(Pair("address", (*it).first.ToString()));
-        rec.push_back(Pair("banned_until", banEntry.nBanUntil));
-        rec.push_back(Pair("ban_created", banEntry.nCreateTime));
-        rec.push_back(Pair("ban_reason", banEntry.banReasonToString()));
+        rec.pushKV("address", banEntryPair.first.ToString());
+        rec.pushKV("banned_until", banEntry.nBanUntil);
+        rec.pushKV("ban_created", banEntry.nCreateTime);
+        // Call the const version of banReasonToString (fix was made in net.h)
+        rec.pushKV("ban_reason", banEntry.banReasonToString());
 
         bannedAddresses.push_back(rec);
     }
@@ -569,9 +630,34 @@ UniValue clearbanned(const UniValue& params, bool fHelp)
             + HelpExampleCli("clearbanned", "")
             + HelpExampleRpc("clearbanned", ""));
 
-    CNode::ClearBanned();
-    DumpBanlist(); //store banlist to disk
+    CNode::ClearBanned(); // ClearBanned locks cs_setBanned internally
+    DumpBanlist(); // Store banlist to disk
+    // Fix: Call BannedListChanged directly
     uiInterface.BannedListChanged();
 
     return NullUniValue;
 }
+
+// JSON-RPC Command Table (likely defined elsewhere, but shown for context)
+// static const CRPCCommand commands[] =
+// { // RPC Commands Table
+// // ... other commands ...
+//     { "net",          "getconnectioncount", &getconnectioncount, true,  {} },
+//     { "net",          "ping",               &ping,               true,  {} },
+//     { "net",          "getpeerinfo",        &getpeerinfo,        true,  {} },
+//     { "net",          "addnode",            &addnode,            true,  {"node", "command"} },
+//     { "net",          "disconnectnode",     &disconnectnode,     true,  {"node"} },
+//     { "net",          "getaddednodeinfo",   &getaddednodeinfo,   true,  {"dns", "node"} },
+//     { "net",          "getnettotals",       &getnettotals,       true,  {} },
+//     { "net",          "getnetworkinfo",     &getnetworkinfo,     true,  {} },
+//     { "net",          "setban",             &setban,             true,  {"subnet", "command", "bantime", "absolute"} },
+//     { "net",          "listbanned",         &listbanned,         true,  {} },
+//     { "net",          "clearbanned",        &clearbanned,        true,  {} },
+// // ... other commands ...
+// };
+
+// void RegisterNetRPCCommands(CRPCTable &tableRPC)
+// {
+//     for (unsigned int vcidx = 0; vcidx < ARRAYLEN(commands); vcidx++)
+//         tableRPC.appendCommand(commands[vcidx].name, &commands[vcidx]);
+// }

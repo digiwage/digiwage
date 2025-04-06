@@ -17,7 +17,9 @@
 #include "sync.h"
 #include "utilstrencodings.h"
 #include "utiltime.h"
-
+#include "rpc/protocol.h" // Needed for JSONRPCError
+#include "uint256.h"      // Needed for uint256
+#include "univalue.h"     // Needed for UniValue
 #include <stdarg.h>
 
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -756,36 +758,55 @@ void runCommand(std::string strCommand)
         LogPrintf("runCommand error: system(%s) returned %d\n", strCommand, nErr);
 }
 
-void SetupEnvironment()
+
+
+// Definition for ParseHashV
+uint256 ParseHashV(const UniValue& v, std::string strName)
 {
-// On most POSIX systems (e.g. Linux, but not BSD) the environment's locale
-// may be invalid, in which case the "C" locale is used as fallback.
-#if !defined(WIN32) && !defined(MAC_OSX) && !defined(__FreeBSD__) && !defined(__OpenBSD__)
-    try {
-        std::locale(""); // Raises a runtime error if current locale is invalid
-    } catch (const std::runtime_error&) {
-        setenv("LC_ALL", "C", 1);
-    }
-#endif
-    // The path locale is lazy initialized and to avoid deinitialization errors
-    // in multithreading environments, it is set explicitly by the main thread.
-    // A dummy locale is used to extract the internal default locale, used by
-    // boost::filesystem::path, which is then used to explicitly imbue the path.
-    std::locale loc = boost::filesystem::path::imbue(std::locale::classic());
-    boost::filesystem::path::imbue(loc);
+    std::string strHex;
+    if (v.isStr())
+        strHex = v.get_str();
+    else
+        throw JSONRPCError(RPC_INVALID_PARAMETER, strName+" must be a string");
+
+    if (!IsHex(strHex))
+        throw JSONRPCError(RPC_INVALID_PARAMETER, strName+" must be hexadecimal string (not '"+strHex+"')");
+    if (64 != strHex.length())
+        throw JSONRPCError(RPC_INVALID_PARAMETER, strprintf("%s must be of length %d (not %d)", strName, 64, strHex.length()));
+
+    uint256 result;
+    result.SetHex(strHex);
+    return result;
 }
 
-bool SetupNetworking()
+// Definition for ParseHexV
+std::vector<unsigned char> ParseHexV(const UniValue& v, std::string strName)
 {
-#ifdef WIN32
-    // Initialize Windows Sockets
-    WSADATA wsadata;
-    int ret = WSAStartup(MAKEWORD(2,2), &wsadata);
-    if (ret != NO_ERROR || LOBYTE(wsadata.wVersion ) != 2 || HIBYTE(wsadata.wVersion) != 2)
-        return false;
-#endif
-    return true;
+    std::string strHex;
+    if (v.isStr())
+        strHex = v.get_str();
+     else
+        throw JSONRPCError(RPC_INVALID_PARAMETER, strName+" must be a string");
+
+    if (!IsHex(strHex))
+        throw JSONRPCError(RPC_INVALID_PARAMETER, strName + " must be hexadecimal string (not '" + strHex + "')");
+    return ParseHex(strHex);
 }
+
+// Definition for HelpExampleCli
+std::string HelpExampleCli(const std::string& methodname, const std::string& args)
+{
+    return "> digiwage-cli " + methodname + " " + args + "\n";
+}
+
+// Definition for HelpExampleRpc
+std::string HelpExampleRpc(const std::string& methodname, const std::string& args)
+{
+    // TODO: Consider getting the default RPC port dynamically from args or chainparams
+    return "$ curl --user myusername --data-binary '{\"jsonrpc\": \"1.0\", \"id\":\"curltest\", "
+           "\"method\": \"" + methodname + "\", \"params\": [" + args + "] }' -H 'content-type: text/plain;' http://127.0.0.1:31114/\n";
+}
+
 
 void SetThreadPriority(int nPriority)
 {

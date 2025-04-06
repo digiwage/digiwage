@@ -226,7 +226,7 @@ void RPCExecutor::requestCommand(const QString& command)
     } catch (UniValue& objError) {
         try // Nice formatting for standard-format error
         {
-            int code = find_value(objError, "code").get_int();
+            int code = find_value(objError, "code").getInt<int>();
             std::string message = find_value(objError, "message").get_str();
             Q_EMIT reply(SettingsConsoleWidget::CMD_ERROR, QString::fromStdString(message) + " (code " + QString::number(code) + ")");
         } catch (std::runtime_error&) // raised when converting to invalid type, i.e. missing code or message

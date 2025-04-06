@@ -615,6 +615,21 @@ int atoi(const std::string& str)
     return atoi(str.c_str());
 }
 
+
+// ADD THIS FUNCTION DEFINITION:
+void ReplaceAll(std::string& str, const std::string& from, const std::string& to)
+{
+    if (from.empty()) // Avoid infinite loops if 'from' is empty
+        return;
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        // Advance past the replaced section. Handles cases where 'to' contains 'from'.
+        start_pos += to.length();
+    }
+}
+
+
 // Replaces boost::join
 std::string join(const std::vector<std::string>& words, const std::string &separator, const std::string &concluder) {
 

@@ -19,6 +19,9 @@
 #include "validationinterface.h"
 #include <boost/foreach.hpp>
 
+// <<< ADD FORWARD DECLARATION >>>
+void DoConsensusVote(CTransaction& tx, int64_t nBlockHeight);
+// Ensure other necessary forward declarations are present if needed
 
 std::map<uint256, CTransaction> mapTxLockReq;
 std::map<uint256, CTransaction> mapTxLockReqRejected;
@@ -61,9 +64,12 @@ void ProcessMessageSwiftTX(CNode* pfrom, std::string& strCommand, CDataStream& v
         for (const CTxOut &o : tx.vout) {
             // IX supports normal scripts and unspendable scripts (used in DS collateral and Budget collateral).
             // TODO: Look into other script types that are normal and can be included
-            if (!o.scriptPubKey.IsNormalPaymentScript() && !o.scriptPubKey.IsUnspendable()) {
+            CTxDestination dest;
+            bool fStandard = ExtractDestination(o.scriptPubKey, dest);
+            if (!fStandard && !o.scriptPubKey.IsUnspendable()) {
                 LogPrintf("%s : Invalid Script %s\n", __func__, tx.ToString().c_str());
-                return;
+                // Maybe add: LogPrintf("%s : Script details: %s\n", __func__, o.scriptPubKey.ToString().c_str());
+                return; // Keep the return based on the original logic
             }
         }
 
@@ -286,9 +292,12 @@ void DoConsensusVote(CTransaction& tx, int64_t nBlockHeight)
     ctx.nBlockHeight = nBlockHeight;
     bool fNewSigs = false;
     {
-        LOCK(cs_main);
-        fNewSigs = chainActive.NewSigsActive();
-    }
+        LOCK(cs_main); // Lock critical section for accessing chainActive
+        // Get the current chain height from the active tip
+        int nHeight = chainActive.Tip() ? chainActive.Height() : -1;
+        // Check if the new message signature version is active at the current height
+        fNewSigs = Params().GetConsensus().IsMessSigV2(nHeight);
+    } // Unlock cs_main
     if (!ctx.Sign(strMasterNodePrivKey, fNewSigs)) {
         LogPrintf("%s : Failed to sign consensus vote\n", __func__);
         return;

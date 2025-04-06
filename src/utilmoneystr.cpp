@@ -9,6 +9,107 @@
 #include "primitives/transaction.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
+#include "rpc/protocol.h" // For JSONRPCError
+#include "rpc/server.h"   // For MoneyRange if needed (or move MoneyRange check)
+#include "main.h"   // For MoneyRange if defined there
+
+#include <limits> // For std::numeric_limits
+#include <boost/lexical_cast.hpp> // For lexical_cast
+
+bool ParseFixedPoint(const std::string& val, int decimals, int64_t* amount_out)
+{
+    int64_t R_MAX = std::numeric_limits<int64_t>::max() / 1; // No scaling needed here compared to original bitcoin which used 100000000
+    if (val.empty())
+        return false;
+
+    size_t ptr = 0;
+    int64_t sign = 1;
+    if (val.size() > ptr && val[ptr] == '-') {
+        sign = -1;
+        ptr++;
+    } else if (val.size() > ptr && val[ptr] == '+') {
+        ptr++;
+    }
+
+    int64_t part_int = 0;
+    while (val.size() > ptr && std::isdigit(val[ptr])) {
+        if (part_int > R_MAX / 10)
+            return false; // Overflow
+        part_int = part_int * 10 + (val[ptr] - '0');
+        ptr++;
+    }
+
+    int64_t part_frac = 0;
+    int decimals_cnt = 0;
+    if (val.size() > ptr && val[ptr] == '.') {
+        ptr++;
+        int64_t units_mult = 1;
+        for (int i = 0; i < decimals; ++i) {
+            units_mult *= 10;
+        }
+        int64_t frac_mult = units_mult / 10;
+        while (val.size() > ptr && std::isdigit(val[ptr]) && decimals_cnt < decimals) {
+            if (frac_mult == 0) break; // Stop if we exceed desired decimals
+            part_frac += (val[ptr] - '0') * frac_mult;
+            frac_mult /= 10;
+            ptr++;
+            decimals_cnt++;
+        }
+    }
+
+    // Ensure remaining characters are whitespace or end-of-string
+    while (val.size() > ptr && std::isspace(val[ptr])) {
+        ptr++;
+    }
+    if (val.size() != ptr) {
+        return false; // Trailing garbage
+    }
+
+    // Calculate the final amount in smallest units (satoshis)
+    int64_t coin_mult = 1;
+    for (int i = 0; i < decimals; ++i) {
+        if (coin_mult > R_MAX / 10) return false; // Check overflow before multiplication
+        coin_mult *= 10;
+    }
+
+    if (part_int > R_MAX / coin_mult) return false; // Check overflow before multiplication
+    int64_t amount = part_int * coin_mult;
+
+    if (part_frac > R_MAX - amount) return false; // Check overflow before addition
+    amount += part_frac;
+
+    if (amount_out) {
+        *amount_out = sign * amount;
+    }
+
+    return true;
+}
+
+CAmount AmountFromValue(const UniValue& value)
+{
+    if (!value.isNum() && !value.isStr())
+        throw JSONRPCError(RPC_TYPE_ERROR, "Amount must be a number or string");
+    CAmount nAmount;
+    if (!ParseFixedPoint(value.getValStr(), 8, &nAmount))
+        throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount");
+    if (!MoneyRange(nAmount))
+        throw JSONRPCError(RPC_TYPE_ERROR, "Amount out of range");
+    return nAmount;
+}
+
+UniValue ValueFromAmount(const CAmount& amount)
+{
+    // This function might already exist as FormatMoney or similar
+    // If not, implement it to return UniValue, e.g.:
+    bool sign = amount < 0;
+    int64_t n_abs = (sign ? -amount : amount);
+    int64_t quotient = n_abs / COIN;
+    int64_t remainder = n_abs % COIN;
+    // Use VNUM for precision if UniValue supports it well, else use string
+    // return UniValue(UniValue::VNUM, strprintf("%s%d.%08d", sign ? "-" : "", quotient, remainder));
+    // Or stick to string formatting from FormatMoney
+    return FormatMoney(amount);
+}
 
 
 std::string FormatMoney(const CAmount& n, bool fPlus)
