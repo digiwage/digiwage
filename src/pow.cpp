@@ -89,7 +89,21 @@ static unsigned int DigiwageDarkGravityWave(const CBlockIndex* last, const Conse
 static unsigned int DigiwageNextWork(const CBlockIndex* last, const Consensus::Params& params)
 {
     if (!last || last->nHeight < 24) return UintToArith256(params.powLimit).GetCompact();
+    // Rehearsal chains (regtest-derived, fPowNoRetargeting) inherit the last
+    // imported block's mainnet-era difficulty, which is ~2.7h per block for the
+    // rehearsal stake under the DigiWage kernel; retargeting only eases after a
+    // slow block, so the first post-history block would stall the chain.
+    // Start it at ~2^208 (about 2-3 min expected) and let the normal
+    // retarget take over. Gated three ways so it can never apply to mainnet: exact height,
+    // fPowNoRetargeting (false on mainnet) and a contract height below 1000
+    // (4,000,000 on mainnet).
+    if (last->nHeight == 1000 && params.fPowNoRetargeting && params.digiwage_contract_height < 1000) {
+        arith_uint256 easy;
+        easy.SetCompact(0x1b010000);
+        return easy.GetCompact();
+    }
     if (last->nHeight <= 1000) return DigiwageDarkGravityWave(last, params);
+
 
     arith_uint256 target;
     target.SetCompact(last->nBits);

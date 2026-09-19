@@ -6,6 +6,7 @@
 #include <boost/assign/list_of.hpp>
 
 #include <pos.h>
+#include <digiwage/pos.h>
 #include <txdb.h>
 #include <validation.h>
 #include <arith_uint256.h>
@@ -261,7 +262,11 @@ bool CheckProofOfStake(CBlockIndex* pindexPrev, BlockValidationState& state, con
     if (!VerifySignature(coinTxPrev, txin.prevout.hash, tx, 0, SCRIPT_VERIFY_NONE))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-verify-signature-failed", strprintf("CheckProofOfStake() : VerifySignature failed on coinstake %s", tx.GetHash().ToString()));
 
-    if (!CheckStakeKernelHash(pindexPrev, nBits, blockHeaderFrom->nTime, coinHeaderPrev.out.nValue, headerPrevout, nTimeBlock, hashProofOfStake, targetProofOfStake, LogInstance().WillLogCategory(BCLog::COINSTAKE)))
+    // Same rule as block validation (digiwage/pos.cpp) above the imported history.
+    const bool kernelOk = (Params().GetConsensus().digiwage_history && nHeight > 1000) ?
+        CheckDigiwageStakeKernel(pindexPrev, nBits, blockHeaderFrom, coinHeaderPrev.out.nValue, headerPrevout, nTimeBlock, hashProofOfStake) :
+        CheckStakeKernelHash(pindexPrev, nBits, blockHeaderFrom->nTime, coinHeaderPrev.out.nValue, headerPrevout, nTimeBlock, hashProofOfStake, targetProofOfStake, LogInstance().WillLogCategory(BCLog::COINSTAKE));
+    if (!kernelOk)
         return state.Invalid(BlockValidationResult::BLOCK_HEADER_SYNC, "stake-check-kernel-failed", strprintf("CheckProofOfStake() : INFO: check kernel failed on coinstake %s, hashProof=%s", tx.GetHash().ToString(), hashProofOfStake.ToString())); // may occur during initial download or if behind on block chain sync
 
     return true;
@@ -393,6 +398,26 @@ bool CheckRecoveredPubKeyFromBlockSignature(CBlockIndex* pindexPrev, const CBloc
     return false;
 }
 
+// Above the imported legacy history, consensus validates stake with the
+// DigiWage kernel (digiwage/pos.cpp). The staker must search with the same
+// function, otherwise every block it builds is rejected.
+static bool UseDigiwageKernel(const CBlockIndex* pindexPrev)
+{
+    const Consensus::Params& consensus = Params().GetConsensus();
+    return consensus.digiwage_history && pindexPrev->nHeight + 1 > 1000;
+}
+
+static bool CacheKernelMatches(CBlockIndex* pindexPrev, unsigned int nBits, const CStakeCache& stake, const COutPoint& prevout,
+                               uint32_t nTimeBlock, uint256& hashProofOfStake, uint256& targetProofOfStake)
+{
+    if (UseDigiwageKernel(pindexPrev)) {
+        const CBlockIndex* origin = stake.blockFromHeight >= 0 ? pindexPrev->GetAncestor(stake.blockFromHeight) : nullptr;
+        return CheckDigiwageStakeKernel(pindexPrev, nBits, origin, stake.amount, prevout, nTimeBlock, hashProofOfStake);
+    }
+    return CheckStakeKernelHash(pindexPrev, nBits, stake.blockFromTime, stake.amount, prevout,
+                                nTimeBlock, hashProofOfStake, targetProofOfStake);
+}
+
 bool CheckKernel(CBlockIndex* pindexPrev, unsigned int nBits, uint32_t nTimeBlock, const COutPoint& prevout, CCoinsViewCache& view, CChain& chain)
 {
     std::map<COutPoint, CStakeCache> tmp;
@@ -425,13 +450,16 @@ bool CheckKernel(CBlockIndex* pindexPrev, unsigned int nBits, uint32_t nTimeBloc
             return error("CheckKernel(): Coin is spent");
         }
 
+        if (UseDigiwageKernel(pindexPrev)) {
+            return CheckDigiwageStakeKernel(pindexPrev, nBits, blockFrom, coinPrev.out.nValue, prevout,
+                                            nTimeBlock, hashProofOfStake);
+        }
         return CheckStakeKernelHash(pindexPrev, nBits, blockFrom->nTime, coinPrev.out.nValue, prevout,
                                     nTimeBlock, hashProofOfStake, targetProofOfStake);
     }else{
         //found in cache
         const CStakeCache& stake = it->second;
-        if(CheckStakeKernelHash(pindexPrev, nBits, stake.blockFromTime, stake.amount, prevout,
-                                    nTimeBlock, hashProofOfStake, targetProofOfStake)){
+        if(CacheKernelMatches(pindexPrev, nBits, stake, prevout, nTimeBlock, hashProofOfStake, targetProofOfStake)){
             //Cache could potentially cause false positive stakes in the event of deep reorgs, so check without cache also
             return CheckKernel(pindexPrev, nBits, nTimeBlock, prevout, view, chain);
         }
@@ -445,8 +473,7 @@ bool CheckKernelCache(CBlockIndex *pindexPrev, unsigned int nBits, uint32_t nTim
     auto it=cache.find(prevout);
     if(it != cache.end()) {
         const CStakeCache& stake = it->second;
-        return CheckStakeKernelHash(pindexPrev, nBits, stake.blockFromTime, stake.amount, prevout,
-                                    nTimeBlock, hashProofOfStake, targetProofOfStake);
+        return CacheKernelMatches(pindexPrev, nBits, stake, prevout, nTimeBlock, hashProofOfStake, targetProofOfStake);
     }
     return false;
 }
@@ -472,7 +499,7 @@ void CacheKernel(std::map<COutPoint, CStakeCache>& cache, const COutPoint& prevo
         return;
     }
 
-    CStakeCache c(blockFrom->nTime, coinPrev.out.nValue);
+    CStakeCache c(blockFrom->nTime, coinPrev.out.nValue, blockFrom->nHeight);
     cache.insert({prevout, c});
 }
 

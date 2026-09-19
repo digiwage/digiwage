@@ -5,10 +5,11 @@
 #include <consensus/amount.h>
 
 struct CStakeCache{
-    CStakeCache(uint32_t blockFromTime_, CAmount amount_) : blockFromTime(blockFromTime_), amount(amount_){
+    CStakeCache(uint32_t blockFromTime_, CAmount amount_, int blockFromHeight_ = -1) : blockFromTime(blockFromTime_), amount(amount_), blockFromHeight(blockFromHeight_){
     }
     uint32_t blockFromTime;
     CAmount amount;
+    int blockFromHeight;
 };
 
 struct Delegation
