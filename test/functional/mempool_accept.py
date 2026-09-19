@@ -44,7 +44,7 @@ from test_framework.util import (
     assert_raises_rpc_error,
 )
 from test_framework.wallet import MiniWallet
-from test_framework.qtumconfig import COINBASE_MATURITY
+from test_framework.digiwageconfig import COINBASE_MATURITY
 
 
 class MempoolAcceptanceTest(BitcoinTestFramework):

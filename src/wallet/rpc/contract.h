@@ -1,5 +1,5 @@
-#ifndef QTUM_WALLET_RPC_CONTRACT_H
-#define QTUM_WALLET_RPC_CONTRACT_H
+#ifndef DIGIWAGE_WALLET_RPC_CONTRACT_H
+#define DIGIWAGE_WALLET_RPC_CONTRACT_H
 
 #include <span.h>
 
@@ -9,4 +9,4 @@ namespace wallet {
 Span<const CRPCCommand> GetContractRPCCommands();
 } // namespace wallet
 
-#endif // QTUM_WALLET_RPC_CONTRACT_H
+#endif // DIGIWAGE_WALLET_RPC_CONTRACT_H

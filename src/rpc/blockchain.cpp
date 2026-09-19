@@ -52,7 +52,7 @@
 #include <pos.h>
 #include <txdb.h>
 #include <util/convert.h>
-#include <qtum/qtumdelegation.h>
+#include <digiwage/digiwagedelegation.h>
 #include <util/tokenstr.h>
 #include <rpc/contract_util.h>
 
@@ -253,12 +253,12 @@ UniValue blockheaderToJSON(const CBlockIndex* tip, const CBlockIndex* blockindex
     result.pushKV("difficulty", GetDifficulty(blockindex));
     result.pushKV("chainwork", blockindex->nChainWork.GetHex());
     result.pushKV("nTx", (uint64_t)blockindex->nTx);
-    result.pushKV("hashStateRoot", blockindex->hashStateRoot.GetHex()); // qtum
-    result.pushKV("hashUTXORoot", blockindex->hashUTXORoot.GetHex()); // qtum
+    result.pushKV("hashStateRoot", blockindex->hashStateRoot.GetHex()); // digiwage
+    result.pushKV("hashUTXORoot", blockindex->hashUTXORoot.GetHex()); // digiwage
 
     if(blockindex->IsProofOfStake()){
-        result.pushKV("prevoutStakeHash", blockindex->prevoutStake.hash.GetHex()); // qtum
-        result.pushKV("prevoutStakeVoutN", (int64_t)blockindex->prevoutStake.n); // qtum
+        result.pushKV("prevoutStakeHash", blockindex->prevoutStake.hash.GetHex()); // digiwage
+        result.pushKV("prevoutStakeVoutN", (int64_t)blockindex->prevoutStake.n); // digiwage
     }
 
     if (blockindex->pprev)
@@ -1094,7 +1094,7 @@ static RPCHelpMan getblock()
     };
 }
 
-////////////////////////////////////////////////////////////////////// // qtum
+////////////////////////////////////////////////////////////////////// // digiwage
 RPCHelpMan callcontract()
 {
     return RPCHelpMan{"callcontract",
@@ -1538,7 +1538,7 @@ RPCHelpMan getdelegationinfoforaddress()
     return RPCHelpMan{"getdelegationinfoforaddress",
                 "\nGet delegation information for an address.\n",
                 {
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address string"},
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The digiwage address string"},
                 },
                 RPCResult{
                     RPCResult::Type::OBJ, "", "",
@@ -1572,14 +1572,14 @@ RPCHelpMan getdelegationinfoforaddress()
     }
 
     // Get delegation for an address
-    QtumDelegation qtumDelegation;
+    DigiWageDelegation digiwageDelegation;
     Delegation delegation;
     PKHash pkhash = std::get<PKHash>(dest);
     uint160 address = uint160(pkhash);
-    if(!qtumDelegation.GetDelegation(address, delegation, chainman.ActiveChainstate())) {
+    if(!digiwageDelegation.GetDelegation(address, delegation, chainman.ActiveChainstate())) {
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Failed to get delegation");
     }
-    bool verified = qtumDelegation.VerifyDelegation(address, delegation);
+    bool verified = digiwageDelegation.VerifyDelegation(address, delegation);
 
     // Fill the json object with information
     UniValue result(UniValue::VOBJ);
@@ -1635,7 +1635,7 @@ RPCHelpMan getdelegationsforstaker()
                 "requires -logevents to be enabled\n"
                 "\nGet the current list of delegates for a super staker.\n",
                 {
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address string for staker"},
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The digiwage address string for staker"},
                 },
                RPCResult{
             RPCResult::Type::ARR, "", "",
@@ -1676,15 +1676,15 @@ RPCHelpMan getdelegationsforstaker()
     }
 
     // Get delegations for staker
-    QtumDelegation qtumDelegation;
+    DigiWageDelegation digiwageDelegation;
     std::vector<DelegationEvent> events;
     PKHash pkhash = std::get<PKHash>(dest);
     uint160 address = uint160(pkhash);
     DelegationsStakerFilter filter(address);
-    if(!qtumDelegation.FilterDelegationEvents(events, filter, chainman)) {
+    if(!digiwageDelegation.FilterDelegationEvents(events, filter, chainman)) {
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Failed to get delegations for staker");
     }
-    std::map<uint160, Delegation> delegations = qtumDelegation.DelegationsFromEvents(events);
+    std::map<uint160, Delegation> delegations = digiwageDelegation.DelegationsFromEvents(events);
 
     // Get chain parameters
     std::map<COutPoint, uint32_t> immatureStakes = GetImmatureStakes(chainman);
@@ -2048,7 +2048,7 @@ static RPCHelpMan gettxout()
                     {RPCResult::Type::STR, "desc", "Inferred descriptor for the output"},
                     {RPCResult::Type::STR_HEX, "hex", "The raw public key script bytes, hex-encoded"},
                     {RPCResult::Type::STR, "type", "The type, eg pubkeyhash"},
-                    {RPCResult::Type::STR, "address", /*optional=*/true, "The Qtum address (only if a well-defined address exists)"},
+                    {RPCResult::Type::STR, "address", /*optional=*/true, "The DigiWage address (only if a well-defined address exists)"},
                 }},
                 {RPCResult::Type::BOOL, "coinbase", "Coinbase or not"},
                 {RPCResult::Type::BOOL, "coinstake", "Coinstake or not"},
@@ -3851,7 +3851,7 @@ static RPCHelpMan qrc20balanceof()
                 "\nReturns the token balance for address\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO,  "The qtum address to check token balance"},
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO,  "The digiwage address to check token balance"},
                 },
                 RPCResult{
                     RPCResult::Type::STR, "balance", "The token balance of the chosen address"},
@@ -3894,8 +3894,8 @@ static RPCHelpMan qrc20allowance()
                 "\nReturns remaining tokens allowed to spend for an address\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address"},
-                    {"addressfrom", RPCArg::Type::STR, RPCArg::Optional::NO,  "The qtum address of the account owning tokens"},
-                    {"addressto", RPCArg::Type::STR, RPCArg::Optional::NO,  "The qtum address of the account able to transfer the tokens"},
+                    {"addressfrom", RPCArg::Type::STR, RPCArg::Optional::NO,  "The digiwage address of the account owning tokens"},
+                    {"addressto", RPCArg::Type::STR, RPCArg::Optional::NO,  "The digiwage address of the account able to transfer the tokens"},
                 },
                 RPCResult{
                     RPCResult::Type::STR, "allowance", "Amount of remaining tokens allowed to spent"},
@@ -3936,7 +3936,7 @@ static RPCHelpMan qrc20listtransactions()
                 "\nReturns transactions history for a specific address.\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address."},
-                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO,  "The qtum address to get history for."},
+                    {"address", RPCArg::Type::STR, RPCArg::Optional::NO,  "The digiwage address to get history for."},
                     {"fromblock", RPCArg::Type::NUM, RPCArg::Default{0}, "The number of the earliest block."},
                     {"minconf", RPCArg::Type::NUM, RPCArg::Default{6}, "Minimal number of confirmations."},
                 },
@@ -3945,8 +3945,8 @@ static RPCHelpMan qrc20listtransactions()
                 {
                     {RPCResult::Type::OBJ, "", "",
                         {
-                            {RPCResult::Type::STR, "receiver", "The receiver qtum address"},
-                            {RPCResult::Type::STR, "sender", "The sender qtum address"},
+                            {RPCResult::Type::STR, "receiver", "The receiver digiwage address"},
+                            {RPCResult::Type::STR, "sender", "The sender digiwage address"},
                             {RPCResult::Type::STR, "amount", "The transferred token amount"},
                             {RPCResult::Type::NUM, "confirmations", "The number of confirmations of the most recent transaction included"},
                             {RPCResult::Type::STR_HEX, "blockHash", "The block hash"},

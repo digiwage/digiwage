@@ -142,7 +142,7 @@ class RejectLowDifficultyHeadersTest(BitcoinTestFramework):
         #  T-520, T-1032, T-2056, T-4104, ...]
         # So mine a number of blocks > 4104 to ensure that the first window of
         # received headers during a sync are fully between locator entries.
-        # Qtum has automatic check point every 2000 blocks, so block reorganization need to be below it
+        # DigiWage has automatic check point every 2000 blocks, so block reorganization need to be below it
         BLOCKS_TO_MINE = 1910
 
         self.generate(self.nodes[0], BLOCKS_TO_MINE, sync_fun=self.no_op)

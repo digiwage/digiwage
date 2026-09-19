@@ -13,9 +13,9 @@
 #include <util/strencodings.h>
 
 #include <string>
-#include <qtum/qtumstate.h>
-#include <qtum/qtumDGP.h>
-#include <qtum/qtumtransaction.h>
+#include <digiwage/digiwagestate.h>
+#include <digiwage/digiwageDGP.h>
+#include <digiwage/digiwagetransaction.h>
 #include <validation.h>
 #include <streams.h>
 #include <variant>
@@ -56,6 +56,7 @@ std::string GetTxnOutputType(TxoutType t)
     case TxoutType::SCRIPTHASH: return "scripthash";
     case TxoutType::MULTISIG: return "multisig";
     case TxoutType::NULL_DATA: return "nulldata";
+    case TxoutType::COLDSTAKE: return "coldstake";
     case TxoutType::WITNESS_V0_KEYHASH: return "witness_v0_keyhash";
     case TxoutType::WITNESS_V0_SCRIPTHASH: return "witness_v0_scripthash";
     case TxoutType::WITNESS_V1_TAPROOT: return "witness_v1_taproot";
@@ -194,6 +195,10 @@ static bool MatchContract(const CScript& scriptPubKey, std::vector<std::vector<u
 
         // Call contract tx
         mTemplates.insert(std::make_pair(TxoutType::CALL, CScript() << OP_VERSION << OP_GAS_LIMIT << OP_GAS_PRICE << OP_DATA << OP_PUBKEYHASH << OP_CALL));
+
+        mTemplates.insert(std::make_pair(TxoutType::COLDSTAKE,
+            CScript() << OP_DUP << OP_HASH160 << OP_ROT << OP_IF << OP_CHECKCOLDSTAKEVERIFY <<
+                         OP_PUBKEYHASH << OP_ELSE << OP_PUBKEYHASH << OP_ENDIF << OP_EQUALVERIFY << OP_CHECKSIG));
     }
 
     // Scan templates
@@ -486,6 +491,10 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet,
     }
     case TxoutType::PUBKEYHASH: {
         addressRet = PKHash(uint160(vSolutions[0]));
+        return true;
+    }
+    case TxoutType::COLDSTAKE: {
+        addressRet = PKHash(uint160(vSolutions[1]));
         return true;
     }
     case TxoutType::SCRIPTHASH: {
@@ -1049,7 +1058,7 @@ bool ExtractDestination(const COutPoint& prevout, const CScript& scriptPubKey, C
         return true;
     }
     else if (whichType == TxoutType::CREATE) {
-        addressRet = PKHash(uint160(QtumState::createQtumAddress(uintToh256(prevout.hash), prevout.n).asBytes()));
+        addressRet = PKHash(uint160(DigiWageState::createDigiWageAddress(uintToh256(prevout.hash), prevout.n).asBytes()));
         return true;
     }
     return false;

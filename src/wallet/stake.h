@@ -1,15 +1,15 @@
-#ifndef QTUM_WALLET_STAKE_H
-#define QTUM_WALLET_STAKE_H
+#ifndef DIGIWAGE_WALLET_STAKE_H
+#define DIGIWAGE_WALLET_STAKE_H
 
 #include <consensus/amount.h>
 #include <wallet/transaction.h>
 #include <wallet/wallet.h>
 
 namespace wallet {
-/* Start staking qtums */
+/* Start staking digiwages */
 void StartStake(CWallet& wallet);
 
-/* Stop staking qtums */
+/* Stop staking digiwages */
 void StopStake(CWallet& wallet);
 
 /* Create coin stake */
@@ -32,4 +32,4 @@ uint64_t GetStakeWeight(const CWallet& wallet, uint64_t* pStakerWeight = nullptr
 
 } // namespace wallet
 
-#endif // QTUM_WALLET_STAKE_H
+#endif // DIGIWAGE_WALLET_STAKE_H

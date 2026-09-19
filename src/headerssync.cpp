@@ -11,9 +11,9 @@
 
 // The two Bitcoin constants are computed using the simulation script on
 // https://gist.github.com/sipa/016ae445c132cdf65a2791534dfb7ae1
-// The two Qtum constants below are computed using the simulation script on
-// qtum/contrib/sync/headersync_params.py
-// It is the same simulation as for Bitcoin, just updated with Qtum parameters.
+// The two DigiWage constants below are computed using the simulation script on
+// digiwage/contrib/sync/headersync_params.py
+// It is the same simulation as for Bitcoin, just updated with DigiWage parameters.
 
 //! Store a commitment to a header every HEADER_COMMITMENT_PERIOD blocks.
 constexpr size_t HEADER_COMMITMENT_PERIOD{59};
@@ -52,7 +52,7 @@ HeadersSyncState::HeadersSyncState(NodeId id, const Consensus::Params& consensus
     }
     else
     {
-        // Mainnet or testnet, so use the Qtum formula
+        // Mainnet or testnet, so use the DigiWage formula
         int64_t numberOfBlocks = (GetAdjustedTimeSeconds() + MAX_FUTURE_BLOCK_TIME - chain_start->GetBlockTime()) / (consensus_params.MinStakeTimestampMask() + 1);
         if(numberOfBlocks > 0)
         {

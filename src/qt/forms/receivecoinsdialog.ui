@@ -92,7 +92,7 @@
            <item row="5" column="0">
             <widget class="QLabel" name="label_3">
              <property name="toolTip">
-              <string>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Qtum network.</string>
+              <string>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the DigiWage network.</string>
              </property>
              <property name="text">
               <string>&amp;Message:</string>
@@ -253,7 +253,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QtumPushButton" name="showRequestButton">
+         <widget class="DigiWagePushButton" name="showRequestButton">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -295,7 +295,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QtumPushButton" name="removeRequestButton">
+         <widget class="DigiWagePushButton" name="removeRequestButton">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -436,9 +436,9 @@
    <class>QRImageWidget</class>
    <extends>QLabel</extends>
    <header>qt/qrimagewidget.h</header>
-   <class>QtumPushButton</class>
+   <class>DigiWagePushButton</class>
    <extends>QPushButton</extends>
-   <header>qt/qtumpushbutton.h</header>
+   <header>qt/digiwagepushbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -14,8 +14,8 @@ from test_framework.util import (
     assert_equal,
 )
 
-from test_framework.qtumconfig import MAX_BLOCK_SIGOPS
-from test_framework.qtum import generatesynchronized
+from test_framework.digiwageconfig import MAX_BLOCK_SIGOPS
+from test_framework.digiwage import generatesynchronized
 
 class WalletGroupTest(BitcoinTestFramework):
     def add_options(self, parser):

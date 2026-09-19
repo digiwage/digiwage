@@ -11,7 +11,7 @@ from test_framework.util import (
 from test_framework.blocktools import (
     TIME_GENESIS_BLOCK,
 )
-from test_framework.qtumconfig import COINBASE_MATURITY 
+from test_framework.digiwageconfig import COINBASE_MATURITY 
 
 
 class CreateTxWalletTest(BitcoinTestFramework):

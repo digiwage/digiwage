@@ -31,7 +31,7 @@ import time
 from test_framework.siphash import siphash256
 from test_framework.util import assert_equal
 
-from test_framework.qtumconfig import INITIAL_HASH_STATE_ROOT, INITIAL_HASH_UTXO_ROOT, ENABLE_REDUCED_BLOCK_TIME
+from test_framework.digiwageconfig import INITIAL_HASH_STATE_ROOT, INITIAL_HASH_UTXO_ROOT, ENABLE_REDUCED_BLOCK_TIME
 
 if ENABLE_REDUCED_BLOCK_TIME:
     MY_VERSION = 70019  # past bip-31 for ping/pong

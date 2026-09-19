@@ -263,7 +263,7 @@ class MiningTest(BitcoinTestFramework):
         bad_block2.solve()
         assert_raises_rpc_error(-25, 'bad-prevblk', lambda: node.submitheader(hexdata=CBlockHeader(bad_block2).serialize().hex()))
 
-        # Should reject invalid header right away, only applies to PoS blocks in qtum.
+        # Should reject invalid header right away, only applies to PoS blocks in digiwage.
         #bad_block_time = copy.deepcopy(block)
         #bad_block_time.nTime = 1
         #bad_block_time.solve()

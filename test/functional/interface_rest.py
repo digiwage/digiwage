@@ -28,8 +28,8 @@ from test_framework.wallet import (
 )
 from test_framework.messages import CBlockHeader
 
-from test_framework.qtumconfig import COINBASE_MATURITY, INITIAL_BLOCK_REWARD
-from test_framework.qtum import convert_btc_address_to_qtum, generatesynchronized
+from test_framework.digiwageconfig import COINBASE_MATURITY, INITIAL_BLOCK_REWARD
+from test_framework.digiwage import convert_btc_address_to_digiwage, generatesynchronized
 
 BLOCK_HEADER_SIZE = len(CBlockHeader().serialize())
 

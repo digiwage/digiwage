@@ -19,7 +19,7 @@ from test_framework.util import (
 from test_framework.wallet_util import (
     get_generate_key,
 )
-from test_framework.qtum import *
+from test_framework.digiwage import *
 
 
 class WalletMigrationTest(BitcoinTestFramework):

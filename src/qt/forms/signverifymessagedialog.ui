@@ -75,12 +75,12 @@
              <item>
               <widget class="QValidatedLineEdit" name="addressIn_SM">
                <property name="toolTip">
-                <string>The Qtum address to sign the message with</string>
+                <string>The DigiWage address to sign the message with</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QtumPushButton" name="addressBookButton_SM">
+              <widget class="DigiWagePushButton" name="addressBookButton_SM">
                <property name="toolTip">
                 <string>Choose previously used address</string>
                </property>
@@ -113,7 +113,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QtumPushButton" name="pasteButton_SM">
+              <widget class="DigiWagePushButton" name="pasteButton_SM">
                <property name="toolTip">
                 <string>Paste address from clipboard</string>
                </property>
@@ -165,7 +165,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QtumPushButton" name="copySignatureButton_SM">
+              <widget class="DigiWagePushButton" name="copySignatureButton_SM">
                <property name="toolTip">
                 <string>Copy the current signature to the system clipboard</string>
                </property>
@@ -196,7 +196,7 @@
            <item row="0" column="0" colspan="2">
             <widget class="QLabel" name="infoLabel_SM">
              <property name="text">
-              <string>You can sign messages/agreements with your addresses to prove you can receive qtums sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</string>
+              <string>You can sign messages/agreements with your addresses to prove you can receive digiwages sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</string>
              </property>
              <property name="textFormat">
               <enum>Qt::PlainText</enum>
@@ -265,7 +265,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QtumPushButton" name="clearButton_SM">
+           <widget class="DigiWagePushButton" name="clearButton_SM">
             <property name="toolTip">
              <string>Reset all sign message fields</string>
             </property>
@@ -282,9 +282,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QtumPushButton" name="signMessageButton_SM">
+           <widget class="DigiWagePushButton" name="signMessageButton_SM">
             <property name="toolTip">
-             <string>Sign the message to prove you own this Qtum address</string>
+             <string>Sign the message to prove you own this DigiWage address</string>
             </property>
             <property name="text">
              <string>Sign &amp;Message</string>
@@ -358,12 +358,12 @@
            <item>
             <widget class="QValidatedLineEdit" name="addressIn_VM">
              <property name="toolTip">
-              <string>The Qtum address the message was signed with</string>
+              <string>The DigiWage address the message was signed with</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QtumPushButton" name="addressBookButton_VM">
+            <widget class="DigiWagePushButton" name="addressBookButton_VM">
              <property name="toolTip">
               <string>Choose previously used address</string>
              </property>
@@ -461,7 +461,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QtumPushButton" name="clearButton_VM">
+           <widget class="DigiWagePushButton" name="clearButton_VM">
             <property name="toolTip">
              <string>Reset all verify message fields</string>
             </property>
@@ -478,9 +478,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QtumPushButton" name="verifyMessageButton_VM">
+           <widget class="DigiWagePushButton" name="verifyMessageButton_VM">
             <property name="toolTip">
-             <string>Verify the message to ensure it was signed with the specified Qtum address</string>
+             <string>Verify the message to ensure it was signed with the specified DigiWage address</string>
             </property>
             <property name="text">
              <string>Verify &amp;Message</string>
@@ -510,9 +510,9 @@
    <header>qt/qvalidatedlineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>QtumPushButton</class>
+   <class>DigiWagePushButton</class>
    <extends>QPushButton</extends>
-   <header>qt/qtumpushbutton.h</header>
+   <header>qt/digiwagepushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

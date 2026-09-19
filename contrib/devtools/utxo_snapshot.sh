@@ -9,15 +9,15 @@ export LC_ALL=C
 set -ueo pipefail
 
 if (( $# < 3 )); then
-  echo 'Usage: utxo_snapshot.sh <generate-at-height> <snapshot-out-path> <qtum-cli-call ...>'
+  echo 'Usage: utxo_snapshot.sh <generate-at-height> <snapshot-out-path> <digiwage-cli-call ...>'
   echo
   echo "  if <snapshot-out-path> is '-', don't produce a snapshot file but instead print the "
   echo "  expected assumeutxo hash"
   echo
   echo 'Examples:'
   echo
-  echo "  ./contrib/devtools/utxo_snapshot.sh 570000 utxo.dat ./src/qtum-cli -datadir=\$(pwd)/testdata"
-  echo '  ./contrib/devtools/utxo_snapshot.sh 570000 - ./src/qtum-cli'
+  echo "  ./contrib/devtools/utxo_snapshot.sh 570000 utxo.dat ./src/digiwage-cli -datadir=\$(pwd)/testdata"
+  echo '  ./contrib/devtools/utxo_snapshot.sh 570000 - ./src/digiwage-cli'
   exit 1
 fi
 

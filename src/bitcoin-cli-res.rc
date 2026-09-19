@@ -14,14 +14,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Qtum"
-            VALUE "FileDescription",    "qtum-cli (JSON-RPC client for " PACKAGE_NAME ")"
+            VALUE "CompanyName",        "DigiWage"
+            VALUE "FileDescription",    "digiwage-cli (JSON-RPC client for " PACKAGE_NAME ")"
             VALUE "FileVersion",        PACKAGE_VERSION
-            VALUE "InternalName",       "qtum-cli"
+            VALUE "InternalName",       "digiwage-cli"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "qtum-cli.exe"
-            VALUE "ProductName",        "qtum-cli"
+            VALUE "OriginalFilename",   "digiwage-cli.exe"
+            VALUE "ProductName",        "digiwage-cli"
             VALUE "ProductVersion",     PACKAGE_VERSION
         END
     END

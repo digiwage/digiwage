@@ -143,7 +143,7 @@
         <translation type="unfinished">Ammaruk aningaasivik</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Qtum network.</source>
+        <source>%n active connection(s) to DigiWage network.</source>
         <extracomment>A substring of the tooltip.</extracomment>
         <translation type="unfinished">
             <numerusform />
@@ -153,7 +153,7 @@
     <message>
         <source>Amount: %1
 </source>
-        <translation type="unfinished">Qtum amerlassusaa: %1
+        <translation type="unfinished">DigiWage amerlassusaa: %1
 </translation>
     </message>
     </context>

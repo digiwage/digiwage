@@ -1174,7 +1174,7 @@ std::string RemovalReasonToString(const MemPoolRemovalReason& r) noexcept
     assert(false);
 }
 
-/////////////////////////////////////////////////////// // qtum
+/////////////////////////////////////////////////////// // digiwage
 void CTxMemPool::addAddressIndex(const CTxMemPoolEntry &entry, const CCoinsViewCache &view)
 {
     LOCK(cs);

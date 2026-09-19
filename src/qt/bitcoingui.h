@@ -43,7 +43,7 @@ class HelpMessageDialog;
 class ModalOverlay;
 class TitleBar;
 class NavigationBar;
-class QtumVersionChecker;
+class DigiWageVersionChecker;
 enum class SynchronizationState;
 
 namespace interfaces {
@@ -205,7 +205,7 @@ private:
     ModalOverlay* modalOverlay = nullptr;
 
     ModalOverlay *modalBackupOverlay = nullptr;
-    QtumVersionChecker *qtumVersionChecker = nullptr;
+    DigiWageVersionChecker *digiwageVersionChecker = nullptr;
 
 
     QMenu* m_network_context_menu = new QMenu(this);

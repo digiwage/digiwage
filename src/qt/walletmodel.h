@@ -13,7 +13,7 @@
 #include <script/standard.h>
 
 #include <qt/walletmodeltransaction.h>
-#include <qt/qtumhwitool.h> 
+#include <qt/digiwagehwitool.h> 
 
 #include <interfaces/wallet.h>
 #include <support/allocators/secure.h>

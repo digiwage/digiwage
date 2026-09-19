@@ -117,7 +117,7 @@ void AddOutputs(CMutableTransaction& rawTx, const UniValue& outputs_in, IRawCont
         } else {
             CTxDestination destination = DecodeDestination(name_);
             if (!IsValidDestination(destination)) {
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Qtum address: ") + name_);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid DigiWage address: ") + name_);
             }
 
             if (!destinations.insert(destination).second) {

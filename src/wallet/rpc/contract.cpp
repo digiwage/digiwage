@@ -12,7 +12,7 @@
 #include <wallet/coincontrol.h>
 #include <wallet/spend.h>
 #include <wallet/receive.h>
-#include <qtum/qtumdelegation.h>
+#include <digiwage/digiwagedelegation.h>
 #include <validation.h>
 #include <wallet/rpc/contract.h>
 
@@ -99,10 +99,10 @@ void getDgpData(uint64_t& blockGasLimit, uint64_t& minGasPrice, CAmount& nGasPri
     if(globalState.get() && chainman)
     {
         LOCK(cs_main);
-        QtumDGP qtumDGP(globalState.get(), chainman->ActiveChainstate(), fGettingValuesDGP);
+        DigiWageDGP digiwageDGP(globalState.get(), chainman->ActiveChainstate(), fGettingValuesDGP);
         int height = chainman->ActiveChain().Height();
-        blockGasLimit = qtumDGP.getBlockGasLimit(height);
-        minGasPrice = CAmount(qtumDGP.getMinGasPrice(height));
+        blockGasLimit = digiwageDGP.getBlockGasLimit(height);
+        minGasPrice = CAmount(digiwageDGP.getMinGasPrice(height));
         if(pHeight) *pHeight = height;
         BlockGasLimit = blockGasLimit;
         MinGasPrice = minGasPrice;
@@ -122,8 +122,8 @@ RPCHelpMan createcontract()
                 {
                     {"bytecode", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "contract bytcode."},
                     {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasLimit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_CREATE)+", max: "+i64tostr(blockGasLimit)},
-                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasPrice QTUM price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
-                    {"senderaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED, "The qtum address that will be used to create the contract."},
+                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasPrice DIGIWAGE price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                    {"senderaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED, "The digiwage address that will be used to create the contract."},
                     {"broadcast", RPCArg::Type::BOOL, RPCArg::Default{true}, "Whether to broadcast the transaction or not."},
                     {"changetosender", RPCArg::Type::BOOL, RPCArg::Default{true}, "Return the change to the sender."},
                     {"psbt", RPCArg::Type::BOOL, RPCArg::Optional::OMITTED, "Create partially signed transaction."},
@@ -200,7 +200,7 @@ RPCHelpMan createcontract()
     if (!request.params[3].isNull()){
         senderAddress = DecodeDestination(request.params[3].get_str());
         if (!IsValidDestination(senderAddress))
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Qtum address to send from");
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid DigiWage address to send from");
         if (!IsValidContractSenderAddress(senderAddress))
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid contract sender address. Only P2PK and P2PKH allowed");
         else
@@ -461,7 +461,7 @@ UniValue SendToContract(CWallet& wallet, const UniValue& params, ChainstateManag
     if (!params[5].isNull()){
         senderAddress = DecodeDestination(params[5].get_str());
         if (!IsValidDestination(senderAddress))
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Qtum address to send from");
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid DigiWage address to send from");
         if (!IsValidContractSenderAddress(senderAddress))
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid contract sender address. Only P2PK and P2PKH allowed");
         else
@@ -814,8 +814,8 @@ RPCHelpMan sendtocontract()
                         {"datahex", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "data to send."},
                         {"amount", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The amount in " + CURRENCY_UNIT + " to send. eg 0.1, default: 0"},
                         {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasLimit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+", max: "+i64tostr(blockGasLimit)},
-                        {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasPrice Qtum price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
-                        {"senderaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED, "The qtum address that will be used as sender."},
+                        {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasPrice DigiWage price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                        {"senderaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::OMITTED, "The digiwage address that will be used as sender."},
                         {"broadcast", RPCArg::Type::BOOL, RPCArg::Default{true}, "Whether to broadcast the transaction or not."},
                         {"changetosender", RPCArg::Type::BOOL, RPCArg::Default{true}, "Return the change to the sender."},
                         {"psbt", RPCArg::Type::BOOL, RPCArg::Optional::OMITTED, "Create partially signed transaction."},
@@ -872,9 +872,9 @@ RPCHelpMan removedelegationforaddress()
                     "\nRemove delegation for address." +
                     HELP_REQUIRING_PASSPHRASE,
                     {
-                        {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address to remove delegation, the address will be used as sender too."},
+                        {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The digiwage address to remove delegation, the address will be used as sender too."},
                         {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasLimit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+", max: "+i64tostr(blockGasLimit)},
-                        {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasPrice Qtum price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                        {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasPrice DigiWage price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
                     },
                     RPCResult{
                         RPCResult::Type::OBJ, "", "",
@@ -901,7 +901,7 @@ RPCHelpMan removedelegationforaddress()
     // Get send to contract parameters for removing delegation for address
     UniValue params(UniValue::VARR);
     UniValue contractaddress = HexStr(Params().GetConsensus().delegationsAddress);
-    UniValue datahex = QtumDelegation::BytecodeRemove();
+    UniValue datahex = DigiWageDelegation::BytecodeRemove();
     UniValue amount = 0;
     UniValue gasLimit = !request.params[1].isNull() ? request.params[1] : DEFAULT_GAS_LIMIT_OP_SEND;
     UniValue gasPrice = !request.params[2].isNull() ? request.params[2] : FormatMoney(nGasPrice);
@@ -931,11 +931,11 @@ RPCHelpMan setdelegateforaddress()
                     "\nSet delegate for address." +
                     HELP_REQUIRING_PASSPHRASE,
                     {
-                        {"staker", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address for the staker."},
+                        {"staker", RPCArg::Type::STR, RPCArg::Optional::NO, "The digiwage address for the staker."},
                         {"fee", RPCArg::Type::NUM, RPCArg::Optional::NO, "Percentage of the reward that will be paid to the staker."},
-                        {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The qtum address that contain the coins that will be delegated to the staker, the address will be used as sender too."},
+                        {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The digiwage address that contain the coins that will be delegated to the staker, the address will be used as sender too."},
                         {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasLimit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_CREATE)+", max: "+i64tostr(blockGasLimit)},
-                        {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasPrice Qtum price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                        {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "gasPrice DigiWage price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
                     },
                     RPCResult{
                         RPCResult::Type::OBJ, "", "",
@@ -1021,7 +1021,7 @@ RPCHelpMan setdelegateforaddress()
     // Serialize the data
     std::string datahex;
     std::string errorMessage;
-    if(!QtumDelegation::BytecodeAdd(hexStaker, fee, PoD, datahex, errorMessage))
+    if(!DigiWageDelegation::BytecodeAdd(hexStaker, fee, PoD, datahex, errorMessage))
         throw JSONRPCError(RPC_TYPE_ERROR, errorMessage);
 
     // Add the send to contract parameters to the list
@@ -1048,11 +1048,11 @@ RPCHelpMan qrc20approve()
                 "\nOwner approves an address to spend some amount of tokens.\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address."},
-                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner qtum address."},
-                    {"spenderaddress", RPCArg::Type::STR, RPCArg::Optional::NO,  "The token spender qtum address."},
+                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner digiwage address."},
+                    {"spenderaddress", RPCArg::Type::STR, RPCArg::Optional::NO,  "The token spender digiwage address."},
                     {"amount", RPCArg::Type::STR, RPCArg::Optional::NO,  "The amount of tokens. eg 0.1"},
                     {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The gas limit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+", max: "+i64tostr(blockGasLimit)},
-                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The qtum price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The digiwage price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
                     {"checkoutputs", RPCArg::Type::BOOL, RPCArg::Default{true}, "Check outputs before send"},
                 },
                 RPCResult{
@@ -1155,11 +1155,11 @@ RPCHelpMan qrc20transfer()
                 "\nSend token amount to a given address.\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address."},
-                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner qtum address."},
-                    {"addressto", RPCArg::Type::STR, RPCArg::Optional::NO,  "The qtum address to send funds to."},
+                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner digiwage address."},
+                    {"addressto", RPCArg::Type::STR, RPCArg::Optional::NO,  "The digiwage address to send funds to."},
                     {"amount", RPCArg::Type::STR, RPCArg::Optional::NO,  "The amount of tokens to send. eg 0.1"},
                     {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The gas limit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+", max: "+i64tostr(blockGasLimit)},
-                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The qtum price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The digiwage price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
                     {"checkoutputs", RPCArg::Type::BOOL, RPCArg::Default{true}, "Check outputs before send"},
                 },
                 RPCResult{
@@ -1272,12 +1272,12 @@ RPCHelpMan qrc20transferfrom()
                 "\nSend token amount from selected address to a given address.\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address."},
-                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner qtum address."},
-                    {"spenderaddress", RPCArg::Type::STR, RPCArg::Optional::NO,  "The token spender qtum address."},
-                    {"receiveraddress", RPCArg::Type::STR, RPCArg::Optional::NO,  "The token receiver qtum address."},
+                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner digiwage address."},
+                    {"spenderaddress", RPCArg::Type::STR, RPCArg::Optional::NO,  "The token spender digiwage address."},
+                    {"receiveraddress", RPCArg::Type::STR, RPCArg::Optional::NO,  "The token receiver digiwage address."},
                     {"amount", RPCArg::Type::STR, RPCArg::Optional::NO,  "The amount of token to send. eg 0.1"},
                     {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The gas limit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+", max: "+i64tostr(blockGasLimit)},
-                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The qtum price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The digiwage price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
                     {"checkoutputs", RPCArg::Type::BOOL, RPCArg::Default{true}, "Check outputs before send"},
                  },
                 RPCResult{
@@ -1391,10 +1391,10 @@ RPCHelpMan qrc20burn()
                 "\nBurns token amount from owner address.\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address."},
-                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner qtum address."},
+                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner digiwage address."},
                     {"amount", RPCArg::Type::STR, RPCArg::Optional::NO,  "The amount of tokens to burn. eg 0.1"},
                     {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The gas limit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+", max: "+i64tostr(blockGasLimit)},
-                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The qtum price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The digiwage price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
                     {"checkoutputs", RPCArg::Type::BOOL, RPCArg::Default{true}, "Check outputs before send"},
                 },
                 RPCResult{
@@ -1506,11 +1506,11 @@ RPCHelpMan qrc20burnfrom()
                 "\nBurns token amount from a given address.\n",
                 {
                     {"contractaddress", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The contract address."},
-                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner qtum address."},
-                    {"spenderaddress", RPCArg::Type::STR, RPCArg::Optional::NO,  "The token spender qtum address."},
+                    {"owneraddress", RPCArg::Type::STR, RPCArg::Optional::NO, "The token owner digiwage address."},
+                    {"spenderaddress", RPCArg::Type::STR, RPCArg::Optional::NO,  "The token spender digiwage address."},
                     {"amount", RPCArg::Type::STR, RPCArg::Optional::NO,  "The amount of token to burn. eg 0.1"},
                     {"gaslimit", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The gas limit, default: "+i64tostr(DEFAULT_GAS_LIMIT_OP_SEND)+", max: "+i64tostr(blockGasLimit)},
-                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The qtum price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
+                    {"gasprice", RPCArg::Type::AMOUNT, RPCArg::Optional::OMITTED, "The digiwage price per gas unit, default: "+FormatMoney(nGasPrice)+", min:"+FormatMoney(minGasPrice)},
                     {"checkoutputs", RPCArg::Type::BOOL, RPCArg::Default{true}, "Check outputs before send"},
                  },
                 RPCResult{

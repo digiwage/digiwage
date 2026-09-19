@@ -57,7 +57,7 @@
 // Application startup time (used for uptime calculation)
 const int64_t nStartupTime = GetTime();
 
-const char * const BITCOIN_CONF_FILENAME = "qtum.conf";
+const char * const BITCOIN_CONF_FILENAME = "digiwage.conf";
 const char * const BITCOIN_SETTINGS_FILENAME = "settings.json";
 
 ArgsManager gArgs;
@@ -712,12 +712,12 @@ std::string HelpMessageOpt(const std::string &option, const std::string &message
 
 fs::path GetDefaultDataDir()
 {
-    // Windows: C:\Users\Username\AppData\Roaming\Qtum
-    // macOS: ~/Library/Application Support/Qtum
-    // Unix-like: ~/.qtum
+    // Windows: C:\Users\Username\AppData\Roaming\DigiWage
+    // macOS: ~/Library/Application Support/DigiWage
+    // Unix-like: ~/.digiwage
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Qtum";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "DigiWage";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -727,10 +727,10 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // macOS
-    return pathRet / "Library/Application Support/Qtum";
+    return pathRet / "Library/Application Support/DigiWage";
 #else
     // Unix-like
-    return pathRet / ".qtum";
+    return pathRet / ".digiwage";
 #endif
 #endif
 }

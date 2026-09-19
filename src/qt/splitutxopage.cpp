@@ -51,7 +51,7 @@ SplitUTXOPage::SplitUTXOPage(QWidget *parent, Mode mode) :
         break;
     }
 
-    ui->labelAddress->setToolTip(tr("The qtum address to split utxos."));
+    ui->labelAddress->setToolTip(tr("The digiwage address to split utxos."));
     ui->labelMinValue->setToolTip(tr("Select utxo which value is smaller than value (minimum 0.1 COIN)."));
     ui->labelMaxValue->setToolTip(tr("Select utxo which value is greater than value (minimum 0.1 COIN)."));
     ui->labelMaxOutputs->setToolTip(tr("Maximum outputs to create"));
@@ -108,14 +108,14 @@ void SplitUTXOPage::setModel(WalletModel *_model)
     if (m_model && m_model->getOptionsModel())
         connect(m_model->getOptionsModel(), &OptionsModel::displayUnitChanged, this, &SplitUTXOPage::updateDisplayUnit);
 
-    // update the display unit, to not use the default ("QTUM")
+    // update the display unit, to not use the default ("DIGIWAGE")
     updateDisplayUnit();
 
     bCreateUnsigned = m_model->createUnsigned();
 
     if (bCreateUnsigned) {
         ui->splitCoinsButton->setText(tr("Cr&eate Unsigned"));
-        ui->splitCoinsButton->setToolTip(tr("Creates a Partially Signed Qtum Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.").arg(PACKAGE_NAME));
+        ui->splitCoinsButton->setToolTip(tr("Creates a Partially Signed DigiWage Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.").arg(PACKAGE_NAME));
     }
 
     if(m_model && m_model->wallet().privateKeysDisabled())
@@ -229,7 +229,7 @@ void SplitUTXOPage::on_splitCoinsClicked()
         if (bCreateUnsigned) {
             questionString.append(tr("Do you want to draft this create contract transaction?"));
             questionString.append("<br /><span style='font-size:10pt;'>");
-            questionString.append(tr("Please, review your transaction proposal. This will produce a Partially Signed Qtum Transaction (PSBT) which you can copy and then sign with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.").arg(PACKAGE_NAME));
+            questionString.append(tr("Please, review your transaction proposal. This will produce a Partially Signed DigiWage Transaction (PSBT) which you can copy and then sign with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.").arg(PACKAGE_NAME));
             questionString.append("</span>");
             questionString.append(tr("<br/><br/>Split coins for address:<br/>"));
         } else {

@@ -26,7 +26,7 @@ from test_framework.p2p import P2PDataStore
 from test_framework.script import OP_TRUE
 from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal
-from test_framework.qtumconfig import *
+from test_framework.digiwageconfig import *
 
 
 class InvalidBlockRequestTest(BitcoinTestFramework):

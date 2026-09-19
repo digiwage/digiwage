@@ -13,7 +13,7 @@ from test_framework.messages import (
     COIN,
     tx_from_hex,
 )
-from test_framework.qtumconfig import *
+from test_framework.digiwageconfig import *
 
 
 class TxnMallTest(BitcoinTestFramework):

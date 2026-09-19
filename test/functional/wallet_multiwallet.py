@@ -23,7 +23,7 @@ from test_framework.util import (
     assert_raises_rpc_error,
     get_rpc_proxy,
 )
-from test_framework.qtumconfig import INITIAL_BLOCK_REWARD
+from test_framework.digiwageconfig import INITIAL_BLOCK_REWARD
 
 got_loading_error = False
 

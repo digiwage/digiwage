@@ -2,19 +2,18 @@
 
 *.exe
 *.pdb
-src/qtum
-src/qtumd
-src/qtum-cli
-src/qtum-gui
-src/qtum-node
-src/qtum-tx
-src/qtum-util
-src/qtum-chainstate
-src/qtum-wallet
+src/digiwaged
+src/digiwage-cli
+src/digiwage-gui
+src/digiwage-node
+src/digiwage-tx
+src/digiwage-util
+src/digiwage-chainstate
+src/digiwage-wallet
 src/test/fuzz/fuzz
-src/test/test_qtum
-src/qt/test/test_qtum-qt
-src/bench/bench_qtum
+src/test/test_digiwage
+src/qt/test/test_digiwage-qt
+src/bench/bench_digiwage
 
 # autoreconf
 Makefile.in
@@ -93,15 +92,15 @@ src/qt/bitcoin-qt.includes
 *.qm
 Makefile
 !depends/Makefile
-src/qt/qtum-qt
-Qtum-Qt.app
+src/qt/digiwage-qt
+DigiWage-Qt.app
 
 # Qt Creator
 Makefile.am.user
 
 # Unit-tests
 Makefile.test
-qtum-qt_test
+digiwage-qt_test
 
 # Resources cpp
 qrc_*.cpp

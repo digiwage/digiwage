@@ -17,8 +17,8 @@ from test_framework.util import (
     find_vout_for_address,
 )
 from test_framework.wallet_util import test_address
-from test_framework.qtumconfig import *
-from test_framework.qtum import convert_btc_address_to_qtum, generatesynchronized, convert_btc_bech32_address_to_qtum
+from test_framework.digiwageconfig import *
+from test_framework.digiwage import convert_btc_address_to_digiwage, generatesynchronized, convert_btc_bech32_address_to_digiwage
 
 NOT_A_NUMBER_OR_STRING = "Amount is not a number or string"
 OUT_OF_RANGE = "Amount out of range"
@@ -434,13 +434,13 @@ class WalletTest(BitcoinTestFramework):
             assert_raises_rpc_error(-3, "Address does not refer to a key", self.nodes[0].dumpprivkey, temp_address)
 
             # This will raise an exception for attempting to get the private key of an invalid Bitcoin address
-            assert_raises_rpc_error(-5, "Invalid Qtum address", self.nodes[0].dumpprivkey, "invalid")
+            assert_raises_rpc_error(-5, "Invalid DigiWage address", self.nodes[0].dumpprivkey, "invalid")
 
             # This will raise an exception for attempting to set a label for an invalid Bitcoin address
-            assert_raises_rpc_error(-5, "Invalid Qtum address", self.nodes[0].setlabel, "invalid address", "label")
+            assert_raises_rpc_error(-5, "Invalid DigiWage address", self.nodes[0].setlabel, "invalid address", "label")
 
             # This will raise an exception for importing an invalid address
-            assert_raises_rpc_error(-5, "Invalid Qtum address or script", self.nodes[0].importaddress, "invalid")
+            assert_raises_rpc_error(-5, "Invalid DigiWage address or script", self.nodes[0].importaddress, "invalid")
 
             # This will raise an exception for attempting to import a pubkey that isn't in hex
             assert_raises_rpc_error(-5, "Pubkey must be a hex string", self.nodes[0].importpubkey, "not hex")
@@ -449,7 +449,7 @@ class WalletTest(BitcoinTestFramework):
             assert_raises_rpc_error(-5, "Pubkey is not a valid public key", self.nodes[0].importpubkey, "5361746f736869204e616b616d6f746f")
 
             # Bech32m addresses cannot be imported into a legacy wallet
-            assert_raises_rpc_error(-5, "Bech32m addresses cannot be imported into legacy wallets", self.nodes[0].importaddress, convert_btc_bech32_address_to_qtum("bcrt1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqc8gma6"))
+            assert_raises_rpc_error(-5, "Bech32m addresses cannot be imported into legacy wallets", self.nodes[0].importaddress, convert_btc_bech32_address_to_digiwage("bcrt1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqc8gma6"))
 
             # Import address and private key to check correct behavior of spendable unspents
             # 1. Send some coins to generate new UTXO
@@ -634,8 +634,8 @@ class WalletTest(BitcoinTestFramework):
 
         # Test getaddressinfo on external address. Note that these addresses are taken from disablewallet.py
         assert_raises_rpc_error(-5, "Invalid or unsupported Base58-encoded address.", self.nodes[0].getaddressinfo, "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy")
-        address_info = self.nodes[0].getaddressinfo(convert_btc_address_to_qtum("mneYUmWYsuk7kySiURxCi3AGxrAqZxLgPZ"))
-        assert_equal(address_info['address'], convert_btc_address_to_qtum("mneYUmWYsuk7kySiURxCi3AGxrAqZxLgPZ"))
+        address_info = self.nodes[0].getaddressinfo(convert_btc_address_to_digiwage("mneYUmWYsuk7kySiURxCi3AGxrAqZxLgPZ"))
+        assert_equal(address_info['address'], convert_btc_address_to_digiwage("mneYUmWYsuk7kySiURxCi3AGxrAqZxLgPZ"))
         assert_equal(address_info["scriptPubKey"], "76a9144e3854046c7bd1594ac904e4793b6a45b36dea0988ac")
         assert not address_info["ismine"]
         assert not address_info["iswatchonly"]

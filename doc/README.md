@@ -1,30 +1,30 @@
-Qtum Core
+DigiWage Core
 =============
 
 Setup
 ---------------------
-Qtum Core is the original Qtum client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Qtum transactions, which requires several gigabytes of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
+DigiWage Core is the original DigiWage client and it builds the backbone of the network. It downloads and, by default, stores the entire history of DigiWage transactions, which requires several gigabytes of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
 
-To download Qtum Core, visit [qtumcore.org](https://qtumeco.io/wallet).
+To download DigiWage Core, visit [digiwagecore.org](https://digiwageeco.io/wallet).
 
 Running
 ---------------------
-The following are some helpful notes on how to run Qtum Core on your native platform.
+The following are some helpful notes on how to run DigiWage Core on your native platform.
 
 ### Unix
 
 Unpack the files into a directory and run:
 
-- `bin/qtum-qt` (GUI) or
-- `bin/qtumd` (headless)
+- `bin/digiwage-qt` (GUI) or
+- `bin/digiwaged` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run qtum-qt.exe.
+Unpack the files into a directory, and then run digiwage-qt.exe.
 
 ### macOS
 
-Drag Qtum Core to your applications folder, and then run Qtum Core.
+Drag DigiWage Core to your applications folder, and then run DigiWage Core.
 
 ### Need Help?
 
@@ -36,7 +36,7 @@ for help and more information.
 
 Building
 ---------------------
-The following are developer notes on how to build Qtum Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build DigiWage Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [Dependencies](dependencies.md)
 - [macOS Build Notes](build-osx.md)
@@ -49,7 +49,7 @@ The following are developer notes on how to build Qtum Core on your native platf
 
 Development
 ---------------------
-The Qtum repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The DigiWage repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Productivity Notes](productivity.md)
@@ -71,7 +71,7 @@ The Qtum repo's [root README](/README.md) contains relevant information on the d
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
-- [qtum.conf Configuration File](qtum-conf.md)
+- [digiwage.conf Configuration File](digiwage-conf.md)
 - [CJDNS Support](cjdns.md)
 - [Files](files.md)
 - [Fuzz-testing](fuzzing.md)

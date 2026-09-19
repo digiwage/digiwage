@@ -57,11 +57,11 @@ public:
     {
         if(instance().network == "main")
         {
-            return QString(QTUM_INFO_MAINNET).arg("tx", txHash);
+            return QString(DIGIWAGE_INFO_MAINNET).arg("tx", txHash);
         }
         else if(instance().network == "test")
         {
-            return QString(QTUM_INFO_TESTNET).arg("tx", txHash);
+            return QString(DIGIWAGE_INFO_TESTNET).arg("tx", txHash);
         }
 
         return txHash;

@@ -19,7 +19,7 @@ from test_framework.util import (
     assert_equal,
 )
 from data import invalid_txs
-from test_framework.qtumconfig import *
+from test_framework.digiwageconfig import *
 
 
 class InvalidTxRequestTest(BitcoinTestFramework):

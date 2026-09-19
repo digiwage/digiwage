@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Open qtum URI</string>
+   <string>Open digiwage URI</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
@@ -44,7 +44,7 @@
      <item>
       <widget class="QValidatedLineEdit" name="uriEdit">
        <property name="placeholderText">
-        <string notr="true">qtum:</string>
+        <string notr="true">digiwage:</string>
        </property>
       </widget>
      </item>

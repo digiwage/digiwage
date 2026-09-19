@@ -10,6 +10,8 @@
 #include <primitives/block.h>
 #include <uint256.h>
 
+#include <algorithm>
+
 namespace {
     // returns a * exp(p/q) where |p/q| is small
     arith_uint256 mul_exp(arith_uint256 a, int64_t p, int64_t q)
@@ -55,8 +57,60 @@ inline arith_uint256 GetLimit(int nHeight, const Consensus::Params& params, bool
     }
 }
 
+static unsigned int DigiwageDarkGravityWave(const CBlockIndex* last, const Consensus::Params& params)
+{
+    const arith_uint256 limit = UintToArith256(params.powLimit);
+    if (!last || last->nHeight < 24) return limit.GetCompact();
+
+    const CBlockIndex* reading = last;
+    arith_uint256 average;
+    arith_uint256 previous_average;
+    int64_t actual_timespan = 0;
+    int64_t last_time = 0;
+    int64_t count = 0;
+    for (unsigned int i = 1; reading && reading->nHeight > 0 && i <= 24; ++i) {
+        ++count;
+        const arith_uint256 target = arith_uint256().SetCompact(reading->nBits);
+        if (count == 1) average = target;
+        else average = arith_uint256(((previous_average * count) + target) / (count + 1));
+        previous_average = average;
+        if (last_time > 0) actual_timespan += last_time - reading->GetBlockTime();
+        last_time = reading->GetBlockTime();
+        reading = reading->pprev;
+    }
+    const int64_t target_timespan = count * params.nPowTargetSpacing;
+    actual_timespan = std::max(target_timespan / 3, std::min(actual_timespan, target_timespan * 3));
+    average *= actual_timespan;
+    average /= target_timespan;
+    if (average > limit) average = limit;
+    return average.GetCompact();
+}
+
+static unsigned int DigiwageNextWork(const CBlockIndex* last, const Consensus::Params& params)
+{
+    if (!last || last->nHeight < 24) return UintToArith256(params.powLimit).GetCompact();
+    if (last->nHeight <= 1000) return DigiwageDarkGravityWave(last, params);
+
+    arith_uint256 target;
+    target.SetCompact(last->nBits);
+    int64_t spacing = last->GetBlockTime() - last->pprev->GetBlockTime();
+    if (spacing < 0) spacing = 1;
+    constexpr int64_t target_spacing = 60;
+    const int next_height = last->nHeight + 1;
+    const bool time_v2 = next_height >= params.digiwage_rhf_height;
+    if (time_v2 && spacing > target_spacing * 10) spacing = target_spacing * 10;
+    const int64_t interval = time_v2 ? 30 : 40;
+    if (time_v2 && last->nHeight < params.digiwage_rhf_height) target <<= 4;
+    target *= ((interval - 1) * target_spacing + 2 * spacing);
+    target /= ((interval + 1) * target_spacing);
+    const arith_uint256 limit = UintToArith256(time_v2 ? params.digiwage_pos_limit_v2 : params.posLimit);
+    if (target == 0 || target > limit) target = limit;
+    return target.GetCompact();
+}
+
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params, bool fProofOfStake)
 {
+    if (params.digiwage_history) return DigiwageNextWork(pindexLast, params);
 
     unsigned int  nTargetLimit = GetLimit(pindexLast ? pindexLast->nHeight+1 : 0, params, fProofOfStake).GetCompact();
 
@@ -141,10 +195,10 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 
 // Check that on difficulty adjustments, the new difficulty does not increase
 // or decrease beyond the permitted limits.
-#ifdef QTUM_BUILD
+#ifdef DIGIWAGE_BUILD
 bool PermittedDifficultyTransition(const Consensus::Params&, int64_t, uint32_t, uint32_t)
 {
-    // Qtum has different difficulty adjustment algorithm than Bitcoin, so checking the borders for the new difficulty value might not be the same.
+    // DigiWage has different difficulty adjustment algorithm than Bitcoin, so checking the borders for the new difficulty value might not be the same.
     // The method is used for unit testing and to reject headers (headerssync.cpp) during synching for Bitcoin depending on the difficulty transition.
     return true;
 }

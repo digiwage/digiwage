@@ -58,8 +58,8 @@ from test_framework.util import (
 from test_framework.wallet_util import (
     get_generate_key,
 )
-from test_framework.qtumconfig import COINBASE_MATURITY, INITIAL_BLOCK_REWARD, ENABLE_REDUCED_BLOCK_TIME, MAX_BLOCK_BASE_SIZE, MAX_BLOCK_SIGOPS, FACTOR_REDUCED_BLOCK_TIME
-from test_framework.qtum import convert_btc_address_to_qtum, generatesynchronized
+from test_framework.digiwageconfig import COINBASE_MATURITY, INITIAL_BLOCK_REWARD, ENABLE_REDUCED_BLOCK_TIME, MAX_BLOCK_BASE_SIZE, MAX_BLOCK_SIGOPS, FACTOR_REDUCED_BLOCK_TIME
+from test_framework.digiwage import convert_btc_address_to_digiwage, generatesynchronized
 
 
 NODE_0 = 0
@@ -370,9 +370,9 @@ class SegWitTest(BitcoinTestFramework):
 
             # Import a compressed key and an uncompressed key, generate some multisig addresses
             self.nodes[0].importprivkey("92e6XLo5jVAVwrQKPNTs93oQco8f8sDNBcpv73Dsrs397fQtFQn")
-            uncompressed_spendable_address = [convert_btc_address_to_qtum("mvozP4UwyGD2mGZU4D2eMvMLPB9WkMmMQu")]
+            uncompressed_spendable_address = [convert_btc_address_to_digiwage("mvozP4UwyGD2mGZU4D2eMvMLPB9WkMmMQu")]
             self.nodes[0].importprivkey("cNC8eQ5dg3mFAVePDX4ddmPYpPbw41r9bm2jd1nLJT77e6RrzTRR")
-            compressed_spendable_address = [convert_btc_address_to_qtum("mmWQubrDomqpgSYekvsU7HWEVjLFHAakLe")]
+            compressed_spendable_address = [convert_btc_address_to_digiwage("mmWQubrDomqpgSYekvsU7HWEVjLFHAakLe")]
             assert not self.nodes[0].getaddressinfo(uncompressed_spendable_address[0])['iscompressed']
             assert self.nodes[0].getaddressinfo(compressed_spendable_address[0])['iscompressed']
 
@@ -396,7 +396,7 @@ class SegWitTest(BitcoinTestFramework):
             uncompressed_solvable_address.append(self.nodes[0].addmultisigaddress(2, [compressed_spendable_address[0], uncompressed_solvable_address[0]])['address'])
             compressed_solvable_address.append(self.nodes[0].addmultisigaddress(2, [compressed_spendable_address[0], compressed_solvable_address[0]])['address'])
             compressed_solvable_address.append(self.nodes[0].addmultisigaddress(2, [compressed_solvable_address[0], compressed_solvable_address[1]])['address'])
-            unknown_address = [convert_btc_address_to_qtum("mtKKyoHabkk6e4ppT7NaM7THqPUt7AzPrT"), convert_btc_address_to_qtum("2NDP3jLWAFT8NDAiUa9qiE6oBt2awmMq7Dx")]
+            unknown_address = [convert_btc_address_to_digiwage("mtKKyoHabkk6e4ppT7NaM7THqPUt7AzPrT"), convert_btc_address_to_digiwage("2NDP3jLWAFT8NDAiUa9qiE6oBt2awmMq7Dx")]
 
             # Test multisig_without_privkey
             # We have 2 public keys without private keys, use addmultisigaddress to add to wallet.
@@ -477,7 +477,7 @@ class SegWitTest(BitcoinTestFramework):
             op1 = CScript([OP_1])
             op0 = CScript([OP_0])
             # 2N7MGY19ti4KDMSzRfPAssP6Pxyuxoi6jLe is the P2SH(P2PKH) version of mjoE3sSrb8ByYEvgnC3Aox86u1CHnfJA4V
-            unsolvable_address = [convert_btc_address_to_qtum("mjoE3sSrb8ByYEvgnC3Aox86u1CHnfJA4V"), convert_btc_address_to_qtum("2N7MGY19ti4KDMSzRfPAssP6Pxyuxoi6jLe"), script_to_p2sh(op1), script_to_p2sh(op0)]
+            unsolvable_address = [convert_btc_address_to_digiwage("mjoE3sSrb8ByYEvgnC3Aox86u1CHnfJA4V"), convert_btc_address_to_digiwage("2N7MGY19ti4KDMSzRfPAssP6Pxyuxoi6jLe"), script_to_p2sh(op1), script_to_p2sh(op0)]
             unsolvable_address_key = bytes.fromhex("02341AEC7587A51CDE5279E0630A531AEA2615A9F80B17E8D9376327BAEAA59E3D")
             unsolvablep2pkh = key_to_p2pkh_script(unsolvable_address_key)
             unsolvablep2wshp2pkh = script_to_p2wsh_script(unsolvablep2pkh)
@@ -539,9 +539,9 @@ class SegWitTest(BitcoinTestFramework):
             # Repeat some tests. This time we don't add witness scripts with importaddress
             # Import a compressed key and an uncompressed key, generate some multisig addresses
             self.nodes[0].importprivkey("927pw6RW8ZekycnXqBQ2JS5nPyo1yRfGNN8oq74HeddWSpafDJH")
-            uncompressed_spendable_address = [convert_btc_address_to_qtum("mguN2vNSCEUh6rJaXoAVwY3YZwZvEmf5xi")]
+            uncompressed_spendable_address = [convert_btc_address_to_digiwage("mguN2vNSCEUh6rJaXoAVwY3YZwZvEmf5xi")]
             self.nodes[0].importprivkey("cMcrXaaUC48ZKpcyydfFo8PxHAjpsYLhdsp6nmtB3E2ER9UUHWnw")
-            compressed_spendable_address = [convert_btc_address_to_qtum("n1UNmpmbVUJ9ytXYXiurmGPQ3TRrXqPWKL")]
+            compressed_spendable_address = [convert_btc_address_to_digiwage("n1UNmpmbVUJ9ytXYXiurmGPQ3TRrXqPWKL")]
 
             self.nodes[0].importpubkey(pubkeys[5])
             compressed_solvable_address = [key_to_p2pkh(pubkeys[5])]

@@ -5,7 +5,7 @@
 #include <qt/hardwaresigntxdialog.h>
 #include <qt/forms/ui_hardwaresigntxdialog.h>
 #include <qt/walletmodel.h>
-#include <qt/qtumhwitool.h>
+#include <qt/digiwagehwitool.h>
 #include <qt/waitmessagebox.h>
 #include <qt/hardwarekeystoredialog.h>
 #include <qt/guiconstants.h>

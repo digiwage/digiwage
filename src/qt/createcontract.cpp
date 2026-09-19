@@ -58,7 +58,7 @@ CreateContract::CreateContract(const PlatformStyle *platformStyle, QWidget *pare
     m_ABIFunctionField = new ABIFunctionField(platformStyle, ABIFunctionField::Create, ui->scrollAreaConstructor);
     ui->scrollAreaConstructor->setWidget(m_ABIFunctionField);
     ui->labelBytecode->setToolTip(tr("The bytecode of the contract"));
-    ui->labelSenderAddress->setToolTip(tr("The qtum address that will be used to create the contract."));
+    ui->labelSenderAddress->setToolTip(tr("The digiwage address that will be used to create the contract."));
 
     m_tabInfo = new TabBarInfo(ui->stackedWidget);
     m_tabInfo->addTab(0, tr("Create Contract"));
@@ -116,14 +116,14 @@ void CreateContract::setModel(WalletModel *_model)
     if (m_model && m_model->getOptionsModel())
         connect(m_model->getOptionsModel(), &OptionsModel::displayUnitChanged, this, &CreateContract::updateDisplayUnit);
 
-    // update the display unit, to not use the default ("QTUM")
+    // update the display unit, to not use the default ("DIGIWAGE")
     updateDisplayUnit();
 
     bCreateUnsigned = m_model->createUnsigned();
 
     if (bCreateUnsigned) {
         ui->pushButtonCreateContract->setText(tr("Cr&eate Unsigned"));
-        ui->pushButtonCreateContract->setToolTip(tr("Creates a Partially Signed Qtum Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.").arg(PACKAGE_NAME));
+        ui->pushButtonCreateContract->setToolTip(tr("Creates a Partially Signed DigiWage Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.").arg(PACKAGE_NAME));
     }
 }
 
@@ -214,7 +214,7 @@ void CreateContract::on_createContractClicked()
         if (bCreateUnsigned) {
             questionString.append(tr("Do you want to draft this create contract transaction?"));
             questionString.append("<br /><span style='font-size:10pt;'>");
-            questionString.append(tr("This will produce a Partially Signed Qtum Transaction (PSBT) which you can copy and then sign with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.").arg(PACKAGE_NAME));
+            questionString.append(tr("This will produce a Partially Signed DigiWage Transaction (PSBT) which you can copy and then sign with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.").arg(PACKAGE_NAME));
             questionString.append("</span>");
         } else {
             questionString.append(tr("Are you sure you want to create contract? <br />"));
@@ -275,7 +275,7 @@ void CreateContract::on_gasInfoChanged(quint64 blockGasLimit, quint64 minGasPric
 {
     Q_UNUSED(nGasPrice);
     ui->labelGasLimit->setToolTip(tr("Gas limit. Default = %1, Max = %2").arg(DEFAULT_GAS_LIMIT_OP_CREATE).arg(blockGasLimit));
-    ui->labelGasPrice->setToolTip(tr("Gas price: QTUM price per gas unit. Default = %1, Min = %2").arg(QString::fromStdString(FormatMoney(DEFAULT_GAS_PRICE))).arg(QString::fromStdString(FormatMoney(minGasPrice))));
+    ui->labelGasPrice->setToolTip(tr("Gas price: DIGIWAGE price per gas unit. Default = %1, Min = %2").arg(QString::fromStdString(FormatMoney(DEFAULT_GAS_PRICE))).arg(QString::fromStdString(FormatMoney(minGasPrice))));
     ui->lineEditGasPrice->SetMinValue(minGasPrice);
     ui->lineEditGasLimit->setMaximum(blockGasLimit);
 }

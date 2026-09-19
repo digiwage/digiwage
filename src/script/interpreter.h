@@ -277,6 +277,8 @@ public:
          return false;
     }
 
+    virtual bool CheckColdStake(const CScript&) const { return false; }
+
     virtual ~BaseSignatureChecker() {}
 };
 
@@ -313,6 +315,22 @@ public:
     bool CheckSchnorrSignature(Span<const unsigned char> sig, Span<const unsigned char> pubkey, SigVersion sigversion, ScriptExecutionData& execdata, ScriptError* serror = nullptr) const override;
     bool CheckLockTime(const CScriptNum& nLockTime) const override;
     bool CheckSequence(const CScriptNum& nSequence) const override;
+    bool CheckColdStake(const CScript& script) const override
+    {
+        if (txTo->vin.empty() || txTo->vin[0].prevout.IsNull() ||
+            txTo->vout.size() < 2 || !txTo->vout[0].IsEmpty()) return false;
+        const CScript& first = txTo->vin[0].scriptSig;
+        for (size_t i = 1; i < txTo->vin.size(); ++i) {
+            if (txTo->vin[i].scriptSig != first) return false;
+        }
+        if (txTo->vout[1].scriptPubKey != script) return false;
+        if (txTo->vin.size() > 3) {
+            for (size_t i = 2; i + 1 < txTo->vout.size(); ++i) {
+                if (txTo->vout[i].scriptPubKey != script) return false;
+            }
+        }
+        return true;
+    }
 };
 
 using TransactionSignatureChecker = GenericTransactionSignatureChecker<CTransaction>;
@@ -344,6 +362,7 @@ public:
     {
         return m_checker.CheckSequence(nSequence);
     }
+    bool CheckColdStake(const CScript& script) const override { return m_checker.CheckColdStake(script); }
 };
 
 template <class T>

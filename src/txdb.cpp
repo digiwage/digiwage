@@ -22,7 +22,7 @@ static constexpr uint8_t DB_COIN{'C'};
 static constexpr uint8_t DB_BLOCK_FILES{'f'};
 static constexpr uint8_t DB_BLOCK_INDEX{'b'};
 
-////////////////////////////////////////// // qtum
+////////////////////////////////////////// // digiwage
 static constexpr uint8_t DB_HEIGHTINDEX{'h'};
 static constexpr uint8_t DB_STAKEINDEX{'s'};
 static constexpr uint8_t DB_DELEGATEINDEX{'d'};
@@ -34,7 +34,7 @@ static constexpr uint8_t DB_FLAG{'F'};
 static constexpr uint8_t DB_REINDEX_FLAG{'R'};
 static constexpr uint8_t DB_LAST_BLOCK{'l'};
 
-////////////////////////////////////////// // qtum
+////////////////////////////////////////// // digiwage
 static constexpr uint8_t DB_ADDRESSINDEX{'a'};
 static constexpr uint8_t DB_ADDRESSUNSPENTINDEX{'u'};
 static constexpr uint8_t DB_TIMESTAMPINDEX{'S'};
@@ -327,7 +327,7 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) {
     return true;
 }
 
-/////////////////////////////////////////////////////// // qtum
+/////////////////////////////////////////////////////// // digiwage
 bool CBlockTreeDB::WriteHeightIndex(const CHeightTxIndexKey &heightIndex, const std::vector<uint256>& hash) {
     CDBBatch batch(*this);
     batch.Write(std::make_pair(DB_HEIGHTINDEX, heightIndex), hash);
@@ -727,11 +727,16 @@ bool CBlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, 
                 pindexNew->nMoneySupply   = diskindex.nMoneySupply;
                 pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
-                pindexNew->hashStateRoot  = diskindex.hashStateRoot; // qtum
-                pindexNew->hashUTXORoot   = diskindex.hashUTXORoot; // qtum
+                pindexNew->hashStateRoot  = diskindex.hashStateRoot; // digiwage
+                pindexNew->hashUTXORoot   = diskindex.hashUTXORoot; // digiwage
                 pindexNew->nStakeModifier = diskindex.nStakeModifier;
+                pindexNew->nDigiwageStakeModifier = diskindex.nDigiwageStakeModifier;
+                pindexNew->fDigiwageStakeModifierGenerated = diskindex.fDigiwageStakeModifierGenerated;
+                pindexNew->fDigiwageProofOfStake = diskindex.fDigiwageProofOfStake;
+                pindexNew->nDigiwageAccumulatorCheckpoint = diskindex.nDigiwageAccumulatorCheckpoint;
                 pindexNew->prevoutStake   = diskindex.prevoutStake;
-                pindexNew->vchBlockSigDlgt    = diskindex.vchBlockSigDlgt; // qtum
+                pindexNew->hashProof = diskindex.hashProof;
+                pindexNew->vchBlockSigDlgt    = diskindex.vchBlockSigDlgt; // digiwage
 
                 if (!CheckIndexProof(*pindexNew, consensusParams)) {
                     return error("%s: CheckIndexProof failed: %s", __func__, pindexNew->ToString());

@@ -72,6 +72,13 @@ struct BIP9Deployment {
  * Parameters that influence chain consensus.
  */
 struct Params {
+    bool digiwage_history{false};
+    int digiwage_stake_modifier_v2_height{std::numeric_limits<int>::max()};
+    int digiwage_zerocoin_height{std::numeric_limits<int>::max()};
+    int digiwage_rhf_height{std::numeric_limits<int>::max()};
+    int digiwage_contract_height{std::numeric_limits<int>::max()};
+    int digiwage_stake_min_depth{0};
+    uint256 digiwage_pos_limit_v2{};
     uint256 hashGenesisBlock;
     int nSubsidyHalvingInterval;
     int nSubsidyHalvingIntervalV2;

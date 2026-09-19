@@ -117,11 +117,11 @@
         </translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Qtum network.</source>
+        <source>%n active connection(s) to DigiWage network.</source>
         <extracomment>A substring of the tooltip.</extracomment>
         <translation type="unfinished">
-            <numerusform>%n active connection(s) to Qtum network.</numerusform>
-            <numerusform>%n active connection(s) to Qtum network.</numerusform>
+            <numerusform>%n active connection(s) to DigiWage network.</numerusform>
+            <numerusform>%n active connection(s) to DigiWage network.</numerusform>
         </translation>
     </message>
     <message>

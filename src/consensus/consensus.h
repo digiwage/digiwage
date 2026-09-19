@@ -14,7 +14,7 @@ extern unsigned int dgpMaxBlockSerSize;
 /** The maximum allowed weight for a block, see BIP 141 (network rule) */
 extern unsigned int dgpMaxBlockWeight;
 
-extern unsigned int dgpMaxBlockSize; // qtum
+extern unsigned int dgpMaxBlockSize; // digiwage
 
 /** The maximum allowed number of signature check operations in a block (network rule) */
 extern int64_t dgpMaxBlockSigOps;

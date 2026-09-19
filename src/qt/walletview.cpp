@@ -39,7 +39,7 @@
 #include <QProgressDialog>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <qt/qtumpushbutton.h>
+#include <qt/digiwagepushbutton.h>
 
 WalletView::WalletView(WalletModel* wallet_model, const PlatformStyle* _platformStyle, QWidget* parent)
     : QStackedWidget(parent),
@@ -60,7 +60,7 @@ WalletView::WalletView(WalletModel* wallet_model, const PlatformStyle* _platform
     transactionView->setModel(walletModel);
 
     vbox->addWidget(transactionView);
-    QPushButton *exportButton = new QtumPushButton(tr("&Export"), this);
+    QPushButton *exportButton = new DigiWagePushButton(tr("&Export"), this);
     exportButton->setToolTip(tr("Export the data in the current tab to a file"));
     if (platformStyle->getImagesOnButtons()) {
         exportButton->setIcon(platformStyle->MultiStatesIcon(":/icons/export", PlatformStyle::PushButton));

@@ -1,22 +1,22 @@
 #include <wallet/stake.h>
 #include <wallet/receive.h>
 #include <node/miner.h>
-#include <qtum/qtumledger.h>
+#include <digiwage/digiwageledger.h>
 #include <pos.h>
 #include <key_io.h>
 
 namespace wallet {
 
-void StakeQtums(CWallet& wallet, bool fStake)
+void StakeDigiWages(CWallet& wallet, bool fStake)
 {
-    node::StakeQtums(fStake, &wallet);
+    node::StakeDigiWages(fStake, &wallet);
 }
 
 void StartStake(CWallet& wallet)
 {
     if(wallet.IsWalletFlagSet(WALLET_FLAG_DISABLE_PRIVATE_KEYS))
     {
-        wallet.m_enabled_staking = node::ENABLE_HARDWARE_STAKE && !wallet.m_ledger_id.empty() && QtumLedger::instance().toolExists();
+        wallet.m_enabled_staking = node::ENABLE_HARDWARE_STAKE && !wallet.m_ledger_id.empty() && DigiWageLedger::instance().toolExists();
     }
     else
     {
@@ -24,7 +24,7 @@ void StartStake(CWallet& wallet)
     }
 
     wallet.m_is_staking_thread_stopped = false;
-    StakeQtums(wallet, true);
+    StakeDigiWages(wallet, true);
 }
 
 void StopStake(CWallet& wallet)
@@ -41,7 +41,7 @@ void StopStake(CWallet& wallet)
     {
         wallet.m_stop_staking_thread = true;
         wallet.m_enabled_staking = false;
-        StakeQtums(wallet, false);
+        StakeDigiWages(wallet, false);
         wallet.stakeThread = 0;
         wallet.m_stop_staking_thread = false;
     }

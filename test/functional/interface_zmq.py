@@ -31,7 +31,7 @@ from test_framework.wallet import (
 )
 from test_framework.netutil import test_ipv6_local
 from io import BytesIO
-from test_framework.qtum import convert_btc_bech32_address_to_qtum
+from test_framework.digiwage import convert_btc_bech32_address_to_digiwage
 
 # Test may be skipped and not have zmq installed
 try:

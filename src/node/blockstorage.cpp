@@ -23,6 +23,7 @@
 #include <util/system.h>
 #include <validation.h>
 #include <chainparams.h>
+#include <digiwage/stakemodifier.h>
 
 #include <map>
 #include <unordered_map>
@@ -90,7 +91,24 @@ CBlockIndex* BlockManager::AddToBlockIndex(const CBlockHeader& block, CBlockInde
     uint256 hash = block.GetHash();
     auto [mi, inserted] = m_block_index.try_emplace(hash, block);
     if (!inserted) {
-        return &mi->second;
+        CBlockIndex* existing = &mi->second;
+        if (Params().GetConsensus().digiwage_history && existing->nHeight > 1000 && block.IsProofOfStake()) {
+            existing->fDigiwageProofOfStake = true;
+            ComputeDigiwageStakeModifier(existing->pprev, 0,
+                                         existing->nDigiwageStakeModifier,
+                                         existing->fDigiwageStakeModifierGenerated);
+            if (existing->nHeight >= Params().GetConsensus().digiwage_stake_modifier_v2_height) {
+                const CBlock* full_block = dynamic_cast<const CBlock*>(&block);
+                const uint256* stake_hash = block.nVersion >= 6 ? &block.prevoutStake.hash : nullptr;
+                if (!stake_hash && (!full_block || full_block->vtx.size() < 2 || full_block->vtx[1]->vin.empty())) return existing;
+                CHashWriter writer(SER_GETHASH, 0);
+                writer << (stake_hash ? *stake_hash : full_block->vtx[1]->vin[0].prevout.hash)
+                       << existing->pprev->nStakeModifier;
+                existing->nStakeModifier = writer.GetHash();
+            }
+            m_dirty_blockindex.insert(existing);
+        }
+        return existing;
     }
     CBlockIndex* pindexNew = &(*mi).second;
 
@@ -108,9 +126,32 @@ CBlockIndex* BlockManager::AddToBlockIndex(const CBlockHeader& block, CBlockInde
         pindexNew->nHeight = pindexNew->pprev->nHeight + 1;
         pindexNew->BuildSkip();
     }
+    if (Params().GetConsensus().digiwage_history && pindexNew->pprev && pindexNew->nHeight > 1000) {
+        // Legacy PoS is encoded in the coinstake body, not in prevoutStake.
+        pindexNew->fDigiwageProofOfStake = block.IsProofOfStake();
+        if (pindexNew->fDigiwageProofOfStake &&
+            pindexNew->nHeight >= Params().GetConsensus().digiwage_stake_modifier_v2_height) {
+            const CBlock* full_block = dynamic_cast<const CBlock*>(&block);
+            const uint256* stake_hash = block.nVersion >= 6 ? &block.prevoutStake.hash : nullptr;
+            assert(stake_hash || (full_block && full_block->vtx.size() > 1 && !full_block->vtx[1]->vin.empty()));
+            CHashWriter writer(SER_GETHASH, 0);
+            writer << (stake_hash ? *stake_hash : full_block->vtx[1]->vin[0].prevout.hash)
+                   << pindexNew->pprev->nStakeModifier;
+            pindexNew->nStakeModifier = writer.GetHash();
+        }
+    }
+    if (Params().GetConsensus().digiwage_history && pindexNew->pprev) {
+        // The deployed source used a process address for the first modifier.
+        // Historical selection converges independently of it by height 11.
+        ComputeDigiwageStakeModifier(pindexNew->pprev, 0,
+                                    pindexNew->nDigiwageStakeModifier,
+                                    pindexNew->fDigiwageStakeModifierGenerated);
+    }
     pindexNew->nTimeMax = (pindexNew->pprev ? std::max(pindexNew->pprev->nTimeMax, pindexNew->nTime) : pindexNew->nTime);
     pindexNew->nChainWork = (pindexNew->pprev ? pindexNew->pprev->nChainWork : 0) + GetBlockProof(*pindexNew);
-    pindexNew->nStakeModifier = ComputeStakeModifier(pindexNew->pprev, block.IsProofOfWork() ? hash : block.prevoutStake.hash);
+    if (!Params().GetConsensus().digiwage_history) {
+        pindexNew->nStakeModifier = ComputeStakeModifier(pindexNew->pprev, block.IsProofOfWork() ? hash : block.prevoutStake.hash);
+    }
     pindexNew->RaiseValidity(BLOCK_VALID_TREE);
     if (best_header == nullptr || best_header->nChainWork < pindexNew->nChainWork) {
         best_header = pindexNew;
@@ -372,7 +413,7 @@ bool BlockManager::LoadBlockIndexDB(const Consensus::Params& consensus_params)
     m_block_tree_db->ReadReindexing(fReindexing);
     if (fReindexing) fReindex = true;
 
-    ///////////////////////////////////////////////////////////// // qtum
+    ///////////////////////////////////////////////////////////// // digiwage
     m_block_tree_db->ReadFlag("addrindex", fAddressIndex);
     LogPrintf("LoadBlockIndexDB(): address index %s\n", fAddressIndex ? "enabled" : "disabled");
     /////////////////////////////////////////////////////////////

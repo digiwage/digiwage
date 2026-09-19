@@ -13,8 +13,8 @@ from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
 )
-from test_framework.qtum import convert_btc_address_to_qtum, generatesynchronized
-from test_framework.qtumconfig import INITIAL_BLOCK_REWARD, COINBASE_MATURITY
+from test_framework.digiwage import convert_btc_address_to_digiwage, generatesynchronized
+from test_framework.digiwageconfig import INITIAL_BLOCK_REWARD, COINBASE_MATURITY
 
 
 def create_transactions(node, address, amt, fees):

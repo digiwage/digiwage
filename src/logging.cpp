@@ -52,11 +52,11 @@ bool BCLog::Logger::StartLogging()
 
     assert(m_buffering);
     assert(m_fileout == nullptr);
-    assert(m_fileoutVM == nullptr); // qtum
+    assert(m_fileoutVM == nullptr); // digiwage
 
     if (m_print_to_file) {
         assert(!m_file_path.empty());
-        assert(!m_file_pathVM.empty()); // qtum
+        assert(!m_file_pathVM.empty()); // digiwage
         m_fileout = fsbridge::fopen(m_file_path, "a");
         m_fileoutVM = fsbridge::fopen(m_file_pathVM, "a");
         if (!m_fileout || !m_fileoutVM) {
@@ -490,7 +490,7 @@ void BCLog::Logger::LogPrintStr(const std::string& str, const std::string& loggi
             }
         }
 
-        //////////////////////////////// // qtum
+        //////////////////////////////// // digiwage
         FILE* file = m_fileout;
         if(useVMLog){
             file = m_fileoutVM;

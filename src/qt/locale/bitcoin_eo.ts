@@ -66,13 +66,13 @@
         <translation type="unfinished">Ricevaj adresoj</translation>
     </message>
     <message>
-        <source>These are your Qtum addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation type="unfinished">Jen viaj Qtum-adresoj por sendi pagojn. Zorge kontrolu la sumon kaj la alsendan adreson antaŭ ol sendi.</translation>
+        <source>These are your DigiWage addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation type="unfinished">Jen viaj DigiWage-adresoj por sendi pagojn. Zorge kontrolu la sumon kaj la alsendan adreson antaŭ ol sendi.</translation>
     </message>
     <message>
-        <source>These are your Qtum addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
+        <source>These are your DigiWage addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
 Signing is only possible with addresses of the type 'legacy'.</source>
-        <translation type="unfinished">Jen viaj qtumaj adresoj por ricevi pagojn. Estas konsilinde uzi apartan ricevan adreson por ĉiu transakcio.</translation> 
+        <translation type="unfinished">Jen viaj digiwageaj adresoj por ricevi pagojn. Estas konsilinde uzi apartan ricevan adreson por ĉiu transakcio.</translation> 
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -163,8 +163,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Konfirmo de ĉifrado de la monujo</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR QTUMS&lt;/b&gt;!</source>
-        <translation type="unfinished">Atentu! Se vi ĉifras vian monujon kaj perdas la pasfrazon, vi &lt;b&gt;PERDOS LA TUTON DE VIA QTUMO&lt;b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DIGIWAGES&lt;/b&gt;!</source>
+        <translation type="unfinished">Atentu! Se vi ĉifras vian monujon kaj perdas la pasfrazon, vi &lt;b&gt;PERDOS LA TUTON DE VIA DIGIWAGEO&lt;b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -370,8 +370,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Retaj agadoj malebliĝas.</translation>
     </message>
     <message>
-        <source>Send coins to a Qtum address</source>
-        <translation type="unfinished">Sendi monon al Qtum-adreso</translation>
+        <source>Send coins to a DigiWage address</source>
+        <translation type="unfinished">Sendi monon al DigiWage-adreso</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -394,12 +394,12 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Ĉifri la privatajn ŝlosilojn de via monujo</translation>
     </message>
     <message>
-        <source>Sign messages with your Qtum addresses to prove you own them</source>
-        <translation type="unfinished">Subskribi mesaĝojn per via Qtum-adresoj por pravigi, ke vi estas la posedanto</translation>
+        <source>Sign messages with your DigiWage addresses to prove you own them</source>
+        <translation type="unfinished">Subskribi mesaĝojn per via DigiWage-adresoj por pravigi, ke vi estas la posedanto</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Qtum addresses</source>
-        <translation type="unfinished">Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj Qtum-adresoj</translation>
+        <source>Verify messages to ensure they were signed with specified DigiWage addresses</source>
+        <translation type="unfinished">Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj DigiWage-adresoj</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -418,8 +418,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Langeto-breto</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso qtum:)</translation>
+        <source>Request payments (generates QR codes and digiwage: URIs)</source>
+        <translation type="unfinished">Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso digiwage:)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -506,7 +506,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Ĉefa Fenestro</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Qtum network.</source> 
+        <source>%n active connection(s) to DigiWage network.</source> 
         <extracomment>A substring of the tooltip.</extracomment>
         <translation type="unfinished">
             <numerusform />
@@ -814,8 +814,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Redakti adreson por sendi</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Qtum address.</source>
-        <translation type="unfinished">La adreso enigita "%1" ne estas valida Qtum-adreso.</translation>
+        <source>The entered address "%1" is not a valid DigiWage address.</source>
+        <translation type="unfinished">La adreso enigita "%1" ne estas valida DigiWage-adreso.</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -852,8 +852,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
 <context>
     <name>Intro</name>
     <message>
-        <source>Qtum</source>
-        <translation type="unfinished">Qtumo</translation>
+        <source>DigiWage</source>
+        <translation type="unfinished">DigiWageo</translation>
     </message>
     <message numerus="yes">
         <source>%n GB of space available</source>
@@ -961,8 +961,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
 <context>
     <name>OpenURIDialog</name>
     <message>
-        <source>Open qtum URI</source>
-        <translation type="unfinished">Malfermi na la URI de qtumo</translation>
+        <source>Open digiwage URI</source>
+        <translation type="unfinished">Malfermi na la URI de digiwageo</translation>
     </message>
     <message>
         <source>Paste address from clipboard</source>
@@ -1021,8 +1021,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Fakulo</translation>
     </message>
     <message>
-        <source>Automatically open the Qtum client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation type="unfinished">Aŭtomate malfermi la kursilan pordon por Qtumo. Tio funkcias nur se via kursilo havas la UPnP-funkcion, kaj se tiu ĉi estas ŝaltita.</translation>
+        <source>Automatically open the DigiWage client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation type="unfinished">Aŭtomate malfermi la kursilan pordon por DigiWageo. Tio funkcias nur se via kursilo havas la UPnP-funkcion, kaj se tiu ĉi estas ŝaltita.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1070,7 +1070,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation type="unfinished">Elekti la defaŭltan manieron por montri qtumajn sumojn en la interfaco, kaj kiam vi sendos qtumon.</translation>
+        <translation type="unfinished">Elekti la defaŭltan manieron por montri digiwageajn sumojn en la interfaco, kaj kiam vi sendos digiwageon.</translation>
     </message>
     <message>
         <source>Whether to show coin control features or not.</source>
@@ -1113,8 +1113,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Formularo</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Qtum network after a connection is established, but this process has not completed yet.</source>
-        <translation type="unfinished">Eblas, ke la informoj videblaj ĉi tie estas eksdataj. Via monujo aŭtomate sinkoniĝas kun la qtuma reto kiam ili konektiĝas, sed tiu procezo ankoraŭ ne finfariĝis.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the DigiWage network after a connection is established, but this process has not completed yet.</source>
+        <translation type="unfinished">Eblas, ke la informoj videblaj ĉi tie estas eksdataj. Via monujo aŭtomate sinkoniĝas kun la digiwagea reto kiam ili konektiĝas, sed tiu procezo ankoraŭ ne finfariĝis.</translation>
     </message>
     <message>
         <source>Available:</source>
@@ -1179,7 +1179,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Eraro dum pagopeto</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source> 
+        <source>Cannot start digiwage: click-to-pay handler</source> 
         <translation type="unfinished">Ne eblas lanĉi la ilon 'klaki-por-pagi'</translation>
     </message>
     <message>
@@ -1479,7 +1479,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <name>SendCoinsDialog</name>
     <message>
         <source>Send Coins</source>
-        <translation type="unfinished">Sendi Qtumon</translation> 
+        <translation type="unfinished">Sendi DigiWageon</translation> 
     </message>
     <message>
         <source>Coin Control Features</source>
@@ -1599,7 +1599,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
     <message>
         <source>Confirm send coins</source>
-        <translation type="unfinished">Konfirmi sendon de qtumo</translation> 
+        <translation type="unfinished">Konfirmi sendon de digiwageo</translation> 
     </message>
     <message>
         <source>The amount to pay must be larger than 0.</source>
@@ -1625,8 +1625,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         </translation>
     </message>
     <message>
-        <source>Warning: Invalid Qtum address</source>
-        <translation type="unfinished">Averto: Nevalida Qtum-adreso</translation>
+        <source>Warning: Invalid DigiWage address</source>
+        <translation type="unfinished">Averto: Nevalida DigiWage-adreso</translation>
     </message>
     <message>
         <source>(no label)</source>
@@ -1706,8 +1706,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Kopii la aktualan subskribon al la tondejo</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Qtum address</source>
-        <translation type="unfinished">Subskribi la mesaĝon por pravigi, ke vi estas la posedanto de tiu Qtum-adreso</translation>
+        <source>Sign the message to prove you own this DigiWage address</source>
+        <translation type="unfinished">Subskribi la mesaĝon por pravigi, ke vi estas la posedanto de tiu DigiWage-adreso</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1726,8 +1726,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">&amp;Kontroli Mesaĝon</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Qtum address</source>
-        <translation type="unfinished">Kontroli la mesaĝon por pravigi, ke ĝi ja estas subskribita per la specifa Qtum-adreso</translation>
+        <source>Verify the message to ensure it was signed with the specified DigiWage address</source>
+        <translation type="unfinished">Kontroli la mesaĝon por pravigi, ke ĝi ja estas subskribita per la specifa DigiWage-adreso</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -2091,7 +2091,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <name>WalletModel</name>
     <message>
         <source>Send Coins</source>
-        <translation type="unfinished">Sendi Qtumon</translation>
+        <translation type="unfinished">Sendi DigiWageon</translation>
     </message>
     <message>
         <source>default wallet</source>

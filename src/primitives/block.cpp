@@ -58,12 +58,25 @@ private:
 
 uint256 CBlockHeader::GetHash() const
 {
+    if (nVersion < 4) {
+        // Digiwage's original PoW and early PoS headers use Quark.
+        std::vector<unsigned char> bytes;
+        CVectorWriter writer(SER_GETHASH, PROTOCOL_VERSION, bytes, 0);
+        writer << *this;
+        return HashQuark(bytes.begin(), bytes.end());
+    }
+    // Version 4 includes the accumulator checkpoint. Later historical
+    // versions hash the original 80-byte Digiwage header.
     return SerializeHash(*this);
 }
 
 uint256 CBlockHeader::GetHashWithoutSign() const
 {
-    return SerializeHash(CBlockHeaderSign(*this), SER_GETHASH);
+    // Historical Digiwage signatures cover the deployed 80-byte header and
+    // live in the block body. Version 6 moves the signature into the header,
+    // so omit it while retaining every consensus commitment being signed.
+    if (nVersion >= 6) return SerializeHash(CBlockHeaderSign(*this), SER_GETHASH);
+    return GetHash();
 }
 
 std::string CBlockHeader::GetWithoutSign() const
@@ -82,8 +95,8 @@ std::string CBlock::ToString() const
         hashPrevBlock.ToString(),
         hashMerkleRoot.ToString(),
         nTime, nBits, nNonce,
-        hashStateRoot.ToString(), // qtum
-        hashUTXORoot.ToString(), // qtum
+        hashStateRoot.ToString(), // digiwage
+        hashUTXORoot.ToString(), // digiwage
         HexStr(vchBlockSigDlgt),
         IsProofOfStake() ? "PoS" : "PoW",
         prevoutStake.ToString(),

@@ -174,8 +174,8 @@ struct result_with_carry
 inline constexpr result_with_carry<uint64_t> addc(
     uint64_t x, uint64_t y, bool carry = false) noexcept
 {
-#ifndef QTUM_BUILD
-// Disable the code for Qtum, due to __builtin_subcll having issue on OSX,
+#ifndef DIGIWAGE_BUILD
+// Disable the code for DigiWage, due to __builtin_subcll having issue on OSX,
 // the code is similar to it so it might have problems on other OS
 #if __has_builtin(__builtin_addcll)
     if (!is_constant_evaluated())
@@ -207,8 +207,8 @@ inline constexpr result_with_carry<uint64_t> addc(
 inline constexpr result_with_carry<uint64_t> subc(
     uint64_t x, uint64_t y, bool carry = false) noexcept
 {
-#ifndef QTUM_BUILD
-// Disable the code for Qtum, due to __builtin_subcll having issue on OSX
+#ifndef DIGIWAGE_BUILD
+// Disable the code for DigiWage, due to __builtin_subcll having issue on OSX
 #if __has_builtin(__builtin_subcll)
     if (!is_constant_evaluated())
     {

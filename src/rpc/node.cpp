@@ -295,7 +295,7 @@ static RPCHelpMan echo(const std::string& name)
                 "\nSimply echo back the input arguments. This command is for testing.\n"
                 "\nIt will return an internal bug report when arg9='trigger_internal_bug' is passed.\n"
                 "\nThe difference between echo and echojson is that echojson has argument conversion enabled in the client-side table in "
-                "qtum-cli and the GUI. There is no server-side difference.",
+                "digiwage-cli and the GUI. There is no server-side difference.",
         {
             {"arg0", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "", RPCArgOptions{.skip_type_check = true}},
             {"arg1", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "", RPCArgOptions{.skip_type_check = true}},
@@ -346,7 +346,7 @@ static RPCHelpMan echoipc()
                 // and spawn bitcoin-echo below instead of bitcoin-node. But
                 // using bitcoin-node avoids the need to build and install a
                 // new executable just for this one test.
-                auto init = ipc->spawnProcess("qtum-node");
+                auto init = ipc->spawnProcess("digiwage-node");
                 echo = init->makeEcho();
                 ipc->addCleanup(*echo, [init = init.release()] { delete init; });
             } else {
@@ -444,12 +444,12 @@ static RPCHelpMan getdgpinfo()
     LOCK(cs_main);
 
     CChain& active_chain = chainman.ActiveChain();
-    QtumDGP qtumDGP(globalState.get(), chainman.ActiveChainstate());
+    DigiWageDGP digiwageDGP(globalState.get(), chainman.ActiveChainstate());
 
     UniValue obj(UniValue::VOBJ);
-    obj.pushKV("maxblocksize", (uint64_t)qtumDGP.getBlockSize(active_chain.Height()));
-    obj.pushKV("mingasprice", (uint64_t)qtumDGP.getMinGasPrice(active_chain.Height()));
-    obj.pushKV("blockgaslimit", (uint64_t)qtumDGP.getBlockGasLimit(active_chain.Height()));
+    obj.pushKV("maxblocksize", (uint64_t)digiwageDGP.getBlockSize(active_chain.Height()));
+    obj.pushKV("mingasprice", (uint64_t)digiwageDGP.getMinGasPrice(active_chain.Height()));
+    obj.pushKV("blockgaslimit", (uint64_t)digiwageDGP.getBlockGasLimit(active_chain.Height()));
 
     return obj;
 },
@@ -613,9 +613,9 @@ static RPCHelpMan getaddressdeltas()
             {
                 {"argument", RPCArg::Type::OBJ, RPCArg::Optional::NO, "Json object",
                     {
-                        {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The qtum addresses",
+                        {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The digiwage addresses",
                             {
-                                {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The qtum address"},
+                                {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The digiwage address"},
                             }
                         },
                         {"start", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "The start block height"},
@@ -635,7 +635,7 @@ static RPCHelpMan getaddressdeltas()
                             {RPCResult::Type::NUM, "index", "The related input or output index"},
                             {RPCResult::Type::NUM, "blockindex", "The transaction index in block"},
                             {RPCResult::Type::NUM, "height", "The block height"},
-                            {RPCResult::Type::STR, "address", "The qtum address"},
+                            {RPCResult::Type::STR, "address", "The digiwage address"},
                         }}
                     },
                 },
@@ -651,7 +651,7 @@ static RPCHelpMan getaddressdeltas()
                                 {RPCResult::Type::NUM, "index", "The related input or output index"},
                                 {RPCResult::Type::NUM, "blockindex", "The transaction index in block"},
                                 {RPCResult::Type::NUM, "height", "The block height"},
-                                {RPCResult::Type::STR, "address", "The qtum address"},
+                                {RPCResult::Type::STR, "address", "The digiwage address"},
                             }}
                         }},
                         {RPCResult::Type::OBJ, "start", "Start block",
@@ -780,9 +780,9 @@ static RPCHelpMan getaddressbalance()
                 {
                     {"argument", RPCArg::Type::OBJ, RPCArg::Optional::NO, "Json object",
                         {
-                            {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The qtum addresses",
+                            {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The digiwage addresses",
                                 {
-                                    {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The qtum address"},
+                                    {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The digiwage address"},
                                 }
                             },
                         }
@@ -851,9 +851,9 @@ static RPCHelpMan getaddressutxos()
                 {
                     {"argument", RPCArg::Type::OBJ, RPCArg::Optional::NO, "Json object",
                         {
-                            {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The qtum addresses",
+                            {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The digiwage addresses",
                                 {
-                                    {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The qtum address"},
+                                    {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The digiwage address"},
                                 }
                             },
                             {"chainInfo", RPCArg::Type::BOOL, RPCArg::Optional::OMITTED, "Include chain info with results"},
@@ -974,9 +974,9 @@ static RPCHelpMan getaddressmempool()
                 {
                     {"argument", RPCArg::Type::OBJ, RPCArg::Optional::NO, "Json object",
                         {
-                            {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The qtum addresses",
+                            {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The digiwage addresses",
                                 {
-                                    {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The qtum address"},
+                                    {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The digiwage address"},
                                 }
                             },
                         }
@@ -987,7 +987,7 @@ static RPCHelpMan getaddressmempool()
                     {
                         {RPCResult::Type::OBJ, "", "",
                         {
-                            {RPCResult::Type::STR, "address", "The qtum address"},
+                            {RPCResult::Type::STR, "address", "The digiwage address"},
                             {RPCResult::Type::STR_HEX, "txid", "The related txid"},
                             {RPCResult::Type::NUM, "index", "The related input or output index"},
                             {RPCResult::Type::NUM, "satoshis", "The difference of satoshis"},
@@ -1111,9 +1111,9 @@ static RPCHelpMan getaddresstxids()
                 {
                     {"argument", RPCArg::Type::OBJ, RPCArg::Optional::NO, "Json object",
                         {
-                            {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The qtum addresses",
+                            {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "The digiwage addresses",
                                 {
-                                    {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The qtum address"},
+                                    {"address", RPCArg::Type::STR, RPCArg::Optional::OMITTED, "The digiwage address"},
                                 }
                             },
                             {"start", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "The start block height"},
@@ -1225,7 +1225,7 @@ std::vector<std::string> getListArgsType()
 static RPCHelpMan listconf()
 {
     return RPCHelpMan{"listconf",
-                "\nReturns the current options that qtumd was started with.\n",
+                "\nReturns the current options that digiwaged was started with.\n",
                 {},
                 RPCResult{
                     RPCResult::Type::OBJ_DYN, "", "",

@@ -65,6 +65,7 @@ enum class TxoutType {
     SCRIPTHASH,
     MULTISIG,
     NULL_DATA, //!< unspendable OP_RETURN script that carries data
+    COLDSTAKE,
     WITNESS_V0_SCRIPTHASH,
     WITNESS_V0_KEYHASH,
     WITNESS_V1_TAPROOT,

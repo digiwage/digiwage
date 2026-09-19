@@ -340,6 +340,21 @@ static bool SignStep(const SigningProvider& provider, const BaseSignatureCreator
         ret.push_back(ToByteVector(pubkey));
         return true;
     }
+    case TxoutType::COLDSTAKE: {
+        // Ordinary wallet spending uses the owner key (the second hash).
+        // The staking path constructs its signature separately with OP_TRUE.
+        CKeyID key_id{uint160{vSolutions[1]}};
+        CPubKey pubkey;
+        if (!GetPubKey(provider, sigdata, key_id, pubkey)) {
+            sigdata.missing_pubkeys.push_back(key_id);
+            return false;
+        }
+        if (!CreateSig(creator, sigdata, provider, sig, pubkey, scriptPubKey, sigversion)) return false;
+        ret.push_back(std::move(sig));
+        ret.emplace_back(); // OP_FALSE selects the owner branch.
+        ret.push_back(ToByteVector(pubkey));
+        return true;
+    }
     case TxoutType::SCRIPTHASH: {
         uint160 h160{vSolutions[0]};
         if (GetCScript(provider, sigdata, CScriptID{h160}, scriptRet)) {

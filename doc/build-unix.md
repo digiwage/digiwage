@@ -1,12 +1,12 @@
 UNIX BUILD NOTES
 ====================
-Some notes on how to build Qtum Core in Unix.
+Some notes on how to build DigiWage Core in Unix.
 
 (For BSD specific instructions, see `build-*bsd.md` in this directory.)
 
 Note
 ---------------------
-Always use absolute paths to configure and compile Qtum Core and the dependencies.
+Always use absolute paths to configure and compile DigiWage Core and the dependencies.
 For example, when specifying the path of the dependency:
 
     ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
@@ -24,7 +24,7 @@ make # use "-j N" for N parallel jobs
 make install # optional
 ```
 
-This will build qtum-qt as well, if the dependencies are met.
+This will build digiwage-qt as well, if the dependencies are met.
 
 See [dependencies.md](dependencies.md) for a complete overview.
 
@@ -32,7 +32,7 @@ Memory Requirements
 --------------------
 
 C++ compilers are memory-hungry. It is recommended to have at least 1.5 GB of
-memory available when compiling Qtum Core. On systems with less, gcc can be
+memory available when compiling DigiWage Core. On systems with less, gcc can be
 tuned to conserve memory with additional CXXFLAGS:
 
 
@@ -70,7 +70,7 @@ but these will install Berkeley DB 5.1 or later. This will break binary wallet c
 executables, which are based on BerkeleyDB 4.8. If you do not care about wallet compatibility, pass
 `--with-incompatible-bdb` to configure. Otherwise, you can build Berkeley DB [yourself](#berkeley-db).
 
-To build Qtum Core without wallet, see [*Disable-wallet mode*](#disable-wallet-mode)
+To build DigiWage Core without wallet, see [*Disable-wallet mode*](#disable-wallet-mode)
 
 Optional port mapping libraries (see: `--with-miniupnpc` and `--with-natpmp`):
 
@@ -86,7 +86,7 @@ User-Space, Statically Defined Tracing (USDT) dependencies:
 
 GUI dependencies:
 
-If you want to build qtum-qt, make sure that the required packages for Qt development
+If you want to build digiwage-qt, make sure that the required packages for Qt development
 are installed. Qt 5 is necessary to build the GUI.
 To build without GUI pass `--without-gui`.
 
@@ -102,7 +102,7 @@ libqrencode (optional) can be installed with:
 
     sudo apt-get install libqrencode-dev
 
-Once these are installed, they will be found by configure and a qtum-qt executable will be
+Once these are installed, they will be found by configure and a digiwage-qt executable will be
 built by default.
 
 
@@ -131,7 +131,7 @@ Berkeley DB 5.3 or later. This will break binary wallet compatibility with the d
 are based on Berkeley DB 4.8. If you do not care about wallet compatibility,
 pass `--with-incompatible-bdb` to configure. Otherwise, you can build Berkeley DB [yourself](#berkeley-db).
 
-To build Qtum Core without wallet, see [*Disable-wallet mode*](#disable-wallet-mode)
+To build DigiWage Core without wallet, see [*Disable-wallet mode*](#disable-wallet-mode)
 
 Optional port mapping libraries (see: `--with-miniupnpc` and `--with-natpmp`):
 
@@ -147,7 +147,7 @@ User-Space, Statically Defined Tracing (USDT) dependencies:
 
 GUI dependencies:
 
-If you want to build qtum-qt, make sure that the required packages for Qt development
+If you want to build digiwage-qt, make sure that the required packages for Qt development
 are installed. Qt 5 is necessary to build the GUI.
 To build without GUI pass `--without-gui`.
 
@@ -163,13 +163,13 @@ libqrencode (optional) can be installed with:
 
     sudo dnf install qrencode-devel
 
-Once these are installed, they will be found by configure and a qtum-qt executable will be
+Once these are installed, they will be found by configure and a digiwage-qt executable will be
 built by default.
 
 Dependency Build Instructions: CentOS
 -------------------------------------
 
-You need to build boost manually, and if it's not in standard library paths, you need to add `/path/to/boost/lib` into `LD_LIBRARY_PATH` env when building Qtum.
+You need to build boost manually, and if it's not in standard library paths, you need to add `/path/to/boost/lib` into `LD_LIBRARY_PATH` env when building DigiWage.
 
 Build requirements:
 
@@ -184,29 +184,29 @@ To build with Qt 5 (recommended) you need the following:
 #### Dependency Build Instructions
 Build requirements:
 ```
-./qtum/contrib/script/setup-ubuntu16.sh
+./digiwage/contrib/script/setup-ubuntu16.sh
 ```
 
 #### Build Installation Package
-Build Qtum:
+Build DigiWage:
 ```
-cd qtum/contrib/script
-./build-qtum-linux.sh -j2
+cd digiwage/contrib/script
+./build-digiwage-linux.sh -j2
 ```
-The home folder for the installation package need to be `qtum/contrib/script`.
-After the build finish, the installation package is present into `qtum/contrib/script`.
-Installation package example: `qtum-22.1-x86_64-pc-linux-gnu.tar.gz`
+The home folder for the installation package need to be `digiwage/contrib/script`.
+After the build finish, the installation package is present into `digiwage/contrib/script`.
+Installation package example: `digiwage-22.1-x86_64-pc-linux-gnu.tar.gz`
 
 #### Dependencies Installation Package
 
-The package has the following dependencies when used on Ubuntu 16 machine that is not used for building Qtum:
+The package has the following dependencies when used on Ubuntu 16 machine that is not used for building DigiWage:
 
-`qtum-qt` require `libxcb-xinerama0` to be installed on Ubuntu 16 (both 32 and 64 bit versions):
+`digiwage-qt` require `libxcb-xinerama0` to be installed on Ubuntu 16 (both 32 and 64 bit versions):
 ```
 sudo apt-get install libxcb-xinerama0 -y
 ```
 
-Qtum require `GCC 7` standard library be installed for Ubuntu 16 only on 32 bit version:
+DigiWage require `GCC 7` standard library be installed for Ubuntu 16 only on 32 bit version:
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get update
@@ -218,23 +218,23 @@ sudo apt-get install gcc-7 g++-7 -y
 Build requirements:
 ```
 su
-./qtum/contrib/script/setup-centos7.sh
+./digiwage/contrib/script/setup-centos7.sh
 ```
 The operating system might restart after finish with installing the build requirements.
 
 #### Build Installation Package
-Build Qtum:
+Build DigiWage:
 ```
-cd qtum/contrib/script
-./build-qtum-linux.sh -j2
+cd digiwage/contrib/script
+./build-digiwage-linux.sh -j2
 ```
-The home folder for the installation package need to be `qtum/contrib/script`.
-After the build finish, the installation package is present into `qtum/contrib/script`.
-Installation package example: `qtum-22.1-x86_64-pc-linux-gnu.tar.gz`
+The home folder for the installation package need to be `digiwage/contrib/script`.
+After the build finish, the installation package is present into `digiwage/contrib/script`.
+Installation package example: `digiwage-22.1-x86_64-pc-linux-gnu.tar.gz`
 
 Notes
 -----
-The release is built with GCC and then "strip qtumd" to strip the debug
+The release is built with GCC and then "strip digiwaged" to strip the debug
 symbols, which reduces the executable size by about 90%.
 
 miniupnpc
@@ -260,11 +260,11 @@ want to use any other libraries built in depends, you can do:
 ```bash
 make -C depends NO_BOOST=1 NO_LIBEVENT=1 NO_QT=1 NO_SQLITE=1 NO_NATPMP=1 NO_UPNP=1 NO_ZMQ=1 NO_USDT=1
 ...
-to: /path/to/qtum/depends/x86_64-pc-linux-gnu
+to: /path/to/digiwage/depends/x86_64-pc-linux-gnu
 ```
 and configure using the following:
 ```bash
-export BDB_PREFIX="/path/to/qtum/depends/x86_64-pc-linux-gnu"
+export BDB_PREFIX="/path/to/digiwage/depends/x86_64-pc-linux-gnu"
 
 ./configure \
     BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" \
@@ -275,7 +275,7 @@ export BDB_PREFIX="/path/to/qtum/depends/x86_64-pc-linux-gnu"
 
 Security
 --------
-To help make your Qtum Core installation more secure by making certain attacks impossible to
+To help make your DigiWage Core installation more secure by making certain attacks impossible to
 exploit even if a vulnerability is found, binaries are hardened by default.
 This can be disabled with:
 
@@ -297,7 +297,7 @@ Hardening enables the following features:
 
     To test that you have built PIE executable, install scanelf, part of paxutils, and use:
 
-        scanelf -e ./qtum
+        scanelf -e ./digiwage
 
     The output should contain:
 
@@ -305,13 +305,13 @@ Hardening enables the following features:
     ET_DYN
 
 * _Non-executable Stack_: If the stack is executable then trivial stack-based buffer overflow exploits are possible if
-    vulnerable buffers are found. By default, Qtum Core should be built with a non-executable stack,
+    vulnerable buffers are found. By default, DigiWage Core should be built with a non-executable stack,
     but if one of the libraries it uses asks for an executable stack or someone makes a mistake
     and uses a compiler extension which requires an executable stack, it will silently build an
     executable without the non-executable stack protection.
 
     To verify that the stack is non-executable after compiling use:
-    `scanelf -e ./qtum`
+    `scanelf -e ./digiwage`
 
     The output should contain:
     STK/REL/PTL
@@ -321,7 +321,7 @@ Hardening enables the following features:
 
 Disable-wallet mode
 --------------------
-When the intention is to only run a P2P node, without a wallet, Qtum Core can
+When the intention is to only run a P2P node, without a wallet, DigiWage Core can
 be compiled in disable-wallet mode with:
 
     ./configure --disable-wallet
@@ -342,11 +342,11 @@ Setup and Build Example: Arch Linux
 This example lists the steps necessary to setup and build a command line only distribution of the latest changes on Arch Linux:
 
     pacman --sync --needed autoconf automake boost gcc git libevent libtool make pkgconf python sqlite gmp
-    git clone https://github.com/qtumproject/qtum --recursive
-    cd qtum/
+    git clone https://github.com/digiwageproject/digiwage --recursive
+    cd digiwage/
     ./autogen.sh
     ./configure
     make check
-    ./src/qtumd
+    ./src/digiwaged
 
 If you intend to work with legacy Berkeley DB wallets, see [Berkeley DB](#berkeley-db) section.

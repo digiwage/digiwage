@@ -1220,7 +1220,14 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
                 }
                 break;
 
-                //////////////////////////////////////////////////////// qtum
+                //////////////////////////////////////////////////////// digiwage
+                case OP_CHECKCOLDSTAKEVERIFY:
+                {
+                    if (!checker.CheckColdStake(script))
+                        return set_error(serror, SCRIPT_ERR_CHECKCOLDSTAKEVERIFY);
+                }
+                break;
+
                 case OP_SENDER:
                 {
                     if(!(flags & SCRIPT_OUTPUT_SENDER))
@@ -2250,6 +2257,9 @@ size_t static WitnessSigOps(int witversion, const std::vector<unsigned char>& wi
     // Future flags may be implemented here.
     return 0;
 }
+
+template uint256 SignatureHashOutput<CTransaction>(const CScript&, const CTransaction&, unsigned int, int, const CAmount&, SigVersion, const PrecomputedTransactionData*);
+template uint256 SignatureHashOutput<CMutableTransaction>(const CScript&, const CMutableTransaction&, unsigned int, int, const CAmount&, SigVersion, const PrecomputedTransactionData*);
 
 size_t CountWitnessSigOps(const CScript& scriptSig, const CScript& scriptPubKey, const CScriptWitness* witness, unsigned int flags)
 {

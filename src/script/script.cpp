@@ -148,6 +148,7 @@ std::string GetOpName(opcodetype opcode)
     case OP_CALL                   : return "OP_CALL";
     case OP_SPEND                  : return "OP_SPEND";
     case OP_SENDER                 : return "OP_SENDER";
+    case OP_CHECKCOLDSTAKEVERIFY   : return "OP_CHECKCOLDSTAKEVERIFY";
 
     case OP_INVALIDOPCODE          : return "OP_INVALIDOPCODE";
 
@@ -213,7 +214,7 @@ bool CScript::IsPayToScriptHash() const
             (*this)[22] == OP_EQUAL);
 }
 
-///////////////////////////////////////////////////////// // qtum
+///////////////////////////////////////////////////////// // digiwage
 bool CScript::IsPayToPubkey() const
 {
     if (this->size() == 35 && (*this)[0] == 33 && (*this)[34] == OP_CHECKSIG

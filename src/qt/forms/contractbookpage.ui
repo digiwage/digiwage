@@ -96,7 +96,7 @@
        <number>15</number>
       </property>
       <item>
-       <widget class="QtumPushButton" name="newContractInfo">
+       <widget class="DigiWagePushButton" name="newContractInfo">
         <property name="toolTip">
          <string>Create a new contract info</string>
         </property>
@@ -106,7 +106,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QtumPushButton" name="copyAddress">
+       <widget class="DigiWagePushButton" name="copyAddress">
         <property name="toolTip">
          <string>Copy the currently selected contract address to the system clipboard</string>
         </property>
@@ -116,7 +116,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QtumPushButton" name="deleteContractInfo">
+       <widget class="DigiWagePushButton" name="deleteContractInfo">
         <property name="toolTip">
          <string>Delete the currently selected contract info from the list</string>
         </property>
@@ -139,7 +139,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QtumPushButton" name="exportButton">
+       <widget class="DigiWagePushButton" name="exportButton">
         <property name="toolTip">
          <string>Export the data to a file</string>
         </property>
@@ -162,9 +162,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QtumPushButton</class>
+   <class>DigiWagePushButton</class>
    <extends>QPushButton</extends>
-   <header>qt/qtumpushbutton.h</header>
+   <header>qt/digiwagepushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

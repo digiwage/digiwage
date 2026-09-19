@@ -25,8 +25,8 @@
 #include <validation.h>
 #include <util/threadnames.h>
 #include <key_io.h>
-#include <qtum/qtumledger.h>
-#include <qtum/qtumdelegation.h>
+#include <digiwage/digiwageledger.h>
+#include <digiwage/digiwagedelegation.h>
 #ifdef ENABLE_WALLET
 #include <wallet/wallet.h>
 #include <wallet/receive.h>
@@ -202,6 +202,9 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     nHeight = pindexPrev->nHeight + 1;
 
     pblock->nVersion = m_chainstate.m_chainman.m_versionbitscache.ComputeBlockVersion(pindexPrev, chainparams.GetConsensus());
+    if (chainparams.GetConsensus().digiwage_history) {
+        pblock->nVersion = nHeight >= chainparams.GetConsensus().digiwage_contract_height ? 6 : 5;
+    }
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (chainparams.MineBlocksOnDemand()) {
@@ -248,6 +251,15 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     if(fProofOfStake)
     {
         CMutableTransaction coinstakeTx;
+        // CBlock::IsProofOfStake() overrides the base class and checks
+        // vtx[1]->IsCoinStake(), which requires vin.size() > 0 with a
+        // non-null prevout. Without this placeholder input the trial block
+        // is misdetected as PoW, so RebuildRefundTransaction() below writes
+        // the block subsidy into vtx[0] (coinbase) instead of vtx[1]
+        // (coinstake), corrupting the coinbase output shape. The real
+        // prevout is filled in later once an actual kernel is found.
+        coinstakeTx.vin.resize(1);
+        coinstakeTx.vin[0].prevout.n = 0;
         coinstakeTx.vout.resize(2);
         coinstakeTx.vout[0].SetEmpty();
         coinstakeTx.vout[1].scriptPubKey = scriptPubKeyIn;
@@ -260,16 +272,16 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
 
     }
 
-    //////////////////////////////////////////////////////// qtum
-    QtumDGP qtumDGP(globalState.get(), m_chainstate, fGettingValuesDGP);
-    globalSealEngine->setQtumSchedule(qtumDGP.getGasSchedule(nHeight));
-    uint32_t blockSizeDGP = qtumDGP.getBlockSize(nHeight);
-    minGasPrice = qtumDGP.getMinGasPrice(nHeight);
+    //////////////////////////////////////////////////////// digiwage
+    DigiWageDGP digiwageDGP(globalState.get(), m_chainstate, fGettingValuesDGP);
+    globalSealEngine->setDigiWageSchedule(digiwageDGP.getGasSchedule(nHeight));
+    uint32_t blockSizeDGP = digiwageDGP.getBlockSize(nHeight);
+    minGasPrice = digiwageDGP.getMinGasPrice(nHeight);
     if(gArgs.IsArgSet("-staker-min-tx-gas-price")) {
         std::optional<CAmount> stakerMinGasPrice = ParseMoney(gArgs.GetArg("-staker-min-tx-gas-price", ""));
         minGasPrice = std::max(minGasPrice, (uint64_t)(stakerMinGasPrice.value_or(0)));
     }
-    hardBlockGasLimit = qtumDGP.getBlockGasLimit(nHeight);
+    hardBlockGasLimit = digiwageDGP.getBlockGasLimit(nHeight);
     softBlockGasLimit = gArgs.GetIntArg("-staker-soft-block-gas-limit", hardBlockGasLimit);
     softBlockGasLimit = std::min(softBlockGasLimit, hardBlockGasLimit);
     txGasLimit = gArgs.GetIntArg("-staker-max-tx-gas-limit", softBlockGasLimit);
@@ -356,6 +368,9 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateEmptyBlock(const CScript& 
     nHeight = pindexPrev->nHeight + 1;
 
     pblock->nVersion = m_chainstate.m_chainman.m_versionbitscache.ComputeBlockVersion(pindexPrev, chainparams.GetConsensus());
+    if (chainparams.GetConsensus().digiwage_history) {
+        pblock->nVersion = nHeight >= chainparams.GetConsensus().digiwage_contract_height ? 6 : 5;
+    }
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
     if (chainparams.MineBlocksOnDemand())
@@ -394,6 +409,15 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateEmptyBlock(const CScript& 
     if(fProofOfStake)
     {
         CMutableTransaction coinstakeTx;
+        // CBlock::IsProofOfStake() overrides the base class and checks
+        // vtx[1]->IsCoinStake(), which requires vin.size() > 0 with a
+        // non-null prevout. Without this placeholder input the trial block
+        // is misdetected as PoW, so RebuildRefundTransaction() below writes
+        // the block subsidy into vtx[0] (coinbase) instead of vtx[1]
+        // (coinstake), corrupting the coinbase output shape. The real
+        // prevout is filled in later once an actual kernel is found.
+        coinstakeTx.vin.resize(1);
+        coinstakeTx.vin[0].prevout.n = 0;
         coinstakeTx.vout.resize(2);
         coinstakeTx.vout[0].SetEmpty();
         coinstakeTx.vout[1].scriptPubKey = scriptPubKeyIn;
@@ -405,7 +429,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateEmptyBlock(const CScript& 
         pblock->prevoutStake.n=0;
     }
 
-    //////////////////////////////////////////////////////// qtum
+    //////////////////////////////////////////////////////// digiwage
     //state shouldn't change here for an empty block, but if it's not valid it'll fail in CheckBlock later
     pblock->hashStateRoot = uint256(h256Touint(dev::h256(globalState->rootHash())));
     pblock->hashUTXORoot = uint256(h256Touint(dev::h256(globalState->rootHashUTXO())));
@@ -489,40 +513,40 @@ bool BlockAssembler::AttemptToAddContractToBlock(CTxMemPool::txiter iter, uint64
     uint64_t nBlockSigOpsCost = this->nBlockSigOpsCost;
 
     unsigned int contractflags = GetContractScriptFlags(nHeight, chainparams.GetConsensus());
-    QtumTxConverter convert(iter->GetTx(), m_chainstate, m_mempool, NULL, &pblock->vtx, contractflags);
+    DigiWageTxConverter convert(iter->GetTx(), m_chainstate, m_mempool, NULL, &pblock->vtx, contractflags);
 
-    ExtractQtumTX resultConverter;
-    if(!convert.extractionQtumTransactions(resultConverter)){
+    ExtractDigiWageTX resultConverter;
+    if(!convert.extractionDigiWageTransactions(resultConverter)){
         //this check already happens when accepting txs into mempool
         //therefore, this can only be triggered by using raw transactions on the staker itself
         LogPrintf("AttemptToAddContractToBlock(): Fail to extract contacts from tx %s\n", iter->GetTx().GetHash().ToString());
         return false;
     }
-    std::vector<QtumTransaction> qtumTransactions = resultConverter.first;
+    std::vector<DigiWageTransaction> digiwageTransactions = resultConverter.first;
     dev::u256 txGas = 0;
-    for(QtumTransaction qtumTransaction : qtumTransactions){
-        txGas += qtumTransaction.gas();
+    for(DigiWageTransaction digiwageTransaction : digiwageTransactions){
+        txGas += digiwageTransaction.gas();
         if(txGas > txGasLimit) {
             // Limit the tx gas limit by the soft limit if such a limit has been specified.
             LogPrintf("AttemptToAddContractToBlock(): The gas needed is bigger than -staker-max-tx-gas-limit for the contract tx %s\n", iter->GetTx().GetHash().ToString());
             return false;
         }
 
-        if(bceResult.usedGas + qtumTransaction.gas() > softBlockGasLimit){
+        if(bceResult.usedGas + digiwageTransaction.gas() > softBlockGasLimit){
             // If this transaction's gasLimit could cause block gas limit to be exceeded, then don't add it
             // Log if the contract is the only contract tx
             if(bceResult.usedGas == 0)
                 LogPrintf("AttemptToAddContractToBlock(): The gas needed is bigger than -staker-soft-block-gas-limit for the contract tx %s\n", iter->GetTx().GetHash().ToString());
             return false;
         }
-        if(qtumTransaction.gasPrice() < minGasPrice){
+        if(digiwageTransaction.gasPrice() < minGasPrice){
             //if this transaction's gasPrice is less than the current DGP minGasPrice don't add it
             LogPrintf("AttemptToAddContractToBlock(): The gas price is less than -staker-min-tx-gas-price for the contract tx %s\n", iter->GetTx().GetHash().ToString());
             return false;
         }
     }
     // We need to pass the DGP's block gas limit (not the soft limit) since it is consensus critical.
-    ByteCodeExec exec(*pblock, qtumTransactions, hardBlockGasLimit, m_chainstate.m_chain.Tip(), m_chainstate.m_chain);
+    ByteCodeExec exec(*pblock, digiwageTransactions, hardBlockGasLimit, m_chainstate.m_chain.Tip(), m_chainstate.m_chain);
     if(!exec.performByteCode()){
         //error, don't add contract
         globalState->setRoot(oldHashStateRoot);
@@ -1008,8 +1032,8 @@ public:
         {
             // Get delegations from events
             std::vector<DelegationEvent> events;
-            qtumDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman());
-            delegations_staker = qtumDelegations.DelegationsFromEvents(events);
+            digiwageDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman());
+            delegations_staker = digiwageDelegations.DelegationsFromEvents(events);
         }
         else
         {
@@ -1018,23 +1042,23 @@ public:
             if(cacheHeight < cpsHeight)
             {
                 std::vector<DelegationEvent> events;
-                qtumDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman(), cacheHeight, cpsHeight);
-                qtumDelegations.UpdateDelegationsFromEvents(events, cacheDelegationsStaker);
+                digiwageDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman(), cacheHeight, cpsHeight);
+                digiwageDelegations.UpdateDelegationsFromEvents(events, cacheDelegationsStaker);
                 cacheHeight = cpsHeight;
             }
 
             // Update the wallet delegations
             std::vector<DelegationEvent> events;
-            qtumDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman(), cacheHeight + 1);
+            digiwageDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman(), cacheHeight + 1);
             delegations_staker = cacheDelegationsStaker;
-            qtumDelegations.UpdateDelegationsFromEvents(events, delegations_staker);
+            digiwageDelegations.UpdateDelegationsFromEvents(events, delegations_staker);
         }
         pwallet->updateDelegationsStaker(delegations_staker);
     }
 
 private:
     wallet::CWallet *pwallet;
-    QtumDelegation qtumDelegations;
+    DigiWageDelegation digiwageDelegations;
     int32_t cacheHeight;
     std::map<uint160, Delegation> cacheDelegationsStaker;
     std::vector<uint160> allowList;
@@ -1070,8 +1094,8 @@ public:
             {
                 // Get delegations from events
                 std::vector<DelegationEvent> events;
-                qtumDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman());
-                pwallet->m_my_delegations = qtumDelegations.DelegationsFromEvents(events);
+                digiwageDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman());
+                pwallet->m_my_delegations = digiwageDelegations.DelegationsFromEvents(events);
             }
             else
             {
@@ -1080,16 +1104,16 @@ public:
                 if(cacheHeight < cpsHeight)
                 {
                     std::vector<DelegationEvent> events;
-                    qtumDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman(), cacheHeight, cpsHeight);
-                    qtumDelegations.UpdateDelegationsFromEvents(events, cacheMyDelegations);
+                    digiwageDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman(), cacheHeight, cpsHeight);
+                    digiwageDelegations.UpdateDelegationsFromEvents(events, cacheMyDelegations);
                     cacheHeight = cpsHeight;
                 }
 
                 // Update the wallet delegations
                 std::vector<DelegationEvent> events;
-                qtumDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman(), cacheHeight + 1);
+                digiwageDelegations.FilterDelegationEvents(events, *this, pwallet->chain().chainman(), cacheHeight + 1);
                 pwallet->m_my_delegations = cacheMyDelegations;
-                qtumDelegations.UpdateDelegationsFromEvents(events, pwallet->m_my_delegations);
+                digiwageDelegations.UpdateDelegationsFromEvents(events, pwallet->m_my_delegations);
             }
         }
         else
@@ -1123,7 +1147,7 @@ public:
                 {
                     Delegation delegation;
                     uint160 address = item.first;
-                    if(qtumDelegations.GetDelegation(address, delegation, pwallet->chain().chainman().ActiveChainstate()) && QtumDelegation::VerifyDelegation(address, delegation))
+                    if(digiwageDelegations.GetDelegation(address, delegation, pwallet->chain().chainman().ActiveChainstate()) && DigiWageDelegation::VerifyDelegation(address, delegation))
                     {
                         cacheMyDelegations[address] = delegation;
                     }
@@ -1155,7 +1179,7 @@ public:
 private:
 
     wallet::CWallet *pwallet;
-    QtumDelegation qtumDelegations;
+    DigiWageDelegation digiwageDelegations;
     int32_t cacheHeight;
     int32_t cacheAddressHeight;
     std::map<uint160, Delegation> cacheMyDelegations;
@@ -1238,7 +1262,7 @@ bool SignBlockHWI(std::shared_ptr<CBlock> pblock, wallet::CWallet& wallet, std::
     if(wallet.m_ledger_id == "") {
         return false;
     }
-    QtumLedger &device = QtumLedger::instance();
+    DigiWageLedger &device = DigiWageLedger::instance();
 
     // Make a blank psbt
     PartiallySignedTransaction psbtx_in;
@@ -1310,7 +1334,7 @@ bool SignBlockLedger(std::shared_ptr<CBlock> pblock, wallet::CWallet& wallet)
     if(ret) pblock->SetBlockSignature(vchSig);
     if(!ret && !wallet.IsStakeClosing())
     {
-        std::string errorMessage = QtumLedger::instance().errorMessage();
+        std::string errorMessage = DigiWageLedger::instance().errorMessage();
         LogPrintf("WARN: %s: fail to sign block (%s)\n", __func__, errorMessage);
     }
     return ret;
@@ -1487,7 +1511,7 @@ public:
 
     {
         // Make this thread recognisable as the mining thread
-        std::string threadName = "qtumstake";
+        std::string threadName = "digiwagestake";
         if(pwallet && pwallet->GetName() != "")
         {
             threadName = threadName + "-" + pwallet->GetName();
@@ -2000,7 +2024,7 @@ protected:
         if(ledgerId.empty())
             return false;
 
-        QtumLedger &device = QtumLedger::instance();
+        DigiWageLedger &device = DigiWageLedger::instance();
         bool fConnected = device.isConnected(ledgerId, true);
         if(!fConnected)
         {
@@ -2027,7 +2051,7 @@ void ThreadStakeMiner(wallet::CWallet *pwallet)
     miner = 0;
 }
 
-void StakeQtums(bool fStake, wallet::CWallet *pwallet)
+void StakeDigiWages(bool fStake, wallet::CWallet *pwallet)
 {
     if (pwallet->stakeThread != nullptr)
     {

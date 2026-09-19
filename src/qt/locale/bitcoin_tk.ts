@@ -66,13 +66,13 @@
         <translation type="unfinished">Kabul edýän salgylar</translation>
     </message>
     <message>
-        <source>These are your Qtum addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation type="unfinished">Tölegleri ibermek üçin siziň Qtum salgylaryňyz şulardyr. Teňňeleri ibermezden ozal hemişe möçberi we kabul edýän salgyny barlaň.</translation>
+        <source>These are your DigiWage addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation type="unfinished">Tölegleri ibermek üçin siziň DigiWage salgylaryňyz şulardyr. Teňňeleri ibermezden ozal hemişe möçberi we kabul edýän salgyny barlaň.</translation>
     </message>
     <message>
-        <source>These are your Qtum addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
+        <source>These are your DigiWage addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
 Signing is only possible with addresses of the type 'legacy'.</source>
-        <translation type="unfinished">Tölegleri kabul etmek üçin siziň Qtum salgylaryňyz şulardyr. Täze salgylary döretmek üçin kabul etmek bölüminde "Täze kabul ediji salgyny döret" düwmesini ulan.
+        <translation type="unfinished">Tölegleri kabul etmek üçin siziň DigiWage salgylaryňyz şulardyr. Täze salgylary döretmek üçin kabul etmek bölüminde "Täze kabul ediji salgyny döret" düwmesini ulan.
 Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
     </message>
     <message>
@@ -164,8 +164,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Gapjygyň şifrlenmegini tassykla</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR QTUMS&lt;/b&gt;!</source> 
-        <translation type="unfinished">Duýduryş: Eger gapjygyňy şifrleseň we parol sözlemiňi ýitirseň, sen &lt;b&gt;ÄHLI QTUMLERIŇI ÝITIRERSIŇ&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DIGIWAGES&lt;/b&gt;!</source> 
+        <translation type="unfinished">Duýduryş: Eger gapjygyňy şifrleseň we parol sözlemiňi ýitirseň, sen &lt;b&gt;ÄHLI DIGIWAGELERIŇI ÝITIRERSIŇ&lt;/b&gt;!</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -184,8 +184,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Gapjyk üçin öňki we täze parol sözlemiňi ýaz.</translation>
     </message>
     <message>
-        <source>Remember that encrypting your wallet cannot fully protect your qtums from being stolen by malware infecting your computer.</source> 
-        <translation type="unfinished">Gapjygyňy şifrlemek kompýuteriňe zyýanly programma ýokuşmak arkaly qtumleriň ogurlanmagyndan doly gorap bilmejekdigini ýatdan çykarma.</translation>
+        <source>Remember that encrypting your wallet cannot fully protect your digiwages from being stolen by malware infecting your computer.</source> 
+        <translation type="unfinished">Gapjygyňy şifrlemek kompýuteriňe zyýanly programma ýokuşmak arkaly digiwageleriň ogurlanmagyndan doly gorap bilmejekdigini ýatdan çykarma.</translation>
     </message>
     <message>
         <source>Wallet to be encrypted</source>
@@ -303,8 +303,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Möçber</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
-        <translation type="unfinished">(Qtum salgysyny giriziň (meselem, %1)</translation>
+        <source>Enter a DigiWage address (e.g. %1)</source>
+        <translation type="unfinished">(DigiWage salgysyny giriziň (meselem, %1)</translation>
     </message>
     <message>
         <source>Unroutable</source>
@@ -476,8 +476,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Proksi &lt;b&gt;işleýär&lt;/b&gt;: %1</translation>
     </message>
     <message>
-        <source>Send coins to a Qtum address</source>
-        <translation type="unfinished">Qtum salgysyna teňňeleri iber</translation>
+        <source>Send coins to a DigiWage address</source>
+        <translation type="unfinished">DigiWage salgysyna teňňeleri iber</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -520,16 +520,16 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">&amp;Habara gol çek…</translation>
     </message>
     <message>
-        <source>Sign messages with your Qtum addresses to prove you own them</source> 
-        <translation type="unfinished">Qtum salgylarynyň eýesidigini subut etmek üçin habarlara öz Qtum salgylaryň bilen gol çek</translation>
+        <source>Sign messages with your DigiWage addresses to prove you own them</source> 
+        <translation type="unfinished">DigiWage salgylarynyň eýesidigini subut etmek üçin habarlara öz DigiWage salgylaryň bilen gol çek</translation>
     </message>
     <message>
         <source>&amp;Verify message…</source>
         <translation type="unfinished">&amp;Habary tassykla…</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Qtum addresses</source> 
-        <translation type="unfinished">Habarlaryň görkezilen Qtum salgylary bilen gol çekilendigini kepillendirmek üçin habarlary tassykla</translation>
+        <source>Verify messages to ensure they were signed with specified DigiWage addresses</source> 
+        <translation type="unfinished">Habarlaryň görkezilen DigiWage salgylary bilen gol çekilendigini kepillendirmek üçin habarlary tassykla</translation>
     </message>
     <message>
         <source>&amp;Load PSBT from file…</source>
@@ -588,8 +588,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Deňdeşlere baglanylýar...</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source> 
-        <translation type="unfinished">Tölegleri sora (QR kodlary we qtum: URIleri döredýär)</translation>
+        <source>Request payments (generates QR codes and digiwage: URIs)</source> 
+        <translation type="unfinished">Tölegleri sora (QR kodlary we digiwage: URIleri döredýär)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -643,16 +643,16 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Döwrebap</translation>
     </message>
     <message>
-        <source>Load Partially Signed Qtum Transaction</source>
-        <translation type="unfinished">Bölekleýýin gol çekilen qtum amalyny (BGÇBA) ýükle</translation>
+        <source>Load Partially Signed DigiWage Transaction</source>
+        <translation type="unfinished">Bölekleýýin gol çekilen digiwage amalyny (BGÇBA) ýükle</translation>
     </message>
     <message>
         <source>Load PSBT from &amp;clipboard…</source>
         <translation type="unfinished">&amp;alyş-çalyş panelinden BGÇBA ýükle…</translation>
     </message>
     <message>
-        <source>Load Partially Signed Qtum Transaction from clipboard</source>
-        <translation type="unfinished">Bölekleýin gol çekilen qtum amalyny alyş-çalyş panelinden ýükle</translation>
+        <source>Load Partially Signed DigiWage Transaction from clipboard</source>
+        <translation type="unfinished">Bölekleýin gol çekilen digiwage amalyny alyş-çalyş panelinden ýükle</translation>
     </message>
     <message>
         <source>Node window</source>
@@ -671,8 +671,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">&amp;Kabul edýän salgylar</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation type="unfinished">Qtum aç: URI</translation>
+        <source>Open a digiwage: URI</source>
+        <translation type="unfinished">DigiWage aç: URI</translation>
     </message>
     <message>
         <source>Open Wallet</source>
@@ -701,8 +701,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Ähli gapjyklary ýap</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Qtum command-line options</source>
-        <translation type="unfinished">Mümkin bolan Qtum buýruk setiri opsiýalarynyň sanawyny görmek üçin %1 goldaw habaryny görkez</translation>
+        <source>Show the %1 help message to get a list with possible DigiWage command-line options</source>
+        <translation type="unfinished">Mümkin bolan DigiWage buýruk setiri opsiýalarynyň sanawyny görmek üçin %1 goldaw habaryny görkez</translation>
     </message>
     <message>
         <source>&amp;Mask values</source>
@@ -765,11 +765,11 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">G&amp;örkez</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Qtum network.</source>
+        <source>%n active connection(s) to DigiWage network.</source>
         <extracomment>A substring of the tooltip.</extracomment>
         <translation type="unfinished">
-            <numerusform>Qtum toruna %n işjeň arabaglanyşyk.</numerusform>
-            <numerusform>Qtum ulgamyna %n işjeň arabaglanyşyk.</numerusform>
+            <numerusform>DigiWage toruna %n işjeň arabaglanyşyk.</numerusform>
+            <numerusform>DigiWage ulgamyna %n işjeň arabaglanyşyk.</numerusform>
         </translation>
     </message>
     <message>
@@ -1260,8 +1260,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Iberýän salgyny rejele</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Qtum address.</source> 
-        <translation type="unfinished">Ýazylan salgy %1 ýaly Qtum salgysy ýok.</translation>
+        <source>The entered address "%1" is not a valid DigiWage address.</source> 
+        <translation type="unfinished">Ýazylan salgy %1 ýaly DigiWage salgysy ýok.</translation>
     </message>
     <message>
         <source>Address "%1" already exists as a receiving address with label "%2" and so cannot be added as a sending address.</source>
@@ -1306,8 +1306,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
 <context>
     <name>Intro</name>
     <message>
-        <source>Qtum</source>
-        <translation type="unfinished">Qtum</translation>
+        <source>DigiWage</source>
+        <translation type="unfinished">DigiWage</translation>
     </message>
     <message numerus="yes">
         <source>%n GB of space available</source>
@@ -1351,8 +1351,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         </translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Qtum block chain.</source>
-        <translation type="unfinished">%1 Qtum blok zynjyrynyň nusgasyny ýükläp alar we göçürer.</translation>
+        <source>%1 will download and store a copy of the DigiWage block chain.</source>
+        <translation type="unfinished">%1 DigiWage blok zynjyrynyň nusgasyny ýükläp alar we göçürer.</translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -1444,12 +1444,12 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Forma</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the qtum network, as detailed below.</source>
-        <translation type="unfinished">Soňky geleşikler entek görünmän biler, şonuň üçin gapjygyňyzdaky galyndy nädogry bolup biler. Bu maglumat aşakda beýan edilişi ýaly gapjygyňyz qtum tory bilen utgaşmagy tamamlanda dogry bolar.</translation>
+        <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the digiwage network, as detailed below.</source>
+        <translation type="unfinished">Soňky geleşikler entek görünmän biler, şonuň üçin gapjygyňyzdaky galyndy nädogry bolup biler. Bu maglumat aşakda beýan edilişi ýaly gapjygyňyz digiwage tory bilen utgaşmagy tamamlanda dogry bolar.</translation>
     </message>
     <message>
-        <source>Attempting to spend qtums that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation type="unfinished">Entek görkezilmedik geleşikleriň täsirine düşen qtumleri sarp etmek synanyşygy ulgam tarapyndan kabul edilmez.</translation>
+        <source>Attempting to spend digiwages that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation type="unfinished">Entek görkezilmedik geleşikleriň täsirine düşen digiwageleri sarp etmek synanyşygy ulgam tarapyndan kabul edilmez.</translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1499,8 +1499,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
 <context>
     <name>OpenURIDialog</name>
     <message>
-        <source>Open qtum URI</source>
-        <translation type="unfinished">Qtum URI aç</translation>
+        <source>Open digiwage URI</source>
+        <translation type="unfinished">DigiWage URI aç</translation>
     </message>
     <message>
         <source>Paste address from clipboard</source>
@@ -1663,16 +1663,16 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">&amp;Daşyndan gol çekijiniň skript ýoly</translation>
     </message>
     <message>
-        <source>Automatically open the Qtum client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation type="unfinished">Qtum müşderi portuny routerde awtomatik usulda aç. Bu diňe routeriňiz UPnP goldaýan bolsa we ol işjeň bolsa işleýär.</translation>
+        <source>Automatically open the DigiWage client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation type="unfinished">DigiWage müşderi portuny routerde awtomatik usulda aç. Bu diňe routeriňiz UPnP goldaýan bolsa we ol işjeň bolsa işleýär.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation type="unfinished">&amp;UPnP ulanyp porty aşyryň</translation>
     </message>
     <message>
-        <source>Automatically open the Qtum client port on the router. This only works when your router supports NAT-PMP and it is enabled. The external port could be random.</source>
-        <translation type="unfinished">Qtum müşderi portuny routerde awtomatik usulda açýar. Bu diňe routeriňiz NAT-PMP goldaýan we ol işjeňleşdirilen bolsa işleýär. Daşarky router tötänleýin bolup biler.</translation>
+        <source>Automatically open the DigiWage client port on the router. This only works when your router supports NAT-PMP and it is enabled. The external port could be random.</source>
+        <translation type="unfinished">DigiWage müşderi portuny routerde awtomatik usulda açýar. Bu diňe routeriňiz NAT-PMP goldaýan we ol işjeňleşdirilen bolsa işleýär. Daşarky router tötänleýin bolup biler.</translation>
     </message>
     <message>
         <source>Map port using NA&amp;T-PMP</source>
@@ -1687,8 +1687,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Gele&amp;n birikmelere rugsat ber</translation>
     </message>
     <message>
-        <source>Connect to the Qtum network through a SOCKS5 proxy.</source>
-        <translation type="unfinished">SOCKS5 proksi arkaly Qtum toruna baglan.</translation>
+        <source>Connect to the DigiWage network through a SOCKS5 proxy.</source>
+        <translation type="unfinished">SOCKS5 proksi arkaly DigiWage toruna baglan.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1763,8 +1763,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Teňňe dolandyryş aýratynlyklary görkezilmelimi ýa-da ýok.</translation>
     </message>
     <message>
-        <source>Connect to the Qtum network through a separate SOCKS5 proxy for Tor onion services.</source>
-        <translation type="unfinished">Tor onion hyzmatlary üçin aýratyn SOCKS5 proksi arkaly Qtum toruna baglan.</translation>
+        <source>Connect to the DigiWage network through a separate SOCKS5 proxy for Tor onion services.</source>
+        <translation type="unfinished">Tor onion hyzmatlary üçin aýratyn SOCKS5 proksi arkaly DigiWage toruna baglan.</translation>
     </message>
     <message>
         <source>Use separate SOCKS&amp;5 proxy to reach peers via Tor onion services:</source>
@@ -1868,8 +1868,8 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Forma</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Qtum network after a connection is established, but this process has not completed yet.</source>
-        <translation type="unfinished">Görkezilýän maglumat könelen bolup biler. birikme ýerine ýetirilenden soň siziň gapjygyňyz awtomatiki usulda Qtum tory bilen sinhronlaşar, ýöne bu iş entäk gutarmady.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the DigiWage network after a connection is established, but this process has not completed yet.</source>
+        <translation type="unfinished">Görkezilýän maglumat könelen bolup biler. birikme ýerine ýetirilenden soň siziň gapjygyňyz awtomatiki usulda DigiWage tory bilen sinhronlaşar, ýöne bu iş entäk gutarmady.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -2079,16 +2079,16 @@ Diňe "miras" görnüşli salgylar bilen gol çekmek mümkin.</translation>
         <translation type="unfinished">Töleg talabynda ýalňyşlyk</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation type="unfinished">Qtumi başlap bolanok: click-to-pay işleýjisi</translation>
+        <source>Cannot start digiwage: click-to-pay handler</source>
+        <translation type="unfinished">DigiWagei başlap bolanok: click-to-pay işleýjisi</translation>
     </message>
     <message>
         <source>URI handling</source>
         <translation type="unfinished">URI işlemeklik</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation type="unfinished">'qtum://' dogry URI däl. Onuň ýerine 'qtum:' ulanyň.</translation>
+        <source>'digiwage://' is not a valid URI. Use 'digiwage:' instead.</source>
+        <translation type="unfinished">'digiwage://' dogry URI däl. Onuň ýerine 'digiwage:' ulanyň.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -2099,8 +2099,8 @@ BIP70-däki howpsuzlygyň giňden ýaýran gowşak taraplary sebäpli, täjirler
 Size bu ýalňyşlyk gelýän bolsa, siz täjirden BIP21-e gabat gelýän URI-ni üpjün etmegini talap etmeli.</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source>
-        <translation type="unfinished">URI-ni işläp bolmady! Munuň sebäbi nädogry Qtum salgysy ýa-da ýalňyş emele getirilen URI parametrleri bolup biler.</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid DigiWage address or malformed URI parameters.</source>
+        <translation type="unfinished">URI-ni işläp bolmady! Munuň sebäbi nädogry DigiWage salgysy ýa-da ýalňyş emele getirilen URI parametrleri bolup biler.</translation>
     </message>
     <message>
         <source>Payment request file handling</source>

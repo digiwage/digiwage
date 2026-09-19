@@ -30,7 +30,7 @@ class uint256;
 class ChainstateManager;
 struct CHeightTxIndexKey;
 struct CHeightTxIndexIteratorKey;
-//////////////////////////////////// //qtum
+//////////////////////////////////// //digiwage
 struct CAddressIndexKey;
 struct CAddressUnspentKey;
 struct CAddressUnspentValue;
@@ -120,7 +120,7 @@ public:
     bool LoadBlockIndexGuts(const Consensus::Params& consensusParams, std::function<CBlockIndex*(const uint256&)> insertBlockIndex)
         EXCLUSIVE_LOCKS_REQUIRED(::cs_main);
 
-    ////////////////////////////////////////////////////////////////////////////// // qtum
+    ////////////////////////////////////////////////////////////////////////////// // digiwage
     bool WriteHeightIndex(const CHeightTxIndexKey &heightIndex, const std::vector<uint256>& hash);
 
     /**
@@ -174,7 +174,7 @@ public:
 
 std::optional<bilingual_str> CheckLegacyTxindex(CBlockTreeDB& block_tree_db);
 
-//////////////////////////////////////////////////////////// // qtum
+//////////////////////////////////////////////////////////// // digiwage
 struct CHeightTxIndexIteratorKey {
     unsigned int height;
 

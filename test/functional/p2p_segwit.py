@@ -91,8 +91,8 @@ from test_framework.util import (
     hex_str_to_bytes,
 )
 from test_framework.wallet import MiniWallet
-from test_framework.qtumconfig import *
-from test_framework.qtum import generatesynchronized
+from test_framework.digiwageconfig import *
+from test_framework.digiwage import generatesynchronized
 from test_framework.messages import COIN
 
 MAX_SIGOP_COST = 80000 // FACTOR_REDUCED_BLOCK_TIME

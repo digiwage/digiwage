@@ -14,14 +14,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Qtum"
-            VALUE "FileDescription",    "qtum-wallet (CLI tool for " PACKAGE_NAME " wallets)"
+            VALUE "CompanyName",        "DigiWage"
+            VALUE "FileDescription",    "digiwage-wallet (CLI tool for " PACKAGE_NAME " wallets)"
             VALUE "FileVersion",        PACKAGE_VERSION
-            VALUE "InternalName",       "qtum-wallet"
+            VALUE "InternalName",       "digiwage-wallet"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "qtum-wallet.exe"
-            VALUE "ProductName",        "qtum-wallet"
+            VALUE "OriginalFilename",   "digiwage-wallet.exe"
+            VALUE "ProductName",        "digiwage-wallet"
             VALUE "ProductVersion",     PACKAGE_VERSION
         END
     END

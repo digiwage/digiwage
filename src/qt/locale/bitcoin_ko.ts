@@ -147,13 +147,13 @@
         <translation>받는 주소</translation>
     </message>
     <message>
-        <source>These are your Qtum addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>송금이 가능한 QTUM 주소입니다. 송금 전에 반드시 주소와 금액이 정확한지 확인해주세요. </translation>
+        <source>These are your DigiWage addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>송금이 가능한 DIGIWAGE 주소입니다. 송금 전에 반드시 주소와 금액이 정확한지 확인해주세요. </translation>
     </message>
     <message>
-        <source>These are your Qtum addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
+        <source>These are your DigiWage addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
 Signing is only possible with addresses of the type 'legacy'.</source>
-        <translation>지불 수신용 QTUM주소. 신규 주소를 만들려면 'Create new receiving address' 버튼을 사용하세요.
+        <translation>지불 수신용 DIGIWAGE주소. 신규 주소를 만들려면 'Create new receiving address' 버튼을 사용하세요.
 서명은 '레거시' 타입의 주소만 가능합니다.</translation>
     </message>
     <message>
@@ -253,8 +253,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation>지갑 암호화 확인</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR QTUMS&lt;/b&gt;!</source>
-        <translation>경고: 암호화 이후 비밀번호를 잃어버리면 &lt;b&gt;지갑에 있는 모든 QTUM을 잃게됩니다&lt;/b&gt;！</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DIGIWAGES&lt;/b&gt;!</source>
+        <translation>경고: 암호화 이후 비밀번호를 잃어버리면 &lt;b&gt;지갑에 있는 모든 DIGIWAGE을 잃게됩니다&lt;/b&gt;！</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -269,7 +269,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation>새로운 지갑 비밀번호를 입력하세요. 암호는 10개 이상의 문자 또는 8개 이상의 단어로 입력하세요.</translation>
     </message>
     <message>
-        <source>Remember that encrypting your wallet cannot fully protect your qtums from being stolen by malware infecting your computer.</source>
+        <source>Remember that encrypting your wallet cannot fully protect your digiwages from being stolen by malware infecting your computer.</source>
         <translation>지갑을 암호화 해도 컴퓨터에 바이러스가 있을시 안전하기 않다는 것을 참고하세요.</translation>
     </message>
     <message>
@@ -376,16 +376,16 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">보내기</translation>
     </message>
     <message>
-        <source>Send coins to a Qtum address</source>
-        <translation type="unfinished">QTUM 주소로 QTUM 코인 보내기</translation>
+        <source>Send coins to a DigiWage address</source>
+        <translation type="unfinished">DIGIWAGE 주소로 DIGIWAGE 코인 보내기</translation>
     </message>
     <message>
         <source>&amp;Receive</source>
         <translation type="unfinished">받기 </translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">지불 요청 (QR 코드 생성과 qtum: URI)</translation>
+        <source>Request payments (generates QR codes and digiwage: URIs)</source>
+        <translation type="unfinished">지불 요청 (QR 코드 생성과 digiwage: URI)</translation>
     </message>
     <message>
         <source>Smart &amp;Contracts</source>
@@ -524,15 +524,15 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">메시지 서명(&amp;M)</translation>
     </message>
     <message>
-        <source>Sign messages with your Qtum addresses to prove you own them</source>
-        <translation type="unfinished">소유하고 있는 QTUM 주소의 키로 메시지 서명을 하여 해당 QTUM 주소의 소유권을 증명하세요. </translation>
+        <source>Sign messages with your DigiWage addresses to prove you own them</source>
+        <translation type="unfinished">소유하고 있는 DIGIWAGE 주소의 키로 메시지 서명을 하여 해당 DIGIWAGE 주소의 소유권을 증명하세요. </translation>
     </message>
     <message>
         <source>&amp;Verify message…</source>
         <translation type="unfinished">메시지 검증(&amp;V)</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Qtum addresses</source>
+        <source>Verify messages to ensure they were signed with specified DigiWage addresses</source>
         <translation type="unfinished">메시지 검증. 메시지에 특정 퀀텀 주소의 서명이 있는지 확인 </translation>
     </message>
     <message>
@@ -556,8 +556,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">받을 주소</translation>
     </message>
     <message>
-        <source>Open a qtum: URI</source>
-        <translation>qtum: URI 열기</translation>
+        <source>Open a digiwage: URI</source>
+        <translation>digiwage: URI 열기</translation>
     </message>
     <message>
         <source>Show the list of used receiving addresses and labels</source>
@@ -606,7 +606,7 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">커멘드 라인 옵션</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Qtum command-line options</source>
+        <source>Show the %1 help message to get a list with possible DigiWage command-line options</source>
         <translation type="unfinished">%1 도움 정보 표시로 사용 가능한 커멘드 라인 옵션 리스트 불러오기</translation>
     </message>
     <message>
@@ -690,8 +690,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">지갑：</translation>
     </message>
     <message>
-        <source>New version of Qtum wallet is available on the Qtum source code repository: &lt;br /&gt; %1. &lt;br /&gt;It is recommended to download it and update this application</source>
-        <translation type="unfinished">최신 버전의 Qtum 지갑은 Qtum 소스코드 레포지토리 &lt;br /&gt; %1. &lt;br /&gt;에서 받을 수 있습니다. 다운로드 및 업데이트를 권장 드립니다. </translation>
+        <source>New version of DigiWage wallet is available on the DigiWage source code repository: &lt;br /&gt; %1. &lt;br /&gt;It is recommended to download it and update this application</source>
+        <translation type="unfinished">최신 버전의 DigiWage 지갑은 DigiWage 소스코드 레포지토리 &lt;br /&gt; %1. &lt;br /&gt;에서 받을 수 있습니다. 다운로드 및 업데이트를 권장 드립니다. </translation>
     </message>
     <message>
         <source>Check for updates</source>
@@ -710,10 +710,10 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">보여주기</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Qtum network.</source>
+        <source>%n active connection(s) to DigiWage network.</source>
         <extracomment>A substring of the tooltip.</extracomment>
         <translation type="unfinished">
-            <numerusform>QTUM 네트워크에 활성화된 %n연결</numerusform>
+            <numerusform>DIGIWAGE 네트워크에 활성화된 %n연결</numerusform>
         </translation>
     </message>
     <message>
@@ -784,8 +784,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">PSBT 혹은 클립보드에서 불러오기</translation>
     </message>
     <message>
-        <source>Load Partially Signed Qtum Transaction from clipboard</source>
-        <translation>클립보드로부터 부분적으로 서명된 QTUM 트랜잭션 불러오기</translation>
+        <source>Load Partially Signed DigiWage Transaction from clipboard</source>
+        <translation>클립보드로부터 부분적으로 서명된 DIGIWAGE 트랜잭션 불러오기</translation>
     </message>
     <message>
         <source>%1 behind</source>
@@ -804,8 +804,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">해당 지점 이후 거래 내역이 없습니다. </translation>
     </message>
     <message>
-        <source>Qtum</source>
-        <translation type="unfinished">QTUM</translation>
+        <source>DigiWage</source>
+        <translation type="unfinished">DIGIWAGE</translation>
     </message>
     <message>
         <source>Error</source>
@@ -1496,8 +1496,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">컨트랙트의 바이트 코드</translation>
     </message>
     <message>
-        <source>The qtum address that will be used to create the contract.</source>
-        <translation type="unfinished">컨트랙트 생성을 위한 Qtum주소</translation>
+        <source>The digiwage address that will be used to create the contract.</source>
+        <translation type="unfinished">컨트랙트 생성을 위한 DigiWage주소</translation>
     </message>
     <message>
         <source>The Gas Price is too high, are you sure you want to possibly spend a max of %1 for this transaction?</source>
@@ -1528,8 +1528,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">가스 상한액. 디폴트 = %1, 최고 = %2.</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
-        <translation type="unfinished">가스 단가: 가스 유닛에 대한 QTUM 가격. 디폴트 = %1, 최저 = %2.</translation>
+        <source>Gas price: DIGIWAGE price per gas unit. Default = %1, Min = %2</source>
+        <translation type="unfinished">가스 단가: 가스 유닛에 대한 DIGIWAGE 가격. 디폴트 = %1, 최저 = %2.</translation>
     </message>
 </context>
 <context>
@@ -1567,8 +1567,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation>송금주소 편집</translation>
     </message>
     <message>
-        <source>The entered address &quot;%1&quot; is not a valid Qtum address.</source>
-        <translation>입력한 주소 %1는 유효한 QTUM 주소가 아닙니다. </translation>
+        <source>The entered address &quot;%1&quot; is not a valid DigiWage address.</source>
+        <translation>입력한 주소 %1는 유효한 DIGIWAGE 주소가 아닙니다. </translation>
     </message>
     <message>
         <source>Address &quot;%1&quot; already exists as a receiving address with label &quot;%2&quot; and so cannot be added as a sending address.</source>
@@ -1713,8 +1713,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation>사용자 지정 데이터 디렉터리 사용</translation>
     </message>
     <message>
-        <source>Qtum</source>
-        <translation>QTUM</translation>
+        <source>DigiWage</source>
+        <translation>DIGIWAGE</translation>
     </message>
     <message numerus="yes">
         <source>%n GB of space available</source>
@@ -1750,8 +1750,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         </translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Qtum block chain.</source>
-        <translation>%1이 QTUM 블록체인을 다운로드 및 저장할 예정입니다. </translation>
+        <source>%1 will download and store a copy of the DigiWage block chain.</source>
+        <translation>%1이 DIGIWAGE 블록체인을 다운로드 및 저장할 예정입니다. </translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -1777,12 +1777,12 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation>서식</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the qtum network, as detailed below.</source>
+        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the digiwage network, as detailed below.</source>
         <translation>최근 거래 미반영으로 잔액이 정확하지 않을 수 있습니다. 해당 정보는 퀀텀 네트워크 동기화 후 수정될 예정입니다. 제세한 내용은 아래와 같습니다. </translation>
     </message>
     <message>
-        <source>Attempting to spend qtums that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>네트워크는 미확인된 거래에 속한 QTUM 사용을 승인하지 않습니다 </translation>
+        <source>Attempting to spend digiwages that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation>네트워크는 미확인된 거래에 속한 DIGIWAGE 사용을 승인하지 않습니다 </translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -1845,8 +1845,8 @@ Please make sure to keep an updated antivirus and operating system. We can not r
 <context>
     <name>OpenURIDialog</name>
     <message>
-        <source>Open qtum URI</source>
-        <translation>QTUM URI 열기</translation>
+        <source>Open digiwage URI</source>
+        <translation>DIGIWAGE URI 열기</translation>
     </message>
     <message>
         <source>Paste address from clipboard</source>
@@ -2023,16 +2023,16 @@ Please make sure to keep an updated antivirus and operating system. We can not r
  </translation>
     </message>
     <message>
-        <source>Automatically open the Qtum client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>라우터에서 QTUM 클라이언트 포트를 자동적으로 엽니다. 라우터에서 UPnP를 지원하고 활성화 했을 경우에만 동작합니다.</translation>
+        <source>Automatically open the DigiWage client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>라우터에서 DIGIWAGE 클라이언트 포트를 자동적으로 엽니다. 라우터에서 UPnP를 지원하고 활성화 했을 경우에만 동작합니다.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
         <translation>&amp;UPnP를 통한 포트 맵핑</translation>
     </message>
     <message>
-        <source>Automatically open the Qtum client port on the router. This only works when your router supports NAT-PMP and it is enabled. The external port could be random.</source>
-        <translation>라우터에서 QTUM 클라이언트 포트를 자동으로 엽니다. 이는 라우터가 NAT-PMP를 지원하고 활성화 된 경우에만 작동합니다. 외부 포트는 무작위 일 수 있습니다.</translation>
+        <source>Automatically open the DigiWage client port on the router. This only works when your router supports NAT-PMP and it is enabled. The external port could be random.</source>
+        <translation>라우터에서 DIGIWAGE 클라이언트 포트를 자동으로 엽니다. 이는 라우터가 NAT-PMP를 지원하고 활성화 된 경우에만 작동합니다. 외부 포트는 무작위 일 수 있습니다.</translation>
     </message>
     <message>
         <source>Map port using NA&amp;T-PMP</source>
@@ -2047,8 +2047,8 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>연결 유입 허용</translation>
     </message>
     <message>
-        <source>Connect to the Qtum network through a SOCKS5 proxy.</source>
-        <translation>SOCKS5 프록시를 통해 QTUM 네트워크에 연결합니다.</translation>
+        <source>Connect to the DigiWage network through a SOCKS5 proxy.</source>
+        <translation>SOCKS5 프록시를 통해 DIGIWAGE 네트워크에 연결합니다.</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -2127,8 +2127,8 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>코인 통제 기능 표시 여부</translation>
     </message>
     <message>
-        <source>Connect to the Qtum network through a separate SOCKS5 proxy for Tor onion services.</source>
-        <translation>Tor onion 서비스를 위한 별도의 SOCKS5 프록시를 통해 Qtum 네트워크에 연결합니다.</translation>
+        <source>Connect to the DigiWage network through a separate SOCKS5 proxy for Tor onion services.</source>
+        <translation>Tor onion 서비스를 위한 별도의 SOCKS5 프록시를 통해 DigiWage 네트워크에 연결합니다.</translation>
     </message>
     <message>
         <source>Use separate SOCKS&amp;5 proxy to reach peers via Tor onion services:</source>
@@ -2264,7 +2264,7 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>서식</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Qtum network after a connection is established, but this process has not completed yet.</source>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the DigiWage network after a connection is established, but this process has not completed yet.</source>
         <translation>현재 표시된 내용은 지난 정보일 수 있습니다. 퀀텀 네트워크에 연결 후 동기화를 실행하지만 아직 완료되진 않았습니다. </translation>
     </message>
     <message>
@@ -2517,8 +2517,8 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>지불 요청 에러</translation>
     </message>
     <message>
-        <source>Cannot start qtum: click-to-pay handler</source>
-        <translation>无法启动 qtum 协议的“
+        <source>Cannot start digiwage: click-to-pay handler</source>
+        <translation>无法启动 digiwage 协议的“
 一键支付”处理器</translation>
     </message>
     <message>
@@ -2526,8 +2526,8 @@ Please make sure to keep an updated antivirus and operating system. We can not r
         <translation>URI 처리</translation>
     </message>
     <message>
-        <source>'qtum://' is not a valid URI. Use 'qtum:' instead.</source>
-        <translation>'qtum://"은 잘못된 URI입니다. 'qtum:'을 사용하십시오.</translation>
+        <source>'digiwage://' is not a valid URI. Use 'digiwage:' instead.</source>
+        <translation>'digiwage://"은 잘못된 URI입니다. 'digiwage:'을 사용하십시오.</translation>
     </message>
     <message>
         <source>Cannot process payment request because BIP70 is not supported.
@@ -2538,7 +2538,7 @@ BIP70의 광범위한 보안 결함으로 인해 모든 가맹점에서는 지�
 이 오류가 발생하면 판매자에게 BIP21 호환 URI를 제공하도록 요청해야 합니다.</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Qtum address or malformed URI parameters.</source>
+        <source>URI cannot be parsed! This can be caused by an invalid DigiWage address or malformed URI parameters.</source>
         <translation>URI 주소를 분석할 수 없습니다. 무효한 퀀텀 주소 또는 URI 파라미터 서식 오류일 수 있습니다. </translation>
     </message>
     <message>
@@ -2615,8 +2615,8 @@ BIP70의 광범위한 보안 결함으로 인해 모든 가맹점에서는 지�
         <translation>금액</translation>
     </message>
     <message>
-        <source>Enter a Qtum address (e.g. %1)</source>
-        <translation>QTUM 주소를 입력해주세요 (예시, %1)</translation>
+        <source>Enter a DigiWage address (e.g. %1)</source>
+        <translation>DIGIWAGE 주소를 입력해주세요 (예시, %1)</translation>
     </message>
     <message>
         <source>Unroutable</source>
@@ -3284,7 +3284,7 @@ For more information on using this console, type %6.
         <translation>메시지</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Qtum network.</source>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the DigiWage network.</source>
         <translation>지불 요청에 메시지를 추가할 수 있습니다. 지불 요청 확인 시 메시지 확인이 가능합니다. 주의: 메시지는 퀀텀 네트워크를 통해 전달되는 것은 아닙니다. </translation>
     </message>
     <message>
@@ -3703,8 +3703,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
 참고: 수수료는 바이트 단위로 계산되므로 500 가상 바이트(1kvB의 절반)의 트랜잭션 크기에 대해 "kvB당 100 사토시"의 수수료율은 궁극적으로 50사토시만 수수료를 산출합니다.</translation>
     </message>
     <message>
-        <source>When there is less transaction volume than space in the blocks, miners as well as relaying nodes may enforce a minimum fee. Paying only this minimum fee is just fine, but be aware that this can result in a never confirming transaction once there is more demand for qtum transactions than the network can process.</source>
-        <translation>거래량이 블록에 남은 공간보다 적은 경우, 채굴자나 중계 노드들이 최소 수수료를 허용할 수 있습니다. 최소 수수료만 지불하는건 괜찮지만, 네트워크가 처리할 수 있는 용량을 넘는 QTUM 거래가 있을 경우에는 이 거래가 승인이 안될 수 있다는 점을 유의하세요.</translation>
+        <source>When there is less transaction volume than space in the blocks, miners as well as relaying nodes may enforce a minimum fee. Paying only this minimum fee is just fine, but be aware that this can result in a never confirming transaction once there is more demand for digiwage transactions than the network can process.</source>
+        <translation>거래량이 블록에 남은 공간보다 적은 경우, 채굴자나 중계 노드들이 최소 수수료를 허용할 수 있습니다. 최소 수수료만 지불하는건 괜찮지만, 네트워크가 처리할 수 있는 용량을 넘는 DIGIWAGE 거래가 있을 경우에는 이 거래가 승인이 안될 수 있다는 점을 유의하세요.</translation>
     </message>
     <message>
         <source>A too low fee might result in a never confirming transaction (read the tooltip)</source>
@@ -3793,7 +3793,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>사인되지 않은 것을 생성(&amp;e)</translation>
     </message>
     <message>
-        <source>Creates a Partially Signed Qtum Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
+        <source>Creates a Partially Signed DigiWage Transaction (PSBT) for use with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
         <translation>오프라인 %1 지갑 또는 PSBT가 호환되는 하드웨어 지갑과의 사용을 위한 '부분적으로 서명 된 비트 코인 트랜잭션(PSBT)'를 생성합니다.</translation>
     </message>
     <message>
@@ -3853,9 +3853,9 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>추후 수수료를 늘릴 수 있습니다. (signals Replace-By-Fee, BIP-125).</translation>
     </message>
     <message>
-        <source>Please, review your transaction proposal. This will produce a Partially Signed Qtum Transaction (PSBT) which you can save or copy and then sign with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
+        <source>Please, review your transaction proposal. This will produce a Partially Signed DigiWage Transaction (PSBT) which you can save or copy and then sign with e.g. an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
         <extracomment>Text to inform a user attempting to create a transaction of their current options. At this stage, a user can only create a PSBT. This string is displayed when private keys are disabled and an external signer is not available.</extracomment>
-        <translation>거래 제안을 검토해 주십시오. 이것은 당신이 저장하거나 복사한 뒤 e.g. 오프라인 %1 지갑 또는 PSBT 호환 하드웨어 지갑으로 서명할 수 있는 PSBT (부분적으로 서명된 QTUM 트랜잭션)를 생성할 것입니다.</translation>
+        <translation>거래 제안을 검토해 주십시오. 이것은 당신이 저장하거나 복사한 뒤 e.g. 오프라인 %1 지갑 또는 PSBT 호환 하드웨어 지갑으로 서명할 수 있는 PSBT (부분적으로 서명된 DIGIWAGE 트랜잭션)를 생성할 것입니다.</translation>
     </message>
     <message>
         <source>Do you want to create this transaction?</source>
@@ -3863,9 +3863,9 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">이 트랜잭션을 생성하겠습니까?</translation>
     </message>
     <message>
-        <source>Please, review your transaction. You can create and send this transaction or create a Partially Signed Qtum Transaction (PSBT), which you can save or copy and then sign with, e.g., an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
+        <source>Please, review your transaction. You can create and send this transaction or create a Partially Signed DigiWage Transaction (PSBT), which you can save or copy and then sign with, e.g., an offline %1 wallet, or a PSBT-compatible hardware wallet.</source>
         <extracomment>Text to inform a user attempting to create a transaction of their current options. At this stage, a user can send their transaction or create a PSBT. This string is displayed when both private keys and PSBT controls are enabled.</extracomment>
-        <translation type="unfinished">당신의 트랜잭션을 검토하세요. 당신은 트랜잭션을 생성하고 보낼 수 있습니다. 혹은 부분적으로 서명된 QTUM 트랜잭션 (PSBT, Partially Signed Qtum Transaction)을 생성하고, 저장하거나 복사하여 오프라인 %1지갑으로 서명할수도 있습니다. PSBT가 적용되는 하드월렛으로 서명할 수도 있습니다. </translation>
+        <translation type="unfinished">당신의 트랜잭션을 검토하세요. 당신은 트랜잭션을 생성하고 보낼 수 있습니다. 혹은 부분적으로 서명된 DIGIWAGE 트랜잭션 (PSBT, Partially Signed DigiWage Transaction)을 생성하고, 저장하거나 복사하여 오프라인 %1지갑으로 서명할수도 있습니다. PSBT가 적용되는 하드월렛으로 서명할 수도 있습니다. </translation>
     </message>
     <message>
         <source>from wallet %1</source>
@@ -3935,8 +3935,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         </translation>
     </message>
     <message>
-        <source>Warning: Invalid Qtum address</source>
-        <translation>경고: 무효한 QTUM 주소</translation>
+        <source>Warning: Invalid DigiWage address</source>
+        <translation>경고: 무효한 DIGIWAGE 주소</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -3986,7 +3986,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>이전에 사용했던 주소 선택</translation>
     </message>
     <message>
-        <source>The Qtum address to send the payment to</source>
+        <source>The DigiWage address to send the payment to</source>
         <translation>지불 목적 주소</translation>
     </message>
     <message>
@@ -4002,7 +4002,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>선택한 단위로 보낼 수량</translation>
     </message>
     <message>
-        <source>The fee will be deducted from the amount being sent. The recipient will receive less qtums than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
+        <source>The fee will be deducted from the amount being sent. The recipient will receive less digiwages than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
         <translation>거래 수수료가 송금 총액에서 차감됩니다. 받는이가 받을 금액은 입력하신 금액보다 적을 예정이고 여러 명이 받는다면 수수료는 균등하게 차감될 예정입니다. </translation>
     </message>
     <message>
@@ -4022,7 +4022,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>해당 주소에 라벨을 추가하여 사용했던 리스트에 추가해주세요. </translation>
     </message>
     <message>
-        <source>A message that was attached to the qtum: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Qtum network.</source>
+        <source>A message that was attached to the digiwage: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the DigiWage network.</source>
         <translation>퀀텀 URI에 첨부된 메시지는 참조를 위해 거래와 함께 저장됩니다. 주의: 메시지는 퀀텀 네트워크를 통해 전달되는 것은 아닙니다. </translation>
     </message>
 </context>
@@ -4101,11 +4101,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">자금과 데이터를 받을 컨트랙트 주소</translation>
     </message>
     <message>
-        <source>The amount in QTUM to send. Default = 0.</source>
-        <translation type="unfinished">보낼 QTUM 개수. 디폴트는 0</translation>
+        <source>The amount in DIGIWAGE to send. Default = 0.</source>
+        <translation type="unfinished">보낼 DIGIWAGE 개수. 디폴트는 0</translation>
     </message>
     <message>
-        <source>The qtum address that will be used as sender.</source>
+        <source>The digiwage address that will be used as sender.</source>
         <translation type="unfinished">보낸 주소로 사용될 퀀텀 주소</translation>
     </message>
     <message>
@@ -4141,8 +4141,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">가스 상한액. 디폴트 = %1, 최고 = %2.</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
-        <translation type="unfinished">가스 단가: 가스 유닛에 대한 QTUM 가격. 디폴트 = %1, 최저 = %2.</translation>
+        <source>Gas price: DIGIWAGE price per gas unit. Default = %1, Min = %2</source>
+        <translation type="unfinished">가스 단가: 가스 유닛에 대한 DIGIWAGE 가격. 디폴트 = %1, 최저 = %2.</translation>
     </message>
 </context>
 <context>
@@ -4200,8 +4200,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">가스 상한액. 디폴트 = %1, 최고 = %2.</translation>
     </message>
     <message>
-        <source>Gas price: QTUM price per gas unit. Default = %1, Min = %2</source>
-        <translation type="unfinished">가스 단가: 가스 유닛에 대한 QTUM 가격. 디폴트 = %1, 최저 = %2.</translation>
+        <source>Gas price: DIGIWAGE price per gas unit. Default = %1, Min = %2</source>
+        <translation type="unfinished">가스 단가: 가스 유닛에 대한 DIGIWAGE 가격. 디폴트 = %1, 최저 = %2.</translation>
     </message>
     <message>
         <source>Are you sure you want to send? &lt;br /&gt;&lt;br /&gt;</source>
@@ -4257,11 +4257,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>메시지 서명</translation>
     </message>
     <message>
-        <source>You can sign messages/agreements with your addresses to prove you can receive qtums sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>소유하고 계신 주소로 메시지/협의에 대해 서명하여 해당 주소를 통해 QTUM을 받을 수 있음을 증명할 수 있습니다. 피싱 공격을 예방하기 위해 명확하지 않은 내용 또는 랜덤 메시지에 대한 서명은 삼가 하시고 메시지에 대해 충분히 동의할 경우에만 서명하세요. </translation>
+        <source>You can sign messages/agreements with your addresses to prove you can receive digiwages sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>소유하고 계신 주소로 메시지/협의에 대해 서명하여 해당 주소를 통해 DIGIWAGE을 받을 수 있음을 증명할 수 있습니다. 피싱 공격을 예방하기 위해 명확하지 않은 내용 또는 랜덤 메시지에 대한 서명은 삼가 하시고 메시지에 대해 충분히 동의할 경우에만 서명하세요. </translation>
     </message>
     <message>
-        <source>The Qtum address to sign the message with</source>
+        <source>The DigiWage address to sign the message with</source>
         <translation>메시지 서명에 사용된 퀀텀 주소</translation>
     </message>
     <message>
@@ -4285,7 +4285,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>시스템 클립보드에 해당 서명 복사</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Qtum address</source>
+        <source>Sign the message to prove you own this DigiWage address</source>
         <translation>메시지 서명을 통해 퀀텀 주소의 소유권을 증명하세요</translation>
     </message>
     <message>
@@ -4309,7 +4309,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>받는이의 주소와 메시지 (띄어쓰기, 빈칸, 부호 등이 정확한지 확인해주세요)를 입력하고 서명하여 아래 메시지를 검증하세요. 미들맨의 공격을 예방하기 위해 서명된 메시지 외에는 읽지 않을 것을 권장 드립니다. 받는이가 서명한 주소라는 것만 증명할 수 있고 그 외에 어떤 거래도 증명할 수 없다는 것을 유의해주시길 바랍니다. </translation>
     </message>
     <message>
-        <source>The Qtum address the message was signed with</source>
+        <source>The DigiWage address the message was signed with</source>
         <translation>메시지 서명에 사용된 퀀텀 주소</translation>
     </message>
     <message>
@@ -4321,7 +4321,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation>메세지의 서명되었을 때의 시그니처</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Qtum address</source>
+        <source>Verify the message to ensure it was signed with the specified DigiWage address</source>
         <translation>메시지 검증을 통해 지정된 퀀텀 주소를 통해 서명한 것을 확인하세요. </translation>
     </message>
     <message>
@@ -4415,8 +4415,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">스테이킹</translation>
     </message>
     <message>
-        <source>0.000 000 00 QTUM</source>
-        <translation type="unfinished">0.000 000 00 QTUM</translation>
+        <source>0.000 000 00 DIGIWAGE</source>
+        <translation type="unfinished">0.000 000 00 DIGIWAGE</translation>
     </message>
     <message>
         <source>Staking</source>
@@ -4435,8 +4435,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee rate of "100 satos
         <translation type="unfinished">블록 보상</translation>
     </message>
     <message>
-        <source>4 QTUM/Block</source>
-        <translation type="unfinished">4 QTUM / 블록</translation>
+        <source>4 DIGIWAGE/Block</source>
+        <translation type="unfinished">4 DIGIWAGE / 블록</translation>
     </message>
     <message>
         <source>Network weight:</source>
@@ -5275,7 +5275,7 @@ Go to File &gt; Open Wallet to load a wallet.
     </message>
     <message>
         <source>Partially Signed Transaction (*.psbt)</source>
-        <translation type="unfinished">부분적으로 서명된 QTUM 트랜잭션 (* .psbt)</translation>
+        <translation type="unfinished">부분적으로 서명된 DIGIWAGE 트랜잭션 (* .psbt)</translation>
     </message>
     <message>
         <source>PSBT file must be smaller than 100 MiB</source>
@@ -5401,8 +5401,8 @@ Go to File &gt; Open Wallet to load a wallet.
 <context>
     <name>bitcoin-core</name>
     <message>
-        <source>Qtum Core</source>
-        <translation type="unfinished">Qtum Core</translation>
+        <source>DigiWage Core</source>
+        <translation type="unfinished">DigiWage Core</translation>
     </message>
     <message>
         <source>The %s developers</source>
@@ -5441,8 +5441,8 @@ Go to File &gt; Open Wallet to load a wallet.
         <translation type="unfinished">오류 : 덤프파일 식별자 기록이 잘못되었습니다. "%s"이 아닌 "%s"를 얻었습니다.</translation>
     </message>
     <message>
-        <source>Error: Dumpfile version is not supported. This version of qtum-wallet only supports version 1 dumpfiles. Got dumpfile with version %s</source>
-        <translation type="unfinished">오류 : 덤프파일 버젼이 지원되지 않습니다. 이 QTUM 지갑 버젼은 오직 버젼1의 덤프파일을 지원합니다. %s버젼의 덤프파일을 얻었습니다.</translation>
+        <source>Error: Dumpfile version is not supported. This version of digiwage-wallet only supports version 1 dumpfiles. Got dumpfile with version %s</source>
+        <translation type="unfinished">오류 : 덤프파일 버젼이 지원되지 않습니다. 이 DIGIWAGE 지갑 버젼은 오직 버젼1의 덤프파일을 지원합니다. %s버젼의 덤프파일을 얻었습니다.</translation>
     </message>
     <message>
         <source>Error: Legacy wallets only support the "legacy", "p2sh-segwit", and "bech32" address types</source>
@@ -5465,7 +5465,7 @@ Go to File &gt; Open Wallet to load a wallet.
         <translation type="unfinished">shshhdchb bdfjj fb  rciivfjb doffbfbdjdj</translation>
     </message>
     <message>
-        <source>%s corrupt. Try using the wallet tool qtum-wallet to salvage or restoring a backup.</source>
+        <source>%s corrupt. Try using the wallet tool digiwage-wallet to salvage or restoring a backup.</source>
         <translation>%s가 손상되었습니다. '비트 코인-지갑'을 사용하여 백업을 구제하거나 복원하십시오.</translation>
     </message>
     <message>

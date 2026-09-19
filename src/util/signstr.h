@@ -11,7 +11,7 @@
 
 namespace SignStr
 {
-const std::string strMessageMagic = "Qtum Signed Message:\n";
+const std::string strMessageMagic = "DigiWage Signed Message:\n";
 
 inline bool SignMessage(const CKey& key, const std::string& strMessage, std::vector<unsigned char>& vchSig)
 {

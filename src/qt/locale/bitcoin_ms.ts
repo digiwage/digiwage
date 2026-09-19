@@ -68,8 +68,8 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation type="unfinished">alamat-alamat penerimaan</translation>
     </message>
     <message>
-        <source>These are your Qtum addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation type="unfinished">Ini adalah alamat Qtum anda untuk pembayaran. Periksa jumlah dan alamat penerima sebelum membuat penghantaran koin sentiasa.</translation>
+        <source>These are your DigiWage addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation type="unfinished">Ini adalah alamat DigiWage anda untuk pembayaran. Periksa jumlah dan alamat penerima sebelum membuat penghantaran koin sentiasa.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -143,8 +143,8 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation type="unfinished">Mengesahkan enkripsi dompet</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR QTUMS&lt;/b&gt;!</source>
-        <translation type="unfinished">Amaran: Jika anda enkripkan dompet anda dan hilangkan frasa laluan, anda akan &lt;b&gt;ANDA AKAN HILANGKAN SEMUA QTUM ANDA&lt;/b&gt;!</translation> 
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR DIGIWAGES&lt;/b&gt;!</source>
+        <translation type="unfinished">Amaran: Jika anda enkripkan dompet anda dan hilangkan frasa laluan, anda akan &lt;b&gt;ANDA AKAN HILANGKAN SEMUA DIGIWAGE ANDA&lt;/b&gt;!</translation> 
    </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -289,8 +289,8 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation type="unfinished">Aktiviti rangkaian dilumpuhkan</translation>
     </message>
     <message>
-        <source>Send coins to a Qtum address</source>
-        <translation type="unfinished">Menghantar koin kepada alamat Qtum</translation>
+        <source>Send coins to a DigiWage address</source>
+        <translation type="unfinished">Menghantar koin kepada alamat DigiWage</translation>
    </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -313,12 +313,12 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation type="unfinished">sulitkan kata laluan milik peribadi anda</translation>
     </message>
     <message>
-        <source>Sign messages with your Qtum addresses to prove you own them</source>
-        <translation type="unfinished">sahkan mesej bersama alamat qtum anda untuk menunjukkan alamat ini anda punya</translation>
+        <source>Sign messages with your DigiWage addresses to prove you own them</source>
+        <translation type="unfinished">sahkan mesej bersama alamat digiwage anda untuk menunjukkan alamat ini anda punya</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Qtum addresses</source>
-        <translation type="unfinished">Sahkan mesej untuk memastikan mereka telah ditandatangani dengan alamat Qtum yang ditentukan</translation>
+        <source>Verify messages to ensure they were signed with specified DigiWage addresses</source>
+        <translation type="unfinished">Sahkan mesej untuk memastikan mereka telah ditandatangani dengan alamat DigiWage yang ditentukan</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -338,8 +338,8 @@ Alihkan fail data ke dalam tab semasa</translation>
 </translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">Request payments (generates QR codes and qtum: URIs)
+        <source>Request payments (generates QR codes and digiwage: URIs)</source>
+        <translation type="unfinished">Request payments (generates QR codes and digiwage: URIs)
 </translation>
     </message>
     <message>
@@ -383,7 +383,7 @@ Alihkan fail data ke dalam tab semasa</translation>
 </translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Qtum network.</source>
+        <source>%n active connection(s) to DigiWage network.</source>
         <extracomment>A substring of the tooltip.</extracomment>
         <translation type="unfinished">
             <numerusform />

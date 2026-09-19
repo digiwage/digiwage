@@ -12,7 +12,7 @@ from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
 )
-from test_framework.qtum import convert_btc_address_to_qtum
+from test_framework.digiwage import convert_btc_address_to_digiwage
 
 class SignMessagesWithPrivTest(BitcoinTestFramework):
     def set_test_params(self):
@@ -36,7 +36,7 @@ class SignMessagesWithPrivTest(BitcoinTestFramework):
 
         self.log.info('test that verifying with P2PKH address succeeds')
         addresses = self.addresses_from_privkey(priv_key)
-        assert_equal(addresses[0], convert_btc_address_to_qtum('mpLQjfK79b7CCV4VMJWEWAj5Mpx8Up5zxB'))
+        assert_equal(addresses[0], convert_btc_address_to_digiwage('mpLQjfK79b7CCV4VMJWEWAj5Mpx8Up5zxB'))
         assert self.nodes[0].verifymessage(addresses[0], signature, message)
 
         self.log.info('test that verifying with non-P2PKH addresses throws error')
@@ -56,7 +56,7 @@ class SignMessagesWithPrivTest(BitcoinTestFramework):
         assert_raises_rpc_error(-5, "Invalid private key", self.nodes[0].signmessagewithprivkey, "invalid_key", message)
         assert_raises_rpc_error(-5, "Invalid address", self.nodes[0].verifymessage, "invalid_addr", signature, message)
         # malformed signature provided
-        assert_raises_rpc_error(-3, "Malformed base64 encoding", self.nodes[0].verifymessage, convert_btc_address_to_qtum('mpLQjfK79b7CCV4VMJWEWAj5Mpx8Up5zxB'), "invalid_sig", message)
+        assert_raises_rpc_error(-3, "Malformed base64 encoding", self.nodes[0].verifymessage, convert_btc_address_to_digiwage('mpLQjfK79b7CCV4VMJWEWAj5Mpx8Up5zxB'), "invalid_sig", message)
 
 
 if __name__ == '__main__':

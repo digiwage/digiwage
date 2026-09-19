@@ -5,7 +5,7 @@
 """Test error messages for 'getaddressinfo' and 'validateaddress' RPC commands."""
 
 from test_framework.test_framework import BitcoinTestFramework
-from test_framework.qtum import convert_btc_bech32_address_to_qtum
+from test_framework.digiwage import convert_btc_bech32_address_to_digiwage
 
 from test_framework.util import (
     assert_equal,
@@ -14,15 +14,15 @@ from test_framework.util import (
 
 import test_framework.segwit_addr
 
-BECH32_VALID = convert_btc_bech32_address_to_qtum('bcrt1qtmp74ayg7p24uslctssvjm06q5phz4yrxucgnv')
-BECH32_VALID_CAPITALS = convert_btc_bech32_address_to_qtum('BCRT1QPLMTZKC2XHARPPZDLNPAQL78RSHJ68U33RAH7R')
-BECH32_VALID_MULTISIG = convert_btc_bech32_address_to_qtum('bcrt1qdg3myrgvzw7ml9q0ejxhlkyxm7vl9r56yzkfgvzclrf4hkpx9yfqhpsuks')
+BECH32_VALID = convert_btc_bech32_address_to_digiwage('bcrt1qtmp74ayg7p24uslctssvjm06q5phz4yrxucgnv')
+BECH32_VALID_CAPITALS = convert_btc_bech32_address_to_digiwage('BCRT1QPLMTZKC2XHARPPZDLNPAQL78RSHJ68U33RAH7R')
+BECH32_VALID_MULTISIG = convert_btc_bech32_address_to_digiwage('bcrt1qdg3myrgvzw7ml9q0ejxhlkyxm7vl9r56yzkfgvzclrf4hkpx9yfqhpsuks')
 
-BECH32_INVALID_BECH32 = convert_btc_bech32_address_to_qtum('bcrt1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqdmchcc')
-BECH32_INVALID_BECH32M = convert_btc_bech32_address_to_qtum('bcrt1qw508d6qejxtdg4y5r3zarvary0c5xw7k35mrzd')
-BECH32_INVALID_VERSION = convert_btc_bech32_address_to_qtum('bcrt130xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqynjegk')
-BECH32_INVALID_SIZE = convert_btc_bech32_address_to_qtum('bcrt1s0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7v8n0nx0muaewav25430mtr')
-BECH32_INVALID_V0_SIZE = convert_btc_bech32_address_to_qtum('bcrt1qw508d6qejxtdg4y5r3zarvary0c5xw7kqqq5k3my')
+BECH32_INVALID_BECH32 = convert_btc_bech32_address_to_digiwage('bcrt1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqdmchcc')
+BECH32_INVALID_BECH32M = convert_btc_bech32_address_to_digiwage('bcrt1qw508d6qejxtdg4y5r3zarvary0c5xw7k35mrzd')
+BECH32_INVALID_VERSION = convert_btc_bech32_address_to_digiwage('bcrt130xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqynjegk')
+BECH32_INVALID_SIZE = convert_btc_bech32_address_to_digiwage('bcrt1s0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7v8n0nx0muaewav25430mtr')
+BECH32_INVALID_V0_SIZE = convert_btc_bech32_address_to_digiwage('bcrt1qw508d6qejxtdg4y5r3zarvary0c5xw7kqqq5k3my')
 BECH32_INVALID_PREFIX = 'qc1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7k7grplx'
 BECH32_TOO_LONG = 'qcrt1q049edschfnwystcqnsvyfpj23mpsg3jcedq9xv049edschfnwystcqnsvyfpj23mpsg3jcedq9xv049edschfnwystcqnsvyfpj23m'
 BECH32_ONE_ERROR = 'qcrt1qkkcddf3qa8s7k65uc9rn8pz3jsjxfl4wqel08t'
@@ -102,7 +102,7 @@ class InvalidAddressErrorMessageTest(BitcoinTestFramework):
         node = self.nodes[0]
 
         # Missing arg returns the help text
-        assert_raises_rpc_error(-1, "Return information about the given qtum address.", node.validateaddress)
+        assert_raises_rpc_error(-1, "Return information about the given digiwage address.", node.validateaddress)
         # Explicit None is not allowed for required parameters
         assert_raises_rpc_error(-3, "JSON value of type null is not of expected type string", node.validateaddress, None)
 

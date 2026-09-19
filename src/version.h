@@ -9,13 +9,13 @@
  * network protocol versioning
  */
 
-static const int PROTOCOL_VERSION = 70021;
+static const int PROTOCOL_VERSION = 80810;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
 
 //! disconnect from peers older than this proto version
-static const int MIN_PEER_PROTO_VERSION = 70020;
+static const int MIN_PEER_PROTO_VERSION = 80810;
 
 //! disconnect from peers older than this proto version after evm Shanghai
 static const int MIN_PEER_PROTO_VERSION_AFTER_EVMSHANGHAI = 70021;

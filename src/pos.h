@@ -15,7 +15,7 @@
 #include <chainparams.h>
 #include <script/sign.h>
 #include <consensus/consensus.h>
-#include <qtum/posutils.h>
+#include <digiwage/posutils.h>
 
 void CacheKernel(std::map<COutPoint, CStakeCache>& cache, const COutPoint& prevout, CBlockIndex* pindexPrev, CCoinsViewCache& view);
 

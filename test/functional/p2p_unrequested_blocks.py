@@ -137,7 +137,7 @@ class AcceptBlockTest(BitcoinTestFramework):
         assert tip_entry_found
 
         # But this block should be accepted by node since it has equal work.
-        # NOT true for qtum as we only store blocks with MORE work.
+        # NOT true for digiwage as we only store blocks with MORE work.
         self.nodes[0].getblockheader(block_h2f.hash)
         self.log.info("Second height 2 block accepted, but not reorg'ed to")
 

@@ -106,7 +106,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "sendmanywithdupes", 6, "conf_target" },
     { "addmultisigaddress", 0, "nrequired" },
     { "addmultisigaddress", 1, "keys" },
-    ////////////////////////////////////////////////// // qtum
+    ////////////////////////////////////////////////// // digiwage
     { "getaddresstxids", 0, "argument"},
     { "getaddressmempool", 0, "argument"},
     { "getaddressdeltas", 0, "argument"},

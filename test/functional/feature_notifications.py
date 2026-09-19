@@ -11,8 +11,8 @@ from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
 )
-from test_framework.qtumconfig import * 
-from test_framework.qtum import generatesynchronized
+from test_framework.digiwageconfig import * 
+from test_framework.digiwage import generatesynchronized
 
 # Linux allow all characters other than \x00
 # Windows disallow control characters (0-31) and /\?%:|"<>

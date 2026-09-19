@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
     #endif
 
     BitcoinApplication app;
-    app.setApplicationName("Qtum-Qt-test");
+    app.setApplicationName("DigiWage-Qt-test");
     app.createNode(*init);
 
     int num_test_failures{0};

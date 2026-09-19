@@ -2,10 +2,10 @@
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-bin_PROGRAMS += qt/qtum-qt
+bin_PROGRAMS += qt/digiwage-qt
 
 if BUILD_BITCOIN_GUI
-  bin_PROGRAMS += qtum-gui
+  bin_PROGRAMS += digiwage-gui
 endif
 
 EXTRA_LIBRARIES += qt/libbitcoinqt.a
@@ -169,8 +169,8 @@ QT_MOC_CPP = \
   qt/moc_transactionview.cpp \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletcontroller.cpp \
-  qt/moc_qtumversionchecker.cpp \
-  qt/moc_qtumhwitool.cpp \
+  qt/moc_digiwageversionchecker.cpp \
+  qt/moc_digiwagehwitool.cpp \
   qt/moc_waitmessagebox.cpp \
   qt/moc_hardwaresigntx.cpp \
   qt/moc_walletframe.cpp \
@@ -315,15 +315,15 @@ BITCOIN_QT_H = \
   qt/transactionview.h \
   qt/utilitydialog.h \
   qt/walletcontroller.h \
-  qt/qtumversionchecker.h \
+  qt/digiwageversionchecker.h \
   qt/waitmessagebox.h \
   qt/walletframe.h \
   qt/walletmodel.h \
   qt/walletmodeltransaction.h \
   qt/walletview.h \
   qt/winshutdownmonitor.h \
-  qt/qtumpushbutton.h \
-  qt/qtumhwitool.h \
+  qt/digiwagepushbutton.h \
+  qt/digiwagehwitool.h \
   qt/hardwaresigntx.h
 
 QT_RES_FONTS = \
@@ -446,9 +446,9 @@ BITCOIN_QT_BASE_CPP = \
   qt/superstakeritemmodel.cpp \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp \
-  qt/qtumversionchecker.cpp \
-  qt/qtumpushbutton.cpp \
-  qt/qtumhwitool.cpp \
+  qt/digiwageversionchecker.cpp \
+  qt/digiwagepushbutton.cpp \
+  qt/digiwagehwitool.cpp \
   qt/hardwaresigntx.cpp
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
@@ -684,43 +684,43 @@ QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:
 # Most files will depend on the forms and moc files as includes. Generate them
 # before anything else.
 $(QT_MOC): $(QT_FORMS_H)
-$(qt_libbitcoinqt_a_OBJECTS) $(qt_qtum_qt_OBJECTS) $(qtum_gui_OBJECTS) : | $(QT_MOC)
+$(qt_libbitcoinqt_a_OBJECTS) $(qt_digiwage_qt_OBJECTS) $(digiwage_gui_OBJECTS) : | $(QT_MOC)
 
-# qtum-qt and qtum-gui binaries #
-qtum_qt_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
+# digiwage-qt and digiwage-gui binaries #
+digiwage_qt_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
   $(QT_INCLUDES) $(QR_CFLAGS)
-qtum_qt_cxxflags = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+digiwage_qt_cxxflags = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
-qtum_qt_sources = qt/main.cpp
+digiwage_qt_sources = qt/main.cpp
 if TARGET_WINDOWS
-  qtum_qt_sources += $(BITCOIN_QT_RC)
+  digiwage_qt_sources += $(BITCOIN_QT_RC)
 endif
-qtum_qt_ldadd = qt/libbitcoinqt.a $(LIBBITCOIN_NODE)
+digiwage_qt_ldadd = qt/libbitcoinqt.a $(LIBBITCOIN_NODE)
 if ENABLE_WALLET
-qtum_qt_ldadd += $(LIBBITCOIN_UTIL) $(LIBBITCOIN_WALLET) $(LIBBITCOIN_NODE)
+digiwage_qt_ldadd += $(LIBBITCOIN_UTIL) $(LIBBITCOIN_WALLET) $(LIBBITCOIN_NODE)
 endif
 if ENABLE_ZMQ
-qtum_qt_ldadd += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+digiwage_qt_ldadd += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
-qtum_qt_ldadd += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
+digiwage_qt_ldadd += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(LIBSECP256K1) $(LIBCRYPTOPP) \
   $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(SQLITE_LIBS) $(LIBFF) $(GMP_LIBS) $(GMPXX_LIBS)
-qtum_qt_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
-qtum_qt_libtoolflags = $(AM_LIBTOOLFLAGS) --tag CXX
+digiwage_qt_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+digiwage_qt_libtoolflags = $(AM_LIBTOOLFLAGS) --tag CXX
 
-qt_qtum_qt_CPPFLAGS = $(qtum_qt_cppflags)
-qt_qtum_qt_CXXFLAGS = $(qtum_qt_cxxflags)
-qt_qtum_qt_SOURCES = $(qtum_qt_sources) init/bitcoin-qt.cpp
-qt_qtum_qt_LDADD = $(qtum_qt_ldadd)
-qt_qtum_qt_LDFLAGS = $(qtum_qt_ldflags)
-qt_qtum_qt_LIBTOOLFLAGS = $(qtum_qt_libtoolflags)
+qt_digiwage_qt_CPPFLAGS = $(digiwage_qt_cppflags)
+qt_digiwage_qt_CXXFLAGS = $(digiwage_qt_cxxflags)
+qt_digiwage_qt_SOURCES = $(digiwage_qt_sources) init/bitcoin-qt.cpp
+qt_digiwage_qt_LDADD = $(digiwage_qt_ldadd)
+qt_digiwage_qt_LDFLAGS = $(digiwage_qt_ldflags)
+qt_digiwage_qt_LIBTOOLFLAGS = $(digiwage_qt_libtoolflags)
 
-qtum_gui_CPPFLAGS = $(qtum_qt_cppflags)
-qtum_gui_CXXFLAGS = $(qtum_qt_cxxflags)
-qtum_gui_SOURCES = $(qtum_qt_sources) init/bitcoin-gui.cpp
-qtum_gui_LDADD = $(qtum_qt_ldadd) $(LIBBITCOIN_IPC) $(LIBBITCOIN_UTIL) $(LIBMULTIPROCESS_LIBS)
-qtum_gui_LDFLAGS = $(qtum_qt_ldflags)
-qtum_gui_LIBTOOLFLAGS = $(qtum_qt_libtoolflags)
+digiwage_gui_CPPFLAGS = $(digiwage_qt_cppflags)
+digiwage_gui_CXXFLAGS = $(digiwage_qt_cxxflags)
+digiwage_gui_SOURCES = $(digiwage_qt_sources) init/bitcoin-gui.cpp
+digiwage_gui_LDADD = $(digiwage_qt_ldadd) $(LIBBITCOIN_IPC) $(LIBBITCOIN_UTIL) $(LIBMULTIPROCESS_LIBS)
+digiwage_gui_LDFLAGS = $(digiwage_qt_ldflags)
+digiwage_gui_LIBTOOLFLAGS = $(digiwage_qt_libtoolflags)
 
 #locale/foo.ts -> locale/foo.qm
 QT_QM=$(QT_TS:.ts=.qm)
@@ -755,22 +755,22 @@ CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda 
 
 CLEANFILES += $(CLEAN_QT)
 
-qtum_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_qtum_qt_OBJECTS) qt/qtum-qt$(EXEEXT) $(LIBBITCOINQT)
+digiwage_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_digiwage_qt_OBJECTS) qt/digiwage-qt$(EXEEXT) $(LIBBITCOINQT)
 
-qtum_qt : qt/qtum-qt$(EXEEXT)
+digiwage_qt : qt/digiwage-qt$(EXEEXT)
 
 APK_LIB_DIR = qt/android/libs/$(ANDROID_ARCH)
 QT_BASE_VERSION = $(lastword $(shell $(MOC) --version))
 QT_BASE_PATH = $(shell find ../depends/sources/ -maxdepth 1 -type f -regex ".*qtbase.*$(QT_BASE_VERSION)\.tar.xz")
 QT_BASE_TLD = $(shell tar tf $(QT_BASE_PATH) --exclude='*/*')
 
-qtum_qt_apk: FORCE
+digiwage_qt_apk: FORCE
 	mkdir -p $(APK_LIB_DIR)
 	cp $(dir $(lastword $(CC)))../sysroot/usr/lib/$(host_alias)/libc++_shared.so $(APK_LIB_DIR)
 	tar xf $(QT_BASE_PATH) -C qt/android/src/ $(QT_BASE_TLD)src/android/jar/src --strip-components=5
 	tar xf $(QT_BASE_PATH) -C qt/android/src/ $(QT_BASE_TLD)src/android/java/src --strip-components=5
-	cp qt/qtum-qt $(APK_LIB_DIR)/libbitcoin-qt_$(ANDROID_ARCH).so
+	cp qt/digiwage-qt $(APK_LIB_DIR)/libbitcoin-qt_$(ANDROID_ARCH).so
 	cd qt/android && gradle wrapper --gradle-version=6.6.1
 	cd qt/android && ./gradlew build
 

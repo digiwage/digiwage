@@ -29,7 +29,7 @@ from test_framework.util import (
     get_fee,
 )
 from test_framework.wallet import MiniWallet
-from test_framework.qtumconfig import COINBASE_MATURITY
+from test_framework.digiwageconfig import COINBASE_MATURITY
 
 
 WALLET_PASSPHRASE = "test"

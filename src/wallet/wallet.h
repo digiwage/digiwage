@@ -31,7 +31,7 @@
 #include <wallet/walletutil.h>
 #include <validation.h>
 #include <consensus/params.h>
-#include <qtum/posutils.h>
+#include <digiwage/posutils.h>
 
 #include <algorithm>
 #include <atomic>
@@ -1158,10 +1158,10 @@ public:
     /* Remove super staker entry from the wallet */
     bool RemoveSuperStakerEntry(const uint256& superStakerHash, bool fFlushOnClose=true);
 
-    /* Start staking qtums */
+    /* Start staking digiwages */
     void StartStake();
 
-    /* Stop staking qtums */
+    /* Stop staking digiwages */
     void StopStake();
 
     /* Is staking closing */

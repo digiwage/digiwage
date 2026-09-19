@@ -41,8 +41,8 @@ from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
 )
-from test_framework.qtumconfig import INITIAL_BLOCK_REWARD
-from test_framework.qtum import generatesynchronized
+from test_framework.digiwageconfig import INITIAL_BLOCK_REWARD
+from test_framework.digiwage import generatesynchronized
 
 
 class WalletBackupTest(BitcoinTestFramework):

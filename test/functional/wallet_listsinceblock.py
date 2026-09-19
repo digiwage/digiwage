@@ -18,7 +18,7 @@ from test_framework.util import (
 from test_framework.wallet_util import bytes_to_wif
 
 from decimal import Decimal
-from test_framework.qtum import generatesynchronized
+from test_framework.digiwage import generatesynchronized
 
 class ListSinceBlockTest(BitcoinTestFramework):
     def add_options(self, parser):

@@ -176,12 +176,12 @@ ChainTestingSetup::ChainTestingSetup(const std::string& chainName, const std::ve
     m_node.scheduler->m_service_thread = std::thread(util::TraceThread, "scheduler", [&] { m_node.scheduler->serviceQueue(); });
     GetMainSignals().RegisterBackgroundSignalScheduler(*m_node.scheduler);
 
-////////////////////////////////////////////////////////////// qtum
+////////////////////////////////////////////////////////////// digiwage
     dev::eth::NoProof::init();		
-    std::filesystem::path pathTemp = fs::temp_directory_path() / strprintf("test_qtum_%lu_%i", (unsigned long)GetTime(), (int)(GetRand(100000)));
+    std::filesystem::path pathTemp = fs::temp_directory_path() / strprintf("test_digiwage_%lu_%i", (unsigned long)GetTime(), (int)(GetRand(100000)));
     std::filesystem::create_directories(pathTemp);
     const dev::h256 hashDB(dev::sha3(dev::rlp("")));
-    globalState = std::unique_ptr<QtumState>(new QtumState(dev::u256(0), QtumState::openDB(pathTemp.string(), hashDB, dev::WithExisting::Trust), pathTemp.string(), dev::eth::BaseState::Empty));
+    globalState = std::unique_ptr<DigiWageState>(new DigiWageState(dev::u256(0), DigiWageState::openDB(pathTemp.string(), hashDB, dev::WithExisting::Trust), pathTemp.string(), dev::eth::BaseState::Empty));
     dev::eth::ChainParams cp(chainparams.EVMGenesisInfo());
     cp.EIP150ForkBlock = 0xffffffffffffffff;
     cp.EIP158ForkBlock = 0xffffffffffffffff;
@@ -232,7 +232,7 @@ ChainTestingSetup::~ChainTestingSetup()
     m_node.scheduler.reset();
     m_node.chainman.reset();
 
-/////////////////////////////////////////////// // qtum
+/////////////////////////////////////////////// // digiwage
     delete globalState.release();
     globalSealEngine.reset();
 ///////////////////////////////////////////////

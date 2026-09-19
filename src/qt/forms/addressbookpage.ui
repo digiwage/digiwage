@@ -106,7 +106,7 @@
        <number>15</number>
       </property>
       <item>
-       <widget class="QtumPushButton" name="newAddress">
+       <widget class="DigiWagePushButton" name="newAddress">
         <property name="toolTip">
          <string>Create a new address</string>
         </property>
@@ -123,7 +123,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QtumPushButton" name="copyAddress">
+       <widget class="DigiWagePushButton" name="copyAddress">
         <property name="toolTip">
          <string>Copy the currently selected address to the system clipboard</string>
         </property>
@@ -140,7 +140,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QtumPushButton" name="deleteAddress">
+       <widget class="DigiWagePushButton" name="deleteAddress">
         <property name="toolTip">
          <string>Delete the currently selected address from the list</string>
         </property>
@@ -170,7 +170,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QtumPushButton" name="exportButton">
+       <widget class="DigiWagePushButton" name="exportButton">
         <property name="toolTip">
          <string>Export the data in the current tab to a file</string>
         </property>
@@ -209,9 +209,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QtumPushButton</class>
+   <class>DigiWagePushButton</class>
    <extends>QPushButton</extends>
-   <header>qt/qtumpushbutton.h</header>
+   <header>qt/digiwagepushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

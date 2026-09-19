@@ -830,6 +830,7 @@ private:
     std::map<uint256, COrphanBlock*> mapOrphanBlocks GUARDED_BY(cs_main);
     std::multimap<uint256, COrphanBlock*> mapOrphanBlocksByPrev GUARDED_BY(cs_main);
     std::set<std::pair<COutPoint, unsigned int>> setStakeSeenOrphan GUARDED_BY(cs_main);
+    std::set<uint256> m_digiwage_requested_blocks GUARDED_BY(cs_main);
     size_t nOrphanBlocksSize = 0;
     std::thread threadCleanBlockIndex;
     std::atomic<bool> m_stop_thread_clean_block_index = false;
@@ -2241,7 +2242,9 @@ bool PeerManagerImpl::AlreadyHaveTx(const GenTxid& gtxid)
 
 bool PeerManagerImpl::AlreadyHaveBlock(const uint256& block_hash)
 {
-    return m_chainman.m_blockman.LookupBlockIndex(block_hash) != nullptr;
+    const CBlockIndex* index = m_chainman.m_blockman.LookupBlockIndex(block_hash);
+    return index != nullptr &&
+        (!m_chainparams.GetConsensus().digiwage_history || (index->nStatus & BLOCK_HAVE_DATA));
 }
 
 void PeerManagerImpl::SendPings()
@@ -3985,6 +3988,7 @@ void PeerManagerImpl::ProcessMessage(CNode& pfrom, const std::string& msg_type, 
 
         const auto current_time{GetTime<std::chrono::microseconds>()};
         uint256* best_block{nullptr};
+        std::vector<CInv> legacy_blocks;
 
         for (CInv& inv : vInv) {
             if (interruptMsgProc) return;
@@ -4004,6 +4008,11 @@ void PeerManagerImpl::ProcessMessage(CNode& pfrom, const std::string& msg_type, 
 
                 UpdateBlockAvailability(pfrom.GetId(), inv.hash);
                 if (!fAlreadyHave && !m_chainman.m_blockman.LoadingBlocks() && !IsBlockRequested(inv.hash)) {
+                    if (m_chainparams.GetConsensus().digiwage_history) {
+                        legacy_blocks.emplace_back(MSG_BLOCK, inv.hash);
+                        m_digiwage_requested_blocks.insert(inv.hash);
+                        continue;
+                    }
                     // Headers-first is the primary method of announcement on
                     // the network. If a node fell back to sending blocks by
                     // inv, it may be for a re-org, or because we haven't
@@ -4029,6 +4038,12 @@ void PeerManagerImpl::ProcessMessage(CNode& pfrom, const std::string& msg_type, 
             } else {
                 LogPrint(BCLog::NET, "Unknown inv type \"%s\" received from peer=%d\n", inv.ToString(), pfrom.GetId());
             }
+        }
+
+        if (!legacy_blocks.empty()) {
+            // Deployed Digiwage peers implement locator sync as getblocks/inv
+            // and do not provide headers-first synchronization.
+            m_connman.PushMessage(&pfrom, msgMaker.Make(NetMsgType::GETDATA, legacy_blocks));
         }
 
         if (best_block != nullptr) {
@@ -4898,11 +4913,17 @@ void PeerManagerImpl::ProcessMessage(CNode& pfrom, const std::string& msg_type, 
         bool forceProcessing = false;
         const uint256 hash(pblock->GetHash());
         bool min_pow_checked = false;
+        bool digiwage_requested = false;
         {
             LOCK(cs_main);
             // Always process the block if we requested it, since we may
             // need it even when it's not a candidate for a new best tip.
             forceProcessing = IsBlockRequested(hash);
+            if (m_digiwage_requested_blocks.erase(hash) != 0) {
+                digiwage_requested = true;
+                forceProcessing = true;
+                min_pow_checked = true;
+            }
             RemoveBlockRequest(hash, pfrom.GetId());
             // mapBlockSource is only used for punishing peers and setting
             // which peers send us compact blocks, so the race between here and
@@ -4916,6 +4937,15 @@ void PeerManagerImpl::ProcessMessage(CNode& pfrom, const std::string& msg_type, 
             }
         }
         ProcessBlock(pfrom, pblock, forceProcessing, min_pow_checked);
+        if (digiwage_requested) {
+            LOCK(cs_main);
+            // Legacy peers announce their distant tip after serving each
+            // 500-block window. If that block could not connect, ask again
+            // from our newly advanced active tip.
+            if (!m_chainman.m_blockman.LookupBlockIndex(hash)) {
+                PushGetBlocks(pfrom, m_chainman.ActiveChain().Tip(), uint256{});
+            }
+        }
         return;
     }
 
@@ -6295,7 +6325,7 @@ bool PeerManagerImpl::ProcessNetBlock(const std::shared_ptr<const CBlock> pblock
     if (!ProcessNetBlockHeaders(pfrom, {*pblock}, min_pow_checked, state, &pindex)) {
         if (state.IsInvalid()) {
             MaybePunishNodeForBlock(pfrom.GetId(), state, false, strprintf("Peer %d sent us invalid header\n", pfrom.GetId()));
-            return error("ProcessNetBlock() : invalid header received");
+            return error("ProcessNetBlock() : invalid header received: %s", state.ToString());
         }
     }
 
@@ -6319,7 +6349,7 @@ bool PeerManagerImpl::ProcessNetBlock(const std::shared_ptr<const CBlock> pblock
         }
 
         // Check for the signiture encoding
-        if (!CheckCanonicalBlockSignature(pblock.get())) 
+        if (!m_chainparams.GetConsensus().digiwage_history && !CheckCanonicalBlockSignature(pblock.get()))
         {
             if (peer) Misbehaving(*peer, 100, "Bad block signature encoding");
             return error("ProcessNetBlock(): bad block signature encoding");

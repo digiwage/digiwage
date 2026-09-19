@@ -87,8 +87,8 @@
         <translation type="unfinished">กำลังเชื่อมต่อไปยัง peers…</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and qtum: URIs)</source>
-        <translation type="unfinished">ขอการชำระเงิน (สร้างรหัส QR และ qtum: URIs)</translation>
+        <source>Request payments (generates QR codes and digiwage: URIs)</source>
+        <translation type="unfinished">ขอการชำระเงิน (สร้างรหัส QR และ digiwage: URIs)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -151,8 +151,8 @@
         <translation type="unfinished">ปิดกระเป๋าสตางค์ทั้งหมด</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Qtum command-line options</source>
-        <translation type="unfinished">แสดง %1 ข้อความช่วยเหลือ เพื่อแสดงรายการ ตัวเลือกที่เป็นไปได้สำหรับ Qtum command-line</translation>
+        <source>Show the %1 help message to get a list with possible DigiWage command-line options</source>
+        <translation type="unfinished">แสดง %1 ข้อความช่วยเหลือ เพื่อแสดงรายการ ตัวเลือกที่เป็นไปได้สำหรับ DigiWage command-line</translation>
     </message>
     <message>
         <source>default wallet</source>
@@ -173,10 +173,10 @@
         <translation type="unfinished">กู้คืนวอลเล็ต</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Qtum network.</source>
+        <source>%n active connection(s) to DigiWage network.</source>
         <extracomment>A substring of the tooltip.</extracomment>
         <translation type="unfinished">
-            <numerusform>%n active connection(s) to Qtum network.</numerusform>
+            <numerusform>%n active connection(s) to DigiWage network.</numerusform>
         </translation>
     </message>
     <message>
@@ -374,8 +374,8 @@
         <translation type="unfinished">แก้ไข แอดเดรส การส่ง</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Qtum address.</source>
-        <translation type="unfinished">แอดเดรส ที่ป้อน "%1" เป็น Qtum แอดเดรส ที่ ไม่ ถูกต้อง</translation>
+        <source>The entered address "%1" is not a valid DigiWage address.</source>
+        <translation type="unfinished">แอดเดรส ที่ป้อน "%1" เป็น DigiWage แอดเดรส ที่ ไม่ ถูกต้อง</translation>
     </message>
     <message>
         <source>Address "%1" already exists as a receiving address with label "%2" and so cannot be added as a sending address.</source>
@@ -441,8 +441,8 @@
         </translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Qtum block chain.</source>
-        <translation type="unfinished">%1 จะดาวน์โหลดและจัดเก็บสำเนาของบล็อกเชน Qtum</translation>
+        <source>%1 will download and store a copy of the DigiWage block chain.</source>
+        <translation type="unfinished">%1 จะดาวน์โหลดและจัดเก็บสำเนาของบล็อกเชน DigiWage</translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>

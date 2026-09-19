@@ -29,7 +29,7 @@
 #include <wallet/spend.h>
 #include <wallet/wallet.h>
 #include <key_io.h>
-#include <qtum/delegationutils.h>
+#include <digiwage/delegationutils.h>
 #include <node/miner.h>
 
 #include <memory>
@@ -689,7 +689,7 @@ public:
         LOCK(m_wallet->cs_wallet);
         return OutputGetCredit(*m_wallet, txout, filter);
     }
-    bool isUnspentAddress(const std::string &qtumAddress) override
+    bool isUnspentAddress(const std::string &digiwageAddress) override
     {
         LOCK(m_wallet->cs_wallet);
 
@@ -700,7 +700,7 @@ public:
             const CScript& scriptPubKey = out.txout.scriptPubKey;
             bool fValidAddress = ExtractDestination(scriptPubKey, address);
 
-            if(fValidAddress && EncodeDestination(address) == qtumAddress && out.txout.nValue)
+            if(fValidAddress && EncodeDestination(address) == digiwageAddress && out.txout.nValue)
             {
                 return true;
             }

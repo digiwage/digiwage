@@ -8,12 +8,12 @@ import sys
 import tempfile
 
 BINARIES = [
-'src/qtumd',
-'src/qtum-cli',
-'src/qtum-tx',
-'src/qtum-wallet',
-'src/qtum-util',
-'src/qt/qtum-qt',
+'src/digiwaged',
+'src/digiwage-cli',
+'src/digiwage-tx',
+'src/digiwage-wallet',
+'src/digiwage-util',
+'src/qt/digiwage-qt',
 ]
 
 # Paths to external utilities.

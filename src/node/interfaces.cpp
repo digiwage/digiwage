@@ -49,8 +49,8 @@
 #include <validation.h>
 #include <validationinterface.h>
 #include <warnings.h>
-#include <qtum/qtumdelegation.h>
-#include <qtum/qtumDGP.h>
+#include <digiwage/digiwagedelegation.h>
+#include <digiwage/digiwageDGP.h>
 
 #if defined(HAVE_CONFIG_H)
 #include <config/bitcoin-config.h>
@@ -361,10 +361,10 @@ public:
     {
         LOCK(::cs_main);
 
-        QtumDGP qtumDGP(globalState.get(), chainman().ActiveChainstate(), fGettingValuesDGP);
+        DigiWageDGP digiwageDGP(globalState.get(), chainman().ActiveChainstate(), fGettingValuesDGP);
         int numBlocks = chainman().ActiveChain().Height();
-        blockGasLimit = qtumDGP.getBlockGasLimit(numBlocks);
-        minGasPrice = CAmount(qtumDGP.getMinGasPrice(numBlocks));
+        blockGasLimit = digiwageDGP.getBlockGasLimit(numBlocks);
+        minGasPrice = CAmount(digiwageDGP.getMinGasPrice(numBlocks));
         nGasPrice = (minGasPrice>DEFAULT_GAS_PRICE)?minGasPrice:DEFAULT_GAS_PRICE;
     }
     void getSyncInfo(int& numBlocks, bool& isSyncing) override
@@ -936,12 +936,12 @@ public:
 #endif
     bool getDelegation(const uint160& address, Delegation& delegation) override
     {
-        QtumDelegation qtumDelegation;
-        return qtumDelegation.ExistDelegationContract() ? qtumDelegation.GetDelegation(address, delegation, chainman().ActiveChainstate()) : false;
+        DigiWageDelegation digiwageDelegation;
+        return digiwageDelegation.ExistDelegationContract() ? digiwageDelegation.GetDelegation(address, delegation, chainman().ActiveChainstate()) : false;
     }
     bool verifyDelegation(const uint160& address, const Delegation& delegation) override
     {
-        return QtumDelegation::VerifyDelegation(address, delegation);
+        return DigiWageDelegation::VerifyDelegation(address, delegation);
     }
 
     NodeContext& m_node;

@@ -2,7 +2,7 @@
 
 Updated for NetBSD [9.2](https://netbsd.org/releases/formal-9/NetBSD-9.2.html).
 
-This guide describes how to build qtumd, command-line utilities, and GUI on NetBSD.
+This guide describes how to build digiwaged, command-line utilities, and GUI on NetBSD.
 
 ## Preparation
 
@@ -34,23 +34,23 @@ Then, when configuring, pass the following:
 
 See [dependencies.md](dependencies.md) for a complete overview.
 
-### 2. Clone Qtum Repo
+### 2. Clone DigiWage Repo
 
-Clone the Qtum Core repository to a directory. All build scripts and commands will run from this directory.
+Clone the DigiWage Core repository to a directory. All build scripts and commands will run from this directory.
 
 ```bash
-git clone https://github.com/qtumproject/qtum --recursive
+git clone https://github.com/digiwageproject/digiwage --recursive
 ```
 
 ### 3. Install Optional Dependencies
 
 #### Wallet Dependencies
 
-It is not necessary to build wallet functionality to run qtumd or the GUI.
+It is not necessary to build wallet functionality to run digiwaged or the GUI.
 
 ###### Descriptor Wallet Support
 
-`sqlite3` is required to enable support for [descriptor wallets](https://github.com/qtumproject/qtum/blob/master/doc/descriptors.md).
+`sqlite3` is required to enable support for [descriptor wallets](https://github.com/digiwageproject/digiwage/blob/master/doc/descriptors.md).
 
 ```bash
 pkgin install sqlite3
@@ -66,7 +66,7 @@ pkgin install db4
 
 #### GUI Dependencies
 
-Qtum Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install `qt5`.
+DigiWage Core includes a GUI built with the cross-platform Qt Framework. To compile the GUI, we need to install `qt5`.
 
 ```bash
 pkgin install qt5
@@ -87,14 +87,14 @@ To run the test suite (recommended), you will need to have Python 3 installed:
 pkgin install python37
 ```
 
-### Building Qtum Core
+### Building DigiWage Core
 
 **Note**: Use `gmake` (the non-GNU `make` will exit with an error).
 
 
 ### 1. Configuration
 
-There are many ways to configure Qtum Core. Here is an example that
+There are many ways to configure DigiWage Core. Here is an example that
 explicitly disables the wallet and GUI:
 
 ```bash

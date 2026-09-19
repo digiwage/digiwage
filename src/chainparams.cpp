@@ -110,6 +110,10 @@ std::unique_ptr<const CChainParams> CreateChainParams(const ArgsManager& args, c
         auto opts = CChainParams::RegTestOptions{};
         ReadRegTestArgs(args, opts);
         return CChainParams::RegTest(opts);
+    } else if (chain == CBaseChainParams::FORKTEST) {
+        auto opts = CChainParams::RegTestOptions{};
+        ReadRegTestArgs(args, opts);
+        return CChainParams::ForkTest(opts);
     } else if (chain == CBaseChainParams::UNITTEST) {
         auto opts = CChainParams::RegTestOptions{};
         ReadRegTestArgs(args, opts);
@@ -132,23 +136,23 @@ std::string CChainParams::EVMGenesisInfo() const
     evmConsensus.nMuirGlacierHeight = consensus.nMuirGlacierHeight;
     evmConsensus.nLondonHeight = consensus.nLondonHeight;
     evmConsensus.nShanghaiHeight = consensus.nShanghaiHeight;
-    return dev::eth::genesisInfoQtum(GetEVMNetwork(), evmConsensus);
+    return dev::eth::genesisInfoDigiWage(GetEVMNetwork(), evmConsensus);
 }
 
 std::string CChainParams::EVMGenesisInfo(int nHeight) const
 {
     dev::eth::EVMConsensus evmConsensus(nHeight);
-    return dev::eth::genesisInfoQtum(GetEVMNetwork(), evmConsensus);
+    return dev::eth::genesisInfoDigiWage(GetEVMNetwork(), evmConsensus);
 }
 
 std::string CChainParams::EVMGenesisInfo(const dev::eth::EVMConsensus& evmConsensus) const
 {
-    return dev::eth::genesisInfoQtum(GetEVMNetwork(), evmConsensus);
+    return dev::eth::genesisInfoDigiWage(GetEVMNetwork(), evmConsensus);
 }
 
 dev::eth::Network CChainParams::GetEVMNetwork() const
 {
-    return dev::eth::Network::qtumNetwork;
+    return dev::eth::Network::digiwageNetwork;
 }
 
 void CChainParams::UpdateOpSenderBlockHeight(int nHeight)
@@ -183,8 +187,8 @@ void UpdateConstantinopleBlockHeight(int nHeight)
 
 void CChainParams::UpdateDifficultyChangeBlockHeight(int nHeight)
 {
-    consensus.nSubsidyHalvingInterval = 985500; // qtum halving every 4 years
-    consensus.nSubsidyHalvingIntervalV2 = consensus.nBlocktimeDownscaleFactor*985500; // qtum halving every 4 years (nSubsidyHalvingInterval * nBlocktimeDownscaleFactor)
+    consensus.nSubsidyHalvingInterval = 985500; // digiwage halving every 4 years
+    consensus.nSubsidyHalvingIntervalV2 = consensus.nBlocktimeDownscaleFactor*985500; // digiwage halving every 4 years (nSubsidyHalvingInterval * nBlocktimeDownscaleFactor)
     consensus.posLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
     consensus.QIP9PosLimit = uint256S("0000000000001fffffffffffffffffffffffffffffffffffffffffffffffffff");
     consensus.RBTPosLimit = uint256S("0000000000003fffffffffffffffffffffffffffffffffffffffffffffffffff");

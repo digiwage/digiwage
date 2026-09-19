@@ -7,25 +7,25 @@ noinst_PROGRAMS += test/fuzz/fuzz
 endif
 
 if ENABLE_TESTS
-bin_PROGRAMS += test/test_qtum
+bin_PROGRAMS += test/test_digiwage
 endif
 
 TEST_SRCDIR = test
-TEST_BINARY=test/test_qtum$(EXEEXT)
+TEST_BINARY=test/test_digiwage$(EXEEXT)
 FUZZ_BINARY=test/fuzz/fuzz$(EXEEXT)
 
 JSON_TEST_FILES = \
-  test/qtumtests/data/btc_ecrecover.json \
-  test/qtumtests/data/ecrecover.json \
-  test/qtumtests/data/sha256.json \
-  test/qtumtests/data/ripemd160.json \
-  test/qtumtests/data/identity.json \
-  test/qtumtests/data/modexp.json \
-  test/qtumtests/data/modexp_eip2565.json \
-  test/qtumtests/data/alt_bn128_G1_add.json \
-  test/qtumtests/data/alt_bn128_G1_mul.json \
-  test/qtumtests/data/alt_bn128_pairing_product.json \
-  test/qtumtests/data/blake2_compression.json \
+  test/digiwagetests/data/btc_ecrecover.json \
+  test/digiwagetests/data/ecrecover.json \
+  test/digiwagetests/data/sha256.json \
+  test/digiwagetests/data/ripemd160.json \
+  test/digiwagetests/data/identity.json \
+  test/digiwagetests/data/modexp.json \
+  test/digiwagetests/data/modexp_eip2565.json \
+  test/digiwagetests/data/alt_bn128_G1_add.json \
+  test/digiwagetests/data/alt_bn128_G1_mul.json \
+  test/digiwagetests/data/alt_bn128_pairing_product.json \
+  test/digiwagetests/data/blake2_compression.json \
   test/data/script_tests.json \
   test/data/bip341_wallet_vectors.json \
   test/data/base58_encode_decode.json \
@@ -90,6 +90,7 @@ BITCOIN_TESTS =\
   test/bip32_tests.cpp \
   test/blockchain_tests.cpp \
   test/blockencodings_tests.cpp \
+  test/digiwage_header_tests.cpp \
   test/blockfilter_index_tests.cpp \
   test/blockfilter_tests.cpp \
   test/blockmanager_tests.cpp \
@@ -179,19 +180,19 @@ BITCOIN_TESTS =\
   test/validationinterface_tests.cpp \
   test/versionbits_tests.cpp \
   test/xoroshiro128plusplus_tests.cpp \
-  test/qtumtests/test_utils.h \
-  test/qtumtests/precompiled_utils.h \
-  test/qtumtests/qtumtxconverter_tests.cpp \
-  test/qtumtests/bytecodeexec_tests.cpp \
-  test/qtumtests/condensingtransaction_tests.cpp \
-  test/qtumtests/dgp_tests.cpp \
-  test/qtumtests/constantinoplefork_tests.cpp \
-  test/qtumtests/btcecrecoverfork_tests.cpp \
-  test/qtumtests/delegations_tests.cpp \
-  test/qtumtests/istanbulfork_tests.cpp \
-  test/qtumtests/londonfork_tests.cpp \
-  test/qtumtests/evmone_tests.cpp \
-  test/qtumtests/shanghaifork_tests.cpp
+  test/digiwagetests/test_utils.h \
+  test/digiwagetests/precompiled_utils.h \
+  test/digiwagetests/digiwagetxconverter_tests.cpp \
+  test/digiwagetests/bytecodeexec_tests.cpp \
+  test/digiwagetests/condensingtransaction_tests.cpp \
+  test/digiwagetests/dgp_tests.cpp \
+  test/digiwagetests/constantinoplefork_tests.cpp \
+  test/digiwagetests/btcecrecoverfork_tests.cpp \
+  test/digiwagetests/delegations_tests.cpp \
+  test/digiwagetests/istanbulfork_tests.cpp \
+  test/digiwagetests/londonfork_tests.cpp \
+  test/digiwagetests/evmone_tests.cpp \
+  test/digiwagetests/shanghaifork_tests.cpp
 
 if ENABLE_WALLET
 BITCOIN_TESTS += \
@@ -234,23 +235,23 @@ BITCOIN_TEST_SUITE += \
   wallet/test/init_test_fixture.h
 endif # ENABLE_WALLET
 
-test_test_qtum_SOURCES = $(BITCOIN_TEST_SUITE) $(BITCOIN_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)
-test_test_qtum_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -I$(srcdir)/test/ $(TESTDEFS) $(EVENT_CFLAGS)
-test_test_qtum_LDADD = $(LIBTEST_UTIL)
+test_test_digiwage_SOURCES = $(BITCOIN_TEST_SUITE) $(BITCOIN_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)
+test_test_digiwage_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -I$(srcdir)/test/ $(TESTDEFS) $(EVENT_CFLAGS)
+test_test_digiwage_LDADD = $(LIBTEST_UTIL)
 if ENABLE_WALLET
-test_test_qtum_LDADD += $(LIBBITCOIN_WALLET)
-test_test_qtum_CPPFLAGS += $(BDB_CPPFLAGS)
+test_test_digiwage_LDADD += $(LIBBITCOIN_WALLET)
+test_test_digiwage_CPPFLAGS += $(BDB_CPPFLAGS)
 endif
 
-test_test_qtum_LDADD += $(LIBBITCOIN_NODE) $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) \
+test_test_digiwage_LDADD += $(LIBBITCOIN_NODE) $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CONSENSUS) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) \
   $(LIBLEVELDB) $(LIBMEMENV) $(BOOST_LIBS) $(LIBSECP256K1) $(EVENT_LIBS) $(EVENT_PTHREADS_LIBS) $(MINISKETCH_LIBS) $(LIBCRYPTOPP) $(LIBSECP256K1)
-test_test_qtum_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+test_test_digiwage_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
-test_test_qtum_LDADD += $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(SQLITE_LIBS) $(LIBFF) $(GMP_LIBS) $(GMPXX_LIBS)
-test_test_qtum_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS) -static
+test_test_digiwage_LDADD += $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(SQLITE_LIBS) $(LIBFF) $(GMP_LIBS) $(GMPXX_LIBS)
+test_test_digiwage_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS) -static
 
 if ENABLE_ZMQ
-test_test_qtum_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+test_test_digiwage_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 FUZZ_SUITE_LD_COMMON += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
@@ -373,7 +374,7 @@ test_fuzz_fuzz_SOURCES = \
  test/fuzz/versionbits.cpp
 endif # ENABLE_FUZZ_BINARY
 
-nodist_test_test_qtum_SOURCES = $(GENERATED_TEST_FILES)
+nodist_test_test_digiwage_SOURCES = $(GENERATED_TEST_FILES)
 
 $(BITCOIN_TESTS): $(GENERATED_TEST_FILES)
 
@@ -382,20 +383,20 @@ CLEAN_BITCOIN_TEST = test/*.gcda test/*.gcno test/fuzz/*.gcda test/fuzz/*.gcno t
 CLEANFILES += $(CLEAN_BITCOIN_TEST)
 
 if TARGET_WINDOWS
-qtum_test: $(TEST_BINARY)
+digiwage_test: $(TEST_BINARY)
 else
 if ENABLE_BENCH
-qtum_test: $(TEST_BINARY) $(BENCH_BINARY)
+digiwage_test: $(TEST_BINARY) $(BENCH_BINARY)
 else
-qtum_test: $(TEST_BINARY)
+digiwage_test: $(TEST_BINARY)
 endif
 endif
 
-qtum_test_check: $(TEST_BINARY) FORCE
+digiwage_test_check: $(TEST_BINARY) FORCE
 	$(MAKE) check-TESTS TESTS=$^
 
-qtum_test_clean : FORCE
-	rm -f $(CLEAN_BITCOIN_TEST) $(test_test_qtum_OBJECTS) $(TEST_BINARY)
+digiwage_test_clean : FORCE
+	rm -f $(CLEAN_BITCOIN_TEST) $(test_test_digiwage_OBJECTS) $(TEST_BINARY)
 
 check-local: $(BITCOIN_TESTS:.cpp=.cpp.test)
 if BUILD_BITCOIN_TX
@@ -407,7 +408,7 @@ endif
 if TARGET_WINDOWS
 else
 if ENABLE_BENCH
-	@echo "Running bench/bench_qtum (one iteration sanity check, only high priority)..."
+	@echo "Running bench/bench_digiwage (one iteration sanity check, only high priority)..."
 	$(BENCH_BINARY) -sanity-check -priority-level=high
 endif
 endif

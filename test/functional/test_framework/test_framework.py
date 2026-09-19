@@ -35,8 +35,8 @@ from .util import (
     p2p_port,
     wait_until_helper,
 )
-from .qtumconfig import COINBASE_MATURITY
-from .qtum import generatesynchronized
+from .digiwageconfig import COINBASE_MATURITY
+from .digiwage import generatesynchronized
 
 
 class TestStatus(Enum):
@@ -244,17 +244,17 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
         fname_bitcoind = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
-            "qtumd" + config["environment"]["EXEEXT"],
+            "digiwaged" + config["environment"]["EXEEXT"],
         )
         fname_bitcoincli = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
-            "qtum-cli" + config["environment"]["EXEEXT"],
+            "digiwage-cli" + config["environment"]["EXEEXT"],
         )
         fname_bitcoinutil = os.path.join(
             config["environment"]["BUILDDIR"],
             "src",
-            "qtum-util" + config["environment"]["EXEEXT"],
+            "digiwage-util" + config["environment"]["EXEEXT"],
         )
         self.options.bitcoind = os.getenv("BITCOIND", default=fname_bitcoind)
         self.options.bitcoincli = os.getenv("BITCOINCLI", default=fname_bitcoincli)
@@ -507,9 +507,9 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
                 if versions[i] is None or versions[i] >= 229900:
                     extra_args[i] = extra_args[i] + ["-sandbox=log-and-abort"]
         if binary is None:
-            binary = [get_bin_from_version(v, 'qtumd', self.options.bitcoind) for v in versions]
+            binary = [get_bin_from_version(v, 'digiwaged', self.options.bitcoind) for v in versions]
         if binary_cli is None:
-            binary_cli = [get_bin_from_version(v, 'qtum-cli', self.options.bitcoincli) for v in versions]
+            binary_cli = [get_bin_from_version(v, 'digiwage-cli', self.options.bitcoincli) for v in versions]
         assert_equal(len(extra_confs), num_nodes)
         assert_equal(len(extra_args), num_nodes)
         assert_equal(len(versions), num_nodes)
@@ -832,7 +832,7 @@ class BitcoinTestFramework(metaclass=BitcoinTestMetaClass):
 
             os.rmdir(cache_path('wallets'))  # Remove empty wallets dir
             for entry in os.listdir(cache_path()):
-                if entry not in ['chainstate', 'blocks', 'indexes', 'stateQtum']:  # Only indexes, chainstate and blocks folders
+                if entry not in ['chainstate', 'blocks', 'indexes', 'stateDigiWage']:  # Only indexes, chainstate and blocks folders
                     os.remove(cache_path(entry))
 
         for i in range(self.num_nodes):

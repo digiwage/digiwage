@@ -208,14 +208,18 @@ public:
     uint32_t nTime{0};
     uint32_t nBits{0};
     uint32_t nNonce{0};
-    uint256 hashStateRoot{}; // qtum
-    uint256 hashUTXORoot{}; // qtum
+    uint256 hashStateRoot{}; // digiwage
+    uint256 hashUTXORoot{}; // digiwage
     // block signature - proof-of-stake protect the block by signing the block using a stake holder private key
     std::vector<unsigned char> vchBlockSigDlgt{};
     uint256 nStakeModifier{};
+    uint64_t nDigiwageStakeModifier{0};
+    bool fDigiwageStakeModifierGenerated{false};
+    bool fDigiwageProofOfStake{false};
+    uint256 nDigiwageAccumulatorCheckpoint{};
     // proof-of-stake specific fields
     COutPoint prevoutStake{};
-    uint256 hashProof{}; // qtum
+    uint256 hashProof{}; // digiwage
     uint64_t nMoneySupply{0};
 
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
@@ -233,6 +237,7 @@ public:
           hashStateRoot{block.hashStateRoot},
           hashUTXORoot{block.hashUTXORoot},
           vchBlockSigDlgt{block.vchBlockSigDlgt},
+          nDigiwageAccumulatorCheckpoint{block.nAccumulatorCheckpoint},
           prevoutStake{block.prevoutStake}
     {
     }
@@ -269,8 +274,9 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        block.hashStateRoot = hashStateRoot; // qtum
-        block.hashUTXORoot = hashUTXORoot; // qtum
+        block.nAccumulatorCheckpoint = nDigiwageAccumulatorCheckpoint;
+        block.hashStateRoot = hashStateRoot; // digiwage
+        block.hashUTXORoot = hashUTXORoot; // digiwage
         block.vchBlockSigDlgt = vchBlockSigDlgt;
         block.prevoutStake = prevoutStake;
         return block;
@@ -322,14 +328,14 @@ public:
         return pbegin[(pend - pbegin) / 2];
     }
 
-    bool IsProofOfWork() const // qtum
+    bool IsProofOfWork() const // digiwage
     {
         return !IsProofOfStake();
     }
 
     bool IsProofOfStake() const
     {
-        return !prevoutStake.IsNull();
+        return fDigiwageProofOfStake || !prevoutStake.IsNull();
     }
 
     std::vector<unsigned char> GetBlockSignature() const;
@@ -450,12 +456,16 @@ public:
         READWRITE(obj.nTime);
         READWRITE(obj.nBits);
         READWRITE(obj.nNonce);
-        READWRITE(obj.hashStateRoot); // qtum
-        READWRITE(obj.hashUTXORoot); // qtum
+        READWRITE(obj.hashStateRoot); // digiwage
+        READWRITE(obj.hashUTXORoot); // digiwage
         READWRITE(obj.nStakeModifier);
+        READWRITE(obj.nDigiwageStakeModifier);
+        READWRITE(obj.fDigiwageStakeModifierGenerated);
+        READWRITE(obj.fDigiwageProofOfStake);
+        READWRITE(obj.nDigiwageAccumulatorCheckpoint);
         READWRITE(obj.prevoutStake);
         READWRITE(obj.hashProof);
-        READWRITE(obj.vchBlockSigDlgt); // qtum
+        READWRITE(obj.vchBlockSigDlgt); // digiwage
     }
 
     uint256 ConstructBlockHash() const
@@ -467,8 +477,9 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
-        block.hashStateRoot = hashStateRoot; // qtum
-        block.hashUTXORoot = hashUTXORoot; // qtum
+        block.nAccumulatorCheckpoint = nDigiwageAccumulatorCheckpoint;
+        block.hashStateRoot = hashStateRoot; // digiwage
+        block.hashUTXORoot = hashUTXORoot; // digiwage
         block.vchBlockSigDlgt = vchBlockSigDlgt;
         block.prevoutStake = prevoutStake;
         return block.GetHash();

@@ -11,7 +11,7 @@ from test_framework.util import (
     find_output,
     find_vout_for_address
 )
-from test_framework.qtumconfig import INITIAL_BLOCK_REWARD
+from test_framework.digiwageconfig import INITIAL_BLOCK_REWARD
 
 
 class TxnMallTest(BitcoinTestFramework):

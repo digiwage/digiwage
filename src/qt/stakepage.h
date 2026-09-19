@@ -1,5 +1,5 @@
-#ifndef QTUM_QT_STAKEPAGE_H
-#define QTUM_QT_STAKEPAGE_H
+#ifndef DIGIWAGE_QT_STAKEPAGE_H
+#define DIGIWAGE_QT_STAKEPAGE_H
 
 #include <interfaces/wallet.h>
 
@@ -64,4 +64,4 @@ private:
     void updateAnnualROI();
 };
 
-#endif // QTUM_QT_STAKEPAGE_H
+#endif // DIGIWAGE_QT_STAKEPAGE_H

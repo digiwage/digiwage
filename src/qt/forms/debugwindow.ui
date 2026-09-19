@@ -392,7 +392,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QtumPushButton" name="openDebugLogfileButton">
+          <widget class="DigiWagePushButton" name="openDebugLogfileButton">
            <property name="toolTip">
             <string>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</string>
            </property>
@@ -470,7 +470,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QtumPushButton" name="fontSmallerButton">
+          <widget class="DigiWagePushButton" name="fontSmallerButton">
            <property name="toolTip">
             <string>Decrease font size</string>
            </property>
@@ -490,7 +490,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QtumPushButton" name="fontBiggerButton"> 
+          <widget class="DigiWagePushButton" name="fontBiggerButton"> 
            <property name="toolTip">
             <string>Increase font size</string>
            </property>
@@ -510,7 +510,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QtumPushButton" name="clearButton"> 
+          <widget class="DigiWagePushButton" name="clearButton"> 
            <property name="toolTip">
             <string>Clear console</string>
            </property>
@@ -562,7 +562,7 @@
           <number>3</number>
          </property>
          <item>
-          <widget class="QtumPushButton" name="promptIcon"> 
+          <widget class="DigiWagePushButton" name="promptIcon"> 
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -1710,9 +1710,9 @@
    </slots>
   </customwidget>
   <customwidget>
-   <class>QtumPushButton</class>
+   <class>DigiWagePushButton</class>
    <extends>QPushButton</extends>
-   <header>qt/qtumpushbutton.h</header>
+   <header>qt/digiwagepushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

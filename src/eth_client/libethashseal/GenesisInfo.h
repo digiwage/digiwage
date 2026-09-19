@@ -16,13 +16,13 @@ namespace eth
 /// The network id.
 enum class Network
 {
-    qtumNetwork = 1
+    digiwageNetwork = 1
 };
 
 std::string const& genesisInfo(Network _n);
 h256 const& genesisStateRoot(Network _n);
 
-/// Set the improvements activation blocks for Qtum
+/// Set the improvements activation blocks for DigiWage
 struct EVMConsensus
 {
     EVMConsensus() {}
@@ -42,12 +42,12 @@ struct EVMConsensus
 };
 
 /**
- * @brief genesisInfoQtum Get the genesis information for EVM
+ * @brief genesisInfoDigiWage Get the genesis information for EVM
  * @param _n Network type
- * @param _consensus Qtum network consensus parameters (mainnet, testnet, signet or regtest parameters)
+ * @param _consensus DigiWage network consensus parameters (mainnet, testnet, signet or regtest parameters)
  * @return Genesis information for EVM
  */
-std::string genesisInfoQtum(Network _n, EVMConsensus _consensus);
+std::string genesisInfoDigiWage(Network _n, EVMConsensus _consensus);
 
 }
 }

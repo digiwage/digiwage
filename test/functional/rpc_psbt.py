@@ -6,7 +6,7 @@
 """
 from decimal import Decimal
 from itertools import product
-from test_framework.qtumconfig import INITIAL_BLOCK_REWARD
+from test_framework.digiwageconfig import INITIAL_BLOCK_REWARD
 
 from test_framework.descriptors import descsum_create
 from test_framework.key import ECKey, H_POINT
@@ -44,7 +44,7 @@ from test_framework.util import (
     random_bytes,
 )
 from test_framework.wallet_util import bytes_to_wif
-from test_framework.qtum import convert_btc_bech32_address_to_qtum
+from test_framework.digiwage import convert_btc_bech32_address_to_digiwage
 
 import json
 import os
@@ -331,7 +331,7 @@ class PSBTTest(BitcoinTestFramework):
                 self.nodes[1].walletcreatefundedpsbt, inputs, outputs, 0, {"fee_rate": invalid_value, "add_inputs": True})
 
         self.log.info("- raises RPC error if both feeRate and fee_rate are passed")
-        assert_raises_rpc_error(-8, "Cannot specify both fee_rate (sat/vB) and feeRate (QTUM/kvB)",
+        assert_raises_rpc_error(-8, "Cannot specify both fee_rate (sat/vB) and feeRate (DIGIWAGE/kvB)",
             self.nodes[1].walletcreatefundedpsbt, inputs, outputs, 0, {"fee_rate": 0.1, "feeRate": 0.1, "add_inputs": True})
 
         self.log.info("- raises RPC error if both feeRate and estimate_mode passed")
@@ -551,7 +551,7 @@ class PSBTTest(BitcoinTestFramework):
         for creator in creators:
             new_outputs = {}
             for k in creator['outputs']:
-                new_key = convert_btc_bech32_address_to_qtum(list(k.keys())[0])
+                new_key = convert_btc_bech32_address_to_digiwage(list(k.keys())[0])
                 new_value = list(k.values())[0]
                 new_outputs[new_key] = new_value
             creator['outputs'] = new_outputs

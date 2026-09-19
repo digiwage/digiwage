@@ -268,7 +268,7 @@ public:
     explicit BlockAssembler(Chainstate& chainstate, const CTxMemPool* mempool, wallet::CWallet *pwallet);
 #endif
 
-///////////////////////////////////////////// // qtum
+///////////////////////////////////////////// // digiwage
     ByteCodeExecResult bceResult;
     uint64_t minGasPrice = 1;
     uint64_t hardBlockGasLimit;
@@ -277,7 +277,7 @@ public:
 /////////////////////////////////////////////
 
     // The original constructed reward tx (either coinbase or coinstake) without gas refund adjustments
-    CMutableTransaction originalRewardTx; // qtum
+    CMutableTransaction originalRewardTx; // digiwage
 
     //When GetAdjustedTime() exceeds this, no more transactions will attempt to be added
     int32_t nTimeLimit;
@@ -324,7 +324,7 @@ private:
 
 #ifdef ENABLE_WALLET
 /** Generate a new block, without valid proof-of-work */
-void StakeQtums(bool fStake, wallet::CWallet *pwallet);
+void StakeDigiWages(bool fStake, wallet::CWallet *pwallet);
 void RefreshDelegates(wallet::CWallet *pwallet, bool myDelegates, bool stakerDelegates);
 #endif
 

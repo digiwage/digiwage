@@ -152,7 +152,7 @@ static const char* DEFAULT_ASMAP_FILENAME="ip_asn.map";
 /**
  * The PID file facilities.
  */
-static const char* BITCOIN_PID_FILENAME = "qtumd.pid";
+static const char* BITCOIN_PID_FILENAME = "digiwaged.pid";
 
 static fs::path GetPidFile(const ArgsManager& args)
 {
@@ -248,7 +248,7 @@ void Shutdown(NodeContext& node)
     /// for example if the data directory was found to be locked.
     /// Be sure that anything that writes files or flushes caches only does this if the respective
     /// module was initialized.
-    util::ThreadRename("qtum-shutoff");
+    util::ThreadRename("digiwage-shutoff");
 
 #ifdef ENABLE_WALLET
     if(node.wallet_loader && node.wallet_loader->context())
@@ -687,7 +687,7 @@ void SetupServerArgs(ArgsManager& argsman)
     argsman.AddArg("-stakingexcludelist=<address>", "Exclude list delegate address. Can be specified multiple times to add multiple addresses.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 
 #if defined(USE_SYSCALL_SANDBOX)
-    argsman.AddArg("-sandbox=<mode>", "Use the experimental syscall sandbox in the specified mode (-sandbox=log-and-abort or -sandbox=abort). Allow only expected syscalls to be used by qtumd. Note that this is an experimental new feature that may cause qtumd to exit or crash unexpectedly: use with caution. In the \"log-and-abort\" mode the invocation of an unexpected syscall results in a debug handler being invoked which will log the incident and terminate the program (without executing the unexpected syscall). In the \"abort\" mode the invocation of an unexpected syscall results in the entire process being killed immediately by the kernel without executing the unexpected syscall.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+    argsman.AddArg("-sandbox=<mode>", "Use the experimental syscall sandbox in the specified mode (-sandbox=log-and-abort or -sandbox=abort). Allow only expected syscalls to be used by digiwaged. Note that this is an experimental new feature that may cause digiwaged to exit or crash unexpectedly: use with caution. In the \"log-and-abort\" mode the invocation of an unexpected syscall results in a debug handler being invoked which will log the incident and terminate the program (without executing the unexpected syscall). In the \"abort\" mode the invocation of an unexpected syscall results in the entire process being killed immediately by the kernel without executing the unexpected syscall.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 #endif // USE_SYSCALL_SANDBOX
 
     // Add the hidden options
@@ -716,7 +716,7 @@ void DeleteBlockChainData()
     fs::path datadir = gArgs.GetDataDirNet();
     fs::remove_all(datadir / "chainstate");
     fs::remove_all(gArgs.GetBlocksDirPath());
-    fs::remove_all(datadir / "stateQtum");
+    fs::remove_all(datadir / "stateDigiWage");
     fs::remove(datadir / "banlist.dat");
     fs::remove(datadir / "fee_estimates.dat");
     fs::remove(datadir / "mempool.dat");
@@ -1114,7 +1114,7 @@ bool AppInitParameterInteraction(const ArgsManager& args, bool use_syscall_sandb
         if (use_syscall_sandbox) {
             SetSyscallSandboxPolicy(SyscallSandboxPolicy::INITIALIZATION);
         }
-        LogPrintf("Experimental syscall sandbox enabled (-sandbox=%s): qtumd will terminate if an unexpected (not allowlisted) syscall is invoked.\n", sandbox_arg);
+        LogPrintf("Experimental syscall sandbox enabled (-sandbox=%s): digiwaged will terminate if an unexpected (not allowlisted) syscall is invoked.\n", sandbox_arg);
     }
 #endif // USE_SYSCALL_SANDBOX
 
@@ -1428,9 +1428,9 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
     // Warn about relative -datadir path.
     if (args.IsArgSet("-datadir") && !args.GetPathArg("-datadir").is_absolute()) {
         LogPrintf("Warning: relative datadir option '%s' specified, which will be interpreted relative to the " /* Continued */
-                  "current working directory '%s'. This is fragile, because if qtum is started in the future "
+                  "current working directory '%s'. This is fragile, because if digiwage is started in the future "
                   "from a different location, it will be unable to locate the current data files. There could "
-                  "also be data loss if qtum is started while in a temporary directory.\n",
+                  "also be data loss if digiwage is started while in a temporary directory.\n",
                   args.GetArg("-datadir", ""), fs::PathToString(fs::current_path()));
     }
 

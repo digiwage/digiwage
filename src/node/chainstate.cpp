@@ -145,21 +145,21 @@ static ChainstateLoadResult CompleteChainstateInitialization(
         }
     }
 
-    /////////////////////////////////////////////////////////// qtum
+    /////////////////////////////////////////////////////////// digiwage
     fGettingValuesDGP = options.getting_values_dgp;
 
     dev::eth::NoProof::init();
-    fs::path qtumStateDir = gArgs.GetDataDirNet() / "stateQtum";
-    bool fStatus = fs::exists(qtumStateDir);
-    const std::string dirQtum = PathToString(qtumStateDir);
+    fs::path digiwageStateDir = gArgs.GetDataDirNet() / "stateDigiWage";
+    bool fStatus = fs::exists(digiwageStateDir);
+    const std::string dirDigiWage = PathToString(digiwageStateDir);
     const dev::h256 hashDB(dev::sha3(dev::rlp("")));
-    dev::eth::BaseState existsQtumstate = fStatus ? dev::eth::BaseState::PreExisting : dev::eth::BaseState::Empty;
-    globalState = std::unique_ptr<QtumState>(new QtumState(dev::u256(0), QtumState::openDB(dirQtum, hashDB, dev::WithExisting::Trust), dirQtum, existsQtumstate));
+    dev::eth::BaseState existsDigiWagestate = fStatus ? dev::eth::BaseState::PreExisting : dev::eth::BaseState::Empty;
+    globalState = std::unique_ptr<DigiWageState>(new DigiWageState(dev::u256(0), DigiWageState::openDB(dirDigiWage, hashDB, dev::WithExisting::Trust), dirDigiWage, existsDigiWagestate));
     const CChainParams& chainparams = Params();
     dev::eth::ChainParams cp(chainparams.EVMGenesisInfo());
     globalSealEngine = std::unique_ptr<dev::eth::SealEngineFace>(cp.createSealEngine());
 
-    pstorageresult.reset(new StorageResults(PathToString(qtumStateDir)));
+    pstorageresult.reset(new StorageResults(PathToString(digiwageStateDir)));
     if (options.reindex) {
         pstorageresult->wipeResults();
     }
@@ -183,7 +183,7 @@ static ChainstateLoadResult CompleteChainstateInitialization(
     fIsVMlogFile = fs::exists(gArgs.GetDataDirNet() / "vmExecLogs.json");
     ///////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////////////////// // qtum
+    /////////////////////////////////////////////////////////////// // digiwage
     if (fAddressIndex != options.addrindex) {
         return {ChainstateLoadStatus::FAILURE, _("You need to rebuild the database using -reindex to change -addrindex")};
     }
@@ -305,8 +305,8 @@ ChainstateLoadResult VerifyLoadedChainstate(ChainstateManager& chainman, const C
     LOCK(cs_main);
 
     CChain& active_chain = chainman.ActiveChain();
-    QtumDGP qtumDGP(globalState.get(), chainman.ActiveChainstate(), fGettingValuesDGP);
-    globalSealEngine->setQtumSchedule(qtumDGP.getGasSchedule(active_chain.Height() + (active_chain.Height()+1 >= chainman.GetConsensus().QIP7Height ? 0 : 1) ));
+    DigiWageDGP digiwageDGP(globalState.get(), chainman.ActiveChainstate(), fGettingValuesDGP);
+    globalSealEngine->setDigiWageSchedule(digiwageDGP.getGasSchedule(active_chain.Height() + (active_chain.Height()+1 >= chainman.GetConsensus().QIP7Height ? 0 : 1) ));
 
     for (Chainstate* chainstate : chainman.GetAll()) {
         if (!is_coinsview_empty(chainstate)) {

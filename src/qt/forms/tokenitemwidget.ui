@@ -177,14 +177,14 @@
              </spacer>
             </item>
             <item>
-             <widget class="QtumPushButton" name="buttonSend">
+             <widget class="DigiWagePushButton" name="buttonSend">
               <property name="text">
                <string>Send</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QtumPushButton" name="buttonReceive">
+             <widget class="DigiWagePushButton" name="buttonReceive">
               <property name="text">
                <string>Receive</string>
               </property>
@@ -240,9 +240,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QtumPushButton</class>
+   <class>DigiWagePushButton</class>
    <extends>QPushButton</extends>
-   <header>qt/qtumpushbutton.h</header>
+   <header>qt/digiwagepushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

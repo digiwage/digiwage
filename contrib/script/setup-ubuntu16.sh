@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Setup Qtum build environment for Ubuntu 16
+# Setup DigiWage build environment for Ubuntu 16
 
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get update

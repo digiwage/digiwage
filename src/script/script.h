@@ -213,6 +213,8 @@ enum opcodetype
     OP_SPEND = 0xc3,
     OP_SENDER = 0xc4,
 
+    OP_CHECKCOLDSTAKEVERIFY = 0xd1,
+
     // template matching params
     OP_ADDRESS_TYPE = 0xf2,
     OP_ADDRESS = 0xf3,
@@ -230,7 +232,7 @@ enum opcodetype
 };
 
 // Maximum value that an opcode can be
-static const unsigned int MAX_OPCODE = OP_NOP10;
+static const unsigned int MAX_OPCODE = OP_CHECKCOLDSTAKEVERIFY;
 
 std::string GetOpName(opcodetype opcode);
 
@@ -363,7 +365,7 @@ public:
         return serialize(m_value);
     }
 
-    ///////////////////////////////// qtum
+    ///////////////////////////////// digiwage
     static uint64_t vch_to_uint64(const std::vector<unsigned char>& vch)
     {
         if (vch.size() > 8) {
@@ -599,7 +601,7 @@ public:
     unsigned int GetSigOpCount(const CScript& scriptSig) const;
 
     bool IsPayToScriptHash() const;
-    ///////////////////////////////////////////////// // qtum
+    ///////////////////////////////////////////////// // digiwage
     bool IsPayToPubkey() const;
     bool IsPayToPubkeyHash() const;
     /////////////////////////////////////////////////

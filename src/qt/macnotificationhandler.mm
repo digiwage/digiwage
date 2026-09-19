@@ -13,7 +13,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.qtum.Qtum-Qt";
+        return @"org.digiwage.DigiWage-Qt";
     } else {
         return [self __bundleIdentifier];
     }

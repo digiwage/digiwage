@@ -18,7 +18,7 @@ from test_framework.wallet import (
     MiniWallet,
     getnewdestination,
 )
-from test_framework.qtum import convert_btc_address_to_qtum
+from test_framework.digiwage import convert_btc_address_to_digiwage
 
 import random 
 
@@ -39,7 +39,7 @@ class ScanblocksTest(BitcoinTestFramework):
         # send 1.0, mempool only
         # childkey 5 of `parent_key`
         wallet.send_to(from_node=node,
-                       scriptPubKey=address_to_scriptpubkey(convert_btc_address_to_qtum("mkS4HXoTYWRTescLGaUTGbtTTYX5EjJyEE")),
+                       scriptPubKey=address_to_scriptpubkey(convert_btc_address_to_digiwage("mkS4HXoTYWRTescLGaUTGbtTTYX5EjJyEE")),
                        amount=1 * COIN)
 
         # mine a block and assure that the mined blockhash is in the filterresult

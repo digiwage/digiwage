@@ -10,7 +10,7 @@ and feature negotiation messages (WTXIDRELAY, SENDADDRV2).
 This test connects to a node and sends it a few messages, trying to entice it
 into sending us something it shouldn't."""
 
-from test_framework.qtumconfig import COINBASE_MATURITY
+from test_framework.digiwageconfig import COINBASE_MATURITY
 import time
 
 from test_framework.messages import (

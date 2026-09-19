@@ -10,7 +10,7 @@ DIST_SUBDIRS = secp256k1
 
 AM_LDFLAGS = $(LIBTOOL_LDFLAGS) $(HARDENED_LDFLAGS) $(GPROF_LDFLAGS) $(SANITIZER_LDFLAGS) $(LTO_LDFLAGS) $(CORE_LDFLAGS)
 AM_CXXFLAGS = $(DEBUG_CXXFLAGS) $(HARDENED_CXXFLAGS) $(WARN_CXXFLAGS) $(NOWARN_CXXFLAGS) $(ERROR_CXXFLAGS) $(GPROF_CXXFLAGS) $(SANITIZER_CXXFLAGS) $(LTO_CXXFLAGS) $(CORE_CXXFLAGS) -DETH_FATDB=1
-AM_CPPFLAGS = $(DEBUG_CPPFLAGS) $(HARDENED_CPPFLAGS) $(CORE_CPPFLAGS) -DQTUM_BUILD
+AM_CPPFLAGS = $(DEBUG_CPPFLAGS) $(HARDENED_CPPFLAGS) $(CORE_CPPFLAGS) -DDIGIWAGE_BUILD
 AM_LIBTOOLFLAGS = --preserve-dup-deps
 PTHREAD_FLAGS = $(PTHREAD_CFLAGS) $(PTHREAD_LIBS)
 EXTRA_LIBRARIES =
@@ -39,7 +39,7 @@ LIBBITCOIN_NODE=libbitcoin_node.a
 LIBBITCOIN_COMMON=libbitcoin_common.a
 LIBBITCOIN_CONSENSUS=libbitcoin_consensus.a
 LIBBITCOIN_CLI=libbitcoin_cli.a
-LIBBITCOIN_UTIL=libqtum_util.a
+LIBBITCOIN_UTIL=libdigiwage_util.a
 LIBBITCOIN_CRYPTO_BASE=crypto/libbitcoin_crypto_base.la
 LIBBITCOINQT=qt/libbitcoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
@@ -96,33 +96,33 @@ EXTRA_LIBRARIES += \
   $(LIBBITCOIN_ZMQ)
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += qtumd
+  bin_PROGRAMS += digiwaged
 endif
 
 if BUILD_BITCOIN_NODE
-  bin_PROGRAMS += qtum-node
+  bin_PROGRAMS += digiwage-node
 endif
 
 if BUILD_BITCOIN_CLI
-  bin_PROGRAMS += qtum-cli
+  bin_PROGRAMS += digiwage-cli
 endif
 
 if BUILD_BITCOIN_TX
-  bin_PROGRAMS += qtum-tx
+  bin_PROGRAMS += digiwage-tx
 endif
 
 if ENABLE_WALLET
 if BUILD_BITCOIN_WALLET
-  bin_PROGRAMS += qtum-wallet
+  bin_PROGRAMS += digiwage-wallet
 endif
 endif
 
 if BUILD_BITCOIN_UTIL
-  bin_PROGRAMS += qtum-util
+  bin_PROGRAMS += digiwage-util
 endif
 
 if BUILD_BITCOIN_CHAINSTATE
-  bin_PROGRAMS += qtum-chainstate
+  bin_PROGRAMS += digiwage-chainstate
 endif
 
 .PHONY: FORCE check-symbols check-security
@@ -371,23 +371,23 @@ BITCOIN_CORE_H = \
   zmq/zmqpublishnotifier.h \
   zmq/zmqrpc.h \
   zmq/zmqutil.h \
-  qtum/posutils.h \
-  qtum/qtumstate.h \
-  qtum/qtumtransaction.h \
-  qtum/qtumDGP.h \
-  qtum/storageresults.h \
-  qtum/qtumutils.h \
-  qtum/qtumdelegation.h \
-  qtum/qtumtoken.h \
-  qtum/qtumledger.h \
-  qtum/delegationutils.h
+  digiwage/posutils.h \
+  digiwage/digiwagestate.h \
+  digiwage/digiwagetransaction.h \
+  digiwage/digiwageDGP.h \
+  digiwage/storageresults.h \
+  digiwage/digiwageutils.h \
+  digiwage/digiwagedelegation.h \
+  digiwage/digiwagetoken.h \
+  digiwage/digiwageledger.h \
+  digiwage/delegationutils.h
 
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh "$(abs_top_builddir)/src/obj/build.h" \
 	  "$(abs_top_srcdir)"
-libqtum_util_a-clientversion.$(OBJEXT): obj/build.h
+libdigiwage_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # node #
 libbitcoin_node_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(NATPMP_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
@@ -476,9 +476,9 @@ libbitcoin_node_a_SOURCES = \
   validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
-  qtum/qtumstate.cpp \
-  qtum/storageresults.cpp \
-  qtum/qtumledger.cpp \
+  digiwage/digiwagestate.cpp \
+  digiwage/storageresults.cpp \
+  digiwage/digiwageledger.cpp \
   $(BITCOIN_CORE_H)
 
 if ENABLE_WALLET
@@ -594,7 +594,20 @@ crypto_libbitcoin_crypto_base_la_SOURCES = \
   crypto/sha512.cpp \
   crypto/sha512.h \
   crypto/siphash.cpp \
-  crypto/siphash.h
+  crypto/siphash.h \
+  crypto/blake.c \
+  crypto/bmw.c \
+  crypto/groestl.c \
+  crypto/jh.c \
+  crypto/keccak.c \
+  crypto/skein.c \
+  crypto/sph_blake.h \
+  crypto/sph_bmw.h \
+  crypto/sph_groestl.h \
+  crypto/sph_jh.h \
+  crypto/sph_keccak.h \
+  crypto/sph_skein.h \
+  crypto/sph_types.h
 
 if USE_ASM
 crypto_libbitcoin_crypto_base_la_SOURCES += crypto/sha256_sse4.cpp
@@ -677,7 +690,7 @@ libbitcoin_consensus_a_SOURCES = \
 #
 
 # common #
-libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -DQTUM_BUILD
+libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -DDIGIWAGE_BUILD
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_CFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -std=c99
 libbitcoin_common_a_SOURCES = \
@@ -693,6 +706,8 @@ libbitcoin_common_a_SOURCES = \
   core_read.cpp \
   core_write.cpp \
   deploymentinfo.cpp \
+  digiwage/pos.cpp \
+  digiwage/stakemodifier.cpp \
   external_signer.cpp \
   init/common.cpp \
   kernel/chainparams.cpp \
@@ -721,11 +736,11 @@ libbitcoin_common_a_SOURCES = \
   script/signingprovider.cpp \
   script/standard.cpp \
   warnings.cpp \
-  qtum/qtumutils.cpp \
-  qtum/qtumDGP.cpp \
-  qtum/qtumtoken.cpp \
-  qtum/qtumdelegation.cpp \
-  qtum/delegationutils.cpp \
+  digiwage/digiwageutils.cpp \
+  digiwage/digiwageDGP.cpp \
+  digiwage/digiwagetoken.cpp \
+  digiwage/digiwagedelegation.cpp \
+  digiwage/delegationutils.cpp \
   util/contractabi.cpp \
   libff/libff/algebra/curves/public_params.hpp \
   libff/libff/algebra/curves/curve_utils.hpp \
@@ -818,7 +833,7 @@ libbitcoin_common_a_SOURCES = \
   eth_client/libdevcrypto/LibSnark.h \
   eth_client/libethashseal/GenesisInfo.cpp \
   eth_client/libethashseal/GenesisInfo.h \
-  eth_client/libethashseal/genesis/qtumNetwork.cpp \
+  eth_client/libethashseal/genesis/digiwageNetwork.cpp \
   eth_client/libethcore/ABI.h \
   eth_client/libethcore/BlockHeader.cpp \
   eth_client/libethcore/BlockHeader.h \
@@ -925,9 +940,9 @@ endif
 #
 
 # util #
-libqtum_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libqtum_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libqtum_util_a_SOURCES = \
+libdigiwage_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libdigiwage_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libdigiwage_util_a_SOURCES = \
   support/lockedpool.cpp \
   chainparamsbase.cpp \
   clientversion.cpp \
@@ -978,20 +993,20 @@ libbitcoin_cli_a_SOURCES = \
   rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
-nodist_libqtum_util_a_SOURCES = $(srcdir)/obj/build.h
+nodist_libdigiwage_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind & bitcoin-node binaries #
-qtum_daemon_sources = bitcoind.cpp
-qtum_bin_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-qtum_bin_cxxflags = $(AM_CXXFLAGS) $(PIE_FLAGS)
-qtum_bin_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+digiwage_daemon_sources = bitcoind.cpp
+digiwage_bin_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+digiwage_bin_cxxflags = $(AM_CXXFLAGS) $(PIE_FLAGS)
+digiwage_bin_ldflags = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-qtum_daemon_sources += bitcoind-res.rc
+digiwage_daemon_sources += bitcoind-res.rc
 endif
 
-qtum_bin_ldadd = \
+digiwage_bin_ldadd = \
   $(LIBBITCOIN_WALLET) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -1005,31 +1020,31 @@ qtum_bin_ldadd = \
   $(LIBFF) \
   $(LIBSECP256K1)
 
-qtum_bin_ldadd += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS) $(GMP_LIBS) $(GMPXX_LIBS)
+digiwage_bin_ldadd += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS) $(GMP_LIBS) $(GMPXX_LIBS)
 
-qtumd_SOURCES = $(qtum_daemon_sources) init/bitcoind.cpp
-qtumd_CPPFLAGS = $(qtum_bin_cppflags)
-qtumd_CXXFLAGS = $(qtum_bin_cxxflags)
-qtumd_LDFLAGS = $(qtum_bin_ldflags)
-qtumd_LDADD = $(LIBBITCOIN_NODE) $(qtum_bin_ldadd)
+digiwaged_SOURCES = $(digiwage_daemon_sources) init/bitcoind.cpp
+digiwaged_CPPFLAGS = $(digiwage_bin_cppflags)
+digiwaged_CXXFLAGS = $(digiwage_bin_cxxflags)
+digiwaged_LDFLAGS = $(digiwage_bin_ldflags)
+digiwaged_LDADD = $(LIBBITCOIN_NODE) $(digiwage_bin_ldadd)
 
-qtum_node_SOURCES = $(qtum_daemon_sources) init/bitcoin-node.cpp
-qtum_node_CPPFLAGS = $(qtum_bin_cppflags)
-qtum_node_CXXFLAGS = $(qtum_bin_cxxflags)
-qtum_node_LDFLAGS = $(qtum_bin_ldflags)
-qtum_node_LDADD = $(LIBBITCOIN_NODE) $(qtum_bin_ldadd) $(LIBBITCOIN_IPC) $(LIBMULTIPROCESS_LIBS)
+digiwage_node_SOURCES = $(digiwage_daemon_sources) init/bitcoin-node.cpp
+digiwage_node_CPPFLAGS = $(digiwage_bin_cppflags)
+digiwage_node_CXXFLAGS = $(digiwage_bin_cxxflags)
+digiwage_node_LDFLAGS = $(digiwage_bin_ldflags)
+digiwage_node_LDADD = $(LIBBITCOIN_NODE) $(digiwage_bin_ldadd) $(LIBBITCOIN_IPC) $(LIBMULTIPROCESS_LIBS)
 
 # bitcoin-cli binary #
-qtum_cli_SOURCES = bitcoin-cli.cpp
-qtum_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-qtum_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-qtum_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+digiwage_cli_SOURCES = bitcoin-cli.cpp
+digiwage_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+digiwage_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+digiwage_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-qtum_cli_SOURCES += bitcoin-cli-res.rc
+digiwage_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-qtum_cli_LDADD = \
+digiwage_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
@@ -1041,20 +1056,20 @@ qtum_cli_LDADD = \
   $(LIBCRYPTOPP) \
   $(LIBSECP256K1)
 
-qtum_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
+digiwage_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
 # bitcoin-tx binary #
-qtum_tx_SOURCES = bitcoin-tx.cpp
-qtum_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-qtum_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-qtum_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+digiwage_tx_SOURCES = bitcoin-tx.cpp
+digiwage_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+digiwage_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+digiwage_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-qtum_tx_SOURCES += bitcoin-tx-res.rc
+digiwage_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-qtum_tx_LDADD = \
+digiwage_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -1066,16 +1081,16 @@ qtum_tx_LDADD = \
   $(LIBCRYPTOPP) \
   $(LIBSECP256K1)
 
-qtum_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+digiwage_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # bitcoin-wallet binary #
-qtum_wallet_SOURCES = bitcoin-wallet.cpp
-qtum_wallet_SOURCES += init/bitcoin-wallet.cpp
-qtum_wallet_CPPFLAGS = $(qtum_bin_cppflags)
-qtum_wallet_CXXFLAGS = $(qtum_bin_cxxflags)
-qtum_wallet_LDFLAGS = $(qtum_bin_ldflags)
-qtum_wallet_LDADD = \
+digiwage_wallet_SOURCES = bitcoin-wallet.cpp
+digiwage_wallet_SOURCES += init/bitcoin-wallet.cpp
+digiwage_wallet_CPPFLAGS = $(digiwage_bin_cppflags)
+digiwage_wallet_CXXFLAGS = $(digiwage_bin_cxxflags)
+digiwage_wallet_LDFLAGS = $(digiwage_bin_ldflags)
+digiwage_wallet_LDADD = \
   $(LIBBITCOIN_WALLET_TOOL) \
   $(LIBBITCOIN_WALLET) \
   $(LIBBITCOIN_COMMON) \
@@ -1090,21 +1105,21 @@ qtum_wallet_LDADD = \
   $(CRYPTO_LIBS)
 
 if TARGET_WINDOWS
-qtum_wallet_SOURCES += bitcoin-wallet-res.rc
+digiwage_wallet_SOURCES += bitcoin-wallet-res.rc
 endif
 #
 
 # bitcoin-util binary #
-qtum_util_SOURCES = bitcoin-util.cpp
-qtum_util_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-qtum_util_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-qtum_util_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+digiwage_util_SOURCES = bitcoin-util.cpp
+digiwage_util_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+digiwage_util_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+digiwage_util_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-qtum_util_SOURCES += bitcoin-util-res.rc
+digiwage_util_SOURCES += bitcoin-util-res.rc
 endif
 
-qtum_util_LDADD = \
+digiwage_util_LDADD = \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBUNIVALUE) \
@@ -1112,20 +1127,20 @@ qtum_util_LDADD = \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-qtum_util_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+digiwage_util_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
-# qtum-chainstate binary #
-qtum_chainstate_SOURCES = bitcoin-chainstate.cpp
-qtum_chainstate_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-qtum_chainstate_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+# digiwage-chainstate binary #
+digiwage_chainstate_SOURCES = bitcoin-chainstate.cpp
+digiwage_chainstate_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+digiwage_chainstate_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
-qtum_chainstate_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(PTHREAD_FLAGS) $(LIBTOOL_APP_LDFLAGS) -static
-qtum_chainstate_LDADD = $(LIBBITCOINKERNEL)
+digiwage_chainstate_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(PTHREAD_FLAGS) $(LIBTOOL_APP_LDFLAGS) -static
+digiwage_chainstate_LDADD = $(LIBBITCOINKERNEL)
 
 # libtool is unable to calculate this indirect dependency, presumably because it's a subproject.
 # libsecp256k1 only needs to be linked in when libbitcoinkernel is static.
-qtum_chainstate_LDADD += $(LIBSECP256K1)
+digiwage_chainstate_LDADD += $(LIBSECP256K1)
 #
 
 # bitcoinkernel library #

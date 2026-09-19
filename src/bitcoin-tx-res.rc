@@ -14,14 +14,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Qtum"
-            VALUE "FileDescription",    "qtum-tx (CLI Qtum transaction editor utility)"
+            VALUE "CompanyName",        "DigiWage"
+            VALUE "FileDescription",    "digiwage-tx (CLI DigiWage transaction editor utility)"
             VALUE "FileVersion",        PACKAGE_VERSION
-            VALUE "InternalName",       "qtum-tx"
+            VALUE "InternalName",       "digiwage-tx"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "qtum-tx.exe"
-            VALUE "ProductName",        "qtum-tx"
+            VALUE "OriginalFilename",   "digiwage-tx.exe"
+            VALUE "ProductName",        "digiwage-tx"
             VALUE "ProductVersion",     PACKAGE_VERSION
         END
     END

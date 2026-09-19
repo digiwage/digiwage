@@ -19,6 +19,7 @@
 #include <consensus/tx_verify.h>
 #include <consensus/validation.h>
 #include <cuckoocache.h>
+#include <digiwage/pos.h>
 #include <flatfile.h>
 #include <hash.h>
 #include <kernel/chainparams.h>
@@ -65,7 +66,7 @@
 #include <libethcore/ABI.h>
 #include <univalue.h>
 #include <util/signstr.h>
-#include <qtum/qtumutils.h>
+#include <digiwage/digiwageutils.h>
 
 #include <algorithm>
 #include <cassert>
@@ -116,7 +117,7 @@ const std::vector<std::string> CHECKLEVEL_DOC {
  * */
 static constexpr int PRUNE_LOCK_BUFFER{10};
 
-std::unique_ptr<QtumState> globalState;
+std::unique_ptr<DigiWageState> globalState;
 std::shared_ptr<dev::eth::SealEngineFace> globalSealEngine;
 std::unique_ptr<StorageResults> pstorageresult;
 bool fRecordLogOpcodes = false;
@@ -127,7 +128,7 @@ std::set<std::pair<COutPoint, unsigned int>> setStakeSeen;
 GlobalMutex g_best_block_mutex;
 std::condition_variable g_best_block_cv;
 uint256 g_best_block;
-bool fAddressIndex = false; // qtum
+bool fAddressIndex = false; // digiwage
 bool fLogEvents = false;
 
 const CBlockIndex* Chainstate::FindForkInGlobalIndex(const CBlockLocator& locator) const
@@ -158,6 +159,10 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState& state,
 
 int64_t FutureDrift(uint32_t nTime, int nHeight, const Consensus::Params& consensusParams)
 {
+    if (consensusParams.digiwage_history) {
+        if (nHeight >= consensusParams.digiwage_rhf_height) return nTime + 14;
+        return nTime + (nHeight > 1000 ? 180 : 7200);
+    }
     return nTime + consensusParams.StakeTimestampMask(nHeight);
 }
 
@@ -867,7 +872,12 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
 
     dev::u256 txMinGasPrice = 0;
 
-    //////////////////////////////////////////////////////////// // qtum
+    //////////////////////////////////////////////////////////// // digiwage
+    if (chainparams.GetConsensus().digiwage_history &&
+        m_active_chainstate.m_chain.Height() + 1 < chainparams.GetConsensus().digiwage_contract_height &&
+        (tx.HasCreateOrCall() || tx.HasOpSpend())) {
+        return state.Invalid(TxValidationResult::TX_PREMATURE_SPEND, "premature-contract");
+    }
     if(!CheckOpSender(tx, chainparams, m_active_chainstate.m_chain.Height() + 1)){
         return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-invalid-sender");
     }
@@ -877,25 +887,25 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
             return state.Invalid(TxValidationResult::TX_INVALID_SENDER_SCRIPT, "bad-txns-invalid-sender-script");
         }
 
-        QtumDGP qtumDGP(globalState.get(), m_active_chainstate, fGettingValuesDGP);
-        uint64_t minGasPrice = qtumDGP.getMinGasPrice(m_active_chainstate.m_chain.Tip()->nHeight + 1);
-        uint64_t blockGasLimit = qtumDGP.getBlockGasLimit(m_active_chainstate.m_chain.Tip()->nHeight + 1);
+        DigiWageDGP digiwageDGP(globalState.get(), m_active_chainstate, fGettingValuesDGP);
+        uint64_t minGasPrice = digiwageDGP.getMinGasPrice(m_active_chainstate.m_chain.Tip()->nHeight + 1);
+        uint64_t blockGasLimit = digiwageDGP.getBlockGasLimit(m_active_chainstate.m_chain.Tip()->nHeight + 1);
         size_t count = 0;
         for(const CTxOut& o : tx.vout)
             count += o.scriptPubKey.HasOpCreate() || o.scriptPubKey.HasOpCall() ? 1 : 0;
         unsigned int contractflags = GetContractScriptFlags(m_active_chainstate.m_chain.Height() + 1, chainparams.GetConsensus());
-        QtumTxConverter converter(tx, m_active_chainstate, &m_pool, NULL, NULL, contractflags);
-        ExtractQtumTX resultConverter;
-        if(!converter.extractionQtumTransactions(resultConverter)){
+        DigiWageTxConverter converter(tx, m_active_chainstate, &m_pool, NULL, NULL, contractflags);
+        ExtractDigiWageTX resultConverter;
+        if(!converter.extractionDigiWageTransactions(resultConverter)){
             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-tx-bad-contract-format", "AcceptToMempool(): Contract transaction of the wrong format");
         }
-        std::vector<QtumTransaction> qtumTransactions = resultConverter.first;
-        std::vector<EthTransactionParams> qtumETP = resultConverter.second;
+        std::vector<DigiWageTransaction> digiwageTransactions = resultConverter.first;
+        std::vector<EthTransactionParams> digiwageETP = resultConverter.second;
 
         dev::u256 sumGas = dev::u256(0);
         dev::u256 gasAllTxs = dev::u256(0);
-        for(QtumTransaction qtumTransaction : qtumTransactions){
-            sumGas += qtumTransaction.gas() * qtumTransaction.gasPrice();
+        for(DigiWageTransaction digiwageTransaction : digiwageTransactions){
+            sumGas += digiwageTransaction.gas() * digiwageTransaction.gasPrice();
 
             if(sumGas > dev::u256(INT64_MAX)) {
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-tx-gas-stipend-overflow", "AcceptToMempool(): Transaction's gas stipend overflows");
@@ -906,11 +916,11 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
             }
 
             if(txMinGasPrice != 0) {
-                txMinGasPrice = std::min(txMinGasPrice, qtumTransaction.gasPrice());
+                txMinGasPrice = std::min(txMinGasPrice, digiwageTransaction.gasPrice());
             } else {
-                txMinGasPrice = qtumTransaction.gasPrice();
+                txMinGasPrice = digiwageTransaction.gasPrice();
             }
-            VersionVM v = qtumTransaction.getVersion();
+            VersionVM v = digiwageTransaction.getVersion();
             if(v.format!=0)
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-tx-version-format", "AcceptToMempool(): Contract execution uses unknown version format");
             if(v.rootVM != 1)
@@ -921,29 +931,29 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-tx-version-flags", "AcceptToMempool(): Contract execution uses unknown flag options");
 
             //check gas limit is not less than minimum mempool gas limit
-            if(qtumTransaction.gas() < gArgs.GetIntArg("-minmempoolgaslimit", MEMPOOL_MIN_GAS_LIMIT))
+            if(digiwageTransaction.gas() < gArgs.GetIntArg("-minmempoolgaslimit", MEMPOOL_MIN_GAS_LIMIT))
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-tx-too-little-mempool-gas", "AcceptToMempool(): Contract execution has lower gas limit than allowed to accept into mempool");
 
             //check gas limit is not less than minimum gas limit (unless it is a no-exec tx)
-            if(qtumTransaction.gas() < MINIMUM_GAS_LIMIT && v.rootVM != 0)
+            if(digiwageTransaction.gas() < MINIMUM_GAS_LIMIT && v.rootVM != 0)
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-tx-too-little-gas", "AcceptToMempool(): Contract execution has lower gas limit than allowed");
 
-            if(qtumTransaction.gas() > UINT32_MAX)
+            if(digiwageTransaction.gas() > UINT32_MAX)
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-tx-too-much-gas", "AcceptToMempool(): Contract execution can not specify greater gas limit than can fit in 32-bits");
 
-            gasAllTxs += qtumTransaction.gas();
+            gasAllTxs += digiwageTransaction.gas();
             if(gasAllTxs > dev::u256(blockGasLimit))
                 return state.Invalid(TxValidationResult::TX_GAS_EXCEEDS_LIMIT, "bad-txns-gas-exceeds-blockgaslimit");
 
             //don't allow less than DGP set minimum gas price to prevent MPoS greedy mining/spammers
-            if(v.rootVM!=0 && (uint64_t)qtumTransaction.gasPrice() < minGasPrice)
+            if(v.rootVM!=0 && (uint64_t)digiwageTransaction.gasPrice() < minGasPrice)
                 return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-tx-low-gas-price", "AcceptToMempool(): Contract execution has lower gas price than allowed");
         }
 
-        if(!CheckMinGasPrice(qtumETP, minGasPrice))
+        if(!CheckMinGasPrice(digiwageETP, minGasPrice))
             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-small-gasprice");
 
-        if(count > qtumTransactions.size())
+        if(count > digiwageTransactions.size())
             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-incorrect-format");
     }
     ////////////////////////////////////////////////////////////
@@ -1222,7 +1232,7 @@ bool MemPoolAccept::Finalize(const ATMPArgs& args, Workspace& ws)
     // transaction has not necessarily been accepted to miners' mempools.
     bool validForFeeEstimation = !bypass_limits && !args.m_package_submission && IsCurrentForFeeEstimation(m_active_chainstate) && m_pool.HasNoInputsOf(tx);
 
-    //////////////////////////////////////////////////////////////// // qtum
+    //////////////////////////////////////////////////////////////// // digiwage
     // Add memory address index
     if (fAddressIndex)
     {
@@ -1724,6 +1734,9 @@ bool CheckHeaderProof(const CBlockHeader& block, const Consensus::Params& consen
 
 bool CheckIndexProof(const CBlockIndex& block, const Consensus::Params& consensusParams)
 {
+    // Legacy Digiwage headers do not identify PoS. Proof is checked when the
+    // full body is connected and persisted in hashProof.
+    if (consensusParams.digiwage_history) return true;
     // Get the hash of the proof
     // After validating the PoS block the computed hash proof is saved in the block index, which is used to check the index
     uint256 hashProof = block.IsProofOfWork() ? block.GetBlockHash() : block.hashProof;
@@ -1738,6 +1751,17 @@ bool CheckIndexProof(const CBlockIndex& block, const Consensus::Params& consensu
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
+    if (consensusParams.digiwage_history) {
+        // Digiwage validates block N against GetBlockValue(N - 1).
+        // The premine is therefore paid by block 1, not by genesis.
+        if (nHeight == 0) return 120 * COIN; // Serialized genesis output.
+        if (nHeight == 1) return 27179800 * COIN;
+        if (nHeight <= 86400) return 120 * COIN;
+        if (nHeight <= 259200) return 60 * COIN;
+        if (nHeight <= 432000) return 30 * COIN;
+        if (nHeight <= 604800) return 15 * COIN;
+        return 75 * COIN / 10;
+    }
     if(nHeight <= consensusParams.nLastBigReward)
         return 20000 * COIN;
 
@@ -2145,7 +2169,7 @@ DisconnectResult Chainstate::DisconnectBlock(const CBlock& block, const CBlockIn
         return DISCONNECT_FAILED;
     }
 
-    /////////////////////////////////////////////////////////// // qtum
+    /////////////////////////////////////////////////////////// // digiwage
     std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
     std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > addressUnspentIndex;
     ///////////////////////////////////////////////////////////
@@ -2181,7 +2205,7 @@ DisconnectResult Chainstate::DisconnectBlock(const CBlock& block, const CBlockIn
             }
         }
 
-        /////////////////////////////////////////////////////////// // qtum
+        /////////////////////////////////////////////////////////// // digiwage
         if (pfClean == NULL && fAddressIndex) {
 
             for (unsigned int k = tx.vout.size(); k-- > 0;) {
@@ -2246,8 +2270,8 @@ DisconnectResult Chainstate::DisconnectBlock(const CBlock& block, const CBlockIn
     // move best block pointer to prevout block
     view.SetBestBlock(pindex->pprev->GetBlockHash());
 
-    globalState->setRoot(uintToh256(pindex->pprev->hashStateRoot)); // qtum
-    globalState->setRootUTXO(uintToh256(pindex->pprev->hashUTXORoot)); // qtum
+    globalState->setRoot(uintToh256(pindex->pprev->hashStateRoot)); // digiwage
+    globalState->setRootUTXO(uintToh256(pindex->pprev->hashUTXORoot)); // digiwage
 
     if(pfClean == NULL && fLogEvents){
         pstorageresult->deleteResults(block.vtx);
@@ -2263,7 +2287,7 @@ DisconnectResult Chainstate::DisconnectBlock(const CBlock& block, const CBlockIn
             m_blockman.m_block_tree_db->EraseDelegateIndex(pindex->nHeight);
     }
 
-    //////////////////////////////////////////////////// // qtum
+    //////////////////////////////////////////////////// // digiwage
     if (pfClean == NULL && fAddressIndex) {
         if (!m_blockman.m_block_tree_db->EraseAddressIndex(addressIndex)) {
             error("Failed to delete address index");
@@ -2366,6 +2390,7 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex& block_index, const Ch
 }
 
 unsigned int GetContractScriptFlags(int nHeight, const Consensus::Params& consensusparams) {
+    if (consensusparams.digiwage_history && nHeight < consensusparams.digiwage_contract_height) return 0;
     unsigned int flags = SCRIPT_EXEC_BYTE_CODE;
 
     // Start support sender address in contract output
@@ -2386,7 +2411,7 @@ static SteadyClock::duration time_index{};
 static SteadyClock::duration time_total{};
 static int64_t num_blocks_total = 0;
 
-/////////////////////////////////////////////////////////////////////// qtum
+/////////////////////////////////////////////////////////////////////// digiwage
 bool GetSpentCoinFromBlock(const CBlockIndex* pindex, COutPoint prevout, Coin* coin) {
     std::shared_ptr<CBlock> pblock = std::make_shared<CBlock>();
     CBlock& block = *pblock;
@@ -2546,8 +2571,8 @@ std::vector<ResultExecute> CallContract(const dev::Address& addrContract, std::v
     else
     	block.vtx.erase(block.vtx.begin()+1,block.vtx.end());
 
-    QtumDGP qtumDGP(globalState.get(), chainstate, fGettingValuesDGP);
-    uint64_t blockGasLimit = qtumDGP.getBlockGasLimit(chainstate.m_chain.Tip()->nHeight + 1);
+    DigiWageDGP digiwageDGP(globalState.get(), chainstate, fGettingValuesDGP);
+    uint64_t blockGasLimit = digiwageDGP.getBlockGasLimit(chainstate.m_chain.Tip()->nHeight + 1);
 
     if(gasLimit == 0){
         gasLimit = blockGasLimit - 1;
@@ -2557,20 +2582,20 @@ std::vector<ResultExecute> CallContract(const dev::Address& addrContract, std::v
     block.vtx.push_back(MakeTransactionRef(CTransaction(tx)));
     dev::u256 nonce = globalState->getNonce(senderAddress);
  
-    QtumTransaction callTransaction;
+    DigiWageTransaction callTransaction;
     if(addrContract == dev::Address())
     {
-        callTransaction = QtumTransaction(nAmount, 1, dev::u256(gasLimit), opcode, nonce);
+        callTransaction = DigiWageTransaction(nAmount, 1, dev::u256(gasLimit), opcode, nonce);
     }
     else
     {
-        callTransaction = QtumTransaction(nAmount, 1, dev::u256(gasLimit), addrContract, opcode, nonce);
+        callTransaction = DigiWageTransaction(nAmount, 1, dev::u256(gasLimit), addrContract, opcode, nonce);
     }
     callTransaction.forceSender(senderAddress);
     callTransaction.setVersion(VersionVM::GetEVMDefault());
 
     
-    ByteCodeExec exec(block, std::vector<QtumTransaction>(1, callTransaction), blockGasLimit, pblockindex, chainstate.m_chain);
+    ByteCodeExec exec(block, std::vector<DigiWageTransaction>(1, callTransaction), blockGasLimit, pblockindex, chainstate.m_chain);
     exec.performByteCode(dev::eth::Permanence::Reverted);
     return exec.getResult();
 }
@@ -2611,8 +2636,11 @@ bool CheckReward(const CBlock& block, BlockValidationState& state, int nHeight, 
     {
         // Check full reward
         CAmount blockReward = nFees + GetBlockSubsidy(nHeight, consensusParams);
-        if (nActualStakeReward > blockReward)
+        if (nActualStakeReward > blockReward) {
+            LogPrintf("Digiwage reward mismatch height=%d actual=%d limit=%d fees=%d\n", nHeight, nActualStakeReward, blockReward, nFees);
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-cs-amount", strprintf("CheckReward(): coinstake pays too much (actual=%d vs limit=%d)", nActualStakeReward, blockReward));
+        }
+        if (consensusParams.digiwage_history) return true;
 
         // The first proof-of-stake blocks get full reward, the rest of them are split between recipients
         int rewardRecipients = 1;
@@ -2757,12 +2785,12 @@ UniValue vmLogToJSON(const ResultExecute& execRes, const CTransaction& tx, const
 }
 
 void writeVMlog(const std::vector<ResultExecute>& res, CChain& chain, const CTransaction& tx, const CBlock& block){
-    fs::path qtumDir = gArgs.GetDataDirNet() / "vmExecLogs.json";
+    fs::path digiwageDir = gArgs.GetDataDirNet() / "vmExecLogs.json";
     std::stringstream ss;
     if(fIsVMlogFile){
         ss << ",";
     } else {
-        std::ofstream file(PathToString(qtumDir), std::ios::out | std::ios::app);
+        std::ofstream file(PathToString(digiwageDir), std::ios::out | std::ios::app);
         file << "{\"logs\":[]}";
         file.close();
     }
@@ -2776,7 +2804,7 @@ void writeVMlog(const std::vector<ResultExecute>& res, CChain& chain, const CTra
         }
     }
     
-    std::ofstream file(PathToString(qtumDir), std::ios::in | std::ios::out);
+    std::ofstream file(PathToString(digiwageDir), std::ios::in | std::ios::out);
     file.seekp(-2, std::ios::end);
     file << ss.str();
     file.close();
@@ -2810,7 +2838,7 @@ void LastHashes::clear()
 }
 
 bool ByteCodeExec::performByteCode(dev::eth::Permanence type){
-    for(QtumTransaction& tx : txs){
+    for(DigiWageTransaction& tx : txs){
         //validate VM version
         if(tx.getVersion().toRaw() != VersionVM::GetEVMDefault().toRaw()){
             return false;
@@ -2819,7 +2847,7 @@ bool ByteCodeExec::performByteCode(dev::eth::Permanence type){
         if(!tx.isCreation() && !globalState->addressInUse(tx.receiveAddress())){
             dev::eth::ExecutionResult execRes;
             execRes.excepted = dev::eth::TransactionException::Unknown;
-            result.push_back(ResultExecute{execRes, QtumTransactionReceipt(dev::h256(), dev::h256(), dev::u256(), dev::eth::LogEntries()), CTransaction()});
+            result.push_back(ResultExecute{execRes, DigiWageTransactionReceipt(dev::h256(), dev::h256(), dev::u256(), dev::eth::LogEntries()), CTransaction()});
             continue;
         }
         result.push_back(globalState->execute(envInfo, *globalSealEngine.get(), tx, chain, type, OnOpFunc()));
@@ -2895,7 +2923,7 @@ dev::eth::EnvInfo ByteCodeExec::BuildEVMEnvironment(){
     }
     dev::u256 gasUsed;
     int &chainID = const_cast<int&>(globalSealEngine->chainParams().chainID);
-    chainID = qtumutils::eth_getChainId(tip->nHeight);
+    chainID = digiwageutils::eth_getChainId(tip->nHeight);
     dev::eth::EnvInfo env(header, lastHashes, gasUsed, chainID);
     return env;
 }
@@ -2915,12 +2943,12 @@ dev::Address ByteCodeExec::EthAddrFromScript(const CScript& script){
     return dev::Address();
 }
 
-bool QtumTxConverter::extractionQtumTransactions(ExtractQtumTX& qtumtx){
+bool DigiWageTxConverter::extractionDigiWageTransactions(ExtractDigiWageTX& digiwagetx){
     // Get the address of the sender that pay the coins for the contract transactions
     refundSender = dev::Address(GetSenderAddress(txBit, view, blockTransactions, chainstate, mempool));
 
     // Extract contract transactions
-    std::vector<QtumTransaction> resultTX;
+    std::vector<DigiWageTransaction> resultTX;
     std::vector<EthTransactionParams> resultETP;
     for(size_t i = 0; i < txBit.vout.size(); i++){
         if(txBit.vout[i].scriptPubKey.HasOpCreate() || txBit.vout[i].scriptPubKey.HasOpCall()){
@@ -2937,11 +2965,11 @@ bool QtumTxConverter::extractionQtumTransactions(ExtractQtumTX& qtumtx){
             }
         }
     }
-    qtumtx = std::make_pair(resultTX, resultETP);
+    digiwagetx = std::make_pair(resultTX, resultETP);
     return true;
 }
 
-bool QtumTxConverter::receiveStack(const CScript& scriptPubKey){
+bool DigiWageTxConverter::receiveStack(const CScript& scriptPubKey){
     sender = false;
     EvalScript(stack, scriptPubKey, nFlags, BaseSignatureChecker(), SigVersion::BASE, nullptr);
     if (stack.empty())
@@ -2961,7 +2989,7 @@ bool QtumTxConverter::receiveStack(const CScript& scriptPubKey){
     return true;
 }
 
-bool QtumTxConverter::parseEthTXParams(EthTransactionParams& params){
+bool DigiWageTxConverter::parseEthTXParams(EthTransactionParams& params){
     try{
         dev::Address receiveAddress;
         valtype vecAddr;
@@ -3009,13 +3037,13 @@ bool QtumTxConverter::parseEthTXParams(EthTransactionParams& params){
     }
 }
 
-QtumTransaction QtumTxConverter::createEthTX(const EthTransactionParams& etp, uint32_t nOut){
-    QtumTransaction txEth;
+DigiWageTransaction DigiWageTxConverter::createEthTX(const EthTransactionParams& etp, uint32_t nOut){
+    DigiWageTransaction txEth;
     if (etp.receiveAddress == dev::Address() && opcode != OP_CALL){
-        txEth = QtumTransaction(txBit.vout[nOut].nValue, etp.gasPrice, etp.gasLimit, etp.code, dev::u256(0));
+        txEth = DigiWageTransaction(txBit.vout[nOut].nValue, etp.gasPrice, etp.gasLimit, etp.code, dev::u256(0));
     }
     else{
-        txEth = QtumTransaction(txBit.vout[nOut].nValue, etp.gasPrice, etp.gasLimit, etp.receiveAddress, etp.code, dev::u256(0));
+        txEth = DigiWageTransaction(txBit.vout[nOut].nValue, etp.gasPrice, etp.gasLimit, etp.receiveAddress, etp.code, dev::u256(0));
     }
     dev::Address sender(GetSenderAddress(txBit, view, blockTransactions, chainstate, mempool, (int)nOut));
     txEth.forceSender(sender);
@@ -3027,7 +3055,7 @@ QtumTransaction QtumTxConverter::createEthTX(const EthTransactionParams& etp, ui
     return txEth;
 }
 
-size_t QtumTxConverter::correctedStackSize(size_t size){
+size_t DigiWageTxConverter::correctedStackSize(size_t size){
     // OP_SENDER add 3 more parameters in stack besides those for OP_CREATE or OP_CALL
     return sender ? size + 3 : size;
 }
@@ -3079,12 +3107,12 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
     const auto time_start{SteadyClock::now()};
     const CChainParams& params{m_chainman.GetParams()};
 
-    ///////////////////////////////////////////////// // qtum
-    QtumDGP qtumDGP(globalState.get(), *this, fGettingValuesDGP);
-    globalSealEngine->setQtumSchedule(qtumDGP.getGasSchedule(pindex->nHeight + (pindex->nHeight+1 >= params.GetConsensus().QIP7Height ? 0 : 1) ));
-    uint32_t sizeBlockDGP = qtumDGP.getBlockSize(pindex->nHeight + (pindex->nHeight+1 >= params.GetConsensus().QIP7Height ? 0 : 1));
-    uint64_t minGasPrice = qtumDGP.getMinGasPrice(pindex->nHeight + (pindex->nHeight+1 >= params.GetConsensus().QIP7Height ? 0 : 1));
-    uint64_t blockGasLimit = qtumDGP.getBlockGasLimit(pindex->nHeight + (pindex->nHeight+1 >= params.GetConsensus().QIP7Height ? 0 : 1));
+    ///////////////////////////////////////////////// // digiwage
+    DigiWageDGP digiwageDGP(globalState.get(), *this, fGettingValuesDGP);
+    globalSealEngine->setDigiWageSchedule(digiwageDGP.getGasSchedule(pindex->nHeight + (pindex->nHeight+1 >= params.GetConsensus().QIP7Height ? 0 : 1) ));
+    uint32_t sizeBlockDGP = digiwageDGP.getBlockSize(pindex->nHeight + (pindex->nHeight+1 >= params.GetConsensus().QIP7Height ? 0 : 1));
+    uint64_t minGasPrice = digiwageDGP.getMinGasPrice(pindex->nHeight + (pindex->nHeight+1 >= params.GetConsensus().QIP7Height ? 0 : 1));
+    uint64_t blockGasLimit = digiwageDGP.getBlockGasLimit(pindex->nHeight + (pindex->nHeight+1 >= params.GetConsensus().QIP7Height ? 0 : 1));
     dgpMaxBlockSize = sizeBlockDGP ? sizeBlockDGP : dgpMaxBlockSize;
     updateBlockSizeParams(dgpMaxBlockSize);
     CBlock checkBlock(block.GetBlockHeader());
@@ -3098,7 +3126,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
 
 
     // Move this check from CheckBlock to ConnectBlock as it depends on DGP values
-    if (block.vtx.empty() || block.vtx.size() > dgpMaxBlockSize || ::GetSerializeSize(block, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > dgpMaxBlockSize) // qtum
+    if (block.vtx.empty() || block.vtx.size() > dgpMaxBlockSize || ::GetSerializeSize(block, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > dgpMaxBlockSize) // digiwage
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-blk-length", "size limits failed");
 
     // Move this check from ContextualCheckBlock to ConnectBlock as it depends on DGP values
@@ -3316,7 +3344,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
     int64_t nSigOpsCost = 0;
     blockundo.vtxundo.reserve(block.vtx.size() - 1);
 
-    ///////////////////////////////////////////////////////// // qtum
+    ///////////////////////////////////////////////////////// // digiwage
     std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
     std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > addressUnspentIndex;
     std::vector<std::pair<CSpentIndexKey, CSpentIndexValue> > spentIndex;
@@ -3373,7 +3401,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                 return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-txns-nonfinal");
             }
 
-            ////////////////////////////////////////////////////////////////// // qtum
+            ////////////////////////////////////////////////////////////////// // digiwage
             if (fAddressIndex)
             {
                 for (size_t j = 0; j < tx.vin.size(); j++) {
@@ -3447,7 +3475,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
             nValueOut += nTxValueOut;
         }
 
-///////////////////////////////////////////////////////////////////////////////////////// qtum
+///////////////////////////////////////////////////////////////////////////////////////// digiwage
         if(!CheckOpSender(tx, params, pindex->nHeight)){
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-txns-invalid-sender");
         }
@@ -3460,25 +3488,25 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                 return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-txns-invalid-sender-script");
             }
 
-            QtumTxConverter convert(tx, *this, m_mempool, &view, &block.vtx, contractflags);
+            DigiWageTxConverter convert(tx, *this, m_mempool, &view, &block.vtx, contractflags);
 
-            ExtractQtumTX resultConvertQtumTX;
-            if(!convert.extractionQtumTransactions(resultConvertQtumTX)){
+            ExtractDigiWageTX resultConvertDigiWageTX;
+            if(!convert.extractionDigiWageTransactions(resultConvertDigiWageTX)){
                 return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-tx-bad-contract-format", "ConnectBlock(): Contract transaction of the wrong format");
             }
-            if(!CheckMinGasPrice(resultConvertQtumTX.second, minGasPrice))
+            if(!CheckMinGasPrice(resultConvertDigiWageTX.second, minGasPrice))
                 return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-tx-low-gas-price", "ConnectBlock(): Contract execution has lower gas price than allowed");
 
 
             dev::u256 gasAllTxs = dev::u256(0);
-            ByteCodeExec exec(block, resultConvertQtumTX.first, blockGasLimit, pindex->pprev, m_chain);
+            ByteCodeExec exec(block, resultConvertDigiWageTX.first, blockGasLimit, pindex->pprev, m_chain);
             //validate VM version and other ETH params before execution
             //Reject anything unknown (could be changed later by DGP)
             //TODO evaluate if this should be relaxed for soft-fork purposes
             bool nonZeroVersion=false;
             dev::u256 sumGas = dev::u256(0);
             CAmount nTxFee = view.GetValueIn(tx)-tx.GetValueOut();
-            for(QtumTransaction& qtx : resultConvertQtumTX.first){
+            for(DigiWageTransaction& qtx : resultConvertDigiWageTX.first){
                 sumGas += qtx.gas() * qtx.gasPrice();
 
                 if(sumGas > dev::u256(INT64_MAX)) {
@@ -3544,7 +3572,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
             if (fLogEvents && !fJustCheck)
             {
                 uint64_t countCumulativeGasUsed = blockGasUsed;
-                for(size_t k = 0; k < resultConvertQtumTX.first.size(); k ++){
+                for(size_t k = 0; k < resultConvertDigiWageTX.first.size(); k ++){
                     for(auto& log : resultExec[k].txRec.log()) {
                         if(!heightIndexes.count(log.address)){
                             heightIndexes[log.address].first = CHeightTxIndexKey(pindex->nHeight, log.address);
@@ -3558,15 +3586,15 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
                         uint32_t(pindex->nHeight),
                         tx.GetHash(),
                         uint32_t(i),
-                        resultConvertQtumTX.first[k].from(),
-                        resultConvertQtumTX.first[k].to(),
+                        resultConvertDigiWageTX.first[k].from(),
+                        resultConvertDigiWageTX.first[k].to(),
                         countCumulativeGasUsed,
                         gasUsed,
                         resultExec[k].execRes.newAddress,
                         resultExec[k].txRec.log(),
                         resultExec[k].execRes.excepted,
                         exceptedMessage(resultExec[k].execRes.excepted, resultExec[k].execRes.output),
-                        resultConvertQtumTX.first[k].getNVout(),
+                        resultConvertDigiWageTX.first[k].getNVout(),
                         resultExec[k].txRec.bloom(),
                         resultExec[k].txRec.stateRoot(),
                         resultExec[k].txRec.utxoRoot(),
@@ -3598,7 +3626,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
         }
 /////////////////////////////////////////////////////////////////////////////////////////
 
-        /////////////////////////////////////////////////////////////////////////////////// // qtum
+        /////////////////////////////////////////////////////////////////////////////////// // digiwage
         if (fAddressIndex) {
 
             for (unsigned int k = 0; k < tx.vout.size(); k++) {
@@ -3654,7 +3682,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
              Ticks<SecondsDouble>(time_verify),
              Ticks<MillisecondsDouble>(time_verify) / num_blocks_total);
 
-////////////////////////////////////////////////////////////////// // qtum
+////////////////////////////////////////////////////////////////// // digiwage
     if(pindex->nHeight == params.GetConsensus().nOfflineStakeHeight){
         globalState->deployDelegationsContract();
     }
@@ -3742,6 +3770,13 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
     if (!m_blockman.WriteUndoDataForBlock(blockundo, state, pindex, params)) {
         return false;
     }
+    if (params.GetConsensus().digiwage_history) {
+        // Legacy headers do not commit DigiWage EVM roots. Persist the internal
+        // empty-state roots separately so a historical chain can be reopened.
+        pindex->hashStateRoot = checkBlock.hashStateRoot;
+        pindex->hashUTXORoot = checkBlock.hashUTXORoot;
+        m_blockman.m_dirty_blockindex.insert(pindex);
+    }
 
     const auto time_5{SteadyClock::now()};
     time_undo += time_5 - time_4;
@@ -3791,7 +3826,7 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
         }
     }
 
-    ///////////////////////////////////////////////////////////// // qtum
+    ///////////////////////////////////////////////////////////// // digiwage
     if (fAddressIndex) {
         if (!m_blockman.m_block_tree_db->WriteAddressIndex(addressIndex)) {
             return AbortNode(state, "Failed to write address index");
@@ -4283,8 +4318,8 @@ bool Chainstate::ConnectTip(BlockValidationState& state, CBlockIndex* pindexNew,
     {
         CCoinsViewCache view(&CoinsTip());
 
-        dev::h256 oldHashStateRoot(globalState->rootHash()); // qtum
-        dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // qtum
+        dev::h256 oldHashStateRoot(globalState->rootHash()); // digiwage
+        dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // digiwage
 
         bool rv = ConnectBlock(blockConnecting, state, pindexNew, view);
         GetMainSignals().BlockChecked(blockConnecting, state);
@@ -4292,8 +4327,8 @@ bool Chainstate::ConnectTip(BlockValidationState& state, CBlockIndex* pindexNew,
             if (state.IsInvalid())
                 InvalidBlockFound(pindexNew, state);
 
-            globalState->setRoot(oldHashStateRoot); // qtum
-            globalState->setRootUTXO(oldHashUTXORoot); // qtum
+            globalState->setRoot(oldHashStateRoot); // digiwage
+            globalState->setRootUTXO(oldHashUTXORoot); // digiwage
             pstorageresult->clearCacheResult();
             return error("%s: ConnectBlock %s failed, %s", __func__, pindexNew->GetBlockHash().ToString(), state.ToString());
         }
@@ -4956,6 +4991,32 @@ bool GetBlockPublicKey(const CBlock& block, std::vector<unsigned char>& vchPubKe
     if (block.IsProofOfWork())
         return false;
 
+    if (!block.vchBlockSig.empty()) {
+        // Digiwage stores the PoS signature after the transactions. The
+        // staking key is in the coinstake output (P2PK) or its input (P2PKH).
+        if (block.vtx.size() < 2 || block.vtx[1]->vout.size() < 2 || block.vtx[1]->vin.empty()) return false;
+        std::vector<valtype> solutions;
+        const TxoutType type = Solver(block.vtx[1]->vout[1].scriptPubKey, solutions);
+        if (type == TxoutType::PUBKEY) {
+            vchPubKey = solutions[0];
+            return CPubKey(vchPubKey).IsValid();
+        }
+        if (type == TxoutType::PUBKEYHASH || type == TxoutType::COLDSTAKE) {
+            const CScript& script = block.vtx[1]->vin[0].scriptSig;
+            CScript::const_iterator pc = script.begin();
+            opcodetype opcode;
+            std::vector<unsigned char> push;
+            while (pc != script.end()) {
+                if (!script.GetOp(pc, opcode, push)) return false;
+                if (!push.empty()) vchPubKey = push;
+            }
+            if (!CPubKey(vchPubKey).IsValid()) return false;
+            const uint160 key_hash = Hash160(vchPubKey);
+            return std::equal(solutions[0].begin(), solutions[0].end(), key_hash.begin());
+        }
+        return false;
+    }
+
     if (block.vchBlockSigDlgt.empty())
         return false;
 
@@ -5148,7 +5209,7 @@ bool CheckBlock(const CBlock& block, BlockValidationState& state, const Consensu
         if (block.vtx.empty() || block.vtx.size() < 2 || !block.vtx[1]->IsCoinStake())
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-cs-missing", "second tx is not coinstake");
 
-        if(!block.HasProofOfDelegation())
+        if(!block.HasProofOfDelegation() && !consensusParams.digiwage_history)
         {
             //prevoutStake must exactly match the coinstake in the block body
             if(block.vtx[1]->vin.empty() || block.prevoutStake != block.vtx[1]->vin[0].prevout){
@@ -5175,6 +5236,10 @@ bool CheckBlock(const CBlock& block, BlockValidationState& state, const Consensu
     // Check transactions
     // Must check for duplicate inputs (see CVE-2018-17144)
     for (const auto& tx : block.vtx) {
+        if (consensusParams.digiwage_history && block.nVersion < 6 &&
+            (tx->HasCreateOrCall() || tx->HasOpSpend())) {
+            return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "premature-contract");
+        }
         TxValidationState tx_state;
         if (!CheckTransaction(*tx, tx_state)) {
             // CheckBlock() does context-free validation checks. The only
@@ -5247,6 +5312,9 @@ std::vector<unsigned char> ChainstateManager::GenerateCoinbaseCommitment(CBlock&
 
 bool HasValidProofOfWork(const std::vector<CBlockHeader>& headers, const Consensus::Params& consensusParams)
 {
+    // Legacy Digiwage headers do not encode their proof type. PoS can only be
+    // established and checked after the coinstake body has been downloaded.
+    if (consensusParams.digiwage_history) return true;
     return std::all_of(headers.cbegin(), headers.cend(),
             [&](const auto& header) { return header.IsProofOfStake() ? true : CheckProofOfWork(header.GetHash(), header.nBits, consensusParams);});
 }
@@ -5278,7 +5346,12 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
 
     // Check proof of work
     const Consensus::Params& consensusParams = chainman.GetConsensus();
-    if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams, block.IsProofOfStake()))
+    if (consensusParams.digiwage_history &&
+        nHeight < consensusParams.digiwage_contract_height && block.nVersion >= 6) {
+        return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "premature-version-6");
+    }
+    if (!(consensusParams.digiwage_history && nHeight > 1000) &&
+        block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams, block.IsProofOfStake()))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-diffbits", "incorrect difficulty value");
 
     // Check against checkpoints
@@ -5311,7 +5384,12 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
     }
 
     // Reject blocks with outdated version
-    if ((block.nVersion < 2 && DeploymentActiveAfter(pindexPrev, chainman, Consensus::DEPLOYMENT_HEIGHTINCB)) ||
+    if ((consensusParams.digiwage_history &&
+         ((nHeight >= 1 && block.nVersion < 3) ||
+          (nHeight >= consensusParams.digiwage_zerocoin_height && block.nVersion < 4) ||
+          (nHeight >= consensusParams.digiwage_rhf_height && block.nVersion < 5) ||
+          (nHeight >= consensusParams.digiwage_contract_height && block.nVersion < 6))) ||
+        (block.nVersion < 2 && DeploymentActiveAfter(pindexPrev, chainman, Consensus::DEPLOYMENT_HEIGHTINCB)) ||
         (block.nVersion < 3 && DeploymentActiveAfter(pindexPrev, chainman, Consensus::DEPLOYMENT_DERSIG)) ||
         (block.nVersion < 4 && DeploymentActiveAfter(pindexPrev, chainman, Consensus::DEPLOYMENT_CLTV))) {
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, strprintf("bad-version(0x%08x)", block.nVersion),
@@ -5404,19 +5482,45 @@ bool Chainstate::UpdateHashProof(const CBlock& block, BlockValidationState& stat
     int nHeight = pindex->nHeight;
     uint256 hash = block.GetHash();
 
+    if (consensusParams.digiwage_history && hash == consensusParams.hashGenesisBlock) {
+        pindex->hashProof = hash;
+        return true;
+    }
+
     //reject proof of work at height consensusParams.nLastPOWBlock
     if (block.IsProofOfWork() && nHeight > consensusParams.nLastPOWBlock)
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "reject-pow", strprintf("UpdateHashProof() : reject proof-of-work at height %d", nHeight));
     
     // Check coinstake timestamp
-    if (block.IsProofOfStake() && !CheckCoinStakeTimestamp(block.GetBlockTime(), nHeight, consensusParams))
+    if (block.IsProofOfStake() &&
+        (consensusParams.digiwage_history ?
+             (nHeight >= consensusParams.digiwage_rhf_height && block.GetBlockTime() % 15 != 0) :
+             !CheckCoinStakeTimestamp(block.GetBlockTime(), nHeight, consensusParams)))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "timestamp-invalid", strprintf("UpdateHashProof() : coinstake timestamp violation nTimeBlock=%d", block.GetBlockTime()));
 
+    if (consensusParams.digiwage_history && block.IsProofOfStake()) {
+        if (nHeight >= consensusParams.digiwage_contract_height &&
+            (block.vtx[1]->vin.empty() || block.prevoutStake != block.vtx[1]->vin[0].prevout)) {
+            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-stake-prevout");
+        }
+        const int64_t minimum_time = nHeight < consensusParams.digiwage_rhf_height ? pindex->pprev->GetMedianTimePast() :
+            (nHeight == consensusParams.digiwage_rhf_height ? int64_t(pindex->pprev->nTime) - 166 : pindex->pprev->nTime);
+        if (block.GetBlockTime() <= minimum_time) {
+            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "time-too-old");
+        }
+    }
+
     // Check proof-of-work or proof-of-stake
-    if (block.nBits != GetNextWorkRequired(pindex->pprev, &block, consensusParams,block.IsProofOfStake()))
+    if (!(consensusParams.digiwage_history && nHeight >= consensusParams.digiwage_stake_modifier_v2_height) &&
+        block.nBits != GetNextWorkRequired(pindex->pprev, &block, consensusParams,block.IsProofOfStake()))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-diffbits", strprintf("UpdateHashProof() : incorrect %s", block.IsProofOfWork() ? "proof-of-work" : "proof-of-stake"));
 
     uint256 hashProof;
+    if (consensusParams.digiwage_history && nHeight > 1000 && block.IsProofOfStake()) {
+        if (!CheckDigiwageKernel(block, pindex->pprev, view, state, hashProof)) return false;
+        pindex->hashProof = hashProof;
+        return true;
+    }
     // Verify hash target and signature of coinstake tx
     if (block.IsProofOfStake())
     {
@@ -5502,7 +5606,8 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
         }
 
         // Check for the signiture encoding
-        if (!CheckCanonicalBlockSignature(&block))
+        if (!(GetConsensus().digiwage_history && block.IsProofOfStake()) &&
+            !CheckCanonicalBlockSignature(&block))
         {
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-signature-encoding", "AcceptBlockHeader(): bad block signature encoding");
         }
@@ -5565,7 +5670,7 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
 
         // Reject proof of work at height consensusParams.nLastPOWBlock
         int nHeight = pindexPrev->nHeight + 1;
-        if (block.IsProofOfWork() && nHeight > GetConsensus().nLastPOWBlock)
+        if (block.IsProofOfWork() && nHeight > GetConsensus().nLastPOWBlock && !GetConsensus().digiwage_history)
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "reject-pow", strprintf("reject proof-of-work at height %d", nHeight));
 
         if(block.IsProofOfStake())
@@ -5576,13 +5681,16 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
                 return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "reject-pos", strprintf("reject proof-of-stake at height %d", nHeight));
 
             // Check coin stake timestamp
-            if(!CheckCoinStakeTimestamp(block.nTime, nHeight, GetConsensus()))
+            if (GetConsensus().digiwage_history ?
+                    (nHeight >= GetConsensus().digiwage_rhf_height && block.nTime % 15 != 0) :
+                    !CheckCoinStakeTimestamp(block.nTime, nHeight, GetConsensus()))
                 return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "timestamp-invalid", "proof of stake failed due to invalid timestamp");
         }
 
         // Check block header
         // if (!CheckBlockHeader(block, state, GetConsensus(), true, CheckPOS(block, pindexPrev)))
-        if (!CheckBlockHeader(block, state, GetConsensus(), chainstate)) {
+        if (!CheckBlockHeader(block, state, GetConsensus(), chainstate,
+                              !(GetConsensus().digiwage_history && nHeight > 1000), false)) {
             LogPrint(BCLog::VALIDATION, "%s: Consensus::CheckBlockHeader: %s, %s\n", __func__, hash.ToString(), state.ToString());
             return false;
         }
@@ -5753,7 +5861,8 @@ bool Chainstate::AcceptBlock(const std::shared_ptr<const CBlock>& pblock, BlockV
         return error("AcceptBlock() : rejected by synchronized checkpoint");
 
     // Check timestamp against prev
-    if (pindexPrev && block.IsProofOfStake() && (block.GetBlockTime() <= pindexPrev->GetBlockTime() || FutureDrift(block.GetBlockTime(), nHeight, m_chainman.GetParams().GetConsensus()) < pindexPrev->GetBlockTime()))
+    if (pindexPrev && block.IsProofOfStake() && !m_chainman.GetParams().GetConsensus().digiwage_history &&
+        (block.GetBlockTime() <= pindexPrev->GetBlockTime() || FutureDrift(block.GetBlockTime(), nHeight, m_chainman.GetParams().GetConsensus()) < pindexPrev->GetBlockTime()))
         return error("AcceptBlock() : block's timestamp is too early");
 
     // Check timestamp
@@ -5880,6 +5989,11 @@ bool ChainstateManager::ProcessNewBlock(const std::shared_ptr<const CBlock>& blo
         // not very expensive, the anti-DoS benefits of caching failure (of a definitely-invalid block) are not substantial.
         bool ret = CheckBlock(*block, state, GetConsensus(), ActiveChainstate());
         if (ret) {
+            if (GetConsensus().digiwage_history && block->IsProofOfStake()) {
+                // Legacy headers omit proof type and the v2 modifier input.
+                // Complete the index from the full coinstake body.
+                m_blockman.AddToBlockIndex(*block, m_best_header);
+            }
             // Store to disk
             ret = ActiveChainstate().AcceptBlock(block, state, &pindex, force_processing, nullptr, new_block, min_pow_checked);
         }
@@ -5939,12 +6053,12 @@ bool TestBlockValidity(BlockValidationState& state,
     if (!ContextualCheckBlock(block, state, chainstate.m_chainman, pindexPrev))
         return error("%s: Consensus::ContextualCheckBlock: %s", __func__, state.ToString());
 
-    dev::h256 oldHashStateRoot(globalState->rootHash()); // qtum
-    dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // qtum
+    dev::h256 oldHashStateRoot(globalState->rootHash()); // digiwage
+    dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // digiwage
 
     if (!chainstate.ConnectBlock(block, state, &indexDummy, viewNew, true)) {
-        globalState->setRoot(oldHashStateRoot); // qtum
-        globalState->setRootUTXO(oldHashUTXORoot); // qtum
+        globalState->setRoot(oldHashStateRoot); // digiwage
+        globalState->setRootUTXO(oldHashUTXORoot); // digiwage
         pstorageresult->clearCacheResult();
         return false;
     }
@@ -6035,10 +6149,10 @@ VerifyDBResult CVerifyDB::VerifyDB(
     bool skipped_no_block_data{false};
     bool skipped_l3_checks{false};
 
-////////////////////////////////////////////////////////////////////////// // qtum
+////////////////////////////////////////////////////////////////////////// // digiwage
     dev::h256 oldHashStateRoot(globalState->rootHash());
     dev::h256 oldHashUTXORoot(globalState->rootHashUTXO());
-    QtumDGP qtumDGP(globalState.get(), chainstate, fGettingValuesDGP);
+    DigiWageDGP digiwageDGP(globalState.get(), chainstate, fGettingValuesDGP);
 //////////////////////////////////////////////////////////////////////////
 
     LogPrintf("Verification progress: 0%%\n");
@@ -6064,8 +6178,8 @@ VerifyDBResult CVerifyDB::VerifyDB(
             break;
         }
 
-        ///////////////////////////////////////////////////////////////////// // qtum
-        uint32_t sizeBlockDGP = qtumDGP.getBlockSize(pindex->nHeight);
+        ///////////////////////////////////////////////////////////////////// // digiwage
+        uint32_t sizeBlockDGP = digiwageDGP.getBlockSize(pindex->nHeight);
         dgpMaxBlockSize = sizeBlockDGP ? sizeBlockDGP : dgpMaxBlockSize;
         updateBlockSizeParams(dgpMaxBlockSize);
         /////////////////////////////////////////////////////////////////////
@@ -6144,21 +6258,21 @@ VerifyDBResult CVerifyDB::VerifyDB(
                 return VerifyDBResult::CORRUPTED_BLOCK_DB;
             }
 
-            dev::h256 oldHashStateRoot(globalState->rootHash()); // qtum
-            dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // qtum
+            dev::h256 oldHashStateRoot(globalState->rootHash()); // digiwage
+            dev::h256 oldHashUTXORoot(globalState->rootHashUTXO()); // digiwage
 
             if (!chainstate.ConnectBlock(block, state, pindex, coins)) {
                 LogPrintf("Verification error: found unconnectable block at %d, hash=%s (%s)\n", pindex->nHeight, pindex->GetBlockHash().ToString(), state.ToString());
-                globalState->setRoot(oldHashStateRoot); // qtum
-                globalState->setRootUTXO(oldHashUTXORoot); // qtum
+                globalState->setRoot(oldHashStateRoot); // digiwage
+                globalState->setRootUTXO(oldHashUTXORoot); // digiwage
                 pstorageresult->clearCacheResult();
                 return VerifyDBResult::CORRUPTED_BLOCK_DB;
             }
             if (ShutdownRequested()) return VerifyDBResult::INTERRUPTED;
         }
     } else {
-        globalState->setRoot(oldHashStateRoot); // qtum
-        globalState->setRootUTXO(oldHashUTXORoot); // qtum
+        globalState->setRoot(oldHashStateRoot); // digiwage
+        globalState->setRootUTXO(oldHashUTXORoot); // digiwage
     }
 
     LogPrintf("Verification: No coin database inconsistencies in last %i blocks (%i transactions)\n", block_count, nGoodTransactions);
@@ -6382,7 +6496,7 @@ bool ChainstateManager::LoadBlockIndex()
         // Use the provided setting for -logevents in the new database
         fLogEvents = gArgs.GetBoolArg("-logevents", DEFAULT_LOGEVENTS);
         m_blockman.m_block_tree_db->WriteFlag("logevents", fLogEvents);
-        /////////////////////////////////////////////////////////////// // qtum
+        /////////////////////////////////////////////////////////////// // digiwage
         fAddressIndex = gArgs.GetBoolArg("-addrindex", DEFAULT_ADDRINDEX);
         m_blockman.m_block_tree_db->WriteFlag("addrindex", fAddressIndex);
         ///////////////////////////////////////////////////////////////
@@ -6501,6 +6615,8 @@ void Chainstate::LoadExternalBlockFile(
                         BlockValidationState state;
                         if (AcceptBlock(pblock, state, nullptr, true, dbp, nullptr, true)) {
                             nLoaded++;
+                        } else if (!state.IsValid()) {
+                            LogPrintf("Block import rejected %s: %s\n", hash.ToString(), state.ToString());
                         }
                         if (state.IsError()) {
                             break;
@@ -6511,7 +6627,7 @@ void Chainstate::LoadExternalBlockFile(
                 }
 
                 // In Bitcoin this only needed to be done for genesis and at the end of block indexing
-                // But for Qtum PoS we need to sync this after every block to ensure txdb is populated for
+                // But for DigiWage PoS we need to sync this after every block to ensure txdb is populated for
                 // validating PoS proofs
                 {
                     BlockValidationState state;
@@ -7734,7 +7850,7 @@ bool ChainstateManager::ValidatedSnapshotCleanup()
     return true;
 }
 
-////////////////////////////////////////////////////////////////////////////////// // qtum
+////////////////////////////////////////////////////////////////////////////////// // digiwage
 bool GetAddressIndex(uint256 addressHash, int type, std::vector<std::pair<CAddressIndexKey, CAmount> > &addressIndex, node::BlockManager& blockman, int start, int end)
 {
     if (!fAddressIndex)
@@ -7791,15 +7907,15 @@ CAmount GetTxGasFee(const CMutableTransaction& _tx, const CTxMemPool& mempool, C
         LOCK(cs_main);
         const CChainParams& chainparams = Params();
         unsigned int contractflags = GetContractScriptFlags(active_chainstate.m_chain.Height() + 1, chainparams.GetConsensus());
-        QtumTxConverter convert(tx, active_chainstate, &mempool, NULL, NULL, contractflags);
+        DigiWageTxConverter convert(tx, active_chainstate, &mempool, NULL, NULL, contractflags);
 
-        ExtractQtumTX resultConvertQtumTX;
-        if(!convert.extractionQtumTransactions(resultConvertQtumTX)){
+        ExtractDigiWageTX resultConvertDigiWageTX;
+        if(!convert.extractionDigiWageTransactions(resultConvertDigiWageTX)){
             return nGasFee;
         }
 
         dev::u256 sumGas = dev::u256(0);
-        for(QtumTransaction& qtx : resultConvertQtumTX.first){
+        for(DigiWageTransaction& qtx : resultConvertDigiWageTX.first){
             sumGas += qtx.gas() * qtx.gasPrice();
         }
 
@@ -7861,4 +7977,3 @@ std::map<COutPoint, uint32_t> GetImmatureStakes(ChainstateManager& chainman)
     return immatureStakes;
 }
 //////////////////////////////////////////////////////////////////////////////////
-

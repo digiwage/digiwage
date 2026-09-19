@@ -38,7 +38,7 @@ bool CheckTransaction(const CTransaction& tx, TxValidationState& state)
             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-txouttotal-toolarge");
 
 #ifndef BUILD_BITCOIN_INTERNAL
-        /////////////////////////////////////////////////////////// // qtum
+        /////////////////////////////////////////////////////////// // digiwage
         if (txout.scriptPubKey.HasOpCall() || txout.scriptPubKey.HasOpCreate() || txout.scriptPubKey.HasOpSender()) {
             std::vector<std::vector<unsigned char>> vSolutions;
             TxoutType whichType = Solver(txout.scriptPubKey, vSolutions, true);

@@ -28,8 +28,9 @@ public:
     uint32_t nTime;
     uint32_t nBits;
     uint32_t nNonce;
-    uint256 hashStateRoot; // qtum
-    uint256 hashUTXORoot; // qtum
+    uint256 nAccumulatorCheckpoint; // Digiwage version 4
+    uint256 hashStateRoot; // digiwage
+    uint256 hashUTXORoot; // digiwage
     // proof-of-stake specific fields
     COutPoint prevoutStake;
     std::vector<unsigned char> vchBlockSigDlgt; // The delegate is 65 bytes or 0 bytes, it can be added in the signature paramether at the end to avoid compatibility problems
@@ -40,7 +41,14 @@ public:
     }
     virtual ~CBlockHeader(){};
 
-    SERIALIZE_METHODS(CBlockHeader, obj) { READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce, obj.hashStateRoot, obj.hashUTXORoot, obj.prevoutStake, obj.vchBlockSigDlgt); }
+    SERIALIZE_METHODS(CBlockHeader, obj)
+    {
+        READWRITE(obj.nVersion, obj.hashPrevBlock, obj.hashMerkleRoot, obj.nTime, obj.nBits, obj.nNonce);
+        if (obj.nVersion == 4) READWRITE(obj.nAccumulatorCheckpoint);
+        // Digiwage versions through 5 retain their deployed wire format.
+        // Version 6 commits native-EVM state and identifies the stake kernel.
+        if (obj.nVersion >= 6) READWRITE(obj.hashStateRoot, obj.hashUTXORoot, obj.prevoutStake, obj.vchBlockSigDlgt);
+    }
 
     void SetNull()
     {
@@ -50,8 +58,9 @@ public:
         nTime = 0;
         nBits = 0;
         nNonce = 0;
-        hashStateRoot.SetNull(); // qtum
-        hashUTXORoot.SetNull(); // qtum
+        nAccumulatorCheckpoint.SetNull();
+        hashStateRoot.SetNull(); // digiwage
+        hashUTXORoot.SetNull(); // digiwage
         vchBlockSigDlgt.clear();
         prevoutStake.SetNull();
     }
@@ -78,7 +87,7 @@ public:
     }
 
     // ppcoin: two types of block: proof-of-work or proof-of-stake
-    virtual bool IsProofOfStake() const //qtum
+    virtual bool IsProofOfStake() const //digiwage
     {
         return !prevoutStake.IsNull();
     }
@@ -106,7 +115,7 @@ public:
 
     bool HasProofOfDelegation() const;
 
-    CBlockHeader& operator=(const CBlockHeader& other) //qtum
+    CBlockHeader& operator=(const CBlockHeader& other) //digiwage
     {
         if (this != &other)
         {
@@ -116,6 +125,7 @@ public:
             this->nTime          = other.nTime;
             this->nBits          = other.nBits;
             this->nNonce         = other.nNonce;
+            this->nAccumulatorCheckpoint = other.nAccumulatorCheckpoint;
             this->hashStateRoot  = other.hashStateRoot;
             this->hashUTXORoot   = other.hashUTXORoot;
             this->vchBlockSigDlgt    = other.vchBlockSigDlgt;
@@ -131,6 +141,7 @@ class CBlock : public CBlockHeader
 public:
     // network and disk
     std::vector<CTransactionRef> vtx;
+    std::vector<unsigned char> vchBlockSig; // Digiwage PoS body signature
 
     // memory only
     mutable bool fChecked;
@@ -150,18 +161,30 @@ public:
     {
         READWRITEAS(CBlockHeader, obj);
         READWRITE(obj.vtx);
+        if (obj.nVersion < 6 && obj.vtx.size() > 1 && obj.vtx[1]->IsCoinStake()) READWRITE(obj.vchBlockSig);
     }
 
     void SetNull()
     {
         CBlockHeader::SetNull();
         vtx.clear();
+        vchBlockSig.clear();
         fChecked = false;
     }
 
-    std::pair<COutPoint, unsigned int> GetProofOfStake() const //qtum
+    std::pair<COutPoint, unsigned int> GetProofOfStake() const //digiwage
     {
-        return IsProofOfStake()? std::make_pair(prevoutStake, nTime) : std::make_pair(COutPoint(), (unsigned int)0);
+        return IsProofOfStake() ? std::make_pair(vtx[1]->vin[0].prevout, nTime) : std::make_pair(COutPoint(), (unsigned int)0);
+    }
+
+    bool IsProofOfStake() const override
+    {
+        return vtx.size() > 1 && vtx[1]->IsCoinStake();
+    }
+
+    std::vector<unsigned char> GetBlockSignature() const
+    {
+        return nVersion >= 6 ? CBlockHeader::GetBlockSignature() : vchBlockSig;
     }
 
     CBlockHeader GetBlockHeader() const
@@ -173,8 +196,9 @@ public:
         block.nTime          = nTime;
         block.nBits          = nBits;
         block.nNonce         = nNonce;
-        block.hashStateRoot  = hashStateRoot; // qtum
-        block.hashUTXORoot   = hashUTXORoot; // qtum
+        block.nAccumulatorCheckpoint = nAccumulatorCheckpoint;
+        block.hashStateRoot  = hashStateRoot; // digiwage
+        block.hashUTXORoot   = hashUTXORoot; // digiwage
         block.vchBlockSigDlgt    = vchBlockSigDlgt;
         block.prevoutStake   = prevoutStake;
         return block;

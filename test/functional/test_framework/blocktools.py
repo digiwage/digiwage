@@ -44,7 +44,7 @@ from .script_util import (
     script_to_p2wsh_script,
 )
 from .util import assert_equal
-from .qtumconfig import INITIAL_BLOCK_REWARD, INITIAL_BLOCK_REWARD_POS 
+from .digiwageconfig import INITIAL_BLOCK_REWARD, INITIAL_BLOCK_REWARD_POS 
 
 WITNESS_SCALE_FACTOR = 4
 MAX_BLOCK_SIGOPS = 20000

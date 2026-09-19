@@ -1,7 +1,7 @@
 # JSON-RPC Interface
 
-The headless daemon `qtumd` has the JSON-RPC API enabled by default, the GUI
-`qtum-qt` has it disabled by default. This can be changed with the `-server`
+The headless daemon `digiwaged` has the JSON-RPC API enabled by default, the GUI
+`digiwage-qt` has it disabled by default. This can be changed with the `-server`
 option. In the GUI it is possible to execute RPC methods in the Debug Console
 Dialog.
 
@@ -18,18 +18,18 @@ Examples:
 
 ```sh
 # "params": ["mywallet", false, false, "", false, false, true]
-qtum-cli createwallet mywallet false false "" false false true
+digiwage-cli createwallet mywallet false false "" false false true
 
 # "params": {"wallet_name": "mywallet", "load_on_startup": true}
-qtum-cli -named createwallet wallet_name=mywallet load_on_startup=true
+digiwage-cli -named createwallet wallet_name=mywallet load_on_startup=true
 
 # "params": {"args": ["mywallet"], "load_on_startup": true}
-qtum-cli -named createwallet mywallet load_on_startup=true
+digiwage-cli -named createwallet mywallet load_on_startup=true
 ```
 
 ## Versioning
 
-The RPC interface might change from one major version of Qtum Core to the
+The RPC interface might change from one major version of DigiWage Core to the
 next. This makes the RPC interface implicitly versioned on the major version.
 The version tuple can be retrieved by e.g. the `getnetworkinfo` RPC in
 `version`.
@@ -41,21 +41,21 @@ were deprecated and how to re-enable them temporarily.
 
 ## Security
 
-The RPC interface allows other programs to control Qtum Core,
+The RPC interface allows other programs to control DigiWage Core,
 including the ability to spend funds from your wallets, affect consensus
 verification, read private data, and otherwise perform operations that
 can cause loss of money, data, or privacy.  This section suggests how
-you should use and configure Qtum Core to reduce the risk that its
+you should use and configure DigiWage Core to reduce the risk that its
 RPC interface will be abused.
 
 - **Securing the executable:** Anyone with physical or remote access to
-  the computer, container, or virtual machine running Qtum Core can
+  the computer, container, or virtual machine running DigiWage Core can
   compromise either the whole program or just the RPC interface.  This
   includes being able to record any passphrases you enter for unlocking
-  your encrypted wallets or changing settings so that your Qtum Core
+  your encrypted wallets or changing settings so that your DigiWage Core
   program tells you that certain transactions have multiple
   confirmations even when they aren't part of the best block chain.  For
-  this reason, you should not use Qtum Core for security sensitive
+  this reason, you should not use DigiWage Core for security sensitive
   operations on systems you do not exclusively control, such as shared
   computers or virtual private servers.
 
@@ -65,43 +65,43 @@ RPC interface will be abused.
   and passphrase).  Any program on your computer with access to the file
   system and local network can obtain this level of access.
   Additionally, other programs on your computer can attempt to provide
-  an RPC interface on the same port as used by Qtum Core in order to
+  an RPC interface on the same port as used by DigiWage Core in order to
   trick you into revealing your authentication credentials.  For this
-  reason, it is important to only use Qtum Core for
+  reason, it is important to only use DigiWage Core for
   security-sensitive operations on a computer whose other programs you
   trust.
 
 - **Securing remote network access:** You may optionally allow other
-  computers to remotely control Qtum Core by setting the `rpcallowip`
+  computers to remotely control DigiWage Core by setting the `rpcallowip`
   and `rpcbind` configuration parameters.  These settings are only meant
   for enabling connections over secure private networks or connections
   that have been otherwise secured (e.g. using a VPN or port forwarding
   with SSH or stunnel).  **Do not enable RPC connections over the public
-  Internet.**  Although Qtum Core's RPC interface does use
+  Internet.**  Although DigiWage Core's RPC interface does use
   authentication, it does not use encryption, so your login credentials
   are sent as clear text that can be read by anyone on your network
   path.  Additionally, the RPC interface has not been hardened to
   withstand arbitrary Internet traffic, so changing the above settings
   to expose it to the Internet (even using something like a Tor onion
   service) could expose you to unconsidered vulnerabilities.  See
-  `qtumd -help` for more information about these settings and other
+  `digiwaged -help` for more information about these settings and other
   settings described in this document.
 
-    Related, if you use Qtum Core inside a Docker container, you may
+    Related, if you use DigiWage Core inside a Docker container, you may
     need to expose the RPC port to the host system.  The default way to
     do this in Docker also exposes the port to the public Internet.
     Instead, expose it only on the host system's localhost, for example:
     `-p 127.0.0.1:8332:8332`
 
-- **Secure authentication:** By default, Qtum Core generates unique
+- **Secure authentication:** By default, DigiWage Core generates unique
   login credentials each time it restarts and puts them into a file
-  readable only by the user that started Qtum Core, allowing any of
+  readable only by the user that started DigiWage Core, allowing any of
   that user's RPC clients with read access to the file to login
-  automatically.  The file is `.cookie` in the Qtum Core
+  automatically.  The file is `.cookie` in the DigiWage Core
   configuration directory, and using these credentials is the preferred
   RPC authentication method.  If you need to generate static login
   credentials for your programs, you can use the script in the
-  `share/rpcauth` directory in the Qtum Core source tree.  As a final
+  `share/rpcauth` directory in the DigiWage Core source tree.  As a final
   fallback, you can directly use manually-chosen `rpcuser` and
   `rpcpassword` configuration parameters---but you must ensure that you
   choose a strong and unique passphrase (and still don't use insecure

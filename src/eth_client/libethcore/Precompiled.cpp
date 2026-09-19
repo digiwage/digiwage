@@ -12,7 +12,7 @@
 #include <libdevcrypto/Hash.h>
 #include <libdevcrypto/LibSnark.h>
 #include <libethcore/Common.h>
-#include <qtum/qtumutils.h>
+#include <digiwage/digiwageutils.h>
 using namespace std;
 using namespace dev;
 using namespace dev::eth;
@@ -72,7 +72,7 @@ ETH_REGISTER_PRECOMPILED(btc_ecrecover)(bytesConstRef _in)
     {
         bool recovered = false;
         u256 v = (u256)in.v;
-        recovered = qtumutils::btc_ecrecover(in.hash, v, in.r, in.s, ret);
+        recovered = digiwageutils::btc_ecrecover(in.hash, v, in.r, in.s, ret);
         if(recovered)
         {
             return {true, ret.asBytes()};

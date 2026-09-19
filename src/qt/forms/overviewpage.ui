@@ -103,7 +103,7 @@
             <bool>true</bool>
            </property>
            <property name="toolTip">
-            <string>The displayed information may be out of date. Your wallet automatically synchronizes with the Qtum network after a connection is established, but this process has not completed yet.</string>
+            <string>The displayed information may be out of date. Your wallet automatically synchronizes with the DigiWage network after a connection is established, but this process has not completed yet.</string>
            </property>
            <property name="text">
             <string/>
@@ -203,7 +203,7 @@
                <string>Your current total balance</string>
               </property>
               <property name="text">
-               <string notr="true">0.000 000 00 QTUM</string>
+               <string notr="true">0.000 000 00 DIGIWAGE</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -564,7 +564,7 @@
                <string>Current total balance in watch-only addresses</string>
               </property>
               <property name="text">
-               <string notr="true">0.000 000 00 QTUM</string>
+               <string notr="true">0.000 000 00 DIGIWAGE</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -873,14 +873,14 @@
           </spacer>
          </item>
          <item>
-          <widget class="QtumPushButton" name="buttonSend">
+          <widget class="DigiWagePushButton" name="buttonSend">
            <property name="text">
             <string>Send</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QtumPushButton" name="buttonReceive">
+          <widget class="DigiWagePushButton" name="buttonReceive">
            <property name="text">
             <string>Receive</string>
            </property>
@@ -998,7 +998,7 @@
               <bool>true</bool>
              </property>
              <property name="toolTip">
-              <string>The displayed information may be out of date. Your wallet automatically synchronizes with the Qtum network after a connection is established, but this process has not completed yet.</string>
+              <string>The displayed information may be out of date. Your wallet automatically synchronizes with the DigiWage network after a connection is established, but this process has not completed yet.</string>
              </property>
              <property name="text">
               <string/>
@@ -1176,9 +1176,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QtumPushButton</class>
+   <class>DigiWagePushButton</class>
    <extends>QPushButton</extends>
-   <header>qt/qtumpushbutton.h</header>
+   <header>qt/digiwagepushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

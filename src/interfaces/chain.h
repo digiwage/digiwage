@@ -377,10 +377,10 @@ public:
     virtual CAmount getTxGasFee(const CMutableTransaction& tx) = 0;
 
 #ifdef ENABLE_WALLET
-    //! Start staking qtums.
+    //! Start staking digiwages.
     virtual void startStake(wallet::CWallet& wallet) = 0;
 
-    //! Stop staking qtums.
+    //! Stop staking digiwages.
     virtual void stopStake(wallet::CWallet& wallet) = 0;
 
     //! get stake weight.
