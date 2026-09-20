@@ -9,6 +9,8 @@
 #include <QPixmap>
 #include <qt/styleSheet.h>
 #include <qt/platformstyle.h>
+#include <qt/themedicon.h>
+#include <QSettings>
 
 namespace NavigationBar_NS
 {
@@ -24,6 +26,7 @@ static const int SubNavPaddingRight = 40;
 static const int LogoHeight = 60;
 static const int LogoWidth = 90;
 static const int LogoIconSize = 28;
+static const int CollapsedWidth = 72;
 }
 using namespace NavigationBar_NS;
 
@@ -248,6 +251,17 @@ void NavigationBar::buildUi()
             labelBrand->setProperty("title", "true");
             hLayout->addWidget(labelBrand);
             hLayout->addStretch(1);
+
+            QToolButton *collapseButton = new QToolButton(this);
+            collapseButton->setObjectName("navCollapseButton");
+            collapseButton->setAutoRaise(true);
+            collapseButton->setIcon(ThemedIcon::create(":/icons/sidebar", ThemedIcon::ButtonLight));
+            collapseButton->setIconSize(QSize(16, 16));
+            collapseButton->setToolTip(tr("Collapse sidebar"));
+            collapseButton->setAccessibleName(tr("Collapse sidebar"));
+            collapseButton->setCursor(Qt::PointingHandCursor);
+            connect(collapseButton, &QToolButton::clicked, this, [this]{ setCollapsed(!m_collapsed); });
+            hLayout->addWidget(collapseButton);
             vboxLayout->addLayout(hLayout);
 
             if(m_logoSpace)
@@ -328,7 +342,31 @@ void NavigationBar::buildUi()
 
         // The component is built
         m_built = true;
+
+        if (!m_subBar) {
+            setCollapsed(QSettings().value("NavCollapsed", false).toBool());
+        }
     }
+}
+
+void NavigationBar::setCollapsed(bool collapsed)
+{
+    if (m_subBar) return;
+    m_collapsed = collapsed;
+    QSettings().setValue("NavCollapsed", collapsed);
+
+    if (QLabel* brand = findChild<QLabel*>("labelBrand")) brand->setVisible(!collapsed);
+    for (QToolButton* button : findChildren<QToolButton*>()) {
+        if (button->objectName() == "navCollapseButton") {
+            button->setToolTip(collapsed ? tr("Expand sidebar") : tr("Collapse sidebar"));
+            button->setAccessibleName(button->toolTip());
+            continue;
+        }
+        button->setToolButtonStyle(collapsed ? Qt::ToolButtonIconOnly : Qt::ToolButtonTextBesideIcon);
+    }
+    setMinimumWidth(collapsed ? CollapsedWidth : (ToolButtonWidth + MarginLeft + MarginRight));
+    setMaximumWidth(collapsed ? CollapsedWidth : (ToolButtonWidth + MarginLeft + MarginRight));
+    Q_EMIT collapsedChanged(collapsed);
 }
 
 void NavigationBar::onSubBarClick(bool clicked)

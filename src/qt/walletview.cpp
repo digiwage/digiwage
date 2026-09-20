@@ -70,10 +70,13 @@ WalletView::WalletView(WalletModel* wallet_model, const PlatformStyle* _platform
     vbox->addLayout(hbox_buttons);
     transactionsPage->setLayout(vbox);
 
-    receiveCoinsPage = new ReceiveRequestDialog(platformStyle, overviewPage);
+    // Send and Receive are full pages in the stack, not floating dialogs.
+    receiveCoinsPage = new ReceiveRequestDialog(platformStyle, this);
+    receiveCoinsPage->setWindowFlags(Qt::Widget);
     receiveCoinsPage->setModel(walletModel);
 
-    sendCoinsPage = new SendCoinsDialog(platformStyle, overviewPage);
+    sendCoinsPage = new SendCoinsDialog(platformStyle, this);
+    sendCoinsPage->setWindowFlags(Qt::Widget);
     sendCoinsPage->setModel(walletModel);
 
     usedSendingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::SendingTab, this);
@@ -101,6 +104,8 @@ WalletView::WalletView(WalletModel* wallet_model, const PlatformStyle* _platform
 
     addWidget(overviewPage);
     addWidget(transactionsPage);
+    addWidget(sendCoinsPage);
+    addWidget(receiveCoinsPage);
     addWidget(createContractPage);
     addWidget(sendToContractPage);
     addWidget(callContractPage);
@@ -123,6 +128,7 @@ WalletView::WalletView(WalletModel* wallet_model, const PlatformStyle* _platform
     // Clicking receive coins button show receive coins dialog
     connect(overviewPage, &OverviewPage::receiveCoinsClicked, this, &WalletView::receiveCoins);
     connect(sendCoinsPage, &SendCoinsDialog::coinsSent, this, &WalletView::coinsSent);
+    connect(sendCoinsPage, &SendCoinsDialog::coinsSent, this, [this]{ setCurrentWidget(transactionsPage); });
     // Highlight transaction after send
     connect(sendCoinsPage, &SendCoinsDialog::coinsSent, transactionView, qOverload<const uint256&>(&TransactionView::focusTransaction));
 
@@ -248,22 +254,16 @@ void WalletView::gotoHistoryPage()
 
 void WalletView::gotoReceiveCoinsPage()
 {
-    setCurrentWidget(overviewPage);
-
-    if(walletFrame && walletFrame->currentWalletView() == this)
-    {
-        receiveCoinsPage->show();
-    }
+    setCurrentWidget(receiveCoinsPage);
 }
 
 void WalletView::gotoSendCoinsPage(QString addr)
 {
-    setCurrentWidget(overviewPage);
+    setCurrentWidget(sendCoinsPage);
     if(walletFrame && walletFrame->currentWalletView() == this)
     {
         if (!addr.isEmpty())
             sendCoinsPage->setAddress(addr);
-        sendCoinsPage->show();
     }
 }
 

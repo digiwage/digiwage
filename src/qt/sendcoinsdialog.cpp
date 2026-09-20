@@ -627,14 +627,15 @@ void SendCoinsDialog::clear()
 
 void SendCoinsDialog::reject()
 {
+    // Embedded as a page: Esc clears the form instead of hiding the page.
     clear();
-    QDialog::reject();
 }
 
 void SendCoinsDialog::accept()
 {
+    // Embedded as a page: never actually closes; coinsSent() (already emitted) is
+    // what tells WalletView to switch back to the Transactions page.
     clear();
-    QDialog::accept();
 }
 
 SendCoinsEntry *SendCoinsDialog::addEntry()

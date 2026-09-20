@@ -4,17 +4,26 @@
 
 #include <qt/uitour.h>
 
+#include <qt/bitcoinamountfield.h>
 #include <qt/bitcoingui.h>
+#include <qt/sendcoinsdialog.h>
 #include <qt/styleSheet.h>
+
+#include <consensus/amount.h>
 
 #include <QAction>
 #include <QApplication>
 #include <QDialog>
 #include <QDir>
+#include <QFile>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMessageBox>
 #include <QMetaObject>
 #include <QPixmap>
 #include <QPushButton>
 #include <QTabWidget>
+#include <QTextStream>
 #include <QTimer>
 #include <QWidget>
 
@@ -164,4 +173,138 @@ void RunUiTour(BitcoinGUI* window, const QString& outDir)
     window->resize(1280, 800);
     Tour* tour = new Tour(window, outDir);
     QTimer::singleShot(9000, tour, [tour]{ tour->start(); });
+}
+
+namespace {
+
+/** Drives the real Receive and Send pages/widgets end to end, including the
+ *  Send confirmation dialog, so the result proves the GUI flow works rather
+ *  than just that the RPC layer does. */
+class FunctionalTest : public QObject
+{
+public:
+    FunctionalTest(BitcoinGUI* w, QString dest, QString amountStr, QString outFile)
+        : m_win(w), m_dest(std::move(dest)), m_amountStr(std::move(amountStr)), m_outFile(std::move(outFile)) {}
+
+    void start()
+    {
+        QMetaObject::invokeMethod(m_win, "gotoReceiveCoinsPage", Qt::DirectConnection);
+        QTimer::singleShot(1200, this, [this]{ captureReceiveAddress(); });
+    }
+
+private:
+    void writeLine(const QString& line)
+    {
+        QFile f(m_outFile);
+        f.open(QIODevice::Append | QIODevice::Text);
+        QTextStream(&f) << line << "\n";
+    }
+
+    void captureReceiveAddress()
+    {
+        if (QLabel* addr = m_win->findChild<QLabel*>("address_content")) {
+            m_receiveAddress = addr->text().trimmed();
+        }
+        writeLine("receive_address=" + m_receiveAddress);
+        QMetaObject::invokeMethod(m_win, "gotoSendCoinsPage", Qt::DirectConnection, Q_ARG(QString, QString()));
+        QTimer::singleShot(1200, this, [this]{ fillAndSend(); });
+    }
+
+    void fillAndSend()
+    {
+        QLineEdit* payTo = m_win->findChild<QLineEdit*>("payTo");
+        BitcoinAmountField* payAmount = m_win->findChild<BitcoinAmountField*>("payAmount");
+        QPushButton* sendButton = m_win->findChild<QPushButton*>("sendButton");
+        writeLine(QString("step=fillAndSend widgets=%1,%2,%3").arg(!!payTo).arg(!!payAmount).arg(!!sendButton));
+        if (!payTo || !payAmount || !sendButton) {
+            writeLine("error=send form widgets not found");
+            std::_Exit(1);
+        }
+        payTo->setText(m_dest);
+        Q_EMIT payTo->textChanged(m_dest);
+        payAmount->setValue(static_cast<CAmount>(m_amountStr.toDouble() * COIN + 0.5));
+        writeLine(QString("step=filled payTo=%1 amount=%2").arg(payTo->text()).arg(payAmount->value()));
+
+        // Use a generous custom fee rate: on this small isolated test network the
+        // default smart-fee estimate can land right on a peer's relay-fee filter.
+        if (QAbstractButton* customFeeRadio = m_win->findChild<QAbstractButton*>("radioCustomFee")) {
+            customFeeRadio->click();
+            if (BitcoinAmountField* customFee = m_win->findChild<BitcoinAmountField*>("customFee")) {
+                customFee->setValue(2 * COIN / 100); // 0.02 DIGIWAGE/kvB
+            }
+        }
+
+        // The Send confirmation dialog opens a nested modal loop from inside
+        // sendButton's click handler; schedule the click-through before
+        // triggering it so the timer fires while that loop is spinning.
+        QTimer::singleShot(1000, this, [this]{ confirmSend(0); });
+        sendButton->click();
+        writeLine("step=sendButton-click-returned");
+        // If nothing was ever sent (e.g. validation failed silently), give up.
+        QTimer::singleShot(30000, this, [this]{
+            if (!m_confirmed) { writeLine("error=send confirmation dialog never appeared"); std::_Exit(1); }
+        });
+    }
+
+    void confirmSend(int attempt)
+    {
+        connectCoinsSent();
+        QWidget* active = QApplication::activeModalWidget();
+        QMessageBox* box = qobject_cast<QMessageBox*>(active);
+        if (attempt % 5 == 0) writeLine(QString("step=confirmSend attempt=%1 activeModal=%2 isMessageBox=%3").arg(attempt).arg(active ? active->metaObject()->className() : "null").arg(!!box));
+        if (!box) {
+            // The 3s safety countdown or the confirmation dialog may not be up yet.
+            if (attempt < 60) QTimer::singleShot(500, this, [this, attempt]{ confirmSend(attempt + 1); });
+            else { writeLine("error=no QMessageBox appeared after 30s"); std::_Exit(1); }
+            return;
+        }
+        m_confirmed = true;
+        if (QAbstractButton* yes = box->button(QMessageBox::Yes)) {
+            if (!yes->isEnabled()) {
+                // Still inside the anti-footgun countdown: wait it out.
+                QTimer::singleShot(500, this, [this, attempt]{ confirmSend(attempt + 1); });
+                m_confirmed = false;
+                return;
+            }
+            writeLine("step=clicking-yes");
+            yes->click();
+        } else {
+            writeLine("error=confirmation dialog has no Yes button");
+        }
+    }
+
+    void connectCoinsSent()
+    {
+        if (m_connected) return;
+        SendCoinsDialog* sendDlg = m_win->findChild<SendCoinsDialog*>();
+        if (!sendDlg) return;
+        m_connected = true;
+        connect(sendDlg, &SendCoinsDialog::coinsSent, this, [this](const uint256& txid) {
+            writeLine("send_txid=" + QString::fromStdString(txid.GetHex()));
+            writeLine("status=ok");
+            // Give the net thread time to actually relay the tx to our peer
+            // (INV batching can take a couple of seconds) before we exit.
+            QTimer::singleShot(8000, this, []{ std::_Exit(0); });
+        });
+    }
+
+private:
+    BitcoinGUI* m_win;
+    QString m_dest;
+    QString m_amountStr;
+    QString m_outFile;
+    QString m_receiveAddress;
+    bool m_confirmed{false};
+    bool m_connected{false};
+};
+
+} // namespace
+
+void RunUiFunctionalTest(BitcoinGUI* window, const QString& destAddress, const QString& amount, const QString& outFile)
+{
+    StyleSheet::instance().setMode(AppearanceMode::Dark);
+    window->resize(1280, 800);
+    QFile::remove(outFile);
+    auto* test = new FunctionalTest(window, destAddress, amount, outFile);
+    QTimer::singleShot(9000, test, [test]{ test->start(); });
 }

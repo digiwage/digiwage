@@ -13,4 +13,11 @@ class BitcoinGUI;
  *  both appearance modes, saves a PNG of each into <dir>, then exits. */
 void RunUiTour(BitcoinGUI* window, const QString& outDir);
 
+/** Developer helper (-uifunctest=<destAddress>,<amount>,<outFile>): drives the
+ *  Receive page to get a fresh address, drives the Send page to pay
+ *  <destAddress> <amount> DIGIWAGE end to end through the real GUI widgets and
+ *  confirmation dialog, then writes "receive_address=...\nsend_txid=...\n" to
+ *  <outFile> and exits. Proves Send/Receive work through the GUI, not RPC. */
+void RunUiFunctionalTest(BitcoinGUI* window, const QString& destAddress, const QString& amount, const QString& outFile);
+
 #endif // DIGIWAGE_QT_UITOUR_H

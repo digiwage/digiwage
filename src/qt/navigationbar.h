@@ -55,11 +55,22 @@ public:
      */
     void buildUi();
 
+    /**
+     * @brief setCollapsed Collapse the bar to icon-only (or restore it) and remember it.
+     */
+    void setCollapsed(bool collapsed);
+    bool isCollapsed() const { return m_collapsed; }
+
 Q_SIGNALS:
     /**
      * @brief resized Signal that the size is changed
      */
     void resized(const QSize&);
+
+    /**
+     * @brief collapsedChanged Emitted when the sidebar is collapsed or expanded
+     */
+    void collapsedChanged(bool collapsed);
 
 public Q_SLOTS:
     /**
@@ -90,6 +101,7 @@ private:
     bool m_subBar;
     bool m_built;
     int m_logoSpace;
+    bool m_collapsed{false};
 };
 
 #endif // NAVIGATIONBAR_H

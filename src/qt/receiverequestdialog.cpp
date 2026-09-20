@@ -228,12 +228,12 @@ void ReceiveRequestDialog::clear()
 
 void ReceiveRequestDialog::reject()
 {
+    // Embedded as a page: Esc clears the form instead of hiding the page.
     clear();
-    QDialog::reject();
 }
 
 void ReceiveRequestDialog::accept()
 {
+    // Embedded as a page: never actually closes.
     clear();
-    QDialog::accept();
 }

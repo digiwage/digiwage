@@ -691,6 +691,8 @@ void BitcoinGUI::createToolBars()
 
         // Fill the component with actions
         appNavigationBar->addAction(overviewAction);
+        appNavigationBar->addAction(sendCoinsAction);
+        appNavigationBar->addAction(receiveCoinsAction);
         appNavigationBar->addAction(historyAction);
         QList<QAction*> contractActions;
         contractActions.append(createContractAction);
