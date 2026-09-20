@@ -65,6 +65,7 @@ QT_FORMS_UI = \
   qt/forms/transactiondescdialog.ui
 
 QT_MOC_CPP = \
+  qt/moc_styleSheet.cpp \
   qt/moc_abifunctionfield.cpp \
   qt/moc_abiparam.cpp \
   qt/moc_abiparamitem.cpp \
@@ -262,6 +263,8 @@ BITCOIN_QT_H = \
   qt/peertablemodel.h \
   qt/peertablesortproxy.h \
   qt/platformstyle.h \
+  qt/themedicon.h \
+  qt/uitour.h \
   qt/psbtoperationsdialog.h \
   qt/qrimagewidget.h \
   qt/qrctoken.h \
@@ -327,85 +330,108 @@ BITCOIN_QT_H = \
   qt/hardwaresigntx.h
 
 QT_RES_FONTS = \
+  qt/res/fonts/Inter-Bold.otf \
+  qt/res/fonts/Inter-Medium.otf \
+  qt/res/fonts/Inter-Regular.otf \
+  qt/res/fonts/Inter-SemiBold.otf \
+  qt/res/fonts/InterTabular-Medium.otf \
+  qt/res/fonts/InterTabular-SemiBold.otf \
   qt/res/fonts/RobotoMono-Regular.ttf
 
 QT_RES_ICONS = \
-  qt/res/icons/add.png \
-  qt/res/icons/address-book.png \
+  qt/res/icons/arrow_right.svg \
+  qt/res/icons/book.svg \
+  qt/res/icons/check_small.svg \
+  qt/res/icons/chevron_down.svg \
+  qt/res/icons/chevron_up.svg \
+  qt/res/icons/filter.svg \
+  qt/res/icons/help.svg \
+  qt/res/icons/info.svg \
+  qt/res/icons/moon.svg \
+  qt/res/icons/more.svg \
+  qt/res/icons/network.svg \
+  qt/res/icons/search.svg \
+  qt/res/icons/shield_check.svg \
+  qt/res/icons/sidebar.svg \
+  qt/res/icons/sliders.svg \
+  qt/res/icons/sun.svg \
+  qt/res/icons/wallet.svg \
+  qt/res/icons/add.svg \
+  qt/res/icons/address-book.svg \
   qt/res/icons/bitcoin.ico \
   qt/res/icons/bitcoin_testnet.ico \
   qt/res/icons/bitcoin.png \
-  qt/res/icons/chevron.png \
-  qt/res/icons/clock1.png \
-  qt/res/icons/clock2.png \
-  qt/res/icons/clock3.png \
-  qt/res/icons/clock4.png \
-  qt/res/icons/clock5.png \
-  qt/res/icons/connect0.png \
-  qt/res/icons/connect1.png \
-  qt/res/icons/connect2.png \
-  qt/res/icons/connect3.png \
-  qt/res/icons/connect4.png \
-  qt/res/icons/configure.png \
-  qt/res/icons/edit.png \
-  qt/res/icons/editcopy.png \
-  qt/res/icons/editpaste.png \
-  qt/res/icons/export.png \
-  qt/res/icons/import.png \
-  qt/res/icons/eye.png \
-  qt/res/icons/eye_minus.png \
-  qt/res/icons/eye_plus.png \
-  qt/res/icons/filesave.png \
-  qt/res/icons/fontbigger.png \
-  qt/res/icons/fontsmaller.png \
-  qt/res/icons/hd_disabled.png \
-  qt/res/icons/hd_enabled.png \
-  qt/res/icons/history.png \
-  qt/res/icons/lock_closed.png \
-  qt/res/icons/lock_open.png \
+  qt/res/icons/chevron.svg \
+  qt/res/icons/clock1.svg \
+  qt/res/icons/clock2.svg \
+  qt/res/icons/clock3.svg \
+  qt/res/icons/clock4.svg \
+  qt/res/icons/clock5.svg \
+  qt/res/icons/connect0.svg \
+  qt/res/icons/connect1.svg \
+  qt/res/icons/connect2.svg \
+  qt/res/icons/connect3.svg \
+  qt/res/icons/connect4.svg \
+  qt/res/icons/configure.svg \
+  qt/res/icons/edit.svg \
+  qt/res/icons/editcopy.svg \
+  qt/res/icons/editpaste.svg \
+  qt/res/icons/export.svg \
+  qt/res/icons/import.svg \
+  qt/res/icons/eye.svg \
+  qt/res/icons/eye_minus.svg \
+  qt/res/icons/eye_plus.svg \
+  qt/res/icons/filesave.svg \
+  qt/res/icons/fontbigger.svg \
+  qt/res/icons/fontsmaller.svg \
+  qt/res/icons/hd_disabled.svg \
+  qt/res/icons/hd_enabled.svg \
+  qt/res/icons/history.svg \
+  qt/res/icons/lock_closed.svg \
+  qt/res/icons/lock_open.svg \
   qt/res/icons/logo.png \
-  qt/res/icons/network_disabled.png \
-  qt/res/icons/overview.png \
-  qt/res/icons/proxy.png \
-  qt/res/icons/quit.png \
-  qt/res/icons/receive.png \
-  qt/res/icons/remove.png \
-  qt/res/icons/send.png \
-  qt/res/icons/synced.png \
-  qt/res/icons/transaction0.png \
-  qt/res/icons/transaction2.png \
-  qt/res/icons/transaction_abandoned.png \
-  qt/res/icons/transaction_conflicted.png \
-  qt/res/icons/tx_inout.png \
-  qt/res/icons/tx_input.png \
-  qt/res/icons/tx_output.png \
-  qt/res/icons/tx_mined.png \
-  qt/res/icons/warning.png \
-  qt/res/icons/verify.png \
-  qt/res/icons/staking_on.png \
-  qt/res/icons/staking_off.png \
-  qt/res/icons/contract_input.png \
-  qt/res/icons/contract_output.png \
-  qt/res/icons/smart_contract.png \
-  qt/res/icons/lock_staking.png \
-  qt/res/icons/qrctoken.png \
-  qt/res/icons/add_recipient.png \
-  qt/res/icons/encrypt.png \
-  qt/res/icons/receive_from.png \
-  qt/res/icons/remove_entry.png \
-  qt/res/icons/request_payment.png \
-  qt/res/icons/restore.png \
-  qt/res/icons/send_to.png \
-  qt/res/icons/show.png \
-  qt/res/icons/token.png \
-  qt/res/icons/backup_wallet.png \
-  qt/res/icons/add_token.png \
-  qt/res/icons/plus_full.png \
-  qt/res/icons/split.png \
-  qt/res/icons/delegate.png \
-  qt/res/icons/superstake.png \
-  qt/res/icons/ledger_on.png \
-  qt/res/icons/ledger_off.png
+  qt/res/icons/network_disabled.svg \
+  qt/res/icons/overview.svg \
+  qt/res/icons/proxy.svg \
+  qt/res/icons/quit.svg \
+  qt/res/icons/receive.svg \
+  qt/res/icons/remove.svg \
+  qt/res/icons/send.svg \
+  qt/res/icons/synced.svg \
+  qt/res/icons/transaction0.svg \
+  qt/res/icons/transaction2.svg \
+  qt/res/icons/transaction_abandoned.svg \
+  qt/res/icons/transaction_conflicted.svg \
+  qt/res/icons/tx_inout.svg \
+  qt/res/icons/tx_input.svg \
+  qt/res/icons/tx_output.svg \
+  qt/res/icons/tx_mined.svg \
+  qt/res/icons/warning.svg \
+  qt/res/icons/verify.svg \
+  qt/res/icons/staking_on.svg \
+  qt/res/icons/staking_off.svg \
+  qt/res/icons/contract_input.svg \
+  qt/res/icons/contract_output.svg \
+  qt/res/icons/smart_contract.svg \
+  qt/res/icons/lock_staking.svg \
+  qt/res/icons/qrctoken.svg \
+  qt/res/icons/add_recipient.svg \
+  qt/res/icons/encrypt.svg \
+  qt/res/icons/receive_from.svg \
+  qt/res/icons/remove_entry.svg \
+  qt/res/icons/request_payment.svg \
+  qt/res/icons/restore.svg \
+  qt/res/icons/send_to.svg \
+  qt/res/icons/show.svg \
+  qt/res/icons/token.svg \
+  qt/res/icons/backup_wallet.svg \
+  qt/res/icons/add_token.svg \
+  qt/res/icons/plus_full.svg \
+  qt/res/icons/split.svg \
+  qt/res/icons/delegate.svg \
+  qt/res/icons/superstake.svg \
+  qt/res/icons/ledger_on.svg \
+  qt/res/icons/ledger_off.svg
 
 BITCOIN_QT_BASE_CPP = \
   qt/bantablemodel.cpp \
@@ -430,6 +456,8 @@ BITCOIN_QT_BASE_CPP = \
   qt/peertablemodel.cpp \
   qt/peertablesortproxy.cpp \
   qt/platformstyle.cpp \
+  qt/themedicon.cpp \
+  qt/uitour.cpp \
   qt/qswitchcontrol.cpp \
   qt/qvalidatedlineedit.cpp \
   qt/qvalidatedtextedit.cpp \
@@ -555,111 +583,75 @@ qt/res/tokens/f2033ede578e17fa6231047265010445bca8cf1c.png \
 qt/res/tokens/f2703e93f87b846a7aacec1247beaec1c583daa4.png \
 qt/res/tokens/fe59cbc1704e89a698571413a81f0de9d8f00c69.png
 
-QT_RES_STYLES = qt/res/styles/theme1/buttontransparentbordered.css \
-qt/res/styles/theme1/buttondark.css \
-qt/res/styles/theme1/navgroupbutton.css \
-qt/res/styles/theme1/navbutton.css \
-qt/res/styles/theme1/navsubgroupbutton.css \
-qt/res/styles/theme1/app.css \
-qt/res/styles/theme1/scrollbarlight.css \
-qt/res/styles/theme1/buttonlight.css \
-qt/res/styles/theme1/buttontransparent.css \
-qt/res/styles/theme1/invalid.css \
-qt/res/styles/theme1/treeview.css \
-qt/res/styles/theme1/scrollbardark.css \
-qt/res/styles/theme1/buttongray.css \
-qt/res/styles/theme1/tableviewlight.css \
-qt/res/styles/theme1/config.ini \
-qt/res/styles/theme1/app-icons/down_arrow_unit.png \
-qt/res/styles/theme1/app-icons/toolbutton_right_arrow.png \
-qt/res/styles/theme1/app-icons/spinBoxHover.png \
-qt/res/styles/theme1/app-icons/down_arrow.png \
-qt/res/styles/theme1/app-icons/spinBoxDisabled.png \
-qt/res/styles/theme1/app-icons/checkbox_indeterminate_hover.png \
-qt/res/styles/theme1/app-icons/radiobutton_checked_disabled.png \
-qt/res/styles/theme1/app-icons/up_arrow_disabled.png \
-qt/res/styles/theme1/app-icons/checkbox_unchecked.png \
-qt/res/styles/theme1/app-icons/message_critical.png \
-qt/res/styles/theme1/app-icons/radiobutton_unchecked_hover.png \
-qt/res/styles/theme1/app-icons/checkbox_unchecked_hover.png \
-qt/res/styles/theme1/app-icons/checkbox_indeterminate_disabled.png \
-qt/res/styles/theme1/app-icons/message_warning.png \
-qt/res/styles/theme1/app-icons/radiobutton_checked_hover.png \
-qt/res/styles/theme1/app-icons/cb_up_down_arrow.png \
-qt/res/styles/theme1/app-icons/checkbox_checked_disabled.png \
-qt/res/styles/theme1/app-icons/message_info.png \
-qt/res/styles/theme1/app-icons/radiobutton_unchecked.png \
-qt/res/styles/theme1/app-icons/checkbox_checked.png \
-qt/res/styles/theme1/app-icons/toolbutton_down_arrow.png \
-qt/res/styles/theme1/app-icons/spinBox.png \
-qt/res/styles/theme1/app-icons/up_arrow_hover.png \
-qt/res/styles/theme1/app-icons/radiobutton_checked.png \
-qt/res/styles/theme1/app-icons/slider_switcher_disabled.png \
-qt/res/styles/theme1/app-icons/radiobutton_unchecked_disabled.png \
-qt/res/styles/theme1/app-icons/up_arrow.png \
-qt/res/styles/theme1/app-icons/spinBoxFocus.png \
-qt/res/styles/theme1/app-icons/slider_switcher.png \
-qt/res/styles/theme1/app-icons/down_arrow_hover.png \
-qt/res/styles/theme1/app-icons/checkbox_indeterminate.png \
-qt/res/styles/theme1/app-icons/message_question.png \
-qt/res/styles/theme1/app-icons/checkbox_checked_hover.png \
-qt/res/styles/theme1/app-icons/down_arrow_disabled.png \
-qt/res/styles/theme1/app-icons/slider_switcher_hover.png \
-qt/res/styles/theme1/app-icons/checkbox_unchecked_disabled.png \
-qt/res/styles/theme1/app-icons/splash_bg.png \
-qt/res/styles/theme1/app-icons/bg.png \
-qt/res/styles/theme2/app.css \
-qt/res/styles/theme2/config.ini \
-qt/res/styles/theme2/buttontransparent.css \
-qt/res/styles/theme2/scrollbardark.css \
-qt/res/styles/theme2/treeview.css \
-qt/res/styles/theme2/navgroupbutton.css \
-qt/res/styles/theme2/navbutton.css \
-qt/res/styles/theme2/navsubgroupbutton.css \
-qt/res/styles/theme2/tableviewlight.css \
-qt/res/styles/theme2/invalid.css \
-qt/res/styles/theme2/app-icons/up_arrow.png \
-qt/res/styles/theme2/app-icons/up_arrow_hover.png \
-qt/res/styles/theme2/app-icons/up_arrow_disabled.png \
-qt/res/styles/theme2/app-icons/down_arrow.png \
-qt/res/styles/theme2/app-icons/down_arrow_hover.png \
-qt/res/styles/theme2/app-icons/down_arrow_disabled.png \
-qt/res/styles/theme2/app-icons/checkbox_checked.png \
-qt/res/styles/theme2/app-icons/checkbox_checked_disabled.png \
-qt/res/styles/theme2/app-icons/checkbox_checked_hover.png \
-qt/res/styles/theme2/app-icons/checkbox_indeterminate.png \
-qt/res/styles/theme2/app-icons/checkbox_indeterminate_disabled.png \
-qt/res/styles/theme2/app-icons/checkbox_indeterminate_hover.png \
-qt/res/styles/theme2/app-icons/checkbox_unchecked.png \
-qt/res/styles/theme2/app-icons/checkbox_unchecked_disabled.png \
-qt/res/styles/theme2/app-icons/checkbox_unchecked_hover.png \
-qt/res/styles/theme2/app-icons/radiobutton_checked.png \
-qt/res/styles/theme2/app-icons/radiobutton_checked_disabled.png \
-qt/res/styles/theme2/app-icons/radiobutton_checked_hover.png \
-qt/res/styles/theme2/app-icons/radiobutton_unchecked.png \
-qt/res/styles/theme2/app-icons/radiobutton_unchecked_disabled.png \
-qt/res/styles/theme2/app-icons/radiobutton_unchecked_hover.png \
-qt/res/styles/theme2/app-icons/slider_switcher.png \
-qt/res/styles/theme2/app-icons/slider_switcher_disabled.png \
-qt/res/styles/theme2/app-icons/slider_switcher_hover.png \
-qt/res/styles/theme2/app-icons/cb_up_down_arrow.png \
-qt/res/styles/theme2/app-icons/right_arrow.png \
-qt/res/styles/theme2/app-icons/down_arrow_unit.png \
-qt/res/styles/theme2/app-icons/splash_bg.png \
-qt/res/styles/theme2/app-icons/bg.png \
-qt/res/styles/theme3/app.css \
-qt/res/styles/theme3/config.ini \
-qt/res/styles/theme3/buttontransparent.css \
-qt/res/styles/theme3/scrollbardark.css \
-qt/res/styles/theme3/treeview.css \
-qt/res/styles/theme3/navgroupbutton.css \
-qt/res/styles/theme3/navbutton.css \
-qt/res/styles/theme3/navsubgroupbutton.css \
-qt/res/styles/theme3/tableviewlight.css \
-qt/res/styles/theme3/invalid.css \
-qt/res/styles/theme3/app-icons/down_arrow_unit.png \
-qt/res/styles/theme3/app-icons/splash_bg.png \
-qt/res/styles/theme3/app-icons/bg.png
+QT_RES_STYLES = qt/res/styles/dark.ini \
+qt/res/styles/light.ini \
+qt/res/styles/dark/arrow_down_small.svg \
+qt/res/styles/dark/checkbox_checked.svg \
+qt/res/styles/dark/checkbox_checked_disabled.svg \
+qt/res/styles/dark/checkbox_checked_hover.svg \
+qt/res/styles/dark/checkbox_indeterminate.svg \
+qt/res/styles/dark/checkbox_indeterminate_disabled.svg \
+qt/res/styles/dark/checkbox_indeterminate_hover.svg \
+qt/res/styles/dark/checkbox_unchecked.svg \
+qt/res/styles/dark/checkbox_unchecked_disabled.svg \
+qt/res/styles/dark/checkbox_unchecked_hover.svg \
+qt/res/styles/dark/down_arrow.svg \
+qt/res/styles/dark/down_disabled.svg \
+qt/res/styles/dark/down_hover.svg \
+qt/res/styles/dark/message_critical.svg \
+qt/res/styles/dark/message_info.svg \
+qt/res/styles/dark/message_question.svg \
+qt/res/styles/dark/message_warning.svg \
+qt/res/styles/dark/radiobutton_checked.svg \
+qt/res/styles/dark/radiobutton_checked_disabled.svg \
+qt/res/styles/dark/radiobutton_checked_hover.svg \
+qt/res/styles/dark/radiobutton_unchecked.svg \
+qt/res/styles/dark/radiobutton_unchecked_disabled.svg \
+qt/res/styles/dark/radiobutton_unchecked_hover.svg \
+qt/res/styles/dark/right.svg \
+qt/res/styles/dark/up_arrow.svg \
+qt/res/styles/dark/up_disabled.svg \
+qt/res/styles/dark/up_hover.svg \
+qt/res/styles/light/arrow_down_small.svg \
+qt/res/styles/light/checkbox_checked.svg \
+qt/res/styles/light/checkbox_checked_disabled.svg \
+qt/res/styles/light/checkbox_checked_hover.svg \
+qt/res/styles/light/checkbox_indeterminate.svg \
+qt/res/styles/light/checkbox_indeterminate_disabled.svg \
+qt/res/styles/light/checkbox_indeterminate_hover.svg \
+qt/res/styles/light/checkbox_unchecked.svg \
+qt/res/styles/light/checkbox_unchecked_disabled.svg \
+qt/res/styles/light/checkbox_unchecked_hover.svg \
+qt/res/styles/light/down_arrow.svg \
+qt/res/styles/light/down_disabled.svg \
+qt/res/styles/light/down_hover.svg \
+qt/res/styles/light/message_critical.svg \
+qt/res/styles/light/message_info.svg \
+qt/res/styles/light/message_question.svg \
+qt/res/styles/light/message_warning.svg \
+qt/res/styles/light/radiobutton_checked.svg \
+qt/res/styles/light/radiobutton_checked_disabled.svg \
+qt/res/styles/light/radiobutton_checked_hover.svg \
+qt/res/styles/light/radiobutton_unchecked.svg \
+qt/res/styles/light/radiobutton_unchecked_disabled.svg \
+qt/res/styles/light/radiobutton_unchecked_hover.svg \
+qt/res/styles/light/right.svg \
+qt/res/styles/light/up_arrow.svg \
+qt/res/styles/light/up_disabled.svg \
+qt/res/styles/light/up_hover.svg \
+qt/res/styles/templates/app.qss \
+qt/res/styles/templates/button_ghost.qss \
+qt/res/styles/templates/button_outline.qss \
+qt/res/styles/templates/button_outline_small.qss \
+qt/res/styles/templates/button_primary.qss \
+qt/res/styles/templates/button_secondary.qss \
+qt/res/styles/templates/invalid.qss \
+qt/res/styles/templates/navbutton.qss \
+qt/res/styles/templates/navgroupbutton.qss \
+qt/res/styles/templates/navsubgroupbutton.qss \
+qt/res/styles/templates/scrollbar.qss \
+qt/res/styles/templates/tableview.qss \
+qt/res/styles/templates/treeview.qss
 
 BITCOIN_QT_RC = qt/res/bitcoin-qt-res.rc
 

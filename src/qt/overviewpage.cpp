@@ -24,6 +24,7 @@
 #include <QApplication>
 #include <QDateTime>
 #include <QPainter>
+#include <QPainterPath>
 #include <QStatusTipEvent>
 #include <QMessageBox>
 #include <QTimer>
@@ -59,6 +60,11 @@ public:
     {
         connect(this, &TxViewDelegate::width_changed, this, &TxViewDelegate::sizeHintChanged);
 
+        loadColors();
+    }
+
+    void loadColors()
+    {
         background_color_selected = GetStringStyleValue("txviewdelegate/background-color-selected", "#009ee5");
         background_color = GetStringStyleValue("txviewdelegate/background-color", "#393939");
         alternate_background_color = GetStringStyleValue("txviewdelegate/alternate-background-color", "#2e2e2e");
@@ -72,7 +78,10 @@ public:
     inline void paint(QPainter *painter, const QStyleOptionViewItem &option,
                       const QModelIndex &index ) const override
     {
+        // Re-read the palette on every paint so a live Light/Dark switch is picked up
+        const_cast<TxViewDelegate*>(this)->loadColors();
         painter->save();
+        painter->setRenderHint(QPainter::Antialiasing);
 
         bool selected = option.state & QStyle::State_Selected;
         QDateTime date = index.data(TransactionTableModel::DateRole).toDateTime();
@@ -89,12 +98,11 @@ public:
         QString typeString = ind.data(Qt::DisplayRole).toString();
 
         QRect mainRect = option.rect;
-        QColor txColor = index.row() % 2 ? background_color : alternate_background_color;
-        painter->fillRect(mainRect, txColor);
-
-        if(selected)
+        if(selected || (option.state & QStyle::State_MouseOver))
         {
-            painter->fillRect(mainRect.x()+1, mainRect.y()+1, mainRect.width()-2, mainRect.height()-2, background_color_selected);
+            QPainterPath row;
+            row.addRoundedRect(QRectF(mainRect.adjusted(2, 2, -2, -2)), 8, 8);
+            painter->fillPath(row, selected ? background_color_selected : StyleSheet::instance().tokenColor("hover"));
         }
 
         QColor foreground = foreground_color;
@@ -147,6 +155,8 @@ public:
         address_rect_min_width += boundingRect.width();
 
         QFont amountFont = option.font;
+        amountFont.setFamily("Inter Tabular");
+        amountFont.setWeight(QFont::Medium);
         painter->setFont(amountFont);
 
         if(amount < 0)
@@ -159,13 +169,9 @@ public:
         }
         else
         {
-            foreground = amount_color;
+            foreground = StyleSheet::instance().tokenColor("success");
         }
 
-        if(selected)
-        {
-            foreground = foreground_color_selected;
-        }
         painter->setPen(foreground);
         QString amountText = BitcoinUnits::formatWithUnit(unit, amount, true, BitcoinUnits::SeparatorStyle::ALWAYS);
         if(!confirmed)
@@ -235,6 +241,8 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->labelAmount->setFixedWidth(AMOUNT_WIDTH);
 
     // Set send/receive icons
+    SetObjectStyleSheet(ui->buttonSend, StyleSheetNames::ButtonGray);
+    SetObjectStyleSheet(ui->buttonReceive, StyleSheetNames::ButtonLight);
     ui->buttonSend->setIcon(m_platform_style->MultiStatesIcon(":/icons/send", PlatformStyle::PushButton));
     ui->buttonSend->setIconSize(QSize(BUTTON_ICON_SIZE, BUTTON_ICON_SIZE));
     ui->buttonReceive->setIcon(m_platform_style->MultiStatesIcon(":/icons/receiving_addresses", PlatformStyle::PushButton));
@@ -437,6 +445,10 @@ void OverviewPage::LimitTransactionRows()
         for (int i = 0; i < filter->rowCount(); ++i) {
             ui->listTransactions->setRowHidden(i, i >= NUM_ITEMS);
         }
+        const bool empty = filter->rowCount() == 0;
+        ui->labelEmptyState->setVisible(empty);
+        ui->listTransactions->setVisible(!empty);
+        ui->widget_header->setVisible(!empty);
     }
 }
 

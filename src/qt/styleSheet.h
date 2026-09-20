@@ -6,6 +6,10 @@
 #include <QStringList>
 #include <QSettings>
 #include <QPointer>
+#include <QVector>
+#include <QPair>
+#include <QObject>
+#include <QColor>
 
 class QWidget;
 class QApplication;
@@ -38,8 +42,21 @@ namespace StyleSheetNames
     static const QString ScrollBarDark               = "scrollbardark";
 }
 
-/** Singleton class that manage the styles
- */
+/** The wallet has exactly two appearance modes. */
+enum class AppearanceMode { Dark, Light };
+
+/** Emits modeChanged() after the appearance was switched, so widgets that cache
+ *  colours or pixmaps can refresh. */
+class StyleSheetNotifier : public QObject
+{
+    Q_OBJECT
+Q_SIGNALS:
+    void modeChanged();
+};
+
+/** Singleton that loads the QSS templates (res/styles/templates), substitutes the
+ *  design tokens of the active mode (res/styles/{dark,light}.ini) and applies them.
+ *  Switching the mode re-applies everything live. */
 class StyleSheet
 {
 public:
@@ -48,21 +65,34 @@ public:
     void setStyleSheet(QApplication* app, const QString& style_name);
     QVariant getStyleValue(const QString& key, const QVariant &defaultValue);
 
-    QString getCurrentTheme();
-    static QStringList getSupportedThemes();
-    static QString getDefaultTheme();
-    static QStringList getSupportedThemesNames();
-    static bool setTheme(const QString& theme);
+    AppearanceMode mode() const { return m_mode; }
+    bool isDark() const { return m_mode == AppearanceMode::Dark; }
+    /** Switch mode, persist it and re-apply all styles. */
+    void setMode(AppearanceMode mode);
+    void toggleMode() { setMode(isDark() ? AppearanceMode::Light : AppearanceMode::Dark); }
+    /** Colour of a design token ("accent", "text-2-solid", ...). Understands #rrggbb and rgba(r,g,b,a). */
+    QColor tokenColor(const QString& token) const;
+    static QColor parseColor(const QString& value);
+    QStringList knownStyleNames() const;
+    StyleSheetNotifier* notifier() { return &m_notifier; }
+    /** Animations off when the user asked for reduced motion. */
+    static bool reducedMotion();
+    static int motionMs(int ms) { return reducedMotion() ? 0 : ms; }
 
 private:
-    QString getStyleSheet(const QString& style_name);
-
     template<typename T>
     void setObjectStyleSheet(T* object, const QString& style_name);
+    QString getStyleSheet(const QString& style_name);
+    void loadMode(AppearanceMode mode);
+    void applyToRegistered();
 
     explicit StyleSheet();
     QMap<QString, QString> m_cacheStyles;
-    QString m_theme;
+    AppearanceMode m_mode{AppearanceMode::Dark};
     QPointer<QSettings> m_config;
+    QMap<QString, QString> m_tokens;
+    QVector<QPair<QPointer<QWidget>, QString>> m_registered;
+    QString m_appStyleName;
+    StyleSheetNotifier m_notifier;
 };
 #endif // STYLESHEET_H

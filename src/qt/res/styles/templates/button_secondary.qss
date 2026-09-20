@@ -1,0 +1,5 @@
+QPushButton { background-color: @surface-2@; color: @text@; border: 1px solid @border-strong@; border-radius: @radius-s@px; padding: 9px 18px; min-height: 20px; font-weight: 500; }
+QPushButton:hover { background-color: @surface-3@; }
+QPushButton:pressed { background-color: @pressed@; }
+QPushButton:focus { border: 1px solid @accent@; }
+QPushButton:disabled { color: @text-3@; background-color: @surface@; border: 1px solid @border@; }

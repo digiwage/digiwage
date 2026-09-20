@@ -6,9 +6,13 @@
 
 #include <QPixmap>
 #include <qt/platformstyle.h>
+#include <qt/styleSheet.h>
+#include <qt/themedicon.h>
+#include <QToolButton>
+#include <QHBoxLayout>
 
 namespace TitleBar_NS {
-const int titleHeight = 35;
+const int titleHeight = 40;
 }
 using namespace TitleBar_NS;
 
@@ -24,6 +28,24 @@ TitleBar::TitleBar(const PlatformStyle *platformStyle, QWidget *parent) :
     setFixedHeight(titleHeight);
     m_iconCloseTab = platformStyle->MultiStatesIcon(":/icons/quit", PlatformStyle::PushButtonIcon);
     ui->lblBalance->setVisible(false);
+
+    // Quick Light/Dark toggle at the right edge of the header
+    QToolButton* themeToggle = new QToolButton(this);
+    themeToggle->setObjectName("themeToggle");
+    themeToggle->setAutoRaise(true);
+    themeToggle->setIconSize(QSize(18, 18));
+    themeToggle->setAccessibleName(tr("Toggle appearance"));
+    themeToggle->setCursor(Qt::PointingHandCursor);
+    auto refreshToggle = [themeToggle]() {
+        const bool dark = StyleSheet::instance().isDark();
+        themeToggle->setIcon(ThemedIcon::create(dark ? ":/icons/sun" : ":/icons/moon", ThemedIcon::Button));
+        themeToggle->setToolTip(dark ? tr("Switch to light mode") : tr("Switch to dark mode"));
+    };
+    refreshToggle();
+    connect(themeToggle, &QToolButton::clicked, [] { StyleSheet::instance().toggleMode(); });
+    connect(StyleSheet::instance().notifier(), &StyleSheetNotifier::modeChanged, this, [this]{ refreshThemeIcons(); });
+    m_refreshToggle = refreshToggle;
+    layout()->addWidget(themeToggle);
 }
 
 TitleBar::~TitleBar()
@@ -71,6 +93,8 @@ void TitleBar::setBalance(const interfaces::WalletBalances& balances)
     }
 }
 #endif
+
+void TitleBar::refreshThemeIcons() { if (m_refreshToggle) m_refreshToggle(); }
 
 void TitleBar::on_navigationResized(const QSize &_size)
 {

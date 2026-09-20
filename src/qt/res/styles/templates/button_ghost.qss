@@ -1,0 +1,4 @@
+QPushButton, QToolButton { background: transparent; color: @text-2@; border: 1px solid transparent; border-radius: @radius-s@px; padding: 6px; }
+QPushButton:hover, QToolButton:hover { background-color: @hover@; color: @text@; }
+QPushButton:pressed, QToolButton:pressed { background-color: @pressed@; }
+QPushButton:focus, QToolButton:focus { border: 1px solid @accent@; }

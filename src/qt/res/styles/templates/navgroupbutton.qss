@@ -1,0 +1,4 @@
+QToolButton { background: transparent; color: @text-2@; border: none; border-radius: @radius-s@px; padding: 10px 14px; margin: 2px 12px; font-size: @font-body@px; font-weight: 500; text-align: left; }
+QToolButton:hover:!checked { background-color: @hover@; color: @text@; }
+QToolButton:pressed { background-color: @pressed@; }
+QToolButton:checked { background-color: @accent-soft@; color: @text@; }

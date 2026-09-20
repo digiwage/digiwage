@@ -7,6 +7,7 @@
 #endif
 
 #include <qt/optionsmodel.h>
+#include <qt/styleSheet.h>
 
 #include <qt/bitcoinunits.h>
 #include <qt/guiconstants.h>
@@ -241,10 +242,9 @@ bool OptionsModel::Init(bilingual_str& error)
     Q_EMIT useEmbeddedMonospacedFontChanged(m_use_embedded_monospaced_font);
     m_mask_values = settings.value("mask_values", false).toBool();
 
-    if (!settings.contains("Theme"))
-        settings.setValue("Theme", "");
-
-    theme = settings.value("Theme").toString();
+    // Appearance: exactly two modes. Dark is the default; the old multi-theme value is ignored.
+    if (!settings.contains("Appearance")) settings.setValue("Appearance", "dark");
+    if (!settings.contains("ReduceMotion")) settings.setValue("ReduceMotion", false);
     return true;
 }
 
@@ -489,8 +489,10 @@ QVariant OptionsModel::getOption(OptionID option, const std::string& suffix) con
 #endif
     case CheckForUpdates:
         return settings.value("fCheckForUpdates");
-    case Theme:
-        return settings.value("Theme");
+    case Appearance:
+        return StyleSheet::instance().isDark() ? "dark" : "light";
+    case ReduceMotion:
+        return settings.value("ReduceMotion", false);
 #ifdef ENABLE_WALLET
     case HWIToolPath:
         return QString::fromStdString(SettingToString(setting(), ""));
@@ -734,11 +736,11 @@ bool OptionsModel::setOption(OptionID option, const QVariant& value, const std::
             fCheckForUpdates = value.toBool();
         }
         break;
-    case Theme:
-        if (settings.value("Theme") != value) {
-            settings.setValue("Theme", value);
-            setRestartRequired(true);
-        }
+    case Appearance:
+        StyleSheet::instance().setMode(value.toString() == "light" ? AppearanceMode::Light : AppearanceMode::Dark);
+        break;
+    case ReduceMotion:
+        settings.setValue("ReduceMotion", value.toBool());
         break;
 #ifdef ENABLE_WALLET
     case HWIToolPath:

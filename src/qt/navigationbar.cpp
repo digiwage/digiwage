@@ -6,22 +6,24 @@
 #include <QStyleOptionToolButton>
 #include <QStyle>
 #include <QLabel>
+#include <QPixmap>
 #include <qt/styleSheet.h>
 #include <qt/platformstyle.h>
 
 namespace NavigationBar_NS
 {
 static const int ToolButtonWidth = 190;
-static const int ToolButtonHeight = 54;
-static const int ToolButtonIconSize = 28;
-static const int MarginLeft = 0;
-static const int MarginRight = 0;
-static const int MarginTop = 0;
+static const int ToolButtonHeight = 44;
+static const int ToolButtonIconSize = 20;
+static const int MarginLeft = 12;
+static const int MarginRight = 12;
+static const int MarginTop = 16;
 static const int MarginBottom = 8;
-static const int ButtonSpacing = 2;
+static const int ButtonSpacing = 4;
 static const int SubNavPaddingRight = 40;
 static const int LogoHeight = 60;
 static const int LogoWidth = 90;
+static const int LogoIconSize = 28;
 }
 using namespace NavigationBar_NS;
 
@@ -33,6 +35,12 @@ public:
         m_subBar(subBar),
         m_iconCached(false)
     {
+        reloadColors();
+        connect(StyleSheet::instance().notifier(), &StyleSheetNotifier::modeChanged, this, [this]{ onModeChanged(); });
+    }
+
+    void reloadColors()
+    {
         m_colorEnabled = GetStringStyleValue("navtoolbutton/color-enabled", "#1a96ce");
         m_colorPressed = GetStringStyleValue("navtoolbutton/color-pressed", "#e5f3f9");
         m_colorHover = GetStringStyleValue("navtoolbutton/color-hover", "#b3dcef");
@@ -43,6 +51,13 @@ public:
         m_subAlignment = GetIntStyleValue("navtoolbutton/sub-alignment", Qt::AlignRight);
         m_subIconHeight = GetIntStyleValue("navtoolbutton/sub-icon-height", 6);
         m_subIconWidth = GetIntStyleValue("navtoolbutton/sub-icon-width", 3);
+    }
+
+    void onModeChanged()
+    {
+        reloadColors();
+        m_iconCached = false;
+        update();
     }
 
 protected:
@@ -220,11 +235,19 @@ void NavigationBar::buildUi()
         if(!m_subBar)
         {
             QHBoxLayout *hLayout = new QHBoxLayout();
-            hLayout->setContentsMargins(0,0,0,10);
+            hLayout->setContentsMargins(8,0,0,16);
+            hLayout->setSpacing(10);
             QLabel *labelLogo = new QLabel(this);
-            labelLogo->setFixedSize(LogoHeight, LogoWidth);
+            labelLogo->setFixedSize(LogoIconSize, LogoIconSize);
             labelLogo->setObjectName("labelLogo");
+            labelLogo->setScaledContents(true);
+            labelLogo->setPixmap(QPixmap(":/icons/bitcoin"));
             hLayout->addWidget(labelLogo);
+            QLabel *labelBrand = new QLabel(QStringLiteral("DigiWage"), this);
+            labelBrand->setObjectName("labelBrand");
+            labelBrand->setProperty("title", "true");
+            hLayout->addWidget(labelBrand);
+            hLayout->addStretch(1);
             vboxLayout->addLayout(hLayout);
 
             if(m_logoSpace)
@@ -359,4 +382,3 @@ void NavigationBar::setSubBar(bool subBar)
     // Set the component be sub-navigation bar
     m_subBar = subBar;
 }
-

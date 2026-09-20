@@ -73,6 +73,7 @@ SendCoinsDialog::SendCoinsDialog(const PlatformStyle *_platformStyle, QWidget *p
     targetSpacing(0)
 {
     ui->setupUi(this);
+    setMinimumWidth(1080);
 
     // Set stylesheet
     SetObjectStyleSheet(ui->clearButton, StyleSheetNames::ButtonDark);

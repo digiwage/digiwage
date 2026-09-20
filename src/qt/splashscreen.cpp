@@ -72,56 +72,57 @@ SplashScreen::SplashScreen(const NetworkStyle* networkStyle)
     QColor background_color     = GetStringStyleValue("splashscreen/background-color", "#030509");
     pixPaint.fillRect(mainRect, background_color);
 
-    // draw background
-    QRect rectBg(QPoint(-50, -50), QSize(splashSize.width() + 50, splashSize.height() + 50));
-    QPixmap bg(GetStringStyleValue("splashscreen/background-image", ":/styles/theme1/app-icons/splash_bg"));
-    pixPaint.drawPixmap(rectBg, bg);
-
-    QRect logoRect(splashSize.width() - logoSize - 20, 20, logoSize, logoSize);
-    QPainterPath logoPath;
-    logoPath.addRoundedRect(logoRect, logoSize / 2, logoSize / 2);
+    // Centered composition: soft accent glow, logo, wordmark, version, network tag
     pixPaint.setRenderHint(QPainter::Antialiasing);
+    pixPaint.setRenderHint(QPainter::SmoothPixmapTransform);
+    QColor accent = StyleSheet::instance().tokenColor("accent");
+    QRadialGradient glow(splashSize.width() / 2.0, 118, 190);
+    QColor g0 = accent; g0.setAlphaF(0.16);
+    QColor g1 = accent; g1.setAlphaF(0.0);
+    glow.setColorAt(0, g0);
+    glow.setColorAt(1, g1);
+    pixPaint.fillRect(mainRect, glow);
+
+    const int logoBox = 64;
+    QRect logoRect((splashSize.width() - logoBox) / 2, 72, logoBox, logoBox);
+    QPainterPath logoPath;
+    logoPath.addRoundedRect(logoRect, 16, 16);
+    pixPaint.fillPath(logoPath, StyleSheet::instance().tokenColor("surface-2"));
     pixPaint.setPen(logo_frame_color);
     pixPaint.drawPath(logoPath);
-
-    QPixmap logo = PlatformStyle::SingleColorIcon(":/icons/bitcoin", foreground_color).pixmap(QSize(logoImageSize, logoImageSize));
-    pixPaint.drawPixmap(logoRect.x() + 6, logoRect.y() + 6, logo);
+    QPixmap logo = QIcon(":/icons/bitcoin").pixmap(QSize(40, 40));
+    pixPaint.drawPixmap(logoRect.x() + 12, logoRect.y() + 12, logo);
 
     pixPaint.setPen(foreground_color);
-
-    pixPaint.setFont(QFont(font, 22 * fontFactor, QFont::Bold));
-    QRect rectTitle(QPoint(0, logoRect.bottom() + 10), QSize(splashSize.width() - 20, packageTextHeight));
-    pixPaint.drawText(rectTitle, Qt::AlignRight | Qt::AlignBottom, titleText);
+    QFont titleFont(font, 22 * fontFactor, QFont::DemiBold);
+    pixPaint.setFont(titleFont);
+    QRect rectTitle(0, logoRect.bottom() + 20, splashSize.width(), packageTextHeight);
+    pixPaint.drawText(rectTitle, Qt::AlignHCenter | Qt::AlignVCenter, titleText);
 
     QPoint versionPoint(rectTitle.bottomLeft());
-
-    // draw additional text if special network
     if(!titleAddText.isEmpty())
     {
         QRect titleAddRect(rectTitle.bottomLeft(), QSize(rectTitle.width(), titleAddTextHeight));
         versionPoint = titleAddRect.bottomLeft();
-        pixPaint.setFont(QFont("HiraginoSansGB", 8 * fontFactor, QFont::Bold));
-        pixPaint.drawText(titleAddRect, Qt::AlignRight | Qt::AlignBottom, titleAddText);
+        pixPaint.setPen(accent);
+        pixPaint.setFont(QFont(font, 8 * fontFactor, QFont::DemiBold));
+        pixPaint.drawText(titleAddRect, Qt::AlignHCenter | Qt::AlignVCenter, titleAddText.toUpper());
     }
 
-    pixPaint.setFont(QFont("HiraginoSansGB", 8 * fontFactor));
+    pixPaint.setPen(StyleSheet::instance().tokenColor("text-2-solid"));
+    pixPaint.setFont(QFont(font, 9 * fontFactor));
     QRect versionRect(versionPoint, QSize(rectTitle.width(), versionTextHeight));
-    pixPaint.drawText(versionRect, Qt::AlignRight | Qt::AlignVCenter, versionText);
+    pixPaint.drawText(versionRect, Qt::AlignHCenter | Qt::AlignVCenter, versionText);
 
-    QRect welcomeRect(0, splashSize.height() - statusHeight - welcomeTextHeight - 40, splashSize.width() -20, welcomeTextHeight);
-    pixPaint.setFont(QFont(font, 10 * fontFactor, QFont::Bold));
-    pixPaint.drawText(welcomeRect, Qt::AlignRight | Qt::AlignTop, "DigiWage-Qt Wallet");
-
-    // draw copyright stuff
-    QFont statusFont = QApplication::font();
-    statusFont.setPointSizeF(statusFont.pointSizeF() * 0.9);
-    pixPaint.setFont(statusFont);
-    pixPaint.setPen(foreground_color_statusbar);
+    // footer: copyright, hairline above
     QRect statusRect(mainRect.left(), mainRect.height() - statusHeight, mainRect.width(), statusHeight);
-    QColor statusColor(255, 255, 255);
-    statusColor.setAlphaF(0.1);
-    pixPaint.fillRect(statusRect, statusColor);
-    pixPaint.drawText(statusRect.adjusted(10, 0, -10, 0), Qt::AlignRight | Qt::AlignVCenter, copyrightText);
+    pixPaint.setPen(StyleSheet::instance().tokenColor("border-solid"));
+    pixPaint.drawLine(statusRect.topLeft(), statusRect.topRight());
+    QFont statusFont = QApplication::font();
+    statusFont.setPointSizeF(statusFont.pointSizeF() * 0.85);
+    pixPaint.setFont(statusFont);
+    pixPaint.setPen(StyleSheet::instance().tokenColor("text-3-solid"));
+    pixPaint.drawText(statusRect.adjusted(16, 0, -16, 0), Qt::AlignHCenter | Qt::AlignVCenter, copyrightText);
     pixPaint.end();
 
     // Set window title

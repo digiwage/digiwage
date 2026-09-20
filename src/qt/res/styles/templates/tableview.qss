@@ -1,0 +1,5 @@
+QTableView { background-color: transparent; border: none; gridline-color: transparent; outline: none; selection-background-color: @accent-soft@; }
+QTableView::item { padding: 8px 10px; border: none; border-bottom: 1px solid @border@; }
+QTableView::item:hover { background-color: @hover@; }
+QTableView::item:selected { background-color: @accent-soft@; color: @text@; }
+QHeaderView::section { background-color: transparent; color: @text-2@; border: none; border-bottom: 1px solid @border@; padding: 10px 10px; font-size: @font-caption@px; font-weight: 600; }

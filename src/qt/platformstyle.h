@@ -66,11 +66,6 @@ public:
 private:
     PlatformStyle(const QString &name, bool imagesOnButtons, bool colorizeIcons, bool useExtraSpacing);
 
-    QIcon MultiStatesIconV1(const QString& resourcename, StateType type = NavBar) const;
-    QIcon MultiStatesIconV2(const QString& resourcename, StateType type = NavBar) const;
-    QIcon MultiStatesIconV3(const QString& resourcename, StateType type = NavBar) const;
-    QIcon MenuColorIconV1(const QString& resourcename) const;
-    QIcon MenuColorIconV2(const QString& resourcename) const;
 
     QString name;
     int version;

@@ -80,7 +80,8 @@ public:
         UseChangeAddress,       // bool
         CheckForUpdates,        // bool
         ReserveBalance,         // CAmount
-        Theme,                  // QString
+        Appearance,             // QString: "dark" or "light"
+        ReduceMotion,           // bool
         HWIToolPath,            // QString
         SignPSBTWithHWITool,    // bool
         StakeLedgerId,          // QString
@@ -145,7 +146,6 @@ private:
     QString strOverriddenByCommandLine;
     bool fCheckForUpdates;
     bool bZeroBalanceAddressToken;
-    QString theme;
     bool restartApp;
 
     // Add option to list of GUI options overridden through command line/config file

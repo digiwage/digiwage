@@ -6,6 +6,7 @@
 #endif
 
 #include <QWidget>
+#include <functional>
 #include <QSize>
 #include <QTabBar>
 #include <QIcon>
@@ -89,6 +90,7 @@ public Q_SLOTS:
      * @brief on_navigationResized Slot for changing the size of the navigation bar
      * @param _size Size of the navigation bar
      */
+    void refreshThemeIcons();
     void on_navigationResized(const QSize& _size);
 
 #ifdef ENABLE_WALLET
@@ -96,6 +98,7 @@ public Q_SLOTS:
 #endif
 
 private:
+    std::function<void()> m_refreshToggle;
 #ifdef ENABLE_WALLET
     /**
      * @brief setBalanceLabel Changing the displayed balance

@@ -1,0 +1,11 @@
+QTreeView, QTreeWidget { background-color: @surface@; border: 1px solid @border@; border-radius: @radius-m@px; outline: none; }
+QTreeView::item { padding: 6px 8px; border: none; border-bottom: 1px solid @border@; }
+QTreeView::item:hover { background-color: @hover@; }
+QTreeView::item:selected { background-color: @accent-soft@; color: @text@; }
+QTreeView::indicator { width: 18px; height: 18px; }
+QTreeView::indicator:unchecked { image: url(@styledir@/checkbox_unchecked.svg); }
+QTreeView::indicator:checked { image: url(@styledir@/checkbox_checked.svg); }
+QTreeView::indicator:indeterminate { image: url(@styledir@/checkbox_indeterminate.svg); }
+QTreeView::indicator:unchecked:hover { image: url(@styledir@/checkbox_unchecked_hover.svg); }
+QTreeView::indicator:checked:hover { image: url(@styledir@/checkbox_checked_hover.svg); }
+QHeaderView::section { background-color: @surface@; color: @text-2@; border: none; border-bottom: 1px solid @border@; padding: 10px 8px; font-size: @font-caption@px; font-weight: 600; }

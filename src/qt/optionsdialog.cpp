@@ -27,6 +27,10 @@
 #include <node/miner.h>
 
 #include <QDataWidgetMapper>
+#include <QPushButton>
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QButtonGroup>
 #include <QDir>
 #include <QIntValidator>
 #include <QLocale>
@@ -160,19 +164,45 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet)
         }
     }
     ui->unit->setModel(new BitcoinUnits(this));
-    ui->theme->setToolTip(ui->theme->toolTip().arg(tr(PACKAGE_NAME)));
-    ui->theme->addItem(QString("(") + tr("default") + QString(")"), QVariant(""));
-    QStringList themes = StyleSheet::getSupportedThemes();
-    QStringList themesNames = StyleSheet::getSupportedThemesNames();
-    for(int i = 0; i < themes.size(); i++)
+    ui->theme->addItem(tr("Dark"), QVariant("dark"));
+    ui->theme->addItem(tr("Light"), QVariant("light"));
+
+    // Segmented Dark | Light control in place of the drop-down (which stays as the mapped value holder)
     {
-        QString themeStr = themes[i];
-        QString themeName = themeStr;
-        if(themesNames.size() > i)
-        {
-            themeName = themesNames[i];
+        QWidget* segment = new QWidget(this);
+        QHBoxLayout* segLayout = new QHBoxLayout(segment);
+        segLayout->setContentsMargins(0, 0, 0, 0);
+        segLayout->setSpacing(0);
+        QButtonGroup* group = new QButtonGroup(segment);
+        const QStringList labels{tr("Dark"), tr("Light")};
+        const QStringList values{"dark", "light"};
+        for (int i = 0; i < 2; ++i) {
+            QPushButton* b = new QPushButton(labels[i], segment);
+            b->setCheckable(true);
+            b->setCursor(Qt::PointingHandCursor);
+            b->setProperty("segment", i == 0 ? "first" : "last");
+            b->setAccessibleName(tr("%1 appearance").arg(labels[i]));
+            group->addButton(b, i);
+            segLayout->addWidget(b);
+            connect(b, &QPushButton::clicked, this, [this, i, values] {
+                ui->theme->setCurrentIndex(i);
+                StyleSheet::instance().setMode(values[i] == "light" ? AppearanceMode::Light : AppearanceMode::Dark);
+            });
         }
-        ui->theme->addItem(tr(themeName.toStdString().c_str()), QVariant(themeStr));
+        segLayout->addStretch(1);
+        connect(ui->theme, qOverload<int>(&QComboBox::currentIndexChanged), segment, [group](int index) {
+            if (QAbstractButton* b = group->button(index)) b->setChecked(true);
+        });
+        group->button(StyleSheet::instance().isDark() ? 0 : 1)->setChecked(true);
+        for (QGridLayout* grid : ui->theme->parentWidget()->findChildren<QGridLayout*>()) {
+            const int index = grid->indexOf(ui->theme);
+            if (index < 0) continue;
+            int row = 0, col = 0, rs = 1, cs = 1;
+            grid->getItemPosition(index, &row, &col, &rs, &cs);
+            grid->addWidget(segment, row, col, rs, cs);
+            ui->theme->hide();
+            break;
+        }
     }
 
     /* Widget-to-option mapper */
@@ -280,7 +310,6 @@ void OptionsDialog::setModel(OptionsModel *_model)
     /* Display */
     connect(ui->lang, qOverload<>(&QValueComboBox::valueChanged), [this]{ showRestartWarning(); });
     connect(ui->thirdPartyTxUrls, &QLineEdit::textChanged, [this]{ showRestartWarning(); });
-    connect(ui->theme, static_cast<void (QValueComboBox::*)()>(&QValueComboBox::valueChanged), [this]{ showRestartWarning(); });
 }
 
 void OptionsDialog::setCurrentTab(OptionsDialog::Tab tab)
@@ -344,7 +373,8 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->thirdPartyTxUrls, OptionsModel::ThirdPartyTxUrls);
     mapper->addMapping(ui->embeddedFont_radioButton, OptionsModel::UseEmbeddedMonospacedFont);
-    mapper->addMapping(ui->theme, OptionsModel::Theme);
+    mapper->addMapping(ui->theme, OptionsModel::Appearance);
+    mapper->addMapping(ui->reduceMotion, OptionsModel::ReduceMotion);
 }
 
 void OptionsDialog::setOkButtonState(bool fState)

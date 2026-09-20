@@ -36,6 +36,7 @@
 #include <util/translation.h>
 #include <validation.h>
 #include <qt/styleSheet.h>
+#include <qt/uitour.h>
 
 #ifdef ENABLE_WALLET
 #include <qt/paymentserver.h>
@@ -463,6 +464,7 @@ void BitcoinApplication::initializeResult(bool success, interfaces::BlockAndHead
         } else {
             window->showMinimized();
         }
+        if (gArgs.IsArgSet("-uitour")) RunUiTour(window, QString::fromStdString(gArgs.GetArg("-uitour", "")));
 
 #ifdef ENABLE_WALLET
         // Now that initialization/startup is done, process any command-line
@@ -605,6 +607,7 @@ static void SetupUIArgs(ArgsManager& argsman)
     argsman.AddArg("-min", "Start minimized", ArgsManager::ALLOW_ANY, OptionsCategory::GUI);
     argsman.AddArg("-resetguisettings", "Reset all settings changed in the GUI", ArgsManager::ALLOW_ANY, OptionsCategory::GUI);
     argsman.AddArg("-splash", strprintf("Show splash screen on startup (default: %u)", DEFAULT_SPLASHSCREEN), ArgsManager::ALLOW_ANY, OptionsCategory::GUI);
+    argsman.AddArg("-uitour=<dir>", "Developer helper: save screenshots of every page and dialog in both appearance modes to <dir>, then exit", ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::GUI);
     argsman.AddArg("-uiplatform", strprintf("Select platform to customize UI for (one of windows, macosx, other; default: %s)", BitcoinGUI::DEFAULT_UIPLATFORM), ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::GUI);
 }
 

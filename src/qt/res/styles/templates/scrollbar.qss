@@ -1,0 +1,7 @@
+QScrollBar:vertical { background: transparent; width: 12px; margin: 2px; }
+QScrollBar::handle:vertical { background: @border-strong@; border-radius: 4px; min-height: 32px; margin: 0 2px; }
+QScrollBar::handle:vertical:hover { background: @text-3@; }
+QScrollBar:horizontal { background: transparent; height: 12px; margin: 2px; }
+QScrollBar::handle:horizontal { background: @border-strong@; border-radius: 4px; min-width: 32px; margin: 2px 0; }
+QScrollBar::add-line, QScrollBar::sub-line { width: 0px; height: 0px; }
+QScrollBar::add-page, QScrollBar::sub-page { background: transparent; }

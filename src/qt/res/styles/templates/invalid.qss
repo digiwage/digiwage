@@ -1,0 +1,1 @@
+QLineEdit, QTextEdit, QPlainTextEdit { border: 1px solid @danger@; background-color: @danger-soft@; }

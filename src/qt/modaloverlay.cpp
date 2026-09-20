@@ -43,6 +43,10 @@ ModalOverlay::ModalOverlay(bool enable_wallet, QWidget *parent, OverlayType _typ
     }
 
     ui->stackedWidget->setCurrentIndex(type);
+    ui->verticalLayoutMain->setAlignment(ui->contentWidget, Qt::AlignCenter);
+    ui->contentWidget->setProperty("card", "hero");
+    ui->contentWidget->setMinimumWidth(480);
+    ui->contentWidget->setMaximumWidth(600);
     ui->walletBackupButton->setVisible(type == OverlayType::Backup);
     ui->closeButton->setText(type == OverlayType::Backup ? tr("Maybe later") : tr("Hide"));
 
