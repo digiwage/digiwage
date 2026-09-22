@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "2.0.1-dev"
+        description: "v2.0.1-dev"
         required: true
         type: string
 
@@ -678,3 +678,4 @@ jobs:
             --repo "${GITHUB_REPOSITORY}" \
             --title "Digiwage ${TAG}" \
             --generate-notes
+
