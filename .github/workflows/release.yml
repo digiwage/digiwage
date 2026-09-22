@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "v2.0.1-dev"
+        description: "2.0.1-dev"
         required: true
         type: string
 
