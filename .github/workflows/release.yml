@@ -1,4 +1,3 @@
-```yaml
 name: Digiwage Release
 
 on:
@@ -679,4 +678,3 @@ jobs:
             --repo "${GITHUB_REPOSITORY}" \
             --title "Digiwage ${TAG}" \
             --generate-notes
-```
