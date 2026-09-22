@@ -1,0 +1,682 @@
+```yaml
+name: Digiwage Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (for example v1.0.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  LINUX_HOST: x86_64-pc-linux-gnu
+  WINDOWS_HOST: x86_64-w64-mingw32
+  MACOS_HOST: x86_64-apple-darwin14
+
+jobs:
+
+  # ==========================================================================
+  # Linux x86_64
+  # ==========================================================================
+
+  linux:
+    name: Linux x86_64
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+
+          sudo apt-get install -y \
+            build-essential \
+            automake \
+            autoconf \
+            libtool \
+            libtool-bin \
+            pkg-config \
+            cmake \
+            curl \
+            git \
+            python3 \
+            python3-setuptools \
+            bsdmainutils \
+            binutils-gold \
+            patch \
+            unzip \
+            zip \
+            xz-utils \
+            file
+
+      - name: Cache depends
+        uses: actions/cache@v4
+        with:
+          path: |
+            depends/built
+            depends/sources
+            depends/${{ env.LINUX_HOST }}
+          key: digiwage-linux-${{ env.LINUX_HOST }}-${{ hashFiles('depends/packages/*.mk', 'depends/Makefile') }}
+          restore-keys: |
+            digiwage-linux-${{ env.LINUX_HOST }}-
+
+      - name: Build dependencies
+        run: |
+          make -C depends \
+            HOST="${LINUX_HOST}" \
+            -j"$(nproc)"
+
+      - name: Generate configure script
+        run: |
+          ./autogen.sh
+
+      - name: Configure
+        env:
+          CONFIG_SITE: ${{ github.workspace }}/depends/${{ env.LINUX_HOST }}/share/config.site
+        run: |
+          ./configure \
+            --prefix=/ \
+            --disable-ccache \
+            --disable-maintainer-mode \
+            --disable-dependency-tracking \
+            --disable-bench \
+            --disable-gui-tests
+
+      - name: Build
+        run: |
+          make -j"$(nproc)"
+
+      - name: Verify binaries
+        run: |
+          set -eux
+
+          test -x src/digiwaged
+          test -x src/digiwage-cli
+          test -x src/digiwage-tx
+          test -x src/qt/digiwage-qt
+
+          file \
+            src/digiwaged \
+            src/digiwage-cli \
+            src/digiwage-tx \
+            src/qt/digiwage-qt
+
+      - name: Package
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          set -eux
+
+          VERSION="${VERSION#v}"
+          PACKAGE="digiwage-${VERSION}-linux-x86_64"
+
+          mkdir -p "release/${PACKAGE}"
+
+          cp src/digiwaged \
+            "release/${PACKAGE}/"
+
+          cp src/digiwage-cli \
+            "release/${PACKAGE}/"
+
+          cp src/digiwage-tx \
+            "release/${PACKAGE}/"
+
+          cp src/qt/digiwage-qt \
+            "release/${PACKAGE}/"
+
+          if [ -f README.md ]; then
+            cp README.md "release/${PACKAGE}/"
+          fi
+
+          if [ -f COPYING ]; then
+            cp COPYING "release/${PACKAGE}/"
+          fi
+
+          tar \
+            -C release \
+            -czf "release/${PACKAGE}.tar.gz" \
+            "${PACKAGE}"
+
+          cd release
+
+          sha256sum \
+            "${PACKAGE}.tar.gz" \
+            > SHA256SUMS-linux.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: digiwage-linux-x86_64
+          path: |
+            release/*.tar.gz
+            release/SHA256SUMS-linux.txt
+          if-no-files-found: error
+
+
+  # ==========================================================================
+  # Windows x86_64
+  # ==========================================================================
+
+  windows:
+    name: Windows x86_64
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+
+          sudo apt-get install -y \
+            build-essential \
+            automake \
+            autoconf \
+            libtool \
+            libtool-bin \
+            pkg-config \
+            cmake \
+            curl \
+            git \
+            python3 \
+            python3-setuptools \
+            bsdmainutils \
+            binutils-gold \
+            patch \
+            unzip \
+            zip \
+            xz-utils \
+            file \
+            nsis \
+            g++-mingw-w64-x86-64
+
+      - name: Select MinGW POSIX compiler
+        run: |
+          GCC_POSIX="$(update-alternatives \
+            --list x86_64-w64-mingw32-gcc \
+            | grep posix \
+            | head -n 1)"
+
+          GXX_POSIX="$(update-alternatives \
+            --list x86_64-w64-mingw32-g++ \
+            | grep posix \
+            | head -n 1)"
+
+          if [ -n "${GCC_POSIX}" ]; then
+            sudo update-alternatives \
+              --set x86_64-w64-mingw32-gcc \
+              "${GCC_POSIX}"
+          fi
+
+          if [ -n "${GXX_POSIX}" ]; then
+            sudo update-alternatives \
+              --set x86_64-w64-mingw32-g++ \
+              "${GXX_POSIX}"
+          fi
+
+      - name: Verify MinGW
+        run: |
+          x86_64-w64-mingw32-gcc --version
+          x86_64-w64-mingw32-g++ --version
+
+      - name: Cache depends
+        uses: actions/cache@v4
+        with:
+          path: |
+            depends/built
+            depends/sources
+            depends/${{ env.WINDOWS_HOST }}
+          key: digiwage-windows-${{ env.WINDOWS_HOST }}-${{ hashFiles('depends/packages/*.mk', 'depends/Makefile') }}
+          restore-keys: |
+            digiwage-windows-${{ env.WINDOWS_HOST }}-
+
+      - name: Build dependencies
+        run: |
+          make -C depends \
+            HOST="${WINDOWS_HOST}" \
+            -j"$(nproc)"
+
+      - name: Generate configure script
+        run: |
+          ./autogen.sh
+
+      - name: Configure
+        env:
+          CONFIG_SITE: ${{ github.workspace }}/depends/${{ env.WINDOWS_HOST }}/share/config.site
+          PATH: ${{ github.workspace }}/depends/${{ env.WINDOWS_HOST }}/native/bin:${{ env.PATH }}
+        run: |
+          ./configure \
+            --prefix=/ \
+            --disable-ccache \
+            --disable-maintainer-mode \
+            --disable-dependency-tracking \
+            --disable-bench \
+            --disable-gui-tests
+
+      - name: Build
+        run: |
+          make -j"$(nproc)"
+
+      - name: Verify binaries
+        run: |
+          set -eux
+
+          test -f src/digiwaged.exe
+          test -f src/digiwage-cli.exe
+          test -f src/digiwage-tx.exe
+          test -f src/qt/digiwage-qt.exe
+
+          file \
+            src/digiwaged.exe \
+            src/digiwage-cli.exe \
+            src/digiwage-tx.exe \
+            src/qt/digiwage-qt.exe
+
+      - name: Build Windows installer
+        run: |
+          make deploy
+
+      - name: Package Windows release
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          set -eux
+
+          VERSION="${VERSION#v}"
+          PACKAGE="digiwage-${VERSION}-win64"
+
+          mkdir -p "release/${PACKAGE}"
+
+          cp src/digiwaged.exe \
+            "release/${PACKAGE}/"
+
+          cp src/digiwage-cli.exe \
+            "release/${PACKAGE}/"
+
+          cp src/digiwage-tx.exe \
+            "release/${PACKAGE}/"
+
+          cp src/qt/digiwage-qt.exe \
+            "release/${PACKAGE}/"
+
+          if [ -f README.md ]; then
+            cp README.md "release/${PACKAGE}/"
+          fi
+
+          if [ -f COPYING ]; then
+            cp COPYING "release/${PACKAGE}/"
+          fi
+
+          # The Digiwage Makefile creates the NSIS installer under release/.
+          find release \
+            -maxdepth 1 \
+            -type f \
+            -name "*-setup.exe" \
+            -exec cp {} "release/${PACKAGE}/" \;
+
+          cd release
+
+          zip -r \
+            "${PACKAGE}.zip" \
+            "${PACKAGE}"
+
+          sha256sum \
+            "${PACKAGE}.zip" \
+            > SHA256SUMS-windows.txt
+
+          # Include the installer checksum when one was produced.
+          find "${PACKAGE}" \
+            -type f \
+            -name "*-setup.exe" \
+            -print0 |
+            xargs -0 -r sha256sum \
+            >> SHA256SUMS-windows.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: digiwage-windows-x86_64
+          path: |
+            release/*.zip
+            release/*-setup.exe
+            release/SHA256SUMS-windows.txt
+          if-no-files-found: error
+
+
+  # ==========================================================================
+  # macOS x86_64
+  #
+  # This uses the existing Digiwage Darwin cross-build machinery.
+  #
+  # The repository's depends/hosts/darwin.mk must first be changed so:
+  #
+  #   OSX_MIN_VERSION ?= 10.10
+  #   OSX_SDK_VERSION ?= 10.11
+  #   OSX_SDK ?= $(SDK_PATH)/MacOSX$(OSX_SDK_VERSION).sdk
+  #   LD64_VERSION ?=
+  #
+  # rather than hard-coded assignments.
+  # ==========================================================================
+
+  macos:
+    name: macOS x86_64
+    runs-on: macos-15-intel
+
+    env:
+      MACOS_MIN_VERSION: "10.13"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          brew update
+
+          brew install \
+            automake \
+            libtool \
+            pkg-config \
+            cmake \
+            coreutils \
+            gnu-tar \
+            imagemagick \
+            librsvg \
+            libtiff \
+            gettext \
+            python-setuptools
+
+      - name: Detect Apple SDK
+        id: sdk
+        shell: bash
+        run: |
+          set -eux
+
+          SDK_PATH="$(xcrun --sdk macosx --show-sdk-path)"
+          SDK_VERSION="$(xcrun --sdk macosx --show-sdk-version)"
+
+          echo "SDK path: ${SDK_PATH}"
+          echo "SDK version: ${SDK_VERSION}"
+
+          echo "sdk_path=${SDK_PATH}" >> "${GITHUB_OUTPUT}"
+          echo "sdk_version=${SDK_VERSION}" >> "${GITHUB_OUTPUT}"
+
+      - name: Prepare SDK directory
+        run: |
+          set -eux
+
+          mkdir -p "${RUNNER_TEMP}/digiwage-sdks"
+
+          ln -sfn \
+            "${{ steps.sdk.outputs.sdk_path }}" \
+            "${RUNNER_TEMP}/digiwage-sdks/MacOSX${{ steps.sdk.outputs.sdk_version }}.sdk"
+
+      - name: Verify compiler
+        run: |
+          clang --version
+          clang++ --version
+          xcrun --sdk macosx --show-sdk-path
+          xcrun --sdk macosx --show-sdk-version
+
+      - name: Cache depends
+        uses: actions/cache@v4
+        with:
+          path: |
+            depends/built
+            depends/sources
+            depends/${{ env.MACOS_HOST }}
+          key: digiwage-macos-${{ env.MACOS_HOST }}-${{ steps.sdk.outputs.sdk_version }}-${{ hashFiles('depends/packages/*.mk', 'depends/Makefile', 'depends/hosts/darwin.mk') }}
+          restore-keys: |
+            digiwage-macos-${{ env.MACOS_HOST }}-${{ steps.sdk.outputs.sdk_version }}-
+
+      - name: Build dependencies
+        env:
+          SDK_PATH: ${{ runner.temp }}/digiwage-sdks
+          OSX_SDK_VERSION: ${{ steps.sdk.outputs.sdk_version }}
+          OSX_MIN_VERSION: ${{ env.MACOS_MIN_VERSION }}
+          LD64_VERSION: ""
+        run: |
+          set -eux
+
+          make -C depends \
+            HOST="${MACOS_HOST}" \
+            SDK_PATH="${SDK_PATH}" \
+            OSX_SDK_VERSION="${OSX_SDK_VERSION}" \
+            OSX_MIN_VERSION="${OSX_MIN_VERSION}" \
+            LD64_VERSION="${LD64_VERSION}" \
+            -j"$(sysctl -n hw.ncpu)"
+
+      - name: Generate configure script
+        run: |
+          ./autogen.sh
+
+      - name: Configure
+        env:
+          CONFIG_SITE: ${{ github.workspace }}/depends/${{ env.MACOS_HOST }}/share/config.site
+          PATH: ${{ github.workspace }}/depends/${{ env.MACOS_HOST }}/native/bin:${{ env.PATH }}
+        run: |
+          ./configure \
+            --prefix=/ \
+            --disable-ccache \
+            --disable-maintainer-mode \
+            --disable-dependency-tracking \
+            --disable-bench \
+            --disable-gui-tests
+
+      - name: Build
+        env:
+          SDK_PATH: ${{ runner.temp }}/digiwage-sdks
+          OSX_SDK_VERSION: ${{ steps.sdk.outputs.sdk_version }}
+          OSX_MIN_VERSION: ${{ env.MACOS_MIN_VERSION }}
+          LD64_VERSION: ""
+        run: |
+          make -j"$(sysctl -n hw.ncpu)"
+
+      - name: Verify binaries
+        run: |
+          set -eux
+
+          test -f src/digiwaged
+          test -f src/digiwage-cli
+          test -f src/digiwage-tx
+          test -f src/qt/digiwage-qt
+
+          file \
+            src/digiwaged \
+            src/digiwage-cli \
+            src/digiwage-tx \
+            src/qt/digiwage-qt
+
+      - name: Build macOS DMG
+        env:
+          SDK_PATH: ${{ runner.temp }}/digiwage-sdks
+          OSX_SDK_VERSION: ${{ steps.sdk.outputs.sdk_version }}
+          OSX_MIN_VERSION: ${{ env.MACOS_MIN_VERSION }}
+          LD64_VERSION: ""
+        run: |
+          set -eux
+
+          make deploy
+
+      - name: Package macOS release
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          set -eux
+
+          VERSION="${VERSION#v}"
+          PACKAGE="digiwage-${VERSION}-macos-x86_64"
+
+          mkdir -p "release/${PACKAGE}"
+
+          # The top-level Makefile.am defines OSX_DMG as:
+          #
+          #   $(subst $(space),-,$(PACKAGE_NAME)).dmg
+          #
+          # Copy the generated DMG into our normalized release name.
+          DMG_FILE="$(find . -maxdepth 1 -type f -name '*.dmg' -print -quit)"
+
+          if [ -z "${DMG_FILE}" ]; then
+            echo "ERROR: make deploy did not produce a DMG"
+            exit 1
+          fi
+
+          cp "${DMG_FILE}" \
+            "release/${PACKAGE}.dmg"
+
+          # Keep a copy of the application bundle when it was generated.
+          if [ -d "DIGIWAGE-Qt.app" ]; then
+            ditto \
+              "DIGIWAGE-Qt.app" \
+              "release/${PACKAGE}/DIGIWAGE-Qt.app"
+          fi
+
+          if [ -f README.md ]; then
+            cp README.md \
+              "release/${PACKAGE}/"
+          fi
+
+          if [ -f COPYING ]; then
+            cp COPYING \
+              "release/${PACKAGE}/"
+          fi
+
+          cd release
+
+          sha256sum \
+            "${PACKAGE}.dmg" \
+            > SHA256SUMS-macos.txt
+
+          if [ -d "${PACKAGE}" ]; then
+            ditto \
+              -c \
+              -k \
+              --sequesterRsrc \
+              --keepParent \
+              "${PACKAGE}/DIGIWAGE-Qt.app" \
+              "${PACKAGE}.zip"
+
+            sha256sum \
+              "${PACKAGE}.zip" \
+              >> SHA256SUMS-macos.txt
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: digiwage-macos-x86_64
+          path: |
+            release/*.dmg
+            release/*.zip
+            release/SHA256SUMS-macos.txt
+          if-no-files-found: error
+
+
+  # ==========================================================================
+  # GitHub Release
+  # ==========================================================================
+
+  release:
+    name: Publish GitHub Release
+    runs-on: ubuntu-24.04
+
+    needs:
+      - linux
+      - windows
+      - macos
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: digiwage-linux-x86_64
+          path: release/linux
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: digiwage-windows-x86_64
+          path: release/windows
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: digiwage-macos-x86_64
+          path: release/macos
+
+      - name: Combine checksums
+        run: |
+          set -eux
+
+          find release \
+            -type f \
+            -name 'SHA256SUMS-*.txt' \
+            -print0 |
+            xargs -0 cat \
+            > release/SHA256SUMS.txt
+
+      - name: List release files
+        run: |
+          find release -type f -print
+          echo
+          echo "SHA-256 checksums:"
+          cat release/SHA256SUMS.txt
+
+      - name: Determine release tag
+        id: release
+        env:
+          EVENT_TAG: ${{ github.ref_name }}
+          MANUAL_TAG: ${{ inputs.tag }}
+        run: |
+          if [ -n "${MANUAL_TAG}" ]; then
+            echo "tag=${MANUAL_TAG}" >> "${GITHUB_OUTPUT}"
+          else
+            echo "tag=${EVENT_TAG}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          set -eux
+
+          mapfile -t FILES < <(
+            find release \
+              -type f \
+              \( \
+                -name '*.tar.gz' \
+                -o -name '*.zip' \
+                -o -name '*.dmg' \
+                -o -name '*-setup.exe' \
+                -o -name 'SHA256SUMS.txt' \
+              \) \
+              -print
+          )
+
+          gh release create "${TAG}" \
+            "${FILES[@]}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "Digiwage ${TAG}" \
+            --generate-notes
+```
