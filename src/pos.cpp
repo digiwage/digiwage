@@ -263,7 +263,7 @@ bool CheckProofOfStake(CBlockIndex* pindexPrev, BlockValidationState& state, con
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "stake-verify-signature-failed", strprintf("CheckProofOfStake() : VerifySignature failed on coinstake %s", tx.GetHash().ToString()));
 
     // Same rule as block validation (digiwage/pos.cpp) above the imported history.
-    const bool kernelOk = (Params().GetConsensus().digiwage_history && nHeight > 1000) ?
+    const bool kernelOk = (Params().GetConsensus().digiwage_history && nHeight > Params().GetConsensus().digiwage_last_pow_height) ?
         CheckDigiwageStakeKernel(pindexPrev, nBits, blockHeaderFrom, coinHeaderPrev.out.nValue, headerPrevout, nTimeBlock, hashProofOfStake) :
         CheckStakeKernelHash(pindexPrev, nBits, blockHeaderFrom->nTime, coinHeaderPrev.out.nValue, headerPrevout, nTimeBlock, hashProofOfStake, targetProofOfStake, LogInstance().WillLogCategory(BCLog::COINSTAKE));
     if (!kernelOk)
@@ -404,7 +404,7 @@ bool CheckRecoveredPubKeyFromBlockSignature(CBlockIndex* pindexPrev, const CBloc
 static bool UseDigiwageKernel(const CBlockIndex* pindexPrev)
 {
     const Consensus::Params& consensus = Params().GetConsensus();
-    return consensus.digiwage_history && pindexPrev->nHeight + 1 > 1000;
+    return consensus.digiwage_history && pindexPrev->nHeight + 1 > consensus.digiwage_last_pow_height;
 }
 
 static bool CacheKernelMatches(CBlockIndex* pindexPrev, unsigned int nBits, const CStakeCache& stake, const COutPoint& prevout,

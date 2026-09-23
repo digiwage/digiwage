@@ -221,7 +221,9 @@ bool CreateCoinStakeFromMine(CWallet& wallet, unsigned int nBits, const CAmount&
     int64_t nRewardPiece = 0;
     // Calculate reward
     {
-        int64_t nReward = nTotalFees + GetBlockSubsidy(pindexPrev->nHeight + 1, consensusParams);
+        // Legacy PoS blocks destroy fees below the contract fork.
+        const bool fees_destroyed = consensusParams.digiwage_legacy_chain && pindexPrev->nHeight + 1 < consensusParams.digiwage_contract_height;
+        int64_t nReward = (fees_destroyed ? 0 : nTotalFees) + GetBlockSubsidy(pindexPrev->nHeight + 1, consensusParams);
         if (nReward < 0)
             return false;
 
@@ -423,7 +425,9 @@ bool CreateCoinStakeFromDelegate(CWallet& wallet, unsigned int nBits, const CAmo
     int64_t nRewardOffline = 0;
     // Calculate reward
     {
-        int64_t nTotalReward = nTotalFees + GetBlockSubsidy(pindexPrev->nHeight + 1, consensusParams);
+        // Legacy PoS blocks destroy fees below the contract fork.
+        const bool fees_destroyed = consensusParams.digiwage_legacy_chain && pindexPrev->nHeight + 1 < consensusParams.digiwage_contract_height;
+        int64_t nTotalReward = (fees_destroyed ? 0 : nTotalFees) + GetBlockSubsidy(pindexPrev->nHeight + 1, consensusParams);
         if (nTotalReward < 0)
             return false;
 
@@ -657,6 +661,12 @@ bool SelectCoinsForStaking(const CWallet& wallet, CAmount &nTargetValue, std::se
     bool isDescriptorWallet = wallet.IsWalletFlagSet(WALLET_FLAG_DESCRIPTORS);
     int nHeight = wallet.GetLastBlockHeight() + 1;
     int coinbaseMaturity = Params().GetConsensus().CoinbaseMaturity(nHeight);
+    // Legacy stake inputs must also be digiwage_stake_min_depth deep from the
+    // RHF - 1 (depth here counts the containing block, as legacy does).
+    const Consensus::Params& stake_consensus = Params().GetConsensus();
+    int minStakeDepth = coinbaseMaturity;
+    if (stake_consensus.digiwage_legacy_chain && nHeight >= stake_consensus.digiwage_rhf_height - 1)
+        minStakeDepth = std::max(minStakeDepth, stake_consensus.digiwage_stake_min_depth);
     std::map<COutPoint, uint32_t> immatureStakes = wallet.chain().getImmatureStakes();
     std::vector<uint256> maturedTx;
     const bool include_watch_only = wallet.GetLegacyScriptPubKeyMan() && wallet.IsWalletFlagSet(WALLET_FLAG_DISABLE_PRIVATE_KEYS);
@@ -675,7 +685,7 @@ bool SelectCoinsForStaking(const CWallet& wallet, CAmount &nTargetValue, std::se
         if (nDepth < 1)
             continue;
 
-        if (nDepth < coinbaseMaturity)
+        if (nDepth < minStakeDepth)
             continue;
 
         if (wallet.GetTxBlocksToMaturity(*pcoin) > 0)

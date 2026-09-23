@@ -86,6 +86,7 @@ class CMainParams : public CChainParams {
 public:
     CMainParams() {
         consensus.digiwage_history = true;
+        consensus.digiwage_legacy_chain = true;
         consensus.digiwage_stake_modifier_v2_height = 1551945;
         consensus.digiwage_zerocoin_height = 1551955;
         consensus.digiwage_rhf_height = 1552000;
@@ -234,6 +235,90 @@ public:
         consensus.delegationsAddress = uint160(ParseHex("0000000000000000000000000000000000000086")); // Delegations contract for offline staking
         consensus.nStakeTimestampMask = 15;
         consensus.nRBTStakeTimestampMask = 3;
+    }
+};
+
+/**
+ * Legacy DigiWage testnet: follows the chain produced by the legacy core
+ * (/root/digiwage, "-testnet") so the v3 handoff can be rehearsed against
+ * running legacy nodes. It shares the mainnet genesis block. Every value
+ * below mirrors the legacy CTestNetParams.
+ */
+class CLegacyTestParams : public CMainParams {
+public:
+    CLegacyTestParams() {
+        strNetworkID = CBaseChainParams::LEGACYTEST;
+        consensus.digiwage_stake_modifier_v2_height = 320;
+        consensus.digiwage_zerocoin_height = 250;
+        consensus.digiwage_rhf_height = 350;
+        // The contract fork is not scheduled yet; set a height here to rehearse it.
+        consensus.digiwage_contract_height = std::numeric_limits<int>::max();
+        consensus.digiwage_stake_min_depth = 50;
+        consensus.digiwage_last_pow_height = 200;
+        // Legacy GetNextWorkRequired uses the PoS retarget once the previous
+        // block reaches height_last_PoW.
+        consensus.digiwage_pos_retarget_prev_height = 200;
+        consensus.digiwage_stake_modifier_new_selection_height = 300;
+        consensus.digiwage_target_spacing = 30;
+        consensus.digiwage_target_timespan = 30 * 60;
+        consensus.digiwage_target_timespan_v2 = 15 * 60;
+        consensus.digiwage_time_slot = 5;
+        // A five minute stake age is shorter than the 2087 second modifier
+        // selection interval, so legacy stakes do hit the zero modifier.
+        consensus.digiwage_old_modifier_zero_fallback = true;
+        consensus.digiwage_zerocoin_time_start = 1501776000; // legacy testnet ZC_TimeStart
+        // SPORK_17_COLDSTAKING_ENFORCEMENT is off on the legacy testnet.
+        consensus.digiwage_cold_staking_allowed = false;
+
+        consensus.BIP65Height = 350; // height_start_BIP65 = height_RHF
+        consensus.QIP5Height = consensus.digiwage_contract_height;
+        consensus.QIP6Height = consensus.digiwage_contract_height;
+        consensus.QIP7Height = consensus.digiwage_contract_height;
+        consensus.nMuirGlacierHeight = consensus.digiwage_contract_height;
+        consensus.nLondonHeight = consensus.digiwage_contract_height;
+        consensus.nShanghaiHeight = consensus.digiwage_contract_height;
+        // Dark Gravity Wave spacing (legacy nTargetSpacing).
+        consensus.nPowTargetSpacing = 30;
+
+        pchMessageStart[0] = 0x45;
+        pchMessageStart[1] = 0x76;
+        pchMessageStart[2] = 0x65;
+        pchMessageStart[3] = 0xba;
+        nDefaultPort = 46005;
+        nPruneAfterHeight = 1000;
+        m_assumed_blockchain_size = 1;
+        m_assumed_chain_state_size = 1;
+
+        vSeeds.clear();
+        vFixedSeeds.clear();
+
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,139);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,19);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
+        base58Prefixes[EXT_PUBLIC_KEY] = {0x3a, 0x80, 0x61, 0xa0};
+        base58Prefixes[EXT_SECRET_KEY] = {0x3a, 0x80, 0x58, 0x37};
+
+        bech32_hrp = "dwt";
+
+        // Legacy relays only standard transactions on testnet too.
+        m_is_test_chain = true;
+
+        checkpointData = {
+            {
+                {0, consensus.hashGenesisBlock},
+            }
+        };
+        chainTxData = ChainTxData{0, 0, 0};
+
+        consensus.nCoinbaseMaturity = 10;
+        consensus.nLastPOWBlock = 200;
+        consensus.nFirstMPoSBlock = consensus.nLastPOWBlock +
+                                    consensus.nMPoSRewardRecipients +
+                                    consensus.nCoinbaseMaturity;
+        // Legacy stakers keep the whole reward: no MPoS range.
+        consensus.nLastMPoSBlock = consensus.nFirstMPoSBlock;
+        // Legacy DEFAULT_MAX_REORG_DEPTH.
+        consensus.nCheckpointSpan = 100;
     }
 };
 
@@ -795,6 +880,11 @@ std::unique_ptr<const CChainParams> CChainParams::SigNet(const SigNetOptions& op
 std::unique_ptr<const CChainParams> CChainParams::RegTest(const RegTestOptions& options)
 {
     return std::make_unique<const CRegTestParams>(options);
+}
+
+std::unique_ptr<const CChainParams> CChainParams::LegacyTest()
+{
+    return std::make_unique<const CLegacyTestParams>();
 }
 
 std::unique_ptr<const CChainParams> CChainParams::ForkTest(const RegTestOptions& options)

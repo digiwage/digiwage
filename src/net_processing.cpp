@@ -2736,8 +2736,13 @@ bool PeerManagerImpl::CheckHeadersTimestampAndSignatureSize(const std::vector<CB
     for (const CBlockHeader& header : headers) {
         if(header.IsProofOfStake())
         {
-            // Check coinstake timestamp
-            if (header.GetBlockTime() & consensusParams.MinStakeTimestampMask())
+            // Check coinstake timestamp. Only version 6 headers mark PoS; on a
+            // legacy chain they come after the RHF, so they sit on the legacy
+            // time slots.
+            if (consensusParams.digiwage_legacy_chain) {
+                if (header.GetBlockTime() % consensusParams.digiwage_time_slot != 0)
+                    return false;
+            } else if (header.GetBlockTime() & consensusParams.MinStakeTimestampMask())
                 return false;
 
             // Check timestamp against prev

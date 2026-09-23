@@ -73,12 +73,38 @@ struct BIP9Deployment {
  */
 struct Params {
     bool digiwage_history{false};
+    // The chain is the legacy DigiWage chain itself (mainnet, legacytest), so
+    // every legacy block rule applies below the contract fork. False on
+    // rehearsal chains such as forktest that only reuse the legacy kernel.
+    bool digiwage_legacy_chain{false};
     int digiwage_stake_modifier_v2_height{std::numeric_limits<int>::max()};
     int digiwage_zerocoin_height{std::numeric_limits<int>::max()};
     int digiwage_rhf_height{std::numeric_limits<int>::max()};
     int digiwage_contract_height{std::numeric_limits<int>::max()};
     int digiwage_stake_min_depth{0};
     uint256 digiwage_pos_limit_v2{};
+    // Legacy rules that used to be hardcoded to mainnet values. The defaults
+    // are those mainnet values, so only networks that override them change.
+    // Last legacy PoW height; the legacy PoS kernel applies above it.
+    int digiwage_last_pow_height{1000};
+    // Lowest previous-block height whose successor is retargeted with the
+    // legacy PoS formula instead of Dark Gravity Wave.
+    int digiwage_pos_retarget_prev_height{1001};
+    int digiwage_stake_modifier_new_selection_height{1551935};
+    int64_t digiwage_target_spacing{60};
+    int64_t digiwage_target_timespan{40 * 60};
+    int64_t digiwage_target_timespan_v2{30 * 60};
+    int64_t digiwage_time_slot{15};
+    // Legacy CStakeKernel hashes with a zero v1 modifier when no modifier was
+    // generated a selection interval after the coin; it only logs an error.
+    // Mainnet's one hour stake age made that case unreachable.
+    bool digiwage_old_modifier_zero_fallback{false};
+    // Legacy ZC_TimeStart: blocks timed after it get the higher legacy
+    // CheckBlock sigop limit (MAX_BLOCK_SIGOPS_CURRENT).
+    int64_t digiwage_zerocoin_time_start{2526352132};
+    // Legacy SPORK_17_COLDSTAKING_ENFORCEMENT: whether P2CS outputs may be
+    // created before the contract fork.
+    bool digiwage_cold_staking_allowed{true};
     uint256 hashGenesisBlock;
     int nSubsidyHalvingInterval;
     int nSubsidyHalvingIntervalV2;
@@ -207,6 +233,19 @@ struct Params {
     int64_t MinStakeTimestampMask() const
     {
         return nRBTStakeTimestampMask;
+    }
+    // Spacing of the times the staker tries. Legacy time protocol v2 (from the
+    // RHF) requires block times on multiples of digiwage_time_slot.
+    int64_t StakeTimeStep(int height) const
+    {
+        if (digiwage_legacy_chain && height >= digiwage_rhf_height) return digiwage_time_slot;
+        return StakeTimestampMask(height) + 1;
+    }
+    // Rounds a time down to the staker grid; equals nTime & ~mask off the
+    // legacy slot rule, since the step is then mask + 1 (a power of two).
+    uint32_t AlignStakeTime(uint32_t nTime, int height) const
+    {
+        return nTime - nTime % StakeTimeStep(height);
     }
     int SubsidyHalvingInterval(int height) const
     {

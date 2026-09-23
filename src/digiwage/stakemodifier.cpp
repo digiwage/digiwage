@@ -2,6 +2,7 @@
 
 #include <arith_uint256.h>
 #include <chain.h>
+#include <chainparams.h>
 #include <hash.h>
 #include <streams.h>
 
@@ -55,7 +56,8 @@ bool ComputeDigiwageStakeModifier(const CBlockIndex* prev, uint64_t first_modifi
         return UintToArith256(a->GetBlockHash()) < UintToArith256(b->GetBlockHash());
     });
 
-    const bool new_selection = !candidates.empty() && candidates.front()->nHeight >= 1551935;
+    const bool new_selection = !candidates.empty() && candidates.front()->nHeight >=
+        Params().GetConsensus().digiwage_stake_modifier_new_selection_height;
     std::set<const CBlockIndex*> selected;
     int64_t stop = start;
     uint64_t next = 0;

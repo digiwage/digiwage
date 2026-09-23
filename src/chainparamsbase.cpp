@@ -15,11 +15,12 @@ const std::string CBaseChainParams::TESTNET = "test";
 const std::string CBaseChainParams::SIGNET = "signet";
 const std::string CBaseChainParams::REGTEST = "regtest";
 const std::string CBaseChainParams::FORKTEST = "forktest";
+const std::string CBaseChainParams::LEGACYTEST = "legacytest";
 const std::string CBaseChainParams::UNITTEST = "unittest";
 
 void SetupChainParamsBaseOptions(ArgsManager& argsman)
 {
-    argsman.AddArg("-chain=<chain>", "Use the chain <chain> (default: main). Allowed values: main, test, signet, regtest, forktest", ArgsManager::ALLOW_ANY, OptionsCategory::CHAINPARAMS);
+    argsman.AddArg("-chain=<chain>", "Use the chain <chain> (default: main). Allowed values: main, test, signet, regtest, forktest, legacytest", ArgsManager::ALLOW_ANY, OptionsCategory::CHAINPARAMS);
     argsman.AddArg("-regtest", "Enter regression test mode, which uses a special chain in which blocks can be solved instantly. "
                  "This is intended for regression testing tools and app development. Equivalent to -chain=regtest.", ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::CHAINPARAMS);
     argsman.AddArg("-testactivationheight=name@height.", "Set the activation height of 'name' (segwit, bip34, dersig, cltv, csv). (regtest-only)", ArgsManager::ALLOW_ANY | ArgsManager::DEBUG_ONLY, OptionsCategory::DEBUG_TEST);
@@ -54,6 +55,8 @@ std::unique_ptr<CBaseChainParams> CreateBaseChainParams(const std::string& chain
         return std::make_unique<CBaseChainParams>("regtest", 13889, 13891);
     } else if (chain == CBaseChainParams::FORKTEST) {
         return std::make_unique<CBaseChainParams>("forktest", 34602, 34604);
+    } else if (chain == CBaseChainParams::LEGACYTEST) {
+        return std::make_unique<CBaseChainParams>("legacytest", 46006, 46008);
     } else if (chain == CBaseChainParams::UNITTEST) {
         return std::make_unique<CBaseChainParams>("regtest", 13889, 13891);
     }

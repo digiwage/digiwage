@@ -157,12 +157,61 @@ bool CheckInputScripts(const CTransaction& tx, TxValidationState& state,
                        std::vector<CScriptCheck>* pvChecks = nullptr)
                        EXCLUSIVE_LOCKS_REQUIRED(cs_main);
 
+// Legacy Consensus::Params::FutureBlockTimeDrift.
+static int64_t DigiwageFutureDrift(int nHeight, const Consensus::Params& consensusParams)
+{
+    if (nHeight >= consensusParams.digiwage_rhf_height) return consensusParams.digiwage_time_slot - 1;
+    return nHeight > consensusParams.digiwage_last_pow_height ? 180 : 7200;
+}
+
+// Legacy CBlockIndex::MinPastBlockTime: a block must be newer than this.
+static int64_t DigiwageMinPastBlockTime(const CBlockIndex* pindexPrev, const Consensus::Params& consensusParams)
+{
+    const int nHeight = pindexPrev->nHeight + 1;
+    if (nHeight < consensusParams.digiwage_rhf_height) return pindexPrev->GetMedianTimePast();
+    // The previous block may sit in the future by up to its own drift.
+    if (nHeight == consensusParams.digiwage_rhf_height) {
+        return pindexPrev->GetBlockTime() - DigiwageFutureDrift(nHeight - 1, consensusParams) +
+               DigiwageFutureDrift(nHeight, consensusParams);
+    }
+    return pindexPrev->GetBlockTime();
+}
+
+// Legacy CScript::IsPayToColdStaking, byte for byte.
+static bool IsDigiwageColdStakeScript(const CScript& script)
+{
+    return script.size() == 51 &&
+           script[2] == OP_ROT &&
+           script[4] == OP_CHECKCOLDSTAKEVERIFY &&
+           script[5] == 0x14 &&
+           script[27] == 0x14 &&
+           script[49] == OP_EQUALVERIFY &&
+           script[50] == OP_CHECKSIG;
+}
+
+// Legacy CheckTransaction rules for cold stake (P2CS) outputs, which apply
+// below the contract fork.
+static bool CheckDigiwageColdStakeOutputs(const CTransaction& tx, const Consensus::Params& consensusParams, TxValidationState& state)
+{
+    for (const CTxOut& txout : tx.vout) {
+        if (!IsDigiwageColdStakeScript(txout.scriptPubKey)) continue;
+        if (!consensusParams.digiwage_cold_staking_allowed)
+            return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-cold-stake", "cold staking not active");
+        if (txout.nValue < 1 * COIN) // legacy MIN_COLDSTAKING_AMOUNT
+            return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-cold-stake", "dust amount not allowed for cold staking");
+    }
+    return true;
+}
+
+// Legacy consensus limits that hold below the contract fork.
+static constexpr unsigned int DIGIWAGE_MAX_TX_SIZE = 150000;           // MAX_ZEROCOIN_TX_SIZE
+static constexpr unsigned int DIGIWAGE_MAX_COINBASE_SCRIPT_SIZE = 150;
+static constexpr int64_t DIGIWAGE_MAX_BLOCK_SIGOPS_LEGACY = 20000;      // MAX_BLOCK_SIGOPS_LEGACY
+static constexpr int64_t DIGIWAGE_MAX_BLOCK_SIGOPS_CURRENT = 40000;     // MAX_BLOCK_SIGOPS_CURRENT
+
 int64_t FutureDrift(uint32_t nTime, int nHeight, const Consensus::Params& consensusParams)
 {
-    if (consensusParams.digiwage_history) {
-        if (nHeight >= consensusParams.digiwage_rhf_height) return nTime + 14;
-        return nTime + (nHeight > 1000 ? 180 : 7200);
-    }
+    if (consensusParams.digiwage_history) return nTime + DigiwageFutureDrift(nHeight, consensusParams);
     return nTime + consensusParams.StakeTimestampMask(nHeight);
 }
 
@@ -729,6 +778,15 @@ bool MemPoolAccept::PreChecks(ATMPArgs& args, Workspace& ws)
 
     if (!CheckTransaction(tx, state)) {
         return false; // state filled in by CheckTransaction
+    }
+
+    // Legacy transaction rules that blocks enforce below the contract fork.
+    const Consensus::Params& digiwage_consensus = chainparams.GetConsensus();
+    if (digiwage_consensus.digiwage_legacy_chain &&
+        m_active_chainstate.m_chain.Height() + 1 < digiwage_consensus.digiwage_contract_height) {
+        if (!CheckDigiwageColdStakeOutputs(tx, digiwage_consensus, state)) return false;
+        if (::GetSerializeSize(tx, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > DIGIWAGE_MAX_TX_SIZE)
+            return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-txns-oversize");
     }
 
     // Coinbase is only valid in a block, not as a loose transaction
@@ -2634,8 +2692,10 @@ bool CheckReward(const CBlock& block, BlockValidationState& state, int nHeight, 
     }
     else
     {
-        // Check full reward
-        CAmount blockReward = nFees + GetBlockSubsidy(nHeight, consensusParams);
+        // Check full reward. Legacy PoS blocks destroy fees: the stake may
+        // claim only the block value below the contract fork.
+        const bool fees_destroyed = consensusParams.digiwage_legacy_chain && nHeight < consensusParams.digiwage_contract_height;
+        CAmount blockReward = (fees_destroyed ? 0 : nFees) + GetBlockSubsidy(nHeight, consensusParams);
         if (nActualStakeReward > blockReward) {
             LogPrintf("Digiwage reward mismatch height=%d actual=%d limit=%d fees=%d\n", nHeight, nActualStakeReward, blockReward, nFees);
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-cs-amount", strprintf("CheckReward(): coinstake pays too much (actual=%d vs limit=%d)", nActualStakeReward, blockReward));
@@ -3432,7 +3492,9 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
         // * p2sh (when P2SH enabled in flags and excludes coinbase)
         // * witness (when witness enabled in flags and excludes coinbase)
         nSigOpsCost += GetTransactionSigOpCost(tx, view, flags);
-        if (nSigOpsCost > dgpMaxBlockSigOps) {
+        const bool legacy_sigops = params.GetConsensus().digiwage_legacy_chain &&
+                                   pindex->nHeight < params.GetConsensus().digiwage_contract_height;
+        if (nSigOpsCost > (legacy_sigops ? DIGIWAGE_MAX_BLOCK_SIGOPS_CURRENT * WITNESS_SCALE_FACTOR : dgpMaxBlockSigOps)) {
             LogPrintf("ERROR: ConnectBlock(): too many sigops\n");
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-blk-sigops");
         }
@@ -3760,7 +3822,8 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
 
     pindex->nMoneySupply = (pindex->pprev? pindex->pprev->nMoneySupply : 0) + nValueOut - nValueIn;
     //only start checking this error after block 5000 and only on testnet and mainnet, not regtest
-    if(pindex->nHeight > 5000 && !params.MineBlocksOnDemand()) {
+    if(pindex->nHeight > 5000 && !params.MineBlocksOnDemand() &&
+       !(params.GetConsensus().digiwage_legacy_chain && pindex->nHeight < params.GetConsensus().digiwage_contract_height)) {
         //sanity check in case an exploit happens that allows new coins to be minted
         if(pindex->nMoneySupply > (uint64_t)(100000000 + ((pindex->nHeight - 5000) * 4)) * COIN){
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "incorrect-money-supply", "ConnectBlock(): Unknown error caused actual money supply to exceed expected money supply");
@@ -4970,9 +5033,10 @@ void Chainstate::ReceivedBlockTransactions(const CBlock& block, CBlockIndex* pin
 
 bool CheckFirstCoinstakeOutput(const CBlock& block)
 {
-    // Coinbase output should be empty if proof-of-stake block
+    // Coinbase output should be empty if proof-of-stake block. Legacy blocks
+    // allow no witness commitment: exactly one empty output.
     int commitpos = GetWitnessCommitmentIndex(block);
-    if(commitpos < 0)
+    if(commitpos < 0 || (Params().GetConsensus().digiwage_legacy_chain && block.nVersion < 6))
     {
         if (block.vtx[0]->vout.size() != 1 || !block.vtx[0]->vout[0].IsEmpty())
             return false;
@@ -5240,13 +5304,21 @@ bool CheckBlock(const CBlock& block, BlockValidationState& state, const Consensu
             (tx->HasCreateOrCall() || tx->HasOpSpend())) {
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "premature-contract");
         }
+        // Version 6 blocks start exactly at the contract fork, so the version
+        // tells whether the legacy transaction rules apply.
+        const bool legacy_rules = consensusParams.digiwage_legacy_chain && block.nVersion < 6;
         TxValidationState tx_state;
-        if (!CheckTransaction(*tx, tx_state)) {
+        if (!CheckTransaction(*tx, tx_state, legacy_rules ? DIGIWAGE_MAX_COINBASE_SCRIPT_SIZE : 100) ||
+            (legacy_rules && !CheckDigiwageColdStakeOutputs(*tx, consensusParams, tx_state))) {
             // CheckBlock() does context-free validation checks. The only
             // possible failures are consensus failures.
             assert(tx_state.GetResult() == TxValidationResult::TX_CONSENSUS);
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, tx_state.GetRejectReason(),
                                  strprintf("Transaction check failed (tx hash %s) %s", tx->GetHash().ToString(), tx_state.GetDebugMessage()));
+        }
+        if (legacy_rules && ::GetSerializeSize(*tx, PROTOCOL_VERSION | SERIALIZE_TRANSACTION_NO_WITNESS) > DIGIWAGE_MAX_TX_SIZE) {
+            return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-txns-oversize",
+                                 strprintf("Transaction check failed (tx hash %s) size limits failed", tx->GetHash().ToString()));
         }
         //OP_SPEND can only exist immediately after a contract tx in a block, or after another OP_SPEND
         //So, if the previous tx was not a contract tx, fail it.
@@ -5262,7 +5334,13 @@ bool CheckBlock(const CBlock& block, BlockValidationState& state, const Consensu
     {
         nSigOps += GetLegacySigOpCount(*tx);
     }
-    if (nSigOps * WITNESS_SCALE_FACTOR > dgpMaxBlockSigOps)
+    if (consensusParams.digiwage_legacy_chain && block.nVersion < 6) {
+        // Legacy CheckBlock: the higher limit applies once zerocoin is active by time.
+        const int64_t max_sigops = block.GetBlockTime() > consensusParams.digiwage_zerocoin_time_start ?
+            DIGIWAGE_MAX_BLOCK_SIGOPS_CURRENT : DIGIWAGE_MAX_BLOCK_SIGOPS_LEGACY;
+        if (nSigOps > max_sigops)
+            return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-blk-sigops", "out-of-bounds SigOpCount");
+    } else if (nSigOps * WITNESS_SCALE_FACTOR > dgpMaxBlockSigOps)
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-blk-sigops", "out-of-bounds SigOpCount");
 
     if (fCheckPOW && fCheckMerkleRoot)
@@ -5350,7 +5428,16 @@ static bool ContextualCheckBlockHeader(const CBlockHeader& block, BlockValidatio
         nHeight < consensusParams.digiwage_contract_height && block.nVersion >= 6) {
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "premature-version-6");
     }
-    if (!(consensusParams.digiwage_history && nHeight > 1000) &&
+    if (consensusParams.digiwage_legacy_chain) {
+        // Legacy CheckBlockTime applies to every block, PoW or PoS.
+        if (block.GetBlockTime() > TicksSinceEpoch<std::chrono::seconds>(now) + DigiwageFutureDrift(nHeight, consensusParams))
+            return state.Invalid(BlockValidationResult::BLOCK_TIME_FUTURE, "time-too-new", "block timestamp too far in the future");
+        if (block.GetBlockTime() <= DigiwageMinPastBlockTime(pindexPrev, consensusParams))
+            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "time-too-old", "block's timestamp is too early");
+        if (nHeight >= consensusParams.digiwage_rhf_height && block.GetBlockTime() % consensusParams.digiwage_time_slot != 0)
+            return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "invalid-time-mask", "block timestamp mask not valid");
+    }
+    if (!(consensusParams.digiwage_history && nHeight > consensusParams.digiwage_last_pow_height) &&
         block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams, block.IsProofOfStake()))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-diffbits", "incorrect difficulty value");
 
@@ -5490,11 +5577,15 @@ bool Chainstate::UpdateHashProof(const CBlock& block, BlockValidationState& stat
     //reject proof of work at height consensusParams.nLastPOWBlock
     if (block.IsProofOfWork() && nHeight > consensusParams.nLastPOWBlock)
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "reject-pow", strprintf("UpdateHashProof() : reject proof-of-work at height %d", nHeight));
+
+    // Legacy ConnectBlock: no proof of stake up to the last PoW block
+    if (consensusParams.digiwage_legacy_chain && block.IsProofOfStake() && nHeight <= consensusParams.nLastPOWBlock)
+        return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "PoS-early", strprintf("UpdateHashProof() : PoS period not active at height %d", nHeight));
     
     // Check coinstake timestamp
     if (block.IsProofOfStake() &&
         (consensusParams.digiwage_history ?
-             (nHeight >= consensusParams.digiwage_rhf_height && block.GetBlockTime() % 15 != 0) :
+             (nHeight >= consensusParams.digiwage_rhf_height && block.GetBlockTime() % consensusParams.digiwage_time_slot != 0) :
              !CheckCoinStakeTimestamp(block.GetBlockTime(), nHeight, consensusParams)))
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "timestamp-invalid", strprintf("UpdateHashProof() : coinstake timestamp violation nTimeBlock=%d", block.GetBlockTime()));
 
@@ -5503,9 +5594,7 @@ bool Chainstate::UpdateHashProof(const CBlock& block, BlockValidationState& stat
             (block.vtx[1]->vin.empty() || block.prevoutStake != block.vtx[1]->vin[0].prevout)) {
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-stake-prevout");
         }
-        const int64_t minimum_time = nHeight < consensusParams.digiwage_rhf_height ? pindex->pprev->GetMedianTimePast() :
-            (nHeight == consensusParams.digiwage_rhf_height ? int64_t(pindex->pprev->nTime) - 166 : pindex->pprev->nTime);
-        if (block.GetBlockTime() <= minimum_time) {
+        if (block.GetBlockTime() <= DigiwageMinPastBlockTime(pindex->pprev, consensusParams)) {
             return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "time-too-old");
         }
     }
@@ -5516,7 +5605,7 @@ bool Chainstate::UpdateHashProof(const CBlock& block, BlockValidationState& stat
         return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "bad-diffbits", strprintf("UpdateHashProof() : incorrect %s", block.IsProofOfWork() ? "proof-of-work" : "proof-of-stake"));
 
     uint256 hashProof;
-    if (consensusParams.digiwage_history && nHeight > 1000 && block.IsProofOfStake()) {
+    if (consensusParams.digiwage_history && nHeight > consensusParams.digiwage_last_pow_height && block.IsProofOfStake()) {
         if (!CheckDigiwageKernel(block, pindex->pprev, view, state, hashProof)) return false;
         pindex->hashProof = hashProof;
         return true;
@@ -5682,7 +5771,7 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
 
             // Check coin stake timestamp
             if (GetConsensus().digiwage_history ?
-                    (nHeight >= GetConsensus().digiwage_rhf_height && block.nTime % 15 != 0) :
+                    (nHeight >= GetConsensus().digiwage_rhf_height && block.nTime % GetConsensus().digiwage_time_slot != 0) :
                     !CheckCoinStakeTimestamp(block.nTime, nHeight, GetConsensus()))
                 return state.Invalid(BlockValidationResult::BLOCK_INVALID_HEADER, "timestamp-invalid", "proof of stake failed due to invalid timestamp");
         }
@@ -5690,7 +5779,7 @@ bool ChainstateManager::AcceptBlockHeader(const CBlockHeader& block, BlockValida
         // Check block header
         // if (!CheckBlockHeader(block, state, GetConsensus(), true, CheckPOS(block, pindexPrev)))
         if (!CheckBlockHeader(block, state, GetConsensus(), chainstate,
-                              !(GetConsensus().digiwage_history && nHeight > 1000), false)) {
+                              !(GetConsensus().digiwage_history && nHeight > GetConsensus().digiwage_last_pow_height), false)) {
             LogPrint(BCLog::VALIDATION, "%s: Consensus::CheckBlockHeader: %s, %s\n", __func__, hash.ToString(), state.ToString());
             return false;
         }

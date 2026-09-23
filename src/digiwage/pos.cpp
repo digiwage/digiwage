@@ -24,7 +24,10 @@ bool CheckDigiwageStakeKernel(const CBlockIndex* prev, unsigned int nBits,
     CDataStream stream(SER_GETHASH, 0);
     if (height < consensus.digiwage_stake_modifier_v2_height) {
         uint64_t modifier = 0;
-        if (!GetDigiwageOldModifier(origin, prev, modifier)) return false;
+        if (!GetDigiwageOldModifier(origin, prev, modifier)) {
+            if (!consensus.digiwage_old_modifier_zero_fallback) return false;
+            modifier = 0;
+        }
         stream << modifier;
     } else {
         stream << prev->nStakeModifier;
@@ -60,7 +63,8 @@ bool CheckDigiwageKernel(const CBlock& block, const CBlockIndex* prev,
     if (!origin) {
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "digiwage-modifier-unavailable");
     }
-    if (height < consensus.digiwage_stake_modifier_v2_height) {
+    if (height < consensus.digiwage_stake_modifier_v2_height &&
+        !consensus.digiwage_old_modifier_zero_fallback) {
         uint64_t old_modifier = 0;
         if (!GetDigiwageOldModifier(origin, prev, old_modifier)) {
             return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "digiwage-modifier-unavailable");

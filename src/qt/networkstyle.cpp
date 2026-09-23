@@ -22,6 +22,7 @@ static const struct {
     {"signet", QAPP_APP_NAME_SIGNET, 35, 15},
     {"regtest", QAPP_APP_NAME_REGTEST, 160, 30},
     {"forktest", QAPP_APP_NAME_REGTEST, 160, 30},
+    {"legacytest", QAPP_APP_NAME_TESTNET, 70, 30},
 };
 
 // titleAddText needs to be const char* for tr()

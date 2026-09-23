@@ -15,6 +15,7 @@
 class CTransaction;
 class TxValidationState;
 
-bool CheckTransaction(const CTransaction& tx, TxValidationState& state);
+/** max_coinbase_script_size: legacy DigiWage blocks allow coinbase scripts of up to 150 bytes. */
+bool CheckTransaction(const CTransaction& tx, TxValidationState& state, unsigned int max_coinbase_script_size = 100);
 
 #endif // BITCOIN_CONSENSUS_TX_CHECK_H

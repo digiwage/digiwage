@@ -11,7 +11,7 @@
 #include <script/standard.h>
 #endif
 
-bool CheckTransaction(const CTransaction& tx, TxValidationState& state)
+bool CheckTransaction(const CTransaction& tx, TxValidationState& state, unsigned int max_coinbase_script_size)
 {
     // Basic checks that don't depend on any context
     if (tx.vin.empty())
@@ -63,7 +63,7 @@ bool CheckTransaction(const CTransaction& tx, TxValidationState& state)
 
     if (tx.IsCoinBase())
     {
-        if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > 100)
+        if (tx.vin[0].scriptSig.size() < 2 || tx.vin[0].scriptSig.size() > max_coinbase_script_size)
             return state.Invalid(TxValidationResult::TX_CONSENSUS, "bad-cb-length");
     }
     else

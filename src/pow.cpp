@@ -102,18 +102,18 @@ static unsigned int DigiwageNextWork(const CBlockIndex* last, const Consensus::P
         easy.SetCompact(0x1b010000);
         return easy.GetCompact();
     }
-    if (last->nHeight <= 1000) return DigiwageDarkGravityWave(last, params);
+    if (last->nHeight < params.digiwage_pos_retarget_prev_height) return DigiwageDarkGravityWave(last, params);
 
 
     arith_uint256 target;
     target.SetCompact(last->nBits);
     int64_t spacing = last->GetBlockTime() - last->pprev->GetBlockTime();
     if (spacing < 0) spacing = 1;
-    constexpr int64_t target_spacing = 60;
+    const int64_t target_spacing = params.digiwage_target_spacing;
     const int next_height = last->nHeight + 1;
     const bool time_v2 = next_height >= params.digiwage_rhf_height;
     if (time_v2 && spacing > target_spacing * 10) spacing = target_spacing * 10;
-    const int64_t interval = time_v2 ? 30 : 40;
+    const int64_t interval = (time_v2 ? params.digiwage_target_timespan_v2 : params.digiwage_target_timespan) / target_spacing;
     if (time_v2 && last->nHeight < params.digiwage_rhf_height) target <<= 4;
     target *= ((interval - 1) * target_spacing + 2 * spacing);
     target /= ((interval + 1) * target_spacing);

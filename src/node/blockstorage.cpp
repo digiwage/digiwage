@@ -92,7 +92,7 @@ CBlockIndex* BlockManager::AddToBlockIndex(const CBlockHeader& block, CBlockInde
     auto [mi, inserted] = m_block_index.try_emplace(hash, block);
     if (!inserted) {
         CBlockIndex* existing = &mi->second;
-        if (Params().GetConsensus().digiwage_history && existing->nHeight > 1000 && block.IsProofOfStake()) {
+        if (Params().GetConsensus().digiwage_history && existing->nHeight > Params().GetConsensus().digiwage_last_pow_height && block.IsProofOfStake()) {
             existing->fDigiwageProofOfStake = true;
             ComputeDigiwageStakeModifier(existing->pprev, 0,
                                          existing->nDigiwageStakeModifier,
@@ -126,7 +126,7 @@ CBlockIndex* BlockManager::AddToBlockIndex(const CBlockHeader& block, CBlockInde
         pindexNew->nHeight = pindexNew->pprev->nHeight + 1;
         pindexNew->BuildSkip();
     }
-    if (Params().GetConsensus().digiwage_history && pindexNew->pprev && pindexNew->nHeight > 1000) {
+    if (Params().GetConsensus().digiwage_history && pindexNew->pprev && pindexNew->nHeight > Params().GetConsensus().digiwage_last_pow_height) {
         // Legacy PoS is encoded in the coinstake body, not in prevoutStake.
         pindexNew->fDigiwageProofOfStake = block.IsProofOfStake();
         if (pindexNew->fDigiwageProofOfStake &&

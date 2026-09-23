@@ -215,7 +215,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
         txProofTime = GetAdjustedTimeSeconds();
     }
     if(fProofOfStake)
-        txProofTime &= ~chainparams.GetConsensus().StakeTimestampMask(nHeight);
+        txProofTime = chainparams.GetConsensus().AlignStakeTime(txProofTime, nHeight);
     pblock->nTime = txProofTime;
     if (!fProofOfStake)
         UpdateTime(pblock, chainparams.GetConsensus(), pindexPrev);
@@ -378,7 +378,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateEmptyBlock(const CScript& 
 
     uint32_t txProofTime = nTime == 0 ? GetAdjustedTimeSeconds() : nTime;
     if(fProofOfStake)
-        txProofTime &= ~chainparams.GetConsensus().StakeTimestampMask(nHeight);
+        txProofTime = chainparams.GetConsensus().AlignStakeTime(txProofTime, nHeight);
     pblock->nTime = txProofTime;
 
     m_lock_time_cutoff = pindexPrev->GetMedianTimePast();
@@ -1365,7 +1365,7 @@ bool SignBlock(std::shared_ptr<CBlock> pblock, wallet::CWallet& wallet, const CA
     LOCK(wallet.cs_wallet);
     uint32_t nHeight = wallet.chain().getHeight().value_or(0) + 1;
     const Consensus::Params& consensusParams = Params().GetConsensus();
-    nTimeBlock &= ~consensusParams.StakeTimestampMask(nHeight);
+    nTimeBlock = consensusParams.AlignStakeTime(nTimeBlock, nHeight);
     bool privateKeysDisabled = wallet.IsWalletFlagSet(wallet::WALLET_FLAG_DISABLE_PRIVATE_KEYS);
     bool found = false;
     {
@@ -1478,7 +1478,7 @@ public:
 
 public:
     int32_t nHeight = 0;
-    uint32_t stakeTimestampMask = 1;
+    uint32_t stakeTimeStep = 2;
     int64_t nTotalFees = 0;
     bool haveCoinsForStake = false;
     bool forceUpdate = false;
@@ -1537,7 +1537,7 @@ public:
     void clearCache()
     {
         nHeight = 0;
-        stakeTimestampMask = 1;
+        stakeTimeStep = 2;
         nTotalFees = 0;
         haveCoinsForStake = false;
         forceUpdate = false;
@@ -1595,10 +1595,10 @@ public:
             {
                 // Look for possibility to create a block
                 d->beginningTime = GetAdjustedTimeSeconds();
-                d->beginningTime &= ~d->stakeTimestampMask;
+                d->beginningTime = d->consensusParams.AlignStakeTime(d->beginningTime, d->nHeight);
                 d->endingTime = d->beginningTime + nMaxStakeLookahead;
 
-                for(uint32_t blockTime = d->beginningTime; blockTime < d->endingTime; blockTime += d->stakeTimestampMask+1)
+                for(uint32_t blockTime = d->beginningTime; blockTime < d->endingTime; blockTime += d->stakeTimeStep)
                 {
                     // Update status bar
                     UpdateStatusBar(blockTime);
@@ -1686,7 +1686,7 @@ protected:
 
         // Check if cached data is old
         uint32_t blokTime = GetAdjustedTimeSeconds();
-        blokTime &= ~d->stakeTimestampMask;
+        blokTime = d->consensusParams.AlignStakeTime(blokTime, d->nHeight);
         if(!IsCachedDataOld() && d->endingTime >= blokTime)
         {
             Sleep(100);
@@ -1794,7 +1794,7 @@ protected:
             d->pwallet->updateDelegationsWeight(mDelegateWeight);
             d->pwallet->updateHaveCoinSuperStaker(d->setCoins);
         }
-        d->stakeTimestampMask = d->consensusParams.StakeTimestampMask(d->nHeight);
+        d->stakeTimeStep = d->consensusParams.StakeTimeStep(d->nHeight);
 
         d->haveCoinsForStake = d->setCoins.size() > 0 || d->pwallet->CanSuperStake(d->setCoins, d->setDelegateCoins);
         if(d->haveCoinsForStake)
@@ -1819,7 +1819,7 @@ protected:
         }
 
         d->beginningTime = GetAdjustedTimeSeconds();
-        d->beginningTime &= ~d->stakeTimestampMask;
+        d->beginningTime = d->consensusParams.AlignStakeTime(d->beginningTime, d->nHeight);
         d->endingTime = d->beginningTime + nMaxStakeLookahead;
 
         return true;

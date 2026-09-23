@@ -16,8 +16,9 @@ static constexpr CAmount COIN = 100000000;
 static constexpr CAmount CENT = 1000000;
 
 /** No amount larger than this (in satoshi) is valid.
+ * DigiWage keeps the legacy nMaxMoneyOut of 120,000,000 coins on every network.
  * */
-static constexpr CAmount MAX_MONEY = 107822406 * COIN + 25 * (COIN / 100);
+static constexpr CAmount MAX_MONEY = 120000000 * COIN;
 inline bool MoneyRange(const CAmount& nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 
 #endif // BITCOIN_CONSENSUS_AMOUNT_H

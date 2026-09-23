@@ -187,6 +187,7 @@ std::list<SectionInfo> ArgsManager::GetUnrecognizedSections() const
         CBaseChainParams::REGTEST,
         CBaseChainParams::SIGNET,
         CBaseChainParams::TESTNET,
+        CBaseChainParams::LEGACYTEST,
         CBaseChainParams::MAIN
     };
 

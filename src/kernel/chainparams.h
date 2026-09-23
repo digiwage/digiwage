@@ -179,6 +179,7 @@ public:
 
     static std::unique_ptr<const CChainParams> RegTest(const RegTestOptions& options);
     static std::unique_ptr<const CChainParams> ForkTest(const RegTestOptions& options);
+    static std::unique_ptr<const CChainParams> LegacyTest();
     static std::unique_ptr<const CChainParams> SigNet(const SigNetOptions& options);
     static std::unique_ptr<const CChainParams> Main();
     static std::unique_ptr<const CChainParams> TestNet();

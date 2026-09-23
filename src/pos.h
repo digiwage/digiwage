@@ -33,6 +33,11 @@ bool CheckProofOfStake(CBlockIndex* pindexPrev, BlockValidationState& state, con
 // Check whether the coinstake timestamp meets protocol
 inline bool CheckCoinStakeTimestamp(uint32_t nTimeBlock, int nHeight, const Consensus::Params &consensusParams)
 {
+    // Legacy chains keep the legacy time protocol: from the RHF, block times
+    // sit on digiwage_time_slot multiples.
+    if (consensusParams.digiwage_legacy_chain) {
+        return nHeight < consensusParams.digiwage_rhf_height || nTimeBlock % consensusParams.digiwage_time_slot == 0;
+    }
     return (nTimeBlock & consensusParams.StakeTimestampMask(nHeight)) == 0;
 }
 

@@ -135,11 +135,11 @@ double GetPoSKernelPS(ChainstateManager& chainman)
 
     const Consensus::Params& consensusParams = Params().GetConsensus();
     bool dynamicStakeSpacing = true;
-    uint32_t stakeTimestampMask=consensusParams.StakeTimestampMask(0);
+    int64_t stakeTimeStep=consensusParams.StakeTimeStep(0);
     if(pindex)
     {
         dynamicStakeSpacing = pindex->nHeight < consensusParams.QIP9Height;
-        stakeTimestampMask=consensusParams.StakeTimestampMask(pindex->nHeight);
+        stakeTimeStep=consensusParams.StakeTimeStep(pindex->nHeight);
     }
 
     while (pindex && nStakesHandled < nPoSInterval)
@@ -170,7 +170,7 @@ double GetPoSKernelPS(ChainstateManager& chainman)
     if (nStakesTime)
         result = dStakeKernelsTriedAvg / nStakesTime;
     
-    result *= stakeTimestampMask + 1;
+    result *= stakeTimeStep;
 
     return result;
 }
@@ -269,6 +269,9 @@ UniValue blockheaderToJSON(const CBlockIndex* tip, const CBlockIndex* blockindex
     result.pushKV("flags", strprintf("%s", blockindex->IsProofOfStake()? "proof-of-stake" : "proof-of-work"));
     result.pushKV("proofhash", blockindex->hashProof.GetHex());
     result.pushKV("modifier", blockindex->nStakeModifier.GetHex());
+    if (Params().GetConsensus().digiwage_history) {
+        result.pushKV("digiwagemodifier", strprintf("%016x", blockindex->nDigiwageStakeModifier));
+    }
 
     if (blockindex->IsProofOfStake())
     {
@@ -857,6 +860,7 @@ static RPCHelpMan getblockheader()
                             {RPCResult::Type::STR, "flags", "The block flags"},
                             {RPCResult::Type::STR_HEX, "proofhash", "The hash proof"},
                             {RPCResult::Type::STR_HEX, "modifier", "The stake modifier"},
+                            {RPCResult::Type::STR_HEX, "digiwagemodifier", /*optional=*/true, "The legacy v1 stake modifier (only present on DigiWage history chains)"},
                             {RPCResult::Type::STR_HEX, "signature", /*optional=*/true, "The block signature (only present proof of stake)"},
                             {RPCResult::Type::STR_HEX, "proofOfDelegation", /*optional=*/true, "The block proof of delegation (only present proof of stake that use delegation)"},
                         }},
@@ -1011,6 +1015,7 @@ static RPCHelpMan getblock()
                     {RPCResult::Type::STR, "flags", "The block flags"},
                     {RPCResult::Type::STR_HEX, "proofhash", "The hash proof"},
                     {RPCResult::Type::STR_HEX, "modifier", "The stake modifier"},
+                    {RPCResult::Type::STR_HEX, "digiwagemodifier", /*optional=*/true, "The legacy v1 stake modifier (only present on DigiWage history chains)"},
                     {RPCResult::Type::STR_HEX, "signature", /*optional=*/true, "The block signature (only present proof of stake)"},
                     {RPCResult::Type::STR_HEX, "proofOfDelegation", /*optional=*/true, "The block proof of delegation (only present proof of stake that use delegation)"},
                 }},
