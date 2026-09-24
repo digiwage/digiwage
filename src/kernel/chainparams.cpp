@@ -251,8 +251,8 @@ public:
         consensus.digiwage_stake_modifier_v2_height = 320;
         consensus.digiwage_zerocoin_height = 250;
         consensus.digiwage_rhf_height = 350;
-        // The contract fork is not scheduled yet; set a height here to rehearse it.
-        consensus.digiwage_contract_height = std::numeric_limits<int>::max();
+        // Contract fork (v6 blocks) rehearsal on the legacy testnet.
+        consensus.digiwage_contract_height = 5001;
         consensus.digiwage_stake_min_depth = 50;
         consensus.digiwage_last_pow_height = 200;
         // Legacy GetNextWorkRequired uses the PoS retarget once the previous
@@ -270,13 +270,15 @@ public:
         // SPORK_17_COLDSTAKING_ENFORCEMENT is off on the legacy testnet.
         consensus.digiwage_cold_staking_allowed = false;
 
-        consensus.BIP65Height = 350; // height_start_BIP65 = height_RHF
+        consensus.BIP65Height = consensus.digiwage_rhf_height; // height_start_BIP65 = height_RHF
         consensus.QIP5Height = consensus.digiwage_contract_height;
         consensus.QIP6Height = consensus.digiwage_contract_height;
         consensus.QIP7Height = consensus.digiwage_contract_height;
         consensus.nMuirGlacierHeight = consensus.digiwage_contract_height;
         consensus.nLondonHeight = consensus.digiwage_contract_height;
         consensus.nShanghaiHeight = consensus.digiwage_contract_height;
+        // Mainnet is past its UTXO cache fix long before the contract fork; do the same here.
+        consensus.nFixUTXOCacheHFHeight = 0;
         // Dark Gravity Wave spacing (legacy nTargetSpacing).
         consensus.nPowTargetSpacing = 30;
 
