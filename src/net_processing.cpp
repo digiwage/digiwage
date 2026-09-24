@@ -2712,7 +2712,10 @@ bool PeerManagerImpl::CheckPoSHeadersAreContinuous(const std::vector<CBlockHeade
     for (const CBlockHeader& header : headers)
     {
         //reject proof of work at height consensusParams.nLastPOWBlock
-        if (header.IsProofOfWork() && nHeight > consensusParams.nLastPOWBlock)
+        // Legacy (pre-v6) DigiWage headers carry no prevoutStake, so a PoS
+        // header looks like PoW; the block body decides (UpdateHashProof).
+        if (header.IsProofOfWork() && nHeight > consensusParams.nLastPOWBlock &&
+            !(consensusParams.digiwage_history && header.nVersion < 6))
             return false;
 
         // Check coinstake timestamp
