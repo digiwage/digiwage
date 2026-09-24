@@ -279,6 +279,11 @@ public:
         consensus.nShanghaiHeight = consensus.digiwage_contract_height;
         // Mainnet is past its UTXO cache fix long before the contract fork; do the same here.
         consensus.nFixUTXOCacheHFHeight = 0;
+        // Header signatures with v6, then offline staking (delegation, the v3
+        // cold staking) 100 blocks later so the fork itself activates first.
+        // The delegations contract is deployed in block nOfflineStakeHeight.
+        consensus.nEnableHeaderSignatureHeight = consensus.digiwage_contract_height;
+        consensus.nOfflineStakeHeight = consensus.digiwage_contract_height + 100;
         // Dark Gravity Wave spacing (legacy nTargetSpacing).
         consensus.nPowTargetSpacing = 30;
 
