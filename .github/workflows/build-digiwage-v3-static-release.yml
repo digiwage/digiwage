@@ -29,9 +29,20 @@ jobs:
             qtbase5-dev qttools5-dev-tools libqt5dbus5 libqt5widgets5 \
             qttools5-dev libprotobuf-dev protobuf-compiler libqrencode-dev
 
+      - name: Pre-fetch missing dependency sources
+        run: |
+          if [ -d "depends" ]; then
+            mkdir -p depends/sources
+            # Download gmp-6.2.1 from GNU mirror directly to bypass 404
+            if [ ! -f "depends/sources/gmp-6.2.1.tar.xz" ]; then
+              echo "Downloading gmp-6.2.1.tar.xz..."
+              curl -sL https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz || \
+              curl -sL https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz
+            fi
+          fi
+
       - name: Build In-Tree Static Dependencies
         run: |
-          # If the depends directory exists, build all bundled dependencies (Qt included)
           if [ -d "depends" ]; then
             echo "Building static dependencies in depends/..."
             cd depends
@@ -49,7 +60,6 @@ jobs:
         run: |
           ./autogen.sh
           
-          # Enable Qt GUI build and apply static runtime flags
           if [ -d "depends/x86_64-pc-linux-gnu" ]; then
             ./configure --prefix=$(pwd)/depends/x86_64-pc-linux-gnu \
                         --disable-maintainer-mode \
@@ -84,16 +94,10 @@ jobs:
         run: |
           mkdir -p release
           
-          # Copy standard DigiWage binaries
           cp src/digiwaged release/ 2>/dev/null || true
           cp src/digiwage-cli release/ 2>/dev/null || true
           cp src/qt/digiwage-qt release/ 2>/dev/null || true
           cp src/digiwage-qt release/ 2>/dev/null || true
-
-          # Copy fallback Bitcoin/PIVX naming variants if present
-          cp src/bitcoind release/ 2>/dev/null || true
-          cp src/bitcoin-cli release/ 2>/dev/null || true
-          cp src/qt/bitcoin-qt release/ 2>/dev/null || true
 
           cd release
           tar -czvf digiwage-v3-linux-x86_64.tar.gz *
