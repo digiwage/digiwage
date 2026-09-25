@@ -1938,10 +1938,17 @@ protected:
         if (!SignBlock(d->pblock, *(d->pwallet), d->nTotalFees, blockTime, d->setCoins, d->mapSolveSelectedCoins[blockTime], d->mapSolveDelegateCoins[blockTime], true, true))
             return false;
 
+        // Time budget for filling the block. Legacy DigiWage chains allow only
+        // (time slot - 1) s of future drift, which leaves no room for contract
+        // execution (nBytecodeTimeBuffer); a later timestamp is still valid there,
+        // so keep at least Qtum's 15 s budget.
+        int64_t fillUntil = FutureDrift(GetAdjustedTimeSeconds(), d->nHeight, d->consensusParams);
+        if (d->consensusParams.digiwage_legacy_chain) fillUntil = std::max<int64_t>(fillUntil, GetAdjustedTimeSeconds() + 15);
+
         // Create a block that's properly populated with transactions
         d->pblocktemplatefilled = std::unique_ptr<CBlockTemplate>(
                 BlockAssembler(d->pwallet->chain().chainman().ActiveChainstate(), &(d->pwallet->chain().mempool()), d->pwallet).CreateNewBlock(d->pblock->vtx[1]->vout[1].scriptPubKey, true, &(d->nTotalFees),
-                                                        blockTime, FutureDrift(GetAdjustedTimeSeconds(), d->nHeight, d->consensusParams) - nStakeTimeBuffer));
+                                                        blockTime, fillUntil - nStakeTimeBuffer));
         if (!d->pblocktemplatefilled.get()) {
             d->fError = true;
             return false;
