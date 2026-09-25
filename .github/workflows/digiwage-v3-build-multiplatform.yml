@@ -35,13 +35,13 @@ jobs:
 
           - name: "macOS x86_64 (Intel)"
             host: "x86_64-apple-darwin"
-            packages: "clang llvm libtinfo5-dev"
+            packages: "clang llvm libtinfo5"
             sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
             artifact_ext: ".tar.gz"
 
           - name: "macOS ARM64 (Apple Silicon)"
             host: "arm64-apple-darwin"
-            packages: "clang llvm libtinfo5-dev"
+            packages: "clang llvm libtinfo5"
             sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
             artifact_ext: ".tar.gz"
 
@@ -52,14 +52,12 @@ jobs:
           ref: digiwage-v3
           submodules: recursive
 
-      - name: Install Base & Qt Build Dependencies
+      - name: Install Base Toolchain
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential libtool autotools-dev automake pkg-config \
             bsdmainutils python3 cmake curl zip unzip \
-            qtbase5-dev qttools5-dev-tools libqt5dbus5 libqt5widgets5 \
-            libqt5svg5-dev qttools5-dev libprotobuf-dev protobuf-compiler libqrencode-dev \
             ${{ matrix.target.packages }}
 
       - name: Configure MinGW POSIX Threading (Windows Only)
@@ -73,16 +71,11 @@ jobs:
         run: |
           mkdir -p depends/SDKs
           cd depends/SDKs
-          echo "Downloading macOS SDK..."
           curl -sL "${{ matrix.target.sdk_url }}" -o sdk.tar.xz
           tar -xf sdk.tar.xz
           
           EXTRACTED_DIR=$(ls -d MacOSX*.sdk 2>/dev/null | head -n 1)
-          
           ln -s "$EXTRACTED_DIR" MacOSX.sdk 2>/dev/null || true
-          ln -s "$EXTRACTED_DIR" Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers 2>/dev/null || true
-          
-          # Set SDK path in GitHub environment for subsequent steps
           echo "SDK_PATH=$(pwd)/MacOSX.sdk" >> $GITHUB_ENV
 
       - name: Pre-fetch missing dependency sources
@@ -90,45 +83,35 @@ jobs:
           if [ -d "depends" ]; then
             mkdir -p depends/sources
             if [ ! -f "depends/sources/gmp-6.2.1.tar.xz" ]; then
-              echo "Pre-fetching gmp-6.2.1.tar.xz..."
               curl -sL https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz || \
               curl -sL https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz
             fi
           fi
 
-      - name: Build In-Tree Static Dependencies
+      - name: Build In-Tree Dependencies
         run: |
-          if [ -d "depends" ]; then
-            echo "Building static dependencies for ${{ matrix.target.host }}..."
-            cd depends
-            
-            if [[ "${{ matrix.target.host }}" == *"apple-darwin"* ]]; then
-              make -j$(nproc) HOST=${{ matrix.target.host }} SDK_PATH="${{ env.SDK_PATH }}"
-            else
-              make -j$(nproc) HOST=${{ matrix.target.host }}
-            fi
-            
-            cd ..
+          cd depends
+          if [[ "${{ matrix.target.host }}" == *"apple-darwin"* ]]; then
+            make -j$(nproc) HOST=${{ matrix.target.host }} SDK_PATH="${{ env.SDK_PATH }}"
+          else
+            make -j$(nproc) HOST=${{ matrix.target.host }}
           fi
 
       - name: Autogen & Configure
         run: |
           ./autogen.sh
           
-          CONFIG_FLAGS="--disable-maintainer-mode --disable-dependency-tracking --enable-static --disable-shared --with-gui=qt5"
           DEPENDS_PREFIX="$(pwd)/depends/${{ matrix.target.host }}"
           
-          if [ -d "$DEPENDS_PREFIX" ]; then
-            export PKG_CONFIG_PATH="$DEPENDS_PREFIX/lib/pkgconfig:$DEPENDS_PREFIX/share/pkgconfig:$PKG_CONFIG_PATH"
-            export PKG_CONFIG_LIBDIR="$DEPENDS_PREFIX/lib/pkgconfig"
-            
-            ./configure --prefix="$DEPENDS_PREFIX" \
-                        PKG_CONFIG_PATH="$PKG_CONFIG_PATH" \
-                        $CONFIG_FLAGS \
-                        LDFLAGS="-static-libgcc -static-libstdc++"
-          else
-            ./configure $CONFIG_FLAGS LDFLAGS="-static-libgcc -static-libstdc++"
-          fi
+          # Force Autotools to import site configuration compiled by depends
+          export CONFIG_SITE="$DEPENDS_PREFIX/share/config.site"
+          
+          ./configure --prefix="$DEPENDS_PREFIX" \
+                      --disable-maintainer-mode \
+                      --disable-dependency-tracking \
+                      --enable-static \
+                      --disable-shared \
+                      --with-gui=qt5
 
       - name: Compile Binaries
         run: |
@@ -137,21 +120,16 @@ jobs:
       - name: Package Release Binaries
         run: |
           mkdir -p release
-          
           if [[ "${{ matrix.target.host }}" == *"mingw"* ]]; then
             cp src/digiwaged.exe release/ 2>/dev/null || cp src/bitcoind.exe release/ 2>/dev/null || true
             cp src/digiwage-cli.exe release/ 2>/dev/null || cp src/bitcoin-cli.exe release/ 2>/dev/null || true
             cp src/qt/digiwage-qt.exe release/ 2>/dev/null || cp src/qt/bitcoin-qt.exe release/ 2>/dev/null || true
-            
-            cd release
-            zip -r digiwage-v3-${{ matrix.target.host }}.zip *
+            cd release && zip -r digiwage-v3-${{ matrix.target.host }}.zip *
           else
             cp src/digiwaged release/ 2>/dev/null || cp src/bitcoind release/ 2>/dev/null || true
             cp src/digiwage-cli release/ 2>/dev/null || cp src/bitcoin-cli release/ 2>/dev/null || true
             cp src/qt/digiwage-qt release/ 2>/dev/null || cp src/qt/bitcoin-qt release/ 2>/dev/null || true
-            
-            cd release
-            tar -czvf digiwage-v3-${{ matrix.target.host }}.tar.gz *
+            cd release && tar -czvf digiwage-v3-${{ matrix.target.host }}.tar.gz *
           fi
 
       - name: Upload Artifacts
