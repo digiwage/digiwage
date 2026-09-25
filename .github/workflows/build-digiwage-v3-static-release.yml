@@ -1,4 +1,4 @@
-name: Build DigiWage Linux Binaries (Daemon & GUI)
+name: Build DigiWage Linux x86_64 (Daemon & GUI)
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-linux:
+  build-linux-x86_64:
     runs-on: ubuntu-22.04
 
     steps:
@@ -33,9 +33,9 @@ jobs:
         run: |
           if [ -d "depends" ]; then
             mkdir -p depends/sources
-            # Download gmp-6.2.1 from GNU mirror directly to bypass 404
+            # Download gmp-6.2.1 directly to bypass bitcoincore.org 404
             if [ ! -f "depends/sources/gmp-6.2.1.tar.xz" ]; then
-              echo "Downloading gmp-6.2.1.tar.xz..."
+              echo "Pre-fetching gmp-6.2.1.tar.xz..."
               curl -sL https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz || \
               curl -sL https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz
             fi
@@ -61,6 +61,8 @@ jobs:
           ./autogen.sh
           
           if [ -d "depends/x86_64-pc-linux-gnu" ]; then
+            # Point PKG_CONFIG_PATH directly to the static depends prefix to find Qt5Svg
+            export PKG_CONFIG_PATH="$(pwd)/depends/x86_64-pc-linux-gnu/lib/pkgconfig:$PKG_CONFIG_PATH"
             ./configure --prefix=$(pwd)/depends/x86_64-pc-linux-gnu \
                         --disable-maintainer-mode \
                         --disable-dependency-tracking \
@@ -86,7 +88,7 @@ jobs:
           
           BINARY=$(find src/ -maxdepth 2 -type f \( -name "digiwage-qt" -o -name "digiwaged" \) | head -n 1)
           if [ -n "$BINARY" ]; then
-            echo "Inspect dynamic dependencies for $BINARY:"
+            echo "Inspecting dynamic dependencies for $BINARY:"
             ldd "$BINARY" || true
           fi
 
@@ -94,10 +96,9 @@ jobs:
         run: |
           mkdir -p release
           
-          cp src/digiwaged release/ 2>/dev/null || true
-          cp src/digiwage-cli release/ 2>/dev/null || true
-          cp src/qt/digiwage-qt release/ 2>/dev/null || true
-          cp src/digiwage-qt release/ 2>/dev/null || true
+          cp src/digiwaged release/ 2>/dev/null || cp src/bitcoind release/ 2>/dev/null || true
+          cp src/digiwage-cli release/ 2>/dev/null || cp src/bitcoin-cli release/ 2>/dev/null || true
+          cp src/qt/digiwage-qt release/ 2>/dev/null || cp src/qt/bitcoin-qt release/ 2>/dev/null || true
 
           cd release
           tar -czvf digiwage-v3-linux-x86_64.tar.gz *
