@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-matrix:
+  build-linux-windows:
     name: Build (${{ matrix.target.name }})
     runs-on: ubuntu-22.04
 
@@ -33,23 +33,10 @@ jobs:
             packages: "g++-mingw-w64-x86-64 mingw-w64-x86-64-dev nsis"
             artifact_ext: ".zip"
 
-          - name: "macOS x86_64 (Intel)"
-            host: "x86_64-apple-darwin"
-            packages: "clang llvm libtinfo5"
-            sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
-            artifact_ext: ".tar.gz"
-
-          - name: "macOS ARM64 (Apple Silicon)"
-            host: "arm64-apple-darwin"
-            packages: "clang llvm libtinfo5"
-            sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
-            artifact_ext: ".tar.gz"
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: digiwage-v3
           submodules: recursive
 
       - name: Install Base Toolchain
@@ -66,46 +53,60 @@ jobs:
           sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
           sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
 
-      - name: Setup macOS SDK (macOS Targets Only)
-        if: contains(matrix.target.host, 'apple-darwin')
-        run: |
-          mkdir -p depends/SDKs
-          cd depends/SDKs
-          curl -sL "${{ matrix.target.sdk_url }}" -o sdk.tar.xz
-          tar -xf sdk.tar.xz
-          
-          EXTRACTED_DIR=$(ls -d MacOSX*.sdk 2>/dev/null | head -n 1)
-          ln -s "$EXTRACTED_DIR" MacOSX.sdk 2>/dev/null || true
-          echo "SDK_PATH=$(pwd)/MacOSX.sdk" >> $GITHUB_ENV
-
       - name: Pre-fetch missing dependency sources
         run: |
           if [ -d "depends" ]; then
             mkdir -p depends/sources
             if [ ! -f "depends/sources/gmp-6.2.1.tar.xz" ]; then
-              curl -sL https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz || \
-              curl -sL https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz
+              curl -fsSL https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz \
+                -o depends/sources/gmp-6.2.1.tar.xz || \
+              curl -fsSL https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz \
+                -o depends/sources/gmp-6.2.1.tar.xz
             fi
           fi
 
       - name: Build In-Tree Dependencies
         run: |
           cd depends
-          if [[ "${{ matrix.target.host }}" == *"apple-darwin"* ]]; then
-            make -j$(nproc) HOST=${{ matrix.target.host }} SDK_PATH="${{ env.SDK_PATH }}"
-          else
-            make -j$(nproc) HOST=${{ matrix.target.host }}
+          make -j"$(nproc)" HOST="${{ matrix.target.host }}"
+
+      - name: Verify Target Qt5 Dependencies
+        run: |
+          DEPENDS_PREFIX="$PWD/depends/${{ matrix.target.host }}"
+
+          echo "Target: ${{ matrix.target.host }}"
+          echo "Depends prefix: $DEPENDS_PREFIX"
+
+          test -d "$DEPENDS_PREFIX"
+
+          echo "=== Qt5Svg files ==="
+          find "$DEPENDS_PREFIX" \
+            \( -name 'Qt5SvgConfig.cmake' \
+               -o -name 'Qt5Svg.pc' \
+               -o -name 'libQt5Svg*' \) \
+            -print
+
+          if ! find "$DEPENDS_PREFIX" \
+            \( -name 'Qt5SvgConfig.cmake' \
+               -o -name 'Qt5Svg.pc' \
+               -o -name 'libQt5Svg*' \) \
+            -print -quit | grep -q .; then
+            echo "::error::Qt5Svg was not installed into $DEPENDS_PREFIX"
+            exit 1
           fi
+
+          echo "Qt5Svg target files detected."
 
       - name: Autogen & Configure
         run: |
           ./autogen.sh
-          
-          DEPENDS_PREFIX="$(pwd)/depends/${{ matrix.target.host }}"
-          
-          # Force Autotools to import site configuration compiled by depends
+
+          DEPENDS_PREFIX="$PWD/depends/${{ matrix.target.host }}"
+
           export CONFIG_SITE="$DEPENDS_PREFIX/share/config.site"
-          
+
+          echo "Using CONFIG_SITE=$CONFIG_SITE"
+
           ./configure --prefix="$DEPENDS_PREFIX" \
                       --disable-maintainer-mode \
                       --disable-dependency-tracking \
@@ -115,21 +116,76 @@ jobs:
 
       - name: Compile Binaries
         run: |
-          make -j$(nproc)
+          make -j"$(nproc)"
 
       - name: Package Release Binaries
+        shell: bash
         run: |
+          set -euo pipefail
+
           mkdir -p release
+
           if [[ "${{ matrix.target.host }}" == *"mingw"* ]]; then
-            cp src/digiwaged.exe release/ 2>/dev/null || cp src/bitcoind.exe release/ 2>/dev/null || true
-            cp src/digiwage-cli.exe release/ 2>/dev/null || cp src/bitcoin-cli.exe release/ 2>/dev/null || true
-            cp src/qt/digiwage-qt.exe release/ 2>/dev/null || cp src/qt/bitcoin-qt.exe release/ 2>/dev/null || true
-            cd release && zip -r digiwage-v3-${{ matrix.target.host }}.zip *
+            if [[ -f src/digiwaged.exe ]]; then
+              cp src/digiwaged.exe release/
+            elif [[ -f src/bitcoind.exe ]]; then
+              cp src/bitcoind.exe release/
+            else
+              echo "::error::Daemon executable was not produced."
+              exit 1
+            fi
+
+            if [[ -f src/digiwage-cli.exe ]]; then
+              cp src/digiwage-cli.exe release/
+            elif [[ -f src/bitcoin-cli.exe ]]; then
+              cp src/bitcoin-cli.exe release/
+            else
+              echo "::error::CLI executable was not produced."
+              exit 1
+            fi
+
+            if [[ -f src/qt/digiwage-qt.exe ]]; then
+              cp src/qt/digiwage-qt.exe release/
+            elif [[ -f src/qt/bitcoin-qt.exe ]]; then
+              cp src/qt/bitcoin-qt.exe release/
+            else
+              echo "::error::Qt executable was not produced."
+              exit 1
+            fi
+
+            cd release
+            zip -r "digiwage-v3-${{ matrix.target.host }}.zip" ./*.exe
+
           else
-            cp src/digiwaged release/ 2>/dev/null || cp src/bitcoind release/ 2>/dev/null || true
-            cp src/digiwage-cli release/ 2>/dev/null || cp src/bitcoin-cli release/ 2>/dev/null || true
-            cp src/qt/digiwage-qt release/ 2>/dev/null || cp src/qt/bitcoin-qt release/ 2>/dev/null || true
-            cd release && tar -czvf digiwage-v3-${{ matrix.target.host }}.tar.gz *
+            if [[ -f src/digiwaged ]]; then
+              cp src/digiwaged release/
+            elif [[ -f src/bitcoind ]]; then
+              cp src/bitcoind release/
+            else
+              echo "::error::Daemon executable was not produced."
+              exit 1
+            fi
+
+            if [[ -f src/digiwage-cli ]]; then
+              cp src/digiwage-cli release/
+            elif [[ -f src/bitcoin-cli ]]; then
+              cp src/bitcoin-cli release/
+            else
+              echo "::error::CLI executable was not produced."
+              exit 1
+            fi
+
+            if [[ -f src/qt/digiwage-qt ]]; then
+              cp src/qt/digiwage-qt release/
+            elif [[ -f src/qt/bitcoin-qt ]]; then
+              cp src/qt/bitcoin-qt release/
+            else
+              echo "::error::Qt executable was not produced."
+              exit 1
+            fi
+
+            cd release
+            tar -czvf "digiwage-v3-${{ matrix.target.host }}.tar.gz" ./*
           fi
 
       - name: Upload Artifacts
@@ -137,4 +193,148 @@ jobs:
         with:
           name: digiwage-v3-${{ matrix.target.host }}
           path: release/digiwage-v3-*${{ matrix.target.artifact_ext }}
+          if-no-files-found: error
+          retention-days: 30
+
+  build-macos:
+    name: Build (${{ matrix.target.name }})
+    runs-on: ${{ matrix.target.runner }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: "macOS x86_64 (Intel)"
+            host: "x86_64-apple-darwin"
+            runner: "macos-15-intel"
+            artifact_ext: ".tar.gz"
+
+          - name: "macOS ARM64 (Apple Silicon)"
+            host: "arm64-apple-darwin"
+            runner: "macos-15"
+            artifact_ext: ".tar.gz"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install macOS Build Tools
+        run: |
+          brew update
+          brew install \
+            autoconf \
+            automake \
+            libtool \
+            pkg-config \
+            cmake \
+            coreutils \
+            gnu-sed \
+            curl \
+            zip \
+            unzip
+
+      - name: Configure macOS Build Environment
+        run: |
+          echo "PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH" >> "$GITHUB_ENV"
+          echo "PATH=$(brew --prefix gnu-sed)/libexec/gnubin:$PATH" >> "$GITHUB_ENV"
+
+      - name: Pre-fetch missing dependency sources
+        run: |
+          if [ -d "depends" ]; then
+            mkdir -p depends/sources
+            if [ ! -f "depends/sources/gmp-6.2.1.tar.xz" ]; then
+              curl -fsSL https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz \
+                -o depends/sources/gmp-6.2.1.tar.xz || \
+              curl -fsSL https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz \
+                -o depends/sources/gmp-6.2.1.tar.xz
+            fi
+          fi
+
+      - name: Build In-Tree Dependencies
+        run: |
+          cd depends
+          make -j"$(sysctl -n hw.ncpu)" HOST="${{ matrix.target.host }}"
+
+      - name: Verify Target Qt5 Dependencies
+        run: |
+          DEPENDS_PREFIX="$PWD/depends/${{ matrix.target.host }}"
+
+          echo "Target: ${{ matrix.target.host }}"
+          echo "Depends prefix: $DEPENDS_PREFIX"
+
+          test -d "$DEPENDS_PREFIX"
+
+          echo "=== Qt5Svg files ==="
+          find "$DEPENDS_PREFIX" \
+            \( -name 'Qt5SvgConfig.cmake' \
+               -o -name 'Qt5Svg.pc' \
+               -o -name 'libQt5Svg*' \) \
+            -print
+
+      - name: Autogen & Configure
+        run: |
+          ./autogen.sh
+
+          DEPENDS_PREFIX="$PWD/depends/${{ matrix.target.host }}"
+
+          export CONFIG_SITE="$DEPENDS_PREFIX/share/config.site"
+
+          echo "Using CONFIG_SITE=$CONFIG_SITE"
+
+          ./configure --prefix="$DEPENDS_PREFIX" \
+                      --disable-maintainer-mode \
+                      --disable-dependency-tracking \
+                      --enable-static \
+                      --disable-shared \
+                      --with-gui=qt5
+
+      - name: Compile Binaries
+        run: |
+          make -j"$(sysctl -n hw.ncpu)"
+
+      - name: Package Release Binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p release
+
+          if [[ -f src/digiwaged ]]; then
+            cp src/digiwaged release/
+          elif [[ -f src/bitcoind ]]; then
+            cp src/bitcoind release/
+          else
+            echo "::error::Daemon executable was not produced."
+            exit 1
+          fi
+
+          if [[ -f src/digiwage-cli ]]; then
+            cp src/digiwage-cli release/
+          elif [[ -f src/bitcoin-cli ]]; then
+            cp src/bitcoin-cli release/
+          else
+            echo "::error::CLI executable was not produced."
+            exit 1
+          fi
+
+          if [[ -f src/qt/digiwage-qt ]]; then
+            cp src/qt/digiwage-qt release/
+          elif [[ -f src/qt/bitcoin-qt ]]; then
+            cp src/qt/bitcoin-qt release/
+          else
+            echo "::error::Qt executable was not produced."
+            exit 1
+          fi
+
+          cd release
+          tar -czvf "digiwage-v3-${{ matrix.target.host }}.tar.gz" ./*
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: digiwage-v3-${{ matrix.target.host }}
+          path: release/digiwage-v3-*${{ matrix.target.artifact_ext }}
+          if-no-files-found: error
           retention-days: 30
