@@ -1,0 +1,143 @@
+name: Multi-Platform DigiWage Builds
+
+on:
+  push:
+    branches:
+      - digiwage-v3
+  pull_request:
+    branches:
+      - digiwage-v3
+  workflow_dispatch:
+
+jobs:
+  build-matrix:
+    name: Build (${{ matrix.target.name }})
+    runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: "Linux x86_64"
+            host: "x86_64-pc-linux-gnu"
+            packages: "g++-x86-64-linux-gnu"
+            artifact_ext: ".tar.gz"
+
+          - name: "Linux ARM64"
+            host: "aarch64-linux-gnu"
+            packages: "g++-aarch64-linux-gnu binutils-aarch64-linux-gnu"
+            artifact_ext: ".tar.gz"
+
+          - name: "Windows x86_64"
+            host: "x86_64-w64-mingw32"
+            packages: "g++-mingw-w64-x86-64 mingw-w64-x86-64-dev nsis"
+            artifact_ext: ".zip"
+
+          - name: "macOS x86_64 (Intel)"
+            host: "x86_64-apple-darwin"
+            packages: "clang llvm libtinfo5"
+            sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
+            sdk_name: "MacOSX11.3.sdk"
+            artifact_ext: ".tar.gz"
+
+          - name: "macOS ARM64 (Apple Silicon)"
+            host: "arm64-apple-darwin"
+            packages: "clang llvm libtinfo5"
+            sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
+            sdk_name: "MacOSX11.3.sdk"
+            artifact_ext: ".tar.gz"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: digiwage-v3
+          submodules: recursive
+
+      - name: Install Base & Qt Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential libtool autotools-dev automake pkg-config \
+            bsdmainutils python3 cmake curl zip unzip \
+            qtbase5-dev qttools5-dev-tools libqt5dbus5 libqt5widgets5 \
+            libqt5svg5-dev qttools5-dev libprotobuf-dev protobuf-compiler libqrencode-dev \
+            ${{ matrix.target.packages }}
+
+      - name: Configure MinGW POSIX Threading (Windows Only)
+        if: matrix.target.host == 'x86_64-w64-mingw32'
+        run: |
+          sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+          sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
+
+      - name: Setup macOS SDK (macOS Targets Only)
+        if: contains(matrix.target.host, 'apple-darwin')
+        run: |
+          mkdir -p depends/SDKs
+          cd depends/SDKs
+          curl -sL "${{ matrix.target.sdk_url }}" -o sdk.tar.xz
+          tar -xf sdk.tar.xz
+          mv ${{ matrix.target.sdk_name }} MacOSX.sdk 2>/dev/null || true
+
+      - name: Pre-fetch missing dependency sources
+        run: |
+          if [ -d "depends" ]; then
+            mkdir -p depends/sources
+            if [ ! -f "depends/sources/gmp-6.2.1.tar.xz" ]; then
+              echo "Pre-fetching gmp-6.2.1.tar.xz..."
+              curl -sL https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz || \
+              curl -sL https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz -o depends/sources/gmp-6.2.1.tar.xz
+            fi
+          fi
+
+      - name: Build In-Tree Static Dependencies
+        run: |
+          if [ -d "depends" ]; then
+            echo "Building static dependencies for ${{ matrix.target.host }}..."
+            cd depends
+            make -j$(nproc) HOST=${{ matrix.target.host }}
+            cd ..
+          fi
+
+      - name: Autogen & Configure
+        run: |
+          ./autogen.sh
+          
+          CONFIG_FLAGS="--disable-maintainer-mode --disable-dependency-tracking --enable-static --disable-shared --with-gui=qt5"
+          
+          if [ -d "depends/${{ matrix.target.host }}" ]; then
+            ./configure --prefix=$(pwd)/depends/${{ matrix.target.host }} $CONFIG_FLAGS LDFLAGS="-static-libgcc -static-libstdc++"
+          else
+            ./configure $CONFIG_FLAGS LDFLAGS="-static-libgcc -static-libstdc++"
+          fi
+
+      - name: Compile Binaries
+        run: |
+          make -j$(nproc)
+
+      - name: Package Release Binaries
+        run: |
+          mkdir -p release
+          
+          if [[ "${{ matrix.target.host }}" == *"mingw"* ]]; then
+            cp src/digiwaged.exe release/ 2>/dev/null || cp src/bitcoind.exe release/ 2>/dev/null || true
+            cp src/digiwage-cli.exe release/ 2>/dev/null || cp src/bitcoin-cli.exe release/ 2>/dev/null || true
+            cp src/qt/digiwage-qt.exe release/ 2>/dev/null || cp src/qt/bitcoin-qt.exe release/ 2>/dev/null || true
+            
+            cd release
+            zip -r digiwage-v3-${{ matrix.target.host }}.zip *
+          else
+            cp src/digiwaged release/ 2>/dev/null || cp src/bitcoind release/ 2>/dev/null || true
+            cp src/digiwage-cli release/ 2>/dev/null || cp src/bitcoin-cli release/ 2>/dev/null || true
+            cp src/qt/digiwage-qt release/ 2>/dev/null || cp src/qt/bitcoin-qt release/ 2>/dev/null || true
+            
+            cd release
+            tar -czvf digiwage-v3-${{ matrix.target.host }}.tar.gz *
+          fi
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: digiwage-v3-${{ matrix.target.host }}
+          path: release/digiwage-v3-*${{ matrix.target.artifact_ext }}
+          retention-days: 30
