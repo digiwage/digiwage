@@ -1,0 +1,136 @@
+name: Build Digiwage v3
+
+on:
+  push:
+    branches:
+      - digiwage-v3
+  pull_request:
+    branches:
+      - digiwage-v3
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Digiwage v3 with Berkeley DB 4.8
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout digiwage-v3
+        uses: actions/checkout@v4
+        with:
+          ref: digiwage-v3
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            autoconf \
+            automake \
+            autotools-dev \
+            build-essential \
+            libboost-all-dev \
+            libevent-dev \
+            libgmp-dev \
+            libgmpxx4ldbl \
+            libminiupnpc-dev \
+            libnatpmp-dev \
+            libqrencode-dev \
+            libsqlite3-dev \
+            libssl-dev \
+            libtool \
+            libzmq3-dev \
+            pkg-config \
+            qtbase5-dev \
+            qttools5-dev \
+            qttools5-dev-tools
+
+      - name: Build Berkeley DB 4.8
+        run: |
+          set -eux
+          mkdir -p "$HOME/deps"
+          cd "$HOME/deps"
+
+          curl -fL --retry 5 --retry-delay 2 \
+            -o db-4.8.30.NC.tar.gz \
+            https://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz
+
+          tar -xzf db-4.8.30.NC.tar.gz
+          cd db-4.8.30.NC/build_unix
+
+          ../dist/configure \
+            --prefix="$HOME/deps/db-4.8" \
+            --enable-cxx \
+            --disable-shared
+
+          make -j"$(nproc)"
+          make install
+
+      - name: Generate build system
+        run: |
+          chmod +x autogen.sh
+          ./autogen.sh
+
+      - name: Configure
+        env:
+          BDB_PREFIX: ${{ env.HOME }}/deps/db-4.8
+        run: |
+          set -eux
+
+          export CPPFLAGS="-I${BDB_PREFIX}/include"
+          export LDFLAGS="-L${BDB_PREFIX}/lib -Wl,-rpath,${BDB_PREFIX}/lib"
+
+          ./configure \
+            --with-gui=qt5 \
+            --with-incompatible-bdb=no \
+            --with-bdb-libdir="${BDB_PREFIX}/lib" \
+            --with-bdb-incdir="${BDB_PREFIX}/include" \
+            --enable-zmq \
+            --enable-tests \
+            --enable-bench \
+            --disable-werror
+
+      - name: Build
+        run: |
+          make -j"$(nproc)"
+
+      - name: Run tests
+        run: |
+          make check
+
+      - name: Show built binaries
+        run: |
+          find src -maxdepth 1 -type f -executable -printf '%p\n' | sort
+
+      - name: Package build artifacts
+        run: |
+          set -eux
+          mkdir -p artifacts
+
+          for binary in \
+            src/digiwaged \
+            src/digiwage-cli \
+            src/digiwage-tx \
+            src/digiwage-util \
+            src/digiwage-wallet \
+            src/qt/digiwage-qt; do
+            if [ -x "$binary" ]; then
+              cp -v "$binary" artifacts/
+            fi
+          done
+
+          test -n "$(find artifacts -type f -print -quit)"
+
+          tar -C artifacts -czf digiwage-v3-linux-x86_64.tar.gz .
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: digiwage-v3-linux-x86_64-bdb48
+          path: digiwage-v3-linux-x86_64.tar.gz
+          if-no-files-found: error
+          retention-days: 14
