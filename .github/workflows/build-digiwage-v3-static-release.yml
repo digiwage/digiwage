@@ -1,0 +1,94 @@
+name: Build DigiWage Linux Binary (Statically Linked)
+
+on:
+  push:
+    branches:
+      - digiwage-v3
+  pull_request:
+    branches:
+      - digiwage-v3
+  workflow_dispatch:
+
+jobs:
+  build-linux-static:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: digiwage-v3
+          submodules: recursive
+
+      - name: Install Build Dependencies & Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential libtool autotools-dev automake pkg-config \
+            bsdmainutils python3 libssl-dev libevent-dev libboost-system-dev \
+            libboost-filesystem-dev libboost-chrono-dev libboost-test-dev \
+            libboost-thread-dev libdb++-dev libminiupnpc-dev libzmq3-dev \
+            libprotobuf-dev protobuf-compiler libqrencode-dev
+
+      - name: Build Depends (Static Toolchain)
+        run: |
+          # Build bundled dependencies statically if the depends system exists
+          if [ -d "depends" ]; then
+            cd depends
+            make -j$(nproc) HOST=x86_64-pc-linux-gnu NO_QT=1
+            cd ..
+          fi
+
+      - name: Autogen & Configure
+        run: |
+          ./autogen.sh
+          
+          # Pass static flags to configure
+          if [ -d "depends/x86_64-pc-linux-gnu" ]; then
+            ./configure --prefix=$(pwd)/depends/x86_64-pc-linux-gnu \
+                        --disable-maintainer-mode \
+                        --disable-dependency-tracking \
+                        --enable-static \
+                        --disable-shared \
+                        LDFLAGS="-static-libgcc -static-libstdc++"
+          else
+            ./configure --enable-static \
+                        --disable-shared \
+                        --with-gui=no \
+                        LDFLAGS="-static-libgcc -static-libstdc++"
+          fi
+
+      - name: Compile Binary
+        run: |
+          make -j$(nproc)
+
+      - name: Verify Binary Dependencies
+        run: |
+          # Locate the built binary (adjust path if binary name/location differs)
+          BINARY=$(find src/ -maxdepth 2 -type f -name "digiwaged" -o -name "digiwage-cli" | head -n 1)
+          if [ -z "$BINARY" ]; then
+            echo "Binary not found!"
+            exit 1
+          fi
+          echo "Found binary at: $BINARY"
+          
+          # Print linked dynamic libraries to ensure minimal GLIBC dependence
+          echo "=== Dynamic Dependencies (ldd) ==="
+          ldd "$BINARY" || true
+
+      - name: Package Binary Artifacts
+        run: |
+          mkdir -p release
+          cp src/digiwaged release/ 2>/dev/null || true
+          cp src/digiwage-cli release/ 2>/dev/null || true
+          cp src/digiwage-qt release/ 2>/dev/null || true
+          
+          cd release
+          tar -czvf digiwage-linux-x86_64-static.tar.gz *
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: digiwage-linux-binary
+          path: release/digiwage-linux-x86_64-static.tar.gz
+          retention-days: 30
