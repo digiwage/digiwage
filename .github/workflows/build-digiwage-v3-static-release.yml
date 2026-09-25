@@ -27,7 +27,7 @@ jobs:
             build-essential libtool autotools-dev automake pkg-config \
             bsdmainutils python3 cmake curl g++-x86-64-linux-gnu \
             qtbase5-dev qttools5-dev-tools libqt5dbus5 libqt5widgets5 \
-            qttools5-dev libprotobuf-dev protobuf-compiler libqrencode-dev
+            libqt5svg5-dev qttools5-dev libprotobuf-dev protobuf-compiler libqrencode-dev
 
       - name: Pre-fetch missing dependency sources
         run: |
