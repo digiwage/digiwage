@@ -28,6 +28,8 @@ TitleBar::TitleBar(const PlatformStyle *platformStyle, QWidget *parent) :
     setFixedHeight(titleHeight);
     m_iconCloseTab = platformStyle->MultiStatesIcon(":/icons/quit", PlatformStyle::PushButtonIcon);
     ui->lblBalance->setVisible(false);
+    // The sidebar owns the top-left corner and shows the logo; no spacer here.
+    ui->widgetLogo->setVisible(false);
 
     // Quick Light/Dark toggle at the right edge of the header
     QToolButton* themeToggle = new QToolButton(this);

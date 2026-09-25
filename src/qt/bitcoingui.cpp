@@ -174,8 +174,9 @@ BitcoinGUI::BitcoinGUI(interfaces::Node& node, const PlatformStyle *_platformSty
     frameBlocks->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     QVBoxLayout *frameBlocksLayout = new QVBoxLayout(frameBlocks);
     QHBoxLayout *hLayIcons = new QHBoxLayout();
-    frameBlocksLayout->setContentsMargins(0,20,0,20);
-    frameBlocksLayout->setSpacing(10);
+    frameBlocksLayout->setContentsMargins(8,12,8,12);
+    frameBlocksLayout->setSpacing(8);
+    hLayIcons->setSpacing(6);
     unitDisplayControl = new UnitDisplayStatusBarControl(platformStyle);
     unitDisplayControl->setObjectName("unitDisplayControl");
     labelLedgerIcon = new QLabel();
@@ -205,6 +206,36 @@ BitcoinGUI::BitcoinGUI(interfaces::Node& node, const PlatformStyle *_platformSty
 
     frameBlocksLayout->addLayout(hLayIcons);
     addDockWindows(Qt::LeftDockWidgetArea, frameBlocks);
+
+    // The sidebar (navigation + this status block) runs the full window height,
+    // so the title bar only spans the page area instead of sitting above the logo.
+    setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+
+    if (appNavigationBar) {
+        // The left dock area is as wide as its widest dock: when the sidebar
+        // collapses, stack the status icons and hide the unit selector so the
+        // whole column can shrink with it.
+        for (QLabel* icon : std::initializer_list<QLabel*>{labelLedgerIcon, labelWalletEncryptionIcon, labelWalletHDStatusIcon, labelStakingIcon,
+                                                            labelProxyIcon, connectionsControl, labelBlocksIcon}) {
+            icon->setAlignment(Qt::AlignCenter);
+        }
+        auto applyCollapsed = [this, frameBlocks, hLayIcons](bool collapsed) {
+            hLayIcons->setDirection(collapsed ? QBoxLayout::TopToBottom : QBoxLayout::LeftToRight);
+            unitDisplayControl->setVisible(!collapsed);
+            const int width = appNavigationBar->maximumWidth();
+            frameBlocks->setMaximumWidth(width);
+            QList<QDockWidget*> docks;
+            for (QWidget* w : std::initializer_list<QWidget*>{appNavigationBar, frameBlocks}) {
+                if (QDockWidget* dock = qobject_cast<QDockWidget*>(w->parentWidget())) docks.append(dock);
+            }
+            QList<int> widths;
+            for (int i = 0; i < docks.size(); ++i) widths.append(width);
+            resizeDocks(docks, widths, Qt::Horizontal);
+        };
+        connect(appNavigationBar, &NavigationBar::collapsedChanged, this, applyCollapsed);
+        applyCollapsed(appNavigationBar->isCollapsed());
+    }
 
 #ifdef ENABLE_WALLET
     QTimer *timerLedgerIcon = new QTimer(labelLedgerIcon);
@@ -732,7 +763,6 @@ void BitcoinGUI::createTitleBars()
         addDockWindows(Qt::TopDockWidgetArea, appTitleBar);
         appTitleBar->setWalletSelector( m_wallet_selector_label, m_wallet_selector);
         walletFrame->setTitleBar(appTitleBar);
-        connect(appNavigationBar, SIGNAL(resized(QSize)), appTitleBar, SLOT(on_navigationResized(QSize)));
     }
 #endif // ENABLE_WALLET
 }

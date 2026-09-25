@@ -106,8 +106,8 @@ QScrollBar::add-line, QScrollBar::sub-line { width: 0px; height: 0px; }
 QScrollBar::add-page, QScrollBar::sub-page { background: transparent; }
 QAbstractScrollArea::corner { background: transparent; }
 
-QProgressBar { background-color: @surface-3@; border: none; border-radius: 4px; text-align: center; color: @text@; min-height: 8px; max-height: 8px; }
-QProgressBar::chunk { background-color: @accent@; border-radius: 4px; }
+QProgressBar { background-color: @surface-3@; border: none; border-radius: 8px; text-align: center; color: @text@; font-size: @font-caption@px; font-weight: 500; min-height: 16px; max-height: 16px; padding: 0px; }
+QProgressBar::chunk { background-color: @accent@; border-radius: 8px; }
 QSlider::groove:horizontal { background: @surface-3@; height: 4px; border-radius: 2px; }
 QSlider::sub-page:horizontal { background: @accent@; border-radius: 2px; }
 QSlider::handle:horizontal { background: @text@; width: 16px; height: 16px; margin: -6px 0; border-radius: 8px; border: 2px solid @accent@; }
@@ -120,7 +120,10 @@ QMenu::item { padding: 8px 28px 8px 14px; border-radius: 6px; }
 QMenu::item:selected { background-color: @accent-soft@; }
 QMenu::item:disabled { color: @text-3@; }
 QMenu::separator { height: 1px; background: @border@; margin: 6px 8px; }
-QStatusBar { background-color: @bg@; color: @text-2@; border-top: 1px solid @border@; }
+QStatusBar { background-color: @bg@; color: @text-2@; border-top: 1px solid @border@; min-height: 30px; font-size: @font-caption@px; }
+QStatusBar QLabel { color: @text-2@; font-size: @font-caption@px; padding: 0px 6px; }
+QStatusBar QProgressBar { min-width: 240px; margin: 0px 8px; }
+QFrame#frameBlocks { border-top: 1px solid @border@; }
 QStatusBar::item { border: none; }
 QSplitter::handle { background: transparent; }
 QDialogButtonBox QPushButton { min-width: 84px; }

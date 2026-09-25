@@ -19,7 +19,7 @@ static const int ToolButtonHeight = 44;
 static const int ToolButtonIconSize = 20;
 static const int MarginLeft = 12;
 static const int MarginRight = 12;
-static const int MarginTop = 16;
+static const int MarginTop = 12;
 static const int MarginBottom = 8;
 static const int ButtonSpacing = 4;
 static const int SubNavPaddingRight = 40;
@@ -238,8 +238,11 @@ void NavigationBar::buildUi()
         if(!m_subBar)
         {
             QHBoxLayout *hLayout = new QHBoxLayout();
-            hLayout->setContentsMargins(8,0,0,16);
+            hLayout->setContentsMargins(8,0,0,12);
             hLayout->setSpacing(10);
+            m_headerLayout = hLayout;
+            // Leading stretch (factor 0 until collapsed) centres the collapse button in the narrow bar
+            hLayout->addStretch(0);
             QLabel *labelLogo = new QLabel(this);
             labelLogo->setFixedSize(LogoIconSize, LogoIconSize);
             labelLogo->setObjectName("labelLogo");
@@ -262,6 +265,7 @@ void NavigationBar::buildUi()
             collapseButton->setCursor(Qt::PointingHandCursor);
             connect(collapseButton, &QToolButton::clicked, this, [this]{ setCollapsed(!m_collapsed); });
             hLayout->addWidget(collapseButton);
+            m_collapseButton = collapseButton;
             vboxLayout->addLayout(hLayout);
 
             if(m_logoSpace)
@@ -316,7 +320,10 @@ void NavigationBar::buildUi()
                 }
                 vboxLayout2->addWidget(subNavBar);
                 subNavBar->buildUi();
+                m_subBars[action] = subNavBar;
                 connect(action, &QAction::toggled, subNavBar, &NavigationBar::onSubBarClick);
+                // A collapsed bar has no room for the group's items: opening a group expands it
+                connect(action, &QAction::toggled, this, [this](bool on) { if (on && m_collapsed) setCollapsed(false); });
             }
             else
             {
@@ -355,17 +362,35 @@ void NavigationBar::setCollapsed(bool collapsed)
     m_collapsed = collapsed;
     QSettings().setValue("NavCollapsed", collapsed);
 
-    if (QLabel* brand = findChild<QLabel*>("labelBrand")) brand->setVisible(!collapsed);
-    for (QToolButton* button : findChildren<QToolButton*>()) {
-        if (button->objectName() == "navCollapseButton") {
-            button->setToolTip(collapsed ? tr("Expand sidebar") : tr("Collapse sidebar"));
-            button->setAccessibleName(button->toolTip());
-            continue;
-        }
-        button->setToolButtonStyle(collapsed ? Qt::ToolButtonIconOnly : Qt::ToolButtonTextBesideIcon);
+    // Collapsed, the header only keeps the expand button, centred: the logo and
+    // brand do not fit in the narrow bar and would push the button out of view.
+    if (QLabel* logo = findChild<QLabel*>("labelLogo", Qt::FindDirectChildrenOnly)) logo->setVisible(!collapsed);
+    if (QLabel* brand = findChild<QLabel*>("labelBrand", Qt::FindDirectChildrenOnly)) brand->setVisible(!collapsed);
+    if (m_headerLayout) {
+        m_headerLayout->setContentsMargins(collapsed ? 0 : 8, 0, 0, 12);
+        m_headerLayout->setStretch(0, collapsed ? 1 : 0);
     }
-    setMinimumWidth(collapsed ? CollapsedWidth : (ToolButtonWidth + MarginLeft + MarginRight));
-    setMaximumWidth(collapsed ? CollapsedWidth : (ToolButtonWidth + MarginLeft + MarginRight));
+    if (m_collapseButton) {
+        m_collapseButton->setToolTip(collapsed ? tr("Expand sidebar") : tr("Collapse sidebar"));
+        m_collapseButton->setAccessibleName(m_collapseButton->toolTip());
+    }
+
+    // Only this bar's own buttons; the group items live in the sub-bars
+    for (QToolButton* button : findChildren<QToolButton*>(QString(), Qt::FindDirectChildrenOnly)) {
+        if (button == m_collapseButton) continue;
+        button->setToolButtonStyle(collapsed ? Qt::ToolButtonIconOnly : Qt::ToolButtonTextBesideIcon);
+        button->setProperty("collapsed", collapsed);
+        button->style()->unpolish(button);
+        button->style()->polish(button);
+    }
+    // Hide the group items while collapsed; restore the open group on expand
+    for (auto it = m_subBars.begin(); it != m_subBars.end(); ++it) {
+        it.value()->setVisible(!collapsed && it.key()->isChecked());
+    }
+
+    const int width = collapsed ? CollapsedWidth : (ToolButtonWidth + MarginLeft + MarginRight);
+    setMinimumWidth(width);
+    setMaximumWidth(width);
     Q_EMIT collapsedChanged(collapsed);
 }
 

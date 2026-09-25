@@ -7,6 +7,9 @@
 #include <QMap>
 #include <QSize>
 
+class QHBoxLayout;
+class QToolButton;
+
 /**
  * @brief The NavigationBar class Custom control for navigation bar
  */
@@ -102,6 +105,9 @@ private:
     bool m_built;
     int m_logoSpace;
     bool m_collapsed{false};
+    QHBoxLayout* m_headerLayout{nullptr};
+    QToolButton* m_collapseButton{nullptr};
+    QMap<QAction*, NavigationBar*> m_subBars;
 };
 
 #endif // NAVIGATIONBAR_H
