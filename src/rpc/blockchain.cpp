@@ -148,7 +148,11 @@ double GetPoSKernelPS(ChainstateManager& chainman)
         {
             if (pindexPrevStake)
             {
-                dStakeKernelsTriedAvg += GetDifficulty(pindexPrevStake) * 4294967296.0;
+                // The DigiWage kernel checks hash < target * (value / 100), so the
+                // same difficulty means 100x the stake weight of Qtum's target * value.
+                const bool digiwageKernel = consensusParams.digiwage_history &&
+                                            pindexPrevStake->nHeight > consensusParams.digiwage_last_pow_height;
+                dStakeKernelsTriedAvg += GetDifficulty(pindexPrevStake) * 4294967296.0 * (digiwageKernel ? 100 : 1);
                 if(dynamicStakeSpacing)
                     nStakesTime += pindexPrevStake->nTime - pindex->nTime;
                 nStakesHandled++;
