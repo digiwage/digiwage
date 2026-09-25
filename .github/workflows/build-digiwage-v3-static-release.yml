@@ -1,4 +1,4 @@
-name: Build DigiWage Linux Binary (Statically Linked)
+name: Build DigiWage Linux Binary (Static Toolchain)
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-linux-static:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
@@ -20,30 +20,34 @@ jobs:
           ref: digiwage-v3
           submodules: recursive
 
-      - name: Install Build Dependencies & Toolchain
+      - name: Install Base Build System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential libtool autotools-dev automake pkg-config \
-            bsdmainutils python3 libssl-dev libevent-dev libboost-system-dev \
-            libboost-filesystem-dev libboost-chrono-dev libboost-test-dev \
-            libboost-thread-dev libdb++-dev libminiupnpc-dev libzmq3-dev \
-            libprotobuf-dev protobuf-compiler libqrencode-dev
+            bsdmainutils python3 cmake curl g++-x86-64-linux-gnu
 
-      - name: Build Depends (Static Toolchain)
+      - name: Build In-Tree Static Dependencies
         run: |
-          # Build bundled dependencies statically if the depends system exists
+          # If the repository includes the depends system, build static dependencies
           if [ -d "depends" ]; then
+            echo "Building static dependencies in depends/..."
             cd depends
             make -j$(nproc) HOST=x86_64-pc-linux-gnu NO_QT=1
             cd ..
+          else
+            echo "No depends directory found, installing fallback lib packages..."
+            sudo apt-get install -y --no-install-recommends \
+              libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev \
+              libboost-chrono-dev libboost-test-dev libboost-thread-dev \
+              libdb++-dev libminiupnpc-dev libzmq3-dev libprotobuf-dev protobuf-compiler
           fi
 
       - name: Autogen & Configure
         run: |
           ./autogen.sh
           
-          # Pass static flags to configure
+          # Pass static flags and prefix if depends was built
           if [ -d "depends/x86_64-pc-linux-gnu" ]; then
             ./configure --prefix=$(pwd)/depends/x86_64-pc-linux-gnu \
                         --disable-maintainer-mode \
@@ -62,33 +66,34 @@ jobs:
         run: |
           make -j$(nproc)
 
-      - name: Verify Binary Dependencies
+      - name: Inspect Dynamic Linkage
         run: |
-          # Locate the built binary (adjust path if binary name/location differs)
-          BINARY=$(find src/ -maxdepth 2 -type f -name "digiwaged" -o -name "digiwage-cli" | head -n 1)
+          # Find bitcoind/digiwaged binary
+          BINARY=$(find src/ -maxdepth 2 -type f \( -name "digiwaged" -o -name "digiwage-cli" -o -name "bitcoind" \) | head -n 1)
           if [ -z "$BINARY" ]; then
-            echo "Binary not found!"
+            echo "Executable binary not found in src/"
             exit 1
           fi
-          echo "Found binary at: $BINARY"
-          
-          # Print linked dynamic libraries to ensure minimal GLIBC dependence
-          echo "=== Dynamic Dependencies (ldd) ==="
+          echo "Inspecting dynamic dependencies for $BINARY:"
           ldd "$BINARY" || true
 
-      - name: Package Binary Artifacts
+      - name: Package Release
         run: |
           mkdir -p release
           cp src/digiwaged release/ 2>/dev/null || true
           cp src/digiwage-cli release/ 2>/dev/null || true
           cp src/digiwage-qt release/ 2>/dev/null || true
           
-          cd release
-          tar -czvf digiwage-linux-x86_64-static.tar.gz *
+          # If names follow standard Bitcoin Core convention
+          cp src/bitcoind release/ 2>/dev/null || true
+          cp src/bitcoin-cli release/ 2>/dev/null || true
 
-      - name: Upload Build Artifact
+          cd release
+          tar -czvf digiwage-v3-linux-x86_64.tar.gz *
+
+      - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: digiwage-linux-binary
-          path: release/digiwage-linux-x86_64-static.tar.gz
-          retention-days: 28
+          name: digiwage-v3-linux-x86_64
+          path: release/digiwage-v3-linux-x86_64.tar.gz
+          retention-days: 30
