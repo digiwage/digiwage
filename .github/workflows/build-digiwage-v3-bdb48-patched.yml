@@ -121,6 +121,14 @@ jobs:
         run: |
           xvfb-run -a -s "-screen 0 1920x1080x24" make check
 
+        - name: Show Qt test log on failure
+        if: failure()
+        run: |
+          echo "===== src/test-suite.log ====="
+          cat src/test-suite.log || true
+          echo "===== Qt test logs ====="
+          find src -name "*.log" -type f -print -exec sh -c 'echo "===== $1 ====="; cat "$1"' _ {} \; || true
+
       - name: Show built binaries
         run: |
           find src -maxdepth 1 -type f -executable -printf '%p\n' | sort
