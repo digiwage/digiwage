@@ -121,7 +121,7 @@ jobs:
         run: |
           xvfb-run -a -s "-screen 0 1920x1080x24" make check
 
-        - name: Show Qt test log on failure
+      - name: Show Qt test log on failure
         if: failure()
         run: |
           echo "===== src/test-suite.log ====="
