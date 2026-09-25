@@ -35,13 +35,13 @@ jobs:
 
           - name: "macOS x86_64 (Intel)"
             host: "x86_64-apple-darwin"
-            packages: "clang llvm libtinfo5"
+            packages: "clang llvm libtinfo5-dev"
             sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
             artifact_ext: ".tar.gz"
 
           - name: "macOS ARM64 (Apple Silicon)"
             host: "arm64-apple-darwin"
-            packages: "clang llvm libtinfo5"
+            packages: "clang llvm libtinfo5-dev"
             sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
             artifact_ext: ".tar.gz"
 
@@ -77,14 +77,13 @@ jobs:
           curl -sL "${{ matrix.target.sdk_url }}" -o sdk.tar.xz
           tar -xf sdk.tar.xz
           
-          # Find extracted directory and map it to expected depends SDK name
           EXTRACTED_DIR=$(ls -d MacOSX*.sdk 2>/dev/null | head -n 1)
           
-          # Symlink both standard MacOSX.sdk and expected Xcode SDK directory name
           ln -s "$EXTRACTED_DIR" MacOSX.sdk 2>/dev/null || true
           ln -s "$EXTRACTED_DIR" Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers 2>/dev/null || true
           
-          ls -la
+          # Set SDK path in GitHub environment for subsequent steps
+          echo "SDK_PATH=$(pwd)/MacOSX.sdk" >> $GITHUB_ENV
 
       - name: Pre-fetch missing dependency sources
         run: |
@@ -102,7 +101,13 @@ jobs:
           if [ -d "depends" ]; then
             echo "Building static dependencies for ${{ matrix.target.host }}..."
             cd depends
-            make -j$(nproc) HOST=${{ matrix.target.host }}
+            
+            if [[ "${{ matrix.target.host }}" == *"apple-darwin"* ]]; then
+              make -j$(nproc) HOST=${{ matrix.target.host }} SDK_PATH="${{ env.SDK_PATH }}"
+            else
+              make -j$(nproc) HOST=${{ matrix.target.host }}
+            fi
+            
             cd ..
           fi
 
@@ -111,10 +116,16 @@ jobs:
           ./autogen.sh
           
           CONFIG_FLAGS="--disable-maintainer-mode --disable-dependency-tracking --enable-static --disable-shared --with-gui=qt5"
+          DEPENDS_PREFIX="$(pwd)/depends/${{ matrix.target.host }}"
           
-          if [ -d "depends/${{ matrix.target.host }}" ]; then
-            export PKG_CONFIG_PATH="$(pwd)/depends/${{ matrix.target.host }}/lib/pkgconfig:$PKG_CONFIG_PATH"
-            ./configure --prefix=$(pwd)/depends/${{ matrix.target.host }} $CONFIG_FLAGS LDFLAGS="-static-libgcc -static-libstdc++"
+          if [ -d "$DEPENDS_PREFIX" ]; then
+            export PKG_CONFIG_PATH="$DEPENDS_PREFIX/lib/pkgconfig:$DEPENDS_PREFIX/share/pkgconfig:$PKG_CONFIG_PATH"
+            export PKG_CONFIG_LIBDIR="$DEPENDS_PREFIX/lib/pkgconfig"
+            
+            ./configure --prefix="$DEPENDS_PREFIX" \
+                        PKG_CONFIG_PATH="$PKG_CONFIG_PATH" \
+                        $CONFIG_FLAGS \
+                        LDFLAGS="-static-libgcc -static-libstdc++"
           else
             ./configure $CONFIG_FLAGS LDFLAGS="-static-libgcc -static-libstdc++"
           fi
