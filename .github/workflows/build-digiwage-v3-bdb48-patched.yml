@@ -46,6 +46,7 @@ jobs:
             libzmq3-dev \
             pkg-config \
             qtbase5-dev \
+            libqt5svg5-dev \
             qttools5-dev \
             qttools5-dev-tools
 
