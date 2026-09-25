@@ -12,11 +12,14 @@
 namespace SignStr
 {
 const std::string strMessageMagic = "DigiWage Signed Message:\n";
+// Proofs of delegation (PoD) keep Qtum's prefix: the delegations contract
+// deployed at nOfflineStakeHeight verifies them with "\x15Qtum Signed Message:\n".
+const std::string strPoDMessageMagic = "Qtum Signed Message:\n";
 
 inline bool SignMessage(const CKey& key, const std::string& strMessage, std::vector<unsigned char>& vchSig)
 {
     CHashWriter ss(SER_GETHASH, 0);
-    ss << strMessageMagic;
+    ss << strPoDMessageMagic;
     ss << strMessage;
 
     return key.SignCompact(ss.GetHash(), vchSig);
@@ -25,7 +28,7 @@ inline bool SignMessage(const CKey& key, const std::string& strMessage, std::vec
 inline bool VerifyMessage(const CKeyID& keyID, const std::string& strMessage, const std::vector<unsigned char>& vchSig)
 {
     CHashWriter ss(SER_GETHASH, 0);
-    ss << strMessageMagic;
+    ss << strPoDMessageMagic;
     ss << strMessage;
 
     CPubKey pubkey;
@@ -38,7 +41,7 @@ inline bool VerifyMessage(const CKeyID& keyID, const std::string& strMessage, co
 inline bool GetKeyIdMessage(const std::string& strMessage, const std::vector<unsigned char>& vchSig, CKeyID& keyID)
 {
     CHashWriter ss(SER_GETHASH, 0);
-    ss << strMessageMagic;
+    ss << strPoDMessageMagic;
     ss << strMessage;
 
     CPubKey pubkey;

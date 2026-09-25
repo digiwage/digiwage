@@ -64,13 +64,14 @@ MessageVerificationResult MessageVerify(
 bool MessageSign(
     const CKey& privkey,
     const std::string& message,
-    std::string& signature);
+    std::string& signature,
+    const std::string& magic = MESSAGE_MAGIC);
 
 /**
  * Hashes a message for signing and verification in a manner that prevents
  * inadvertently signing a transaction.
  */
-uint256 MessageHash(const std::string& message);
+uint256 MessageHash(const std::string& message, const std::string& magic = MESSAGE_MAGIC);
 
 std::string SigningResultString(const SigningResult res);
 

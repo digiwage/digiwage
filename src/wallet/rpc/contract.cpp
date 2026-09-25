@@ -1003,7 +1003,8 @@ RPCHelpMan setdelegateforaddress()
     else
     {
         std::string str_sig;
-        SigningResult res = pwallet->SignMessage(hexStaker, pkhSender, str_sig);
+        // Signed with the PoD prefix the delegations contract verifies
+        SigningResult res = pwallet->SignMessage(hexStaker, pkhSender, str_sig, SignStr::strPoDMessageMagic);
         if(res == SigningResult::PRIVATE_KEY_NOT_AVAILABLE)
         {
             throw JSONRPCError(RPC_WALLET_ERROR, "Private key not available for the sender address");

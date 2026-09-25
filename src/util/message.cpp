@@ -59,11 +59,12 @@ MessageVerificationResult MessageVerify(
 bool MessageSign(
     const CKey& privkey,
     const std::string& message,
-    std::string& signature)
+    std::string& signature,
+    const std::string& magic)
 {
     std::vector<unsigned char> signature_bytes;
 
-    if (!privkey.SignCompact(MessageHash(message), signature_bytes)) {
+    if (!privkey.SignCompact(MessageHash(message, magic), signature_bytes)) {
         return false;
     }
 
@@ -72,10 +73,10 @@ bool MessageSign(
     return true;
 }
 
-uint256 MessageHash(const std::string& message)
+uint256 MessageHash(const std::string& message, const std::string& magic)
 {
     HashWriter hasher{};
-    hasher << MESSAGE_MAGIC << message;
+    hasher << magic << message;
 
     return hasher.GetHash();
 }

@@ -611,14 +611,14 @@ bool LegacyScriptPubKeyMan::SignTransaction(CMutableTransaction& tx, const std::
     return ::SignTransaction(tx, this, coins, sighash, input_errors);
 }
 
-SigningResult LegacyScriptPubKeyMan::SignMessage(const std::string& message, const PKHash& pkhash, std::string& str_sig) const
+SigningResult LegacyScriptPubKeyMan::SignMessage(const std::string& message, const PKHash& pkhash, std::string& str_sig, const std::string& magic) const
 {
     CKey key;
     if (!GetKey(ToKeyID(pkhash), key)) {
         return SigningResult::PRIVATE_KEY_NOT_AVAILABLE;
     }
 
-    if (MessageSign(key, message, str_sig)) {
+    if (MessageSign(key, message, str_sig, magic)) {
         return SigningResult::OK;
     }
     return SigningResult::SIGNING_FAILED;
@@ -2469,7 +2469,7 @@ bool DescriptorScriptPubKeyMan::SignTransaction(CMutableTransaction& tx, const s
     return ::SignTransaction(tx, keys.get(), coins, sighash, input_errors);
 }
 
-SigningResult DescriptorScriptPubKeyMan::SignMessage(const std::string& message, const PKHash& pkhash, std::string& str_sig) const
+SigningResult DescriptorScriptPubKeyMan::SignMessage(const std::string& message, const PKHash& pkhash, std::string& str_sig, const std::string& magic) const
 {
     std::unique_ptr<FlatSigningProvider> keys = GetSigningProvider(GetScriptForDestination(pkhash), true);
     if (!keys) {
@@ -2481,7 +2481,7 @@ SigningResult DescriptorScriptPubKeyMan::SignMessage(const std::string& message,
         return SigningResult::PRIVATE_KEY_NOT_AVAILABLE;
     }
 
-    if (!MessageSign(key, message, str_sig)) {
+    if (!MessageSign(key, message, str_sig, magic)) {
         return SigningResult::SIGNING_FAILED;
     }
     return SigningResult::OK;

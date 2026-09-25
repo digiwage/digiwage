@@ -652,7 +652,7 @@ public:
     bool SignTransaction(CMutableTransaction& tx) const EXCLUSIVE_LOCKS_REQUIRED(cs_wallet);
     /** Sign the tx given the input coins and sighash. */
     bool SignTransaction(CMutableTransaction& tx, const std::map<COutPoint, Coin>& coins, int sighash, std::map<int, bilingual_str>& input_errors) const;
-    SigningResult SignMessage(const std::string& message, const PKHash& pkhash, std::string& str_sig) const;
+    SigningResult SignMessage(const std::string& message, const PKHash& pkhash, std::string& str_sig, const std::string& magic = MESSAGE_MAGIC) const;
     bool SignTransactionOutput(CMutableTransaction& tx) const;
     bool SignTransactionOutput(CMutableTransaction& tx, int sighash, std::map<int, std::string>& output_errors) const;
     bool SignTransactionStake(CMutableTransaction& tx, const std::vector<std::pair<const CWalletTx*,unsigned int>>& vwtxPrev) const;
