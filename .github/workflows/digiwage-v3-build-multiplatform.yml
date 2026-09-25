@@ -37,14 +37,12 @@ jobs:
             host: "x86_64-apple-darwin"
             packages: "clang llvm libtinfo5"
             sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
-            sdk_name: "MacOSX11.3.sdk"
             artifact_ext: ".tar.gz"
 
           - name: "macOS ARM64 (Apple Silicon)"
             host: "arm64-apple-darwin"
             packages: "clang llvm libtinfo5"
             sdk_url: "https://github.com/phracker/MacOSX-SDKs/releases/download/11.3/MacOSX11.3.sdk.tar.xz"
-            sdk_name: "MacOSX11.3.sdk"
             artifact_ext: ".tar.gz"
 
     steps:
@@ -75,9 +73,18 @@ jobs:
         run: |
           mkdir -p depends/SDKs
           cd depends/SDKs
+          echo "Downloading macOS SDK..."
           curl -sL "${{ matrix.target.sdk_url }}" -o sdk.tar.xz
           tar -xf sdk.tar.xz
-          mv ${{ matrix.target.sdk_name }} MacOSX.sdk 2>/dev/null || true
+          
+          # Find extracted directory and map it to expected depends SDK name
+          EXTRACTED_DIR=$(ls -d MacOSX*.sdk 2>/dev/null | head -n 1)
+          
+          # Symlink both standard MacOSX.sdk and expected Xcode SDK directory name
+          ln -s "$EXTRACTED_DIR" MacOSX.sdk 2>/dev/null || true
+          ln -s "$EXTRACTED_DIR" Xcode-12.2-12B45b-extracted-SDK-with-libcxx-headers 2>/dev/null || true
+          
+          ls -la
 
       - name: Pre-fetch missing dependency sources
         run: |
@@ -106,6 +113,7 @@ jobs:
           CONFIG_FLAGS="--disable-maintainer-mode --disable-dependency-tracking --enable-static --disable-shared --with-gui=qt5"
           
           if [ -d "depends/${{ matrix.target.host }}" ]; then
+            export PKG_CONFIG_PATH="$(pwd)/depends/${{ matrix.target.host }}/lib/pkgconfig:$PKG_CONFIG_PATH"
             ./configure --prefix=$(pwd)/depends/${{ matrix.target.host }} $CONFIG_FLAGS LDFLAGS="-static-libgcc -static-libstdc++"
           else
             ./configure $CONFIG_FLAGS LDFLAGS="-static-libgcc -static-libstdc++"
