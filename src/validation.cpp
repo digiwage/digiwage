@@ -3240,6 +3240,24 @@ bool Chainstate::ConnectBlock(const CBlock& block, BlockValidationState& state, 
         return true;
     }
 
+    // DigiWage stake modifier v2 = hash(kernel txid, previous modifier). AddToBlockIndex
+    // computes it when the block arrives, but legacy (pre-v6) headers carry no
+    // kernel, so with parallel download a block's body can arrive before its
+    // parent's and the stored value is built on a stale parent modifier; the next
+    // block's kernel check then fails. Blocks connect in chain order with the
+    // parent already connected, so settle the value here.
+    if (params.GetConsensus().digiwage_history && pindex->pprev &&
+        pindex->nHeight >= params.GetConsensus().digiwage_stake_modifier_v2_height &&
+        block.IsProofOfStake() && block.vtx.size() > 1 && !block.vtx[1]->vin.empty()) {
+        CHashWriter writer(SER_GETHASH, 0);
+        writer << block.vtx[1]->vin[0].prevout.hash << pindex->pprev->nStakeModifier;
+        const uint256 modifier = writer.GetHash();
+        if (pindex->nStakeModifier != modifier) {
+            pindex->nStakeModifier = modifier;
+            if (!fJustCheck) m_blockman.m_dirty_blockindex.insert(pindex);
+        }
+    }
+
     // State is filled in by UpdateHashProof
     if (!UpdateHashProof(block, state, params.GetConsensus(), pindex, view)) {
         return error("%s: ConnectBlock(): %s", __func__, state.GetRejectReason().c_str());
