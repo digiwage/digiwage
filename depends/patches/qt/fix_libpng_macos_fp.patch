@@ -1,6 +1,6 @@
 --- a/qtbase/src/3rdparty/libpng/pngpriv.h
 +++ b/qtbase/src/3rdparty/libpng/pngpriv.h
-@@ -556,18 +556,8 @@
+@@ -532,18 +532,8 @@
  #  include <float.h>
  
 -#  if (defined(__MWERKS__) && defined(macintosh)) || defined(applec) || \
