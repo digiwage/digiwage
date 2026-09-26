@@ -5,7 +5,7 @@ and https://bugreports.qt.io/browse/QTBUG-114316
 
 --- a/qtbase/src/corelib/tools/qduplicatetracker_p.h
 +++ b/qtbase/src/corelib/tools/qduplicatetracker_p.h
-@@ -52,8 +52,8 @@
+@@ -52,7 +52,7 @@
  
  #include <qglobal.h>
  
