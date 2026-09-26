@@ -252,6 +252,13 @@ jobs:
             fi
           fi
 
+      - name: Setup Python Build Environment
+        run: |
+          python3 -m venv "$RUNNER_TEMP/digiwage-python"
+          "$RUNNER_TEMP/digiwage-python/bin/python" -m pip install --upgrade pip setuptools wheel
+          echo "$RUNNER_TEMP/digiwage-python/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/digiwage-python/bin/python" -c "import setuptools; print('setuptools', setuptools.__version__)"
+
       - name: Build In-Tree Dependencies
         run: |
           cd depends
