@@ -290,10 +290,21 @@ define $(package)_build_cmds
 endef
 
 define $(package)_stage_cmds
-  $(MAKE) -C qtbase/src INSTALL_ROOT=$($(package)_staging_dir) $(addsuffix -install_subtargets,$(addprefix sub-,$($(package)_qt_libs))) && \
-  $(MAKE) -C qtsvg INSTALL_ROOT=$($(package)_staging_dir) install_subtargets && \
-  $(MAKE) -C qttools/src/linguist INSTALL_ROOT=$($(package)_staging_dir) $(addsuffix -install_subtargets,$($(package)_linguist_tools))) && \
-  $(MAKE) -C qttranslations INSTALL_ROOT=$($(package)_staging_dir) install_subtargets
+  $(MAKE) -C qtbase/src INSTALL_ROOT=$($(package)_staging_dir) \
+    sub-corelib-install_subtargets \
+    sub-network-install_subtargets \
+    sub-widgets-install_subtargets \
+    sub-gui-install_subtargets \
+    sub-plugins-install_subtargets \
+    sub-testlib-install_subtargets && \
+  $(MAKE) -C qtsvg INSTALL_ROOT=$($(package)_staging_dir) \
+    install_subtargets && \
+  $(MAKE) -C qttools/src/linguist INSTALL_ROOT=$($(package)_staging_dir) \
+    sub-lrelease-install_subtargets \
+    sub-lupdate-install_subtargets \
+    sub-lconvert-install_subtargets && \
+  $(MAKE) -C qttranslations INSTALL_ROOT=$($(package)_staging_dir) \
+    install_subtargets
 endef
 
 define $(package)_postprocess_cmds
