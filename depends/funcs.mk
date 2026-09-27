@@ -288,8 +288,5 @@ $(foreach package,$(all_packages),$(eval $(call int_config_attach_build_config,$
 #create build targets
 $(foreach package,$(all_packages),$(eval $(call int_add_cmds,$(package))))
 
-# Strip leading indentation from @@ and remove trailing spaces from all patch files:
-@sed -e 's/^[[:space:]]*@@/@@/' -e 's/[[:space:]]*$$//' $(1) > $(1).tmp && mv $(1).tmp $(1)
-	
 #special exception: if a toolchain package exists, all non-native packages depend on it
 $(foreach package,$(packages),$(eval $($(package)_extracted): |$($($(host_arch)_$(host_os)_native_toolchain)_cached) $($($(host_arch)_$(host_os)_native_binutils)_cached) ))
