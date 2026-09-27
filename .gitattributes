@@ -1,1 +1,3 @@
 src/clientversion.cpp export-subst
+*.patch text eol=lf
+*.diff text eol=lf
