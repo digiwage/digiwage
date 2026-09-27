@@ -27,6 +27,8 @@ $(package)_patches += memory_resource.patch
 $(package)_qttranslations_file_name=qttranslations-$($(package)_suffix)
 $(package)_qttranslations_sha256_hash=c92af4171397a0ed272330b4fa0669790fcac8d050b07c8b8cc565ebeba6735e
 
+qt_patches_darwin = fix_libpng_macos_fp.patch
+
 $(package)_qttools_file_name=qttools-$($(package)_suffix)
 $(package)_qttools_sha256_hash=6d0778b71b2742cb527561791d1d3d255366163d54a10f78c683a398f09ffc6c
 
@@ -278,10 +280,7 @@ define $(package)_preprocess_cmds
   echo "!host_build: QMAKE_CXXFLAGS   += -Wno-deprecated-declarations" >> qtbase/mkspecs/common/gcc-base.conf && \
   sed -i.old "s|QMAKE_CC                = \$$$$\$$$${CROSS_COMPILE}clang|QMAKE_CC                = $($(package)_cc)|" qtbase/mkspecs/common/clang.conf && \
   sed -i.old "s|QMAKE_CXX               = \$$$$\$$$${CROSS_COMPILE}clang++|QMAKE_CXX               = $($(package)_cxx)|" qtbase/mkspecs/common/clang.conf
-ifeq ($(host_os),darwin)
-  patch -p1 -i $($(package)_patch_dir)/fix_libpng_macos_fp.patch
-endif
-endef  
+endef   
 
 define $(package)_config_cmds
   cd qtbase && \
