@@ -275,7 +275,6 @@ define $(package)_preprocess_cmds
   echo "!host_build: QMAKE_LFLAGS     += $($(package)_ldflags)" >> qtbase/mkspecs/common/gcc-base.conf && \
   echo "!host_build: QMAKE_CFLAGS     += -Wno-deprecated-declarations" >> qtbase/mkspecs/common/gcc-base.conf && \
   echo "!host_build: QMAKE_CXXFLAGS   += -Wno-deprecated-declarations" >> qtbase/mkspecs/common/gcc-base.conf && \
-  sed -i.old 's/#      include <fp.h>/#      include <math.h>/' qtbase/src/3rdparty/libpng/pngpriv.h && \
   sed -i.old "s|QMAKE_CC                = \$$$$\$$$${CROSS_COMPILE}clang|QMAKE_CC                = $($(package)_cc)|" qtbase/mkspecs/common/clang.conf && \
   sed -i.old "s|QMAKE_CXX               = \$$$$\$$$${CROSS_COMPILE}clang++|QMAKE_CXX               = $($(package)_cxx)|" qtbase/mkspecs/common/clang.conf
 endef   
