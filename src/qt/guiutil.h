@@ -40,6 +40,7 @@ namespace interfaces
 QT_BEGIN_NAMESPACE
 class QAbstractButton;
 class QAbstractItemView;
+class QScrollArea;
 class QAction;
 class QDateTime;
 class QDialog;
@@ -365,6 +366,11 @@ namespace GUIUtil
     /** Show a muted, centred message over an item view while its model has no rows.
      *  Call after setModel(); calling again updates the text. */
     void setEmptyState(QAbstractItemView* view, const QString& text);
+
+    /** Replace a scroll area by its content, sized to the content's natural height.
+     *  For lists inside pages that already scroll as a whole (WalletView::addPage):
+     *  the content no longer stretches over the page or gets clipped. */
+    void flattenScrollArea(QScrollArea* area);
 
     /**
      * Returns the distance in pixels appropriate for drawing a subsequent character after text.

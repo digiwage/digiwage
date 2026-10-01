@@ -11,6 +11,7 @@
 
 #include <consensus/amount.h>
 
+#include <QToolButton>
 #include <QAction>
 #include <QApplication>
 #include <QDialog>
@@ -98,6 +99,10 @@ private:
         page("contract-create", "gotoCreateContractPage");
         page("contract-send", "gotoSendToContractPage");
         page("contract-call", "gotoCallContractPage");
+        // Real clicks on the sidebar: closing an open group, then the collapsed sidebar
+        m_steps.push_back({"nav-group-closed", [this]{ clickNav("Smart Contracts"); }, false});
+        m_steps.push_back({"nav-collapsed", [this]{ clickNav("Collapse"); }, false});
+        m_steps.push_back({"hide-expand", [this]{ clickNav("Expand"); }, false});
         page("tokens", "gotoTokenPage");
         page("delegation", "gotoDelegationPage");
         page("super-staker", "gotoSuperStakerPage");
@@ -158,6 +163,14 @@ private:
         }
     }
 
+    /** Click the sidebar button whose text or tooltip contains text. */
+    void clickNav(const QString& text)
+    {
+        for (QToolButton* b : m_win->findChildren<QToolButton*>()) {
+            if (b->isVisible() && (b->text().contains(text) || b->toolTip().contains(text, Qt::CaseInsensitive))) { b->click(); return; }
+        }
+    }
+
     BitcoinGUI* m_win;
     QString m_dir;
     QString m_mode{"dark"};
@@ -170,7 +183,11 @@ private:
 void RunUiTour(BitcoinGUI* window, const QString& outDir)
 {
     StyleSheet::instance().setMode(AppearanceMode::Dark);
-    window->resize(1280, 800);
+    // DW_UITOUR_SIZE=WxH checks smaller windows (default 1280x800)
+    QSize size(1280, 800);
+    const QStringList dims = qEnvironmentVariable("DW_UITOUR_SIZE").split('x');
+    if (dims.size() == 2 && dims[0].toInt() > 0 && dims[1].toInt() > 0) size = QSize(dims[0].toInt(), dims[1].toInt());
+    window->resize(size);
     Tour* tour = new Tour(window, outDir);
     QTimer::singleShot(9000, tour, [tour]{ tour->start(); });
 }

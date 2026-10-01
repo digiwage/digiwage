@@ -16,6 +16,7 @@
 #include <qt/platformstyle.h>
 #include <qt/walletmodel.h>
 
+#include <QVBoxLayout>
 #include <QApplication>
 #include <QClipboard>
 
@@ -25,6 +26,18 @@ SendCoinsEntry::SendCoinsEntry(const PlatformStyle *_platformStyle, QWidget *par
     platformStyle(_platformStyle)
 {
     ui->setupUi(this);
+
+    // "Subtract fee from amount" sits under the amount instead of beside it, so the
+    // form fits narrow windows (the amount box needs room for the largest amount)
+    ui->horizontalLayoutAmount->removeWidget(ui->checkboxSubtractFeeFromAmount);
+    ui->gridLayout->removeItem(ui->horizontalLayoutAmount);
+    QVBoxLayout* amountColumn = new QVBoxLayout();
+    amountColumn->setSpacing(8);
+    amountColumn->addLayout(ui->horizontalLayoutAmount);
+    amountColumn->addWidget(ui->checkboxSubtractFeeFromAmount);
+    ui->gridLayout->addLayout(amountColumn, 2, 1, 1, 4);
+    ui->gridLayout->setAlignment(ui->amountLabel, Qt::AlignTop);
+    ui->amountLabel->setContentsMargins(0, 8, 0, 0);
 
     ui->addressBookButton->setIcon(platformStyle->MultiStatesIcon(":/icons/address-book", PlatformStyle::PushButtonIcon));
     ui->pasteButton->setIcon(platformStyle->MultiStatesIcon(":/icons/editpaste", PlatformStyle::PushButtonIcon));

@@ -1545,6 +1545,13 @@ void BitcoinGUI::changeEvent(QEvent *e)
 #endif
 }
 
+void BitcoinGUI::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+    // Narrow windows give the pages the sidebar's width back
+    if (appNavigationBar) appNavigationBar->setNarrow(width() < 1200);
+}
+
 void BitcoinGUI::closeEvent(QCloseEvent *event)
 {
 #ifndef Q_OS_MACOS // Ignored on Mac

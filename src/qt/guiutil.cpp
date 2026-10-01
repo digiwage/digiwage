@@ -32,6 +32,10 @@
 #include <shlwapi.h>
 #endif
 
+#include <algorithm>
+#include <QLayout>
+#include <QTimer>
+#include <QScrollArea>
 #include <QAbstractButton>
 #include <QAbstractItemView>
 #include <QApplication>
@@ -1032,6 +1036,17 @@ private:
     QWidget* m_overlay;
 };
 } // namespace
+
+void flattenScrollArea(QScrollArea* area)
+{
+    if (!area || !area->widget() || !area->parentWidget() || !area->parentWidget()->layout()) return;
+    QWidget* content = area->takeWidget();
+    if (QLayoutItem* old = area->parentWidget()->layout()->replaceWidget(area, content)) delete old;
+    // Natural height only: grow with its rows, never take the page's free space
+    content->setSizePolicy(content->sizePolicy().horizontalPolicy(), QSizePolicy::Maximum);
+    // Kept (hidden) because callers may still reference it
+    area->hide();
+}
 
 void setEmptyState(QAbstractItemView* view, const QString& text)
 {

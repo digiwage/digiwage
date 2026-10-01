@@ -57,6 +57,12 @@ public:
     void showOutOfSyncWarning(bool fShow);
 
 private:
+    /** Add a page to the stack inside a frameless scroll area (short windows scroll
+     *  instead of clipping the page), with an optional heading above it. */
+    void addPage(QWidget* page, const QString& heading = QString());
+    /** Show a page added with addPage(). */
+    void showPage(QWidget* page);
+
     ClientModel* clientModel{nullptr};
 
     //!

@@ -61,7 +61,10 @@ public:
     /**
      * @brief setCollapsed Collapse the bar to icon-only (or restore it) and remember it.
      */
-    void setCollapsed(bool collapsed);
+    void setCollapsed(bool collapsed, bool remember = true);
+    /** Collapse automatically while the window is narrow (not saved), and restore
+     *  when it widens again unless the user collapsed the bar. */
+    void setNarrow(bool narrow);
     bool isCollapsed() const { return m_collapsed; }
 
 Q_SIGNALS:
@@ -105,6 +108,7 @@ private:
     bool m_built;
     int m_logoSpace;
     bool m_collapsed{false};
+    bool m_autoCollapsed{false};
     QHBoxLayout* m_headerLayout{nullptr};
     QToolButton* m_collapseButton{nullptr};
     QMap<QAction*, NavigationBar*> m_subBars;

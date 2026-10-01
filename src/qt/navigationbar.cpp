@@ -245,7 +245,7 @@ void NavigationBar::buildUi()
             hLayout->setContentsMargins(8,0,0,12);
             hLayout->setSpacing(10);
             m_headerLayout = hLayout;
-            // Leading stretch (factor 0 until collapsed) centres the collapse button in the narrow bar
+            // Leading stretch (factor 0 until collapsed) centres the logo in the narrow bar
             hLayout->addStretch(0);
             QLabel *labelLogo = new QLabel(this);
             labelLogo->setFixedSize(LogoIconSize, LogoIconSize);
@@ -258,18 +258,6 @@ void NavigationBar::buildUi()
             labelBrand->setProperty("title", "true");
             hLayout->addWidget(labelBrand);
             hLayout->addStretch(1);
-
-            QToolButton *collapseButton = new QToolButton(this);
-            collapseButton->setObjectName("navCollapseButton");
-            collapseButton->setAutoRaise(true);
-            collapseButton->setIcon(ThemedIcon::create(":/icons/sidebar", ThemedIcon::ButtonLight));
-            collapseButton->setIconSize(QSize(16, 16));
-            collapseButton->setToolTip(tr("Collapse sidebar"));
-            collapseButton->setAccessibleName(tr("Collapse sidebar"));
-            collapseButton->setCursor(Qt::PointingHandCursor);
-            connect(collapseButton, &QToolButton::clicked, this, [this]{ setCollapsed(!m_collapsed); });
-            hLayout->addWidget(collapseButton);
-            m_collapseButton = collapseButton;
             vboxLayout->addLayout(hLayout);
 
             if(m_logoSpace)
@@ -325,6 +313,14 @@ void NavigationBar::buildUi()
                 vboxLayout2->addWidget(subNavBar);
                 subNavBar->buildUi();
                 m_subBars[action] = subNavBar;
+                // Clicking the parent of an open group closes the group; clicking again reopens it
+                connect(toolButton, &QToolButton::pressed, subNavBar, [action, subNavBar] {
+                    subNavBar->setProperty("wasOpen", action->isChecked() && subNavBar->isVisible());
+                });
+                connect(toolButton, &QToolButton::clicked, subNavBar, [this, action, subNavBar] {
+                    if (subNavBar->property("wasOpen").toBool()) subNavBar->setVisible(false);
+                    else if (action->isChecked() && !m_collapsed) subNavBar->setVisible(true);
+                });
                 // Selecting a group item (e.g. from code or a link) also selects the group,
                 // which opens its sub-bar and moves the highlight off the previous page
                 for (QAction* item : group) {
@@ -334,7 +330,8 @@ void NavigationBar::buildUi()
                 }
                 connect(action, &QAction::toggled, subNavBar, &NavigationBar::onSubBarClick);
                 // A collapsed bar has no room for the group's items: opening a group expands it
-                connect(action, &QAction::toggled, this, [this](bool on) { if (on && m_collapsed) setCollapsed(false); });
+                // (not saved while the bar is only collapsed because the window is narrow)
+                connect(action, &QAction::toggled, this, [this](bool on) { if (on && m_collapsed) setCollapsed(false, !m_autoCollapsed); });
             }
             else
             {
@@ -353,6 +350,22 @@ void NavigationBar::buildUi()
             setMinimumWidth(defButtonWidth + MarginLeft + MarginRight);
             // The status block below draws the divider (frameBlocks border-top)
             vboxLayout->addStretch(1);
+
+            // Collapse / expand toggle at the bottom of the menu, styled as a nav item
+            QToolButton *collapseButton = new QToolButton(this);
+            collapseButton->setObjectName("navCollapseButton");
+            collapseButton->setIcon(ThemedIcon::create(":/icons/sidebar", ThemedIcon::NavBar));
+            collapseButton->setIconSize(QSize(ToolButtonIconSize, ToolButtonIconSize));
+            collapseButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+            collapseButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+            collapseButton->setCursor(Qt::PointingHandCursor);
+            SetObjectStyleSheet(collapseButton, StyleSheetNames::NavButton);
+            connect(collapseButton, &QToolButton::clicked, this, [this] {
+                m_autoCollapsed = false; // the user's own choice from here on
+                setCollapsed(!m_collapsed);
+            });
+            vboxLayout->addWidget(collapseButton);
+            m_collapseButton = collapseButton;
         }
 
         // The component is built
@@ -364,28 +377,26 @@ void NavigationBar::buildUi()
     }
 }
 
-void NavigationBar::setCollapsed(bool collapsed)
+void NavigationBar::setCollapsed(bool collapsed, bool remember)
 {
     if (m_subBar) return;
     m_collapsed = collapsed;
-    QSettings().setValue("NavCollapsed", collapsed);
+    if (remember) QSettings().setValue("NavCollapsed", collapsed);
 
-    // Collapsed, the header only keeps the expand button, centred: the logo and
-    // brand do not fit in the narrow bar and would push the button out of view.
-    if (QLabel* logo = findChild<QLabel*>("labelLogo", Qt::FindDirectChildrenOnly)) logo->setVisible(!collapsed);
+    // Collapsed, the header keeps only the logo, centred: the brand name does not fit
     if (QLabel* brand = findChild<QLabel*>("labelBrand", Qt::FindDirectChildrenOnly)) brand->setVisible(!collapsed);
     if (m_headerLayout) {
         m_headerLayout->setContentsMargins(collapsed ? 0 : 8, 0, 0, 12);
         m_headerLayout->setStretch(0, collapsed ? 1 : 0);
     }
     if (m_collapseButton) {
+        m_collapseButton->setText(collapsed ? QString() : QString(QChar(0x2002)) + tr("Collapse")); // en space: icon gap
         m_collapseButton->setToolTip(collapsed ? tr("Expand sidebar") : tr("Collapse sidebar"));
         m_collapseButton->setAccessibleName(m_collapseButton->toolTip());
     }
 
     // Only this bar's own buttons; the group items live in the sub-bars
     for (QToolButton* button : findChildren<QToolButton*>(QString(), Qt::FindDirectChildrenOnly)) {
-        if (button == m_collapseButton) continue;
         button->setToolButtonStyle(collapsed ? Qt::ToolButtonIconOnly : Qt::ToolButtonTextBesideIcon);
         button->setProperty("collapsed", collapsed);
         button->style()->unpolish(button);
@@ -400,6 +411,18 @@ void NavigationBar::setCollapsed(bool collapsed)
     setMinimumWidth(width);
     setMaximumWidth(width);
     Q_EMIT collapsedChanged(collapsed);
+}
+
+void NavigationBar::setNarrow(bool narrow)
+{
+    if (m_subBar) return;
+    if (narrow && !m_collapsed) {
+        m_autoCollapsed = true;
+        setCollapsed(true, false);
+    } else if (!narrow && m_autoCollapsed) {
+        m_autoCollapsed = false;
+        setCollapsed(false, false);
+    }
 }
 
 void NavigationBar::onSubBarClick(bool clicked)

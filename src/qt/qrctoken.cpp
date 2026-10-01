@@ -1,4 +1,5 @@
 #include <qt/qrctoken.h>
+#include <qt/guiutil.h>
 #include <qt/forms/ui_qrctoken.h>
 #include <qt/tokenitemmodel.h>
 #include <qt/walletmodel.h>
@@ -48,6 +49,7 @@ QRCToken::QRCToken(const PlatformStyle *platformStyle, QWidget *parent) :
     new QVBoxLayout(ui->scrollArea);
     ui->scrollArea->setWidget(m_tokenList);
     ui->scrollArea->setWidgetResizable(true);
+    GUIUtil::flattenScrollArea(ui->scrollArea); // the page itself scrolls (WalletView::addPage)
     connect(m_tokenList, &TokenListWidget::sendToken, this, &QRCToken::on_sendToken);
     connect(m_tokenList, &TokenListWidget::receiveToken, this, &QRCToken::on_receiveToken);
     connect(m_tokenList, &TokenListWidget::addToken, this, &QRCToken::on_addToken);

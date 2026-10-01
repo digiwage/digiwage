@@ -33,6 +33,8 @@
 #include <node/interface_ui.h>
 #include <util/strencodings.h>
 
+#include <QLabel>
+#include <QScrollArea>
 #include <QAction>
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -102,17 +104,18 @@ WalletView::WalletView(WalletModel* wallet_model, const PlatformStyle* _platform
     superStakerPage = new SuperStakerPage(platformStyle);
     superStakerPage->setModel(walletModel);
 
-    addWidget(overviewPage);
-    addWidget(transactionsPage);
-    addWidget(sendCoinsPage);
-    addWidget(receiveCoinsPage);
-    addWidget(createContractPage);
-    addWidget(sendToContractPage);
-    addWidget(callContractPage);
-    addWidget(QRCTokenPage);
-    addWidget(stakePage);
-    addWidget(delegationPage);
-    addWidget(superStakerPage);
+    // The overview's balance card and the contract pages' title bar tab name those pages
+    addPage(overviewPage);
+    addPage(transactionsPage, tr("Transactions"));
+    addPage(sendCoinsPage, tr("Send"));
+    addPage(receiveCoinsPage, tr("Receive"));
+    addPage(createContractPage);
+    addPage(sendToContractPage);
+    addPage(callContractPage);
+    addPage(QRCTokenPage, tr("Tokens"));
+    addPage(stakePage, tr("Staking"));
+    addPage(delegationPage, tr("Delegations"));
+    addPage(superStakerPage, tr("Super Staking"));
 
     connect(overviewPage, &OverviewPage::transactionClicked, this, &WalletView::transactionClicked);
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
@@ -128,7 +131,7 @@ WalletView::WalletView(WalletModel* wallet_model, const PlatformStyle* _platform
     // Clicking receive coins button show receive coins dialog
     connect(overviewPage, &OverviewPage::receiveCoinsClicked, this, &WalletView::receiveCoins);
     connect(sendCoinsPage, &SendCoinsDialog::coinsSent, this, &WalletView::coinsSent);
-    connect(sendCoinsPage, &SendCoinsDialog::coinsSent, this, [this]{ setCurrentWidget(transactionsPage); });
+    connect(sendCoinsPage, &SendCoinsDialog::coinsSent, this, [this]{ showPage(transactionsPage); });
     // Highlight transaction after send
     connect(sendCoinsPage, &SendCoinsDialog::coinsSent, transactionView, qOverload<const uint256&>(&TransactionView::focusTransaction));
 
@@ -244,22 +247,22 @@ void WalletView::processNewTokenTransaction(const QModelIndex &parent, int start
 
 void WalletView::gotoOverviewPage()
 {
-    setCurrentWidget(overviewPage);
+    showPage(overviewPage);
 }
 
 void WalletView::gotoHistoryPage()
 {
-    setCurrentWidget(transactionsPage);
+    showPage(transactionsPage);
 }
 
 void WalletView::gotoReceiveCoinsPage()
 {
-    setCurrentWidget(receiveCoinsPage);
+    showPage(receiveCoinsPage);
 }
 
 void WalletView::gotoSendCoinsPage(QString addr)
 {
-    setCurrentWidget(sendCoinsPage);
+    showPage(sendCoinsPage);
     if(walletFrame && walletFrame->currentWalletView() == this)
     {
         if (!addr.isEmpty())
@@ -269,37 +272,37 @@ void WalletView::gotoSendCoinsPage(QString addr)
 
 void WalletView::gotoCreateContractPage()
 {
-    setCurrentWidget(createContractPage);
+    showPage(createContractPage);
 }
 
 void WalletView::gotoSendToContractPage()
 {
-    setCurrentWidget(sendToContractPage);
+    showPage(sendToContractPage);
 }
 
 void WalletView::gotoCallContractPage()
 {
-    setCurrentWidget(callContractPage);
+    showPage(callContractPage);
 }
 
 void WalletView::gotoTokenPage()
 {
-    setCurrentWidget(QRCTokenPage);
+    showPage(QRCTokenPage);
 }
 
 void WalletView::gotoStakePage()
 {
-    setCurrentWidget(stakePage);
+    showPage(stakePage);
 }
 
 void WalletView::gotoDelegationPage()
 {
-    setCurrentWidget(delegationPage);
+    showPage(delegationPage);
 }
 
 void WalletView::gotoSuperStakerPage()
 {
-    setCurrentWidget(superStakerPage);
+    showPage(superStakerPage);
 }
 
 void WalletView::gotoSignMessageTab(QString addr)
@@ -458,4 +461,34 @@ void WalletView::signTxHardware(const QString &tx)
 void WalletView::disableTransactionView(bool disable)
 {
     transactionView->setDisabled(disable);
+}
+
+void WalletView::addPage(QWidget* page, const QString& heading)
+{
+    QWidget* content = page;
+    if (!heading.isEmpty()) {
+        content = new QWidget();
+        QVBoxLayout* layout = new QVBoxLayout(content);
+        layout->setContentsMargins(0, 0, 0, 0);
+        layout->setSpacing(0);
+        QLabel* title = new QLabel(heading, content);
+        title->setObjectName("pageHeading");
+        title->setProperty("pageHeading", "true");
+        layout->addWidget(title);
+        layout->addWidget(page, 1);
+    }
+    QScrollArea* scroll = new QScrollArea();
+    scroll->setFrameShape(QFrame::NoFrame);
+    scroll->setWidgetResizable(true);
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scroll->setWidget(content);
+    addWidget(scroll);
+}
+
+void WalletView::showPage(QWidget* page)
+{
+    // Pages live inside their scroll area wrapper: show the wrapper that holds this page
+    QWidget* w = page;
+    while (w && indexOf(w) < 0) w = w->parentWidget();
+    if (w) setCurrentWidget(w);
 }

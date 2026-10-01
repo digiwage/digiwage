@@ -165,3 +165,4 @@ QPushButton[segment]:checked { background-color: @accent-soft@; border: 1px soli
 QPushButton[segment="last"]:checked { border-left: 1px solid @accent@; }
 QListView#listTransactions { background: transparent; border: none; padding: 0px; }
 QMenuBar QToolButton#themeToggle { padding: 3px; margin: 1px 12px 1px 0px; }
+QLabel[pageHeading="true"] { font-size: 22px; font-weight: 700; color: @text@; padding: 20px 24px 4px 24px; }

@@ -117,6 +117,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e) override;
+    void resizeEvent(QResizeEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
     void showEvent(QShowEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
