@@ -220,9 +220,12 @@ jobs:
           submodules: recursive
 
       # CHANGED: the Intel runner image ships with openssl@1.1 pre-linked.
-      # Installing curl pulls in openssl@3 as a dependency, and `brew link`
-      # then fails because it won't overwrite the existing openssl@1.1
-      # symlinks. Unlink first and force-link openssl@3 afterward.
+      # Installing curl pulls in openssl@3 as a dependency. brew's own
+      # auto-link during install fails against the existing openssl@1.1
+      # symlinks, and that failure makes `brew install` itself return
+      # non-zero -- which, under this step's default `set -e`, aborted the
+      # script before our explicit `brew link` line ever ran. Tolerate that
+      # one failure and finish the link ourselves.
       - name: Install macOS Build Tools
         run: |
           brew update
@@ -237,8 +240,11 @@ jobs:
             gnu-sed \
             curl \
             zip \
-            unzip
+            unzip || echo "::warning::brew install reported a failure (likely the openssl@3 auto-link); continuing to force-link it"
           brew link --overwrite --force openssl@3
+          brew list openssl@3 >/dev/null
+          command -v openssl
+          openssl version
 
       # CHANGED: the original wrote two "PATH=..." lines to GITHUB_ENV, and the
       # second overwrote the first (coreutils was lost). GITHUB_PATH prepends
