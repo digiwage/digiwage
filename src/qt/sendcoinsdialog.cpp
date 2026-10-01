@@ -37,6 +37,10 @@
 #include <fstream>
 #include <memory>
 
+#include <QBoxLayout>
+#include <QScrollArea>
+
+#include <algorithm>
 #include <QFontMetrics>
 #include <QMessageBox> 
 #include <QScrollBar>
@@ -65,6 +69,31 @@ int getIndexForConfTarget(int target) {
     return confTargets.size() - 1;
 }
 
+namespace {
+/** Keeps the recipient list as tall as its entries (scrolling past MaxHeight)
+ *  instead of letting it stretch over the page and push the fee section down. */
+class FitRecipients : public QObject
+{
+public:
+    static constexpr int MaxHeight = 420;
+    FitRecipients(QScrollArea* area) : QObject(area), m_area(area) { area->widget()->installEventFilter(this); fit(); }
+    bool eventFilter(QObject*, QEvent* event) override
+    {
+        if (event->type() == QEvent::LayoutRequest || event->type() == QEvent::Resize) fit();
+        return false;
+    }
+private:
+    void fit()
+    {
+        const int content = m_area->widget()->sizeHint().height() + 2 * m_area->frameWidth();
+        m_area->setMaximumHeight(std::min(content, MaxHeight));
+        // Only scroll once the list is taller than MaxHeight
+        m_area->setVerticalScrollBarPolicy(content > MaxHeight ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff);
+    }
+    QScrollArea* m_area;
+};
+} // namespace
+
 SendCoinsDialog::SendCoinsDialog(const PlatformStyle *_platformStyle, QWidget *parent) :
     QDialog(parent, GUIUtil::dialog_flags),
     ui(new Ui::SendCoinsDialog),
@@ -73,6 +102,13 @@ SendCoinsDialog::SendCoinsDialog(const PlatformStyle *_platformStyle, QWidget *p
     targetSpacing(0)
 {
     ui->setupUi(this);
+
+    new FitRecipients(ui->scrollArea);
+    if (auto* mainLayout = qobject_cast<QBoxLayout*>(layout())) {
+        // Free space collects above the Send / Clear All row
+        const int buttonsIndex = mainLayout->indexOf(ui->buttonsContainerWhite);
+        if (buttonsIndex >= 0) mainLayout->insertStretch(buttonsIndex, 1);
+    }
     setMinimumWidth(1080);
 
     // Set stylesheet

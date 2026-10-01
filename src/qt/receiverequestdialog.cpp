@@ -31,6 +31,13 @@ ReceiveRequestDialog::ReceiveRequestDialog(const PlatformStyle *_platformStyle, 
     requestPaymentDialog(0)
 {
     ui->setupUi(this);
+
+    ui->widgetPaymentInformation->setAttribute(Qt::WA_StyledBackground, true);
+    ui->widgetPaymentInformation->setProperty("card", "true");
+    ui->widgetPaymentInformation->setMaximumWidth(640);
+    if (QLayout* card = ui->widgetPaymentInformation->layout()) card->setContentsMargins(28, 24, 28, 28);
+    if (layout()) layout()->setAlignment(ui->widgetPaymentInformation, Qt::AlignHCenter | Qt::AlignTop);
+    ui->payment_header->setProperty("title", "true");
     GUIUtil::handleCloseWindowShortcut(this);
     requestPaymentDialog = new ReceiveCoinsDialog(platformStyle, this);
 

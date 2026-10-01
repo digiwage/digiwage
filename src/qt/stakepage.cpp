@@ -36,6 +36,18 @@ StakePage::StakePage(const PlatformStyle *_platformStyle, QWidget *parent) :
     m_expectedAnnualROI(0)
 {
     ui->setupUi(this);
+
+    ui->frameStakeInfo->setProperty("card", "true");
+    if (QLayout* card = ui->frameStakeInfo->layout()) card->setContentsMargins(24, 20, 24, 20);
+    // In this form the *Text labels are the captions and the others the values
+    ui->labelAssetsText->setProperty("caption", "true");
+    ui->labelAssets->setProperty("headline", "true");
+    ui->labelAssets->setProperty("numeric", "true");
+    for (QLabel* label : {ui->labelStakeText, ui->labelHeightText, ui->labelRewardText, ui->labelWeightText, ui->labelROIText})
+        label->setProperty("muted", "true");
+    for (QLabel* label : {ui->labelStake, ui->labelHeight, ui->labelReward, ui->labelWeight, ui->labelROI})
+        label->setProperty("numeric", "true");
+    ui->labelRecordsText->setProperty("title", "true");
     ui->checkStake->setEnabled(node::CanStake());
     transactionView = new TransactionView(platformStyle, this, true);
     ui->frameStakeRecords->layout()->addWidget(transactionView);

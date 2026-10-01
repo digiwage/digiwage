@@ -25,6 +25,13 @@ SignVerifyMessageDialog::SignVerifyMessageDialog(const PlatformStyle *_platformS
     platformStyle(_platformStyle)
 {
     ui->setupUi(this);
+
+    // Label every row of the sign form so the fields line up with "Signature"
+    QLabel* addressLabel = new QLabel(tr("Address"), this);
+    QLabel* messageLabel = new QLabel(tr("Message"), this);
+    ui->gridLayout->addWidget(addressLabel, 1, 0);
+    ui->gridLayout->addWidget(messageLabel, 2, 0, Qt::AlignTop);
+    messageLabel->setContentsMargins(0, 8, 0, 0);
     ui->addressBookButton_SM->setIcon(platformStyle->MultiStatesIcon(":/icons/address-book", PlatformStyle::PushButtonIcon));
     ui->pasteButton_SM->setIcon(platformStyle->MultiStatesIcon(":/icons/editpaste", PlatformStyle::PushButtonIcon));
     ui->copySignatureButton_SM->setIcon(platformStyle->MultiStatesIcon(":/icons/editcopy", PlatformStyle::PushButtonIcon));
