@@ -11,7 +11,9 @@
 /** Icons that follow the active appearance mode. The colour is resolved every time
  *  the icon is painted, so switching Light/Dark recolours them without recreating widgets. */
 namespace ThemedIcon {
-enum Role { Single, Text, Menu, NavBar, Button, ButtonLight };
+enum Role { Single, Text, Menu, NavBar, Button, ButtonLight,
+            OnAccent,                                     // on primary (gold) buttons
+            TableNormal, TableInput, TableOutput, TableError }; // last four: transaction list rows
 
 QIcon create(const QString& resource, Role role, double opacity = 1.0);
 }

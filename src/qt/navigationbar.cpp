@@ -88,6 +88,10 @@ protected:
             //update icon
             updateIcon(opt);
 
+            // Qt keeps only 4px between icon and text; widen it to ~10px for the sidebar
+            if (opt.toolButtonStyle == Qt::ToolButtonTextBesideIcon && !opt.text.isEmpty())
+                opt.text.prepend(QChar(0x2002)); // en space
+
             //draw control
             sp.drawComplexControl( QStyle::CC_ToolButton, opt );
         }
@@ -321,6 +325,13 @@ void NavigationBar::buildUi()
                 vboxLayout2->addWidget(subNavBar);
                 subNavBar->buildUi();
                 m_subBars[action] = subNavBar;
+                // Selecting a group item (e.g. from code or a link) also selects the group,
+                // which opens its sub-bar and moves the highlight off the previous page
+                for (QAction* item : group) {
+                    connect(item, &QAction::toggled, action, [action](bool on) {
+                        if (on && !action->isChecked()) action->setChecked(true);
+                    });
+                }
                 connect(action, &QAction::toggled, subNavBar, &NavigationBar::onSubBarClick);
                 // A collapsed bar has no room for the group's items: opening a group expands it
                 connect(action, &QAction::toggled, this, [this](bool on) { if (on && m_collapsed) setCollapsed(false); });
@@ -340,11 +351,8 @@ void NavigationBar::buildUi()
                 m_actions[0]->setChecked(true);
             }
             setMinimumWidth(defButtonWidth + MarginLeft + MarginRight);
-            QFrame *lineStatus = new QFrame(this);
-            lineStatus->setObjectName("hLineStatus");
-            lineStatus->setFrameShape(QFrame::HLine);
+            // The status block below draws the divider (frameBlocks border-top)
             vboxLayout->addStretch(1);
-            vboxLayout->addWidget(lineStatus);
         }
 
         // The component is built

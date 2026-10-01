@@ -36,7 +36,7 @@ ContractBookPage::ContractBookPage(const PlatformStyle *platformStyle, QWidget *
     SetObjectStyleSheet(ui->newContractInfo, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->copyAddress, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->deleteContractInfo, StyleSheetNames::ButtonLight);
-    SetObjectStyleSheet(ui->exportButton, StyleSheetNames::ButtonGray);
+    SetObjectStyleSheet(ui->exportButton, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->chooseContractInfo, StyleSheetNames::ButtonGray);
 
     setWindowTitle(tr("Choose the contract for send/call"));
@@ -88,6 +88,7 @@ void ContractBookPage::setModel(ContractTableModel *_model)
     proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
     ui->tableView->setModel(proxyModel);
+    GUIUtil::setEmptyState(ui->tableView, tr("No saved contracts yet"));
     ui->tableView->sortByColumn(0, Qt::AscendingOrder);
 
     // Set column widths

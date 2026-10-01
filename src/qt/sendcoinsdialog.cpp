@@ -77,7 +77,7 @@ SendCoinsDialog::SendCoinsDialog(const PlatformStyle *_platformStyle, QWidget *p
 
     // Set stylesheet
     SetObjectStyleSheet(ui->clearButton, StyleSheetNames::ButtonDark);
-    SetObjectStyleSheet(ui->addButton, StyleSheetNames::ButtonGray);
+    SetObjectStyleSheet(ui->addButton, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->sendButton, StyleSheetNames::ButtonGray);
     SetObjectStyleSheet(ui->pushButtonCoinControl, StyleSheetNames::ButtonDark);
     if (!_platformStyle->getImagesOnButtons()) {

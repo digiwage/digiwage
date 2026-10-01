@@ -79,6 +79,23 @@ void TitleBar::setTabBarInfo(QObject *info)
         m_tab = tab;
         m_tab->attach(ui->tabWidget, &m_iconCloseTab);
     }
+    refreshVisibility();
+}
+
+void TitleBar::refreshVisibility()
+{
+    bool needed = ui->tabWidget->count() > 0;
+    for (QComboBox* selector : findChildren<QComboBox*>()) needed |= selector->isVisibleTo(this);
+    // The theme toggle stays in this bar where the menu bar is native (macOS)
+    if (QWidget* toggle = findChild<QWidget*>("themeToggle", Qt::FindDirectChildrenOnly)) needed |= toggle->parentWidget() == this;
+    QWidget* container = parentWidget() && parentWidget()->inherits("QDockWidget") ? parentWidget() : this;
+    container->setVisible(needed);
+}
+
+bool TitleBar::eventFilter(QObject* obj, QEvent* event)
+{
+    if (event->type() == QEvent::Show || event->type() == QEvent::Hide) refreshVisibility();
+    return QWidget::eventFilter(obj, event);
 }
 
 #ifdef ENABLE_WALLET
@@ -125,6 +142,7 @@ void TitleBar::setWalletSelector(QLabel *walletSelectorLabel, QComboBox *walletS
     if(walletSelector)
     {
         layout->addWidget(walletSelector);
+        walletSelector->installEventFilter(this); // shown once a second wallet is loaded
     }
 }
 

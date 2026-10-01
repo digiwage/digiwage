@@ -26,6 +26,12 @@ SuperStakerListWidget::SuperStakerListWidget(const PlatformStyle *platformStyle,
     this->setLayout(m_mainLayout);
     SuperStakerItemWidget* item = new SuperStakerItemWidget(platformStyle, this, SuperStakerItemWidget::New);
     insertItem(0, item);
+    // Shown below the header while the list is empty (rows are inserted above it)
+    m_emptyLabel = new QLabel(tr("No super stakers yet. Use + to add one."), this);
+    m_emptyLabel->setProperty("empty", "true");
+    m_emptyLabel->setAlignment(Qt::AlignCenter);
+    m_emptyLabel->setWordWrap(true);
+    m_mainLayout->addWidget(m_emptyLabel);
     m_mainLayout->addStretch();
 }
 
@@ -57,6 +63,12 @@ void SuperStakerListWidget::setModel(WalletModel *_model)
 
         // Add items
         on_rowsInserted(QModelIndex(), 0, m_superStakerModel->rowCount() - 1);
+
+        auto refreshEmpty = [this] { m_emptyLabel->setVisible(m_superStakerModel->rowCount() == 0); };
+        connect(m_superStakerModel, &QAbstractItemModel::rowsInserted, this, refreshEmpty);
+        connect(m_superStakerModel, &QAbstractItemModel::rowsRemoved, this, refreshEmpty);
+        connect(m_superStakerModel, &QAbstractItemModel::modelReset, this, refreshEmpty);
+        refreshEmpty();
     }
 }
 

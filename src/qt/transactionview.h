@@ -56,7 +56,7 @@ public:
     enum ColumnWidths {
         STATUS_COLUMN_WIDTH = 30,
         WATCHONLY_COLUMN_WIDTH = 23,
-        DATE_COLUMN_WIDTH = 130,
+        DATE_COLUMN_WIDTH = 150, // "1 Oct 2026 16:35" plus cell padding
         TYPE_COLUMN_WIDTH = 170,
         AMOUNT_MINIMUM_COLUMN_WIDTH = 170,
         MINIMUM_COLUMN_WIDTH = 23

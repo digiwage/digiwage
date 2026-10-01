@@ -94,6 +94,21 @@ private:
             case ThemedIcon::Button:
                 color = style.tokenColor("text");
                 break;
+            case ThemedIcon::OnAccent:
+                color = style.tokenColor("on-accent");
+                break;
+            case ThemedIcon::TableNormal:
+            case ThemedIcon::TableInput:
+            case ThemedIcon::TableOutput:
+            case ThemedIcon::TableError:
+                if (mode == QIcon::Selected) {
+                    color = style.tokenColor("text");
+                } else {
+                    color = style.tokenColor(m_role == ThemedIcon::TableInput ? "accent-text" :
+                                             m_role == ThemedIcon::TableOutput ? "success" :
+                                             m_role == ThemedIcon::TableError ? "danger" : "text-2-solid");
+                }
+                break;
             case ThemedIcon::ButtonLight:
             case ThemedIcon::Text:
             case ThemedIcon::Menu:

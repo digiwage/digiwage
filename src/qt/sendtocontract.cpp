@@ -58,6 +58,7 @@ SendToContract::SendToContract(const PlatformStyle *platformStyle, QWidget *pare
     // Setup ui components
     Q_UNUSED(platformStyle);
     ui->setupUi(this);
+    ui->labelTitle->setVisible(false); // the title bar already names the page
     ui->saveInfoButton->setIcon(platformStyle->MultiStatesIcon(":/icons/filesave", PlatformStyle::PushButtonIcon));
     ui->loadInfoButton->setIcon(platformStyle->MultiStatesIcon(":/icons/address-book", PlatformStyle::PushButtonIcon));
     ui->pasteAddressButton->setIcon(platformStyle->MultiStatesIcon(":/icons/editpaste", PlatformStyle::PushButtonIcon));

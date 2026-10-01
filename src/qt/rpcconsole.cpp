@@ -480,8 +480,8 @@ RPCConsole::RPCConsole(interfaces::Node& node, const PlatformStyle *_platformSty
     SetObjectStyleSheet(ui->clearButton, StyleSheetNames::ButtonTransparent);
     SetObjectStyleSheet(ui->fontBiggerButton, StyleSheetNames::ButtonTransparent);
     SetObjectStyleSheet(ui->fontSmallerButton, StyleSheetNames::ButtonTransparent);
-    SetObjectStyleSheet(ui->openDebugLogfileButton, StyleSheetNames::ButtonGray);
-    SetObjectStyleSheet(ui->btnClearTrafficGraph, StyleSheetNames::ButtonGray);
+    SetObjectStyleSheet(ui->openDebugLogfileButton, StyleSheetNames::ButtonLight);
+    SetObjectStyleSheet(ui->btnClearTrafficGraph, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->peerWidget, StyleSheetNames::TableViewLight);
     SetObjectStyleSheet(ui->banlistWidget, StyleSheetNames::TableViewLight);
 #ifdef ENABLE_WALLET

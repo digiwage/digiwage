@@ -46,7 +46,7 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet)
     SetObjectStyleSheet(ui->resetButton, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->openBitcoinConfButton, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->okButton, StyleSheetNames::ButtonGray);
-    SetObjectStyleSheet(ui->cancelButton, StyleSheetNames::ButtonGray);
+    SetObjectStyleSheet(ui->cancelButton, StyleSheetNames::ButtonLight);
 
     /* Main elements init */
     ui->databaseCache->setMinimum(nMinDbCache);

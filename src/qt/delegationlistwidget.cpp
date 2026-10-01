@@ -26,6 +26,12 @@ DelegationListWidget::DelegationListWidget(const PlatformStyle *platformStyle, Q
     this->setLayout(m_mainLayout);
     DelegationItemWidget* item = new DelegationItemWidget(platformStyle, this, DelegationItemWidget::New);
     insertItem(0, item);
+    // Shown below the header while the list is empty (rows are inserted above it)
+    m_emptyLabel = new QLabel(tr("No delegations yet. Use + to delegate your coins to a staker."), this);
+    m_emptyLabel->setProperty("empty", "true");
+    m_emptyLabel->setAlignment(Qt::AlignCenter);
+    m_emptyLabel->setWordWrap(true);
+    m_mainLayout->addWidget(m_emptyLabel);
     m_mainLayout->addStretch();
 }
 
@@ -57,6 +63,12 @@ void DelegationListWidget::setModel(WalletModel *_model)
 
         // Add items
         on_rowsInserted(QModelIndex(), 0, m_delegationModel->rowCount() - 1);
+
+        auto refreshEmpty = [this] { m_emptyLabel->setVisible(m_delegationModel->rowCount() == 0); };
+        connect(m_delegationModel, &QAbstractItemModel::rowsInserted, this, refreshEmpty);
+        connect(m_delegationModel, &QAbstractItemModel::rowsRemoved, this, refreshEmpty);
+        connect(m_delegationModel, &QAbstractItemModel::modelReset, this, refreshEmpty);
+        refreshEmpty();
     }
 }
 

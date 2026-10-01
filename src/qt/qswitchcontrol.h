@@ -3,14 +3,15 @@
 
 #include <QAbstractButton>
 
-class QPushButton;
-class QPropertyAnimation;
+class QVariantAnimation;
 
+/** On/off switch, painted with the active appearance tokens (accent when on). */
 class QSwitchControl : public QAbstractButton
 {
     Q_OBJECT
 public:
     QSwitchControl(QWidget *parent = nullptr);
+    QSize sizeHint() const override;
 
 public Q_SLOTS:
     void setChecked(bool);
@@ -24,8 +25,8 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
-    QPushButton *pbSwitch;
-    QPropertyAnimation *animation;
+    QVariantAnimation *m_animation;
+    qreal m_position{0}; // knob position: 0 = off, 1 = on
 };
 
 #endif // QSWITCHCONTROL_H

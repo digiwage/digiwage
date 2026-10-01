@@ -1,78 +1,65 @@
 #include "qswitchcontrol.h"
 
-#include <QPushButton>
-#include <QPropertyAnimation>
-#include <QStyleOption>
+#include <qt/styleSheet.h>
+
 #include <QPainter>
+#include <QSettings>
+#include <QVariantAnimation>
 
-static const QSize FrameSize = QSize(68, 30);
-static const QSize SwitchSize = QSize (26, 26);
-static const int SwitchOffset = (FrameSize.height() - SwitchSize.height()) / 2;
+static const QSize TrackSize = QSize(44, 24);
+static const qreal KnobMargin = 3;
 
-static const QString CustomFrameOnStlye = QString("QAbstractButton { border: none; border-radius: %1; background-color: #4697D9;}").arg(FrameSize.height() / 2);
-static const QString CustomFrameOffStlye = QString("QAbstractButton { border: none; border-radius: %1; background-color: #6f80ab;}").arg(FrameSize.height() / 2);
-static const QString CustomButtonStlye = QString("QPushButton { min-width: 0em; border-radius: %1; background-color: white;}").arg(SwitchSize.height() / 2);
+static QColor Mix(const QColor& a, const QColor& b, qreal t)
+{
+    return QColor::fromRgbF(a.redF() + (b.redF() - a.redF()) * t,
+                            a.greenF() + (b.greenF() - a.greenF()) * t,
+                            a.blueF() + (b.blueF() - a.blueF()) * t,
+                            a.alphaF() + (b.alphaF() - a.alphaF()) * t);
+}
 
 QSwitchControl::QSwitchControl(QWidget *parent):
     QAbstractButton(parent)
 {
-    this->setFixedSize(FrameSize);
+    setFixedSize(TrackSize);
+    setCheckable(true);
+    setCursor(Qt::PointingHandCursor);
 
-    pbSwitch = new QPushButton(this);
-    pbSwitch->setFixedSize(SwitchSize);
-    pbSwitch->setStyleSheet(CustomButtonStlye);
-
-    animation = new QPropertyAnimation(pbSwitch, "geometry", this);
-    animation->setDuration(200);
+    m_animation = new QVariantAnimation(this);
+    m_animation->setEasingCurve(QEasingCurve::OutCubic);
+    connect(m_animation, &QVariantAnimation::valueChanged, this, [this](const QVariant& value) {
+        m_position = value.toReal();
+        update();
+    });
 
     connect(this, &QSwitchControl::mouseClicked, this, &QSwitchControl::onStatusChanged);
-    connect(pbSwitch, &QPushButton::clicked, this, &QSwitchControl::onStatusChanged);
-    setCheckable(true);
-    setChecked(false);
+    connect(StyleSheet::instance().notifier(), &StyleSheetNotifier::modeChanged, this, [this] { update(); });
+    QAbstractButton::setChecked(false);
+}
+
+QSize QSwitchControl::sizeHint() const
+{
+    return TrackSize;
 }
 
 void QSwitchControl::setChecked(bool checked)
 {
-    if(checked)
-    {
-        pbSwitch->move(this->width() - pbSwitch->width() - SwitchOffset, this->y() + SwitchOffset);
-        this->setStyleSheet(CustomFrameOnStlye);
-    }
-    else
-    {
-        pbSwitch->move(this->x() + SwitchOffset, this->y() + SwitchOffset);
-        this->setStyleSheet(CustomFrameOffStlye);
-    }
-
+    m_animation->stop();
+    m_position = checked ? 1 : 0;
     QAbstractButton::setChecked(checked);
+    update();
 }
 
 void QSwitchControl::onStatusChanged()
 {
-    bool checked = !isChecked();
+    const bool checked = !isChecked();
 
-    QRect currentGeometry(pbSwitch->x(), pbSwitch->y(), pbSwitch->width(), pbSwitch->height());
+    m_animation->stop();
+    m_animation->setDuration(QSettings().value("ReduceMotion", false).toBool() ? 0 : 160);
+    m_animation->setStartValue(m_position);
+    m_animation->setEndValue(checked ? 1.0 : 0.0);
+    QAbstractButton::setChecked(checked);
+    m_animation->start();
 
-    if(animation->state() == QAbstractAnimation::Running)
-        animation->stop();
-
-    if(checked)
-    {
-        this->setStyleSheet(CustomFrameOnStlye);
-
-        animation->setStartValue(currentGeometry);
-        animation->setEndValue(QRect(this->width() - pbSwitch->width() - SwitchOffset, pbSwitch->y(), pbSwitch->width(), pbSwitch->height()));
-    }
-    else
-    {
-        this->setStyleSheet(CustomFrameOffStlye);
-
-        animation->setStartValue(currentGeometry);
-        animation->setEndValue(QRect(SwitchOffset, pbSwitch->y(), pbSwitch->width(), pbSwitch->height()));
-    }
-    animation->start();
-
-    setChecked(checked);
     Q_EMIT clicked(checked);
 }
 
@@ -83,8 +70,23 @@ void QSwitchControl::mousePressEvent(QMouseEvent *)
 
 void QSwitchControl::paintEvent(QPaintEvent *)
 {
-    QStyleOption opt;
-    opt.init(this);
+    StyleSheet& style = StyleSheet::instance();
     QPainter p(this);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    p.setRenderHint(QPainter::Antialiasing);
+    if (!isEnabled()) p.setOpacity(0.4);
+
+    // Track: neutral grey (>= 3:1 against the page) when off, accent when on
+    const QRectF track = QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5);
+    p.setPen(Qt::NoPen);
+    p.setBrush(Mix(style.tokenColor("text-3-solid"), style.tokenColor("accent"), m_position));
+    p.drawRoundedRect(track, track.height() / 2, track.height() / 2);
+
+    // Knob
+    const qreal d = height() - 2 * KnobMargin;
+    const qreal x = KnobMargin + m_position * (width() - 2 * KnobMargin - d);
+    const QRectF knob(x, KnobMargin, d, d);
+    p.setBrush(QColor(0, 0, 0, 40));
+    p.drawEllipse(knob.translated(0, 1));
+    p.setBrush(QColor(255, 255, 255));
+    p.drawEllipse(knob);
 }

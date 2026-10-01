@@ -64,6 +64,16 @@ QRadioButton::indicator:unchecked:disabled { image: url(@styledir@/radiobutton_u
 QRadioButton::indicator:checked { image: url(@styledir@/radiobutton_checked.svg); }
 QRadioButton::indicator:checked:hover { image: url(@styledir@/radiobutton_checked_hover.svg); }
 QRadioButton::indicator:checked:disabled { image: url(@styledir@/radiobutton_checked_disabled.svg); }
+QRadioButton::indicator:unchecked:hover { image: url(@styledir@/radiobutton_unchecked_hover.svg); }
+QRadioButton::indicator:checked:hover { image: url(@styledir@/radiobutton_checked_hover.svg); }
+/* Check boxes inside lists and tables (coin control, address pickers) */
+QTreeView::indicator, QTableView::indicator, QListView::indicator { width: 18px; height: 18px; }
+QTreeView::indicator:unchecked, QTableView::indicator:unchecked, QListView::indicator:unchecked { image: url(@styledir@/checkbox_unchecked.svg); }
+QTreeView::indicator:unchecked:hover, QTableView::indicator:unchecked:hover, QListView::indicator:unchecked:hover { image: url(@styledir@/checkbox_unchecked_hover.svg); }
+QTreeView::indicator:checked, QTableView::indicator:checked, QListView::indicator:checked { image: url(@styledir@/checkbox_checked.svg); }
+QTreeView::indicator:checked:hover, QTableView::indicator:checked:hover, QListView::indicator:checked:hover { image: url(@styledir@/checkbox_checked_hover.svg); }
+QTreeView::indicator:indeterminate, QTableView::indicator:indeterminate, QListView::indicator:indeterminate { image: url(@styledir@/checkbox_indeterminate.svg); }
+QTreeView::indicator:disabled, QTableView::indicator:disabled, QListView::indicator:disabled { image: url(@styledir@/checkbox_unchecked_disabled.svg); }
 
 QPushButton { background-color: @surface-2@; color: @text@; border: 1px solid @border-strong@; border-radius: @radius-s@px; padding: 8px 18px; min-height: 20px; font-weight: 500; }
 QPushButton:hover { background-color: @surface-3@; }
@@ -142,6 +152,7 @@ QToolButton#themeToggle { border-radius: @radius-m@px; padding: 8px; margin: 0px
 ModalOverlay #contentWidget { background-color: @surface@; border: 1px solid @border-strong@; border-radius: @radius-l@px; }
 ModalOverlay #contentWidget QLabel { background: transparent; }
 QLabel[empty="true"] { color: @text-2@; font-size: @font-body@px; padding: 40px 24px; min-height: 120px; }
+QLabel[emptyOverlay="true"] { color: @text-2@; font-size: @font-body@px; background: transparent; padding: 8px; }
 QLabel#labelTotal_caption { font-weight: 500; }
 AskPassphraseDialog QLabel, AskPassphraseDialog QLineEdit, AskPassphraseDialog QCheckBox { font-size: @font-body@px; font-weight: 400; }
 AskPassphraseDialog QDialogButtonBox QPushButton { font-size: @font-body@px; }
@@ -152,3 +163,5 @@ QPushButton[segment="last"] { border-top-left-radius: 0px; border-bottom-left-ra
 QPushButton[segment]:hover { color: @text@; }
 QPushButton[segment]:checked { background-color: @accent-soft@; border: 1px solid @accent@; color: @accent-text@; }
 QPushButton[segment="last"]:checked { border-left: 1px solid @accent@; }
+QListView#listTransactions { background: transparent; border: none; padding: 0px; }
+QMenuBar QToolButton#themeToggle { padding: 3px; margin: 1px 12px 1px 0px; }

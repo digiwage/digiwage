@@ -362,6 +362,10 @@ namespace GUIUtil
     // Fix known bugs in QProgressDialog class.
     void PolishProgressDialog(QProgressDialog* dialog);
 
+    /** Show a muted, centred message over an item view while its model has no rows.
+     *  Call after setModel(); calling again updates the text. */
+    void setEmptyState(QAbstractItemView* view, const QString& text);
+
     /**
      * Returns the distance in pixels appropriate for drawing a subsequent character after text.
      *

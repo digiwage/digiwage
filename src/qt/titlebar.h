@@ -68,6 +68,13 @@ public:
      */
     void setTabBarInfo(QObject* info);
 
+    /** Show the bar only when it has something to show: page tabs or the wallet selector. */
+    void refreshVisibility();
+
+protected:
+    bool eventFilter(QObject* obj, QEvent* event) override;
+public:
+
     /**
      * @brief setWalletSelector Set wallet selector
      * @param walletSelectorLabel Wallet selector label

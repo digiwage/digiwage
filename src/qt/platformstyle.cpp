@@ -126,6 +126,7 @@ QIcon PlatformStyle::MultiStatesIcon(const QString &resourcename, StateType type
     switch (type) {
     case NavBar: return ThemedIcon::create(resourcename, ThemedIcon::NavBar);
     case PushButtonLight: return ThemedIcon::create(resourcename, ThemedIcon::ButtonLight);
+    case PushButtonPrimary: return ThemedIcon::create(resourcename, ThemedIcon::OnAccent);
     case PushButton:
     case PushButtonIcon:
     default: return ThemedIcon::create(resourcename, ThemedIcon::Button);
@@ -148,17 +149,15 @@ void PlatformStyle::TableColor(PlatformStyle::TableColorType type, QColor &color
 
 QIcon PlatformStyle::TableColorIcon(const QString &resourcename, TableColorType type) const
 {
-    QColor color; double opacity = 1;
-    TableColor(type, color, opacity);
-    QIcon icon;
-    QImage img1(resourcename), img2(resourcename);
-    QPixmap pix1 = MakeSingleColorPixmap(img1, color, opacity);
-    QPixmap pix2 = MakeSingleColorPixmap(img2, StyleSheet::instance().tokenColor("text"), 1);
-    icon.addPixmap(pix1, QIcon::Normal, QIcon::On);
-    icon.addPixmap(pix1, QIcon::Normal, QIcon::Off);
-    icon.addPixmap(pix2, QIcon::Selected, QIcon::On);
-    icon.addPixmap(pix2, QIcon::Selected, QIcon::Off);
-    return icon;
+    // Recoloured on every paint, so the Light/Dark switch applies without rebuilding rows
+    switch (type) {
+    case Input: return ThemedIcon::create(resourcename, ThemedIcon::TableInput);
+    case Inout:
+    case Output: return ThemedIcon::create(resourcename, ThemedIcon::TableOutput);
+    case Error: return ThemedIcon::create(resourcename, ThemedIcon::TableError);
+    case Normal:
+    default: return ThemedIcon::create(resourcename, ThemedIcon::TableNormal);
+    }
 }
 
 QImage PlatformStyle::TableColorImage(const QString &resourcename, PlatformStyle::TableColorType type) const

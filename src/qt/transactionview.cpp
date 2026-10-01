@@ -121,6 +121,8 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
 
     transactionView = new QTableView(this);
     transactionView->setObjectName("transactionView");
+    // The stake page reuses this view without filters
+    transactionView->setProperty("emptyText", hideFilter ? tr("No stake rewards yet") : tr("No transactions to show"));
     if(hideFilter)
     {
         createDateRangeWidget();
@@ -214,6 +216,7 @@ void TransactionView::setModel(WalletModel *_model)
         transactionProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
         transactionProxyModel->setSortRole(Qt::EditRole);
         transactionView->setModel(transactionProxyModel);
+        GUIUtil::setEmptyState(transactionView, transactionView->property("emptyText").toString());
         transactionView->sortByColumn(TransactionTableModel::Date, Qt::DescendingOrder);
 
         QSettings settings;

@@ -161,6 +161,7 @@ void TokenTransactionView::setModel(WalletModel *_model)
 
         tokenView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         tokenView->setModel(tokenProxyModel);
+        GUIUtil::setEmptyState(tokenView, tr("No token transactions to show"));
         tokenView->setAlternatingRowColors(true);
         tokenView->setSelectionBehavior(QAbstractItemView::SelectRows);
         tokenView->setSelectionMode(QAbstractItemView::ExtendedSelection);

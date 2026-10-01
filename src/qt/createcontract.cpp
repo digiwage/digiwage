@@ -51,6 +51,7 @@ CreateContract::CreateContract(const PlatformStyle *platformStyle, QWidget *pare
     // Setup ui components
     Q_UNUSED(platformStyle);
     ui->setupUi(this);
+    ui->labelTitle->setVisible(false); // the title bar already names the page
 
     // Set stylesheet
     SetObjectStyleSheet(ui->pushButtonClearAll, StyleSheetNames::ButtonDark);

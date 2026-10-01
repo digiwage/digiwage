@@ -44,7 +44,8 @@ public:
         NavBar = 0,
         PushButton = 1,
         PushButtonLight = 2,
-        PushButtonIcon = 3
+        PushButtonIcon = 3,
+        PushButtonPrimary = 4   // icon on a primary (gold) button
     };
     /** Get multi-states icon*/
     QIcon MultiStatesIcon(const QString& resourcename, StateType type = NavBar) const;

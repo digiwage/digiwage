@@ -870,7 +870,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QCheckBox" name="radioSmartFee">
+           <widget class="QRadioButton" name="radioSmartFee">
             <property name="text">
              <string>Recommended</string>
             </property>
@@ -883,7 +883,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="radioCustomFee">
+           <widget class="QRadioButton" name="radioCustomFee">
             <property name="text">
              <string>Custom</string>
             </property>

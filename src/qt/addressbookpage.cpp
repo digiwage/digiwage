@@ -86,8 +86,8 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode _mode,
     SetObjectStyleSheet(ui->newAddress, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->copyAddress, StyleSheetNames::ButtonLight);
     SetObjectStyleSheet(ui->deleteAddress, StyleSheetNames::ButtonLight);
-    SetObjectStyleSheet(ui->exportButton, StyleSheetNames::ButtonGray);
-    SetObjectStyleSheet(ui->closeButton, StyleSheetNames::ButtonGray);
+    SetObjectStyleSheet(ui->exportButton, StyleSheetNames::ButtonLight);
+    SetObjectStyleSheet(ui->closeButton, StyleSheetNames::ButtonLight);
 
     switch(mode)
     {
@@ -159,6 +159,7 @@ void AddressBookPage::setModel(AddressTableModel *_model)
     connect(ui->searchLineEdit, &QLineEdit::textChanged, proxyModel, &QSortFilterProxyModel::setFilterWildcard);
 
     ui->tableView->setModel(proxyModel);
+    GUIUtil::setEmptyState(ui->tableView, tr("No addresses yet"));
     ui->tableView->sortByColumn(0, Qt::AscendingOrder);
 
     // Set column widths

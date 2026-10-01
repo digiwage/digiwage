@@ -3,6 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/guiutil.h>
+#include <qt/styleSheet.h>
 
 #include <qt/bitcoinaddressvalidator.h>
 #include <qt/bitcoinunits.h>
@@ -962,6 +963,10 @@ ThemedLabel::ThemedLabel(const PlatformStyle* platform_style, QWidget* parent)
     : QLabel{parent}, m_platform_style{platform_style}
 {
     assert(m_platform_style);
+    // The appearance switch restyles without a palette change: redraw on it too
+    connect(StyleSheet::instance().notifier(), &StyleSheetNotifier::modeChanged, this, [this] {
+        if (!m_image_filename.isEmpty()) updateThemedPixmap();
+    });
 }
 
 void ThemedLabel::setThemedPixmap(const QString& image_filename, int width, int height)
@@ -1009,6 +1014,55 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
         }
     }
     return QItemDelegate::eventFilter(object, event);
+}
+
+namespace {
+/** Keeps an overlay sized to the widget it covers. */
+class FitToParent : public QObject
+{
+public:
+    FitToParent(QWidget* overlay, QWidget* parent) : QObject(overlay), m_overlay(overlay) { parent->installEventFilter(this); }
+    bool eventFilter(QObject* obj, QEvent* event) override
+    {
+        if (event->type() == QEvent::Resize || event->type() == QEvent::Show)
+            m_overlay->setGeometry(static_cast<QWidget*>(obj)->rect());
+        return false;
+    }
+private:
+    QWidget* m_overlay;
+};
+} // namespace
+
+void setEmptyState(QAbstractItemView* view, const QString& text)
+{
+    QWidget* viewport = view->viewport();
+    QLabel* label = viewport->findChild<QLabel*>("emptyStateLabel", Qt::FindDirectChildrenOnly);
+    if (!label) {
+        label = new QLabel(viewport);
+        label->setObjectName("emptyStateLabel");
+        // Own style: the overview's [empty] style has padding and a min height that
+        // push the text out of short views
+        label->setProperty("emptyOverlay", "true");
+        label->setAlignment(Qt::AlignCenter);
+        label->setWordWrap(true);
+        label->setAttribute(Qt::WA_TransparentForMouseEvents);
+        new FitToParent(label, viewport);
+    }
+    label->setText(text);
+    label->setGeometry(viewport->rect());
+
+    auto refresh = [view, label] {
+        QAbstractItemModel* model = view->model();
+        label->setVisible(!model || model->rowCount(view->rootIndex()) == 0);
+        label->setGeometry(view->viewport()->rect());
+    };
+    if (QAbstractItemModel* model = view->model()) {
+        QObject::connect(model, &QAbstractItemModel::rowsInserted, label, refresh);
+        QObject::connect(model, &QAbstractItemModel::rowsRemoved, label, refresh);
+        QObject::connect(model, &QAbstractItemModel::modelReset, label, refresh);
+        QObject::connect(model, &QAbstractItemModel::layoutChanged, label, refresh);
+    }
+    refresh();
 }
 
 void PolishProgressDialog(QProgressDialog* dialog)

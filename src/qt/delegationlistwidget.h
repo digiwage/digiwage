@@ -2,6 +2,7 @@
 #define DELEGATIONLISTWIDGET_H
 
 #include <QWidget>
+#include <QLabel>
 #include <QVBoxLayout>
 #include <QList>
 
@@ -57,6 +58,7 @@ private:
 
 private:
     QVBoxLayout *m_mainLayout;
+    QLabel *m_emptyLabel;
     const PlatformStyle *m_platfromStyle;
     WalletModel* m_model;
     ClientModel* m_clientModel;

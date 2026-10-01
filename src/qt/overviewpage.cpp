@@ -243,7 +243,7 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     // Set send/receive icons
     SetObjectStyleSheet(ui->buttonSend, StyleSheetNames::ButtonGray);
     SetObjectStyleSheet(ui->buttonReceive, StyleSheetNames::ButtonLight);
-    ui->buttonSend->setIcon(m_platform_style->MultiStatesIcon(":/icons/send", PlatformStyle::PushButton));
+    ui->buttonSend->setIcon(m_platform_style->MultiStatesIcon(":/icons/send", PlatformStyle::PushButtonPrimary));
     ui->buttonSend->setIconSize(QSize(BUTTON_ICON_SIZE, BUTTON_ICON_SIZE));
     ui->buttonReceive->setIcon(m_platform_style->MultiStatesIcon(":/icons/receiving_addresses", PlatformStyle::PushButton));
     ui->buttonReceive->setIconSize(QSize(BUTTON_ICON_SIZE, BUTTON_ICON_SIZE));
