@@ -81,6 +81,14 @@ public:
         message_icon_size = GetIntStyleValue("appstyle/message-icon-weight", 44);
     }
 
+    int styleHint(StyleHint hint, const QStyleOption* option = nullptr, const QWidget* widget = nullptr,
+                  QStyleHintReturn* returnData = nullptr) const override
+    {
+        // Shortcut letters stay active but are not underlined, as on macOS
+        if (hint == QStyle::SH_UnderlineShortcut) return 0;
+        return QProxyStyle::styleHint(hint, option, widget, returnData);
+    }
+
     void polish(QWidget *widget) override
     {
         if (widget && widget->inherits("QComboBox")) {
