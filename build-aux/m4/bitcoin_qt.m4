@@ -132,12 +132,22 @@ AC_DEFUN([BITCOIN_QT_CONFIGURE],[
       if test -d "$qt_plugin_path/accessible"; then
         QT_LIBS="$QT_LIBS -L$qt_plugin_path/accessible"
       fi
+      if test -d "$qt_plugin_path/imageformats"; then
+        QT_LIBS="$QT_LIBS -L$qt_plugin_path/imageformats"
+      fi
+      if test -d "$qt_plugin_path/iconengines"; then
+        QT_LIBS="$QT_LIBS -L$qt_plugin_path/iconengines"
+      fi
       if test -d "$qt_plugin_path/platforms/android"; then
         QT_LIBS="$QT_LIBS -L$qt_plugin_path/platforms/android -lqtfreetype -lEGL"
       fi
     fi
 
     AC_DEFINE([QT_STATICPLUGIN], [1], [Define this symbol if qt plugins are static])
+    dnl SVG images in style sheets (check boxes, radio buttons, arrows) and SVG icons
+    dnl load through these plugins; a static Qt only has the plugins it imports.
+    _BITCOIN_QT_CHECK_OPTIONAL_STATIC_PLUGIN([QSvgPlugin], [-lqsvg], [QT_STATIC_SVG_PLUGIN])
+    _BITCOIN_QT_CHECK_OPTIONAL_STATIC_PLUGIN([QSvgIconPlugin], [-lqsvgicon], [QT_STATIC_SVGICON_PLUGIN])
     if test "$TARGET_OS" != "android"; then
       _BITCOIN_QT_CHECK_STATIC_PLUGIN([QMinimalIntegrationPlugin], [-lqminimal])
       AC_DEFINE([QT_QPA_PLATFORM_MINIMAL], [1], [Define this symbol if the minimal qt platform exists])
@@ -329,6 +339,24 @@ AC_DEFUN([_BITCOIN_QT_CHECK_STATIC_PLUGIN], [
     ]])],
     [AC_MSG_RESULT([yes]); QT_LIBS="$2${qt_lib_suffix} $QT_LIBS"],
     [AC_MSG_RESULT([no]); BITCOIN_QT_FAIL([$1 not found.])])
+  LIBS="$CHECK_STATIC_PLUGINS_TEMP_LIBS"
+])
+
+dnl _BITCOIN_QT_CHECK_OPTIONAL_STATIC_PLUGIN(PLUGIN, LIBRARIES, DEFINE)
+dnl ---------------------------------------------------------------
+dnl
+dnl Like _BITCOIN_QT_CHECK_STATIC_PLUGIN, but a missing plugin only warns.
+dnl Output: QT_LIBS is prepended and DEFINE is set when the plugin links.
+AC_DEFUN([_BITCOIN_QT_CHECK_OPTIONAL_STATIC_PLUGIN], [
+  AC_MSG_CHECKING([for $1 ($2)])
+  CHECK_STATIC_PLUGINS_TEMP_LIBS="$LIBS"
+  LIBS="$2${qt_lib_suffix} $QT_LIBS $LIBS"
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+      #include <QtPlugin>
+      Q_IMPORT_PLUGIN($1)
+    ]])],
+    [AC_MSG_RESULT([yes]); QT_LIBS="$2${qt_lib_suffix} $QT_LIBS"; AC_DEFINE([$3], [1], [Define this symbol if the static Qt has $1])],
+    [AC_MSG_RESULT([no]); AC_MSG_WARN([$1 not found: SVG images in style sheets will not load])])
   LIBS="$CHECK_STATIC_PLUGINS_TEMP_LIBS"
 ])
 

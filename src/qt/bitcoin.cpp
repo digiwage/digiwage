@@ -78,6 +78,12 @@ Q_IMPORT_PLUGIN(QMacStylePlugin);
 #elif defined(QT_QPA_PLATFORM_ANDROID)
 Q_IMPORT_PLUGIN(QAndroidPlatformIntegrationPlugin)
 #endif
+#if defined(QT_STATIC_SVG_PLUGIN)
+Q_IMPORT_PLUGIN(QSvgPlugin);
+#endif
+#if defined(QT_STATIC_SVGICON_PLUGIN)
+Q_IMPORT_PLUGIN(QSvgIconPlugin);
+#endif
 #endif
 
 // Declare meta types used for QMetaObject::invokeMethod

@@ -32,17 +32,17 @@ QLineEdit:read-only { background-color: @surface@; color: @text-2@; }
 QLineEdit:disabled, QAbstractSpinBox:disabled, QTextEdit:disabled, QComboBox:disabled { color: @text-3@; background-color: @surface@; }
 QLineEdit[valid="false"], QLineEdit[invalid="true"] { border: 1px solid @danger@; }
 QAbstractSpinBox::up-button, QAbstractSpinBox::down-button { width: 18px; border: none; background: transparent; }
-QAbstractSpinBox::up-arrow { image: url(@styledir@/up_arrow.svg); width: 10px; height: 10px; }
-QAbstractSpinBox::down-arrow { image: url(@styledir@/down_arrow.svg); width: 10px; height: 10px; }
-QAbstractSpinBox::up-arrow:hover { image: url(@styledir@/up_hover.svg); }
-QAbstractSpinBox::down-arrow:hover { image: url(@styledir@/down_hover.svg); }
-QAbstractSpinBox::up-arrow:disabled, QAbstractSpinBox::down-arrow:disabled { image: url(@styledir@/up_disabled.svg); }
+QAbstractSpinBox::up-arrow { image: url(@styledir@/up_arrow.png); width: 10px; height: 10px; }
+QAbstractSpinBox::down-arrow { image: url(@styledir@/down_arrow.png); width: 10px; height: 10px; }
+QAbstractSpinBox::up-arrow:hover { image: url(@styledir@/up_hover.png); }
+QAbstractSpinBox::down-arrow:hover { image: url(@styledir@/down_hover.png); }
+QAbstractSpinBox::up-arrow:disabled, QAbstractSpinBox::down-arrow:disabled { image: url(@styledir@/up_disabled.png); }
 
 QComboBox { background-color: @surface-2@; border: 1px solid @border@; border-radius: @radius-s@px; padding: 7px 12px; min-height: 20px; }
 QComboBox:hover { border: 1px solid @border-strong@; }
 QComboBox::drop-down { border: none; width: 28px; }
-QComboBox::down-arrow { image: url(@styledir@/down_arrow.svg); width: 12px; height: 12px; }
-QComboBox::down-arrow:hover { image: url(@styledir@/down_hover.svg); }
+QComboBox::down-arrow { image: url(@styledir@/down_arrow.png); width: 12px; height: 12px; }
+QComboBox::down-arrow:hover { image: url(@styledir@/down_hover.png); }
 QComboBox QAbstractItemView, QListView { background-color: @surface-2@; border: 1px solid @border-strong@; border-radius: @radius-s@px; padding: 4px; outline: none; selection-background-color: @accent-soft@; }
 QComboBox QAbstractItemView::item, QListView::item { padding: 7px 10px; border-radius: 6px; min-height: 22px; }
 QComboBox QAbstractItemView::item:selected, QListView::item:selected { background-color: @accent-soft@; color: @text@; }
@@ -50,30 +50,30 @@ QComboBox QAbstractItemView::item:hover, QListView::item:hover { background-colo
 
 QCheckBox, QRadioButton { spacing: 10px; background: transparent; }
 QCheckBox::indicator, QRadioButton::indicator { width: 20px; height: 20px; }
-QCheckBox::indicator:unchecked { image: url(@styledir@/checkbox_unchecked.svg); }
-QCheckBox::indicator:unchecked:hover { image: url(@styledir@/checkbox_unchecked_hover.svg); }
-QCheckBox::indicator:unchecked:disabled { image: url(@styledir@/checkbox_unchecked_disabled.svg); }
-QCheckBox::indicator:checked { image: url(@styledir@/checkbox_checked.svg); }
-QCheckBox::indicator:checked:hover { image: url(@styledir@/checkbox_checked_hover.svg); }
-QCheckBox::indicator:checked:disabled { image: url(@styledir@/checkbox_checked_disabled.svg); }
-QCheckBox::indicator:indeterminate { image: url(@styledir@/checkbox_indeterminate.svg); }
-QCheckBox::indicator:indeterminate:hover { image: url(@styledir@/checkbox_indeterminate_hover.svg); }
-QRadioButton::indicator:unchecked { image: url(@styledir@/radiobutton_unchecked.svg); }
-QRadioButton::indicator:unchecked:hover { image: url(@styledir@/radiobutton_unchecked_hover.svg); }
-QRadioButton::indicator:unchecked:disabled { image: url(@styledir@/radiobutton_unchecked_disabled.svg); }
-QRadioButton::indicator:checked { image: url(@styledir@/radiobutton_checked.svg); }
-QRadioButton::indicator:checked:hover { image: url(@styledir@/radiobutton_checked_hover.svg); }
-QRadioButton::indicator:checked:disabled { image: url(@styledir@/radiobutton_checked_disabled.svg); }
-QRadioButton::indicator:unchecked:hover { image: url(@styledir@/radiobutton_unchecked_hover.svg); }
-QRadioButton::indicator:checked:hover { image: url(@styledir@/radiobutton_checked_hover.svg); }
+QCheckBox::indicator:unchecked { image: url(@styledir@/checkbox_unchecked.png); }
+QCheckBox::indicator:unchecked:hover { image: url(@styledir@/checkbox_unchecked_hover.png); }
+QCheckBox::indicator:unchecked:disabled { image: url(@styledir@/checkbox_unchecked_disabled.png); }
+QCheckBox::indicator:checked { image: url(@styledir@/checkbox_checked.png); }
+QCheckBox::indicator:checked:hover { image: url(@styledir@/checkbox_checked_hover.png); }
+QCheckBox::indicator:checked:disabled { image: url(@styledir@/checkbox_checked_disabled.png); }
+QCheckBox::indicator:indeterminate { image: url(@styledir@/checkbox_indeterminate.png); }
+QCheckBox::indicator:indeterminate:hover { image: url(@styledir@/checkbox_indeterminate_hover.png); }
+QRadioButton::indicator:unchecked { image: url(@styledir@/radiobutton_unchecked.png); }
+QRadioButton::indicator:unchecked:hover { image: url(@styledir@/radiobutton_unchecked_hover.png); }
+QRadioButton::indicator:unchecked:disabled { image: url(@styledir@/radiobutton_unchecked_disabled.png); }
+QRadioButton::indicator:checked { image: url(@styledir@/radiobutton_checked.png); }
+QRadioButton::indicator:checked:hover { image: url(@styledir@/radiobutton_checked_hover.png); }
+QRadioButton::indicator:checked:disabled { image: url(@styledir@/radiobutton_checked_disabled.png); }
+QRadioButton::indicator:unchecked:hover { image: url(@styledir@/radiobutton_unchecked_hover.png); }
+QRadioButton::indicator:checked:hover { image: url(@styledir@/radiobutton_checked_hover.png); }
 /* Check boxes inside lists and tables (coin control, address pickers) */
 QTreeView::indicator, QTableView::indicator, QListView::indicator { width: 18px; height: 18px; }
-QTreeView::indicator:unchecked, QTableView::indicator:unchecked, QListView::indicator:unchecked { image: url(@styledir@/checkbox_unchecked.svg); }
-QTreeView::indicator:unchecked:hover, QTableView::indicator:unchecked:hover, QListView::indicator:unchecked:hover { image: url(@styledir@/checkbox_unchecked_hover.svg); }
-QTreeView::indicator:checked, QTableView::indicator:checked, QListView::indicator:checked { image: url(@styledir@/checkbox_checked.svg); }
-QTreeView::indicator:checked:hover, QTableView::indicator:checked:hover, QListView::indicator:checked:hover { image: url(@styledir@/checkbox_checked_hover.svg); }
-QTreeView::indicator:indeterminate, QTableView::indicator:indeterminate, QListView::indicator:indeterminate { image: url(@styledir@/checkbox_indeterminate.svg); }
-QTreeView::indicator:disabled, QTableView::indicator:disabled, QListView::indicator:disabled { image: url(@styledir@/checkbox_unchecked_disabled.svg); }
+QTreeView::indicator:unchecked, QTableView::indicator:unchecked, QListView::indicator:unchecked { image: url(@styledir@/checkbox_unchecked.png); }
+QTreeView::indicator:unchecked:hover, QTableView::indicator:unchecked:hover, QListView::indicator:unchecked:hover { image: url(@styledir@/checkbox_unchecked_hover.png); }
+QTreeView::indicator:checked, QTableView::indicator:checked, QListView::indicator:checked { image: url(@styledir@/checkbox_checked.png); }
+QTreeView::indicator:checked:hover, QTableView::indicator:checked:hover, QListView::indicator:checked:hover { image: url(@styledir@/checkbox_checked_hover.png); }
+QTreeView::indicator:indeterminate, QTableView::indicator:indeterminate, QListView::indicator:indeterminate { image: url(@styledir@/checkbox_indeterminate.png); }
+QTreeView::indicator:disabled, QTableView::indicator:disabled, QListView::indicator:disabled { image: url(@styledir@/checkbox_unchecked_disabled.png); }
 
 QPushButton { background-color: @surface-2@; color: @text@; border: 1px solid @border-strong@; border-radius: @radius-s@px; padding: 8px 18px; min-height: 20px; font-weight: 500; }
 QPushButton:hover { background-color: @surface-3@; }
