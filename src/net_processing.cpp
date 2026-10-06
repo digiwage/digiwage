@@ -2446,7 +2446,10 @@ void PeerManagerImpl::ProcessGetBlockData(CNode& pfrom, Peer& peer, const CInv& 
             // they won't have a useful mempool to match against a compact block,
             // and we don't feel like constructing the object for them, so
             // instead we respond with the full, non-compact block.
-            if (CanDirectFetch() && pindex->nHeight >= m_chainman.ActiveChain().Height() - MAX_CMPCTBLOCK_DEPTH) {
+            // Legacy (pre-v6) PoS blocks keep their signature in the block
+            // body, which a compact block cannot carry: send them in full.
+            const bool legacy_block = m_chainparams.GetConsensus().digiwage_legacy_chain && pblock->nVersion < 6;
+            if (!legacy_block && CanDirectFetch() && pindex->nHeight >= m_chainman.ActiveChain().Height() - MAX_CMPCTBLOCK_DEPTH) {
                 if (a_recent_compact_block && a_recent_compact_block->header.GetHash() == pindex->GetBlockHash()) {
                     m_connman.PushMessage(&pfrom, msgMaker.Make(NetMsgType::CMPCTBLOCK, *a_recent_compact_block));
                 } else {
@@ -5910,7 +5913,10 @@ bool PeerManagerImpl::SendMessages(CNode* pto)
                 }
             }
             if (!fRevertToInv && !vHeaders.empty()) {
-                if (vHeaders.size() == 1 && state.m_requested_hb_cmpctblocks) {
+                // Legacy (pre-v6) blocks cannot travel as compact blocks
+                // (see the MSG_CMPCT_BLOCK getdata reply): announce a header.
+                const bool legacy_block = consensusParams.digiwage_legacy_chain && pBestIndex->nVersion < 6;
+                if (vHeaders.size() == 1 && state.m_requested_hb_cmpctblocks && !legacy_block) {
                     // We only send up to 1 block as header-and-ids, as otherwise
                     // probably means we're doing an initial-ish-sync or they're slow
                     LogPrint(BCLog::NET, "%s sending header-and-ids %s to peer=%d\n", __func__,
