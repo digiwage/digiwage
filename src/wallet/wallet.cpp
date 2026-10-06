@@ -2231,43 +2231,43 @@ const CScriptCache& CWallet::GetScriptCache(const COutPoint& prevout, const CScr
 bool CWallet::HasAddressStakeScripts(const uint160& keyId, std::map<uint160, bool>* _insertAddressStake) const
 {
     auto it = addressStakeCache.find(keyId);
-    bool hasAddressInCache = it != addressStakeCache.end();
-    if(hasAddressInCache && _insertAddressStake)
+    if(it != addressStakeCache.end())
+        return it->second;
+    if(_insertAddressStake)
     {
         it = _insertAddressStake->find(keyId);
-        hasAddressInCache = it != _insertAddressStake->end();
+        if(it != _insertAddressStake->end())
+            return it->second;
     }
 
-    if(!hasAddressInCache)
+    std::map<uint160, bool>& insertAddressStake = _insertAddressStake == nullptr ? addressStakeCache : *_insertAddressStake;
+    PKHash pkhash(keyId);
+    CScript scriptPubKeyHash = GetScriptForDestination(pkhash);
+    bool canAddressStake = false;
+    if(IsMine(scriptPubKeyHash))
     {
-        std::map<uint160, bool>& insertAddressStake = _insertAddressStake == nullptr ? addressStakeCache : *_insertAddressStake;
-        PKHash pkhash(keyId);
-        CScript scriptPubKeyHash = GetScriptForDestination(pkhash);
-        bool canAddressStake = false;
-        if(IsMine(scriptPubKeyHash))
+        CPubKey pubKeyStake;
+        if (GetPubKey(pkhash, pubKeyStake))
         {
-            CPubKey pubKeyStake;
-            if (GetPubKey(pkhash, pubKeyStake))
+            CScript scriptPubKey;
+            scriptPubKey << pubKeyStake.getvch() << OP_CHECKSIG;
+            if(IsMine(scriptPubKey))
             {
-                CScript scriptPubKey;
-                scriptPubKey << pubKeyStake.getvch() << OP_CHECKSIG;
-                if(IsMine(scriptPubKey))
-                {
-                    canAddressStake = true;
-                }
+                canAddressStake = true;
             }
         }
-        insertAddressStake[keyId] = canAddressStake;
+    }
+    insertAddressStake[keyId] = canAddressStake;
 
-        if(!_insertAddressStake && !canAddressStake)
-        {
-            // Log warning that descriptor is missing
-            std::string strAddress = EncodeDestination(PKHash(keyId));
-            WalletLogPrintf("Both pkh and pk descriptors are needed for %s address to do staking\n", strAddress);
-        }
+    if(!_insertAddressStake && !canAddressStake)
+    {
+        // Log warning that descriptor is missing
+        std::string strAddress = EncodeDestination(PKHash(keyId));
+        WalletLogPrintf("Both pkh and pk descriptors are needed for %s address to do staking\n", strAddress);
     }
 
-    return it->second;
+    // The value just computed: `it` does not point at it.
+    return canAddressStake;
 }
 
 void CWallet::RefreshAddressStakeCache()
