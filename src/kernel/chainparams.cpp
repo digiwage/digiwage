@@ -330,149 +330,99 @@ public:
 };
 
 /**
- * Testnet (v3): public test network which is reset from time to time.
+ * DigiWage v3 testnet: a fresh chain with its own genesis block and network
+ * identity. It runs mainnet's rules (legacy blocks, then the contract fork)
+ * on a compressed schedule, so the whole mainnet lifecycle can be tested
+ * from genesis by v3 nodes alone.
  */
-class CTestNetParams : public CChainParams {
+class CTestNetParams : public CMainParams {
 public:
     CTestNetParams() {
         strNetworkID = CBaseChainParams::TESTNET;
-        consensus.signet_blocks = false;
-        consensus.signet_challenge.clear();
-        consensus.nSubsidyHalvingInterval = 985500; // digiwage halving every 4 years
-        consensus.script_flag_exceptions.emplace( // BIP16 exception
-            uint256S("0x0000e803ee215c0684ca0d2f9220594d3f828617972aad66feb2ba51f5e14222"), SCRIPT_VERIFY_NONE);
-        consensus.BIP34Height = 0;
-        consensus.BIP34Hash = uint256S("0x0000e803ee215c0684ca0d2f9220594d3f828617972aad66feb2ba51f5e14222");
-        consensus.BIP65Height = 0; // 00000000007f6655f22f98e72ed80d8b06dc761d5da09df0fa1dc4be4f861eb6
-        consensus.BIP66Height = 0; // 000000002104c8c45e99a8853285a3b592602a3ccde2b832481da85e9e4ba182
-        consensus.CSVHeight = 6048; // 00000000025e930139bac5c6c31a403776da130831ab85be56578f3fa75369bb
-        consensus.SegwitHeight = 6048; // 00000000002b980fcd729daaa248fd9316a5200e9b367f4ff2c42453e84201ca
-        consensus.MinBIP9WarningHeight = 8064; // segwit activation height + miner confirmation window
-        consensus.QIP5Height = 446320;
-        consensus.QIP6Height = 446320;
-        consensus.QIP7Height = 446320;
-        consensus.QIP9Height = 446320;
-        consensus.nOfflineStakeHeight = 625000;
-        consensus.nReduceBlocktimeHeight = 806600;
-        consensus.nMuirGlacierHeight = 806600;
-        consensus.nLondonHeight = 1967616;
-        consensus.nShanghaiHeight = 3298892;
-        consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.posLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.QIP9PosLimit = uint256S("0000000000001fffffffffffffffffffffffffffffffffffffffffffffffffff"); // The new POS-limit activated after QIP9
-        consensus.RBTPosLimit = uint256S("0000000000003fffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 16 * 60; // 16 minutes
-        consensus.nPowTargetTimespanV2 = 4000;
-        consensus.nRBTPowTargetTimespan = 1000;
-        consensus.nPowTargetSpacing = 2 * 64;
-        consensus.nRBTPowTargetSpacing = 32;
-        consensus.fPowAllowMinDifficultyBlocks = false;
-        consensus.fPowNoRetargeting = true;
-        consensus.fPoSNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
-        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = Consensus::BIP9Deployment::NEVER_ACTIVE;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].min_activation_height = 0; // No activation delay
+        // PoW funds the chain (block 1 pays the premine), then legacy PoS
+        // activates its upgrades one at a time before the contract fork.
+        consensus.digiwage_last_pow_height = 100;
+        consensus.digiwage_pos_retarget_prev_height = 100;
+        consensus.digiwage_stake_modifier_new_selection_height = 110;
+        consensus.digiwage_zerocoin_height = 120;
+        consensus.digiwage_stake_modifier_v2_height = 130;
+        consensus.digiwage_rhf_height = 150;
+        consensus.digiwage_contract_height = 200;
+        consensus.digiwage_stake_min_depth = 50;
+        consensus.digiwage_zerocoin_time_start = 1791244800;
+        // The PoW phase is shorter than the 2087 second modifier selection
+        // interval, so early stakes use the zero modifier (as legacy testnet).
+        consensus.digiwage_old_modifier_zero_fallback = true;
+        // The legacy kernel multiplies the target by value/100 in 256 bits.
+        // A CPU-mined PoW phase leaves the first PoS target at the limit, so
+        // keep the limits low enough that coins up to ~1.1M never overflow.
+        // (Mainnet's limits are far larger; its real targets are not.)
+        consensus.posLimit = uint256S("00000000000fffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.digiwage_pos_limit_v2 = uint256S("0000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
-        // Deployment of Taproot (BIPs 340-342)
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].bit = 2;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = 0;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
-        // Min block number for activation, the number must be divisible by 2016
-        // Replace 0xffffc0 with the activation block number
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 1967616;
+        consensus.BIP34Height = 1;
+        consensus.BIP65Height = consensus.digiwage_rhf_height;
+        consensus.QIP5Height = consensus.digiwage_contract_height;
+        consensus.QIP6Height = consensus.digiwage_contract_height;
+        consensus.QIP7Height = consensus.digiwage_contract_height;
+        consensus.nMuirGlacierHeight = consensus.digiwage_contract_height;
+        consensus.nLondonHeight = consensus.digiwage_contract_height;
+        consensus.nShanghaiHeight = consensus.digiwage_contract_height;
+        consensus.nFixUTXOCacheHFHeight = 0;
+        // Header signatures with v6; offline staking (the delegations
+        // contract is deployed in that block) once the fork has settled.
+        consensus.nEnableHeaderSignatureHeight = consensus.digiwage_contract_height;
+        consensus.nOfflineStakeHeight = consensus.digiwage_contract_height + 100;
 
-        consensus.nMinimumChainWork = uint256S("0x000000000000000000000000000000000000000000000213cff04c2108ab7d5a"); // 3180000
-        consensus.defaultAssumeValid = uint256S("0xde6afcb300f7036b67b7446933b8aa7986850058d5927e07ce5df1e270069ef2"); // 3180000
+        consensus.nMinimumChainWork = uint256{};
+        consensus.defaultAssumeValid = uint256{};
 
-        pchMessageStart[0] = 0x0d;
-        pchMessageStart[1] = 0x22;
-        pchMessageStart[2] = 0x15;
-        pchMessageStart[3] = 0x06;
-        nDefaultPort = 13888;
+        pchMessageStart[0] = 0xb4;
+        pchMessageStart[1] = 0xd9;
+        pchMessageStart[2] = 0x7e;
+        pchMessageStart[3] = 0xe2;
+        nDefaultPort = 46103;
         nPruneAfterHeight = 1000;
-        m_assumed_blockchain_size = 10;
+        m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock(1504695029, 7349697, 0x1f00ffff, 1, 50 * COIN);
+        const char* timestamp = "DigiWage testnet 06 Oct 2026: a fresh chain for v3";
+        const CScript output = CScript() << ParseHex("04682170b57e85aeae3ee34f858112040a933f6c48402620be4db4796e26f7d11d481f6ad9f05c471f8414c7ad7e1a90562906cff8b8c8b159666fbc4ff5af6904") << OP_CHECKSIG;
+        genesis = CreateGenesisBlock(timestamp, output, 1791244800, 65946, 0x1e0ffff0, 1, 120 * COIN, true);
         consensus.hashGenesisBlock = genesis.GetHash();
-        // Auxiliary DigiWage networks still require separate Digiwage migration.
-        assert(consensus.hashGenesisBlock == uint256S("0x79bbf0c110656e33c4ed1e45005826d0298fdd3437267f2e968cbbcbe1042fad"));
-        assert(genesis.hashMerkleRoot == uint256S("0xed34050eb5909ee535fcb07af292ea55f3d2f291187617b44d3282231405b96d"));
+        assert(consensus.hashGenesisBlock == uint256S("0x000007682f1fb714ab555caa300ef7cff13df2c2b45247a521632c840a066030"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc7ab46b1399dd87b3966126c4eeba78934c751d467b44a05d4d95f5e21a95dda"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        // nodes with support for servicebits filtering should be at the top
-        vSeeds.emplace_back("digiwage4.dynu.net"); // DigiWage testnet
+        vSeeds.emplace_back("194.163.172.250");
+        vSeeds.emplace_back("185.197.194.5");
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,120);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,110);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
-        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
-        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,127); // t...
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,125); // s...
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,247);
+        base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x31, 0x99, 0xdf}; // tdwp...
+        base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x31, 0x99, 0xf4}; // tdws...
 
-        bech32_hrp = "tq";
+        bech32_hrp = "tdw";
 
-        vFixedSeeds = std::vector<uint8_t>(std::begin(chainparams_seed_test), std::end(chainparams_seed_test));
-
-        fDefaultConsistencyChecks = false;
-        fRequireStandard = false;
-        fMineBlocksOnDemand = false;
         m_is_test_chain = true;
-        m_is_mockable_chain = false;
-        fHasHardwareWalletSupport = true;
 
         checkpointData = {
             {
-                {0, uint256S("0x0000e803ee215c0684ca0d2f9220594d3f828617972aad66feb2ba51f5e14222")},
-                {5000, uint256S("0x000000302bc22f2f65995506e757fff5c824545db5413e871d57d27a0997e8a0")}, //last PoW block
-                {77000, uint256S("0xf41e2e8d09bca38827c23cad46ed6d434902da08415d2314d0c8ce285b1970cb")},
-                {230000, uint256S("0xcd17baf80fa817dd543b83897ccb1e07350019e5b812f4956f69efe855d62601")},
-                {343000, uint256S("0xac66f1de1a5fa473b5097b313c203e97d45669485e4c235a32a0f80df64f6948")},
-                {441632, uint256S("0x2cb93f74cb3e47ec05b745a445f90a023b7136a68f94e9bff7fb49819155ccd8")},
-                {491300, uint256S("0x75a7db2865423d3af5f0dfd70cfef6053b91f3c018c4b28a4e28c09a8c011e78")},
-                {690000, uint256S("0x89b010b5333fa9d22c7fcf157c7eeaee1ccfe80c435390243b3d782a1fc1eff7")},
-                {944000, uint256S("0x6bb6312088d81ca5484460b3466c66c01ff7d1cd4ef91e1dc9555a15b51d025d")},
-                {1405000, uint256S("0xaff1f9c768e83f90d10a55306993e9042b5740251abc1afdde1429d09e95fa66")},
-                {1930000, uint256S("0xf4836510a70e25d5c70554abbbcb346abd66af540f616d806fb1c20335c1e874")},
-                {2686000, uint256S("0xc12594feff0dfae05f5a056cd9248ff5e6fc42d37c4bedf37b212eb17dccb486")},
-                {3180000, uint256S("0xde6afcb300f7036b67b7446933b8aa7986850058d5927e07ce5df1e270069ef2")},
+                {0, consensus.hashGenesisBlock},
             }
         };
+        chainTxData = ChainTxData{0, 0, 0};
 
-        m_assumeutxo_data = MapAssumeutxo{
-            // TODO to be specified in a future patch.
-        };
-
-        chainTxData = ChainTxData{
-            // Data as of block 0xde6afcb300f7036b67b7446933b8aa7986850058d5927e07ce5df1e270069ef2 (height 3180000)
-            .nTime    = 1692923320,
-            .nTxCount = 6552961,
-            .dTxRate  = 0.06299127541669518,
-        };
-
-        consensus.nBlocktimeDownscaleFactor = 4;
-        consensus.nCoinbaseMaturity = 500;
-        consensus.nRBTCoinbaseMaturity = consensus.nBlocktimeDownscaleFactor*500;
-        consensus.nSubsidyHalvingIntervalV2 = consensus.nBlocktimeDownscaleFactor*985500; // digiwage halving every 4 years (nSubsidyHalvingInterval * nBlocktimeDownscaleFactor)
-
-        consensus.nLastPOWBlock = 5000;
-        consensus.nLastBigReward = 5000;
-        consensus.nMPoSRewardRecipients = 10;
-        consensus.nFirstMPoSBlock = consensus.nLastPOWBlock + 
-                                    consensus.nMPoSRewardRecipients + 
+        consensus.nCoinbaseMaturity = 10;
+        consensus.nLastPOWBlock = consensus.digiwage_last_pow_height;
+        consensus.nFirstMPoSBlock = consensus.nLastPOWBlock +
+                                    consensus.nMPoSRewardRecipients +
                                     consensus.nCoinbaseMaturity;
-        consensus.nLastMPoSBlock = 624999;
-
-        consensus.nFixUTXOCacheHFHeight = 84500;
-        consensus.nEnableHeaderSignatureHeight = 391993;
-        consensus.nCheckpointSpan = consensus.nCoinbaseMaturity;
-        consensus.nRBTCheckpointSpan = consensus.nRBTCoinbaseMaturity;
-        consensus.delegationsAddress = uint160(ParseHex("0000000000000000000000000000000000000086")); // Delegations contract for offline staking
-        consensus.nStakeTimestampMask = 15;
-        consensus.nRBTStakeTimestampMask = 3;
+        // Stakers keep the whole reward, as on mainnet: no MPoS range.
+        consensus.nLastMPoSBlock = consensus.nFirstMPoSBlock;
+        consensus.nCheckpointSpan = 100;
     }
 };
 
