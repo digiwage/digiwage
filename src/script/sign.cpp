@@ -957,6 +957,12 @@ bool SignTransactionStake(CMutableTransaction &mtx, const SigningProvider *provi
 
 bool SignBlockStake(CBlock &block, CKey &key, bool compact)
 {
+    // Pre-v6 DigiWage blocks carry a DER signature of the block hash in the
+    // block body (vchBlockSig), which is what CheckBlockSignature reads.
+    if (block.nVersion < 6) {
+        return key.Sign(block.GetHashWithoutSign(), block.vchBlockSig);
+    }
+
     bool isSigned = false;
     if(compact)
     {

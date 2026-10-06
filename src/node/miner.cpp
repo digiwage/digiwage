@@ -1407,7 +1407,7 @@ bool SignBlock(std::shared_ptr<CBlock> pblock, wallet::CWallet& wallet, const CA
             {
                 // append a signature to our block and ensure that is LowS
                 return wallet.SignBlockStake(*pblock, pkhash, false) &&
-                           EnsureLowS(pblock->vchBlockSigDlgt) &&
+                           EnsureLowS(pblock->nVersion < 6 ? pblock->vchBlockSig : pblock->vchBlockSigDlgt) &&
                            CheckHeaderProof(*pblock, consensusParams, wallet.chain().chainman().ActiveChainstate());
             }
         }

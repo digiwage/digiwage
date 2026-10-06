@@ -5384,7 +5384,10 @@ std::vector<unsigned char> ChainstateManager::GenerateCoinbaseCommitment(CBlock&
     std::vector<unsigned char> commitment;
     int commitpos = GetWitnessCommitmentIndex(block);
     std::vector<unsigned char> ret(32, 0x00);
-    if (commitpos == NO_WITNESS_COMMITMENT) {
+    // Legacy (pre-v6) blocks carry no witness data, and a legacy PoS coinbase
+    // must be exactly one empty output (CheckFirstCoinstakeOutput).
+    const bool legacy_block = GetConsensus().digiwage_legacy_chain && block.nVersion < 6;
+    if (commitpos == NO_WITNESS_COMMITMENT && !legacy_block) {
         uint256 witnessroot = BlockWitnessMerkleRoot(block, nullptr, &fProofOfStake);
         CHash256().Write(witnessroot).Write(ret).Finalize(witnessroot);
         CTxOut out;
