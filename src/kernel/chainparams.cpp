@@ -330,68 +330,45 @@ public:
 };
 
 /**
- * DigiWage v3 testnet: a fresh chain with its own genesis block and network
- * identity. It runs mainnet's rules (legacy blocks, then the contract fork)
- * on a compressed schedule, so the whole mainnet lifecycle can be tested
- * from genesis by v3 nodes alone.
+ * DigiWage testnet (-testnet): the legacy (v2) testnet relaunched with its
+ * own genesis block. Legacy v2 nodes produce the chain up to the contract
+ * fork, with their v3/v4/v5 block headers, and v3 takes over with v6 blocks;
+ * the same path as mainnet. The consensus rules are the legacy testnet's,
+ * so they come from CLegacyTestParams; only the network identity and the
+ * fork heights differ. Keep them in sync with the v2 CTestNetParams.
  */
-class CTestNetParams : public CMainParams {
+class CTestNetParams : public CLegacyTestParams {
 public:
     CTestNetParams() {
         strNetworkID = CBaseChainParams::TESTNET;
-        // PoW funds the chain (block 1 pays the premine), then legacy PoS
-        // activates its upgrades one at a time before the contract fork.
-        consensus.digiwage_last_pow_height = 100;
-        consensus.digiwage_pos_retarget_prev_height = 100;
-        consensus.digiwage_stake_modifier_new_selection_height = 110;
-        consensus.digiwage_zerocoin_height = 120;
-        consensus.digiwage_stake_modifier_v2_height = 130;
-        consensus.digiwage_rhf_height = 150;
-        consensus.digiwage_contract_height = 200;
-        consensus.digiwage_stake_min_depth = 50;
-        consensus.digiwage_zerocoin_time_start = 1791244800;
-        // The PoW phase is shorter than the 2087 second modifier selection
-        // interval, so early stakes use the zero modifier (as legacy testnet).
-        consensus.digiwage_old_modifier_zero_fallback = true;
-        // The legacy kernel multiplies the target by value/100 in 256 bits.
-        // A CPU-mined PoW phase leaves the first PoS target at the limit, so
-        // keep the limits low enough that coins up to ~1.1M never overflow.
-        // (Mainnet's limits are far larger; its real targets are not.)
-        consensus.posLimit = uint256S("00000000000fffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.digiwage_pos_limit_v2 = uint256S("0000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
-        consensus.BIP34Height = 1;
-        consensus.BIP65Height = consensus.digiwage_rhf_height;
+        consensus.digiwage_contract_height = 1000;
         consensus.QIP5Height = consensus.digiwage_contract_height;
         consensus.QIP6Height = consensus.digiwage_contract_height;
         consensus.QIP7Height = consensus.digiwage_contract_height;
         consensus.nMuirGlacierHeight = consensus.digiwage_contract_height;
         consensus.nLondonHeight = consensus.digiwage_contract_height;
         consensus.nShanghaiHeight = consensus.digiwage_contract_height;
-        consensus.nFixUTXOCacheHFHeight = 0;
-        // Header signatures with v6; offline staking (the delegations
-        // contract is deployed in that block) once the fork has settled.
+        // Header signatures with v6, offline staking (the delegations contract
+        // is deployed in that block) 100 blocks later.
         consensus.nEnableHeaderSignatureHeight = consensus.digiwage_contract_height;
         consensus.nOfflineStakeHeight = consensus.digiwage_contract_height + 100;
-
-        consensus.nMinimumChainWork = uint256{};
-        consensus.defaultAssumeValid = uint256{};
 
         pchMessageStart[0] = 0xb4;
         pchMessageStart[1] = 0xd9;
         pchMessageStart[2] = 0x7e;
         pchMessageStart[3] = 0xe2;
         nDefaultPort = 46103;
-        nPruneAfterHeight = 1000;
-        m_assumed_blockchain_size = 1;
-        m_assumed_chain_state_size = 1;
 
+        // Built by the v2 codebase as well (same construction as mainnet's
+        // genesis: version 1 header, Quark hash).
         const char* timestamp = "DigiWage testnet 06 Oct 2026: a fresh chain for v3";
         const CScript output = CScript() << ParseHex("04682170b57e85aeae3ee34f858112040a933f6c48402620be4db4796e26f7d11d481f6ad9f05c471f8414c7ad7e1a90562906cff8b8c8b159666fbc4ff5af6904") << OP_CHECKSIG;
         genesis = CreateGenesisBlock(timestamp, output, 1791244800, 65946, 0x1e0ffff0, 1, 120 * COIN, true);
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x000007682f1fb714ab555caa300ef7cff13df2c2b45247a521632c840a066030"));
         assert(genesis.hashMerkleRoot == uint256S("0xc7ab46b1399dd87b3966126c4eeba78934c751d467b44a05d4d95f5e21a95dda"));
+        consensus.BIP34Hash = consensus.hashGenesisBlock;
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -406,23 +383,12 @@ public:
 
         bech32_hrp = "tdw";
 
-        m_is_test_chain = true;
-
         checkpointData = {
             {
                 {0, consensus.hashGenesisBlock},
             }
         };
         chainTxData = ChainTxData{0, 0, 0};
-
-        consensus.nCoinbaseMaturity = 10;
-        consensus.nLastPOWBlock = consensus.digiwage_last_pow_height;
-        consensus.nFirstMPoSBlock = consensus.nLastPOWBlock +
-                                    consensus.nMPoSRewardRecipients +
-                                    consensus.nCoinbaseMaturity;
-        // Stakers keep the whole reward, as on mainnet: no MPoS range.
-        consensus.nLastMPoSBlock = consensus.nFirstMPoSBlock;
-        consensus.nCheckpointSpan = 100;
     }
 };
 
