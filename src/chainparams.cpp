@@ -116,7 +116,7 @@ static const Checkpoints::CCheckpointData data = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
     boost::assign::map_list_of
-    (0, uint256S("0x000009f854e700ab62642c7d3e94be65a1d8c112384f5edfb4b2b3fa3fecaef6"));
+    (0, uint256S("0x00000fe47393963de56853012882fd1d260656affca9ccad8f79389bf882d462"));
 static const Checkpoints::CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
     0,
@@ -238,10 +238,14 @@ public:
         networkID = CBaseChainParams::TESTNET;
         strNetworkID = "test";
 
-        genesis = CreateGenesisBlock(1522130562, 3706113, 0x1e0ffff0, 1, 120 * COIN);
+        // Testnet has its own genesis block (it used to share mainnet's).
+        // Same construction as mainnet: version 1 header, Quark hash.
+        const char* pszTimestamp = "DigiWage testnet 07 Oct 2026: genesis from the v2 codebase";
+        const CScript genesisOutputScript = CScript() << ParseHex("04682170b57e85aeae3ee34f858112040a933f6c48402620be4db4796e26f7d11d481f6ad9f05c471f8414c7ad7e1a90562906cff8b8c8b159666fbc4ff5af6904") << OP_CHECKSIG;
+        genesis = CreateGenesisBlock(pszTimestamp, genesisOutputScript, 1791331200, 3503134, 0x1e0ffff0, 1, 120 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256("0x000009f854e700ab62642c7d3e94be65a1d8c112384f5edfb4b2b3fa3fecaef6"));
-        assert(genesis.hashMerkleRoot == uint256("0xdda70dbacbeeb39750532e69dad0a0025c16e9bcc7ca412cf12a988d0020309d"));
+        assert(consensus.hashGenesisBlock == uint256("0x00000fe47393963de56853012882fd1d260656affca9ccad8f79389bf882d462"));
+        assert(genesis.hashMerkleRoot == uint256("0xfa9f7e6d88345be6c5e3b83fefee899647bf875024779ce10c7f010e95d39eae"));
 
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.powLimit   = ~UINT256_ZERO >> 20;   // DIGIWAGE starting difficulty is 1 / 2^12
@@ -301,30 +305,26 @@ public:
          * a large 4-byte int at any alignment.
          */
 
-        pchMessageStart[0] = 0x45;
-        pchMessageStart[1] = 0x76;
-        pchMessageStart[2] = 0x65;
-        pchMessageStart[3] = 0xba;
-        nDefaultPort = 46005;
+        pchMessageStart[0] = 0xb4;
+        pchMessageStart[1] = 0xd9;
+        pchMessageStart[2] = 0x7e;
+        pchMessageStart[3] = 0xe2;
+        nDefaultPort = 46103;
         vFixedSeeds.clear();
         vSeeds.clear();
-        // nodes with support for servicebits filtering should be at the top
-        vSeeds.push_back(CDNSSeedData("144.202.110.14", "144.202.110.14"));
-        vSeeds.push_back(CDNSSeedData("45.32.128.229", "45.32.128.229"));
-        vSeeds.push_back(CDNSSeedData("95.179.132.217", "95.179.132.217"));
+        vSeeds.push_back(CDNSSeedData("194.163.172.250", "194.163.172.250"));
+        vSeeds.push_back(CDNSSeedData("185.197.194.5", "185.197.194.5"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 139); // Testnet DIGIWAGE addresses start with 'x' or 'y'
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 19);  // Testnet DIGIWAGE script addresses start with '8' or '9'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 127); // Testnet DIGIWAGE addresses start with 't'
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 125); // Testnet DIGIWAGE script addresses start with 's'
         base58Prefixes[STAKING_ADDRESS] = std::vector<unsigned char>(1, 73);     // starting with 'W'
-        base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 239);     // Testnet private keys start with '9' or 'c' (Bitcoin defaults)
-        // Testnet DIGIWAGE BIP32 pubkeys start with 'DRKV'
-        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x3a)(0x80)(0x61)(0xa0).convert_to_container<std::vector<unsigned char> >();
-        // Testnet DIGIWAGE BIP32 prvkeys start with 'DRKP'
-        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x3a)(0x80)(0x58)(0x37).convert_to_container<std::vector<unsigned char> >();
+        base58Prefixes[SECRET_KEY] = std::vector<unsigned char>(1, 247);     // Testnet private keys (compressed) start with 'd'
+        // Testnet DIGIWAGE BIP32 pubkeys start with 'tdwp'
+        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x31)(0x99)(0xdf).convert_to_container<std::vector<unsigned char> >();
+        // Testnet DIGIWAGE BIP32 prvkeys start with 'tdws'
+        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x31)(0x99)(0xf4).convert_to_container<std::vector<unsigned char> >();
         // Testnet DIGIWAGE BIP44 coin type is '1' (All coin's testnet default)
         nExtCoinType = 1;
-
-        convertSeed6(vFixedSeeds, pnSeed6_test, ARRAYLEN(pnSeed6_test));
     }
 
     const Checkpoints::CCheckpointData& Checkpoints() const
