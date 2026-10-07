@@ -87,7 +87,7 @@
          <item>
           <widget class="QLabel" name="labelAddress">
            <property name="text">
-            <string>Address: 88.26.164.88:46005</string>
+            <string>Address: 88.26.164.88:46003</string>
            </property>
           </widget>
          </item>
