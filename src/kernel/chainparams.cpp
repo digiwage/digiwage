@@ -362,12 +362,12 @@ public:
 
         // Built by the v2 codebase as well (same construction as mainnet's
         // genesis: version 1 header, Quark hash).
-        const char* timestamp = "DigiWage testnet 06 Oct 2026: a fresh chain for v3";
+        const char* timestamp = "DigiWage testnet 07 Oct 2026: genesis from the v2 codebase";
         const CScript output = CScript() << ParseHex("04682170b57e85aeae3ee34f858112040a933f6c48402620be4db4796e26f7d11d481f6ad9f05c471f8414c7ad7e1a90562906cff8b8c8b159666fbc4ff5af6904") << OP_CHECKSIG;
-        genesis = CreateGenesisBlock(timestamp, output, 1791244800, 65946, 0x1e0ffff0, 1, 120 * COIN, true);
+        genesis = CreateGenesisBlock(timestamp, output, 1791331200, 3503134, 0x1e0ffff0, 1, 120 * COIN, true);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x000007682f1fb714ab555caa300ef7cff13df2c2b45247a521632c840a066030"));
-        assert(genesis.hashMerkleRoot == uint256S("0xc7ab46b1399dd87b3966126c4eeba78934c751d467b44a05d4d95f5e21a95dda"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000fe47393963de56853012882fd1d260656affca9ccad8f79389bf882d462"));
+        assert(genesis.hashMerkleRoot == uint256S("0xfa9f7e6d88345be6c5e3b83fefee899647bf875024779ce10c7f010e95d39eae"));
         consensus.BIP34Hash = consensus.hashGenesisBlock;
 
         vFixedSeeds.clear();
