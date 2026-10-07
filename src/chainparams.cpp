@@ -116,7 +116,7 @@ static const Checkpoints::CCheckpointData data = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
     boost::assign::map_list_of
-    (0, uint256S("0x001"));
+    (0, uint256S("0x000009f854e700ab62642c7d3e94be65a1d8c112384f5edfb4b2b3fa3fecaef6"));
 static const Checkpoints::CCheckpointData dataTestnet = {
     &mapCheckpointsTestnet,
     0,
@@ -249,19 +249,19 @@ public:
         consensus.posLimitV2 = ~UINT256_ZERO >> 20;
         consensus.nBudgetCycleBlocks = 144;         // approx 10 cycles per day
         consensus.nBudgetFeeConfirmations = 3;      // (only 8-blocks window for finalization on testnet)
-        consensus.nCoinbaseMaturity = 15;
+        consensus.nCoinbaseMaturity = 10;       // was 15
         consensus.nFutureTimeDriftPoW = 7200;
         consensus.nFutureTimeDriftPoS = 180;
         consensus.nMasternodeCountDrift = 4;        // num of MN we allow the see-saw payments to be off by
-        consensus.nMaxMoneyOut = 83000000 * COIN;
+        consensus.nMaxMoneyOut = 120000000 * COIN;
         consensus.nPoolMaxTransactions = 2;
         consensus.nProposalEstablishmentTime = 60 * 5;  // at least 5 min old to make it into a budget
-        consensus.nStakeMinAge = 60 * 60;
-        consensus.nStakeMinDepth = 100;
-        consensus.nTargetTimespan = 1 * 60;
-        consensus.nTargetTimespanV2 = 1 * 60;
-        consensus.nTargetSpacing = 1 * 60;
-        consensus.nTimeSlotLength = 15;
+        consensus.nStakeMinAge = 60 * 5;        // was 60 * 60
+        consensus.nStakeMinDepth = 50;          // was 100
+        consensus.nTargetTimespan = 30 * 60;    // was 1 * 60
+        consensus.nTargetTimespanV2 = 15 * 60;  // was 1 * 60
+        consensus.nTargetSpacing = 30;          // was 1 * 60
+        consensus.nTimeSlotLength = 5;         // was 15
         consensus.strObfuscationPoolDummyAddress = "y57cqfGRkekRyDRNeJiLtYVEbvhXrNbmox";
 
         // spork keys
@@ -269,16 +269,17 @@ public:
 
         // height based activations
         consensus.height_last_PoW = 200;
-        consensus.height_last_ZC_AccumCheckpoint = 500;
-        consensus.height_start_BIP65 = 500;
-        consensus.height_start_MessSignaturesV2 = 500;      // TimeProtocolV2, Blocks V7 and newMessageSignatures
-        consensus.height_start_StakeModifierNewSelection = 210;
-        consensus.height_start_StakeModifierV2 = 500;
-        consensus.height_start_TimeProtoV2 = 500;           // TimeProtocolV2, Blocks V7 and newMessageSignatures
+        consensus.height_RHF = 350;
+        consensus.height_last_ZC_AccumCheckpoint = INT_MAX;;
+        consensus.height_start_BIP65 = consensus.height_RHF;
+        consensus.height_start_MessSignaturesV2 = consensus.height_RHF;      // TimeProtocolV2, Blocks V7 and newMessageSignatures
+        consensus.height_start_StakeModifierNewSelection = 300;
+        consensus.height_start_StakeModifierV2 = 320;
+        consensus.height_start_TimeProtoV2 = consensus.height_RHF;           // TimeProtocolV2, Blocks V7 and newMessageSignatures
         consensus.height_start_ZC = 250;
-        consensus.height_start_ZC_PublicSpends = 500;
-        consensus.height_start_ZC_SerialRangeCheck = 500;
-        consensus.height_start_ZC_SerialsV2 = 500;
+        consensus.height_start_ZC_PublicSpends = INT_MAX;
+        consensus.height_start_ZC_SerialRangeCheck = INT_MAX;
+        consensus.height_start_ZC_SerialsV2 = INT_MAX;
 
         // Zerocoin-related params
         consensus.ZC_Modulus = "25195908475657893494027183240048398571429282126204032027777137836043662020707595556264018525880784"

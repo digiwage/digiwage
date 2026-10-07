@@ -68,6 +68,10 @@
 #include <boost/thread.hpp>
 #include <boost/foreach.hpp>
 
+static boost::signals2::connection rpcNotifyBlockChangeConnection;
+static boost::signals2::connection blockNotifyGenesisWaitConnection;
+void OnRPCStarted();
+void OnRPCStopped();
 #if ENABLE_ZMQ
 #include "zmq/zmqnotificationinterface.h"
 #endif
@@ -347,15 +351,16 @@ bool static Bind(const CService& addr, unsigned int flags)
     return true;
 }
 
+
 void OnRPCStarted()
 {
-    uiInterface.NotifyBlockTip.connect(RPCNotifyBlockChange);
+    rpcNotifyBlockChangeConnection =
+        uiInterface.NotifyBlockTip.connect(RPCNotifyBlockChange);
 }
-
 void OnRPCStopped()
 {
-    uiInterface.NotifyBlockTip.disconnect(RPCNotifyBlockChange);
-    //RPCNotifyBlockChange(0);
+    rpcNotifyBlockChangeConnection.disconnect();
+
     g_best_block_cv.notify_all();
     LogPrint("rpc", "RPC stopped.\n");
 }
@@ -1777,7 +1782,8 @@ bool AppInit2(const std::vector<std::string>& words)
     // Either install a handler to notify us when genesis activates, or set fHaveGenesis directly.
     // No locking, as this happens before any background thread is started.
     if (chainActive.Tip() == nullptr) {
-        uiInterface.NotifyBlockTip.connect(BlockNotifyGenesisWait);
+blockNotifyGenesisWaitConnection =
+    uiInterface.NotifyBlockTip.connect(BlockNotifyGenesisWait);
     } else {
         fHaveGenesis = true;
     }
@@ -1807,7 +1813,7 @@ bool AppInit2(const std::vector<std::string>& words)
         while (!fHaveGenesis) {
             condvar_GenesisWait.wait(lockG);
         }
-        uiInterface.NotifyBlockTip.disconnect(BlockNotifyGenesisWait);
+blockNotifyGenesisWaitConnection.disconnect();
     }
 
     // ********************************************************* Step 10: setup ObfuScation

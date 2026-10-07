@@ -263,7 +263,8 @@ void CMasternodeSync::Process()
         /* 
             Resync if we lose all masternodes from sleep/wake or failure to sync originally
         */
-        if (mnodeman.CountEnabled() == 0) {
+        // Testnet runs without masternodes; resetting here would block staking (NotCompleted) forever.
+        if (mnodeman.CountEnabled() == 0 && Params().NetworkID() != CBaseChainParams::TESTNET) {
             Reset();
         } else
             return;
@@ -279,6 +280,13 @@ void CMasternodeSync::Process()
     LogPrint("masternode", "CMasternodeSync::Process() - tick %d RequestedMasternodeAssets %d\n", tick, RequestedMasternodeAssets);
 
     if (RequestedMasternodeAssets == MASTERNODE_SYNC_INITIAL) GetNextAsset();
+
+    // Testnet: with fewer than three peers the spork step never advances; move on after a timeout
+    if (Params().NetworkID() == CBaseChainParams::TESTNET && RequestedMasternodeAssets == MASTERNODE_SYNC_SPORKS &&
+        RequestedMasternodeAttempt > 0 && GetTime() - nAssetSyncStarted > MASTERNODE_SYNC_TIMEOUT * 5) {
+        GetNextAsset();
+        return;
+    }
 
     // sporks synced but blockchain is not, wait until we're almost at a recent block to continue
     if (!isRegTestNet && !IsBlockchainSynced() &&

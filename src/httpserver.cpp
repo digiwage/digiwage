@@ -12,6 +12,7 @@
 #include "rpc/protocol.h" // For HTTP status codes
 #include "sync.h"
 #include "guiinterface.h"
+#include <deque>
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1592,7 +1592,7 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 }
 
 
-bool IsInitialBlockDownload()
+/*bool IsInitialBlockDownload()
 {
     LOCK(cs_main);
     const int chainHeight = chainActive.Height();
@@ -1606,7 +1606,35 @@ bool IsInitialBlockDownload()
     if (!state)
         lockIBDState = true;
     return state;
+}*/
+
+
+bool IsInitialBlockDownload()
+{
+    LOCK(cs_main);
+
+    // On our fresh DigiWage testnet, genesis is the starting point.
+    // Allow mining immediately from height 0.
+    if (Params().NetworkIDString() == "test")
+        return false;
+
+    const int chainHeight = chainActive.Height();
+    if (fImporting || fReindex || fVerifyingBlocks || chainHeight < Checkpoints::GetTotalBlocksEstimate())
+        return true;
+
+    static bool lockIBDState = false;
+    if (lockIBDState)
+        return false;
+
+    bool state = (chainHeight < pindexBestHeader->nHeight - 24 * 6 ||
+            pindexBestHeader->GetBlockTime() < GetTime() - nMaxTipAge);
+
+    if (!state)
+        lockIBDState = true;
+
+    return state;
 }
+
 
 bool fLargeWorkForkFound = false;
 bool fLargeWorkInvalidChainFound = false;
@@ -3196,6 +3224,16 @@ bool FindUndoPos(CValidationState& state, int nFile, CDiskBlockPos& pos, unsigne
     return true;
 }
 
+/* bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW)
+{
+    // Check proof of work matches claimed amount
+    if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits))
+        return state.DoS(50, error("CheckBlockHeader() : proof of work failed"),
+            REJECT_INVALID, "high-hash");
+
+    return true;
+}*/
+
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW)
 {
     // Check proof of work matches claimed amount
@@ -3204,7 +3242,8 @@ bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool f
             REJECT_INVALID, "high-hash");
 
     if (Params().IsRegTestNet()) return true;
-}
+    return true; //gdiscord
+} 
 
 bool CheckColdStakeFreeOutput(const CTransaction& tx, const int nHeight)
 {
@@ -3265,7 +3304,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 
     // Check that the header is valid (particularly PoW).  This is mostly
     // redundant with the call in AcceptBlockHeader.
-    if (!CheckBlockHeader(block, state, !IsPoS))
+    if (!CheckBlockHeader(block, state, fCheckPOW && !IsPoS)) //gdiscord replaced
         return state.DoS(100, error("%s : CheckBlockHeader failed", __func__), REJECT_INVALID, "bad-header", true);
 
     // All potential-corruption validation must be done before we do any
