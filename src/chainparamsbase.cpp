@@ -48,7 +48,7 @@ std::unique_ptr<CBaseChainParams> CreateBaseChainParams(const std::string& chain
     if (chain == CBaseChainParams::MAIN) {
         return std::make_unique<CBaseChainParams>("", 46002, 46004);
     } else if (chain == CBaseChainParams::TESTNET) {
-        return std::make_unique<CBaseChainParams>("testnet", 46102, 46104);
+        return std::make_unique<CBaseChainParams>("testnet", 37002, 37004);
     } else if (chain == CBaseChainParams::SIGNET) {
         return std::make_unique<CBaseChainParams>("signet", 33889, 33891);
     } else if (chain == CBaseChainParams::REGTEST) {
@@ -56,7 +56,7 @@ std::unique_ptr<CBaseChainParams> CreateBaseChainParams(const std::string& chain
     } else if (chain == CBaseChainParams::FORKTEST) {
         return std::make_unique<CBaseChainParams>("forktest", 34602, 34604);
     } else if (chain == CBaseChainParams::LEGACYTEST) {
-        return std::make_unique<CBaseChainParams>("legacytest", 46006, 46008);
+        return std::make_unique<CBaseChainParams>("legacytest", 57002, 57004);
     } else if (chain == CBaseChainParams::UNITTEST) {
         return std::make_unique<CBaseChainParams>("regtest", 13889, 13891);
     }

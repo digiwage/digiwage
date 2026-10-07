@@ -239,10 +239,14 @@ public:
 };
 
 /**
- * Legacy DigiWage testnet: follows the chain produced by the legacy core
- * (/root/digiwage, "-testnet") so the v3 handoff can be rehearsed against
- * running legacy nodes. It shares the mainnet genesis block. Every value
- * below mirrors the legacy CTestNetParams.
+ * Legacy testnet (-chain=legacytest): shadows the already-running legacy v2
+ * testnet (the node at /root/digiwage, started with "-testnet") so the v3
+ * handoff can be rehearsed against real legacy peers. It shares mainnet's
+ * genesis block and the legacy testnet's consensus rules (every value below
+ * mirrors the legacy CTestNetParams) — only the network identity (magic,
+ * ports, address prefixes) differs, so this can't be mistaken for the real
+ * peer it connects to. An internal rehearsal tool, not meant to run
+ * publicly; contrast with CTestNetParams below, the public testnet.
  */
 class CLegacyTestParams : public CMainParams {
 public:
@@ -291,7 +295,10 @@ public:
         pchMessageStart[1] = 0x76;
         pchMessageStart[2] = 0x65;
         pchMessageStart[3] = 0xba;
-        nDefaultPort = 46005;
+        // Deliberately outside mainnet's 46xxx range so it can't be mistaken
+        // for mainnet, and outside testnet's 37xxx range so the two test
+        // networks aren't mistaken for each other either.
+        nDefaultPort = 57003;
         nPruneAfterHeight = 1000;
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
@@ -305,7 +312,9 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x3a, 0x80, 0x61, 0xa0};
         base58Prefixes[EXT_SECRET_KEY] = {0x3a, 0x80, 0x58, 0x37};
 
-        bech32_hrp = "dwt";
+        // Distinct from testnet's "tdw" (segwit is disabled on both, same as
+        // mainnet, so this is inert today — kept distinct for when it isn't).
+        bech32_hrp = "ldw";
 
         // Legacy relays only standard transactions on testnet too.
         m_is_test_chain = true;
@@ -330,12 +339,14 @@ public:
 };
 
 /**
- * DigiWage testnet (-testnet): the legacy (v2) testnet relaunched with its
- * own genesis block. Legacy v2 nodes produce the chain up to the contract
- * fork, with their v3/v4/v5 block headers, and v3 takes over with v6 blocks;
- * the same path as mainnet. The consensus rules are the legacy testnet's,
- * so they come from CLegacyTestParams; only the network identity and the
- * fork heights differ. Keep them in sync with the v2 CTestNetParams.
+ * DigiWage testnet (-testnet / -chain=test): the public, ongoing test
+ * network. Unlike CLegacyTestParams above, which reruns the pre-existing
+ * legacy chain for an internal rehearsal, this one launches today with its
+ * own fresh genesis block. Legacy v2 nodes produce its pre-fork blocks
+ * (v3/v4/v5 headers), the same as mainnet, and v3 takes over at the
+ * contract fork (v6 blocks). It borrows CLegacyTestParams' consensus rules
+ * because both networks follow the same v2-then-v3 lifecycle; only the
+ * genesis, fork heights and network identity differ here.
  */
 class CTestNetParams : public CLegacyTestParams {
 public:
@@ -358,7 +369,9 @@ public:
         pchMessageStart[1] = 0xd9;
         pchMessageStart[2] = 0x7e;
         pchMessageStart[3] = 0xe2;
-        nDefaultPort = 46103;
+        // Deliberately outside mainnet's 46xxx range so it's never mistaken
+        // for mainnet (and outside legacytest's 57xxx range above).
+        nDefaultPort = 37003;
 
         // Built by the v2 codebase as well (same construction as mainnet's
         // genesis: version 1 header, Quark hash).
