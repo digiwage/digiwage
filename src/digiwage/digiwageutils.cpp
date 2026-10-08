@@ -55,7 +55,11 @@ int digiwageutils::eth_getChainId(int blockHeight, int shanghaiHeight, const std
     if (chain == CBaseChainParams::REGTEST || chain == CBaseChainParams::UNITTEST)
         return ChainIdType::REGTEST;
 
-    return ChainIdType::TESTNET;
+    if (chain == CBaseChainParams::TESTNET)
+        return ChainIdType::TESTNET;
+
+    // signet, or anything else unrecognized: treat like regtest.
+    return ChainIdType::REGTEST;
 }
 
 int digiwageutils::eth_getChainId(int blockHeight)
