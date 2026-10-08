@@ -239,24 +239,22 @@ public:
 };
 
 /**
- * Legacy testnet (-chain=legacytest): shadows the already-running legacy v2
- * testnet (the node at /root/digiwage, started with "-testnet") so the v3
- * handoff can be rehearsed against real legacy peers. It shares mainnet's
- * genesis block and the legacy testnet's consensus rules (every value below
- * mirrors the legacy CTestNetParams) — only the network identity (magic,
- * ports, address prefixes) differs, so this can't be mistaken for the real
- * peer it connects to. An internal rehearsal tool, not meant to run
- * publicly; contrast with CTestNetParams below, the public testnet.
+ * DigiWage testnet (-testnet / -chain=test): the public, ongoing test
+ * network, with its own fresh genesis block. Legacy v2 nodes produce its
+ * pre-fork blocks (v3/v4/v5 headers), the same as mainnet, and v3 takes
+ * over at the contract fork (v6 blocks). Consensus rules below mirror the
+ * legacy testnet's (CTestNetParams in the v2 codebase), since this network
+ * follows the same v2-then-v3 lifecycle; only the genesis, fork heights and
+ * network identity are testnet's own.
  */
-class CLegacyTestParams : public CMainParams {
+class CTestNetParams : public CMainParams {
 public:
-    CLegacyTestParams() {
-        strNetworkID = CBaseChainParams::LEGACYTEST;
+    CTestNetParams() {
+        strNetworkID = CBaseChainParams::TESTNET;
         consensus.digiwage_stake_modifier_v2_height = 320;
         consensus.digiwage_zerocoin_height = 250;
         consensus.digiwage_rhf_height = 350;
-        // Contract fork (v6 blocks) rehearsal on the legacy testnet.
-        consensus.digiwage_contract_height = 5001;
+        consensus.digiwage_contract_height = 1000;
         consensus.digiwage_stake_min_depth = 50;
         consensus.digiwage_last_pow_height = 200;
         // Legacy GetNextWorkRequired uses the PoS retarget once the previous
@@ -283,95 +281,23 @@ public:
         consensus.nShanghaiHeight = consensus.digiwage_contract_height;
         // Mainnet is past its UTXO cache fix long before the contract fork; do the same here.
         consensus.nFixUTXOCacheHFHeight = 0;
-        // Header signatures with v6, then offline staking (delegation, the v3
-        // cold staking) 100 blocks later so the fork itself activates first.
-        // The delegations contract is deployed in block nOfflineStakeHeight.
-        consensus.nEnableHeaderSignatureHeight = consensus.digiwage_contract_height;
-        consensus.nOfflineStakeHeight = consensus.digiwage_contract_height + 100;
-        // Dark Gravity Wave spacing (legacy nTargetSpacing).
-        consensus.nPowTargetSpacing = 30;
-
-        pchMessageStart[0] = 0x45;
-        pchMessageStart[1] = 0x76;
-        pchMessageStart[2] = 0x65;
-        pchMessageStart[3] = 0xba;
-        // Deliberately outside mainnet's 46xxx range so it can't be mistaken
-        // for mainnet, and outside testnet's 37xxx range so the two test
-        // networks aren't mistaken for each other either.
-        nDefaultPort = 57003;
-        nPruneAfterHeight = 1000;
-        m_assumed_blockchain_size = 1;
-        m_assumed_chain_state_size = 1;
-
-        vSeeds.clear();
-        vFixedSeeds.clear();
-
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,139);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,19);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
-        base58Prefixes[EXT_PUBLIC_KEY] = {0x3a, 0x80, 0x61, 0xa0};
-        base58Prefixes[EXT_SECRET_KEY] = {0x3a, 0x80, 0x58, 0x37};
-
-        // Distinct from testnet's "tdw" (segwit is disabled on both, same as
-        // mainnet, so this is inert today — kept distinct for when it isn't).
-        bech32_hrp = "ldw";
-
-        // Legacy relays only standard transactions on testnet too.
-        m_is_test_chain = true;
-
-        checkpointData = {
-            {
-                {0, consensus.hashGenesisBlock},
-            }
-        };
-        chainTxData = ChainTxData{0, 0, 0};
-
-        consensus.nCoinbaseMaturity = 10;
-        consensus.nLastPOWBlock = 200;
-        consensus.nFirstMPoSBlock = consensus.nLastPOWBlock +
-                                    consensus.nMPoSRewardRecipients +
-                                    consensus.nCoinbaseMaturity;
-        // Legacy stakers keep the whole reward: no MPoS range.
-        consensus.nLastMPoSBlock = consensus.nFirstMPoSBlock;
-        // Legacy DEFAULT_MAX_REORG_DEPTH.
-        consensus.nCheckpointSpan = 100;
-    }
-};
-
-/**
- * DigiWage testnet (-testnet / -chain=test): the public, ongoing test
- * network. Unlike CLegacyTestParams above, which reruns the pre-existing
- * legacy chain for an internal rehearsal, this one launches today with its
- * own fresh genesis block. Legacy v2 nodes produce its pre-fork blocks
- * (v3/v4/v5 headers), the same as mainnet, and v3 takes over at the
- * contract fork (v6 blocks). It borrows CLegacyTestParams' consensus rules
- * because both networks follow the same v2-then-v3 lifecycle; only the
- * genesis, fork heights and network identity differ here.
- */
-class CTestNetParams : public CLegacyTestParams {
-public:
-    CTestNetParams() {
-        strNetworkID = CBaseChainParams::TESTNET;
-
-        consensus.digiwage_contract_height = 1000;
-        consensus.QIP5Height = consensus.digiwage_contract_height;
-        consensus.QIP6Height = consensus.digiwage_contract_height;
-        consensus.QIP7Height = consensus.digiwage_contract_height;
-        consensus.nMuirGlacierHeight = consensus.digiwage_contract_height;
-        consensus.nLondonHeight = consensus.digiwage_contract_height;
-        consensus.nShanghaiHeight = consensus.digiwage_contract_height;
         // Header signatures with v6, offline staking (the delegations contract
         // is deployed in that block) 100 blocks later.
         consensus.nEnableHeaderSignatureHeight = consensus.digiwage_contract_height;
         consensus.nOfflineStakeHeight = consensus.digiwage_contract_height + 100;
+        // Dark Gravity Wave spacing (legacy nTargetSpacing).
+        consensus.nPowTargetSpacing = 30;
 
         pchMessageStart[0] = 0xb4;
         pchMessageStart[1] = 0xd9;
         pchMessageStart[2] = 0x7e;
         pchMessageStart[3] = 0xe2;
         // Deliberately outside mainnet's 46xxx range so it's never mistaken
-        // for mainnet (and outside legacytest's 57xxx range above).
+        // for mainnet.
         nDefaultPort = 37003;
+        nPruneAfterHeight = 1000;
+        m_assumed_blockchain_size = 1;
+        m_assumed_chain_state_size = 1;
 
         // Built by the v2 codebase as well (same construction as mainnet's
         // genesis: version 1 header, Quark hash).
@@ -396,12 +322,25 @@ public:
 
         bech32_hrp = "tdw";
 
+        // Only standard transactions relay here, same as mainnet.
+        m_is_test_chain = true;
+
         checkpointData = {
             {
                 {0, consensus.hashGenesisBlock},
             }
         };
         chainTxData = ChainTxData{0, 0, 0};
+
+        consensus.nCoinbaseMaturity = 10;
+        consensus.nLastPOWBlock = 200;
+        consensus.nFirstMPoSBlock = consensus.nLastPOWBlock +
+                                    consensus.nMPoSRewardRecipients +
+                                    consensus.nCoinbaseMaturity;
+        // Legacy stakers keep the whole reward: no MPoS range.
+        consensus.nLastMPoSBlock = consensus.nFirstMPoSBlock;
+        // Legacy DEFAULT_MAX_REORG_DEPTH.
+        consensus.nCheckpointSpan = 100;
     }
 };
 
@@ -696,70 +635,6 @@ public:
     }
 };
 
-/** Isolated two-node rehearsal network for the Digiwage version-6 fork. */
-class CForkTestParams : public CRegTestParams
-{
-public:
-    explicit CForkTestParams(const RegTestOptions& opts) : CRegTestParams(opts)
-    {
-        strNetworkID = CBaseChainParams::FORKTEST;
-        consensus.digiwage_history = true;
-        consensus.digiwage_contract_height = 30;
-        consensus.digiwage_stake_modifier_v2_height = std::numeric_limits<int>::max();
-        consensus.digiwage_zerocoin_height = std::numeric_limits<int>::max();
-        consensus.digiwage_rhf_height = std::numeric_limits<int>::max();
-        consensus.digiwage_stake_min_depth = 10;
-        // digiwage_history is true here, so GetNextWorkRequired always goes
-        // through DigiwageNextWork/DigiwageDarkGravityWave (pow.cpp), which
-        // hardcode params.powLimit as the difficulty ceiling for every block
-        // -- PoW or PoS alike -- regardless of fPoSNoRetargeting; posLimit is
-        // never consulted on this path. CRegTestParams' inherited powLimit
-        // (0x7fff..., ~2^255) overflows the un-fixed bnTarget *= bnWeight
-        // kernel formula (nReduceBlocktimeHeight stays disabled below) for
-        // any non-dust coin value, making organic staking unreachable no
-        // matter how long you wait. Mainnet has the exact same overflow-prone
-        // formula (it disables nReduceBlocktimeHeight too) and works around
-        // it by keeping powLimit small enough (~2^236) that only fairly small
-        // per-UTXO stake denominations (~0.01 DWG) stay overflow-safe -- real
-        // wallets rely on coin splitting for this. Reuse that proven value
-        // here instead of inventing a new one: staking UTXOs on forktest must
-        // similarly be split down to small denominations before staking.
-        consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.posLimit = consensus.powLimit;
-        consensus.digiwage_pos_limit_v2 = consensus.posLimit;
-
-        consensus.CSVHeight = std::numeric_limits<int>::max();
-        consensus.SegwitHeight = std::numeric_limits<int>::max();
-        consensus.MinBIP9WarningHeight = std::numeric_limits<int>::max();
-        consensus.QIP5Height = consensus.digiwage_contract_height;
-        consensus.QIP6Height = consensus.digiwage_contract_height;
-        consensus.QIP7Height = consensus.digiwage_contract_height;
-        consensus.QIP9Height = std::numeric_limits<int>::max();
-        consensus.nOfflineStakeHeight = std::numeric_limits<int>::max();
-        consensus.nReduceBlocktimeHeight = std::numeric_limits<int>::max();
-        consensus.nMuirGlacierHeight = consensus.digiwage_contract_height;
-        consensus.nLondonHeight = consensus.digiwage_contract_height;
-        consensus.nShanghaiHeight = consensus.digiwage_contract_height;
-        consensus.nCoinbaseMaturity = 10;
-        consensus.nLastPOWBlock = 50;
-        consensus.nCheckpointSpan = consensus.nCoinbaseMaturity;
-
-        pchMessageStart[0] = 0xd7;
-        pchMessageStart[1] = 0x57;
-        pchMessageStart[2] = 0xf6;
-        pchMessageStart[3] = 0xa1;
-        nDefaultPort = 34608;
-        vFixedSeeds.clear();
-        vSeeds.clear();
-
-        const char* timestamp = "Digiwage isolated fork rehearsal 2026";
-        const CScript output = CScript() << ParseHex("04682170b57e85aeae3ee34f858112040a933f6c48402620be4db4796e26f7d11d481f6ad9f05c471f8414c7ad7e1a90562906cff8b8c8b159666fbc4ff5af6904") << OP_CHECKSIG;
-        genesis = CreateGenesisBlock(timestamp, output, 1789516800, 360499, 0x1e0fffff, 1, 50 * COIN, true);
-        consensus.hashGenesisBlock = genesis.GetHash();
-        checkpointData = {{{0, consensus.hashGenesisBlock}}};
-    }
-};
-
 /**
  * Regression network parameters overwrites for unit testing
  */
@@ -816,16 +691,6 @@ std::unique_ptr<const CChainParams> CChainParams::SigNet(const SigNetOptions& op
 std::unique_ptr<const CChainParams> CChainParams::RegTest(const RegTestOptions& options)
 {
     return std::make_unique<const CRegTestParams>(options);
-}
-
-std::unique_ptr<const CChainParams> CChainParams::LegacyTest()
-{
-    return std::make_unique<const CLegacyTestParams>();
-}
-
-std::unique_ptr<const CChainParams> CChainParams::ForkTest(const RegTestOptions& options)
-{
-    return std::make_unique<const CForkTestParams>(options);
 }
 
 std::unique_ptr<const CChainParams> CChainParams::Main()

@@ -110,12 +110,6 @@ std::unique_ptr<const CChainParams> CreateChainParams(const ArgsManager& args, c
         auto opts = CChainParams::RegTestOptions{};
         ReadRegTestArgs(args, opts);
         return CChainParams::RegTest(opts);
-    } else if (chain == CBaseChainParams::FORKTEST) {
-        auto opts = CChainParams::RegTestOptions{};
-        ReadRegTestArgs(args, opts);
-        return CChainParams::ForkTest(opts);
-    } else if (chain == CBaseChainParams::LEGACYTEST) {
-        return CChainParams::LegacyTest();
     } else if (chain == CBaseChainParams::UNITTEST) {
         auto opts = CChainParams::RegTestOptions{};
         ReadRegTestArgs(args, opts);

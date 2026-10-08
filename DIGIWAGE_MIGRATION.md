@@ -109,5 +109,5 @@ transactions are rejected before that boundary. This height remains a network
 release decision and must be coordinated with stakers, exchanges, explorers,
 and seed operators before deployment.
 
-Use the isolated `forktest` network in `doc/digiwage-forktest.md` to rehearse
-this boundary; it activates the same rules at height 30 with worthless coins.
+Rehearse this boundary on an isolated regtest chain (`-chain=regtest`) before
+scheduling it on a real network.

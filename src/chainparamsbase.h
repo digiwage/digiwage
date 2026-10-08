@@ -23,8 +23,6 @@ public:
     static const std::string TESTNET;
     static const std::string SIGNET;
     static const std::string REGTEST;
-    static const std::string FORKTEST;
-    static const std::string LEGACYTEST;
     static const std::string UNITTEST;
     ///@}
 

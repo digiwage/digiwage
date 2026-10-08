@@ -73,9 +73,9 @@ struct BIP9Deployment {
  */
 struct Params {
     bool digiwage_history{false};
-    // The chain is the legacy DigiWage chain itself (mainnet, legacytest), so
+    // The chain is the legacy DigiWage chain itself (mainnet, testnet), so
     // every legacy block rule applies below the contract fork. False on
-    // rehearsal chains such as forktest that only reuse the legacy kernel.
+    // rehearsal chains that only reuse the legacy kernel without being it.
     bool digiwage_legacy_chain{false};
     int digiwage_stake_modifier_v2_height{std::numeric_limits<int>::max()};
     int digiwage_zerocoin_height{std::numeric_limits<int>::max()};
