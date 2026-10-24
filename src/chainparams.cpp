@@ -124,7 +124,7 @@ static const Checkpoints::CCheckpointData dataTestnet = {
     0};
 
 static Checkpoints::MapCheckpoints mapCheckpointsRegtest =
-    boost::assign::map_list_of(0, uint256S("0x001"));
+    boost::assign::map_list_of(0, uint256S("0x1fe08b7250122c738a62f3b96e2a415b5af999d6871a93d2d5edc372469a0723"));
 static const Checkpoints::CCheckpointData dataRegtest = {
     &mapCheckpointsRegtest,
     0,
@@ -345,30 +345,30 @@ public:
         networkID = CBaseChainParams::REGTEST;
         strNetworkID = "regtest";
 
-        genesis = CreateGenesisBlock(1454124731, 2402015, 0x1e0ffff0, 1, 250 * COIN);
+        genesis = CreateGenesisBlock(1454124731, 1, 0x207fffff, 1, 250 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        // assert(consensus.hashGenesisBlock == uint256("0x0000041e482b9b9691d98eefb48473405c0b8ec31b76df3797c74a78680ef818"));
-        // assert(genesis.hashMerkleRoot == uint256("0x1b2ef6e2f28be914103a277377ae7729dcd125dfeb8bf97bd5964ba72b6dc39b"));
+        assert(consensus.hashGenesisBlock == uint256("0x1fe08b7250122c738a62f3b96e2a415b5af999d6871a93d2d5edc372469a0723"));
+        assert(genesis.hashMerkleRoot == uint256("0x5230a4839be8b5bd803183978f5e62e04cfffcbdb2d580c5cb859e156f10ff4f"));
 
         consensus.fPowAllowMinDifficultyBlocks = true;
-        consensus.powLimit   = ~UINT256_ZERO >> 20;   // DIGIWAGE starting difficulty is 1 / 2^12
+        consensus.powLimit   = ~UINT256_ZERO >> 1;   // DIGIWAGE starting difficulty is 1 / 2^12
         consensus.posLimitV1 = ~UINT256_ZERO >> 24;
         consensus.posLimitV2 = ~UINT256_ZERO >> 20;
         consensus.nBudgetCycleBlocks = 144;         // approx 10 cycles per day
         consensus.nBudgetFeeConfirmations = 3;      // (only 8-blocks window for finalization on regtest)
-        consensus.nCoinbaseMaturity = 100;
+        consensus.nCoinbaseMaturity = 10;
         consensus.nFutureTimeDriftPoW = 7200;
         consensus.nFutureTimeDriftPoS = 180;
         consensus.nMasternodeCountDrift = 4;        // num of MN we allow the see-saw payments to be off by
-        consensus.nMaxMoneyOut = 43199500 * COIN;
+        consensus.nMaxMoneyOut = 120000000 * COIN;
         consensus.nPoolMaxTransactions = 2;
         consensus.nProposalEstablishmentTime = 60 * 5;  // at least 5 min old to make it into a budget
-        consensus.nStakeMinAge = 0;
-        consensus.nStakeMinDepth = 2;
-        consensus.nTargetTimespan = 40 * 60;
-        consensus.nTargetTimespanV2 = 30 * 60;
-        consensus.nTargetSpacing = 1 * 60;
-        consensus.nTimeSlotLength = 15;
+        consensus.nStakeMinAge = 60 * 5;
+        consensus.nStakeMinDepth = 50;
+        consensus.nTargetTimespan = 30 * 60;
+        consensus.nTargetTimespanV2 = 15 * 60;
+        consensus.nTargetSpacing = 30;
+        consensus.nTimeSlotLength = 5;
         consensus.strObfuscationPoolDummyAddress = "y57cqfGRkekRyDRNeJiLtYVEbvhXrNbmox";
 
         /* Spork Key for RegTest:
@@ -379,31 +379,27 @@ public:
         consensus.strSporkPubKey = "043969b1b0e6f327de37f297a015d37e2235eaaeeb3933deecd8162c075cee0207b13537618bde640879606001a8136091c62ec272dd0133424a178704e6e75bb7";
 
         // height based activations
-        consensus.height_last_PoW = 250;
-        consensus.height_last_ZC_AccumCheckpoint = 310;     // no checkpoints on regtest
-        consensus.height_start_BIP65 = 851019;              // Not defined for regtest. Inherit TestNet value.
-        consensus.height_start_MessSignaturesV2 = 1;
-        consensus.height_start_StakeModifierNewSelection = 0;
-        consensus.height_start_StakeModifierV2 = 251;       // start with modifier V2 on regtest
-        consensus.height_start_TimeProtoV2 = 999999999;
-        consensus.height_start_ZC = 300;
-        consensus.height_start_ZC_PublicSpends = 400;
-        consensus.height_start_ZC_SerialRangeCheck = 300;
-        consensus.height_start_ZC_SerialsV2 = 300;
+        consensus.height_RHF = 350;
+        consensus.height_last_PoW = 200;
+        consensus.height_last_ZC_AccumCheckpoint = INT_MAX;     // no checkpoints on regtest
+        consensus.height_start_BIP65 = consensus.height_RHF;              // Not defined for regtest. Inherit TestNet value.
+        consensus.height_start_MessSignaturesV2 = consensus.height_RHF;
+        consensus.height_start_StakeModifierNewSelection = 300;
+        consensus.height_start_StakeModifierV2 = 320;       // start with modifier V2 on regtest
+        consensus.height_start_TimeProtoV2 = consensus.height_RHF;
+        consensus.height_start_ZC = 250;
+        consensus.height_start_ZC_PublicSpends = INT_MAX;
+        consensus.height_start_ZC_SerialRangeCheck = INT_MAX;
+        consensus.height_start_ZC_SerialsV2 = INT_MAX;
 
         // Zerocoin-related params
-        consensus.ZC_Modulus = "25195908475657893494027183240048398571429282126204032027777137836043662020707595556264018525880784"
-                "4069182906412495150821892985591491761845028084891200728449926873928072877767359714183472702618963750149718246911"
-                "6507761337985909570009733045974880842840179742910064245869181719511874612151517265463228221686998754918242243363"
-                "7259085141865462043576798423387184774447920739934236584823824281198163815010674810451660377306056201619676256133"
-                "8441436038339044149526344321901146575444541784240209246165157233507787077498171257724679629263863563732899121548"
-                "31438167899885040445364023527381951378636564391212010397122822120720357";
+        // Inherit the legacy testnet Zerocoin modulus.
         consensus.ZC_MaxPublicSpendsPerTx = 637;    // Assume about 220 bytes each input
         consensus.ZC_MaxSpendsPerTx = 7;            // Assume about 20kb each input
-        consensus.ZC_MinMintConfirmations = 10;
+        consensus.ZC_MinMintConfirmations = 20;
         consensus.ZC_MinMintFee = 1 * CENT;
-        consensus.ZC_MinStakeDepth = 10;
-        consensus.ZC_TimeStart = 0;                 // not implemented on regtest
+        consensus.ZC_MinStakeDepth = 200;
+        consensus.ZC_TimeStart = 1501776000;                 // not implemented on regtest
 
 
         /**
