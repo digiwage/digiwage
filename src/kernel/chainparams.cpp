@@ -606,8 +606,8 @@ public:
         };
 
         consensus.nBlocktimeDownscaleFactor = 4;
-        consensus.nCoinbaseMaturity = 500;
-        consensus.nRBTCoinbaseMaturity = consensus.nBlocktimeDownscaleFactor*500;
+        consensus.nCoinbaseMaturity = 100;
+        consensus.nRBTCoinbaseMaturity = 100;
         consensus.nSubsidyHalvingIntervalV2 = consensus.nBlocktimeDownscaleFactor*985500; // digiwage halving every 4 years (nSubsidyHalvingInterval * nBlocktimeDownscaleFactor)
 
         consensus.nLastPOWBlock = 0x7fffffff;
@@ -619,8 +619,10 @@ public:
         consensus.nFixUTXOCacheHFHeight=0;
         consensus.nEnableHeaderSignatureHeight = 0;
 
-        consensus.nCheckpointSpan = consensus.nCoinbaseMaturity;
-        consensus.nRBTCheckpointSpan = consensus.nRBTCoinbaseMaturity;
+        // Preserve the original delegation checkpoint windows independently
+        // of the shorter regtest coinbase maturity.
+        consensus.nCheckpointSpan = 500;
+        consensus.nRBTCheckpointSpan = consensus.nBlocktimeDownscaleFactor * 500;
         consensus.delegationsAddress = uint160(ParseHex("0000000000000000000000000000000000000086")); // Delegations contract for offline staking
         consensus.nStakeTimestampMask = 15;
         consensus.nRBTStakeTimestampMask = 3;
