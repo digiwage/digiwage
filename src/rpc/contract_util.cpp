@@ -463,8 +463,16 @@ bool CallToken::exec(const bool &sendTo, const std::map<std::string, std::string
         return false;
     UniValue executionResult = response["executionResult"];
 
+    // Reject failed EVM execution
+    if(!executionResult.isObject() ||
+        !executionResult.exists("excepted") ||
+        !executionResult["excepted"].isStr() ||
+        executionResult["excepted"].get_str() != "None")
+        return false;
+
     // Get output
-    if(!executionResult.isObject() || !executionResult.exists("output"))
+    if(!executionResult.exists("output") ||
+       !executionResult["output"].isStr())
         return false;
     UniValue output = executionResult["output"];
     result = output.get_str();

@@ -614,6 +614,26 @@ bool DigiWageToken::exec(const std::vector<std::string> &input, int func, std::v
     // Get the result from calling function
     if(!sendTo)
     {
+        const bool isBurn = func == d->funcBurn || func == d->funcBurnFrom;
+
+        // A successful burn may return no data (void) or an ABI-encoded bool.
+        if(isBurn)
+        {
+            if(result.empty())
+            {
+                output.push_back("true");
+                return true;
+            }
+
+            if(result.size() != 64 || !IsHex(result))
+                return false;
+
+            // ABI bool must be encoded as exactly 0 or 1.
+            if(result.substr(0, 63) != std::string(63, '0') ||
+                (result[63] != '0' && result[63] != '1'))
+                return false;
+        }
+
         std::string rawData = result;
         std::vector<std::vector<std::string>> values;
         std::vector<ParameterABI::ErrorType> errors;
