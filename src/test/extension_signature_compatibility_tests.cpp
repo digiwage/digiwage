@@ -4,6 +4,7 @@
 #include <test/compatibility/extension_p2pkh_signed.json.h>
 
 #include <clientversion.h>
+#include <core_io.h>
 #include <policy/policy.h>
 #include <primitives/transaction.h>
 #include <script/interpreter.h>
