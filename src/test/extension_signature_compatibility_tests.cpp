@@ -61,7 +61,10 @@ struct CompatibilityFixture {
 
             scripts.emplace(
                 outpoint,
-                ParseScript(previous[2].get_str())
+                ([&]() {
+                    const auto script_bytes = ParseHex(previous[2].get_str());
+                    return CScript(script_bytes.begin(), script_bytes.end());
+                }())
             );
 
             amounts.emplace(
