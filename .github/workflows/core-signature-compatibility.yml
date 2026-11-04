@@ -1,0 +1,78 @@
+name: DigiWage Core Signature Compatibility
+
+on:
+  push:
+    branches:
+      - milestone20-core-signature-compatibility
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extension-signature-compatibility:
+    name: Core Extension Signature Compatibility
+    runs-on: ubuntu-22.04
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Base Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential libtool autotools-dev automake pkg-config \
+            bsdmainutils python3 cmake curl zip unzip
+
+      - name: Pre-fetch missing dependency sources
+        run: |
+          mkdir -p depends/sources
+          if [ ! -f depends/sources/gmp-6.2.1.tar.xz ]; then
+            curl -fsSL https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz \
+              -o depends/sources/gmp-6.2.1.tar.xz || \
+            curl -fsSL https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz \
+              -o depends/sources/gmp-6.2.1.tar.xz
+          fi
+
+      - name: Build In-Tree Dependencies
+        run: |
+          cd depends
+          make -j"$(nproc)" HOST="x86_64-pc-linux-gnu"
+
+      - name: Configure Core with Tests Enabled
+        run: |
+          ./autogen.sh
+
+          DEPENDS_PREFIX="$PWD/depends/x86_64-pc-linux-gnu"
+          export CONFIG_SITE="$DEPENDS_PREFIX/share/config.site"
+
+          ./configure --prefix="$DEPENDS_PREFIX" \
+                      --disable-maintainer-mode \
+                      --disable-dependency-tracking \
+                      --enable-static \
+                      --disable-shared \
+                      --with-gui=no \
+                      --enable-tests
+
+      - name: Compile Core Test Executable
+        run: |
+          make -C src -j"$(nproc)" test/test_digiwage
+
+          test -x src/test/test_digiwage
+
+          echo "Core test executable successfully built."
+
+      - name: Run Extension Signature Compatibility Tests
+        run: |
+          ./src/test/test_digiwage \
+            --run_test=extension_signature_compatibility_tests \
+            --log_level=test_suite
+
+      - name: Confirm Compatibility Test Completion
+        if: success()
+        run: |
+          echo "Core signature compatibility tests PASSED."

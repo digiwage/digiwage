@@ -35,7 +35,8 @@ JSON_TEST_FILES = \
   test/data/script_tests.json \
   test/data/sighash.json \
   test/data/tx_invalid.json \
-  test/data/tx_valid.json
+  test/data/tx_valid.json \
+  test/compatibility/extension_p2pkh_signed.json
 
 RAW_TEST_FILES = \
   test/data/asmap.raw
@@ -162,6 +163,7 @@ BITCOIN_TESTS =\
   test/timedata_tests.cpp \
   test/torcontrol_tests.cpp \
   test/transaction_tests.cpp \
+  test/extension_signature_compatibility_tests.cpp \
   test/translation_tests.cpp \
   test/txindex_tests.cpp \
   test/txpackage_tests.cpp \
