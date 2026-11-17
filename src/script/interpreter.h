@@ -324,10 +324,12 @@ public:
             if (txTo->vin[i].scriptSig != first) return false;
         }
         if (txTo->vout[1].scriptPubKey != script) return false;
-        if (txTo->vin.size() > 3) {
-            for (size_t i = 2; i + 1 < txTo->vout.size(); ++i) {
-                if (txTo->vout[i].scriptPubKey != script) return false;
-            }
+        // Every output except the marker (0), vout[1] (checked above), and
+        // the trailing free output (reserved for a masternode/budget
+        // payment, validated separately by CheckColdStakeFreeOutput) must
+        // also pay back to the cold-stake script this coinstake spends from.
+        for (size_t i = 2; i + 1 < txTo->vout.size(); ++i) {
+            if (txTo->vout[i].scriptPubKey != script) return false;
         }
         return true;
     }
