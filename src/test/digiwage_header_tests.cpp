@@ -82,6 +82,43 @@ BOOST_AUTO_TEST_CASE(digiwage_reward_height_mapping)
     BOOST_CHECK_EQUAL(GetBlockSubsidy(604801, params), 75 * COIN / 10);
 }
 
+BOOST_AUTO_TEST_CASE(digiwage_halving_activates_and_caps_at_zero)
+{
+    // The legacy tier schedule freezes at 7.5 COIN forever unless a network
+    // opts into halving via digiwage_halving_start_height (default: never,
+    // i.e. INT_MAX -- see mainnet's own ~4-year-interval real schedule, and
+    // testnet's deliberate decision NOT to activate it, since that network
+    // runs long-term alongside mainnet and must never actually hit zero).
+    Consensus::Params params{};
+    params.digiwage_history = true;
+    params.nSubsidyHalvingInterval = 1000;
+    params.digiwage_halving_start_height = 700000; // past every legacy tier threshold
+
+    // Below halving_start_height: still the frozen 7.5 COIN, halving hasn't
+    // kicked in yet even though we're long past the legacy tier thresholds.
+    BOOST_CHECK_EQUAL(GetBlockSubsidy(604801, params), 75 * COIN / 10);
+    BOOST_CHECK_EQUAL(GetBlockSubsidy(699999, params), 75 * COIN / 10);
+    // At the exact activation height: zero halvings elapsed, still 7.5 COIN.
+    BOOST_CHECK_EQUAL(GetBlockSubsidy(700000, params), 75 * COIN / 10);
+    // One interval later: halved once.
+    BOOST_CHECK_EQUAL(GetBlockSubsidy(701000, params), 375 * COIN / 100);
+    // Six intervals later: still nonzero.
+    BOOST_CHECK_EQUAL(GetBlockSubsidy(706000, params), 11718750);
+    // Seven intervals later: the >>7 cap forces it to exactly zero rather
+    // than relying on undefined/implementation-defined shift behavior.
+    BOOST_CHECK_EQUAL(GetBlockSubsidy(707000, params), 0);
+    // Stays zero forever after, not just at the boundary.
+    BOOST_CHECK_EQUAL(GetBlockSubsidy(900000, params), 0);
+
+    // A network that never sets digiwage_halving_start_height (the
+    // default) must never halve, no matter how high the chain gets -- this
+    // is what keeps mainnet's existing behavior and testnet's long-term
+    // usability unchanged unless a network explicitly opts in.
+    Consensus::Params neverHalves{};
+    neverHalves.digiwage_history = true;
+    BOOST_CHECK_EQUAL(GetBlockSubsidy(10000000, neverHalves), 75 * COIN / 10);
+}
+
 BOOST_AUTO_TEST_CASE(version_four_accumulator_survives_block_index)
 {
     CBlockHeader header;

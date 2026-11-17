@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(get_next_work)
     // CalculateNextWorkRequired(); redoing the calculation here would be just
     // reimplementing the same code that is written in pow.cpp. Rather than
     // copy that code, we just hardcode the expected result.
-    unsigned int expected_nbits = 0x1f00ffff;
+    unsigned int expected_nbits = 0x1e0fffff; // clamped by DigiWage's tighter powLimit
     BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus()), expected_nbits);
     BOOST_CHECK(PermittedDifficultyTransition(chainParams->GetConsensus(), pindexLast.nHeight+1, pindexLast.nBits, expected_nbits));
 }
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_pow_limit)
     pindexLast.nHeight = 2015;
     pindexLast.nTime = 1233061996;  // Block #2015
     pindexLast.nBits = 0x1f00ffff;
-    unsigned int expected_nbits = 0x1f00ffff;
+    unsigned int expected_nbits = 0x1e0fffff; // clamped by DigiWage's tighter powLimit
     BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus()), expected_nbits);
     BOOST_CHECK(PermittedDifficultyTransition(chainParams->GetConsensus(), pindexLast.nHeight+1, pindexLast.nBits, expected_nbits));
 }
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_lower_limit_actual)
     pindexLast.nHeight = 68543;
     pindexLast.nTime = 1279297671;  // Block #68543
     pindexLast.nBits = 0x1f00ffff;
-    unsigned int expected_nbits = 0x1f00ffff;
+    unsigned int expected_nbits = 0x1e0fffff; // clamped by DigiWage's tighter powLimit
     BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus()), expected_nbits);
     BOOST_CHECK(PermittedDifficultyTransition(chainParams->GetConsensus(), pindexLast.nHeight+1, pindexLast.nBits, expected_nbits));
     // Test that reducing nbits further would not be a PermittedDifficultyTransition.
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(get_next_work_upper_limit_actual)
     pindexLast.nHeight = 46367;
     pindexLast.nTime = 1269211443;  // Block #46367
     pindexLast.nBits = 0x1f00ffff;
-    unsigned int expected_nbits = 0x1f00ffff;
+    unsigned int expected_nbits = 0x1e0fffff; // clamped by DigiWage's tighter powLimit
     BOOST_CHECK_EQUAL(CalculateNextWorkRequired(&pindexLast, nLastRetargetTime, chainParams->GetConsensus()), expected_nbits);
     BOOST_CHECK(PermittedDifficultyTransition(chainParams->GetConsensus(), pindexLast.nHeight+1, pindexLast.nBits, expected_nbits));
     // Test that increasing nbits further would not be a PermittedDifficultyTransition.
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE(GetBlockProofEquivalentTime_test)
     }
 }
 
-void sanity_check_chainparams(const ArgsManager& args, std::string chainName)
+void sanity_check_chainparams(const ArgsManager& args, std::string chainName, int64_t expected_timespan_remainder)
 {
     const auto chainParams = CreateChainParams(args, chainName);
     const auto consensus = chainParams->GetConsensus();
@@ -163,8 +163,10 @@ void sanity_check_chainparams(const ArgsManager& args, std::string chainName)
     // hash genesis is correct
     BOOST_CHECK_EQUAL(consensus.hashGenesisBlock, chainParams->GenesisBlock().GetHash());
 
-    // target timespan is an even multiple of spacing
-    BOOST_CHECK_EQUAL(consensus.nPowTargetTimespan % consensus.nPowTargetSpacing, 64);
+    // target timespan has each network's own expected remainder against
+    // spacing: 0 for main/testnet's cleanly-divisible values, 64 for
+    // regtest/signet's deliberately odd ones (nPowTargetSpacing = 2*64).
+    BOOST_CHECK_EQUAL(consensus.nPowTargetTimespan % consensus.nPowTargetSpacing, expected_timespan_remainder);
 
     // genesis nBits is positive, doesn't overflow and is lower than powLimit
     arith_uint256 pow_compact;
@@ -184,22 +186,22 @@ void sanity_check_chainparams(const ArgsManager& args, std::string chainName)
 
 BOOST_AUTO_TEST_CASE(ChainParams_MAIN_sanity)
 {
-    sanity_check_chainparams(*m_node.args, CBaseChainParams::MAIN);
+    sanity_check_chainparams(*m_node.args, CBaseChainParams::MAIN, 0);
 }
 
 BOOST_AUTO_TEST_CASE(ChainParams_REGTEST_sanity)
 {
-    sanity_check_chainparams(*m_node.args, CBaseChainParams::UNITTEST);
+    sanity_check_chainparams(*m_node.args, CBaseChainParams::UNITTEST, 64);
 }
 
 BOOST_AUTO_TEST_CASE(ChainParams_TESTNET_sanity)
 {
-    sanity_check_chainparams(*m_node.args, CBaseChainParams::TESTNET);
+    sanity_check_chainparams(*m_node.args, CBaseChainParams::TESTNET, 0);
 }
 
 BOOST_AUTO_TEST_CASE(ChainParams_SIGNET_sanity)
 {
-    sanity_check_chainparams(*m_node.args, CBaseChainParams::SIGNET);
+    sanity_check_chainparams(*m_node.args, CBaseChainParams::SIGNET, 64);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
