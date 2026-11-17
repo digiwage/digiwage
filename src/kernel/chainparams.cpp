@@ -93,6 +93,10 @@ public:
         // Scheduled native-EVM hard fork. Version-6 blocks commit the EVM
         // state/UTXO roots and the stake prevout in their header.
         consensus.digiwage_contract_height = 4000000;
+        // Halving starts at the contract fork: the frozen 7.5 COIN tier
+        // begins actually decaying from that height, every
+        // nSubsidyHalvingInterval (~4 years) blocks.
+        consensus.digiwage_halving_start_height = consensus.digiwage_contract_height;
         consensus.digiwage_stake_min_depth = 600;
         consensus.digiwage_pos_limit_v2 = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         strNetworkID = CBaseChainParams::MAIN;
@@ -111,7 +115,10 @@ public:
         consensus.QIP6Height = consensus.digiwage_contract_height;
         consensus.QIP7Height = consensus.digiwage_contract_height;
         consensus.QIP9Height = std::numeric_limits<int>::max();
-        consensus.nOfflineStakeHeight = std::numeric_limits<int>::max();
+        // Offline staking (the delegations contract is deployed in the
+        // contract-fork block) activates 100 blocks after the fork, same
+        // as testnet.
+        consensus.nOfflineStakeHeight = consensus.digiwage_contract_height + 100;
         consensus.nReduceBlocktimeHeight = std::numeric_limits<int>::max();
         consensus.nMuirGlacierHeight = consensus.digiwage_contract_height;
         consensus.nLondonHeight = consensus.digiwage_contract_height;
@@ -135,13 +142,12 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].min_activation_height = 0; // No activation delay
 
-        // Deployment of Taproot (BIPs 340-342)
+        // Deployment of Taproot (BIPs 340-342) -- not part of DigiWage's own
+        // roadmap, left permanently disabled (NEVER_ACTIVE).
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].bit = 2;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = Consensus::BIP9Deployment::NEVER_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
-        // Min block number for activation, the number must be divisible by 2016
-        // Replace 0xffffc0 with the activation block number
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 2080512;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 0; // No activation delay
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
@@ -229,7 +235,9 @@ public:
 
 
         consensus.nFixUTXOCacheHFHeight = 100000;
-        consensus.nEnableHeaderSignatureHeight = std::numeric_limits<int>::max();
+        // Header signatures activate with v6 blocks at the contract fork,
+        // same as testnet.
+        consensus.nEnableHeaderSignatureHeight = consensus.digiwage_contract_height;
         consensus.nCheckpointSpan = consensus.nCoinbaseMaturity;
         consensus.nRBTCheckpointSpan = consensus.nRBTCoinbaseMaturity;
         consensus.delegationsAddress = uint160(ParseHex("0000000000000000000000000000000000000086")); // Delegations contract for offline staking
@@ -255,6 +263,15 @@ public:
         consensus.digiwage_zerocoin_height = 250;
         consensus.digiwage_rhf_height = 350;
         consensus.digiwage_contract_height = 1000;
+        // Deliberately NOT activating halving here (inherits CMainParams'
+        // digiwage_halving_start_height = INT_MAX, i.e. never). This
+        // testnet runs long-term alongside mainnet for ongoing testing, not
+        // as a disposable chain -- letting its subsidy actually reach zero
+        // (which a short test interval would, quickly) would break that.
+        // The halving mechanism itself is covered by a unit test
+        // (digiwage_halving_activates_and_caps_at_zero in
+        // src/test/digiwage_header_tests.cpp) and can be exercised live on
+        // regtest, which is meant to be disposable, instead.
         consensus.digiwage_stake_min_depth = 50;
         consensus.digiwage_last_pow_height = 200;
         // Legacy GetNextWorkRequired uses the PoS retarget once the previous

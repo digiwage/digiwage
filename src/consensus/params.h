@@ -82,6 +82,13 @@ struct Params {
     int digiwage_rhf_height{std::numeric_limits<int>::max()};
     int digiwage_contract_height{std::numeric_limits<int>::max()};
     int digiwage_stake_min_depth{0};
+    // Height at which the block subsidy starts actually halving (see
+    // GetBlockSubsidy in validation.cpp). Below this height the legacy
+    // digiwage_history tier schedule applies and freezes at its last tier
+    // forever; at and above it, the subsidy halves every
+    // nSubsidyHalvingInterval blocks starting from that frozen value.
+    // Defaults to "never" so a network must opt in explicitly.
+    int digiwage_halving_start_height{std::numeric_limits<int>::max()};
     uint256 digiwage_pos_limit_v2{};
     // Legacy rules that used to be hardcoded to mainnet values. The defaults
     // are those mainnet values, so only networks that override them change.

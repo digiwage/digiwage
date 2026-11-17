@@ -1818,7 +1818,15 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
         if (nHeight <= 259200) return 60 * COIN;
         if (nHeight <= 432000) return 30 * COIN;
         if (nHeight <= 604800) return 15 * COIN;
-        return 75 * COIN / 10;
+        CAmount nSubsidy = 75 * COIN / 10;
+        if (nHeight >= consensusParams.digiwage_halving_start_height) {
+            int halvings = (nHeight - consensusParams.digiwage_halving_start_height)
+                            / consensusParams.nSubsidyHalvingInterval;
+            // Force subsidy to zero when right shift is undefined.
+            if (halvings >= 7) return 0;
+            nSubsidy >>= halvings;
+        }
+        return nSubsidy;
     }
     if(nHeight <= consensusParams.nLastBigReward)
         return 20000 * COIN;
