@@ -125,6 +125,7 @@ RPCHelpMan getstakinginfo()
                         {RPCResult::Type::NUM, "delegateweight", "Delegate weight"},
                         {RPCResult::Type::NUM, "netstakeweight", "Network stake weight"},
                         {RPCResult::Type::NUM, "expectedtime", "Expected time to earn reward"},
+                        {RPCResult::Type::STR, "not_staking_reason", "Why the wallet isn't currently producing a stake search (empty when staking is proceeding normally)"},
                     }
                 },
                 RPCExamples{
@@ -175,6 +176,7 @@ RPCHelpMan getstakinginfo()
     obj.pushKV("netstakeweight", (uint64_t)nNetworkWeight);
 
     obj.pushKV("expectedtime", nExpectedTime);
+    obj.pushKV("not_staking_reason", staking ? "" : pwallet->GetNotStakingReason());
 
     return obj;
 },

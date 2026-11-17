@@ -1657,10 +1657,13 @@ protected:
     bool IsReady()
     {
         // Check if wallet is ready
-        while (d->pwallet->IsLocked() || !d->pwallet->m_enabled_staking || 
+        while (d->pwallet->IsLocked() || !d->pwallet->m_enabled_staking ||
                d->pwallet->chain().chainman().m_blockman.LoadingBlocks())
         {
             d->pwallet->m_last_coin_stake_search_interval = 0;
+            d->pwallet->SetNotStakingReason(d->pwallet->IsLocked() ? "wallet is locked" :
+                !d->pwallet->m_enabled_staking ? "staking is disabled on this wallet" :
+                "node is still loading blocks");
             if(!Sleep(10000))
                 return false;
         }
@@ -1670,6 +1673,8 @@ protected:
         if(!d->minDifficulty && !d->fEmergencyStaking) {
             while (d->pwallet->chain().getNodeCount(ConnectionDirection::Both) == 0 || d->pwallet->chain().isInitialBlockDownload()) {
                 d->pwallet->m_last_coin_stake_search_interval = 0;
+                d->pwallet->SetNotStakingReason(d->pwallet->chain().getNodeCount(ConnectionDirection::Both) == 0 ?
+                    "no peer connections" : "initial block download in progress");
                 d->fTryToSync = true;
                 if(!Sleep(1000))
                     return false;
@@ -1678,6 +1683,11 @@ protected:
                 d->fTryToSync = false;
                 if (d->pwallet->chain().getNodeCount(ConnectionDirection::Both) < 3 ||
                     d->pwallet->chain().getTip()->GetBlockTime() < GetTime() - 10 * 60) {
+                    LogPrint(BCLog::COINSTAKE, "StakeMiner: pausing 60s, not enough peers or tip too old "
+                              "(peers=%d, tip_age=%ds)\n",
+                              d->pwallet->chain().getNodeCount(ConnectionDirection::Both),
+                              GetTime() - d->pwallet->chain().getTip()->GetBlockTime());
+                    d->pwallet->SetNotStakingReason("not enough peers or tip too old (waiting up to 60s)");
                     Sleep(60000);
                     return false;
                 }
@@ -1714,6 +1724,7 @@ protected:
         if(d->pwallet->fCleanCoinStake)
             return false;
 
+        d->pwallet->SetNotStakingReason("");
         return true;
     }
 
@@ -1797,6 +1808,13 @@ protected:
         d->stakeTimeStep = d->consensusParams.StakeTimeStep(d->nHeight);
 
         d->haveCoinsForStake = d->setCoins.size() > 0 || d->pwallet->CanSuperStake(d->setCoins, d->setDelegateCoins);
+        if (!d->haveCoinsForStake) {
+            // Common cause: every UTXO is below digiwage_stake_min_depth
+            // confirmations (e.g. right after a prior stake consumed them),
+            // not necessarily an empty wallet.
+            d->pwallet->SetNotStakingReason("no coins currently eligible to stake "
+                "(balance may exist but not yet deep enough / mature enough)");
+        }
         if(d->haveCoinsForStake)
         {
             // Create an empty block. No need to process transactions until we know we can create a block

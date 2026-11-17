@@ -772,6 +772,21 @@ public:
     int64_t m_last_coin_stake_search_time{0};
     int64_t m_last_coin_stake_search_interval{0};
     std::atomic<bool> m_enabled_staking{false};
+    // Human-readable reason the staking thread isn't currently producing a
+    // search interval (empty when staking normally). Purely diagnostic, so
+    // it gets its own small mutex rather than sharing cs_wallet.
+    mutable Mutex m_not_staking_reason_mutex;
+    std::string m_not_staking_reason GUARDED_BY(m_not_staking_reason_mutex);
+    void SetNotStakingReason(const std::string& reason) EXCLUSIVE_LOCKS_REQUIRED(!m_not_staking_reason_mutex)
+    {
+        LOCK(m_not_staking_reason_mutex);
+        m_not_staking_reason = reason;
+    }
+    std::string GetNotStakingReason() const EXCLUSIVE_LOCKS_REQUIRED(!m_not_staking_reason_mutex)
+    {
+        LOCK(m_not_staking_reason_mutex);
+        return m_not_staking_reason;
+    }
     CAmount m_staking_min_utxo_value{DEFAULT_STAKING_MIN_UTXO_VALUE};
     CAmount m_staker_min_utxo_size{DEFAULT_STAKER_MIN_UTXO_SIZE};
     int32_t m_staker_max_utxo_script_cache{DEFAULT_STAKER_MAX_UTXO_SCRIPT_CACHE};
