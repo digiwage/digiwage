@@ -1897,8 +1897,12 @@ void BitcoinGUI::updateStakingIcon()
             labelStakingIcon->setToolTip(tr("Not staking because the ledger device failed to connect"));
         else if (walletModel->wallet().privateKeysDisabled())
             labelStakingIcon->setToolTip(tr("Not staking because wallet with private keys disabled require a Ledger device selected for staking"));
-        else
-            labelStakingIcon->setToolTip(tr("Not staking"));
+        else {
+            const QString backendReason = QString::fromStdString(walletModel->wallet().getNotStakingReason());
+            labelStakingIcon->setToolTip(backendReason.isEmpty()
+                ? tr("Not staking")
+                : tr("Not staking: %1").arg(backendReason));
+        }
     }
 }
 #endif // ENABLE_WALLET

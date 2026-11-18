@@ -12,6 +12,7 @@
 
 #include <qt/guiutil.h>
 
+#include <chainparams.h>
 #include <clientversion.h>
 #include <init.h>
 #include <util/system.h>
@@ -50,10 +51,18 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
         // Replace newlines with HTML breaks
         licenseInfoHTML.replace("\n", "<br>");
 
+        // Mirrors digiwageutils::ChainIdType (src/digiwage/digiwageutils.h);
+        // duplicated here rather than linking the EVM module into the Qt
+        // binary just to show this.
+        const std::string networkId = Params().NetworkIDString();
+        const int chainId = networkId == "test" ? 46103 : networkId == "regtest" ? 46203 : 46003;
+        const QString networkInfo = tr("Network: %1 (EVM chain id %2)")
+            .arg(QString::fromStdString(networkId)).arg(chainId);
+
         ui->aboutMessage->setTextFormat(Qt::RichText);
         ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        text = version + "\n" + QString::fromStdString(FormatParagraph(licenseInfo));
-        ui->aboutMessage->setText(version + "<br><br>" + licenseInfoHTML);
+        text = version + "\n" + networkInfo + "\n" + QString::fromStdString(FormatParagraph(licenseInfo));
+        ui->aboutMessage->setText(version + "<br>" + networkInfo + "<br><br>" + licenseInfoHTML);
         ui->aboutMessage->setWordWrap(true);
         ui->helpMessage->setVisible(false);
     } else {

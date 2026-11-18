@@ -1289,9 +1289,13 @@ public:
         LOCK(m_wallet->cs_wallet);
         return m_wallet->GetStakeWeight();
     }
-    int64_t getLastCoinStakeSearchInterval() override 
-    { 
+    int64_t getLastCoinStakeSearchInterval() override
+    {
         return m_wallet->m_last_coin_stake_search_interval;
+    }
+    std::string getNotStakingReason() override
+    {
+        return m_wallet->GetNotStakingReason();
     }
     bool getWalletUnlockStakingOnly() override
     {

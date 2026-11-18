@@ -418,6 +418,9 @@ public:
     //! Get last coin stake search interval
     virtual int64_t getLastCoinStakeSearchInterval() = 0;
 
+    //! Get the reason the stake miner last gave for not staking, or empty if staking
+    virtual std::string getNotStakingReason() = 0;
+
     //! Get wallet unlock for staking only
     virtual bool getWalletUnlockStakingOnly() = 0;
 
