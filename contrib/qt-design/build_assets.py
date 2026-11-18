@@ -69,7 +69,7 @@ def write_ini(mode, tok):
     lines = ["[tokens]"] + [f"{k}={v}" for k, v in t.items()]
     lines += [f"radius-{k}={v}" for k, v in RADIUS.items()] + [f"space-{k}={v}" for k, v in SPACING.items()]
     lines += [f"font-{k}={v}" for k, v in TYPE.items()] + [f"motion-{k}={v}" for k, v in MOTION_MS.items()]
-    lines += [f"mode={mode}", f"styledir=:/styles/{mode}"]
+    lines += [f"mode={mode}", f"styledir=:/styles/{mode}", f"styledir-tinted=:/styles/{mode}"]
     sd = f":/styles/{mode}"
     lines += ["", "[appstyle]", f"link-color={g('accent-text')}",
       f"message-critical-icon={sd}/message_critical", f"message-info-icon={sd}/message_info",

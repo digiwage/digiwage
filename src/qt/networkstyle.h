@@ -25,6 +25,13 @@ public:
     int getIconColorHueShift() const { return m_iconColorHueShift; }
     int getIconColorSaturationReduction() const { return m_iconColorSaturationReduction; }
 
+    //! Hue-rotate/desaturate a pixmap the same way the app icon is tinted per
+    //! network. Shared with StyleSheet, which uses it to re-tint the accent-
+    //! coloured checkbox/radio button indicator images (those are baked PNGs,
+    //! not stylesheet colours, so the @accent@ token substitution can't reach
+    //! them). hueShift == 0 returns src unchanged.
+    static QPixmap tintPixmap(const QPixmap &src, int hueShift, int satReduction);
+
 private:
     NetworkStyle(const QString &appName, const int iconColorHueShift, const int iconColorSaturationReduction, const char *titleAddText);
 

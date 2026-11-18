@@ -3,11 +3,14 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/styleSheet.h>
+#include <qt/networkstyle.h>
 
 #include <QApplication>
 #include <QComboBox>
+#include <QDir>
 #include <QFile>
 #include <QFontDatabase>
+#include <QPixmap>
 #include <QLineEdit>
 #include <QListView>
 #include <QMessageBox>
@@ -193,7 +196,32 @@ void StyleSheet::loadMode(AppearanceMode mode)
         m_tokens[key] = value;
     }
     m_config->endGroup();
+    m_tokens["styledir-tinted"] = m_netHueShift != 0 ? regenerateTintedIndicators() : m_tokens.value("styledir");
     m_cacheStyles.clear();
+}
+
+QString StyleSheet::regenerateTintedIndicators() const
+{
+    static const char* const names[] = {
+        "checkbox_checked", "checkbox_checked_hover", "checkbox_checked_disabled",
+        "checkbox_indeterminate", "checkbox_indeterminate_hover", "checkbox_indeterminate_disabled",
+        "radiobutton_checked", "radiobutton_checked_hover", "radiobutton_checked_disabled",
+    };
+    const QString modeStr = modeToString(m_mode);
+    const QString dir = QDir::tempPath() + QString("/digiwage-tint-%1-%2-%3").arg(modeStr).arg(m_netHueShift).arg(m_netSatReduction);
+    QDir().mkpath(dir);
+    for (const char* name : names) {
+        for (const QString& suffix : {QString(), QStringLiteral("@2x")}) {
+            const QString resPath = QString(":/styles/%1/%2%3.png").arg(modeStr, name, suffix);
+            if (!QFile::exists(resPath))
+                continue;
+            const QString outPath = QString("%1/%2%3.png").arg(dir, name, suffix);
+            if (QFile::exists(outPath))
+                continue; // already generated for this mode/hue/sat combination
+            NetworkStyle::tintPixmap(QPixmap(resPath), m_netHueShift, m_netSatReduction).save(outPath);
+        }
+    }
+    return dir;
 }
 
 QString StyleSheet::tintColorString(const QString& value) const

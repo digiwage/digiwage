@@ -92,6 +92,12 @@ private:
     void applyToRegistered();
     void reapplyToApp();
     QString tintColorString(const QString& value) const;
+    //! Rebuilds the accent-coloured checkbox/radio indicator PNGs (checked,
+    //! indeterminate, their hover/disabled states) hue-rotated to match the
+    //! current network tint, in a temp dir, and returns that dir's path -- or,
+    //! with no tint active, just the untouched qrc styledir. Those indicators
+    //! are baked images, so @accent@ token substitution can't reach them.
+    QString regenerateTintedIndicators() const;
 
     explicit StyleSheet();
     QMap<QString, QString> m_cacheStyles;
