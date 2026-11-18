@@ -198,6 +198,11 @@ NavigationBar::NavigationBar(QWidget *parent) :
     m_logoSpace = GetIntStyleValue("navigationbar/logo-space", 0);
 }
 
+void NavigationBar::setLogo(const QPixmap& logo)
+{
+    m_logoPixmap = logo;
+}
+
 void NavigationBar::addAction(QAction *action)
 {
     // Add action to the list
@@ -251,7 +256,7 @@ void NavigationBar::buildUi()
             labelLogo->setFixedSize(LogoIconSize, LogoIconSize);
             labelLogo->setObjectName("labelLogo");
             labelLogo->setScaledContents(true);
-            labelLogo->setPixmap(QPixmap(":/icons/bitcoin"));
+            labelLogo->setPixmap(m_logoPixmap);
             hLayout->addWidget(labelLogo);
             QLabel *labelBrand = new QLabel(QStringLiteral("DigiWage"), this);
             labelBrand->setObjectName("labelBrand");

@@ -117,7 +117,7 @@ QScrollBar::add-line, QScrollBar::sub-line { width: 0px; height: 0px; }
 QScrollBar::add-page, QScrollBar::sub-page { background: transparent; }
 QAbstractScrollArea::corner { background: transparent; }
 
-QProgressBar { background-color: @surface-3@; border: none; border-radius: 8px; text-align: center; color: @text@; font-size: @font-caption@px; font-weight: 500; min-height: 16px; max-height: 16px; padding: 0px; }
+QProgressBar { background-color: @surface-3@; border: none; border-radius: 8px; text-align: center; color: @on-accent@; font-size: @font-caption@px; font-weight: 500; min-height: 16px; max-height: 16px; padding: 0px; }
 QProgressBar::chunk { background-color: @accent@; border-radius: 8px; }
 QSlider::groove:horizontal { background: @surface-3@; height: 4px; border-radius: 2px; }
 QSlider::sub-page:horizontal { background: @accent@; border-radius: 2px; }

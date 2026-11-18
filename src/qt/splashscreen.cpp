@@ -90,7 +90,7 @@ SplashScreen::SplashScreen(const NetworkStyle* networkStyle)
     pixPaint.fillPath(logoPath, StyleSheet::instance().tokenColor("surface-2"));
     pixPaint.setPen(logo_frame_color);
     pixPaint.drawPath(logoPath);
-    QPixmap logo = QIcon(":/icons/bitcoin").pixmap(QSize(40, 40));
+    QPixmap logo = networkStyle->getAppIcon().pixmap(QSize(40, 40));
     pixPaint.drawPixmap(logoRect.x() + 12, logoRect.y() + 12, logo);
 
     pixPaint.setPen(foreground_color);

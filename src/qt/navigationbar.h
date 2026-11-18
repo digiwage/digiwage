@@ -5,6 +5,7 @@
 #include <QAction>
 #include <QList>
 #include <QMap>
+#include <QPixmap>
 #include <QSize>
 
 class QHBoxLayout;
@@ -59,6 +60,12 @@ public:
     void buildUi();
 
     /**
+     * @brief setLogo Set the pixmap shown in the sidebar header (e.g. the
+     * network-tinted icon for testnet/regtest). Call before buildUi().
+     */
+    void setLogo(const QPixmap& logo);
+
+    /**
      * @brief setCollapsed Collapse the bar to icon-only (or restore it) and remember it.
      */
     void setCollapsed(bool collapsed, bool remember = true);
@@ -107,6 +114,7 @@ private:
     bool m_subBar;
     bool m_built;
     int m_logoSpace;
+    QPixmap m_logoPixmap{QStringLiteral(":/icons/bitcoin")};
     bool m_collapsed{false};
     bool m_autoCollapsed{false};
     QHBoxLayout* m_headerLayout{nullptr};
