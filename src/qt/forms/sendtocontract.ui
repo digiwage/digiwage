@@ -61,6 +61,16 @@
           </widget>
          </item>
          <item>
+          <widget class="QLabel" name="labelContractHint">
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Calls a function on an &lt;b&gt;existing&lt;/b&gt; contract that changes its state (e.g. transferring tokens, voting, staking) &amp;mdash; this creates a real transaction and costs gas. Only send to a contract address and ABI you trust: this sends exactly what you tell it to, with no way to undo it afterwards.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QFrame" name="frameContract">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -372,6 +382,13 @@
                 <width>370</width>
                 <height>0</height>
                </size>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" colspan="5">
+             <widget class="QLabel" name="labelGasEstimate">
+              <property name="text">
+               <string>Estimated max cost: ...</string>
               </property>
              </widget>
             </item>

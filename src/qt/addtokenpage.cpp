@@ -81,6 +81,11 @@ void AddTokenPage::setModel(WalletModel *_model)
     m_tokenABI->setModel(m_model);
 }
 
+void AddTokenPage::setContractAddress(const QString &address)
+{
+    ui->lineEditContractAddress->setText(address);
+}
+
 void AddTokenPage::on_clearButton_clicked()
 {
     clearAll();

@@ -733,6 +733,10 @@ int GuiMain(int argc, char* argv[])
     assert(!networkStyle.isNull());
     // Allow for separate UI settings for testnets
     QApplication::setApplicationName(networkStyle->getAppName());
+    // Tint the brand accent colour (buttons, links, selections, ...) the same way
+    // the app icon is tinted, so a non-mainnet build reads as a different colour
+    // everywhere, not just the logo.
+    StyleSheet::instance().setNetworkTint(networkStyle->getIconColorHueShift(), networkStyle->getIconColorSaturationReduction());
 
     // Now that the QApplication is setup and we have parsed our parameters, we can set the platform style
     app.setupPlatformStyle();

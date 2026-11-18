@@ -55,8 +55,8 @@ CallContract::CallContract(const PlatformStyle *platformStyle, QWidget *parent) 
     m_ABIFunctionField = new ABIFunctionField(platformStyle, ABIFunctionField::Call, ui->scrollAreaFunction);
     ui->scrollAreaFunction->setWidget(m_ABIFunctionField);
 
-    ui->labelContractAddress->setToolTip(tr("The account address."));
-    ui->labelSenderAddress->setToolTip(tr("The sender address hex string."));
+    ui->labelContractAddress->setToolTip(tr("The address of the contract to read from."));
+    ui->labelSenderAddress->setToolTip(tr("Optional. The address the call is made as. Some contracts return different results depending on who is \"calling\" (e.g. your own token balance); this does not need to be an address you own."));
     ui->pushButtonCallContract->setEnabled(false);
     ui->lineEditSenderAddress->setSenderAddress(true);
     ui->lineEditSenderAddress->setComboBoxEditable(true);

@@ -84,6 +84,16 @@
           </layout>
          </item>
          <item>
+          <widget class="QLabel" name="labelContractHint">
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Deploying a smart contract publishes new code to the blockchain, permanently and irreversibly. You'll need compiled &lt;b&gt;bytecode&lt;/b&gt; from a Solidity compiler (and, to also use the Constructor/function helper below, its &lt;b&gt;ABI&lt;/b&gt;) &amp;mdash; this is a developer feature, not something you need for everyday sending or receiving.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QFrame" name="frameContract">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -318,6 +328,13 @@
               </property>
               <property name="text">
                <string>Sender Address</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="5">
+             <widget class="QLabel" name="labelGasEstimate">
+              <property name="text">
+               <string>Estimated max cost: ...</string>
               </property>
              </widget>
             </item>

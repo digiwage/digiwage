@@ -23,6 +23,10 @@ public:
     static bool getRegularExpession(const ParameterType &paramType, QRegularExpression &regEx);
     static QString errorMessage(const FunctionABI& function, const std::vector<ParameterABI::ErrorType>& errors, bool in);
     static QMap<QString, QString> fromStdMap(const std::map<std::string, std::string>& fromMap);
+    /** True if the ABI has the standard token functions (transfer, balanceOf, decimals,
+     *  symbol, name) -- i.e. deploying/interacting with it is very likely meant to be
+     *  used through the Tokens list rather than Create/Send/Call Contract directly. */
+    static bool looksLikeToken(const ContractABI& abi);
 };
 
 #endif // CONTRACTUTIL_H

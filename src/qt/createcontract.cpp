@@ -18,6 +18,7 @@
 #include <qt/sendcoinsdialog.h>
 #include <qt/styleSheet.h>
 #include <qt/hardwaresigntx.h>
+#include <qt/addtokenpage.h>
 #include <interfaces/node.h>
 #include <node/interface_ui.h>
 
@@ -58,8 +59,11 @@ CreateContract::CreateContract(const PlatformStyle *platformStyle, QWidget *pare
 
     m_ABIFunctionField = new ABIFunctionField(platformStyle, ABIFunctionField::Create, ui->scrollAreaConstructor);
     ui->scrollAreaConstructor->setWidget(m_ABIFunctionField);
-    ui->labelBytecode->setToolTip(tr("The bytecode of the contract"));
+    ui->labelBytecode->setToolTip(tr("The compiled contract code (hex), as produced by a Solidity compiler such as solc or Remix. This is not the contract's source code, and it cannot be edited by hand."));
+    ui->labelInterface->setToolTip(tr("Optional. The contract's ABI (JSON), also produced by the compiler. Pasting it here lets you fill in constructor arguments below instead of hand-appending them to the bytecode."));
     ui->labelSenderAddress->setToolTip(tr("The digiwage address that will be used to create the contract."));
+    ui->labelGasLimit->setToolTip(tr("The maximum computation ('gas') the deployment may use. Unused gas is refunded; if the deployment needs more than this, it fails and gas already spent is lost. The default is generous for most contracts."));
+    ui->labelGasPrice->setToolTip(tr("The price per unit of gas, in DIGIWAGE. Max cost = Gas Limit x Gas Price. Higher values do not speed anything up on this network; leave this at the default unless you have a reason to change it."));
 
     m_tabInfo = new TabBarInfo(ui->stackedWidget);
     m_tabInfo->addTab(0, tr("Create Contract"));
@@ -72,6 +76,7 @@ CreateContract::CreateContract(const PlatformStyle *platformStyle, QWidget *pare
     ui->lineEditGasLimit->setValue(DEFAULT_GAS_LIMIT_OP_CREATE);
     ui->pushButtonCreateContract->setEnabled(false);
     ui->lineEditSenderAddress->setSenderAddress(true);
+    on_updateGasEstimate();
 
     // Create new PRC command line interface
     QStringList lstMandatory;
@@ -94,6 +99,8 @@ CreateContract::CreateContract(const PlatformStyle *platformStyle, QWidget *pare
     connect(ui->textEditBytecode, &QValidatedTextEdit::textChanged, this, &CreateContract::on_updateCreateButton);
     connect(ui->textEditInterface, &QValidatedTextEdit::textChanged, this, &CreateContract::on_newContractABI);
     connect(ui->stackedWidget, &QStackedWidget::currentChanged, this, &CreateContract::on_updateCreateButton);
+    connect(ui->lineEditGasLimit, QOverload<int>::of(&QSpinBox::valueChanged), this, &CreateContract::on_updateGasEstimate);
+    connect(ui->lineEditGasPrice, &BitcoinAmountField::valueChanged, this, &CreateContract::on_updateGasEstimate);
 
     // Set bytecode validator
     QRegularExpression regEx;
@@ -261,6 +268,26 @@ void CreateContract::on_createContractClicked()
 
                         m_tabInfo->addTab(position, tr("Result %1").arg(m_results));
                         m_tabInfo->setCurrent(position);
+
+                        // If the ABI we just deployed has the standard token functions,
+                        // offer to add it to the Tokens list instead of making the user
+                        // retype the address there by hand.
+                        if(!bCreateUnsigned && ContractUtil::looksLikeToken(*m_contractABI))
+                        {
+                            QString contractAddress = result.toMap().value("address").toString();
+                            QMessageBox::StandardButton addToken = QMessageBox::question(this, tr("Add token?"),
+                                tr("This contract looks like a token (it has transfer/balanceOf/decimals/symbol). "
+                                   "Add it to your Tokens list so you can see its balance and send/receive it?"),
+                                QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+                            if(addToken == QMessageBox::Yes)
+                            {
+                                AddTokenPage dlg(this);
+                                dlg.setClientModel(m_clientModel);
+                                dlg.setModel(m_model);
+                                dlg.setContractAddress(contractAddress);
+                                dlg.exec();
+                            }
+                        }
                     }
                 }
             }
@@ -317,6 +344,15 @@ void CreateContract::updateDisplayUnit()
         // Update gasPriceAmount with the current unit
         ui->lineEditGasPrice->setDisplayUnit(m_model->getOptionsModel()->getDisplayUnit());
     }
+    on_updateGasEstimate();
+}
+
+void CreateContract::on_updateGasEstimate()
+{
+    uint64_t gasLimit = ui->lineEditGasLimit->value();
+    CAmount gasPrice = ui->lineEditGasPrice->value();
+    ui->labelGasEstimate->setText(tr("Estimated max cost: %1 (only spent if the deployment actually uses this much gas; unused gas is refunded)")
+        .arg(BitcoinUnits::formatWithUnit(BitcoinUnit::BTC, gasLimit * gasPrice)));
 }
 
 QString CreateContract::toDataHex(int func, QString& errorMessage)

@@ -26,7 +26,9 @@ static const struct {
 // titleAddText needs to be const char* for tr()
 NetworkStyle::NetworkStyle(const QString &_appName, const int iconColorHueShift, const int iconColorSaturationReduction, const char *_titleAddText):
     appName(_appName),
-    titleAddText(qApp->translate("SplashScreen", _titleAddText))
+    titleAddText(qApp->translate("SplashScreen", _titleAddText)),
+    m_iconColorHueShift(iconColorHueShift),
+    m_iconColorSaturationReduction(iconColorSaturationReduction)
 {
     // load pixmap
     QPixmap pixmap(":/icons/bitcoin");

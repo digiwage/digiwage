@@ -14,6 +14,7 @@
 #include <QProxyStyle>
 #include <QPushButton>
 #include <QRegularExpression>
+#include <QSet>
 #include <QSettings>
 #include <QStyleFactory>
 #include <QAbstractButton>
@@ -130,6 +131,33 @@ private:
 
 AppearanceMode modeFromString(const QString& s) { return s == "light" ? AppearanceMode::Light : AppearanceMode::Dark; }
 QString modeToString(AppearanceMode m) { return m == AppearanceMode::Light ? "light" : "dark"; }
+
+/** [tokens] keys that are the brand accent colour (or directly derived from it:
+ *  hover/pressed states, the soft fill, the text-on-light-bg variant, selection
+ *  highlights). These get hue-rotated for setNetworkTint(); everything else
+ *  (success/danger/warning, surfaces, text) keeps its normal meaning regardless
+ *  of network. */
+const QSet<QString>& accentFamilyTokens()
+{
+    static const QSet<QString> keys = {"accent", "accent-hover", "accent-pressed", "accent-text", "accent-soft", "selection"};
+    return keys;
+}
+
+/** Same idea as accentFamilyTokens(), but for accent-coloured values that live
+ *  outside the [tokens] group and are read directly via getStyleValue(). Only
+ *  keys actually read somewhere (grepped against the .ini files) are listed;
+ *  several similarly-named ini entries (appstyle/link-color,
+ *  platformstyle/table-color-input, tokenviewdelegate/background-color-selected)
+ *  are unused dead config and don't need tinting. */
+const QSet<QString>& accentFamilyConfigKeys()
+{
+    static const QSet<QString> keys = {
+        "navtoolbutton/color-pressed",
+        "guiconstants/color-tx-status-openuntildate",
+        "txviewdelegate/background-color-selected",
+    };
+    return keys;
+}
 } // namespace
 
 StyleSheet& StyleSheet::instance()
@@ -160,10 +188,30 @@ void StyleSheet::loadMode(AppearanceMode mode)
     m_config->beginGroup("tokens");
     for (const QString& key : m_config->childKeys()) {
         const QVariant v = m_config->value(key);
-        m_tokens[key] = v.type() == QVariant::StringList ? v.toStringList().join(",") : v.toString();
+        QString value = v.type() == QVariant::StringList ? v.toStringList().join(",") : v.toString();
+        if (m_netHueShift != 0 && accentFamilyTokens().contains(key)) value = tintColorString(value);
+        m_tokens[key] = value;
     }
     m_config->endGroup();
     m_cacheStyles.clear();
+}
+
+QString StyleSheet::tintColorString(const QString& value) const
+{
+    if (m_netHueShift == 0) return value;
+    const QString trimmed = value.trimmed();
+    const QColor c = parseColor(trimmed);
+    if (!c.isValid()) return value;
+    int h, s, l;
+    c.getHsl(&h, &s, &l);
+    if (h < 0) h = 0; // achromatic colour: hue is meaningless, but keep it deterministic
+    h = (h + m_netHueShift) % 360;
+    s = s > m_netSatReduction ? s - m_netSatReduction : 0;
+    QColor out;
+    out.setHsl(h, s, l, c.alpha());
+    if (trimmed.startsWith("rgba", Qt::CaseInsensitive))
+        return QStringLiteral("rgba(%1,%2,%3,%4)").arg(out.red()).arg(out.green()).arg(out.blue()).arg(out.alpha());
+    return out.name(QColor::HexRgb);
 }
 
 QColor StyleSheet::parseColor(const QString& value)
@@ -276,6 +324,20 @@ void StyleSheet::setMode(AppearanceMode mode)
     if (mode == m_mode) return;
     QSettings().setValue(SETTINGS_KEY, modeToString(mode));
     loadMode(mode);
+    reapplyToApp();
+}
+
+void StyleSheet::setNetworkTint(int hueShift, int satReduction)
+{
+    if (m_netHueShift == hueShift && m_netSatReduction == satReduction) return;
+    m_netHueShift = hueShift;
+    m_netSatReduction = satReduction;
+    loadMode(m_mode);
+    reapplyToApp();
+}
+
+void StyleSheet::reapplyToApp()
+{
     if (qApp) {
         QPalette palette(qApp->palette());
         palette.setColor(QPalette::Link, tokenColor("accent-text"));
@@ -301,9 +363,14 @@ QVariant StyleSheet::getStyleValue(const QString &key, const QVariant &defaultVa
 {
     if (!m_config) return defaultValue;
     const QVariant v = m_config->value(key, defaultValue);
-    if (v.type() != QVariant::StringList) return v;
+    const bool tint = m_netHueShift != 0 && accentFamilyConfigKeys().contains(key);
+    if (v.type() != QVariant::StringList) {
+        if (tint && v.type() == QVariant::String) return QVariant(tintColorString(v.toString()));
+        return v;
+    }
     // Commas split the ini value into a list: rebuild it, and hand colors out as #AARRGGBB
-    const QString joined = v.toStringList().join(",");
+    QString joined = v.toStringList().join(",");
+    if (tint) joined = tintColorString(joined);
     const QColor c = parseColor(joined);
     return joined.startsWith("rgba") && c.isValid() ? QVariant(c.name(QColor::HexArgb)) : QVariant(joined);
 }

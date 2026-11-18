@@ -20,6 +20,9 @@ public:
     void clearAll();
     void setModel(WalletModel *_model);
     void setClientModel(ClientModel *clientModel);
+    //! Pre-fill the contract address and look up its name/symbol/decimals, as if the
+    //! user had typed it in. Used when offering to add a just-deployed token contract.
+    void setContractAddress(const QString &address);
 
 private Q_SLOTS:
     void on_clearButton_clicked();

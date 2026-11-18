@@ -70,6 +70,11 @@ public:
     /** Switch mode, persist it and re-apply all styles. */
     void setMode(AppearanceMode mode);
     void toggleMode() { setMode(isDark() ? AppearanceMode::Light : AppearanceMode::Dark); }
+    /** Hue-rotate the brand accent colour (and everything derived from it: links,
+     *  selection highlights, etc.) the same way NetworkStyle tints the app icon,
+     *  so a non-mainnet build reads as a different colour everywhere, not just the logo.
+     *  hueShift == 0 restores the normal brand colour. */
+    void setNetworkTint(int hueShift, int satReduction);
     /** Colour of a design token ("accent", "text-2-solid", ...). Understands #rrggbb and rgba(r,g,b,a). */
     QColor tokenColor(const QString& token) const;
     static QColor parseColor(const QString& value);
@@ -85,12 +90,16 @@ private:
     QString getStyleSheet(const QString& style_name);
     void loadMode(AppearanceMode mode);
     void applyToRegistered();
+    void reapplyToApp();
+    QString tintColorString(const QString& value) const;
 
     explicit StyleSheet();
     QMap<QString, QString> m_cacheStyles;
     AppearanceMode m_mode{AppearanceMode::Dark};
     QPointer<QSettings> m_config;
     QMap<QString, QString> m_tokens;
+    int m_netHueShift{0};
+    int m_netSatReduction{0};
     QVector<QPair<QPointer<QWidget>, QString>> m_registered;
     QString m_appStyleName;
     StyleSheetNotifier m_notifier;

@@ -86,6 +86,19 @@ bool ContractUtil::getRegularExpession(const ParameterType &paramType, QRegularE
     return ret;
 }
 
+bool ContractUtil::looksLikeToken(const ContractABI& abi)
+{
+    bool hasTransfer = false, hasBalanceOf = false, hasDecimals = false, hasSymbol = false;
+    for (const FunctionABI& function : abi.functions)
+    {
+        if (function.name == "transfer") hasTransfer = true;
+        else if (function.name == "balanceOf") hasBalanceOf = true;
+        else if (function.name == "decimals") hasDecimals = true;
+        else if (function.name == "symbol") hasSymbol = true;
+    }
+    return hasTransfer && hasBalanceOf && hasDecimals && hasSymbol;
+}
+
 QMap<QString, QString> ContractUtil::fromStdMap(const std::map<std::string, std::string> &fromMap)
 {
     QMap<QString, QString> toMap;

@@ -42,6 +42,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void updateDisplayUnit();
+    void on_updateGasEstimate();
 
 private:
     QString toDataHex(int func, QString& errorMessage);

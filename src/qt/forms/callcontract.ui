@@ -73,6 +73,16 @@
           </widget>
          </item>
          <item>
+          <widget class="QLabel" name="labelContractHint">
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Reads data from a contract (e.g. checking a token balance). This is &lt;b&gt;free and read-only&lt;/b&gt; &amp;mdash; it does not create a transaction, cost gas, or change anything on the blockchain. Use &quot;Send To Contract&quot; instead if you need to change the contract's state.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QFrame" name="frameContract">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">

@@ -71,9 +71,11 @@ SendToContract::SendToContract(const PlatformStyle *platformStyle, QWidget *pare
     m_ABIFunctionField = new ABIFunctionField(platformStyle, ABIFunctionField::SendTo, ui->scrollAreaFunction);
     ui->scrollAreaFunction->setWidget(m_ABIFunctionField);
     ui->lineEditAmount->setEnabled(true);
-    ui->labelContractAddress->setToolTip(tr("The contract address that will receive the funds and data."));
-    ui->labelAmount->setToolTip(tr("The amount in DIGIWAGE to send. Default = 0."));
+    ui->labelContractAddress->setToolTip(tr("The address of the existing contract to call. Double-check this: sending to the wrong or a malicious contract address cannot be undone."));
+    ui->labelAmount->setToolTip(tr("The amount in DIGIWAGE to send along with the call. Only enabled when the selected function is payable; most calls (e.g. a plain token transfer) leave this at 0."));
     ui->labelSenderAddress->setToolTip(tr("The digiwage address that will be used as sender."));
+    ui->labelGasLimit->setToolTip(tr("The maximum computation ('gas') this call may use. Unused gas is refunded; if the call needs more than this, it fails and gas already spent is lost."));
+    ui->labelGasPrice->setToolTip(tr("The price per unit of gas, in DIGIWAGE. Max cost = Gas Limit x Gas Price. Leave this at the default unless you have a reason to change it."));
 
     m_tabInfo = new TabBarInfo(ui->stackedWidget);
     m_tabInfo->addTab(0, tr("Send To Contract"));
@@ -87,6 +89,7 @@ SendToContract::SendToContract(const PlatformStyle *platformStyle, QWidget *pare
     ui->textEditInterface->setIsValidManually(true);
     ui->pushButtonSendToContract->setEnabled(false);
     ui->lineEditSenderAddress->setSenderAddress(true);
+    on_updateGasEstimate();
 
     // Create new PRC command line interface
     QStringList lstMandatory;
@@ -117,6 +120,9 @@ SendToContract::SendToContract(const PlatformStyle *platformStyle, QWidget *pare
     connect(ui->loadInfoButton, &QToolButton::clicked, this, &SendToContract::on_loadInfoClicked);
     connect(ui->pasteAddressButton, &QToolButton::clicked, this, &SendToContract::on_pasteAddressClicked);
     connect(ui->lineEditContractAddress, &QValidatedLineEdit::textChanged, this, &SendToContract::on_contractAddressChanged);
+    connect(ui->lineEditGasLimit, QOverload<int>::of(&QSpinBox::valueChanged), this, &SendToContract::on_updateGasEstimate);
+    connect(ui->lineEditGasPrice, &BitcoinAmountField::valueChanged, this, &SendToContract::on_updateGasEstimate);
+    connect(ui->lineEditAmount, &BitcoinAmountField::valueChanged, this, &SendToContract::on_updateGasEstimate);
 
     // Set contract address validator
     QRegularExpression regEx;
@@ -354,6 +360,7 @@ void SendToContract::on_functionChanged()
     {
         ui->lineEditAmount->clear();
     }
+    on_updateGasEstimate();
 }
 
 void SendToContract::on_saveInfoClicked()
@@ -430,6 +437,27 @@ void SendToContract::updateDisplayUnit()
         // Update sendAmount and gasPriceAmount with the current unit
         ui->lineEditGasPrice->setDisplayUnit(m_model->getOptionsModel()->getDisplayUnit());
         ui->lineEditAmount->setDisplayUnit(m_model->getOptionsModel()->getDisplayUnit());
+    }
+    on_updateGasEstimate();
+}
+
+void SendToContract::on_updateGasEstimate()
+{
+    uint64_t gasLimit = ui->lineEditGasLimit->value();
+    CAmount gasPrice = ui->lineEditGasPrice->value();
+    CAmount gasCost = gasLimit * gasPrice;
+    if(isFunctionPayable() && ui->lineEditAmount->isEnabled())
+    {
+        CAmount total = gasCost + ui->lineEditAmount->value();
+        ui->labelGasEstimate->setText(tr("Estimated max cost: %1 (gas, only spent if used) + %2 (amount sent) = %3")
+            .arg(BitcoinUnits::formatWithUnit(BitcoinUnit::BTC, gasCost))
+            .arg(BitcoinUnits::formatWithUnit(BitcoinUnit::BTC, ui->lineEditAmount->value()))
+            .arg(BitcoinUnits::formatWithUnit(BitcoinUnit::BTC, total)));
+    }
+    else
+    {
+        ui->labelGasEstimate->setText(tr("Estimated max cost: %1 (only spent if this call actually uses this much gas; unused gas is refunded)")
+            .arg(BitcoinUnits::formatWithUnit(BitcoinUnit::BTC, gasCost)));
     }
 }
 
