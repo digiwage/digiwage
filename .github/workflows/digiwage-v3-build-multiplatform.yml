@@ -58,8 +58,9 @@ jobs:
                       --with-gui=no
 
       - name: Compile test binary
+        working-directory: src
         run: |
-          make -j"$(nproc)" src/test/test_digiwage
+          make -j"$(nproc)" test/test_digiwage
 
       # Running the full `make check` aborts partway through: a
       # pre-existing, as-yet-unfixed ArgsManager::AddArg double-registration
